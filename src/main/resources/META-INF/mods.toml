@@ -1,0 +1,48 @@
+modLoader="javafml" 
+
+loaderVersion="[34,)"
+
+license="LGPL License"
+
+issueTrackerURL="http://my.issue.tracker/" 
+
+[[mods]] 
+
+modId="swem" 
+
+version="1.16.3-0.34.0" 
+
+displayName="Star Worm Equestrian Mod" 
+
+updateJSONURL="http://myurl.me/" 
+
+displayURL="https://alaharranhonor.github.io" 
+
+logoFile="icon.jpg" 
+
+credits="Thanks for this example mod goes to Java" 
+
+authors="AlaharranHonor" 
+
+description='''
+Minecraft Java 1.16 (Forge) mod called Star Worm Equestrian Mod. The mod is bringing forward a whole new minecraft horse model, 18 horse coat textures, new animations, jumps, level progression, horse armor, tack, fencing, and stable decor ~ among other things.
+'''
+
+[[dependencies.swem]]
+    modId="geckolib"
+    mandatory=true
+    versionRange="[2.1.1]"
+    ordering="BEFORE"
+    side="BOTH"
+[[dependencies.swem]] 
+    modId="forge"
+    mandatory=true
+    versionRange="[34,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.swem]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.3]"
+    ordering="NONE"
+    side="BOTH"

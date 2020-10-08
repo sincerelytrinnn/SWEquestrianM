@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "swem:block/quality_bale"
+    },
+    "axis=z": {
+      "model": "swem:block/quality_bale",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "swem:block/quality_bale",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

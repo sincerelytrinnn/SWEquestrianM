@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "swem:blocks/quality_bale_top",
+    "side": "swem:blocks/quality_bale_side"
+  }
+}

@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"   ",
+		"CC ",
+		"CC "
+	],
+	"key": {
+		"C": {
+			"item": "swem:star_worm_cobble"
+		}
+	},
+	"result": {
+		"item": "swem:star_worm",
+		"count": 16
+	}
+}

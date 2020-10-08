@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "swem:block/light_shavings_block"
+    }
+  }
+}
