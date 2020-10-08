@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "# #",
+        "SWS",
+        "# #"
+    ],
+    "key": {
+        "#": {
+            "item": "swem:diamond_plate"
+        },
+        "S": {
+            "item": "minecraft:string"
+        },
+        "W": {
+            "item": "swem:gold_riding_boots"
+        }
+    },
+    "result": {
+        "item": "swem:diamond_riding_boots",
+        "count": 1
+    }
+}

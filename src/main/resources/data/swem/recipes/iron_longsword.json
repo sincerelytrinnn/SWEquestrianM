@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "# #",
+        " S ",
+        "F F"
+    ],
+    "key": {
+        "#": {
+            "item": "swem:iron_plate"
+        },
+        "S": {
+            "item": "swem:leather_longsword"
+        },
+        "F": {
+            "item": "swem:iron_rivet"
+        }
+    },
+    "result": {
+        "item": "swem:iron_longsword",
+        "count": 1
+    }
+}

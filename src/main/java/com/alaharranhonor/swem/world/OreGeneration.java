@@ -1,7 +1,9 @@
 package com.alaharranhonor.swem.world;
 
+import com.alaharranhonor.swem.blocks.StarWormCobbleBlock;
 import com.alaharranhonor.swem.init.SWLBlocks;
 import com.google.common.collect.Lists;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
@@ -10,6 +12,7 @@ import net.minecraft.world.biome.BiomeGenerationSettings;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.Features;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.placement.DepthAverageConfig;
 import net.minecraft.world.gen.placement.Placement;
@@ -30,15 +33,7 @@ public class OreGeneration {
                 WorldGenRegistries.field_243653_e /* Feature Registering */,
                 SWLBlocks.STAR_WORM_COBBLE.getId() /* Resource Location */,
                 Feature.field_236289_V_ /* no_surface_ore */.withConfiguration(
-                        new OreFeatureConfig(
-                                OreFeatureConfig.FillerBlockType.field_241882_a /* base_stone_overworld */,
-                                SWLBlocks.STAR_WORM_COBBLE.get().getDefaultState() ,
-                        64
-                )
-        ).withPlacement(Placement.field_242910_o /* depth */ .configure(
-                new DepthAverageConfig(12, 12)
-        )).func_242728_a() /* spreadHorizontally */ .func_242731_b(1) /* repeat */
-    );
+                        new OreFeatureConfig(OreFeatureConfig.FillerBlockType.field_241882_a, SWLBlocks.STAR_WORM_COBBLE.get().getDefaultState(), 7)).func_242733_d(80).func_242728_a().func_242731_b(2));
     }
 
     public static void setupGen() {

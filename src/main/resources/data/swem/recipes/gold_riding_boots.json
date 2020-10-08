@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "# #",
+        "SNS",
+        "# #"
+    ],
+    "key": {
+        "#": {
+            "item": "swem:gold_rivet"
+        },
+        "S": {
+            "item": "minecraft:string"
+        },
+        "N": {
+            "item": "swem:iron_riding_boots"
+        }
+    },
+    "result": {
+        "item": "swem:gold_riding_boots",
+        "count": 1
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "# #",
+        "SDS",
+        "S#S"
+    ],
+    "key": {
+        "#": {
+            "item": "swem:gold_plate"
+        },
+        "S": {
+            "item": "swem:gold_rivet"
+        },
+        "D": {
+            "item": "swem:iron_chestplate"
+        }
+    },
+    "result": {
+        "item": "swem:gold_chestplate",
+        "count": 1
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "# #",
+        "SDS",
+        "K K"
+    ],
+    "key": {
+        "#": {
+            "item": "swem:iron_rivet"
+        },
+        "S": {
+            "item": "minecraft:string"
+        },
+        "D": {
+            "item": "swem:glow_riding_boots"
+        },
+        "K": {
+            "item": "swem:iron_plate"
+        }
+    },
+    "result": {
+        "item": "swem:iron_riding_boots",
+        "count": 1
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "# #",
+        " S ",
+        " B "
+    ],
+    "key": {
+        "#": {
+            "item": "swem:diamond_plate"
+        },
+        "S": {
+            "item": "swem:gold_longsword"
+        },
+        "B": {
+            "item": "swem:diamond_rivet"
+        }
+    },
+    "result": {
+        "item": "swem:diamond_longsword",
+        "count": 1
+    }
+}

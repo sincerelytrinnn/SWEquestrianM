@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#S ",
+        " B ",
+        "#S "
+    ],
+    "key": {
+        "#": {
+            "item": "swem:iron_rivet"
+        },
+        "S": {
+            "item": "swem:iron_plate"
+        },
+        "B": {
+            "item": "swem:leather_bow"
+        }
+    },
+    "result": {
+        "item": "swem:iron_bow",
+        "count": 1
+    }
+}

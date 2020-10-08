@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "# #",
+        "SIX",
+        "# #"
+    ],
+    "key": {
+        "#": {
+            "item": "swem:diamond_rivet"
+        },
+        "S": {
+            "item": "swem:gold_plate"
+        },
+        "I": {
+            "item": "swem:gold_helmet"
+        },
+        "X": {
+            "item": "swem:diamond_plate"
+        }
+    },
+    "result": {
+        "item": "swem:diamond_helmet",
+        "count": 1
+    }
+}

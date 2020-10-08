@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "   ",
+        " #S",
+        "   "
+    ],
+    "key": {
+        "#": {
+            "item": "swem:leather_bow"
+        },
+        "S": {
+            "item": "swem:gold_rivet"
+        }
+    },
+    "result": {
+        "item": "swem:gold_bow",
+        "count": 1
+    }
+}

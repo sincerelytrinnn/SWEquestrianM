@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "# #",
+        "SCS",
+        "# #"
+    ],
+    "key": {
+        "#": {
+            "item": "swem:iron_rivet"
+        },
+        "S": {
+            "item": "swem:iron_plate"
+        },
+        "C": {
+            "item": "swem:leather_helmet"
+        }
+    },
+    "result": {
+        "item": "swem:iron_helmet",
+        "count": 1
+    }
+}

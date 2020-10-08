@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "# #",
+        "S#S",
+        "S#S"
+    ],
+    "key": {
+        "#": {
+            "item": "swem:leather_plate"
+        },
+        "S": {
+            "item": "swem:leather_rivet"
+        }
+    },
+    "result": {
+        "item": "swem:leather_chestplate",
+        "count": 1
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#S ",
+        " W ",
+        "SS "
+    ],
+    "key": {
+        "#": {
+            "item": "swem:diamond_rivet"
+        },
+        "S": {
+            "item": "swem:diamond_plate"
+        },
+        "W": {
+            "item": "swem:gold_bow"
+        }
+    },
+    "result": {
+        "item": "swem:diamond_bow",
+        "count": 1
+    }
+}

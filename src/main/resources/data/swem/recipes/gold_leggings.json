@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "# #",
+        "SQS",
+        "# #"
+    ],
+    "key": {
+        "#": {
+            "item": "swem:gold_rivet"
+        },
+        "S": {
+            "item": "swem:gold_plate"
+        },
+        "Q": {
+            "item": "swem:iron_helmet"
+        }
+    },
+    "result": {
+        "item": "swem:gold_helmet",
+        "count": 1
+    }
+}
