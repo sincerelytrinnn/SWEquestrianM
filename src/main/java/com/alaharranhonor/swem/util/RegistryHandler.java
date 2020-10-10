@@ -2,10 +2,12 @@ package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.blocks.*;
+import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.items.AmethystItem;
 import com.alaharranhonor.swem.items.ItemBase;
 import com.alaharranhonor.swem.tools.SWEMItemTier;
 import net.minecraft.block.*;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.horse.HorseEntity;
 import net.minecraft.item.Item;
@@ -203,9 +205,9 @@ public class RegistryHandler {
             () -> new BlockItemBase(RIDING_DOOR.get()));
 
     // Entity's
-//    public static final RegistryObject<EntityType<SWEMHorseEntity>> SWEM_HORSE_ENTITY = ENTITY_TYPES.register("swem_horse",
-//        () -> EntityType.Builder.create(SWEMHorseEntity::new, EntityClassification.CREATURE)
-//                .size(1.13f, 2.3f) // Hitbox Size
-//                .build(new ResourceLocation(SWEM.MOD_ID, "swem_horse").toString())
-//    );
+    public static final RegistryObject<EntityType<SWEMHorseEntity>> SWEM_HORSE_ENTITY = ENTITY_TYPES.register("swem_horse",
+        () -> EntityType.Builder.create(SWEMHorseEntity::new, EntityClassification.CREATURE)
+                .size(1.13f, 2.3f) // Hitbox Size
+                .build(new ResourceLocation(SWEM.MOD_ID, "swem_horse").toString())
+    );
 }

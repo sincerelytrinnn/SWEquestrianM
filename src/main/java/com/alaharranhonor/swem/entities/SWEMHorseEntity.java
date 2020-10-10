@@ -1,23 +1,35 @@
-/*package com.alaharranhonor.swem.entities;
+package com.alaharranhonor.swem.entities;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.entity.*;
-import net.minecraft.entity.passive.horse.AbstractHorseEntity;
-import net.minecraft.entity.passive.horse.HorseEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.passive.SheepEntity;
+import net.minecraft.entity.passive.horse.*;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.HorseArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.SpawnEggItem;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.*;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import software.bernie.geckolib.animation.builder.AnimationBuilder;
 import software.bernie.geckolib.animation.controller.EntityAnimationController;
 import software.bernie.geckolib.entity.IAnimatedEntity;
 import software.bernie.geckolib.event.AnimationTestEvent;
 import software.bernie.geckolib.manager.EntityAnimationManager;
+
+import javax.annotation.Nullable;
+import java.util.UUID;
 
 public class SWEMHorseEntity extends AbstractHorseEntity implements IAnimatedEntity {
 
@@ -30,12 +42,10 @@ public class SWEMHorseEntity extends AbstractHorseEntity implements IAnimatedEnt
         registerAnimationControllers();
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(28);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
-        this.getAttribute(JUMP_STRENGTH).setBaseValue(this.getModifiedJumpStrength());
+    public void func_230273_eI_() {
+        this.getAttribute(Attributes.field_233818_a_).setBaseValue((double)this.getModifiedMaxHealth());
+        this.getAttribute(Attributes.field_233821_d_).setBaseValue(this.getModifiedMovementSpeed());
+        this.getAttribute(Attributes.field_233830_m_).setBaseValue(this.getModifiedJumpStrength());
     }
 
     @Override
@@ -54,81 +64,73 @@ public class SWEMHorseEntity extends AbstractHorseEntity implements IAnimatedEnt
         }
     }
 
-    protected SoundEvent getAmbientSound() {
+    public SoundEvent getAmbientSound() {
         super.getAmbientSound();
         return SoundEvents.ENTITY_HORSE_AMBIENT;
     }
 
-    protected void playGallopSound(SoundType p_190680_1_) {
+    public void playGallopSound(SoundType p_190680_1_) {
         super.playGallopSound(p_190680_1_);
         if (this.rand.nextInt(10) == 0) {
             this.playSound(SoundEvents.ENTITY_HORSE_BREATHE, p_190680_1_.getVolume() * 0.6F, p_190680_1_.getPitch());
         }
     }
 
-    protected SoundEvent getDeathSound() {
+    public SoundEvent getDeathSound() {
         super.getDeathSound();
         return SoundEvents.ENTITY_HORSE_DEATH;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+    public SoundEvent getHurtSound(DamageSource damageSourceIn) {
         super.getHurtSound(damageSourceIn);
         return SoundEvents.ENTITY_HORSE_HURT;
     }
 
-    protected SoundEvent getAngrySound() {
+    public SoundEvent getAngrySound() {
         super.getAngrySound();
         return SoundEvents.ENTITY_HORSE_ANGRY;
     }
 
-    public boolean processInteract(PlayerEntity player, Hand hand) {
-        ItemStack itemstack = player.getHeldItem(hand);
-        boolean flag = !itemstack.isEmpty();
-        if (flag && itemstack.getItem() instanceof SpawnEggItem) {
-            return super.processInteract(player, hand);
+    public ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {
+        ItemStack itemstack = p_230254_1_.getHeldItem(p_230254_2_);
+        if (!this.isChild()) {
+            if (this.isTame() && p_230254_1_.isSecondaryUseActive()) {
+                this.openGUI(p_230254_1_);
+                return ActionResultType.func_233537_a_(this.world.isRemote);
+            }
+
+            if (this.isBeingRidden()) {
+                return super.func_230254_b_(p_230254_1_, p_230254_2_);
+            }
+        }
+
+        if (!itemstack.isEmpty()) {
+            if (this.isBreedingItem(itemstack)) {
+                return this.func_241395_b_(p_230254_1_, itemstack);
+            }
+
+            ActionResultType actionresulttype = itemstack.func_111282_a_(p_230254_1_, this, p_230254_2_);
+            if (actionresulttype.isSuccessOrConsume()) {
+                return actionresulttype;
+            }
+
+            if (!this.isTame()) {
+                this.makeMad();
+                return ActionResultType.func_233537_a_(this.world.isRemote);
+            }
+
+            boolean flag = !this.isChild() && !this.isHorseSaddled() && itemstack.getItem() == Items.SADDLE;
+            if (this.isArmor(itemstack) || flag) {
+                this.openGUI(p_230254_1_);
+                return ActionResultType.func_233537_a_(this.world.isRemote);
+            }
+        }
+
+        if (this.isChild()) {
+            return super.func_230254_b_(p_230254_1_, p_230254_2_);
         } else {
-            if (!this.isChild()) {
-                if (this.isTame() && player.isSecondaryUseActive()) {
-                    this.openGUI(player);
-                    return true;
-                }
-
-                if (this.isBeingRidden()) {
-                    return super.processInteract(player, hand);
-                }
-            }
-
-            if (flag) {
-                if (this.handleEating(player, itemstack)) {
-                    if (!player.abilities.isCreativeMode) {
-                        itemstack.shrink(1);
-                    }
-
-                    return true;
-                }
-
-                if (itemstack.interactWithEntity(player, this, hand)) {
-                    return true;
-                }
-
-                if (!this.isTame()) {
-                    this.makeMad();
-                    return true;
-                }
-
-                boolean flag1 = !this.isChild() && !this.isHorseSaddled() && itemstack.getItem() == Items.SADDLE;
-                if (this.isArmor(itemstack) || flag1) {
-                    this.openGUI(player);
-                    return true;
-                }
-            }
-
-            if (this.isChild()) {
-                return super.processInteract(player, hand);
-            } else {
-                this.mountTo(player);
-                return true;
-            }
+            this.mountTo(p_230254_1_);
+            return ActionResultType.func_233537_a_(this.world.isRemote);
         }
     }
 
@@ -140,8 +142,7 @@ public class SWEMHorseEntity extends AbstractHorseEntity implements IAnimatedEnt
         manager.addAnimationController(controller);
     }
     
-    @Override
     public AgeableEntity createChild(AgeableEntity ageable) {
         return null;
     }
-}*/
+}
