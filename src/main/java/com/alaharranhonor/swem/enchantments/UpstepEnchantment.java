@@ -5,10 +5,13 @@ import com.alaharranhonor.swem.util.RegistryHandler;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -62,14 +65,13 @@ public class UpstepEnchantment extends Enchantment {
 	public static class UpstepEquipped
 	{
 		@SubscribeEvent
-		public static void doStuff(TickEvent.PlayerTickEvent event)
+		public static void CheckForPlayersWearingLRB(TickEvent.PlayerTickEvent event)
 		{
-			PlayerEntity playerIn = event.player;
-			if (playerIn.inventory.armorInventory.get(0).getItem() == RegistryHandler.LEATHER_RIDING_BOOTS.get())
+			if (event.player.inventory.armorItemInSlot(0).getItem() == RegistryHandler.LEATHER_RIDING_BOOTS.get())
 			{
-				playerIn.stepHeight = 1.0f;
+				event.player.stepHeight = 1.0f;
 			} else {
-				playerIn.stepHeight = 0.6f;
+				event.player.stepHeight = 0.6f;
 			}
 
 		}

@@ -7,6 +7,7 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 
 public class LeatherRidingBoots extends ArmorItem {
 	public LeatherRidingBoots(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
@@ -25,4 +26,6 @@ public class LeatherRidingBoots extends ArmorItem {
 		stack.addEnchantment(RegistryHandler.UPSTEP.get(), 1);
 		super.onCreated(stack, worldIn, playerIn);
 	}
+
+
 }
