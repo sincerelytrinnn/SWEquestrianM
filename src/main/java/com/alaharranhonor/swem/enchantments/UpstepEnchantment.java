@@ -67,11 +67,13 @@ public class UpstepEnchantment extends Enchantment {
 		@SubscribeEvent
 		public static void CheckForPlayersWearingLRB(TickEvent.PlayerTickEvent event)
 		{
-			if (event.player.inventory.armorItemInSlot(0).getItem() == RegistryHandler.LEATHER_RIDING_BOOTS.get())
-			{
-				event.player.stepHeight = 1.0f;
-			} else {
-				event.player.stepHeight = 0.6f;
+			if (event.phase.equals(TickEvent.Phase.END)) {
+				if (event.player.inventory.armorItemInSlot(0).getItem() == RegistryHandler.LEATHER_RIDING_BOOTS.get())
+				{
+					event.player.stepHeight = 1.0f;
+				} else {
+					event.player.stepHeight = 0.6f;
+				}
 			}
 
 		}
