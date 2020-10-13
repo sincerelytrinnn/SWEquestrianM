@@ -8,9 +8,11 @@ import com.alaharranhonor.swem.items.AmethystItem;
 import com.alaharranhonor.swem.items.ItemBase;
 import com.alaharranhonor.swem.tools.SWEMItemTier;
 import net.minecraft.block.*;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
+import net.minecraft.item.Rarity;
 import net.minecraft.item.SwordItem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
@@ -33,11 +35,13 @@ public class RegistryHandler {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SWEM.MOD_ID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SWEM.MOD_ID);
     public static DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITIES, SWEM.MOD_ID);
+    public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, SWEM.MOD_ID);
 
     public static void init(){
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ENCHANTMENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     // Items
@@ -210,4 +214,7 @@ public class RegistryHandler {
             .size(1.13f, 2.3f) // Hitbox Size
             .build(new ResourceLocation(SWEM.MOD_ID, "swem_horse").toString())
     );
+
+    // Enchantments
+    public static final RegistryObject<Enchantment> UPSTEP = ENCHANTMENTS.register("upstep", () -> new UpstepEnchantment(Rarity.RARE));
 }
