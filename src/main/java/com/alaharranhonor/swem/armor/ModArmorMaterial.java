@@ -1,7 +1,7 @@
 package com.alaharranhonor.swem.armor;
 
 import com.alaharranhonor.swem.SWEM;
-import net.minecraft.client.audio.Sound;
+import com.alaharranhonor.swem.util.RegistryHandler;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.Items;
@@ -10,14 +10,29 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
 import java.util.function.Supplier;
 
 public enum ModArmorMaterial implements IArmorMaterial {
 
-	LEATHER(SWEM.MOD_ID + ":leather", 8, new int[]{2, 5, 6, 2}, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0f, () -> {
+	LEATHER(SWEM.MOD_ID + ":leather", 8, new int[]{2, 5, 6, 1}, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0f, () -> {
 		return Ingredient.fromItems(Items.LEATHER);
-	});
+	}),
+
+	IRON(SWEM.MOD_ID + ":iron", 23, new int[] {2, 5, 6, 3}, 0, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0f, () -> {
+	    return Ingredient.fromItems(Items.IRON_INGOT);
+    }),
+
+    GOLD(SWEM.MOD_ID + ":gold", 27, new int[] {2, 5, 6, 3}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0f, () -> {
+        return Ingredient.fromItems(Items.GOLD_INGOT);
+    }),
+
+    DIAMOND(SWEM.MOD_ID + ":diamond", 38, new int[] {2, 5, 6, 4}, 0, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0.0f, () -> {
+        return Ingredient.fromItems(Items.DIAMOND);
+    }),
+
+    AMETHYST(SWEM.MOD_ID + ":amethyst", 61, new int[] {5, 8, 14, 5}, 0, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0.0f, () -> {
+        return Ingredient.fromItems(RegistryHandler.AMETHYST.get());
+    });
 
 	private static final int[] MAX_DAMAGE_ARRAY = new int[] {11, 16, 15, 13};
     private final String name;
