@@ -18,6 +18,10 @@ public enum ModArmorMaterial implements IArmorMaterial {
 		return Ingredient.fromItems(Items.LEATHER);
 	}),
 
+    GLOW(SWEM.MOD_ID + ":glow", 12, new int[]{2, 5, 6, 1}, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0f, () -> {
+		return Ingredient.fromItems(Items.LEATHER);
+	}),
+
 	IRON(SWEM.MOD_ID + ":iron", 23, new int[] {2, 5, 6, 3}, 0, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0f, () -> {
 	    return Ingredient.fromItems(Items.IRON_INGOT);
     }),
