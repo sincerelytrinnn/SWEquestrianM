@@ -1,8 +1,7 @@
 package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.armor.LeatherRidingBoots;
-import com.alaharranhonor.swem.armor.ModArmorMaterial;
+import com.alaharranhonor.swem.armor.*;
 import com.alaharranhonor.swem.blocks.*;
 import com.alaharranhonor.swem.enchantments.UpstepEnchantment;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
@@ -65,14 +64,14 @@ public class RegistryHandler {
     public static final RegistryObject<Item> LEATHER_RIVET = ITEMS.register("leather_rivet", ItemBase::new);
     public static final RegistryObject<Item> LEATHER_SCYTHE = ITEMS.register("leather_scythe", ItemBase::new);
 
-    public static final RegistryObject<ArmorItem> LEATHER_RIDING_BOOTS = ITEMS.register("leather_riding_boots", () -> new LeatherRidingBoots(ModArmorMaterial.LEATHER, EquipmentSlotType.FEET, new Item.Properties().group(SWEM.TAB)));
+    public static final RegistryObject<ArmorItem> LEATHER_RIDING_BOOTS = ITEMS.register("leather_riding_boots", () -> new LeatherRidingBoots(ModArmorMaterial.LEATHER, EquipmentSlotType.FEET, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<Item> LEATHER_LONGSWORD = ITEMS.register("leather_longsword", ItemBase::new);
     public static final RegistryObject<Item> LEATHER_LEGGINGS = ITEMS.register("leather_leggings", ItemBase::new);
     public static final RegistryObject<Item> LEATHER_HELMET = ITEMS.register("leather_helmet", ItemBase::new);
     public static final RegistryObject<Item> LEATHER_CHESTPLATE = ITEMS.register("leather_chestplate", ItemBase::new);
     public static final RegistryObject<Item> LEATHER_BOW = ITEMS.register("leather_bow", ItemBase::new);
     public static final RegistryObject<Item> IRON_SCYTHE = ITEMS.register("iron_scythe", ItemBase::new);
-    public static final RegistryObject<Item> IRON_RIDING_BOOTS = ITEMS.register("iron_riding_boots", ItemBase::new);
+    public static final RegistryObject<ArmorItem> IRON_RIDING_BOOTS = ITEMS.register("iron_riding_boots", () -> new IronRidingBoots(ModArmorMaterial.IRON, EquipmentSlotType.FEET, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<Item> IRON_LONGSWORD = ITEMS.register("iron_longsword", ItemBase::new);
     public static final RegistryObject<Item> IRON_LEGGINGS = ITEMS.register("iron_leggings", ItemBase::new);
     public static final RegistryObject<Item> IRON_HELMET = ITEMS.register("iron_helmet", ItemBase::new);
@@ -81,12 +80,12 @@ public class RegistryHandler {
     public static final RegistryObject<Item> GOLD_SCYTHE = ITEMS.register("gold_scythe", ItemBase::new);
     public static final RegistryObject<Item> GOLD_RIDING_BOOTS = ITEMS.register("gold_riding_boots", ItemBase::new);
     public static final RegistryObject<Item> GOLD_LONGSWORD = ITEMS.register("gold_longsword", ItemBase::new);
-    public static final RegistryObject<Item> GOLD_LEGGINGS = ITEMS.register("gold_leggings", ItemBase::new);
+    public static final RegistryObject<ArmorItem> GOLD_LEGGINGS = ITEMS.register("gold_leggings", () -> new GoldRidingBoots(ModArmorMaterial.GOLD, EquipmentSlotType.FEET, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<Item> GOLD_HELMET = ITEMS.register("gold_helmet", ItemBase::new);
     public static final RegistryObject<Item> GOLD_CHESTPLATE = ITEMS.register("gold_chestplate", ItemBase::new);
     public static final RegistryObject<Item> GOLD_BOW = ITEMS.register("gold_bow", ItemBase::new);
     public static final RegistryObject<Item> DIAMOND_SCYTHE = ITEMS.register("diamond_scythe", ItemBase::new);
-    public static final RegistryObject<Item> DIAMOND_RIDING_BOOTS = ITEMS.register("diamond_riding_boots", ItemBase::new);
+    public static final RegistryObject<ArmorItem> DIAMOND_RIDING_BOOTS = ITEMS.register("diamond_riding_boots", () -> new DiamondRidingBoots(ModArmorMaterial.DIAMOND, EquipmentSlotType.FEET, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<Item> DIAMOND_LONGSWORD = ITEMS.register("diamond_longsword", ItemBase::new);
     public static final RegistryObject<Item> DIAMOND_LEGGINGS = ITEMS.register("diamond_leggings", ItemBase::new);
     public static final RegistryObject<Item> DIAMOND_HELMET = ITEMS.register("diamond_helmet", ItemBase::new);
