@@ -31,7 +31,7 @@ public enum ModArmorMaterial implements IArmorMaterial {
     }),
 
     AMETHYST(SWEM.MOD_ID + ":amethyst", 61, new int[] {5, 8, 14, 5}, 0, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0.0f, () -> {
-        return Ingredient.fromItems(RegistryHandler.AMETHYST.get());
+        return Ingredient.fromItems(RegistryHandler.CANTAZARITE.get());
     });
 
 	private static final int[] MAX_DAMAGE_ARRAY = new int[] {11, 16, 15, 13};
