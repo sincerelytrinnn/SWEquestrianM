@@ -1,133 +1,130 @@
 package com.alaharranhonor.swem.entities;
 
-import net.minecraft.block.SoundType;
-import net.minecraft.entity.*;
+import com.alaharranhonor.swem.util.RegistryHandler;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.passive.horse.*;
+import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.*;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import software.bernie.geckolib.animation.builder.AnimationBuilder;
-import software.bernie.geckolib.animation.controller.EntityAnimationController;
-import software.bernie.geckolib.entity.IAnimatedEntity;
-import software.bernie.geckolib.event.AnimationTestEvent;
-import software.bernie.geckolib.manager.EntityAnimationManager;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class SWEMHorseEntity extends AbstractHorseEntity implements IAnimatedEntity {
+import javax.annotation.Nullable;
 
-    private EntityAnimationManager manager = new EntityAnimationManager();
-    private EntityAnimationController controller = new EntityAnimationController(this, "walkController", 20,
-            this::animationPredicate);
+public class SWEMHorseEntity extends AnimalEntity {
 
-    public SWEMHorseEntity(EntityType<? extends AbstractHorseEntity> type, World worldIn){
-        super(type, worldIn);
-        registerAnimationControllers();
-    }
+	public static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(RegistryHandler.AMETHYST.get());
 
-    public void func_230273_eI_() {
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue((double)this.getModifiedMaxHealth());
-        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getModifiedMovementSpeed());
-        this.getAttribute(Attributes.HORSE_JUMP_STRENGTH).setBaseValue(this.getModifiedJumpStrength());
-    }
+	private EatGrassGoal eatGrassGoal;
+	private int SWEMHorseTimer;
 
-    @Override
-    public EntityAnimationManager getAnimationManager() {
-        return manager;
-    }
+	public SWEMHorseEntity(EntityType<? extends AnimalEntity> type, World worldIn)
+	{
+		super(type, worldIn);
+	}
 
-    private <E extends Entity> boolean animationPredicate(AnimationTestEvent<E> event) {
-        if(event.isWalking()){
-            controller.setAnimation(new AnimationBuilder().addAnimation("walk"));
-            return true;
-        }
-        else{
-            controller.setAnimation(new AnimationBuilder().addAnimation("stand_idle"));
-            return true;
-        }
-    }
+	// func_233666_p_ -> registerAttributes()
+	public static AttributeModifierMap.MutableAttribute setCustomAttributes()
+	{
+		return MobEntity.func_233666_p_()
+				.createMutableAttribute(Attributes.MAX_HEALTH, 18.0d)
+				.createMutableAttribute(Attributes.HORSE_JUMP_STRENGTH, 5.0d)
+				.createMutableAttribute(Attributes.MOVEMENT_SPEED, 2.0d);
+	}
 
-    public SoundEvent getAmbientSound() {
-        super.getAmbientSound();
-        return SoundEvents.ENTITY_HORSE_AMBIENT;
-    }
+	@Override
+	protected void registerGoals() {
+		super.registerGoals();
+		this.eatGrassGoal = new EatGrassGoal(this);
+		this.goalSelector.addGoal(0, new SwimGoal(this));
+		this.goalSelector.addGoal(1, new PanicGoal(this, 3.0d));
+		this.goalSelector.addGoal(2, new BreedGoal(this, 1.0d));
+		this.goalSelector.addGoal(3, new TemptGoal(this, 2.2d, TEMPTATION_ITEMS, false));
+		this.goalSelector.addGoal(4, new FollowParentGoal(this, 2.2d));
+		this.goalSelector.addGoal(5, this.eatGrassGoal);
+		this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0d));
+		this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0f));
+		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
+	}
 
-    public void playGallopSound(SoundType p_190680_1_) {
-        super.playGallopSound(p_190680_1_);
-        if (this.rand.nextInt(10) == 0) {
-            this.playSound(SoundEvents.ENTITY_HORSE_BREATHE, p_190680_1_.getVolume() * 0.6F, p_190680_1_.getPitch());
-        }
-    }
+	@Override
+	protected int getExperiencePoints(PlayerEntity player) {
+		return 0;
+	}
 
-    public SoundEvent getDeathSound() {
-        super.getDeathSound();
-        return SoundEvents.ENTITY_HORSE_DEATH;
-    }
+	@Nullable
+	@Override
+	protected SoundEvent getAmbientSound() {
+		return SoundEvents.ENTITY_HORSE_AMBIENT;
+	}
 
-    public SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        super.getHurtSound(damageSourceIn);
-        return SoundEvents.ENTITY_HORSE_HURT;
-    }
+	@Nullable
+	@Override
+	protected SoundEvent getDeathSound() {
+		return SoundEvents.ENTITY_HORSE_DEATH;
+	}
 
-    public SoundEvent getAngrySound() {
-        super.getAngrySound();
-        return SoundEvents.ENTITY_HORSE_ANGRY;
-    }
+	@Nullable
+	@Override
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+		return SoundEvents.ENTITY_HORSE_HURT;
+	}
+
+	@Override
+	protected void playStepSound(BlockPos pos, BlockState blockIn) {
+		this.playSound(SoundEvents.ENTITY_HORSE_STEP, 0.15f, 1.0f);
+	}
 
 
-    public ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {
-        ItemStack itemstack = p_230254_1_.getHeldItem(p_230254_2_);
-        if (!this.isChild()) {
-            if (this.isTame() && p_230254_1_.isSecondaryUseActive()) {
-                this.openGUI(p_230254_1_);
-                return ActionResultType.func_233537_a_(this.world.isRemote);
-            }
+	// createChild method
+	@Nullable
+	@Override
+	public AgeableEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_)
+	{
 
-            if (this.isBeingRidden()) {
-                return super.func_230254_b_(p_230254_1_, p_230254_2_);
-            }
-        }
+		return RegistryHandler.SWEM_HORSE_ENTITY.get().create(this.world);
+	}
 
-        if (!itemstack.isEmpty()) {
-            if (this.isBreedingItem(itemstack)) {
-                return this.func_241395_b_(p_230254_1_, itemstack);
-            }
+	@Override
+	protected void updateAITasks()
+	{
+		this.SWEMHorseTimer = this.eatGrassGoal.getEatingGrassTimer();
+		super.updateAITasks();
+	}
 
-            ActionResultType actionresulttype = itemstack.interactWithEntity(p_230254_1_, this, p_230254_2_);
-            if (actionresulttype.isSuccessOrConsume()) {
-                return actionresulttype;
-            }
+	@Override
+	public void livingTick()
+	{
 
-            if (!this.isTame()) {
-                this.makeMad();
-                return ActionResultType.func_233537_a_(this.world.isRemote);
-            }
+		if (this.world.isRemote)
+		{
+			this.SWEMHorseTimer = Math.max(0, this.SWEMHorseTimer - 1);
+		}
 
-            boolean flag = !this.isChild() && !this.isHorseSaddled() && itemstack.getItem() == Items.SADDLE;
-            if (this.isArmor(itemstack) || flag) {
-                this.openGUI(p_230254_1_);
-                return ActionResultType.func_233537_a_(this.world.isRemote);
-            }
-        }
+		super.livingTick();
+	}
 
-        if (this.isChild()) {
-            return super.func_230254_b_(p_230254_1_, p_230254_2_);
-        } else {
-            this.mountTo(p_230254_1_);
-            return ActionResultType.func_233537_a_(this.world.isRemote);
-        }
-    }
+	@OnlyIn(Dist.CLIENT)
+	public void handleStatusUpdates(byte id)
+	{
+		if (id == 10)
+		{
+			this.SWEMHorseTimer = 40;
+		} else {
+			super.handleStatusUpdate(id);
+		}
+	}
 
-    public boolean wearsArmor() {
-        return true;
-    }
 
-    private void registerAnimationControllers() {
-        manager.addAnimationController(controller);
-    }
-    
-    public AgeableEntity createChild(AgeableEntity ageable) {
-        return null;
-    }
 }
