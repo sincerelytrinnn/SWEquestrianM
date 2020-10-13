@@ -22,13 +22,7 @@ public class LeatherRidingBoots extends ArmorItem {
 	 */
 	@Override
 	public void onCreated(ItemStack stack, World worldIn, PlayerEntity playerIn) {
-		super.onCreated(stack, worldIn, playerIn);
 		stack.addEnchantment(RegistryHandler.UPSTEP.get(), 1);
-	}
-
-	@Override
-	public boolean hasEffect(ItemStack stack) {
-		super.hasEffect(stack);
-		return true;
+		super.onCreated(stack, worldIn, playerIn);
 	}
 }
