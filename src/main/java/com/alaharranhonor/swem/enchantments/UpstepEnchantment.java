@@ -1,14 +1,13 @@
 package com.alaharranhonor.swem.enchantments;
 
 import com.alaharranhonor.swem.SWEM;
-import net.minecraft.block.Blocks;
+import com.alaharranhonor.swem.util.RegistryHandler;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -36,6 +35,17 @@ public class UpstepEnchantment extends Enchantment {
 		return false;
 	}
 
+	/**
+	 * Determines if this enchantment can be applied to a specific ItemStack.
+	 *
+	 * @param stack
+	 */
+	@Override
+	public boolean canApply(ItemStack stack) {
+		return false;
+	}
+
+
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
@@ -55,7 +65,14 @@ public class UpstepEnchantment extends Enchantment {
 		public static void doStuff(TickEvent.PlayerTickEvent event)
 		{
 			PlayerEntity playerIn = event.player;
-			playerIn.stepHeight = 1.0f;
+			if (playerIn.inventory.armorInventory.get(0).getItem() == RegistryHandler.LEATHER_RIDING_BOOTS.get())
+			{
+				playerIn.stepHeight = 1.0f;
+			} else {
+				playerIn.stepHeight = 0.6f;
+			}
+
 		}
+
 	}
 }
