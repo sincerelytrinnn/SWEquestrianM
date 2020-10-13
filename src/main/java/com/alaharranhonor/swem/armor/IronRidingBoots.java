@@ -28,6 +28,7 @@ public class IronRidingBoots extends ArmorItem {
 	@Override
 	public void onCreated(ItemStack stack, World worldIn, PlayerEntity playerIn) {
 		stack.addEnchantment(RegistryHandler.DESTRIER.get(), 1);
+		stack.addEnchantment(RegistryHandler.UPSTEP.get(), 1);
 		super.onCreated(stack, worldIn, playerIn);
 	}
 
