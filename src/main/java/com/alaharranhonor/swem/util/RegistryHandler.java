@@ -1,7 +1,10 @@
 package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.armor.LeatherRidingBoots;
+import com.alaharranhonor.swem.armor.ModArmorMaterial;
 import com.alaharranhonor.swem.blocks.*;
+import com.alaharranhonor.swem.enchantments.UpstepEnchantment;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity_Backup;
 import com.alaharranhonor.swem.items.AmethystItem;
@@ -9,8 +12,11 @@ import com.alaharranhonor.swem.items.ItemBase;
 import com.alaharranhonor.swem.tools.SWEMItemTier;
 import net.minecraft.block.*;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Rarity;
 import net.minecraft.item.SwordItem;
@@ -38,10 +44,11 @@ public class RegistryHandler {
     public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, SWEM.MOD_ID);
 
     public static void init(){
+        // enchantments need to be registered before items.
+        ENCHANTMENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ENCHANTMENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     // Items
@@ -57,7 +64,8 @@ public class RegistryHandler {
     public static final RegistryObject<Item> IRON_RIVET = ITEMS.register("iron_rivet", ItemBase::new);
     public static final RegistryObject<Item> LEATHER_RIVET = ITEMS.register("leather_rivet", ItemBase::new);
     public static final RegistryObject<Item> LEATHER_SCYTHE = ITEMS.register("leather_scythe", ItemBase::new);
-    public static final RegistryObject<Item> LEATHER_RIDING_BOOTS = ITEMS.register("leather_riding_boots", ItemBase::new);
+
+    public static final RegistryObject<ArmorItem> LEATHER_RIDING_BOOTS = ITEMS.register("leather_riding_boots", () -> new LeatherRidingBoots(ModArmorMaterial.LEATHER, EquipmentSlotType.FEET, new Item.Properties().group(SWEM.TAB)));
     public static final RegistryObject<Item> LEATHER_LONGSWORD = ITEMS.register("leather_longsword", ItemBase::new);
     public static final RegistryObject<Item> LEATHER_LEGGINGS = ITEMS.register("leather_leggings", ItemBase::new);
     public static final RegistryObject<Item> LEATHER_HELMET = ITEMS.register("leather_helmet", ItemBase::new);
@@ -216,5 +224,5 @@ public class RegistryHandler {
     );
 
     // Enchantments
-    public static final RegistryObject<Enchantment> UPSTEP = ENCHANTMENTS.register("upstep", () -> new UpstepEnchantment(Rarity.RARE));
+    public static final RegistryObject<Enchantment> UPSTEP = ENCHANTMENTS.register("upstep", () -> new UpstepEnchantment(Enchantment.Rarity.RARE, EnchantmentType.ARMOR_FEET, new EquipmentSlotType[]{EquipmentSlotType.FEET}));
 }
