@@ -3,11 +3,11 @@ package com.alaharranhonor.swem;
 import com.alaharranhonor.swem.blocks.TimothyGrass;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.config.SWLConfig;
+import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.init.SWLBlocks;
 import com.alaharranhonor.swem.init.SWLItems;
 import com.alaharranhonor.swem.util.RegistryHandler;
-//import com.alaharranhonor.swem.world.OreGeneration;
-import com.alaharranhonor.swem.world.OreGeneration;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -16,6 +16,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
@@ -72,8 +73,11 @@ public class SWEM
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        OreGeneration.initGen();
-        OreGeneration.setupGen();
+//      OreGeneration.initGen();
+//      OreGeneration.setupGen();
+        DeferredWorkQueue.runLater(() -> {
+            GlobalEntityTypeAttributes.put(RegistryHandler.SWEM_HORSE_ENTITY.get(), SWEMHorseEntity.setCustomAttributes().create());
+        });
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
