@@ -2,34 +2,18 @@ package com.alaharranhonor.swem.entities;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.passive.horse.*;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.HorseArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.*;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import software.bernie.geckolib.animation.builder.AnimationBuilder;
 import software.bernie.geckolib.animation.controller.EntityAnimationController;
 import software.bernie.geckolib.entity.IAnimatedEntity;
 import software.bernie.geckolib.event.AnimationTestEvent;
 import software.bernie.geckolib.manager.EntityAnimationManager;
-
-import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class SWEMHorseEntity extends AbstractHorseEntity implements IAnimatedEntity {
 
@@ -43,9 +27,9 @@ public class SWEMHorseEntity extends AbstractHorseEntity implements IAnimatedEnt
     }
 
     public void func_230273_eI_() {
-        this.getAttribute(Attributes.field_233818_a_).setBaseValue((double)this.getModifiedMaxHealth());
-        this.getAttribute(Attributes.field_233821_d_).setBaseValue(this.getModifiedMovementSpeed());
-        this.getAttribute(Attributes.field_233830_m_).setBaseValue(this.getModifiedJumpStrength());
+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue((double)this.getModifiedMaxHealth());
+        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getModifiedMovementSpeed());
+        this.getAttribute(Attributes.HORSE_JUMP_STRENGTH).setBaseValue(this.getModifiedJumpStrength());
     }
 
     @Override
@@ -91,6 +75,7 @@ public class SWEMHorseEntity extends AbstractHorseEntity implements IAnimatedEnt
         return SoundEvents.ENTITY_HORSE_ANGRY;
     }
 
+
     public ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {
         ItemStack itemstack = p_230254_1_.getHeldItem(p_230254_2_);
         if (!this.isChild()) {
@@ -109,7 +94,7 @@ public class SWEMHorseEntity extends AbstractHorseEntity implements IAnimatedEnt
                 return this.func_241395_b_(p_230254_1_, itemstack);
             }
 
-            ActionResultType actionresulttype = itemstack.func_111282_a_(p_230254_1_, this, p_230254_2_);
+            ActionResultType actionresulttype = itemstack.interactWithEntity(p_230254_1_, this, p_230254_2_);
             if (actionresulttype.isSuccessOrConsume()) {
                 return actionresulttype;
             }
