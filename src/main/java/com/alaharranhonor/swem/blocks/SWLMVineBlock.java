@@ -164,7 +164,7 @@ private BlockState func_196545_h(BlockState p_196545_1_, IBlockReader p_196545_2
  */
         public void randomTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
                 if (worldIn.rand.nextInt(4) == 0 && worldIn.isAreaLoaded(pos, 4)) { // Forge: check area to prevent loading unloaded chunks
-                        Direction direction = Direction.func_239631_a_(random);
+                        Direction direction = Direction.getRandomDirection(random);
                         BlockPos blockpos = pos.up();
                         if (direction.getAxis().isHorizontal() && !state.get(getPropertyFor(direction))) {
                                 if (this.func_196539_a(worldIn, pos)) {

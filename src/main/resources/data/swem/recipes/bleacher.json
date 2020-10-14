@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "SS"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:heavy_weighted_pressure_plate"
+    },
+    "S": {
+      "item": "forge:ingots/iron"
+    }
+  },
+  "result": {
+    "item": "swem:bleacher",
+    "count": 16
+  }
+}

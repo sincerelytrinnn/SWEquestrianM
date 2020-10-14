@@ -83,13 +83,15 @@ public class SWEM
     private void doClientStuff(final FMLClientSetupEvent event) {
     }
 
-    public static final ItemGroup TAB = new ItemGroup("SWEMTab") {
+
+    public static final ItemGroup SWLMTAB = new ItemGroup("SWLMTab") {
         @Override
         public ItemStack createIcon() {
             return new ItemStack(RegistryHandler.SWEM_WORM.get());
         }
     };
-    public static final ItemGroup SWLMTAB = new ItemGroup("SWLMTab") {
+
+    public static final ItemGroup TAB = new ItemGroup("SWEMTab") {
         @Override
         public ItemStack createIcon() {
             return new ItemStack(RegistryHandler.SWEM_WORM.get());

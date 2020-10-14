@@ -6,11 +6,11 @@ import com.alaharranhonor.swem.blocks.*;
 import com.alaharranhonor.swem.enchantments.DestrierEnchantment;
 import com.alaharranhonor.swem.enchantments.UpstepEnchantment;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
-import com.alaharranhonor.swem.entities.SWEMHorseEntity_Backup;
 import com.alaharranhonor.swem.items.AmethystItem;
 import com.alaharranhonor.swem.items.ItemBase;
 import com.alaharranhonor.swem.tools.SWEMItemTier;
 import net.minecraft.block.*;
+import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.entity.EntityClassification;
@@ -151,6 +151,10 @@ public class RegistryHandler {
             () -> new Shavings(Block.Properties.from(Blocks.SNOW)));
     public static final RegistryObject<Block> RIDING_DOOR = BLOCKS.register("riding_door",
             () -> new DoorBase(Block.Properties.from(Blocks.OAK_FENCE_GATE)));
+    public static final RegistryObject<Block> BLEACHER_SLAB = BLOCKS.register("bleacher",
+            () -> new BleacherBase(Block.Properties.create(Material.IRON)));
+    public static final RegistryObject<Block> BLEACHER_WIREFRAME = BLOCKS.register("bleacher_wireframe",
+            () -> new BleacherWireframeBase(Block.Properties.create(Material.IRON)));
 
     // Block Items
     public static final RegistryObject<Item> FUEL_BLOCK_ITEM = ITEMS.register("fuel_block",
@@ -215,6 +219,8 @@ public class RegistryHandler {
             () -> new BlockItemBase(SOILED_SHAVINGS.get()));
     public static final RegistryObject<Item> RIDING_DOOR_ITEM = ITEMS.register("riding_door",
             () -> new BlockItemBase(RIDING_DOOR.get()));
+    public static final RegistryObject<Item> BLEACHER_SLAB_ITEM = ITEMS.register("bleacher",
+            () -> new BlockItemBase(BLEACHER_SLAB.get()));
 
     // Entity's
     public static final RegistryObject<EntityType<SWEMHorseEntity>> SWEM_HORSE_ENTITY = ENTITY_TYPES.register("swem_horse",
