@@ -8,5 +8,5 @@ public class AmethystItem extends Item {
     public AmethystItem() {
         super(new Item.Properties().group(SWEM.TAB));
     }
-    
+
 }
