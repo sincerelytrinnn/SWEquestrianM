@@ -1,6 +1,8 @@
 package com.alaharranhonor.swem.armor;
 
-import com.alaharranhonor.swem.util.RegistryHandler;
+import com.alaharranhonor.swem.enchantments.UpstepEnchantment;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
@@ -15,7 +17,7 @@ public class GlowRidingBoots extends ArmorItem {
 
 	@Override
 	public void onCreated(ItemStack stack, World worldIn, PlayerEntity playerIn) {
-		stack.addEnchantment(RegistryHandler.UPSTEP.get(), 1);
+		stack.addEnchantment(new UpstepEnchantment(Enchantment.Rarity.RARE, EnchantmentType.ARMOR_FEET, new EquipmentSlotType[] {EquipmentSlotType.FEET} ), 1);
 		super.onCreated(stack, worldIn, playerIn);
 	}
 
@@ -29,5 +31,10 @@ public class GlowRidingBoots extends ArmorItem {
 	@Override
 	public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
 		// Add glow to the player.
+	}
+
+	@Override
+	public boolean hasEffect(ItemStack stack) {
+		return false;
 	}
 }
