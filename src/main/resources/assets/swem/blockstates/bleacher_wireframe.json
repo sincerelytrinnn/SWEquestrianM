@@ -1,0 +1,28 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "type": "top"
+      },
+      "apply": {
+        "model": "swem:block/bleacher_wireframe_top"
+      }
+    },
+    {
+      "when": {
+        "type": "bottom"
+      },
+      "apply": {
+        "model": "swem:block/bleacher_wireframe_bottom"
+      }
+    },
+    {
+      "when": {
+        "type": "double"
+      },
+      "apply": {
+        "model": "swem:block/bleacher_wireframe_block"
+      }
+    }
+  ]
+}
