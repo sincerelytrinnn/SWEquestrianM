@@ -38,7 +38,7 @@ public enum ModArmorMaterial implements IArmorMaterial {
         return Ingredient.fromItems(RegistryHandler.CANTAZARITE.get());
     });
 
-	private static final int[] MAX_DAMAGE_ARRAY = new int[] {11, 16, 15, 13};
+	private static final int[] MAX_DAMAGE_ARRAY = new int[] {13, 16, 15, 11};
     private final String name;
     private final int maxDamageFactor;
     private final int[] damageReductionAmountArray;
