@@ -94,7 +94,7 @@ public class SWEM
     public static final ItemGroup TAB = new ItemGroup("SWEMTab") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(RegistryHandler.SWEM_WORM.get());
+            return new ItemStack(RegistryHandler.WESTERN_SADDLE_LIGHT_BLUE.get());
         }
     };
 
