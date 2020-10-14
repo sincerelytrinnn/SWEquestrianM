@@ -7,7 +7,6 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 
 public class LeatherRidingBoots extends ArmorItem {
 	public LeatherRidingBoots(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {

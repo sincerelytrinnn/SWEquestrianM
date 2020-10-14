@@ -1,17 +1,12 @@
 package com.alaharranhonor.swem.armor;
 
-import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.util.RegistryHandler;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class IronRidingBoots extends ArmorItem {
 	public IronRidingBoots(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {

@@ -1,8 +1,6 @@
 package com.alaharranhonor.swem.armor;
 
-import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.util.RegistryHandler;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
@@ -10,12 +8,7 @@ import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.potion.Potions;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 public class DiamondRidingBoots extends ArmorItem {
 
