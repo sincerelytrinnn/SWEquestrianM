@@ -8,9 +8,5 @@ public class AmethystItem extends Item {
     public AmethystItem() {
         super(new Item.Properties().group(SWEM.TAB));
     }
-
-    @Override
-    public boolean hasEffect(ItemStack stack) {
-        return true;
-    }
+    
 }
