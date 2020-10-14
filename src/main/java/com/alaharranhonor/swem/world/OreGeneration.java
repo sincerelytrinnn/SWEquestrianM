@@ -30,19 +30,19 @@ public class OreGeneration {
 
     public static void initGen() {
         Registry.register(
-                WorldGenRegistries.field_243653_e /* Feature Registering */,
+                WorldGenRegistries.CONFIGURED_FEATURE /* Feature Registering */,
                 SWLBlocks.STAR_WORM_COBBLE.getId() /* Resource Location */,
-                Feature.field_236289_V_ /* no_surface_ore */.withConfiguration(
+                Feature.NO_SURFACE_ORE /* no_surface_ore */.withConfiguration(
                         new OreFeatureConfig(OreFeatureConfig.FillerBlockType.field_241882_a, SWLBlocks.STAR_WORM_COBBLE.get().getDefaultState(), 7)).func_242733_d(80).func_242728_a().func_242731_b(2));
     }
 
     public static void setupGen() {
-        for (Map.Entry<RegistryKey<Biome>, Biome> biome : WorldGenRegistries.field_243657_i.func_239659_c_() /* Collection of Biome Entries */) {
+        for (Map.Entry<RegistryKey<Biome>, Biome> biome : WorldGenRegistries.BIOME.getEntries() /* Collection of Biome Entries */) {
             if (!biome.getValue().getCategory().equals(Biome.Category.NETHER) && !biome.getValue().getCategory().equals(Biome.Category.THEEND)) {
                 addFeatureToBiome(
                         biome.getValue(),
                         GenerationStage.Decoration.UNDERGROUND_ORES,
-                        WorldGenRegistries.field_243653_e.getOrDefault(SWLBlocks.STAR_WORM_COBBLE.getId())
+                        WorldGenRegistries.CONFIGURED_FEATURE.getOrDefault(SWLBlocks.STAR_WORM_COBBLE.getId())
                 );
             }
         }
@@ -50,7 +50,7 @@ public class OreGeneration {
 
     public static void addFeatureToBiome(Biome biome, GenerationStage.Decoration decoration, ConfiguredFeature<?, ?> configuredFeature) {
         List<List<Supplier<ConfiguredFeature<?, ?>>>> biomeFeatures = new ArrayList<>(
-                biome.func_242440_e().func_242498_c() /* List of Configured Features */
+                biome.getGenerationSettings().getFeatures() /* List of Configured Features */
         );
 
         while (biomeFeatures.size() <= decoration.ordinal()) {
@@ -62,6 +62,6 @@ public class OreGeneration {
         biomeFeatures.set(decoration.ordinal(), features);
 
         /* Change field_242484_f that contains the Configured Features of the Biome*/
-        ObfuscationReflectionHelper.setPrivateValue(BiomeGenerationSettings.class, biome.func_242440_e(), biomeFeatures, "field_242484_f");
+        ObfuscationReflectionHelper.setPrivateValue(BiomeGenerationSettings.class, biome.getGenerationSettings(), biomeFeatures, "field_242484_f");
     }
 }
