@@ -1,22 +1,44 @@
-/*package com.alaharranhonor.swem.armor;
+package com.alaharranhonor.swem.armor;
 
 import com.alaharranhonor.swem.SWEM;
-import net.minecraft.client.audio.Sound;
+import com.alaharranhonor.swem.util.RegistryHandler;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
-
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.function.Supplier;
 
 public enum ModArmorMaterial implements IArmorMaterial {
 
+	LEATHER(SWEM.MOD_ID + ":leather", 8, new int[]{2, 5, 6, 1}, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0f, () -> {
+		return Ingredient.fromItems(Items.LEATHER);
+	}),
 
-    LEATHER(SWEM.MOD_ID + ":leather", 5, new int[]{ 1, 1, 2, 1 }, 18,
-            SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, );
+    GLOW(SWEM.MOD_ID + ":glow", 12, new int[]{2, 5, 6, 1}, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0f, () -> {
+		return Ingredient.fromItems(Items.LEATHER);
+	}),
 
-    private static final int[] MAX_DAMAGE_ARRAY = new int[] {11, 16, 15, 13};
+	IRON(SWEM.MOD_ID + ":iron", 23, new int[] {2, 5, 6, 3}, 0, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0f, () -> {
+	    return Ingredient.fromItems(Items.IRON_INGOT);
+    }),
+
+    GOLD(SWEM.MOD_ID + ":gold", 27, new int[] {2, 5, 6, 3}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0f, () -> {
+        return Ingredient.fromItems(Items.GOLD_INGOT);
+    }),
+
+    DIAMOND(SWEM.MOD_ID + ":diamond", 38, new int[] {2, 5, 6, 4}, 0, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0.0f, () -> {
+        return Ingredient.fromItems(Items.DIAMOND);
+    }),
+
+    AMETHYST(SWEM.MOD_ID + ":amethyst", 61, new int[] {5, 8, 14, 5}, 0, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0.0f, () -> {
+        return Ingredient.fromItems(RegistryHandler.CANTAZARITE.get());
+    });
+
+	private static final int[] MAX_DAMAGE_ARRAY = new int[] {13, 16, 15, 11};
     private final String name;
     private final int maxDamageFactor;
     private final int[] damageReductionAmountArray;
@@ -26,7 +48,7 @@ public enum ModArmorMaterial implements IArmorMaterial {
     private final Supplier<Ingredient> repairMaterial;
 
     ModArmorMaterial(String name, int maxDamageFactor, int[] damageReductionAmountArray, int enchantability,
-                      SoundEvent soundEvent, float toughness, Supplier repairMaterial) {
+                      SoundEvent soundEvent, float toughness, Supplier<Ingredient> repairMaterial) {
         this.name = name;
         this.maxDamageFactor = maxDamageFactor;
         this.damageReductionAmountArray = damageReductionAmountArray;
@@ -38,37 +60,42 @@ public enum ModArmorMaterial implements IArmorMaterial {
 
     @Override
     public int getDurability(EquipmentSlotType slotIn) {
-        return 0;
+        return MAX_DAMAGE_ARRAY[slotIn.getIndex()] * this.maxDamageFactor;
     }
 
     @Override
     public int getDamageReductionAmount(EquipmentSlotType slotIn) {
-        return 0;
+        return this.damageReductionAmountArray[slotIn.getIndex()];
     }
 
     @Override
     public int getEnchantability() {
-        return 0;
+        return this.enchantability;
     }
 
     @Override
     public SoundEvent getSoundEvent() {
-        return null;
+        return this.soundEvent;
     }
 
     @Override
     public Ingredient getRepairMaterial() {
-        return null;
+        return this.repairMaterial.get();
     }
 
+    @OnlyIn(Dist.CLIENT)
     @Override
     public String getName() {
-        return null;
+        return this.name;
     }
 
     @Override
     public float getToughness() {
-        return 0;
+        return this.toughness;
     }
+
+	@Override
+	public float getKnockbackResistance() {
+		return 0;
+	}
 }
-*/

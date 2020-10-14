@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "#S#",
+    "   "
+  ],
+  "key": {
+    "#": {
+      "item": "swem:star_worm"
+    },
+    "S": {
+      "item": "swem:leather_riding_boots"
+    }
+  },
+  "result": {
+    "item": "swem:glow_riding_boots",
+    "count": 1
+  }
+}

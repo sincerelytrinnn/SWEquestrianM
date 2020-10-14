@@ -17,6 +17,7 @@
   "item.swem.leather_leggings": "Leather Leggings",
   "item.swem.leather_chestplate": "Leather Chestplate",
   "item.swem.leather_bow": "Leather Bow",
+  "item.swem.glow_riding_boots": "Glow Riding Boots",
   "item.swem.iron_scythe": "Iron Scythe",
   "item.swem.iron_riding_boots": "Iron Riding Boots",
   "item.swem.iron_longsword": "Iron Longsword",
@@ -230,6 +231,9 @@
   "block.swem.star_worm_block_black_concrete_powder": "SW Black Concrete Powder",
 
   "entity.swem.swem_horse": "SWEM Horse",
+
+  "enchantment.swem.upstep": "UPstep",
+  "enchantment.swem.destrier": "Destrier",
 
   "itemGroup.SWEMTab": "SWEquestrian",
   "itemGroup.SWLMTab": "Star Worm Lighting"
