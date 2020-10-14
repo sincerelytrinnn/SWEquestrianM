@@ -56,7 +56,7 @@ public class SWLMFallingBlock extends Block {
 
     public static boolean canFallThrough(BlockState state) {
         Material material = state.getMaterial();
-        return state.isAir() || state.func_235714_a_(BlockTags.field_232872_am_) || material.isLiquid() || material.isReplaceable();
+        return state.isAir() || state.isIn(BlockTags.FIRE) || material.isLiquid() || material.isReplaceable();
     }
 
     public void onEndFalling(World worldIn, BlockPos pos, BlockState fallingState, BlockState hitState, FallingBlockEntity p_176502_5_) {
