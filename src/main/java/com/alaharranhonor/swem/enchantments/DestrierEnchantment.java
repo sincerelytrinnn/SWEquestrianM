@@ -44,7 +44,7 @@ public class DestrierEnchantment extends Enchantment {
 	@Override
 	public void onUserHurt(LivingEntity user, Entity attacker, int level) {
 		Random random = user.getRNG();
-		Map.Entry<EquipmentSlotType, ItemStack> entry = EnchantmentHelper.getRandomItemWithEnchantment(RegistryHandler.DESTRIER.get(), user);
+		Map.Entry<EquipmentSlotType, ItemStack> entry = EnchantmentHelper.getRandomItemWithEnchantment(this, user);
 		if (shouldHit(random)) {
 			if (attacker != null) {
 				attacker.attackEntityFrom(DamageSource.causeThornsDamage(user), (float)getDamage( random));
