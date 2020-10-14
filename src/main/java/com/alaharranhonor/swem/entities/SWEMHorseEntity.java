@@ -35,7 +35,7 @@ import software.bernie.geckolib.manager.EntityAnimationManager;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class SWEMHorseEntity extends HorseEntity implements IAnimatedEntity {
+public class SWEMHorseEntity extends AbstractHorseEntity implements IAnimatedEntity {
 
 	public static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(RegistryHandler.AMETHYST.get());
 
