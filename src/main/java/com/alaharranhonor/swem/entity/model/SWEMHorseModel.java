@@ -95,7 +95,6 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         main = new AnimatedModelRenderer(this);
         main.setRotationPoint(0.0F, 24.0F, 0.0F);
         setRotationAngle(main, 0.0F, -1.5708F, 0.0F);
-
         main.setModelRendererName("main");
         this.registerModelRenderer(main);
 

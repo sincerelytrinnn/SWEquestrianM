@@ -4,6 +4,7 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.*;
 import com.alaharranhonor.swem.blocks.*;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
+import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.items.AmethystItem;
 import com.alaharranhonor.swem.items.ItemBase;
 import com.alaharranhonor.swem.tools.SWEMItemTier;

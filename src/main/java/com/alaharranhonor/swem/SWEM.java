@@ -4,6 +4,7 @@ import com.alaharranhonor.swem.blocks.TimothyGrass;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.config.SWLConfig;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
+import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.init.SWLBlocks;
 import com.alaharranhonor.swem.init.SWLItems;
 import com.alaharranhonor.swem.util.RegistryHandler;
@@ -76,7 +77,7 @@ public class SWEM
 //      OreGeneration.initGen();
 //      OreGeneration.setupGen();
         DeferredWorkQueue.runLater(() -> {
-            GlobalEntityTypeAttributes.put(RegistryHandler.SWEM_HORSE_ENTITY.get(), SWEMHorseEntity.setCustomAttributes().create());
+            GlobalEntityTypeAttributes.put(RegistryHandler.SWEM_HORSE_ENTITY.get(), SWEMHorseEntityBase.setCustomAttributes().create());
         });
     }
 
