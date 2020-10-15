@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " #",
+    " S",
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:iron_nugget"
+    },
+    "S": {
+      "item": "#minecraft:logs_that_burn"
+      // "item": "#minecraft:logs" For all logs, also crimson stems, and warped stems.
+    }
+  },
+  "result": {
+    "item": "swem:western_hitching_post",
+    "count": 1
+  }
+}
