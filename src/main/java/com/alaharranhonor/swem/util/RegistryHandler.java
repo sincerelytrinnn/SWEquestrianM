@@ -149,6 +149,8 @@ public class RegistryHandler {
             () -> new BleacherBase(Block.Properties.create(Material.IRON)));
     public static final RegistryObject<Block> BLEACHER_WIREFRAME = BLOCKS.register("bleacher_wireframe",
             () -> new BleacherWireframeBase(Block.Properties.create(Material.IRON)));
+    public static final RegistryObject<Block> WESTERN_HITCHING_POST = BLOCKS.register("western_hitching_post",
+            () -> new HitchingPostBase(HitchingPostBase.HitchingPostType.WESTERN, Block.Properties.create(Material.WOOD)));
 
     // Block Items
     public static final RegistryObject<Item> FUEL_BLOCK_ITEM = ITEMS.register("fuel_block",
@@ -215,6 +217,8 @@ public class RegistryHandler {
             () -> new BlockItemBase(RIDING_DOOR.get()));
     public static final RegistryObject<Item> BLEACHER_SLAB_ITEM = ITEMS.register("bleacher",
             () -> new BlockItemBase(BLEACHER_SLAB.get()));
+    public static final RegistryObject<Item> WESTERN_HITCHING_POST_ITEM = ITEMS.register("western_hitching_post",
+            () -> new BlockItemBase(WESTERN_HITCHING_POST.get()));
 
     // Entity's
     public static final RegistryObject<EntityType<SWEMHorseEntity>> SWEM_HORSE_ENTITY = ENTITY_TYPES.register("swem_horse",
