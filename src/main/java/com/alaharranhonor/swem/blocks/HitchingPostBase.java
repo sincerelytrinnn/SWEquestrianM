@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.blocks;
 
+import com.alaharranhonor.swem.items.RopeItem;
 import net.minecraft.block.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -69,7 +70,7 @@ public class HitchingPostBase extends Block {
 			ItemStack itemstack = player.getHeldItem(handIn);
 			return itemstack.getItem() == Items.LEAD ? ActionResultType.SUCCESS : ActionResultType.PASS;
 		} else {
-			return LeadItem.bindPlayerMobs(player, worldIn, state.get(PART) == PostPart.LOWER ? pos.up() : pos);
+			return RopeItem.bindPlayerMobs(player, worldIn, state.get(PART) == PostPart.LOWER ? pos.up() : pos);
 		}
 	}
 
