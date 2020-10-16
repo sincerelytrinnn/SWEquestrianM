@@ -11,6 +11,7 @@ import net.minecraft.world.server.ServerWorld;
 import software.bernie.geckolib.animation.builder.AnimationBuilder;
 import software.bernie.geckolib.animation.controller.AnimationController;
 import software.bernie.geckolib.animation.controller.EntityAnimationController;
+import software.bernie.geckolib.entity.IAnimatedEntity;
 import software.bernie.geckolib.event.AnimationTestEvent;
 import software.bernie.geckolib.event.ParticleKeyFrameEvent;
 import software.bernie.geckolib.event.SoundKeyframeEvent;
@@ -18,7 +19,7 @@ import software.bernie.geckolib.manager.EntityAnimationManager;
 
 import javax.annotation.Nullable;
 
-public class SWEMHorseEntity extends SWEMHorseEntityBase {
+public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatedEntity {
 
 	private EntityAnimationManager manager = new EntityAnimationManager();
 	private AnimationController controller = new EntityAnimationController(this, "moveController", 20, this::animationPredicate);

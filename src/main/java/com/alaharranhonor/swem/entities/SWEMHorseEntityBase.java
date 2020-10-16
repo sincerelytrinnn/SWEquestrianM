@@ -33,7 +33,7 @@ import software.bernie.geckolib.manager.EntityAnimationManager;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class SWEMHorseEntityBase extends AbstractHorseEntity implements IAnimatedEntity {
+public class SWEMHorseEntityBase extends AbstractHorseEntity {
 
 	public static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(RegistryHandler.AMETHYST.get());
 
@@ -161,10 +161,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements IAnimate
 		return 15.0F + (float)rand.nextInt(8) + (float)rand.nextInt(9);
 	}
 
-	@Override
-	public EntityAnimationManager getAnimationManager() {
-		return null;
-	}
+
 
 	private class LevelingManager
 	{
