@@ -101,7 +101,6 @@ public class RegistryHandler {
     public static final RegistryObject<Item> ALFALFA_BUSHEL = ITEMS.register("alfalfa_bushel", ItemBase::new);
     public static final RegistryObject<Item> SWEM_WORM = ITEMS.register("swem_worm", ItemBase::new);
     public static final RegistryObject<Item> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
-    public static final RegistryObject<LeadItem> ROPE = ITEMS.register("rope", () -> new RopeItem(new Item.Properties().group(SWEM.TAB)));
 
 
     // Tools
@@ -236,11 +235,11 @@ public class RegistryHandler {
     public static final RegistryObject<EntityType<RopeKnotEntity>> ROPE_KNOT_ENTITY =
             ENTITY_TYPES.register("rope_knot",
         () -> EntityType.Builder.<RopeKnotEntity>create(RopeKnotEntity::new,EntityClassification.MISC)
-            .disableSerialization()
-            .size(0.5F, 0.5F)
-            .trackingRange(10)
-            .func_233608_b_(Integer.MAX_VALUE)
-            .build("rope_knot")
+                .disableSerialization()
+                .size(0.5F, 0.5F)
+                .trackingRange(10)
+                .func_233608_b_(Integer.MAX_VALUE)
+                .build("rope_knot")
     );
 
 
