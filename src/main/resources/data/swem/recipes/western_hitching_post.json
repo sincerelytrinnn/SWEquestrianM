@@ -2,15 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " #",
-    " S",
+    " S"
   ],
   "key": {
     "#": {
       "item": "minecraft:iron_nugget"
     },
     "S": {
-      "item": "#minecraft:logs_that_burn"
-      // "item": "#minecraft:logs" For all logs, also crimson stems, and warped stems.
+      "tag": "minecraft:logs_that_burn"
     }
   },
   "result": {
