@@ -1,18 +1,27 @@
 package com.alaharranhonor.swem.entities;
 
 import com.alaharranhonor.swem.util.RegistryHandler;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.effect.LightningBoltEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.item.HangingEntity;
-import net.minecraft.entity.item.LeashKnotEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.play.server.SSpawnObjectPacket;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class RopeKnotEntity extends HangingEntity {
 
@@ -42,16 +51,6 @@ public class RopeKnotEntity extends HangingEntity {
 		return 9;
 	}
 
-	/**
-	 * Called when this entity is broken. Entity parameter may be null.
-	 *
-	 * @param brokenEntity
-	 */
-	@Override
-	public void onBroken(@Nullable Entity brokenEntity) {
-
-	}
-
 	@Override
 	public void playPlaceSound() {
 
@@ -77,5 +76,101 @@ public class RopeKnotEntity extends HangingEntity {
 		world.addEntity(ropeKnotEntity);
 		ropeKnotEntity.playPlaceSound();
 		return ropeKnotEntity;
+	}
+
+	/**
+	 * checks to make sure painting can be placed there
+	 */
+	@Override
+	public boolean onValidSurface() {
+		return this.world.getBlockState(this.hangingPosition).getBlock().isIn(BlockTags.FENCES);
+	}
+
+	/**
+	 * Sets the x,y,z of the entity from the given parameters. Also seems to set up a bounding box.
+	 */
+	public void setPosition(double x, double y, double z) {
+		super.setPosition((double) MathHelper.floor(x) + 0.5D, (double)MathHelper.floor(y) + 0.5D, (double)MathHelper.floor(z) + 0.5D);
+	}
+
+	/**
+	 * Updates the entity bounding box based on current facing
+	 */
+	protected void updateBoundingBox() {
+		this.setRawPosition((double)this.hangingPosition.getX() + 0.5D, (double)this.hangingPosition.getY() + 0.5D, (double)this.hangingPosition.getZ() + 0.5D);
+		if (this.isAddedToWorld() && this.world instanceof net.minecraft.world.server.ServerWorld) ((net.minecraft.world.server.ServerWorld)this.world).chunkCheck(this); // Forge - Process chunk registration after moving.
+	}
+
+	/**
+	 * Updates facing and bounding box based on it
+	 */
+	public void updateFacingWithBoundingBox(Direction facingDirectionIn) {
+	}
+
+
+	protected float getEyeHeight(Pose poseIn, EntitySize sizeIn) {
+		return -0.0625F;
+	}
+
+	/**
+	 * Checks if the entity is in range to render.
+	 */
+	@OnlyIn(Dist.CLIENT)
+	public boolean isInRangeToRenderDist(double distance) {
+		return distance < 1024.0D;
+	}
+
+	/**
+	 * Called when this entity is broken. Entity parameter may be null.
+	 */
+	public void onBroken(@Nullable Entity brokenEntity) {
+		this.playSound(SoundEvents.ENTITY_LEASH_KNOT_BREAK, 1.0F, 1.0F);
+	}
+
+	public void writeAdditional(CompoundNBT compound) {
+	}
+
+	/**
+	 * (abstract) Protected helper method to read subclass entity data from NBT.
+	 */
+	public void readAdditional(CompoundNBT compound) {
+	}
+
+	public ActionResultType processInitialInteract(PlayerEntity player, Hand hand) {
+		if (this.world.isRemote) {
+			return ActionResultType.SUCCESS;
+		} else {
+			boolean flag = false;
+			double d0 = 7.0D;
+			List<MobEntity> list = this.world.getEntitiesWithinAABB(MobEntity.class, new AxisAlignedBB(this.getPosX() - 7.0D, this.getPosY() - 7.0D, this.getPosZ() - 7.0D, this.getPosX() + 7.0D, this.getPosY() + 7.0D, this.getPosZ() + 7.0D));
+
+			for(MobEntity mobentity : list) {
+				if (mobentity.getLeashHolder() == player) {
+					mobentity.setLeashHolder(this, true);
+					flag = true;
+				}
+			}
+
+			if (!flag) {
+				this.remove();
+				if (player.abilities.isCreativeMode) {
+					for(MobEntity mobentity1 : list) {
+						if (mobentity1.getLeashed() && mobentity1.getLeashHolder() == this) {
+							mobentity1.clearLeashed(true, false);
+						}
+					}
+				}
+			}
+
+			return ActionResultType.CONSUME;
+		}
+	}
+
+
+
+
+	@OnlyIn(Dist.CLIENT)
+	public Vector3d getLeashPosition(float partialTicks) {
+		return this.func_242282_l(partialTicks).add(0.0D, 0.2D, 0.0D);
 	}
 }
