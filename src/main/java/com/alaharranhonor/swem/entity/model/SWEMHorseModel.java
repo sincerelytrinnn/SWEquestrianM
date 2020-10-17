@@ -1,7 +1,7 @@
+
 package com.alaharranhonor.swem.entity.model;
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
-import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.geckolib.animation.model.AnimatedEntityModel;
 import software.bernie.geckolib.animation.render.AnimatedModelRenderer;
@@ -95,6 +95,7 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         main = new AnimatedModelRenderer(this);
         main.setRotationPoint(0.0F, 24.0F, 0.0F);
         setRotationAngle(main, 0.0F, -1.5708F, 0.0F);
+
         main.setModelRendererName("main");
         this.registerModelRenderer(main);
 
@@ -142,7 +143,7 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         frontleft.setRotationPoint(-1.0F, -5.0F, -4.0F);
         front.addChild(frontleft);
         frontleft.setTextureOffset(0, 77).addBox(-4.0F, -1.0F, -3.0F, 8.0F, 13.0F, 6.0F, 0.0625F, false);
-        frontleft.setTextureOffset(102, 104).addBox(-2.0F, 1.0F, -4.0F, 5.0F, 8.0F, 1.0F, 0.0F, false);
+        frontleft.setTextureOffset(28, 77).addBox(-2.0F, 1.0F, -4.0F, 5.0F, 8.0F, 1.0F, 0.0F, false);
         frontleft.setModelRendererName("frontleft");
         this.registerModelRenderer(frontleft);
 
@@ -163,7 +164,7 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         bone3 = new AnimatedModelRenderer(this);
         bone3.setRotationPoint(-1.0F, 1.0F, 0.5F);
         bone2.addChild(bone3);
-        bone3.setTextureOffset(18, 104).addBox(0.0F, 0.0F, -1.75F, 3.0F, 8.0F, 3.0F, 0.0F, false);
+        bone3.setTextureOffset(98, 104).addBox(0.0F, 0.0F, -1.75F, 3.0F, 8.0F, 3.0F, 0.0F, false);
         bone3.setModelRendererName("bone3");
         this.registerModelRenderer(bone3);
 
@@ -178,7 +179,7 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         frontright.setRotationPoint(-1.0F, -5.0F, 4.0F);
         front.addChild(frontright);
         frontright.setTextureOffset(72, 30).addBox(-4.0F, -1.0F, -3.0F, 8.0F, 13.0F, 6.0F, 0.0625F, false);
-        frontright.setTextureOffset(28, 77).addBox(-2.0F, 1.0F, 3.0F, 5.0F, 8.0F, 1.0F, 0.0F, false);
+        frontright.setTextureOffset(26, 52).addBox(-2.0F, 1.0F, 3.0F, 5.0F, 8.0F, 1.0F, 0.0F, false);
         frontright.setModelRendererName("frontright");
         this.registerModelRenderer(frontright);
 
@@ -199,7 +200,7 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         bone10 = new AnimatedModelRenderer(this);
         bone10.setRotationPoint(-1.0F, 1.0F, -0.5F);
         bone9.addChild(bone10);
-        bone10.setTextureOffset(26, 49).addBox(0.0F, 0.0F, -1.25F, 3.0F, 8.0F, 3.0F, 0.0F, false);
+        bone10.setTextureOffset(18, 104).addBox(0.0F, 0.0F, -1.25F, 3.0F, 8.0F, 3.0F, 0.0F, false);
         bone10.setModelRendererName("bone10");
         this.registerModelRenderer(bone10);
 
@@ -252,7 +253,7 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         lock1.setRotationPoint(-11.6415F, 3.8085F, 0.05F);
         mane.addChild(lock1);
         setRotationAngle(lock1, 0.2182F, 0.0F, 0.0F);
-        lock1.setTextureOffset(49, 33).addBox(-0.9922F, 0.0016F, -0.0513F, 2.0F, 0.0F, 3.0F, 0.0F, false);
+        lock1.setTextureOffset(55, 8).addBox(-0.9922F, 0.0016F, -0.0513F, 2.0F, 0.0F, 3.0F, 0.0F, false);
         lock1.setModelRendererName("lock1");
         this.registerModelRenderer(lock1);
 
@@ -260,7 +261,7 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         lock1seg2.setRotationPoint(-0.1F, 0.0532F, 2.8381F);
         lock1.addChild(lock1seg2);
         setRotationAngle(lock1seg2, -0.8727F, 0.0F, 0.0F);
-        lock1seg2.setTextureOffset(59, 37).addBox(-0.8922F, -0.1168F, 0.0315F, 2.0F, 0.0F, 1.0F, 0.0F, false);
+        lock1seg2.setTextureOffset(61, 8).addBox(-0.8922F, -0.1168F, 0.0315F, 2.0F, 0.0F, 1.0F, 0.0F, false);
         lock1seg2.setModelRendererName("lock1seg2");
         this.registerModelRenderer(lock1seg2);
 
@@ -268,7 +269,7 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         lock1seg3.setRotationPoint(0.1F, -0.0273F, 1.0077F);
         lock1seg2.addChild(lock1seg3);
         setRotationAngle(lock1seg3, -0.8727F, 0.0F, 0.0F);
-        lock1seg3.setTextureOffset(57, 11).addBox(-0.9922F, -0.0748F, -0.0533F, 2.0F, 0.0F, 1.0F, 0.0F, false);
+        lock1seg3.setTextureOffset(59, 37).addBox(-0.9922F, -0.0748F, -0.0533F, 2.0F, 0.0F, 1.0F, 0.0F, false);
         lock1seg3.setModelRendererName("lock1seg3");
         this.registerModelRenderer(lock1seg3);
 
@@ -276,7 +277,7 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         lock2.setRotationPoint(-10.1095F, 4.0745F, 0.05F);
         mane.addChild(lock2);
         setRotationAngle(lock2, 0.2182F, 0.0F, 0.0F);
-        lock2.setTextureOffset(49, 30).addBox(-0.5242F, -0.2581F, 0.0062F, 2.0F, 0.0F, 3.0F, 0.0F, false);
+        lock2.setTextureOffset(49, 33).addBox(-0.5242F, -0.2581F, 0.0062F, 2.0F, 0.0F, 3.0F, 0.0F, false);
         lock2.setModelRendererName("lock2");
         this.registerModelRenderer(lock2);
 
@@ -284,7 +285,7 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         lock1seg4.setRotationPoint(0.35F, -0.4196F, 2.909F);
         lock2.addChild(lock1seg4);
         setRotationAngle(lock1seg4, -0.8727F, 0.0F, 0.0F);
-        lock1seg4.setTextureOffset(57, 10).addBox(-0.8742F, 0.0296F, 0.1855F, 2.0F, 0.0F, 1.0F, 0.0F, false);
+        lock1seg4.setTextureOffset(57, 11).addBox(-0.8742F, 0.0296F, 0.1855F, 2.0F, 0.0F, 1.0F, 0.0F, false);
         lock1seg4.setModelRendererName("lock1seg4");
         this.registerModelRenderer(lock1seg4);
 
@@ -292,7 +293,7 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         lock1seg5.setRotationPoint(0.0258F, 0.1786F, 1.046F);
         lock1seg4.addChild(lock1seg5);
         setRotationAngle(lock1seg5, -0.8727F, 0.0F, 0.0F);
-        lock1seg5.setTextureOffset(48, 3).addBox(-0.9F, -0.2022F, -0.0252F, 2.0F, 0.0F, 2.0F, 0.0F, false);
+        lock1seg5.setTextureOffset(46, 49).addBox(-0.9F, -0.2022F, -0.0252F, 2.0F, 0.0F, 2.0F, 0.0F, false);
         lock1seg5.setModelRendererName("lock1seg5");
         this.registerModelRenderer(lock1seg5);
 
@@ -348,7 +349,7 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         lock5.setRotationPoint(-0.9531F, 3.8745F, -0.05F);
         mane.addChild(lock5);
         setRotationAngle(lock5, 0.2182F, 0.0F, 0.0F);
-        lock5.setTextureOffset(44, 49).addBox(-0.6806F, -0.0412F, 0.0606F, 2.0F, 0.0F, 3.0F, 0.0F, false);
+        lock5.setTextureOffset(49, 30).addBox(-0.6806F, -0.0412F, 0.0606F, 2.0F, 0.0F, 3.0F, 0.0F, false);
         lock5.setModelRendererName("lock5");
         this.registerModelRenderer(lock5);
 
@@ -388,7 +389,7 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         lock1seg13.setRotationPoint(0.0F, 0.0238F, 0.838F);
         lock1seg12.addChild(lock1seg13);
         setRotationAngle(lock1seg13, -0.8727F, 0.0F, 0.0F);
-        lock1seg13.setTextureOffset(10, 37).addBox(-0.9447F, -0.243F, 0.0094F, 2.0F, 0.0F, 2.0F, 0.0F, false);
+        lock1seg13.setTextureOffset(48, 3).addBox(-0.9447F, -0.243F, 0.0094F, 2.0F, 0.0F, 2.0F, 0.0F, false);
         lock1seg13.setModelRendererName("lock1seg13");
         this.registerModelRenderer(lock1seg13);
 
@@ -452,7 +453,7 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         bone14.setRotationPoint(12.1454F, -1.5234F, 0.825F);
         bridgeofnose.addChild(bone14);
         setRotationAngle(bone14, 0.0F, 0.0F, 0.6545F);
-        bone14.setTextureOffset(56, 8).addBox(-2.1031F, -0.0168F, -1.2F, 2.0F, 0.0F, 2.0F, 0.0F, false);
+        bone14.setTextureOffset(10, 37).addBox(-2.1031F, -0.0168F, -1.2F, 2.0F, 0.0F, 2.0F, 0.0F, false);
         bone14.setModelRendererName("bone14");
         this.registerModelRenderer(bone14);
 
@@ -468,7 +469,7 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         ears.setRotationPoint(-0.9523F, -4.1121F, 0.0F);
         head.addChild(ears);
         setRotationAngle(ears, 0.0F, 0.0F, -0.3054F);
-        ears.setTextureOffset(0, 65).addBox(0.5298F, -3.5758F, -2.875F, 1.0F, 4.0F, 2.0F, 0.0F, false);
+        ears.setTextureOffset(0, 62).addBox(0.5298F, -3.5758F, -2.875F, 1.0F, 4.0F, 2.0F, 0.0F, false);
         ears.setTextureOffset(0, 23).addBox(0.5298F, -3.5758F, 1.125F, 1.0F, 4.0F, 2.0F, 0.0F, false);
         ears.setModelRendererName("ears");
         this.registerModelRenderer(ears);
@@ -530,7 +531,7 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         bone11 = new AnimatedModelRenderer(this);
         bone11.setRotationPoint(2.0F, -2.0F, 1.1F);
         tail.addChild(bone11);
-        bone11.setTextureOffset(10, 62).addBox(0.0F, 0.0F, -1.1F, 10.0F, 1.0F, 2.0F, 0.125F, false);
+        bone11.setTextureOffset(26, 49).addBox(0.0F, 0.0F, -1.1F, 10.0F, 1.0F, 2.0F, 0.125F, false);
         bone11.setModelRendererName("bone11");
         this.registerModelRenderer(bone11);
 
@@ -544,14 +545,14 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         tail7 = new AnimatedModelRenderer(this);
         tail7.setRotationPoint(1.0F, 0.0F, 0.0F);
         tailhairgroup.addChild(tail7);
-        tail7.setTextureOffset(80, 76).addBox(0.5F, -0.5F, -1.0F, 1.0F, 11.0F, 1.0F, 0.0F, false);
+        tail7.setTextureOffset(84, 76).addBox(0.5F, -0.5F, -1.0F, 1.0F, 11.0F, 1.0F, 0.0F, false);
         tail7.setModelRendererName("tail7");
         this.registerModelRenderer(tail7);
 
         tail6 = new AnimatedModelRenderer(this);
         tail6.setRotationPoint(2.0F, 0.0F, 0.0F);
         tailhairgroup.addChild(tail6);
-        tail6.setTextureOffset(98, 104).addBox(0.5F, -0.5F, 0.0F, 1.0F, 17.0F, 1.0F, 0.0F, false);
+        tail6.setTextureOffset(30, 107).addBox(0.5F, -0.5F, 0.0F, 1.0F, 17.0F, 1.0F, 0.0F, false);
         tail6.setModelRendererName("tail6");
         this.registerModelRenderer(tail6);
 
@@ -565,14 +566,14 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         tail4 = new AnimatedModelRenderer(this);
         tail4.setRotationPoint(4.0F, 0.0F, 0.0F);
         tailhairgroup.addChild(tail4);
-        tail4.setTextureOffset(34, 107).addBox(0.5F, -0.5F, 0.0F, 1.0F, 14.0F, 1.0F, 0.0F, false);
+        tail4.setTextureOffset(38, 107).addBox(0.5F, -0.5F, 0.0F, 1.0F, 14.0F, 1.0F, 0.0F, false);
         tail4.setModelRendererName("tail4");
         this.registerModelRenderer(tail4);
 
         tail3 = new AnimatedModelRenderer(this);
         tail3.setRotationPoint(5.0F, 0.0F, 0.0F);
         tailhairgroup.addChild(tail3);
-        tail3.setTextureOffset(30, 107).addBox(0.5F, -0.5F, -1.0F, 1.0F, 14.0F, 1.0F, 0.0F, false);
+        tail3.setTextureOffset(34, 107).addBox(0.5F, -0.5F, -1.0F, 1.0F, 14.0F, 1.0F, 0.0F, false);
         tail3.setModelRendererName("tail3");
         this.registerModelRenderer(tail3);
 
@@ -593,7 +594,7 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
         tail8 = new AnimatedModelRenderer(this);
         tail8.setRotationPoint(0.0F, 0.0F, 0.0F);
         tailhairgroup.addChild(tail8);
-        tail8.setTextureOffset(84, 76).addBox(0.5F, -0.5F, 0.0F, 1.0F, 11.0F, 1.0F, 0.0F, false);
+        tail8.setTextureOffset(80, 76).addBox(0.5F, -0.5F, 0.0F, 1.0F, 11.0F, 1.0F, 0.0F, false);
         tail8.setModelRendererName("tail8");
         this.registerModelRenderer(tail8);
 
@@ -698,23 +699,5 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
     public ResourceLocation getAnimationFileLocation()
     {
         return new ResourceLocation("swem", "animations/swem_horse.json");
-    }
-
-//    @Override
-//    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-//        this.head.rotateAngleX = headPitch * ((float)Math.PI / 180F);
-//        this.head.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
-//        this.body.rotateAngleX = ((float)Math.PI / 2F);
-//        this.backright.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-//        this.backleft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-//        this.frontright.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-//        this.frontleft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-//    }
-
-    public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
-    {
-        modelRenderer.rotateAngleX = x;
-        modelRenderer.rotateAngleY = y;
-        modelRenderer.rotateAngleZ = z;
     }
 }
