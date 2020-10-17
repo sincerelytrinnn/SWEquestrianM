@@ -114,8 +114,8 @@ public class RegistryHandler {
     public static final RegistryObject<Block> LIGHT_RUBBER_MAT = BLOCKS.register("light_rubber_mat", RubberMatBase::new);
     public static final RegistryObject<Block> MEDIUM_RUBBER_MAT = BLOCKS.register("medium_rubber_mat", RubberMatBase::new);
     public static final RegistryObject<Block> CANTAZARITE_BLOCK = BLOCKS.register("cantazarite_block", OreCraftedBase::new);
-    public static final RegistryObject<Block> CANTAZARITE_ORE = BLOCKS.register("cantazarite_ore", OreBase::new);
-    public static final RegistryObject<Block> AMETHYST_ORE = BLOCKS.register("amethyst_ore", OreBase::new);
+    public static final RegistryObject<OreBlock> CANTAZARITE_ORE = BLOCKS.register("cantazarite_ore", () -> new OreBlock(Block.Properties.create(Material.IRON)));
+    public static final RegistryObject<OreBlock> AMETHYST_ORE = BLOCKS.register("amethyst_ore", () -> new OreBlock(Block.Properties.create(Material.IRON)));
     public static final RegistryObject<Block> YELLOW_CONE = BLOCKS.register("yellow_cone", ConeBase::new);
     public static final RegistryObject<Block> WHITE_CONE = BLOCKS.register("white_cone", ConeBase::new);
     public static final RegistryObject<Block> RED_CONE = BLOCKS.register("red_cone", ConeBase::new);
