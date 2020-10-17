@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.config;
 
-import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.world.gen.SWEMOreGen;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.placement.DecoratedPlacementConfig;
