@@ -7,7 +7,6 @@ import com.alaharranhonor.swem.entities.RopeKnotEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.items.AmethystItem;
-import com.alaharranhonor.swem.items.HorseSaddleItem;
 import com.alaharranhonor.swem.items.ItemBase;
 import com.alaharranhonor.swem.items.RopeItem;
 import com.alaharranhonor.swem.tools.SWEMItemTier;
@@ -17,10 +16,7 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.LeashKnotEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.LeadItem;
-import net.minecraft.item.SwordItem;
+import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -100,7 +96,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> OAT_BUSHEL = ITEMS.register("oat_bushel", ItemBase::new);
     public static final RegistryObject<Item> ALFALFA_BUSHEL = ITEMS.register("alfalfa_bushel", ItemBase::new);
     public static final RegistryObject<Item> SWEM_WORM = ITEMS.register("swem_worm", ItemBase::new);
-    public static final RegistryObject<Item> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<Item> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 
 
     // Tools
