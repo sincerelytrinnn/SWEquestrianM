@@ -25,8 +25,8 @@ import java.util.List;
 
 public class RopeKnotEntity extends HangingEntity {
 
-	public RopeKnotEntity(EntityType<? extends RopeKnotEntity> entityEntityType, World world) {
-		super(entityEntityType, world);
+	public RopeKnotEntity(EntityType<? extends RopeKnotEntity> p_i50223_1_, World world) {
+		super(p_i50223_1_, world);
 	}
 
 	public RopeKnotEntity(World worldIn, BlockPos hangingPositionIn) {
@@ -39,58 +39,11 @@ public class RopeKnotEntity extends HangingEntity {
 		this.forceSpawn = true;
 	}
 
-
-
-	@Override
-	public int getWidthPixels() {
-		return 9;
-	}
-
-	@Override
-	public int getHeightPixels() {
-		return 9;
-	}
-
-	@Override
-	public void playPlaceSound() {
-
-	}
-
-	@Override
-	public IPacket<?> createSpawnPacket() {
-		return new SSpawnObjectPacket(this, this.getType(), 0, this.getHangingPosition());
-	}
-
-	public static RopeKnotEntity create(World world, BlockPos pos) {
-		int i = pos.getX();
-		int j = pos.getY();
-		int k = pos.getZ();
-
-		for(RopeKnotEntity ropeKnotEntity : world.getEntitiesWithinAABB(RopeKnotEntity.class, new AxisAlignedBB((double)i - 1.0D, (double)j - 1.0D, (double)k - 1.0D, (double)i + 1.0D, (double)j + 1.0D, (double)k + 1.0D))) {
-			if (ropeKnotEntity.getHangingPosition().equals(pos)) {
-				return ropeKnotEntity;
-			}
-		}
-
-		RopeKnotEntity ropeKnotEntity = new RopeKnotEntity(world, pos);
-		world.addEntity(ropeKnotEntity);
-		ropeKnotEntity.playPlaceSound();
-		return ropeKnotEntity;
-	}
-
-	/**
-	 * checks to make sure painting can be placed there
-	 */
-	@Override
-	public boolean onValidSurface() {
-		return this.world.getBlockState(this.hangingPosition).getBlock().isIn(BlockTags.FENCES);
-	}
-
 	/**
 	 * Sets the x,y,z of the entity from the given parameters. Also seems to set up a bounding box.
 	 */
 	public void setPosition(double x, double y, double z) {
-		super.setPosition((double) MathHelper.floor(x) + 0.5D, (double)MathHelper.floor(y) + 0.5D, (double)MathHelper.floor(z) + 0.5D);
+		super.setPosition((double)MathHelper.floor(x) + 0.5D, (double)MathHelper.floor(y) + 0.5D, (double)MathHelper.floor(z) + 0.5D);
 	}
 
 	/**
@@ -107,6 +60,13 @@ public class RopeKnotEntity extends HangingEntity {
 	public void updateFacingWithBoundingBox(Direction facingDirectionIn) {
 	}
 
+	public int getWidthPixels() {
+		return 9;
+	}
+
+	public int getHeightPixels() {
+		return 9;
+	}
 
 	protected float getEyeHeight(Pose poseIn, EntitySize sizeIn) {
 		return -0.0625F;
@@ -166,8 +126,37 @@ public class RopeKnotEntity extends HangingEntity {
 		}
 	}
 
+	/**
+	 * checks to make sure painting can be placed there
+	 */
+	public boolean onValidSurface() {
+		return this.world.getBlockState(this.hangingPosition).getBlock().isIn(BlockTags.FENCES);
+	}
 
+	public static RopeKnotEntity create(World world, BlockPos pos) {
+		int i = pos.getX();
+		int j = pos.getY();
+		int k = pos.getZ();
 
+		for(RopeKnotEntity ropeKnotEntity : world.getEntitiesWithinAABB(RopeKnotEntity.class, new AxisAlignedBB((double)i - 1.0D, (double)j - 1.0D, (double)k - 1.0D, (double)i + 1.0D, (double)j + 1.0D, (double)k + 1.0D))) {
+			if (ropeKnotEntity.getHangingPosition().equals(pos)) {
+				return ropeKnotEntity;
+			}
+		}
+
+		RopeKnotEntity ropeKnotEntity1 = new RopeKnotEntity(world, pos);
+		world.addEntity(ropeKnotEntity1);
+		ropeKnotEntity1.playPlaceSound();
+		return ropeKnotEntity1;
+	}
+
+	public void playPlaceSound() {
+		this.playSound(SoundEvents.ENTITY_LEASH_KNOT_PLACE, 1.0F, 1.0F);
+	}
+
+	public IPacket<?> createSpawnPacket() {
+		return new SSpawnObjectPacket(this, this.getType(), 0, this.getHangingPosition());
+	}
 
 	@OnlyIn(Dist.CLIENT)
 	public Vector3d getLeashPosition(float partialTicks) {

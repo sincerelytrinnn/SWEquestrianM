@@ -18,7 +18,6 @@ public class RopeItem extends LeadItem {
 		super(builder);
 	}
 
-	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
 		World world = context.getWorld();
 		BlockPos blockpos = context.getPos();

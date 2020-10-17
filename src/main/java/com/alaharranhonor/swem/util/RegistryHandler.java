@@ -5,6 +5,7 @@ import com.alaharranhonor.swem.armor.*;
 import com.alaharranhonor.swem.blocks.*;
 import com.alaharranhonor.swem.entities.RopeKnotEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
+import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.items.AmethystItem;
 import com.alaharranhonor.swem.items.HorseSaddleItem;
 import com.alaharranhonor.swem.items.ItemBase;
@@ -100,7 +101,6 @@ public class RegistryHandler {
     public static final RegistryObject<Item> ALFALFA_BUSHEL = ITEMS.register("alfalfa_bushel", ItemBase::new);
     public static final RegistryObject<Item> SWEM_WORM = ITEMS.register("swem_worm", ItemBase::new);
     public static final RegistryObject<Item> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
-    public static final RegistryObject<LeadItem> ROPE = ITEMS.register("rope", () -> new RopeItem(new Item.Properties().group(SWEM.TAB)));
 
 
     // Tools
@@ -114,8 +114,8 @@ public class RegistryHandler {
     public static final RegistryObject<Block> LIGHT_RUBBER_MAT = BLOCKS.register("light_rubber_mat", RubberMatBase::new);
     public static final RegistryObject<Block> MEDIUM_RUBBER_MAT = BLOCKS.register("medium_rubber_mat", RubberMatBase::new);
     public static final RegistryObject<Block> CANTAZARITE_BLOCK = BLOCKS.register("cantazarite_block", OreCraftedBase::new);
-    public static final RegistryObject<Block> CANTAZARITE_ORE = BLOCKS.register("cantazarite_ore", OreBase::new);
-    public static final RegistryObject<Block> AMETHYST_ORE = BLOCKS.register("amethyst_ore", OreBase::new);
+    public static final RegistryObject<OreBlock> CANTAZARITE_ORE = BLOCKS.register("cantazarite_ore", () -> new OreBlock(Block.Properties.create(Material.IRON)));
+    public static final RegistryObject<OreBlock> AMETHYST_ORE = BLOCKS.register("amethyst_ore", () -> new OreBlock(Block.Properties.create(Material.IRON)));
     public static final RegistryObject<Block> YELLOW_CONE = BLOCKS.register("yellow_cone", ConeBase::new);
     public static final RegistryObject<Block> WHITE_CONE = BLOCKS.register("white_cone", ConeBase::new);
     public static final RegistryObject<Block> RED_CONE = BLOCKS.register("red_cone", ConeBase::new);
@@ -235,11 +235,11 @@ public class RegistryHandler {
     public static final RegistryObject<EntityType<RopeKnotEntity>> ROPE_KNOT_ENTITY =
             ENTITY_TYPES.register("rope_knot",
         () -> EntityType.Builder.<RopeKnotEntity>create(RopeKnotEntity::new,EntityClassification.MISC)
-            .disableSerialization()
-            .size(0.5F, 0.5F)
-            .trackingRange(10)
-            .func_233608_b_(Integer.MAX_VALUE)
-            .build("rope_knot")
+                .disableSerialization()
+                .size(0.5F, 0.5F)
+                .trackingRange(10)
+                .func_233608_b_(Integer.MAX_VALUE)
+                .build("rope_knot")
     );
 
 
