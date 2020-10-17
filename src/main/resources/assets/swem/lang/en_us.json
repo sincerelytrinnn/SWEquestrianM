@@ -50,6 +50,9 @@
   "item.swem.star_worm": "Star Worm",
   "item.swem.star_worm_goop": "Star Worm Goop",
   "item.swem.pestle_mortar": "Mortar & Pestle",
+  "item.swem.oat_bushel": "Oat Bushel",
+  "item.swem.timothy_bushel": "Timothy Bushel",
+  "item.swem.alfalfa_bushel": "Alfalfa Bushel",
 
   "block.swem.fuel_block": "Fuel Block",
   "block.swem.dark_rubber_mat": "Dark Rubber Mat",
@@ -83,6 +86,11 @@
   "block.swem.light_shavings_block": "Light Shavings Block",
   "block.swem.soiled_shavings": "Soiled Shavings",
   "block.swem.soiled_shavings_block": "Soiled Shavings Block",
+  "block.swem.riding_door": "Riding Door (WIP)",
+  "block.swem.western_hitching_post": "Western Hitching Post",
+  "block.swem.english_hitching_post": "English Hitching Post",
+  "block.swem.pasture_hichting_post": "Pasture Hitching Post",
+
   "block.swem.star_worm_cobble": "Star Worm Cobble",
   "block.swem.star_worm_vine": "Star Worm Vine",
   "block.swem.star_worm_block_stone": "SW Stone",
@@ -231,6 +239,7 @@
   "block.swem.star_worm_block_black_concrete_powder": "SW Black Concrete Powder",
 
   "entity.swem.swem_horse": "SWEM Horse",
+  "entity.swem.rope_knot": "Rope Knot",
 
   "enchantment.swem.upstep": "UPstep",
   "enchantment.swem.destrier": "Destrier",
