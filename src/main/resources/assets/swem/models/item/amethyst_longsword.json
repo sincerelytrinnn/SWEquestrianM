@@ -1,7 +1,9 @@
 {
   "credit": "Made with Blockbench",
+  "parent": "item/generated",
   "texture_size": [32, 32],
   "textures": {
+    "layer0": "swem:items/amethyst_longsword_icon",
     "0": "swem:items/amethyst_longsword",
     "particle": "swem:items/amethyst_longsword"
   },

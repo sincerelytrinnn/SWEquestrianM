@@ -17,7 +17,7 @@
   "item.swem.leather_leggings": "Leather Leggings",
   "item.swem.leather_chestplate": "Leather Chestplate",
   "item.swem.leather_bow": "Leather Bow",
-  "item.swem.glow_riding_boots": "Glow Riding Boots",
+  "item.swem.glow_riding_boots": "Glow Riding Boots (WIP)",
   "item.swem.iron_scythe": "Iron Scythe",
   "item.swem.iron_riding_boots": "Iron Riding Boots",
   "item.swem.iron_longsword": "Iron Longsword",
@@ -89,7 +89,7 @@
   "block.swem.riding_door": "Riding Door (WIP)",
   "block.swem.western_hitching_post": "Western Hitching Post",
   "block.swem.english_hitching_post": "English Hitching Post",
-  "block.swem.pasture_hichting_post": "Pasture Hitching Post",
+  "block.swem.pasture_hitching_post": "Pasture Hitching Post",
 
   "block.swem.star_worm_cobble": "Star Worm Cobble",
   "block.swem.star_worm_vine": "Star Worm Vine",
