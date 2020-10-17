@@ -153,6 +153,10 @@ public class RegistryHandler {
             () -> new BleacherWireframeBase(Block.Properties.create(Material.IRON)));
     public static final RegistryObject<Block> WESTERN_HITCHING_POST = BLOCKS.register("western_hitching_post",
             () -> new HitchingPostBase(HitchingPostBase.HitchingPostType.WESTERN, Block.Properties.create(Material.WOOD)));
+    public static final RegistryObject<Block> ENGLISH_HITCHING_POST = BLOCKS.register("english_hitching_post",
+            () -> new HitchingPostBase(HitchingPostBase.HitchingPostType.ENGLISH, Block.Properties.create(Material.WOOD)));
+    public static final RegistryObject<Block> PASTURE_HITCHING_POST = BLOCKS.register("pasture_hitching_post",
+            () -> new HitchingPostBase(HitchingPostBase.HitchingPostType.PASTURE, Block.Properties.create(Material.WOOD)));
 
     // Block Items
     public static final RegistryObject<Item> FUEL_BLOCK_ITEM = ITEMS.register("fuel_block",
@@ -221,6 +225,10 @@ public class RegistryHandler {
             () -> new BlockItemBase(BLEACHER_SLAB.get()));
     public static final RegistryObject<Item> WESTERN_HITCHING_POST_ITEM = ITEMS.register("western_hitching_post",
             () -> new BlockItemBase(WESTERN_HITCHING_POST.get()));
+    public static final RegistryObject<Item> ENGLISH_HITCHING_POST_ITEM = ITEMS.register("english_hitching_post",
+            () -> new BlockItemBase(ENGLISH_HITCHING_POST.get()));
+    public static final RegistryObject<Item> PASTURE_HITCHING_POST_ITEM = ITEMS.register("pasture_hitching_post",
+            () -> new BlockItemBase(PASTURE_HITCHING_POST.get()));
 
     // Entity's
     public static final RegistryObject<EntityType<SWEMHorseEntity>> SWEM_HORSE_ENTITY = ENTITY_TYPES.register("swem_horse",
