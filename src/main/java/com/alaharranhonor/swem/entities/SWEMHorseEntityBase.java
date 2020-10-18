@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.entities;
 
+import com.alaharranhonor.swem.entities.goals.PoopGoal;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -8,7 +9,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.horse.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -18,9 +18,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
@@ -29,14 +26,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import software.bernie.geckolib.animation.builder.AnimationBuilder;
-import software.bernie.geckolib.animation.controller.AnimationController;
-import software.bernie.geckolib.animation.controller.EntityAnimationController;
-import software.bernie.geckolib.entity.IAnimatedEntity;
-import software.bernie.geckolib.event.AnimationTestEvent;
-import software.bernie.geckolib.event.ParticleKeyFrameEvent;
-import software.bernie.geckolib.event.SoundKeyframeEvent;
-import software.bernie.geckolib.manager.EntityAnimationManager;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -48,7 +37,9 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 	//private static final DataParameter<Integer> HORSE_VARIANT = EntityDataManager.createKey(HorseEntity.class, DataSerializers.VARINT);
 	public static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(RegistryHandler.AMETHYST.get());
 	private EatGrassGoal eatGrassGoal;
-	private int SWEMHorseTimer;
+	private PoopGoal poopGoal;
+	private int SWEMHorseGrassTimer;
+	private int SWEMHorsePoopTimer;
 	private static Random rand = new Random();
 
 	private final LevelingManager leveling;
@@ -79,6 +70,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 	protected void registerGoals() {
 		super.registerGoals();
 		this.eatGrassGoal = new EatGrassGoal(this);
+		this.poopGoal = new PoopGoal(this);
 		this.goalSelector.addGoal(0, new SwimGoal(this));
 		this.goalSelector.addGoal(1, new PanicGoal(this, 1.2D));
 		//this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 1.2D));
@@ -86,6 +78,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 		this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, TEMPTATION_ITEMS, false));
 		this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.0D));
 		this.goalSelector.addGoal(5, this.eatGrassGoal);
+		this.goalSelector.addGoal(5, this.poopGoal);
 		this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.7D));
 		this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0f));
 		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
@@ -128,7 +121,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 	@Override
 	protected void updateAITasks()
 	{
-		this.SWEMHorseTimer = this.eatGrassGoal.getEatingGrassTimer();
+		this.SWEMHorsePoopTimer = this.poopGoal.getPoopTimer();
+		this.SWEMHorseGrassTimer = this.eatGrassGoal.getEatingGrassTimer();
 		super.updateAITasks();
 	}
 
@@ -138,7 +132,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 
 		if (this.world.isRemote)
 		{
-			this.SWEMHorseTimer = Math.max(0, this.SWEMHorseTimer - 1);
+			this.SWEMHorsePoopTimer = Math.max(0, this.SWEMHorsePoopTimer - 1);
+			this.SWEMHorseGrassTimer = Math.max(0, this.SWEMHorseGrassTimer - 1);
 		}
 		super.livingTick();
 	}
@@ -148,7 +143,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 	{
 		if (id == 10)
 		{
-			this.SWEMHorseTimer = 40;
+			this.SWEMHorseGrassTimer = 40;
+			this.SWEMHorsePoopTimer = 80;
 		} else {
 			super.handleStatusUpdate(id);
 		}
