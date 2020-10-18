@@ -1,0 +1,82 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "facing": "north",
+        "post_part": "lower"
+      },
+      "apply": {
+        "model": "swem:block/english_hitching_post_lower"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "post_part": "upper"
+      },
+      "apply": {
+        "model": "swem:block/english_hitching_post_upper"
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "post_part": "lower"
+      },
+      "apply": {
+        "model": "swem:block/english_hitching_post_lower",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "post_part": "upper"
+      },
+      "apply": {
+        "model": "swem:block/english_hitching_post_upper",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "post_part": "lower"
+      },
+      "apply": {
+        "model": "swem:block/english_hitching_post_lower",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "post_part": "upper"
+      },
+      "apply": {
+        "model": "swem:block/english_hitching_post_upper",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "post_part": "lower"
+      },
+      "apply": {
+        "model": "swem:block/english_hitching_post_lower",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "post_part": "upper"
+      },
+      "apply": {
+        "model": "swem:block/english_hitching_post_upper",
+        "y": 270
+      }
+    }
+  ]
+}
