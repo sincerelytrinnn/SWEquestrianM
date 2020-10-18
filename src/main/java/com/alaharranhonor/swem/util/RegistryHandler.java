@@ -97,6 +97,21 @@ public class RegistryHandler {
     public static final RegistryObject<Item> ALFALFA_BUSHEL = ITEMS.register("alfalfa_bushel", ItemBase::new);
     public static final RegistryObject<Item> SWEM_WORM = ITEMS.register("swem_worm", ItemBase::new);
     public static final RegistryObject<Item> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+//    public static final RegistryObject<Item> WESTERN_SADDLE_WHITE = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+//    public static final RegistryObject<Item> WESTERN_SADDLE_ORANGE = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+//    public static final RegistryObject<Item> WESTERN_SADDLE_MAGENTA = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+//    public static final RegistryObject<Item> WESTERN_SADDLE_YELLOW = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+//    public static final RegistryObject<Item> WESTERN_SADDLE_LIME = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+//    public static final RegistryObject<Item> WESTERN_SADDLE_PINK = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+//    public static final RegistryObject<Item> WESTERN_SADDLE_GRAY = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+//    public static final RegistryObject<Item> WESTERN_SADDLE_LIGHT_GRAY = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+//    public static final RegistryObject<Item> WESTERN_SADDLE_CYAN = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+//    public static final RegistryObject<Item> WESTERN_SADDLE_PURPLE = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+//    public static final RegistryObject<Item> WESTERN_SADDLE_BLUE = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+//    public static final RegistryObject<Item> WESTERN_SADDLE_BROWN = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+//    public static final RegistryObject<Item> WESTERN_SADDLE_GREEN = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+//    public static final RegistryObject<Item> WESTERN_SADDLE_RED = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+//    public static final RegistryObject<Item> WESTERN_SADDLE_BLACK = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 
 
     // Tools
@@ -157,6 +172,7 @@ public class RegistryHandler {
             () -> new HitchingPostBase(HitchingPostBase.HitchingPostType.ENGLISH, Block.Properties.create(Material.WOOD)));
     public static final RegistryObject<Block> PASTURE_HITCHING_POST = BLOCKS.register("pasture_hitching_post",
             () -> new HitchingPostBase(HitchingPostBase.HitchingPostType.PASTURE, Block.Properties.create(Material.WOOD)));
+    public static final RegistryObject<Block> HORSE_POO = BLOCKS.register("pile_of_horse_poo", () -> new Block(Block.Properties.create(Material.ORGANIC)));
 
     // Block Items
     public static final RegistryObject<Item> FUEL_BLOCK_ITEM = ITEMS.register("fuel_block",
