@@ -31,13 +31,13 @@ public class SWEMHorseInventoryContainer extends Container {
 		horseInventory.openInventory(playerInventory.player);
 
 
-
+		// Bridle slot 1
 		this.addSlot(new Slot(horseInventory, 0, 8, 17) {
 			/**
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
 			public boolean isItemValid(ItemStack stack) {
-				return horse.isArmor(stack);
+				return horse.isBridle(stack);
 			}
 
 			/**
@@ -58,12 +58,13 @@ public class SWEMHorseInventoryContainer extends Container {
 			}
 		});
 
+		// Blanket slot 2
 		this.addSlot(new Slot(horseInventory, 1, 44, 17) {
 			 /**
 			  * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			  */
 			 public boolean isItemValid(ItemStack stack) {
-				 return horse.isArmor(stack);
+				 return horse.isBlanket(stack);
 			 }
 
 			 /**
@@ -84,12 +85,13 @@ public class SWEMHorseInventoryContainer extends Container {
 			 }
 		});
 
+		// Saddle slot 3
 		this.addSlot(new Slot(horseInventory, 2, 80, 17) {
 			/**
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
 			public boolean isItemValid(ItemStack stack) {
-				return horse.isArmor(stack);
+				return horse.isSaddle(stack);
 			}
 
 			/**
@@ -110,12 +112,13 @@ public class SWEMHorseInventoryContainer extends Container {
 			}
 		});
 
+		// Girth Strap slot 4
 		this.addSlot(new Slot(horseInventory, 3, 8, 59) {
 			/**
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
 			public boolean isItemValid(ItemStack stack) {
-				return horse.isArmor(stack);
+				return horse.isGirthStrap(stack);
 			}
 
 			/**
@@ -136,12 +139,13 @@ public class SWEMHorseInventoryContainer extends Container {
 			}
 		});
 
+		// Leg Wraps Slot 5
 		this.addSlot(new Slot(horseInventory, 4, 8, 103) {
 			/**
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
 			public boolean isItemValid(ItemStack stack) {
-				return horse.isArmor(stack);
+				return horse.isLegWraps(stack);
 			}
 
 			/**
@@ -162,12 +166,13 @@ public class SWEMHorseInventoryContainer extends Container {
 			}
 		});
 
+		// Girth Strap Slot 6
 		this.addSlot(new Slot(horseInventory, 5, 44, 103) {
 			/**
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
 			public boolean isItemValid(ItemStack stack) {
-				return horse.isArmor(stack);
+				return horse.isGirthStrap(stack);
 			}
 
 			/**
@@ -188,12 +193,13 @@ public class SWEMHorseInventoryContainer extends Container {
 			}
 		});
 
+		// SWEM Horse Armor Slot 7
 		this.addSlot(new Slot(horseInventory, 6, 80, 103) {
 			/**
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
 			public boolean isItemValid(ItemStack stack) {
-				return horse.isArmor(stack);
+				return horse.isSWEMArmor(stack);
 			}
 
 			/**
