@@ -7,10 +7,13 @@ import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.RopeKnotEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.items.AmethystItem;
+import com.alaharranhonor.swem.items.BlanketItem;
+import com.alaharranhonor.swem.items.HorseSaddleItem;
 import com.alaharranhonor.swem.items.ItemBase;
 import com.alaharranhonor.swem.tools.SWEMItemTier;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.entity.ChestedHorseRenderer;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -100,7 +103,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> OAT_BUSHEL = ITEMS.register("oat_bushel", ItemBase::new);
     public static final RegistryObject<Item> ALFALFA_BUSHEL = ITEMS.register("alfalfa_bushel", ItemBase::new);
     public static final RegistryObject<Item> SWEM_WORM = ITEMS.register("swem_worm", ItemBase::new);
-    public static final RegistryObject<Item> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 //    public static final RegistryObject<Item> WESTERN_SADDLE_WHITE = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 //    public static final RegistryObject<Item> WESTERN_SADDLE_ORANGE = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 //    public static final RegistryObject<Item> WESTERN_SADDLE_MAGENTA = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
@@ -116,14 +119,15 @@ public class RegistryHandler {
 //    public static final RegistryObject<Item> WESTERN_SADDLE_GREEN = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 //    public static final RegistryObject<Item> WESTERN_SADDLE_RED = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 //    public static final RegistryObject<Item> WESTERN_SADDLE_BLACK = ITEMS.register("western_saddle_light_blue", () -> new SaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> ENGLISH_SADDLE_BLACK = ITEMS.register("english_saddle_black", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_LIGHT_BLUE = ITEMS.register("english_blanket_light_blue", () -> new BlanketItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 
 
     // Tools
     public static final RegistryObject<SwordItem> AMETHYST_LONGSWORD = ITEMS.register("amethyst_longsword", () ->
             new SwordItem(SWEMItemTier.AMETHYST, 10, 2F, new Item.Properties().group(SWEM.TAB))
     );
-
-    // Blocks
+// Blocks
     public static final RegistryObject<Block> FUEL_BLOCK = BLOCKS.register("fuel_block", FuelBlock::new);
     public static final RegistryObject<Block> DARK_RUBBER_MAT = BLOCKS.register("dark_rubber_mat", RubberMatBase::new);
     public static final RegistryObject<Block> LIGHT_RUBBER_MAT = BLOCKS.register("light_rubber_mat", RubberMatBase::new);
