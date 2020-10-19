@@ -1,9 +1,12 @@
 package com.alaharranhonor.swem.entities;
 
+import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.goals.PoopGoal;
+import com.alaharranhonor.swem.items.HorseSaddleItem;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
+import net.minecraft.client.gui.screen.inventory.HorseInventoryScreen;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -11,8 +14,14 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.horse.*;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.HorseInventoryContainer;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.HorseArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -20,18 +29,26 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.UUID;
 
 public class SWEMHorseEntityBase extends AbstractHorseEntity {
+
+
+
 
 	private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("556E1665-8B10-40C8-8F9D-CF9B1667F295");
 	//private static final DataParameter<Integer> HORSE_VARIANT = EntityDataManager.createKey(HorseEntity.class, DataSerializers.VARINT);
@@ -44,6 +61,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 
 	private final LevelingManager leveling;
 	private final StatManager stats;
+	private LazyOptional<InvWrapper> itemHandler;
 
 	public SWEMHorseEntityBase(EntityType<? extends AbstractHorseEntity> type, World worldIn)
 	{
@@ -62,10 +80,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 				.createMutableAttribute(Attributes.MOVEMENT_SPEED, getAlteredMovementSpeed());
 	}
 
-
-
-
-
 	@Override
 	protected void registerGoals() {
 		super.registerGoals();
@@ -78,9 +92,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 		this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, TEMPTATION_ITEMS, false));
 		this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.0D));
 		this.goalSelector.addGoal(5, this.eatGrassGoal);
-		this.goalSelector.addGoal(5, this.poopGoal);
+		//this.goalSelector.addGoal(5, this.poopGoal);
 		this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.7D));
-		this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0f));
 		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
 	}
 
@@ -185,13 +198,30 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 
 
 
+	@Override
+	protected void initHorseChest() {
+		Inventory inventory = this.horseChest;
+		this.horseChest = new Inventory(this.getInventorySize());
+		if (inventory != null) {
+			inventory.removeListener(this);
+			int i = Math.min(inventory.getSizeInventory(), this.horseChest.getSizeInventory());
 
+			for(int j = 0; j < i; ++j) {
+				ItemStack itemstack = inventory.getStackInSlot(j);
+				if (!itemstack.isEmpty()) {
+					this.horseChest.setInventorySlotContents(j, itemstack.copy());
+				}
+			}
+		}
 
+		this.horseChest.addListener(this);
+		this.func_230275_fc_();
+		this.itemHandler = net.minecraftforge.common.util.LazyOptional.of(() -> new net.minecraftforge.items.wrapper.InvWrapper(this.horseChest));
+	}
 
-
-
-
-
+	public Inventory getHorseInventory() {
+		return this.horseChest;
+	}
 
 	public void writeAdditional(CompoundNBT compound) {
 		super.writeAdditional(compound);
@@ -301,6 +331,25 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 	protected SoundEvent getAngrySound() {
 		super.getAngrySound();
 		return SoundEvents.ENTITY_HORSE_ANGRY;
+	}
+
+	@Override
+	public void openGUI(PlayerEntity playerEntity) {
+		if (!this.world.isRemote && (!this.isBeingRidden() || this.isPassenger(playerEntity)) && this.isTame()) {
+			INamedContainerProvider provider = new INamedContainerProvider() {
+				@Override
+				public ITextComponent getDisplayName() {
+					return ITextComponent.getTextComponentOrEmpty("SWEM Horse");
+				}
+
+				@Nullable
+				@Override
+				public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
+					return new SWEMHorseInventoryContainer(p_createMenu_1_, p_createMenu_2_, getEntityId());
+				}
+			};
+			NetworkHooks.openGui((ServerPlayerEntity) playerEntity, provider, buffer -> buffer.writeVarInt(getEntityId()).writeVarInt(getEntityId()));
+		}
 	}
 
 	public ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {
@@ -430,6 +479,34 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 		return 8;
 	}
 
+	private boolean isBridle(ItemStack stack) {
+		return stack.getItem() instanceof BridleItem;
+	}
+
+	private boolean isBreastCollar(ItemStack stack) {
+		return stack.getItem() instanceof BreastCollarItem;
+	}
+
+	private boolean isLegWraps(ItemStack stack) {
+		return stack.getItem() instanceof LegWrapItem;
+	}
+
+	private boolean isGirthStrap(ItemStack stack) {
+		return stack.getItem() instanceof GirthStrapItem;
+	}
+
+	private boolean isSWEMArmor(ItemStack stack) {
+		return stack.getItem() instanceof SWEMHorseArmorItem;
+	}
+
+	private boolean isBlanket(ItemStack stack) {
+		return stack.getItem() instanceof BlanketItem;
+	}
+
+	private boolean isSaddle(ItemStack stack) {
+		return stack.getItem() instanceof HorseSaddleItem;
+	}
+
 	private class LevelingManager
 	{
 		private LevelingManager()
@@ -459,4 +536,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 			this.jumpModifier = jumpModifier;
 		}
 	}
+
+
 }
