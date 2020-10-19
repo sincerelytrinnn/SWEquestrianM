@@ -7,7 +7,6 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -52,7 +51,7 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		this.blit(matrixStack, i, j, 0, 0, this.xSize, this.ySize);
 
 		// Not sure what this renders, some weird box.
-//		if (this.horseEntity.func_230264_L__()) {
+		//if (this.horseEntity.func_230264_L__()) {
 //			this.blit(matrixStack, i + 7, j + 35, 18, this.ySize + 54, 18, 18);
 //		}
 
