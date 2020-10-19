@@ -1,15 +1,16 @@
 package com.alaharranhonor.swem.container;
 
-import net.minecraft.entity.passive.horse.AbstractChestedHorseEntity;
-import net.minecraft.entity.passive.horse.AbstractHorseEntity;
+import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.util.RegistryHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.inventory.container.HorseInventoryContainer;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -17,21 +18,26 @@ public class SWEMHorseInventoryContainer extends Container {
 
 	private final IInventory horseInventory;
 
-	private final AbstractHorseEntity horse;
+	public final SWEMHorseEntityBase horse;
 
-	protected SWEMHorseInventoryContainer(int id, PlayerInventory playerInventory, IInventory horseInventory, final AbstractHorseEntity horse) {
-		super((ContainerType<?>)null, id);
-		this.horseInventory = horseInventory;
-		this.horse = horse;
-		int i = 3;
+	public SWEMHorseInventoryContainer(final int id, final PlayerInventory playerInventory, PacketBuffer data) {
+		this(id, playerInventory, data.readVarInt());
+	}
+
+	public SWEMHorseInventoryContainer(final int id, final PlayerInventory playerInventory, final int entityId) {
+		super(RegistryHandler.SWEM_HORSE_CONTAINER.get(), id);
+		this.horse = (SWEMHorseEntityBase) playerInventory.player.world.getEntityByID(entityId);
+		this.horseInventory = horse.getHorseInventory();
 		horseInventory.openInventory(playerInventory.player);
-		int j = -18;
-		this.addSlot(new Slot(horseInventory, 0, 8, 18) {
+
+
+
+		this.addSlot(new Slot(horseInventory, 0, 8, 17) {
 			/**
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
 			public boolean isItemValid(ItemStack stack) {
-				return stack.getItem() == Items.SADDLE && !this.getHasStack() && horse.func_230264_L__();
+				return horse.isArmor(stack);
 			}
 
 			/**
@@ -40,10 +46,19 @@ public class SWEMHorseInventoryContainer extends Container {
 			 */
 			@OnlyIn(Dist.CLIENT)
 			public boolean isEnabled() {
-				return horse.func_230264_L__();
+				return horse.func_230276_fq_();
+			}
+
+			/**
+			 * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1 in the
+			 * case of armor slots)
+			 */
+			public int getSlotStackLimit() {
+				return 1;
 			}
 		});
-		this.addSlot(new Slot(horseInventory, 1, 8, 36) {
+
+		this.addSlot(new Slot(horseInventory, 1, 44, 17) {
 			 /**
 			  * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			  */
@@ -69,22 +84,149 @@ public class SWEMHorseInventoryContainer extends Container {
 			 }
 		});
 
-		if (horse instanceof AbstractChestedHorseEntity && ((AbstractChestedHorseEntity)horse).hasChest()) {
-			for(int k = 0; k < 3; ++k) {
-				for(int l = 0; l < ((AbstractChestedHorseEntity)horse).getInventoryColumns(); ++l) {
-					this.addSlot(new Slot(horseInventory, 2 + l + k * ((AbstractChestedHorseEntity)horse).getInventoryColumns(), 80 + l * 18, 18 + k * 18));
-				}
+		this.addSlot(new Slot(horseInventory, 2, 80, 17) {
+			/**
+			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
+			 */
+			public boolean isItemValid(ItemStack stack) {
+				return horse.isArmor(stack);
+			}
+
+			/**
+			 * Actualy only call when we want to render the white square effect over the slots. Return always True, except
+			 * for the armor slot of the Donkey/Mule (we can't interact with the Undead and Skeleton horses)
+			 */
+			@OnlyIn(Dist.CLIENT)
+			public boolean isEnabled() {
+				return horse.func_230276_fq_();
+			}
+
+			/**
+			 * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1 in the
+			 * case of armor slots)
+			 */
+			public int getSlotStackLimit() {
+				return 1;
+			}
+		});
+
+		this.addSlot(new Slot(horseInventory, 3, 8, 59) {
+			/**
+			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
+			 */
+			public boolean isItemValid(ItemStack stack) {
+				return horse.isArmor(stack);
+			}
+
+			/**
+			 * Actualy only call when we want to render the white square effect over the slots. Return always True, except
+			 * for the armor slot of the Donkey/Mule (we can't interact with the Undead and Skeleton horses)
+			 */
+			@OnlyIn(Dist.CLIENT)
+			public boolean isEnabled() {
+				return horse.func_230276_fq_();
+			}
+
+			/**
+			 * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1 in the
+			 * case of armor slots)
+			 */
+			public int getSlotStackLimit() {
+				return 1;
+			}
+		});
+
+		this.addSlot(new Slot(horseInventory, 4, 8, 103) {
+			/**
+			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
+			 */
+			public boolean isItemValid(ItemStack stack) {
+				return horse.isArmor(stack);
+			}
+
+			/**
+			 * Actualy only call when we want to render the white square effect over the slots. Return always True, except
+			 * for the armor slot of the Donkey/Mule (we can't interact with the Undead and Skeleton horses)
+			 */
+			@OnlyIn(Dist.CLIENT)
+			public boolean isEnabled() {
+				return horse.func_230276_fq_();
+			}
+
+			/**
+			 * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1 in the
+			 * case of armor slots)
+			 */
+			public int getSlotStackLimit() {
+				return 1;
+			}
+		});
+
+		this.addSlot(new Slot(horseInventory, 5, 44, 103) {
+			/**
+			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
+			 */
+			public boolean isItemValid(ItemStack stack) {
+				return horse.isArmor(stack);
+			}
+
+			/**
+			 * Actualy only call when we want to render the white square effect over the slots. Return always True, except
+			 * for the armor slot of the Donkey/Mule (we can't interact with the Undead and Skeleton horses)
+			 */
+			@OnlyIn(Dist.CLIENT)
+			public boolean isEnabled() {
+				return horse.func_230276_fq_();
+			}
+
+			/**
+			 * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1 in the
+			 * case of armor slots)
+			 */
+			public int getSlotStackLimit() {
+				return 1;
+			}
+		});
+
+		this.addSlot(new Slot(horseInventory, 6, 80, 103) {
+			/**
+			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
+			 */
+			public boolean isItemValid(ItemStack stack) {
+				return horse.isArmor(stack);
+			}
+
+			/**
+			 * Actualy only call when we want to render the white square effect over the slots. Return always True, except
+			 * for the armor slot of the Donkey/Mule (we can't interact with the Undead and Skeleton horses)
+			 */
+			@OnlyIn(Dist.CLIENT)
+			public boolean isEnabled() {
+				return horse.func_230276_fq_();
+			}
+
+			/**
+			 * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1 in the
+			 * case of armor slots)
+			 */
+			public int getSlotStackLimit() {
+				return 1;
+			}
+
+		});
+
+		// Player Main Inventory
+		int startPlayerInvY = 140;
+		for (int row = 0; row < 3; ++row) {
+			for (int col = 0; col < 9; ++col) {
+				this.addSlot(new Slot(playerInventory, 9 + (row * 9) + col, 8 + (col * 18), startPlayerInvY + (row * 18)));
 			}
 		}
 
-		for(int i1 = 0; i1 < 3; ++i1) {
-			for(int k1 = 0; k1 < 9; ++k1) {
-				this.addSlot(new Slot(playerInventory, k1 + i1 * 9 + 9, 8 + k1 * 18, 102 + i1 * 18 + -18));
-			}
-		}
-
-		for(int j1 = 0; j1 < 9; ++j1) {
-			this.addSlot(new Slot(playerInventory, j1, 8 + j1 * 18, 142));
+		// Player Hotbar
+		int hotBarY = 198;
+		for (int col = 0; col < 9; ++col) {
+			this.addSlot(new Slot(playerInventory, col, 8 + col * 18, hotBarY));
 		}
 	}
 
@@ -108,6 +250,26 @@ public class SWEMHorseInventoryContainer extends Container {
 			int i = this.horseInventory.getSizeInventory();
 			if (index < i) {
 				if (!this.mergeItemStack(itemstack1, i, this.inventorySlots.size(), true)) {
+					return ItemStack.EMPTY;
+				}
+			} else if (this.getSlot(6).isItemValid(itemstack1) && !this.getSlot(6).getHasStack()) {
+				if (!this.mergeItemStack(itemstack1, 6, 7, false)) {
+					return ItemStack.EMPTY;
+				}
+			} else if (this.getSlot(5).isItemValid(itemstack1) && !this.getSlot(5).getHasStack()) {
+				if (!this.mergeItemStack(itemstack1, 5, 6, false)) {
+					return ItemStack.EMPTY;
+				}
+			} else if (this.getSlot(4).isItemValid(itemstack1) && !this.getSlot(4).getHasStack()) {
+				if (!this.mergeItemStack(itemstack1, 4, 5, false)) {
+					return ItemStack.EMPTY;
+				}
+			} else if (this.getSlot(3).isItemValid(itemstack1) && !this.getSlot(3).getHasStack()) {
+				if (!this.mergeItemStack(itemstack1, 3, 4, false)) {
+					return ItemStack.EMPTY;
+				}
+			} else if (this.getSlot(2).isItemValid(itemstack1) && !this.getSlot(2).getHasStack()) {
+				if (!this.mergeItemStack(itemstack1, 2, 3, false)) {
 					return ItemStack.EMPTY;
 				}
 			} else if (this.getSlot(1).isItemValid(itemstack1) && !this.getSlot(1).getHasStack()) {
@@ -153,4 +315,6 @@ public class SWEMHorseInventoryContainer extends Container {
 		super.onContainerClosed(playerIn);
 		this.horseInventory.closeInventory(playerIn);
 	}
+
+
 }
