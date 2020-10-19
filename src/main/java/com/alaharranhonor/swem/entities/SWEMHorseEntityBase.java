@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.entities;
 
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.goals.PoopGoal;
+import com.alaharranhonor.swem.items.BlanketItem;
 import com.alaharranhonor.swem.items.HorseSaddleItem;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import net.minecraft.block.BlockState;
@@ -94,6 +95,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 		this.goalSelector.addGoal(5, this.eatGrassGoal);
 		//this.goalSelector.addGoal(5, this.poopGoal);
 		this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.7D));
+		//this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
 	}
 
@@ -479,31 +481,36 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 		return 8;
 	}
 
-	private boolean isBridle(ItemStack stack) {
-		return stack.getItem() instanceof BridleItem;
+	public boolean isBridle(ItemStack stack) {
+		//return stack.getItem() instanceof BridleItem;
+		return false;
 	}
 
-	private boolean isBreastCollar(ItemStack stack) {
-		return stack.getItem() instanceof BreastCollarItem;
+	public boolean isBreastCollar(ItemStack stack) {
+		//return stack.getItem() instanceof BreastCollarItem;
+		return false;
 	}
 
-	private boolean isLegWraps(ItemStack stack) {
-		return stack.getItem() instanceof LegWrapItem;
+	public boolean isLegWraps(ItemStack stack) {
+		//return stack.getItem() instanceof LegWrapItem;
+		return false;
 	}
 
-	private boolean isGirthStrap(ItemStack stack) {
-		return stack.getItem() instanceof GirthStrapItem;
+	public boolean isGirthStrap(ItemStack stack) {
+		//return stack.getItem() instanceof GirthStrapItem;
+		return false;
 	}
 
-	private boolean isSWEMArmor(ItemStack stack) {
-		return stack.getItem() instanceof SWEMHorseArmorItem;
+	public boolean isSWEMArmor(ItemStack stack) {
+		//return stack.getItem() instanceof SWEMHorseArmorItem;
+		return false;
 	}
 
-	private boolean isBlanket(ItemStack stack) {
+	public boolean isBlanket(ItemStack stack) {
 		return stack.getItem() instanceof BlanketItem;
 	}
 
-	private boolean isSaddle(ItemStack stack) {
+	public boolean isSaddle(ItemStack stack) {
 		return stack.getItem() instanceof HorseSaddleItem;
 	}
 
