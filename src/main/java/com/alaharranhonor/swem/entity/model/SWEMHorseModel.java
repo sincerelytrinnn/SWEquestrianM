@@ -1,6 +1,7 @@
 
 package com.alaharranhonor.swem.entity.model;
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.geckolib.animation.model.AnimatedEntityModel;
@@ -698,6 +699,6 @@ public class SWEMHorseModel extends AnimatedEntityModel<SWEMHorseEntity> {
     @Override
     public ResourceLocation getAnimationFileLocation()
     {
-        return new ResourceLocation("swem", "animations/swem_horse.json");
+        return new ResourceLocation(SWEM.MOD_ID, "animations/swem_horse.json");
     }
 }
