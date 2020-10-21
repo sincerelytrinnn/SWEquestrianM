@@ -33,5 +33,14 @@ public final class ConfigHelper {
 		((TopSolidRangeConfig)((DecoratedPlacementConfig)((DecoratedFeatureConfig)((DecoratedFeatureConfig) SWEMOreGen.CANTAZARITE_ORE.config).feature.get().config).decorator.config).field_242885_d.config).field_242813_c = ConfigHolder.SERVER.serverCantazariteBottomHeight.get();
 		// Maximum Height the ore can spawn.
 		((TopSolidRangeConfig)((DecoratedPlacementConfig)((DecoratedFeatureConfig)((DecoratedFeatureConfig) SWEMOreGen.CANTAZARITE_ORE.config).feature.get().config).decorator.config).field_242885_d.config).field_242815_e = ConfigHolder.SERVER.serverCantazariteMaxHeight.get();
+
+		// Vein Size
+		((OreFeatureConfig)((DecoratedFeatureConfig)((DecoratedFeatureConfig) SWEMOreGen.SWLM_COBBLE_ORE.config).feature.get().config).feature.get().config).size = ConfigHolder.SERVER.serverSWLMCobbleVeinSize.get();
+		// Vein Count
+		((FeatureSpreadConfig)((DecoratedFeatureConfig) SWEMOreGen.SWLM_COBBLE_ORE.config).decorator.config).func_242799_a().field_242250_b = ConfigHolder.SERVER.serverSWLMCobbleVeinCount.get();
+		// Minimum Height the ore can spawn
+		((TopSolidRangeConfig)((DecoratedPlacementConfig)((DecoratedFeatureConfig)((DecoratedFeatureConfig) SWEMOreGen.SWLM_COBBLE_ORE.config).feature.get().config).decorator.config).field_242885_d.config).field_242813_c = ConfigHolder.SERVER.serverSWLMCobbleBottomHeight.get();
+		// Maximum Height the ore can spawn.
+		((TopSolidRangeConfig)((DecoratedPlacementConfig)((DecoratedFeatureConfig)((DecoratedFeatureConfig) SWEMOreGen.SWLM_COBBLE_ORE.config).feature.get().config).decorator.config).field_242885_d.config).field_242815_e = ConfigHolder.SERVER.serverSWLMCobbleMaxHeight.get();
 	}
 }

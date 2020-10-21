@@ -2,7 +2,6 @@ package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.entity.gui.SWEMHorseInventoryScreen;
 import com.alaharranhonor.swem.entity.render.SWEMHorseRender;
-import com.alaharranhonor.swem.init.SWLBlocks;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
@@ -34,18 +33,5 @@ public class ClientEventBusSubscriber {
 
     public static void initLate() {
         ScreenManager.registerFactory(RegistryHandler.SWEM_HORSE_CONTAINER.get(), SWEMHorseInventoryScreen::new);
-    }
-
-    @SubscribeEvent
-    public static void registerItems(final RegistryEvent.Register<Item> event) {
-        final IForgeRegistry<Item> registry = event.getRegistry();
-
-        SWLBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)
-                .forEach(block -> {
-                    final Item.Properties properties = new Item.Properties().group(SWEM.SWLMTAB);
-                    final BlockItem blockItem = new BlockItem(block, properties);
-                    blockItem.setRegistryName(block.getRegistryName());
-                    registry.register(blockItem);
-                });
     }
 }
