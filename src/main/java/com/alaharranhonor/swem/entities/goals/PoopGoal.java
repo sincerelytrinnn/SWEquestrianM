@@ -37,7 +37,7 @@ public class PoopGoal extends Goal {
 	 */
 	@Override
 	public void startExecuting() {
-		this.poopTimer = 10;
+		this.poopTimer = 80;
 		this.entityWorld.setEntityState(this.pooperEntity, (byte)10);
 		this.pooperEntity.getNavigator().clearPath();
 	}

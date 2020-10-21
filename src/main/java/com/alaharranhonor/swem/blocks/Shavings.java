@@ -81,14 +81,6 @@ public class Shavings extends FallingBlock {
         return !stateIn.isValidPosition(worldIn, currentPos) ? Blocks.AIR.getDefaultState() : super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
     }
 
-    public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
-        if (worldIn.getLightFor(LightType.BLOCK, pos) > 11) {
-            spawnDrops(state, worldIn, pos);
-            worldIn.removeBlock(pos, false);
-        }
-
-    }
-
     public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
         int i = state.get(LAYERS);
         if (useContext.getItem().getItem() == this.asItem() && i < 8) {

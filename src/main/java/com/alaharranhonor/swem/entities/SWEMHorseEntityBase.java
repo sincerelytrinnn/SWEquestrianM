@@ -7,7 +7,6 @@ import com.alaharranhonor.swem.items.HorseSaddleItem;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
-import net.minecraft.client.gui.screen.inventory.HorseInventoryScreen;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -21,7 +20,6 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.HorseInventoryContainer;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.HorseArmorItem;
 import net.minecraft.item.ItemStack;
@@ -30,49 +28,41 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
-import com.alaharranhonor.swem.util.RegistryHandler;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.horse.AbstractHorseEntity;
-import net.minecraft.entity.passive.horse.HorseEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
-
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nullable;
 import java.util.Random;
+import java.util.UUID;
 
 public class SWEMHorseEntityBase extends AbstractHorseEntity {
 
-	public static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(RegistryHandler.AMETHYST.get());
 
+
+
+	private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("556E1665-8B10-40C8-8F9D-CF9B1667F295");
+	//private static final DataParameter<Integer> HORSE_VARIANT = EntityDataManager.createKey(HorseEntity.class, DataSerializers.VARINT);
+	public static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(RegistryHandler.AMETHYST.get());
 	private EatGrassGoal eatGrassGoal;
 	private PoopGoal poopGoal;
 	private int SWEMHorseGrassTimer;
 	private int SWEMHorsePoopTimer;
-
 	private static Random rand = new Random();
 
 	private final LevelingManager leveling;
 	private final StatManager stats;
+	private LazyOptional<InvWrapper> itemHandler;
 
 	public SWEMHorseEntityBase(EntityType<? extends AbstractHorseEntity> type, World worldIn)
 	{
@@ -90,10 +80,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 				.createMutableAttribute(Attributes.HORSE_JUMP_STRENGTH, getAlteredJumpStrength())
 				.createMutableAttribute(Attributes.MOVEMENT_SPEED, getAlteredMovementSpeed());
 	}
-
-
-
-
 
 	@Override
 	protected void registerGoals() {
@@ -133,6 +119,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 	@Nullable
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+		super.getHurtSound(damageSourceIn);
 		return SoundEvents.ENTITY_HORSE_HURT;
 	}
 
@@ -558,4 +545,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 			this.jumpModifier = jumpModifier;
 		}
 	}
+
+
 }

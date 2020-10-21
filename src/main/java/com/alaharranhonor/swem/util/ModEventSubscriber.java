@@ -24,6 +24,9 @@ public class ModEventSubscriber {
 				if (SWEMOreGen.CANTAZARITE_ORE == null) {
 					SWEMOreGen.CANTAZARITE_ORE = OreGenUtils.buildOverWorldFeature(RegistryHandler.AMETHYST_ORE.get().getDefaultState());
 				}
+				if (SWEMOreGen.SWLM_COBBLE_ORE == null) {
+					SWEMOreGen.SWLM_COBBLE_ORE = OreGenUtils.buildOverWorldFeature(SWLRegistryHandler.STAR_WORM_COBBLE.get().getDefaultState());
+				}
 				ConfigHelper.bakeServer(config);
 			}
 		}
