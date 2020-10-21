@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.enchantments;
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.armor.LeatherRidingBoots;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
@@ -68,7 +69,7 @@ public class UpstepEnchantment extends Enchantment {
 		public static void CheckForPlayersWearingLRB(TickEvent.PlayerTickEvent event)
 		{
 			if (event.phase.equals(TickEvent.Phase.END)) {
-				if (event.player.inventory.armorInventory.get(0).getItem() == RegistryHandler.LEATHER_RIDING_BOOTS.get())
+				if (event.player.inventory.armorInventory.get(0).getItem() instanceof LeatherRidingBoots)
 				{
 					event.player.stepHeight = 1.0f;
 				} else {
