@@ -50,6 +50,22 @@
   "item.swem.star_worm": "Star Worm",
   "item.swem.star_worm_goop": "Star Worm Goop",
   "item.swem.pestle_mortar": "Mortar & Pestle",
+<<<<<<< custom_items
+=======
+  "item.swem.oat_bushel": "Oat Bushel",
+  "item.swem.timothy_bushel": "Timothy Bushel",
+  "item.swem.alfalfa_bushel": "Alfalfa Bushel",
+
+
+  "item.swem.western_saddle_light_blue": "Light Blue Western Saddle",
+
+
+  "item.swem.english_saddle_black": "Black English Saddle",
+  "item.swem.english_blanket_light_blue": "Light Blue English Blanket",
+
+
+
+>>>>>>> local
 
   "block.swem.fuel_block": "Fuel Block",
   "block.swem.dark_rubber_mat": "Dark Rubber Mat",

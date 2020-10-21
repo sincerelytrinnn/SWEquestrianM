@@ -85,6 +85,13 @@ public class RegistryHandler {
     public static final RegistryObject<Item> DIAMOND_HELMET = ITEMS.register("diamond_helmet", ItemBase::new);
     public static final RegistryObject<Item> DIAMOND_CHESTPLATE = ITEMS.register("diamond_chestplate", ItemBase::new);
     public static final RegistryObject<Item> DIAMOND_BOW = ITEMS.register("diamond_bow", ItemBase::new);
+    public static final RegistryObject<Item> AMETHYST_BOW = ITEMS.register("amethyst_bow", ItemBase::new);
+    public static final RegistryObject<Item> AMETHYST_HELMET = ITEMS.register("amethyst_helmet", ItemBase::new);
+    public static final RegistryObject<Item> AMETHYST_CHESTPLATE = ITEMS.register("amethyst_chestplate", ItemBase::new);
+    public static final RegistryObject<Item> AMETHYST_PANTS = ITEMS.register("amethyst_pants", ItemBase::new);
+    public static final RegistryObject<Item> AMETHYST_RIDING_BOOTS = ITEMS.register("amethyst_riding_boots", ItemBase::new);
+    public static final RegistryObject<Item> AMETHYST_SCYTHE = ITEMS.register("amethyst_scythe", ItemBase::new);
+    public static final RegistryObject<Item> AMETHYST_SHIELD = ITEMS.register("amethyst_shield", ItemBase::new);
     public static final RegistryObject<Item> AMETHYST_SHIELD_LEATHER = ITEMS.register("amethyst_shield_leather", ItemBase::new);
     public static final RegistryObject<Item> AMETHYST_SHIELD_IRON = ITEMS.register("amethyst_shield_iron", ItemBase::new);
     public static final RegistryObject<Item> AMETHYST_SHIELD_GOLD = ITEMS.register("amethyst_shield_gold", ItemBase::new);
@@ -95,7 +102,48 @@ public class RegistryHandler {
     public static final RegistryObject<Item> OAT_BUSHEL = ITEMS.register("oat_bushel", ItemBase::new);
     public static final RegistryObject<Item> ALFALFA_BUSHEL = ITEMS.register("alfalfa_bushel", ItemBase::new);
     public static final RegistryObject<Item> SWEM_WORM = ITEMS.register("swem_worm", ItemBase::new);
+<<<<<<< custom_items
     public static final RegistryObject<Item> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+=======
+    public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_WHITE = ITEMS.register("western_saddle_white", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_ORANGE = ITEMS.register("western_saddle_orange", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_MAGENTA = ITEMS.register("western_saddle_magenta", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_YELLOW = ITEMS.register("western_saddle_yellow", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_LIME = ITEMS.register("western_saddle_lime", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_PINK = ITEMS.register("western_saddle_pink", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_GRAY = ITEMS.register("western_saddle_gray", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_LIGHT_GRAY = ITEMS.register("western_saddle_light_gray", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_CYAN = ITEMS.register("western_saddle_cyan", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_PURPLE = ITEMS.register("western_saddle_purple", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_BLUE = ITEMS.register("western_saddle_blue", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_BROWN = ITEMS.register("western_saddle_brown", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_GREEN = ITEMS.register("western_saddle_green", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_RED = ITEMS.register("western_saddle_red", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_BLACK = ITEMS.register("western_saddle_black", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> ENGLISH_SADDLE_BLACK = ITEMS.register("english_saddle_black", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> ENGLISH_SADDLE_BROWN = ITEMS.register("english_saddle_brown", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> ADVENTURE_SADDLE_ONE = ITEMS.register("adventure_saddle_1", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> ADVENTURE_SADDLE_TWO = ITEMS.register("adventure_saddle_2", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HorseSaddleItem> ADVENTURE_SADDLE_THREE = ITEMS.register("adventure_saddle_3", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_BLACK = ITEMS.register("english_blanket_black", () -> new BlanketItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_BLUE = ITEMS.register("english_blanket_blue", () -> new BlanketItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_BROWN = ITEMS.register("english_blanket_brown", () -> new BlanketItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_CYAN = ITEMS.register("english_blanket_cyan", () -> new BlanketItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_GREEN = ITEMS.register("english_blanket_green", () -> new BlanketItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_GRAY = ITEMS.register("english_blanket_gray", () -> new BlanketItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_LIGHT_BLUE = ITEMS.register("english_blanket_light_blue", () -> new BlanketItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_LIGHT_GRAY = ITEMS.register("english_blanket_light_gray", () -> new BlanketItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_LIME = ITEMS.register("english_blanket_lime", () -> new BlanketItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_MAGENTA = ITEMS.register("english_blanket_magenta", () -> new BlanketItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_ORANGE = ITEMS.register("english_blanket_orange", () -> new BlanketItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_PINK = ITEMS.register("english_blanket_pink", () -> new BlanketItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_PURPLE = ITEMS.register("english_blanket_purple", () -> new BlanketItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_RED = ITEMS.register("english_blanket_red", () -> new BlanketItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_WHITE = ITEMS.register("english_blanket_white", () -> new BlanketItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_YELLOW = ITEMS.register("english_blanket_yellow", () -> new BlanketItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+
+>>>>>>> local
 
     // Tools
     public static final RegistryObject<SwordItem> AMETHYST_LONGSWORD = ITEMS.register("amethyst_longsword", () ->
@@ -149,6 +197,19 @@ public class RegistryHandler {
             () -> new BleacherBase(Block.Properties.create(Material.IRON)));
     public static final RegistryObject<Block> BLEACHER_WIREFRAME = BLOCKS.register("bleacher_wireframe",
             () -> new BleacherWireframeBase(Block.Properties.create(Material.IRON)));
+<<<<<<< custom_items
+=======
+    public static final RegistryObject<Block> WESTERN_HITCHING_POST = BLOCKS.register("western_hitching_post",
+            () -> new HitchingPostBase(HitchingPostBase.HitchingPostType.WESTERN, Block.Properties.create(Material.WOOD)));
+    public static final RegistryObject<Block> ENGLISH_HITCHING_POST = BLOCKS.register("english_hitching_post",
+            () -> new HitchingPostBase(HitchingPostBase.HitchingPostType.ENGLISH, Block.Properties.create(Material.WOOD)));
+    public static final RegistryObject<Block> PASTURE_HITCHING_POST = BLOCKS.register("pasture_hitching_post",
+            () -> new HitchingPostBase(HitchingPostBase.HitchingPostType.PASTURE, Block.Properties.create(Material.WOOD)));
+    public static final RegistryObject<Block> HORSE_POO = BLOCKS.register("pile_of_horse_poo", () -> new HorsePoopBlock(Block.Properties.create(Material.ORGANIC)));
+    public static final RegistryObject<Block> WESTERN_POLE = BLOCKS.register("western_pole", () -> new WesternPoleBlock(Block.Properties.create(Material.WOOD)));
+    public static final RegistryObject<Block> INVISIBLE_GLOW_BLOCK = BLOCKS.register("invisible_glow_block", () -> new InvisibleGlowBlock(Block.Properties.create(Material.IRON)));
+
+>>>>>>> local
 
     // Block Items
     public static final RegistryObject<Item> FUEL_BLOCK_ITEM = ITEMS.register("fuel_block",
@@ -215,6 +276,17 @@ public class RegistryHandler {
             () -> new BlockItemBase(RIDING_DOOR.get()));
     public static final RegistryObject<Item> BLEACHER_SLAB_ITEM = ITEMS.register("bleacher",
             () -> new BlockItemBase(BLEACHER_SLAB.get()));
+<<<<<<< custom_items
+=======
+    public static final RegistryObject<Item> WESTERN_HITCHING_POST_ITEM = ITEMS.register("western_hitching_post",
+            () -> new BlockItemBase(WESTERN_HITCHING_POST.get()));
+    public static final RegistryObject<Item> ENGLISH_HITCHING_POST_ITEM = ITEMS.register("english_hitching_post",
+            () -> new BlockItemBase(ENGLISH_HITCHING_POST.get()));
+    public static final RegistryObject<Item> PASTURE_HITCHING_POST_ITEM = ITEMS.register("pasture_hitching_post",
+            () -> new BlockItemBase(PASTURE_HITCHING_POST.get()));
+    public static final RegistryObject<Item> WESTERN_POLE_ITEM = ITEMS.register("western_pole",
+            () -> new BlockItemBase(WESTERN_POLE.get()));
+>>>>>>> local
 
     // Entity's
     public static final RegistryObject<EntityType<SWEMHorseEntity>> SWEM_HORSE_ENTITY = ENTITY_TYPES.register("swem_horse",
