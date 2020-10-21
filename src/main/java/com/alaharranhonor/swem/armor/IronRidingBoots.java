@@ -11,7 +11,7 @@ import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class IronRidingBoots extends ArmorItem {
+public class IronRidingBoots extends GlowRidingBoots {
 	public IronRidingBoots(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
 		super(materialIn, slot, builderIn);
 	}
@@ -26,13 +26,7 @@ public class IronRidingBoots extends ArmorItem {
 	@Override
 	public void onCreated(ItemStack stack, World worldIn, PlayerEntity playerIn) {
 		stack.addEnchantment(new DestrierEnchantment(Enchantment.Rarity.RARE, EnchantmentType.ARMOR_FEET, new EquipmentSlotType[] {EquipmentSlotType.FEET} ), 1);
-		stack.addEnchantment(new UpstepEnchantment(Enchantment.Rarity.RARE, EnchantmentType.ARMOR_FEET, new EquipmentSlotType[] {EquipmentSlotType.FEET} ), 1);
 		super.onCreated(stack, worldIn, playerIn);
-	}
-
-	@Override
-	public boolean hasEffect(ItemStack stack) {
-		return false;
 	}
 
 }

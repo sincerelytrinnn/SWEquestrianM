@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:wooden_fences",
+    "minecraft:nether_brick_fence",
+    "swem:western_hitching_post",
+    "swem:english_hitching_post",
+    "swem:pasture_hitching_post"
+  ]
+}
