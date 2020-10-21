@@ -116,10 +116,6 @@ public class HitchingPostBase extends Block {
 		return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 	}
 
-	private static Direction getDirectionToOther(BedPart part, Direction direction) {
-		return part == BedPart.FOOT ? direction : direction.getOpposite();
-	}
-
 	public enum HitchingPostType {
 
 		WESTERN(

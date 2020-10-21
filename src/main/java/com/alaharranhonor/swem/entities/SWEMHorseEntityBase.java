@@ -7,7 +7,6 @@ import com.alaharranhonor.swem.items.HorseSaddleItem;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
-import net.minecraft.client.gui.screen.inventory.HorseInventoryScreen;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -21,7 +20,6 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.HorseInventoryContainer;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.HorseArmorItem;
 import net.minecraft.item.ItemStack;
@@ -30,10 +28,12 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -93,13 +93,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 		this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, TEMPTATION_ITEMS, false));
 		this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.0D));
 		this.goalSelector.addGoal(5, this.eatGrassGoal);
-		//this.goalSelector.addGoal(5, this.poopGoal);
+		this.goalSelector.addGoal(5, this.poopGoal);
 		this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.7D));
 		//this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
 	}
-
-
 
 	@Override
 	protected int getExperiencePoints(PlayerEntity player) {
@@ -175,7 +173,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 
 	private static double getAlteredJumpStrength()
 	{
-		return (double)0.4F + rand.nextDouble() * 0.2D + rand.nextDouble() * 0.2D + rand.nextDouble() * 0.2D;
+		return (double)0.4F + rand.nextDouble() * 1.5D + rand.nextDouble() * 1.5D + rand.nextDouble() * 1.5D;
 	}
 
 	private static double getAlteredMaxHealth()
@@ -187,17 +185,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 //		super.registerData();
 //		this.dataManager.register(HORSE_VARIANT, 0);
 //	}
-
-
-
-
-
-
-
-
-
-
-
 
 
 	@Override
@@ -311,6 +298,19 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 			this.playSound(SoundEvents.ENTITY_HORSE_ARMOR, 0.5F, 1.0F);
 		}
 
+		if (this.isSWEMSaddled()) {
+			this.setSWEMSaddled();
+		}
+	}
+
+	protected boolean isSWEMSaddled() {
+		return this.horseChest.getStackInSlot(2).getItem() instanceof HorseSaddleItem;
+	}
+
+	protected void setSWEMSaddled() {
+		if (this.world.isRemote) {
+			this.setHorseWatchableBoolean(4, !this.horseChest.getStackInSlot(2).isEmpty());
+		}
 	}
 
 	protected void playGallopSound(SoundType p_190680_1_) {
@@ -323,6 +323,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 		if (isArmor(stack)) stack.onHorseArmorTick(world, this);
 	}
 
+
+	// Get nom-nom sound
 	@Nullable
 	protected SoundEvent func_230274_fe_() {
 		return SoundEvents.ENTITY_HORSE_EAT;

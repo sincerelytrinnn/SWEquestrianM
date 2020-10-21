@@ -57,12 +57,14 @@
 
   "item.swem.western_saddle_light_blue": "Light Blue Western Saddle",
 
-
-  "item.swem.english_saddle_black": "Light Blue Western Saddle",
-  "item.swem.english_blanket_light_blue": "Light Blue Western Saddle",
-
+  "item.swem.english_saddle_black": "Black English Saddle",
+  "item.swem.english_blanket_light_blue": "Light Blue English Blanket",
 
 
+
+  "item.swem.oat_bushel": "Oat Bushel",
+  "item.swem.timothy_bushel": "Timothy Bushel",
+  "item.swem.alfalfa_bushel": "Alfalfa Bushel",
 
   "block.swem.fuel_block": "Fuel Block",
   "block.swem.dark_rubber_mat": "Dark Rubber Mat",

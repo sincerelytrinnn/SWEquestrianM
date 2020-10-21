@@ -13,7 +13,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.world.World;
 
-public class DiamondRidingBoots extends ArmorItem {
+public class DiamondRidingBoots extends GoldRidingBoots {
 
 	private int tickDurability = 0;
 	public DiamondRidingBoots(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
@@ -22,8 +22,6 @@ public class DiamondRidingBoots extends ArmorItem {
 
 	@Override
 	public void onCreated(ItemStack stack, World worldIn, PlayerEntity playerIn) {
-		stack.addEnchantment(new UpstepEnchantment(Enchantment.Rarity.RARE, EnchantmentType.ARMOR_FEET, new EquipmentSlotType[] {EquipmentSlotType.FEET} ), 1);
-		stack.addEnchantment(new DestrierEnchantment(Enchantment.Rarity.RARE, EnchantmentType.ARMOR_FEET, new EquipmentSlotType[] {EquipmentSlotType.FEET} ), 1);
 		super.onCreated(stack, worldIn, playerIn);
 	}
 
@@ -49,10 +47,6 @@ public class DiamondRidingBoots extends ArmorItem {
 				this.tickDurability++;
 			}
 		}
-	}
-
-	@Override
-	public boolean hasEffect(ItemStack stack) {
-		return false;
+		super.onArmorTick(stack, world, player);
 	}
 }
