@@ -2,12 +2,9 @@ package com.alaharranhonor.swem;
 
 import com.alaharranhonor.swem.blocks.TimothyGrass;
 import com.alaharranhonor.swem.config.ConfigHolder;
-import com.alaharranhonor.swem.config.SWLConfig;
-import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.init.SWLBlocks;
-import com.alaharranhonor.swem.init.SWLItems;
 import com.alaharranhonor.swem.util.RegistryHandler;
+import com.alaharranhonor.swem.util.SWLRegistryHandler;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -45,12 +42,10 @@ public class SWEM
         modEventBus.addListener(this::doClientStuff);
 
         RegistryHandler.init();
+        SWLRegistryHandler.init();
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-
-        SWLBlocks.BLOCKS.register(modEventBus);
-        SWLItems.ITEMS.register(modEventBus);
 
         // Register config
         //modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ConfigHolder.CLIENT_SPEC);
@@ -98,6 +93,4 @@ public class SWEM
             return new ItemStack(RegistryHandler.WESTERN_SADDLE_LIGHT_BLUE.get());
         }
     };
-
-    public SWLConfig config;
 }
