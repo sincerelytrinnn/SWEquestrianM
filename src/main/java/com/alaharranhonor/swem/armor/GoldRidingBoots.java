@@ -12,9 +12,11 @@ import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+import java.util.function.Supplier;
+
 public class GoldRidingBoots extends IronRidingBoots {
-	public GoldRidingBoots(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
-		super(materialIn, slot, builderIn);
+	public GoldRidingBoots(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn, Supplier<Supplier<ArmorBaseModel>> armorModel) {
+		super(materialIn, slot, builderIn, armorModel);
 	}
 
 	@Override

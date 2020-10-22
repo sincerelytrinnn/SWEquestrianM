@@ -10,9 +10,11 @@ import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class LeatherRidingBoots extends ArmorItem {
-	public LeatherRidingBoots(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
-		super(materialIn, slot, builderIn);
+import java.util.function.Supplier;
+
+public class LeatherRidingBoots extends ArmorBaseItem {
+	public LeatherRidingBoots(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn, Supplier<Supplier<ArmorBaseModel>> armorModel) {
+		super(materialIn, slot, builderIn, armorModel);
 	}
 
 	/**
