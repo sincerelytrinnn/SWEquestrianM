@@ -1,5 +1,102 @@
 {
-  "variants": {
-    "": {"model":  "swem:block/western_fence"}
-  }
+  "multipart": [
+    {
+      "when": {
+        "full_fence": "true",
+        "north": "true",
+        "south": "true",
+        "east": "false",
+        "west": "false"
+      },
+      "apply": {
+        "model": "swem:block/western_fence_full"
+      }
+    },
+    {
+      "when": {
+        "full_fence": "true",
+        "east": "true",
+        "west": "true",
+        "north": "false",
+        "south": "false"
+      },
+      "apply": {
+        "model": "swem:block/western_fence_full",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "half_fence": "true",
+        "north": "true",
+        "south": "true"
+      },
+      "apply": {
+        "model": "swem:block/western_fence_half"
+      }
+    },
+    {
+      "when": {
+        "half_fence": "true",
+        "east": "true",
+        "west": "true"
+      },
+      "apply": {
+        "model": "swem:block/western_fence_half",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "full_fence": "false",
+        "half_fence": "false"
+      },
+      "apply": {
+        "model": "swem:block/western_fence_post"
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "full_fence": "false",
+        "half_fence": "false"
+      },
+      "apply": {
+        "model": "swem:block/western_fence_side"
+      }
+    },
+    {
+      "when": {
+        "east": "true",
+        "full_fence": "false",
+        "half_fence": "false"
+      },
+      "apply": {
+        "model": "swem:block/western_fence_side",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "full_fence": "false",
+        "half_fence": "false"
+      },
+      "apply": {
+        "model": "swem:block/western_fence_side",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "west": "true",
+        "full_fence": "false",
+        "half_fence": "false"
+      },
+      "apply": {
+        "model": "swem:block/western_fence_side",
+        "y": 270
+      }
+    }
+  ]
 }
