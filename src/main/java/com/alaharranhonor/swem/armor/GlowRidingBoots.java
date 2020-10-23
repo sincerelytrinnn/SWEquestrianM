@@ -20,12 +20,14 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.function.Supplier;
+
 public class GlowRidingBoots extends LeatherRidingBoots {
 
 	private static BlockPos glowBlockPos;
 	private static LivingEntity player;
-	public GlowRidingBoots(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
-		super(materialIn, slot, builderIn);
+	public GlowRidingBoots(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn, Supplier<Supplier<ArmorBaseModel>> armorModel) {
+		super(materialIn, slot, builderIn, armorModel);
 	}
 
 	@Override

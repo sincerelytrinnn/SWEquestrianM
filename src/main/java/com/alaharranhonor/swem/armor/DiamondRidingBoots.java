@@ -13,11 +13,13 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.world.World;
 
+import java.util.function.Supplier;
+
 public class DiamondRidingBoots extends GoldRidingBoots {
 
 	private int tickDurability = 0;
-	public DiamondRidingBoots(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
-		super(materialIn, slot, builderIn);
+	public DiamondRidingBoots(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn, Supplier<Supplier<ArmorBaseModel>> armorModel) {
+		super(materialIn, slot, builderIn, armorModel);
 	}
 
 	@Override

@@ -46,7 +46,7 @@ import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.UUID;
 
-public class SWEMHorseEntityBase extends AbstractHorseEntity {
+public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable {
 
 
 
@@ -186,6 +186,22 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 //		this.dataManager.register(HORSE_VARIANT, 0);
 //	}
 
+	public boolean func_230264_L__() {
+		return this.isAlive() && !this.isChild() && this.isTame();
+	}
+
+	public void func_230266_a_(@Nullable SoundCategory p_230266_1_, ItemStack stack) {
+		this.horseChest.setInventorySlotContents(2, stack);
+		if (p_230266_1_ != null) {
+			this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
+		}
+
+	}
+
+	public boolean isHorseSaddled() {
+		return this.isSWEMSaddled();
+	}
+
 
 	@Override
 	protected void initHorseChest() {
@@ -237,7 +253,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 //		this.func_234242_w_(compound.getInt("Variant"));
 		if (compound.contains("ArmorItem", 10)) {
 			ItemStack itemstack = ItemStack.read(compound.getCompound("ArmorItem"));
-			if (!itemstack.isEmpty() && this.isArmor(itemstack)) {
+			if (!itemstack.isEmpty() && this.isSWEMArmor(itemstack)) {
 				this.horseChest.setInventorySlotContents(1, itemstack);
 			}
 		}
@@ -277,7 +293,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 		this.func_213805_k(p_213804_1_);
 		if (!this.world.isRemote) {
 			this.getAttribute(Attributes.ARMOR).removeModifier(ARMOR_MODIFIER_UUID);
-			if (this.isArmor(p_213804_1_)) {
+			if (this.isSWEMArmor(p_213804_1_)) {
 				int i = ((HorseArmorItem)p_213804_1_.getItem()).getArmorValue();
 				if (i != 0) {
 					this.getAttribute(Attributes.ARMOR).applyNonPersistentModifier(new AttributeModifier(ARMOR_MODIFIER_UUID, "Horse armor bonus", (double)i, AttributeModifier.Operation.ADDITION));
@@ -294,7 +310,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 		ItemStack itemstack = this.func_213803_dV();
 		super.onInventoryChanged(invBasic);
 		ItemStack itemstack1 = this.func_213803_dV();
-		if (this.ticksExisted > 20 && this.isArmor(itemstack1) && itemstack != itemstack1) {
+		if (this.ticksExisted > 20 && this.isSWEMArmor(itemstack1) && itemstack != itemstack1) {
 			this.playSound(SoundEvents.ENTITY_HORSE_ARMOR, 0.5F, 1.0F);
 		}
 
@@ -306,6 +322,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 	protected boolean isSWEMSaddled() {
 		return this.horseChest.getStackInSlot(2).getItem() instanceof HorseSaddleItem;
 	}
+
+
 
 	protected void setSWEMSaddled() {
 		if (this.world.isRemote) {
@@ -320,9 +338,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 		}
 
 		ItemStack stack = this.horseChest.getStackInSlot(1);
-		if (isArmor(stack)) stack.onHorseArmorTick(world, this);
+		if (isSWEMArmor(stack)) stack.onHorseArmorTick(world, this);
 	}
-
 
 	// Get nom-nom sound
 	@Nullable
@@ -356,6 +373,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 		}
 	}
 
+	// Item interaction with horse.
 	public ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {
 		ItemStack itemstack = p_230254_1_.getHeldItem(p_230254_2_);
 		if (!this.isChild()) {
@@ -369,7 +387,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 			}
 		}
 
-		if (!itemstack.isEmpty()) {
+		if (!itemstack.isEmpty() && itemstack.getItem() != Items.SADDLE) {
 			if (this.isBreedingItem(itemstack)) {
 				return this.func_241395_b_(p_230254_1_, itemstack);
 			}
@@ -384,8 +402,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 				return ActionResultType.func_233537_a_(this.world.isRemote);
 			}
 
-			boolean flag = !this.isChild() && !this.isHorseSaddled() && itemstack.getItem() == Items.SADDLE;
-			if (this.isArmor(itemstack) || flag) {
+			boolean flag = !this.isChild() && !this.isSWEMSaddled() && (itemstack.getItem() instanceof HorseSaddleItem);
+			if (this.isSWEMArmor(itemstack) || flag) {
 				this.openGUI(p_230254_1_);
 				return ActionResultType.func_233537_a_(this.world.isRemote);
 			}
@@ -451,9 +469,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity {
 		return true;
 	}
 
-	public boolean isArmor(ItemStack stack) {
-		return stack.getItem() instanceof HorseArmorItem;
-	}
 
 	@Nullable
 	public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
