@@ -6,10 +6,7 @@ import com.alaharranhonor.swem.blocks.*;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.RopeKnotEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
-import com.alaharranhonor.swem.items.AmethystItem;
-import com.alaharranhonor.swem.items.BlanketItem;
-import com.alaharranhonor.swem.items.HorseSaddleItem;
-import com.alaharranhonor.swem.items.ItemBase;
+import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.tools.SWEMItemTier;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -110,6 +107,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> OAT_BUSHEL = ITEMS.register("oat_bushel", ItemBase::new);
     public static final RegistryObject<Item> ALFALFA_BUSHEL = ITEMS.register("alfalfa_bushel", ItemBase::new);
     public static final RegistryObject<Item> SWEM_WORM = ITEMS.register("swem_worm", ItemBase::new);
+    public static final RegistryObject<FenceToolItem> FENCE_TOOL = ITEMS.register("fence_tool", FenceToolItem::new);
     public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_WHITE = ITEMS.register("western_saddle_white", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_ORANGE = ITEMS.register("western_saddle_orange", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
@@ -209,6 +207,8 @@ public class RegistryHandler {
     public static final RegistryObject<Block> HORSE_POO = BLOCKS.register("pile_of_horse_poo", () -> new HorsePoopBlock(Block.Properties.create(Material.ORGANIC)));
     public static final RegistryObject<Block> WESTERN_POLE = BLOCKS.register("western_pole", () -> new WesternPoleBlock(Block.Properties.create(Material.WOOD)));
     public static final RegistryObject<Block> INVISIBLE_GLOW_BLOCK = BLOCKS.register("invisible_glow_block", () -> new InvisibleGlowBlock(Block.Properties.create(Material.IRON)));
+    public static final RegistryObject<Block> WESTERN_FENCE = BLOCKS.register("western_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
+    public static final RegistryObject<Block> PASTURE_FENCE = BLOCKS.register("pasture_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
 
     // Block Items
     public static final RegistryObject<Item> FUEL_BLOCK_ITEM = ITEMS.register("fuel_block",
@@ -283,6 +283,8 @@ public class RegistryHandler {
             () -> new BlockItemBase(PASTURE_HITCHING_POST.get()));
     public static final RegistryObject<Item> WESTERN_POLE_ITEM = ITEMS.register("western_pole",
             () -> new BlockItemBase(WESTERN_POLE.get()));
+    public static final RegistryObject<Item> WESTERN_FENCE_ITEM = ITEMS.register("western_fence", () -> new BlockItemBase(WESTERN_FENCE.get()));
+    public static final RegistryObject<Item> PASTURE_FENCE_ITEM = ITEMS.register("pasture_fence", () -> new BlockItemBase(PASTURE_FENCE.get()));
 
     // Entity's
     public static final RegistryObject<EntityType<SWEMHorseEntity>> SWEM_HORSE_ENTITY = ENTITY_TYPES.register("swem_horse",
