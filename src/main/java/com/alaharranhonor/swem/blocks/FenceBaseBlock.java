@@ -30,17 +30,13 @@ import net.minecraft.world.World;
 public class FenceBaseBlock extends FourWayBlock {
 
 	private final VoxelShape[] renderShapes;
-
-	private final FenceType type;
 	public static final BooleanProperty FULL_FENCE = SWEMBlockStateProperties.FULL_FENCE;
 	public static final BooleanProperty HALF_FENCE = SWEMBlockStateProperties.HALF_FENCE;
 
-	public FenceBaseBlock(FenceType type, Properties properties) {
+	public FenceBaseBlock(Properties properties) {
 		super(2.0f, 2.0f, 16.0f, 16.0f, 24.0f, properties);
 		this.setDefaultState(this.stateContainer.getBaseState().with(NORTH, Boolean.valueOf(false)).with(EAST, Boolean.valueOf(false)).with(SOUTH, Boolean.valueOf(false)).with(WEST, Boolean.valueOf(false)).with(WATERLOGGED, Boolean.valueOf(false)).with(FULL_FENCE, Boolean.valueOf(false)).with(HALF_FENCE, Boolean.valueOf(false)));
 		this.renderShapes = this.makeShapes(2.0F, 1.0F, 16.0F, 6.0F, 15.0F);
-		this.type = type;
-
 	}
 
 
@@ -93,12 +89,15 @@ public class FenceBaseBlock extends FourWayBlock {
 			worldIn.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
 		}
 
-		BlockState updated = facing.getAxis().getPlane() == Direction.Plane.HORIZONTAL ? stateIn.with(FACING_TO_PROPERTY_MAP.get(facing), Boolean.valueOf(this.canConnect(facingState, facingState.isSolidSide(worldIn, facingPos, facing.getOpposite()), facing.getOpposite()))).with(FULL_FENCE, Boolean.valueOf(false)) : super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+		BlockState updated = facing.getAxis().getPlane() == Direction.Plane.HORIZONTAL ? stateIn.with(FACING_TO_PROPERTY_MAP.get(facing), Boolean.valueOf(this.canConnect(facingState, facingState.isSolidSide(worldIn, facingPos, facing.getOpposite()), facing.getOpposite()))).with(FULL_FENCE, Boolean.valueOf(false)).with(HALF_FENCE, Boolean.valueOf(false)) : super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 		if (checkForFullFence(worldIn, currentPos, updated)) {
-			return updated.with(FULL_FENCE, Boolean.valueOf(true));
-		} else {
-			return updated;
+			if (stateIn.get(HALF_FENCE)) {
+				return updated.with(HALF_FENCE, Boolean.valueOf(true));
+			} else {
+				return updated.with(FULL_FENCE, Boolean.valueOf(true));
+			}
 		}
+		return updated;
 	}
 
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
@@ -115,20 +114,6 @@ public class FenceBaseBlock extends FourWayBlock {
 			return true;
 		}
 		return east && west && !north && !south;
-	}
-
-	public enum FenceType {
-		ENGLISH(VoxelShapes.fullCube());
-
-		private final VoxelShape shape;
-
-		FenceType(VoxelShape shape) {
-			this.shape = shape;
-		}
-
-		public VoxelShape getShape() {
-			return this.shape;
-		}
 	}
 
 	public enum FencePart implements IStringSerializable {
