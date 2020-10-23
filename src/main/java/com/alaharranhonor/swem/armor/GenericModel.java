@@ -3,7 +3,7 @@ package com.alaharranhonor.swem.armor;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class LeatherModel extends ArmorBaseModel{
+public class GenericModel extends ArmorBaseModel{
 	private ModelRenderer Head;
 	private ModelRenderer myArmorHead;
 	private ModelRenderer bone;
@@ -53,7 +53,7 @@ public class LeatherModel extends ArmorBaseModel{
 	private ModelRenderer myArmorLeftBoot;
 	private ModelRenderer bone26;
 
-	public LeatherModel(int textureWidth, int textureHeight, ResourceLocation texture) {
+	public GenericModel(int textureWidth, int textureHeight, ResourceLocation texture) {
 		super(textureWidth, textureHeight, texture);
 	}
 
