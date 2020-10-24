@@ -1,6 +1,7 @@
 {
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "swem:items/yellow_cone"
+  "loader": "forge:separate-perspective",
+  "base": {"parent":"swem:item/yellow_cone_inv"},
+  "perspectives": {
+    "head": {"parent": "swem:block/yellow_cone"}
   }
 }

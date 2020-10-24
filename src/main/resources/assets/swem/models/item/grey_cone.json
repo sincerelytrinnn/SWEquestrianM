@@ -1,6 +1,8 @@
 {
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "swem:items/grey_cone"
+  "loader": "forge:separate-perspective",
+  "gui_light": "front",
+  "base": {"parent":"swem:item/grey_cone_inv"},
+  "perspectives": {
+    "head": {"parent": "swem:block/grey_cone"}
   }
 }
