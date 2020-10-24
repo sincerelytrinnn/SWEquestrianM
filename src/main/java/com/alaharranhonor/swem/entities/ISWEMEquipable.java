@@ -12,4 +12,6 @@ public interface ISWEMEquipable extends IEquipable {
 	void func_230266_a_(@Nullable SoundCategory p_230266_1_, ItemStack stack);
 
 	boolean isHorseSaddled();
+
+	boolean hasBlanket();
 }
