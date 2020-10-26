@@ -6,7 +6,6 @@ import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
-import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -207,7 +206,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			if (p_230266_1_ != null) {
 				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
-		} else if (stack.getItem() instanceof BridleItem) {
+		} else if (stack.getItem() instanceof HalterItem) {
 			this.horseChest.setInventorySlotContents(0, stack);
 			if (p_230266_1_ != null) {
 				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
@@ -238,6 +237,27 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return def;
 	}
 
+	@Override
+	public void positionRider(Entity entity, IMoveCallback callback) {
+		if (this.isPassenger(entity)) {
+			double d0 = this.getPosY() + this.getMountedYOffset() + entity.getYOffset();
+			callback.accept(entity, this.getPosX(), d0, this.getPosZ() - 0.2F);
+		}
+	}
+
+	@Override
+	protected void mountTo(PlayerEntity player) {
+		this.setEatingHaystack(false);
+		this.setRearing(false);
+		if (!this.world.isRemote) {
+			player.rotationYaw = this.rotationYaw - 0.2F;
+			player.rotationPitch = this.rotationPitch;
+			player.startRiding(this);
+		}
+	}
+
+
+
 	public boolean isHorseSaddled() {
 		return this.getHorseWatchableBoolean(4);
 	}
@@ -253,8 +273,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	}
 
 	@Override
-	public boolean hasBridle() {
-		return this.horseChest.getStackInSlot(0).getItem() instanceof BridleItem;
+	public boolean hasHalter() {
+		return this.horseChest.getStackInSlot(0).getItem() instanceof HalterItem;
 	}
 
 	@Override
@@ -299,8 +319,23 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	public void writeAdditional(CompoundNBT compound) {
 		super.writeAdditional(compound);
 //		compound.putInt("Variant", this.getHorseVariant());
+		if (!this.horseChest.getStackInSlot(0).isEmpty()) {
+			compound.put("BridleItem", this.horseChest.getStackInSlot(0).write(new CompoundNBT()));
+		}
 		if (!this.horseChest.getStackInSlot(1).isEmpty()) {
-			compound.put("ArmorItem", this.horseChest.getStackInSlot(1).write(new CompoundNBT()));
+			compound.put("BlanketItem", this.horseChest.getStackInSlot(1).write(new CompoundNBT()));
+		}
+		if (!this.horseChest.getStackInSlot(2).isEmpty()) {
+			compound.put("SaddleItem", this.horseChest.getStackInSlot(2).write(new CompoundNBT()));
+		}
+		if (!this.horseChest.getStackInSlot(3).isEmpty()) {
+			compound.put("BreastCollarItem", this.horseChest.getStackInSlot(3).write(new CompoundNBT()));
+		}
+		if (!this.horseChest.getStackInSlot(4).isEmpty()) {
+			compound.put("LegWrapsItem", this.horseChest.getStackInSlot(4).write(new CompoundNBT()));
+		}
+		if (!this.horseChest.getStackInSlot(5).isEmpty()) {
+			compound.put("GirthStrapItem", this.horseChest.getStackInSlot(5).write(new CompoundNBT()));
 		}
 	}
 
@@ -319,10 +354,40 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	public void readAdditional(CompoundNBT compound) {
 		super.readAdditional(compound);
 //		this.func_234242_w_(compound.getInt("Variant"));
-		if (compound.contains("ArmorItem", 10)) {
-			ItemStack itemstack = ItemStack.read(compound.getCompound("ArmorItem"));
-			if (!itemstack.isEmpty() && this.isSWEMArmor(itemstack)) {
+		if (compound.contains("BridleItem", 10)) {
+			ItemStack itemstack = ItemStack.read(compound.getCompound("BridleItem"));
+			if (!itemstack.isEmpty() && this.isHalter(itemstack)) {
+				this.horseChest.setInventorySlotContents(0, itemstack);
+			}
+		}
+		if (compound.contains("BlanketItem", 10)) {
+			ItemStack itemstack = ItemStack.read(compound.getCompound("BlanketItem"));
+			if (!itemstack.isEmpty() && this.isBlanket(itemstack)) {
 				this.horseChest.setInventorySlotContents(1, itemstack);
+			}
+		}
+		if (compound.contains("SaddleItem", 10)) {
+			ItemStack itemstack = ItemStack.read(compound.getCompound("SaddleItem"));
+			if (!itemstack.isEmpty() && this.isSaddle(itemstack)) {
+				this.horseChest.setInventorySlotContents(2, itemstack);
+			}
+		}
+		if (compound.contains("BreastCollarItem", 10)) {
+			ItemStack itemstack = ItemStack.read(compound.getCompound("BreastCollarItem"));
+			if (!itemstack.isEmpty() && this.isBreastCollar(itemstack)) {
+				this.horseChest.setInventorySlotContents(3, itemstack);
+			}
+		}
+		if (compound.contains("LegWrapsItem", 10)) {
+			ItemStack itemstack = ItemStack.read(compound.getCompound("LegWrapsItem"));
+			if (!itemstack.isEmpty() && this.isLegWraps(itemstack)) {
+				this.horseChest.setInventorySlotContents(4, itemstack);
+			}
+		}
+		if (compound.contains("GirthStrapItem", 10)) {
+			ItemStack itemstack = ItemStack.read(compound.getCompound("GirthStrapItem"));
+			if (!itemstack.isEmpty() && this.isGirthStrap(itemstack)) {
+				this.horseChest.setInventorySlotContents(5, itemstack);
 			}
 		}
 
@@ -437,6 +502,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			NetworkHooks.openGui((ServerPlayerEntity) playerEntity, provider, buffer -> buffer.writeVarInt(getEntityId()).writeVarInt(getEntityId()));
 		}
 	}
+
+
+
+
 
 	// Item interaction with horse.
 	public ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {
@@ -569,11 +638,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return 8;
 	}
 
-	public boolean isBridle(ItemStack stack) {
-		return stack.getItem() instanceof BridleItem;
+	public boolean isHalter(ItemStack stack) {
+		return stack.getItem() instanceof HalterItem;
 	}
 
-	public ItemStack getBridle() {
+	public ItemStack getHalter() {
 		return this.horseChest.getStackInSlot(0);
 	}
 

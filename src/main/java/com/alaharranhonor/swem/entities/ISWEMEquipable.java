@@ -17,7 +17,7 @@ public interface ISWEMEquipable extends IEquipable {
 
 	boolean hasBreastCollar();
 
-	boolean hasBridle();
+	boolean hasHalter();
 
 	boolean hasGirthStrap();
 

@@ -13,14 +13,14 @@ import net.minecraft.util.SoundCategory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class BridleItem extends Item {
+public class HalterItem extends Item {
 
 	private final ResourceLocation texture;
-	public BridleItem(String textureName, Properties properties) {
-		this(new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/bridle/" + textureName + ".png"), properties);
+	public HalterItem(String textureName, Properties properties) {
+		this(new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/halter/" + textureName + ".png"), properties);
 
 	}
-	public BridleItem(ResourceLocation texture, Properties properties) {
+	public HalterItem(ResourceLocation texture, Properties properties) {
 		super(properties);
 		this.texture = texture;
 	}
@@ -28,7 +28,7 @@ public class BridleItem extends Item {
 	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (target instanceof ISWEMEquipable && target.isAlive()) {
 			ISWEMEquipable iequipable = (ISWEMEquipable)target;
-			if (!iequipable.hasBridle() && iequipable.func_230264_L__()) {
+			if (!iequipable.hasHalter() && iequipable.func_230264_L__()) {
 				if (!playerIn.world.isRemote) {
 					iequipable.func_230266_a_(SoundCategory.NEUTRAL, stack);
 					stack.shrink(1);
