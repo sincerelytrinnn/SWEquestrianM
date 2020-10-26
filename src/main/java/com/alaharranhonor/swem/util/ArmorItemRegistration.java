@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.armor.AmethystModel;
 import com.alaharranhonor.swem.armor.ArmorBaseModel;
 import com.alaharranhonor.swem.armor.GenericModel;
 import net.minecraft.util.ResourceLocation;
@@ -12,6 +13,7 @@ public class ArmorItemRegistration {
 	static ArmorBaseModel GoldArmor = new GenericModel(128, 128, new ResourceLocation(SWEM.MOD_ID, "textures/models/armor/gold_layer.png"));
 	static ArmorBaseModel DiamondArmor = new GenericModel(128, 128, new ResourceLocation(SWEM.MOD_ID, "textures/models/armor/diamond_layer.png"));
 
+	static ArmorBaseModel AmethystArmor = new AmethystModel(128, 128, new ResourceLocation(SWEM.MOD_ID, "textures/models/armor/amethyst_layer.png"));
 
 
 	public static ArmorBaseModel getLeatherArmor() {
@@ -28,6 +30,10 @@ public class ArmorItemRegistration {
 	}
 	public static ArmorBaseModel getDiamondArmor() {
 		return DiamondArmor;
+	}
+
+	public static ArmorBaseModel getAmethystArmor() {
+		return AmethystArmor;
 	}
 
 }
