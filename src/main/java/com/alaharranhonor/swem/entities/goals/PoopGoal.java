@@ -29,7 +29,7 @@ public class PoopGoal extends Goal {
 	 */
 	@Override
 	public boolean shouldExecute() {
-		return this.pooperEntity.getRNG().nextInt(1000) == 0;
+		return this.pooperEntity.getRNG().nextInt(10000) == 0;
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class PoopGoal extends Goal {
 	 */
 	@Override
 	public void startExecuting() {
-		this.poopTimer = 80;
+		this.poopTimer = 200;
 		this.entityWorld.setEntityState(this.pooperEntity, (byte)10);
 		this.pooperEntity.getNavigator().clearPath();
 	}

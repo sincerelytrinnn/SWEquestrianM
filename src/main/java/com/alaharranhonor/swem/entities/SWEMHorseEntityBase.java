@@ -29,6 +29,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.util.DamageSource;
@@ -173,7 +174,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	private static double getAlteredJumpStrength()
 	{
-		return (double)0.4F + rand.nextDouble() * 1.5D + rand.nextDouble() * 1.5D + rand.nextDouble() * 1.5D;
+		return (double)0.4F + rand.nextDouble() * 0.4D + rand.nextDouble() * 0.4D + rand.nextDouble() * 0.4D;
 	}
 
 	private static double getAlteredMaxHealth()
@@ -191,15 +192,27 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	}
 
 	public void func_230266_a_(@Nullable SoundCategory p_230266_1_, ItemStack stack) {
-		this.horseChest.setInventorySlotContents(2, stack);
-		if (p_230266_1_ != null) {
-			this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
+		if (stack.getItem() instanceof HorseSaddleItem) {
+			this.horseChest.setInventorySlotContents(2, stack);
+			if (p_230266_1_ != null) {
+				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
+			}
+		} else if (stack.getItem() instanceof BlanketItem) {
+			this.horseChest.setInventorySlotContents(1, stack);
+			if (p_230266_1_ != null) {
+				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
+			}
 		}
 
 	}
 
 	public boolean isHorseSaddled() {
 		return this.isSWEMSaddled();
+	}
+
+	@Override
+	public boolean hasBlanket() {
+		return this.horseChest.getStackInSlot(1).getItem() instanceof HorseSaddleItem;
 	}
 
 
@@ -283,9 +296,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	protected void func_230275_fc_() {
 		if (!this.world.isRemote) {
-			super.func_230275_fc_();
-			this.func_213804_l(this.horseChest.getStackInSlot(1));
-			this.setDropChance(EquipmentSlotType.CHEST, 0.0F);
+			this.setHorseWatchableBoolean(4, !this.horseChest.getStackInSlot(2).isEmpty());
 		}
 	}
 
@@ -307,15 +318,13 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	 * Called by InventoryBasic.onInventoryChanged() on a array that is never filled.
 	 */
 	public void onInventoryChanged(IInventory invBasic) {
+		this.setSWEMSaddled();
 		ItemStack itemstack = this.func_213803_dV();
 		super.onInventoryChanged(invBasic);
+
 		ItemStack itemstack1 = this.func_213803_dV();
 		if (this.ticksExisted > 20 && this.isSWEMArmor(itemstack1) && itemstack != itemstack1) {
 			this.playSound(SoundEvents.ENTITY_HORSE_ARMOR, 0.5F, 1.0F);
-		}
-
-		if (this.isSWEMSaddled()) {
-			this.setSWEMSaddled();
 		}
 	}
 
@@ -360,7 +369,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			INamedContainerProvider provider = new INamedContainerProvider() {
 				@Override
 				public ITextComponent getDisplayName() {
-					return ITextComponent.getTextComponentOrEmpty("SWEM Horse");
+					return new TranslationTextComponent( "entity.swem.swem_horse");
 				}
 
 				@Nullable
@@ -394,6 +403,9 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 			ActionResultType actionresulttype = itemstack.interactWithEntity(p_230254_1_, this, p_230254_2_);
 			if (actionresulttype.isSuccessOrConsume()) {
+				if (itemstack.getItem() instanceof HorseSaddleItem && actionresulttype.isSuccessOrConsume()) {
+					this.setSWEMSaddled();
+				}
 				return actionresulttype;
 			}
 
@@ -404,6 +416,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 			boolean flag = !this.isChild() && !this.isSWEMSaddled() && (itemstack.getItem() instanceof HorseSaddleItem);
 			if (this.isSWEMArmor(itemstack) || flag) {
+				this.setSWEMSaddled();
 				this.openGUI(p_230254_1_);
 				return ActionResultType.func_233537_a_(this.world.isRemote);
 			}
@@ -416,6 +429,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			return ActionResultType.func_233537_a_(this.world.isRemote);
 		}
 	}
+
+
 
 	/**
 	 * Returns true if the mob is currently able to mate with the specified mob.
@@ -529,6 +544,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	public boolean isSaddle(ItemStack stack) {
 		return stack.getItem() instanceof HorseSaddleItem;
+	}
+
+	@Override
+	public boolean func_230277_fr_() {
+		return super.func_230277_fr_();
 	}
 
 	private class LevelingManager

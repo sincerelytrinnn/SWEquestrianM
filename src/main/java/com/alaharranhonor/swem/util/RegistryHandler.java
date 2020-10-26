@@ -6,10 +6,7 @@ import com.alaharranhonor.swem.blocks.*;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.RopeKnotEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
-import com.alaharranhonor.swem.items.AmethystItem;
-import com.alaharranhonor.swem.items.BlanketItem;
-import com.alaharranhonor.swem.items.HorseSaddleItem;
-import com.alaharranhonor.swem.items.ItemBase;
+import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.tools.SWEMItemTier;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -96,22 +93,23 @@ public class RegistryHandler {
     public static final RegistryObject<Item> DIAMOND_CHESTPLATE = ITEMS.register("diamond_chestplate", ItemBase::new);
     public static final RegistryObject<Item> DIAMOND_BOW = ITEMS.register("diamond_bow", ItemBase::new);
     public static final RegistryObject<Item> AMETHYST_BOW = ITEMS.register("amethyst_bow", ItemBase::new);
-    public static final RegistryObject<Item> AMETHYST_HELMET = ITEMS.register("amethyst_helmet", ItemBase::new);
-    public static final RegistryObject<Item> AMETHYST_CHESTPLATE = ITEMS.register("amethyst_chestplate", ItemBase::new);
-    public static final RegistryObject<Item> AMETHYST_PANTS = ITEMS.register("amethyst_pants", ItemBase::new);
-    public static final RegistryObject<Item> AMETHYST_RIDING_BOOTS = ITEMS.register("amethyst_riding_boots", ItemBase::new);
+    public static final RegistryObject<ArmorItem> AMETHYST_HELMET = ITEMS.register("amethyst_helmet", () -> new ArmorBaseItem(ModArmorMaterial.AMETHYST, EquipmentSlotType.HEAD, new Item.Properties().group(SWEM.TAB).maxStackSize(1), () -> ArmorItemRegistration::getAmethystArmor));
+    public static final RegistryObject<ArmorItem> AMETHYST_CHESTPLATE = ITEMS.register("amethyst_chestplate", () -> new ArmorBaseItem(ModArmorMaterial.AMETHYST, EquipmentSlotType.CHEST, new Item.Properties().group(SWEM.TAB).maxStackSize(1), () -> ArmorItemRegistration::getAmethystArmor));
+    public static final RegistryObject<ArmorItem> AMETHYST_PANTS = ITEMS.register("amethyst_pants", () -> new ArmorBaseItem(ModArmorMaterial.AMETHYST, EquipmentSlotType.LEGS, new Item.Properties().group(SWEM.TAB).maxStackSize(1), () -> ArmorItemRegistration::getAmethystArmor));
     public static final RegistryObject<Item> AMETHYST_SCYTHE = ITEMS.register("amethyst_scythe", ItemBase::new);
     public static final RegistryObject<Item> AMETHYST_SHIELD = ITEMS.register("amethyst_shield", ItemBase::new);
     public static final RegistryObject<Item> AMETHYST_SHIELD_LEATHER = ITEMS.register("amethyst_shield_leather", ItemBase::new);
     public static final RegistryObject<Item> AMETHYST_SHIELD_IRON = ITEMS.register("amethyst_shield_iron", ItemBase::new);
     public static final RegistryObject<Item> AMETHYST_SHIELD_GOLD = ITEMS.register("amethyst_shield_gold", ItemBase::new);
     public static final RegistryObject<Item> AMETHYST_SHIELD_DIAMOND = ITEMS.register("amethyst_shield_diamond", ItemBase::new);
+    public static final RegistryObject<ArmorItem> AMETHYST_RIDING_BOOTS = ITEMS.register("amethyst_riding_boots", () -> new ArmorBaseItem(ModArmorMaterial.AMETHYST, EquipmentSlotType.FEET, new Item.Properties().group(SWEM.TAB).maxStackSize(1), () -> ArmorItemRegistration::getAmethystArmor));
     public static final RegistryObject<Item> CANTAZARITE = ITEMS.register("cantazarite", ItemBase::new);
     public static final RegistryObject<Item> AMETHYST = ITEMS.register("amethyst", AmethystItem::new);
     public static final RegistryObject<Item> TIMOTHY_BUSHEL = ITEMS.register("timothy_bushel", ItemBase::new);
     public static final RegistryObject<Item> OAT_BUSHEL = ITEMS.register("oat_bushel", ItemBase::new);
     public static final RegistryObject<Item> ALFALFA_BUSHEL = ITEMS.register("alfalfa_bushel", ItemBase::new);
     public static final RegistryObject<Item> SWEM_WORM = ITEMS.register("swem_worm", ItemBase::new);
+    public static final RegistryObject<FenceToolItem> FENCE_TOOL = ITEMS.register("fence_tool", FenceToolItem::new);
     public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_WHITE = ITEMS.register("western_saddle_white", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<HorseSaddleItem> WESTERN_SADDLE_ORANGE = ITEMS.register("western_saddle_orange", () -> new HorseSaddleItem(new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
@@ -211,7 +209,8 @@ public class RegistryHandler {
     public static final RegistryObject<Block> HORSE_POO = BLOCKS.register("pile_of_horse_poo", () -> new HorsePoopBlock(Block.Properties.create(Material.ORGANIC)));
     public static final RegistryObject<Block> WESTERN_POLE = BLOCKS.register("western_pole", () -> new WesternPoleBlock(Block.Properties.create(Material.WOOD)));
     public static final RegistryObject<Block> INVISIBLE_GLOW_BLOCK = BLOCKS.register("invisible_glow_block", () -> new InvisibleGlowBlock(Block.Properties.create(Material.IRON)));
-    //public static final RegistryObject<Block> WATER_TROUGH = BLOCKS.register("water_trough", () -> new WaterTroughBase(WaterTroughBase.WaterTroughType.SINGLE, Block.Properties.create(Material.IRON)));
+    public static final RegistryObject<Block> WESTERN_FENCE = BLOCKS.register("western_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
+    public static final RegistryObject<Block> PASTURE_FENCE = BLOCKS.register("pasture_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
 
     // Block Items
     public static final RegistryObject<Item> FUEL_BLOCK_ITEM = ITEMS.register("fuel_block",
@@ -229,33 +228,33 @@ public class RegistryHandler {
     public static final RegistryObject<Item> AMETHYST_ORE_ITEM = ITEMS.register("amethyst_ore",
             () -> new BlockItemBase(AMETHYST_ORE.get()));
     public static final RegistryObject<Item> YELLOW_CONE_ITEM = ITEMS.register("yellow_cone",
-            () -> new BlockItemBase(YELLOW_CONE.get()));
+            () -> new ConeBlockItem(YELLOW_CONE.get()));
     public static final RegistryObject<Item> WHITE_CONE_ITEM = ITEMS.register("white_cone",
-            () -> new BlockItemBase(WHITE_CONE.get()));
+            () -> new ConeBlockItem(WHITE_CONE.get()));
     public static final RegistryObject<Item> RED_CONE_ITEM = ITEMS.register("red_cone",
-            () -> new BlockItemBase(RED_CONE.get()));
+            () -> new ConeBlockItem(RED_CONE.get()));
     public static final RegistryObject<Item> PURPLE_CONE_ITEM = ITEMS.register("purple_cone",
-            () -> new BlockItemBase(PURPLE_CONE.get()));
+            () -> new ConeBlockItem(PURPLE_CONE.get()));
     public static final RegistryObject<Item> PINK_CONE_ITEM = ITEMS.register("pink_cone",
-            () -> new BlockItemBase(PINK_CONE.get()));
+            () -> new ConeBlockItem(PINK_CONE.get()));
     public static final RegistryObject<Item> ORANGE_CONE_ITEM = ITEMS.register("orange_cone",
-            () -> new BlockItemBase(ORANGE_CONE.get()));
+            () -> new ConeBlockItem(ORANGE_CONE.get()));
     public static final RegistryObject<Item> MAGENTA_CONE_ITEM = ITEMS.register("magenta_cone",
-            () -> new BlockItemBase(MAGENTA_CONE.get()));
+            () -> new ConeBlockItem(MAGENTA_CONE.get()));
     public static final RegistryObject<Item> LIGHT_BLUE_CONE_ITEM = ITEMS.register("light_blue_cone",
-            () -> new BlockItemBase(LIGHT_BLUE_CONE.get()));
+            () -> new ConeBlockItem(LIGHT_BLUE_CONE.get()));
     public static final RegistryObject<Item> GREY_CONE_ITEM = ITEMS.register("grey_cone",
-            () -> new BlockItemBase(GREY_CONE.get()));
+            () -> new ConeBlockItem(GREY_CONE.get()));
     public static final RegistryObject<Item> LIME_CONE_ITEM = ITEMS.register("lime_cone",
-            () -> new BlockItemBase(LIME_CONE.get()));
+            () -> new ConeBlockItem(LIME_CONE.get()));
     public static final RegistryObject<Item> GREEN_CONE_ITEM = ITEMS.register("green_cone",
-            () -> new BlockItemBase(GREEN_CONE.get()));
+            () -> new ConeBlockItem(GREEN_CONE.get()));
     public static final RegistryObject<Item> CYAN_CONE_ITEM = ITEMS.register("cyan_cone",
-            () -> new BlockItemBase(CYAN_CONE.get()));
+            () -> new ConeBlockItem(CYAN_CONE.get()));
     public static final RegistryObject<Item> BLUE_CONE_ITEM = ITEMS.register("blue_cone",
-            () -> new BlockItemBase(BLUE_CONE.get()));
+            () -> new ConeBlockItem(BLUE_CONE.get()));
     public static final RegistryObject<Item> QUALITY_BALE_ITEM = ITEMS.register("quality_bale",
-            () -> new BlockItemBase(QUALITY_BALE.get()));
+            () -> new ConeBlockItem(QUALITY_BALE.get()));
     public static final RegistryObject<Item> TIMOTHY_SEEDS = ITEMS.register("timothy_seeds",
             () -> new BlockItemBase(TIMOTHY_GRASS.get()));
     public static final RegistryObject<Item> ALFALFA_SEEDS = ITEMS.register("alfalfa_seeds",
@@ -286,8 +285,8 @@ public class RegistryHandler {
             () -> new BlockItemBase(PASTURE_HITCHING_POST.get()));
     public static final RegistryObject<Item> WESTERN_POLE_ITEM = ITEMS.register("western_pole",
             () -> new BlockItemBase(WESTERN_POLE.get()));
-    //public static final RegistryObject<Item> WATER_TROUGH_ITEM = ITEMS.register("water_trough",
-           // () -> new BlockItemBase(WATER_TROUGH.get()));
+    public static final RegistryObject<Item> WESTERN_FENCE_ITEM = ITEMS.register("western_fence", () -> new BlockItemBase(WESTERN_FENCE.get()));
+    public static final RegistryObject<Item> PASTURE_FENCE_ITEM = ITEMS.register("pasture_fence", () -> new BlockItemBase(PASTURE_FENCE.get()));
 
     // Entity's
     public static final RegistryObject<EntityType<SWEMHorseEntity>> SWEM_HORSE_ENTITY = ENTITY_TYPES.register("swem_horse",
