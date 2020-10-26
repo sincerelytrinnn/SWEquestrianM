@@ -239,7 +239,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	}
 
 	public boolean isHorseSaddled() {
-		return this.isSWEMSaddled();
+		return this.getHorseWatchableBoolean(4);
 	}
 
 	@Override
@@ -349,6 +349,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 //		return CoatTypes.func_234248_a_((this.getHorseVariant() & '\uff00') >> 8);
 //	}
 
+	@Override
 	protected void func_230275_fc_() {
 		if (!this.world.isRemote) {
 			this.setHorseWatchableBoolean(4, !this.horseChest.getStackInSlot(2).isEmpty());
