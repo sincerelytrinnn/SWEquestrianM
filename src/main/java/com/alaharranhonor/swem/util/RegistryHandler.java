@@ -108,6 +108,8 @@ public class RegistryHandler {
     public static final RegistryObject<Item> ALFALFA_BUSHEL = ITEMS.register("alfalfa_bushel", ItemBase::new);
     public static final RegistryObject<Item> SWEM_WORM = ITEMS.register("swem_worm", ItemBase::new);
     public static final RegistryObject<FenceToolItem> FENCE_TOOL = ITEMS.register("fence_tool", FenceToolItem::new);
+
+    // SADDLES
     public static final RegistryObject<WesternSaddleItem> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new WesternSaddleItem("western_saddle_light_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<WesternSaddleItem> WESTERN_SADDLE_WHITE = ITEMS.register("western_saddle_white", () -> new WesternSaddleItem("western_saddle_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<WesternSaddleItem> WESTERN_SADDLE_ORANGE = ITEMS.register("western_saddle_orange", () -> new WesternSaddleItem("western_saddle_orange", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
@@ -129,7 +131,9 @@ public class RegistryHandler {
     public static final RegistryObject<HorseSaddleItem> ADVENTURE_SADDLE_ONE = ITEMS.register("adventure_saddle_1", () -> new HorseSaddleItem("test", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<HorseSaddleItem> ADVENTURE_SADDLE_TWO = ITEMS.register("adventure_saddle_2", () -> new HorseSaddleItem("test", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<HorseSaddleItem> ADVENTURE_SADDLE_THREE = ITEMS.register("adventure_saddle_3", () -> new HorseSaddleItem("test", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
-    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_BLACK = ITEMS.register("western_blanket_white", () -> new BlanketItem("western_blanket_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+
+    // BLANKETS
+    public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_BLACK = ITEMS.register("english_blanket_black", () -> new BlanketItem("western_blanket_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_BLUE = ITEMS.register("english_blanket_blue", () -> new BlanketItem("western_blanket_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_BROWN = ITEMS.register("english_blanket_brown", () -> new BlanketItem("western_blanket_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_CYAN = ITEMS.register("english_blanket_cyan", () -> new BlanketItem("western_blanket_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
@@ -145,9 +149,78 @@ public class RegistryHandler {
     public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_RED = ITEMS.register("english_blanket_red", () -> new BlanketItem("western_blanket_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_WHITE = ITEMS.register("english_blanket_white", () -> new BlanketItem("western_blanket_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<BlanketItem> ENGLISH_BLANKET_YELLOW = ITEMS.register("english_blanket_yellow", () -> new BlanketItem("western_blanket_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
-    public static final RegistryObject<BridleItem> BRIDLE = ITEMS.register("bridle", () -> new BridleItem("bridle", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> WESTERN_BLANKET_BLACK = ITEMS.register("western_blanket_black", () -> new BlanketItem("western_blanket_black", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> WESTERN_BLANKET_BLUE = ITEMS.register("western_blanket_blue", () -> new BlanketItem("western_blanket_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> WESTERN_BLANKET_BROWN = ITEMS.register("western_blanket_brown", () -> new BlanketItem("western_blanket_brown", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> WESTERN_BLANKET_CYAN = ITEMS.register("western_blanket_cyan", () -> new BlanketItem("western_blanket_cyan", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> WESTERN_BLANKET_GREEN = ITEMS.register("western_blanket_green", () -> new BlanketItem("western_blanket_green", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> WESTERN_BLANKET_GRAY = ITEMS.register("western_blanket_gray", () -> new BlanketItem("western_blanket_gray", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> WESTERN_BLANKET_LIGHT_BLUE = ITEMS.register("western_blanket_light_blue", () -> new BlanketItem("western_blanket_light_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> WESTERN_BLANKET_LIGHT_GRAY = ITEMS.register("western_blanket_light_gray", () -> new BlanketItem("western_blanket_light_gray", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> WESTERN_BLANKET_LIME = ITEMS.register("western_blanket_lime", () -> new BlanketItem("western_blanket_lime", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> WESTERN_BLANKET_MAGENTA = ITEMS.register("western_blanket_magenta", () -> new BlanketItem("western_blanket_magenta", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> WESTERN_BLANKET_ORANGE = ITEMS.register("western_blanket_orange", () -> new BlanketItem("western_blanket_orange", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> WESTERN_BLANKET_PINK = ITEMS.register("western_blanket_pink", () -> new BlanketItem("western_blanket_pink", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> WESTERN_BLANKET_PURPLE = ITEMS.register("western_blanket_purple", () -> new BlanketItem("western_blanket_purple", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> WESTERN_BLANKET_RED = ITEMS.register("western_blanket_red", () -> new BlanketItem("western_blanket_red", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> WESTERN_BLANKET_WHITE = ITEMS.register("western_blanket_white", () -> new BlanketItem("western_blanket_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BlanketItem> WESTERN_BLANKET_YELLOW = ITEMS.register("western_blanket_yellow", () -> new BlanketItem("western_blanket_yellow", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+
+    // HALTER
+    public static final RegistryObject<HalterItem> HALTER_WHITE = ITEMS.register("halter_white", () -> new HalterItem("halter_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HalterItem> HALTER_BLACK = ITEMS.register("halter_black", () -> new HalterItem("halter_black", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HalterItem> HALTER_BLUE = ITEMS.register("halter_blue", () -> new HalterItem("halter_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HalterItem> HALTER_BROWN = ITEMS.register("halter_brown", () -> new HalterItem("halter_brown", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HalterItem> HALTER_CYAN = ITEMS.register("halter_cyan", () -> new HalterItem("halter_cyan", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HalterItem> HALTER_GREEN = ITEMS.register("halter_green", () -> new HalterItem("halter_green", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HalterItem> HALTER_GRAY = ITEMS.register("halter_gray", () -> new HalterItem("halter_gray", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HalterItem> HALTER_LIGHT_BLUE = ITEMS.register("halter_light_blue", () -> new HalterItem("halter_light_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HalterItem> HALTER_LIGHT_GRAY = ITEMS.register("halter_light_gray", () -> new HalterItem("halter_light_gray", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HalterItem> HALTER_LIME = ITEMS.register("halter_lime", () -> new HalterItem("halter_lime", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HalterItem> HALTER_MAGENTA = ITEMS.register("halter_magenta", () -> new HalterItem("halter_magenta", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HalterItem> HALTER_ORANGE = ITEMS.register("halter_orange", () -> new HalterItem("halter_orange", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HalterItem> HALTER_PINK = ITEMS.register("halter_pink", () -> new HalterItem("halter_pink", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HalterItem> HALTER_PURPLE = ITEMS.register("halter_purple", () -> new HalterItem("halter_purple", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HalterItem> HALTER_RED = ITEMS.register("halter_red", () -> new HalterItem("halter_red", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<HalterItem> HALTER_YELLOW = ITEMS.register("halter_yellow", () -> new HalterItem("halter_yellow", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+
+    // GIRTH STRAP
     public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_WHITE = ITEMS.register("western_girth_strap_white", () -> new GirthStrapItem("western_girth_strap_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_BLACK = ITEMS.register("western_girth_strap_black", () -> new GirthStrapItem("western_girth_strap_black", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_BROWN = ITEMS.register("western_girth_strap_brown", () -> new GirthStrapItem("western_girth_strap_brown", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_BLUE = ITEMS.register("western_girth_strap_blue", () -> new GirthStrapItem("western_girth_strap_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_CYAN = ITEMS.register("western_girth_strap_cyan", () -> new GirthStrapItem("western_girth_strap_cyan", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_GREEN = ITEMS.register("western_girth_strap_green", () -> new GirthStrapItem("western_girth_strap_green", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_GRAY = ITEMS.register("western_girth_strap_gray", () -> new GirthStrapItem("western_girth_strap_gray", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_LIGHT_BLUE = ITEMS.register("western_girth_strap_light_blue", () -> new GirthStrapItem("western_girth_strap_light_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_LIGHT_GRAY = ITEMS.register("western_girth_strap_light_gray", () -> new GirthStrapItem("western_girth_strap_light_gray", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_LIME = ITEMS.register("western_girth_strap_lime", () -> new GirthStrapItem("western_girth_strap_lime", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_MAGENTA = ITEMS.register("western_girth_strap_magenta", () -> new GirthStrapItem("western_girth_strap_magenta", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_ORANGE = ITEMS.register("western_girth_strap_orange", () -> new GirthStrapItem("western_girth_strap_orange", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_PINK = ITEMS.register("western_girth_strap_pink", () -> new GirthStrapItem("western_girth_strap_pink", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_PURPLE = ITEMS.register("western_girth_strap_purple", () -> new GirthStrapItem("western_girth_strap_purple", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_RED = ITEMS.register("western_girth_strap_red", () -> new GirthStrapItem("western_girth_strap_red", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_YELLOW = ITEMS.register("western_girth_strap_yellow", () -> new GirthStrapItem("western_girth_strap_yellow", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    
+    // LEG WRAPS
     public static final RegistryObject<LegWrapsItem> WESTERN_LEG_WRAPS_WHITE = ITEMS.register("western_leg_wraps_white", () -> new LegWrapsItem("western_leg_wraps_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<LegWrapsItem> WESTERN_LEG_WRAPS_BLACK = ITEMS.register("western_leg_wraps_black", () -> new LegWrapsItem("western_leg_wraps_black", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<LegWrapsItem> WESTERN_LEG_WRAPS_BROWN = ITEMS.register("western_leg_wraps_brown", () -> new LegWrapsItem("western_leg_wraps_brown", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<LegWrapsItem> WESTERN_LEG_WRAPS_BLUE = ITEMS.register("western_leg_wraps_blue", () -> new LegWrapsItem("western_leg_wraps_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<LegWrapsItem> WESTERN_LEG_WRAPS_CYAN = ITEMS.register("western_leg_wraps_cyan", () -> new LegWrapsItem("western_leg_wraps_cyan", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<LegWrapsItem> WESTERN_LEG_WRAPS_GREEN = ITEMS.register("western_leg_wraps_green", () -> new LegWrapsItem("western_leg_wraps_green", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<LegWrapsItem> WESTERN_LEG_WRAPS_GRAY = ITEMS.register("western_leg_wraps_gray", () -> new LegWrapsItem("western_leg_wraps_gray", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<LegWrapsItem> WESTERN_LEG_WRAPS_LIGHT_BLUE = ITEMS.register("western_leg_wraps_light_blue", () -> new LegWrapsItem("western_leg_wraps_light_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<LegWrapsItem> WESTERN_LEG_WRAPS_LIGHT_GRAY = ITEMS.register("western_leg_wraps_light_gray", () -> new LegWrapsItem("western_leg_wraps_light_gray", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<LegWrapsItem> WESTERN_LEG_WRAPS_LIME = ITEMS.register("western_leg_wraps_lime", () -> new LegWrapsItem("western_leg_wraps_lime", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<LegWrapsItem> WESTERN_LEG_WRAPS_MAGENTA = ITEMS.register("western_leg_wraps_magenta", () -> new LegWrapsItem("western_leg_wraps_magenta", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<LegWrapsItem> WESTERN_LEG_WRAPS_ORANGE = ITEMS.register("western_leg_wraps_orange", () -> new LegWrapsItem("western_leg_wraps_orange", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<LegWrapsItem> WESTERN_LEG_WRAPS_PINK = ITEMS.register("western_leg_wraps_pink", () -> new LegWrapsItem("western_leg_wraps_pink", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<LegWrapsItem> WESTERN_LEG_WRAPS_PURPLE = ITEMS.register("western_leg_wraps_purple", () -> new LegWrapsItem("western_leg_wraps_purple", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<LegWrapsItem> WESTERN_LEG_WRAPS_RED = ITEMS.register("western_leg_wraps_red", () -> new LegWrapsItem("western_leg_wraps_red", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<LegWrapsItem> WESTERN_LEG_WRAPS_YELLOW = ITEMS.register("western_leg_wraps_yellow", () -> new LegWrapsItem("western_leg_wraps_yellow", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+
+    // BREAST COLLAR
     public static final RegistryObject<BreastCollarItem> WESTERN_BREAST_COLLAR_WHITE = ITEMS.register("western_breast_collar_white", () -> new BreastCollarItem("western_breast_collar_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 
     // Tools
