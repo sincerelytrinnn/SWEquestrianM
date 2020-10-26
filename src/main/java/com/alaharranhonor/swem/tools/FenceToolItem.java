@@ -1,8 +1,9 @@
-package com.alaharranhonor.swem.items;
+package com.alaharranhonor.swem.tools;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.blocks.FenceBaseBlock;
 import com.alaharranhonor.swem.blocks.SWEMBlockStateProperties;
+import com.alaharranhonor.swem.items.ItemBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemUseContext;
@@ -29,4 +30,6 @@ public class FenceToolItem extends ItemBase {
 		}
 		return ActionResultType.PASS;
 	}
+
+
 }
