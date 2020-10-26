@@ -2,11 +2,11 @@ package com.alaharranhonor.swem.entities;
 
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.goals.PoopGoal;
-import com.alaharranhonor.swem.items.BlanketItem;
-import com.alaharranhonor.swem.items.HorseSaddleItem;
+import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
+import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -202,8 +202,40 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			if (p_230266_1_ != null) {
 				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
+		} else if (stack.getItem() instanceof BreastCollarItem) {
+			this.horseChest.setInventorySlotContents(3, stack);
+			if (p_230266_1_ != null) {
+				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
+			}
+		} else if (stack.getItem() instanceof BridleItem) {
+			this.horseChest.setInventorySlotContents(0, stack);
+			if (p_230266_1_ != null) {
+				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
+			}
+		} else if (stack.getItem() instanceof GirthStrapItem) {
+			this.horseChest.setInventorySlotContents(5, stack);
+			if (p_230266_1_ != null) {
+				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
+			}
+		} else if (stack.getItem() instanceof LegWrapsItem) {
+			this.horseChest.setInventorySlotContents(4, stack);
+			if (p_230266_1_ != null) {
+				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
+			}
 		}
 
+	}
+
+	/**
+	 * Returns the Y offset from the entity's position for any entity riding this one.
+	 */
+	@Override
+	public double getMountedYOffset() {
+		double def = (double)(this.getSize(this.getPose()).height * 0.75D);
+		if (this.hasSaddle().getItem() instanceof WesternSaddleItem) {
+			def += 0.15D;
+		}
+		return def;
 	}
 
 	public boolean isHorseSaddled() {
@@ -215,6 +247,29 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return this.horseChest.getStackInSlot(1).getItem() instanceof HorseSaddleItem;
 	}
 
+	@Override
+	public boolean hasBreastCollar() {
+		return this.horseChest.getStackInSlot(3).getItem() instanceof BreastCollarItem;
+	}
+
+	@Override
+	public boolean hasBridle() {
+		return this.horseChest.getStackInSlot(0).getItem() instanceof BridleItem;
+	}
+
+	@Override
+	public boolean hasGirthStrap() {
+		return this.horseChest.getStackInSlot(5).getItem() instanceof GirthStrapItem;
+	}
+
+	@Override
+	public boolean hasLegWraps() {
+		return this.horseChest.getStackInSlot(4).getItem() instanceof LegWrapsItem;
+	}
+
+	public ItemStack hasSaddle() {
+		return this.horseChest.getStackInSlot(2);
+	};
 
 	@Override
 	protected void initHorseChest() {
@@ -514,23 +569,35 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	}
 
 	public boolean isBridle(ItemStack stack) {
-		//return stack.getItem() instanceof BridleItem;
-		return false;
+		return stack.getItem() instanceof BridleItem;
+	}
+
+	public ItemStack getBridle() {
+		return this.horseChest.getStackInSlot(0);
 	}
 
 	public boolean isBreastCollar(ItemStack stack) {
-		//return stack.getItem() instanceof BreastCollarItem;
-		return false;
+		return stack.getItem() instanceof BreastCollarItem;
+	}
+
+	public ItemStack getBreastCollar() {
+		return this.horseChest.getStackInSlot(3);
 	}
 
 	public boolean isLegWraps(ItemStack stack) {
-		//return stack.getItem() instanceof LegWrapItem;
-		return false;
+		return stack.getItem() instanceof LegWrapsItem;
+	}
+
+	public ItemStack getLegWraps() {
+		return this.horseChest.getStackInSlot(4);
 	}
 
 	public boolean isGirthStrap(ItemStack stack) {
-		//return stack.getItem() instanceof GirthStrapItem;
-		return false;
+		return stack.getItem() instanceof GirthStrapItem;
+	}
+
+	public ItemStack getGirthStrap() {
+		return this.horseChest.getStackInSlot(5);
 	}
 
 	public boolean isSWEMArmor(ItemStack stack) {
@@ -540,6 +607,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	public boolean isBlanket(ItemStack stack) {
 		return stack.getItem() instanceof BlanketItem;
+	}
+
+	public ItemStack getBlanket() {
+		return this.horseChest.getStackInSlot(1);
 	}
 
 	public boolean isSaddle(ItemStack stack) {
