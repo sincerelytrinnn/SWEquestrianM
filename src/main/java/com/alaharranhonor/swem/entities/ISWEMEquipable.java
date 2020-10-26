@@ -14,4 +14,12 @@ public interface ISWEMEquipable extends IEquipable {
 	boolean isHorseSaddled();
 
 	boolean hasBlanket();
+
+	boolean hasBreastCollar();
+
+	boolean hasBridle();
+
+	boolean hasGirthStrap();
+
+	boolean hasLegWraps();
 }

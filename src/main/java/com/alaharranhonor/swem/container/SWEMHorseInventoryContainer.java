@@ -112,13 +112,13 @@ public class SWEMHorseInventoryContainer extends Container {
 			}
 		});
 
-		// Girth Strap slot 4
+		// Breast Collar slot 4
 		this.addSlot(new Slot(horseInventory, 3, 8, 59) {
 			/**
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
 			public boolean isItemValid(ItemStack stack) {
-				return horse.isGirthStrap(stack);
+				return horse.isBreastCollar(stack);
 			}
 
 			/**
