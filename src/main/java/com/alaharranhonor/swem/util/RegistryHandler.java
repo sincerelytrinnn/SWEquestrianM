@@ -201,7 +201,7 @@ public class RegistryHandler {
     public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_PURPLE = ITEMS.register("western_girth_strap_purple", () -> new GirthStrapItem("western_girth_strap_purple", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_RED = ITEMS.register("western_girth_strap_red", () -> new GirthStrapItem("western_girth_strap_red", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<GirthStrapItem> WESTERN_GIRTH_STRAP_YELLOW = ITEMS.register("western_girth_strap_yellow", () -> new GirthStrapItem("western_girth_strap_yellow", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
-    
+
     // LEG WRAPS
     public static final RegistryObject<LegWrapsItem> WESTERN_LEG_WRAPS_WHITE = ITEMS.register("western_leg_wraps_white", () -> new LegWrapsItem("western_leg_wraps_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
     public static final RegistryObject<LegWrapsItem> WESTERN_LEG_WRAPS_BLACK = ITEMS.register("western_leg_wraps_black", () -> new LegWrapsItem("western_leg_wraps_black", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
@@ -222,6 +222,21 @@ public class RegistryHandler {
 
     // BREAST COLLAR
     public static final RegistryObject<BreastCollarItem> WESTERN_BREAST_COLLAR_WHITE = ITEMS.register("western_breast_collar_white", () -> new BreastCollarItem("western_breast_collar_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BreastCollarItem> WESTERN_BREAST_COLLAR_BLACK = ITEMS.register("western_breast_collar_black", () -> new BreastCollarItem("western_breast_collar_black", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BreastCollarItem> WESTERN_BREAST_COLLAR_BROWN = ITEMS.register("western_breast_collar_brown", () -> new BreastCollarItem("western_breast_collar_brown", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BreastCollarItem> WESTERN_BREAST_COLLAR_BLUE = ITEMS.register("western_breast_collar_blue", () -> new BreastCollarItem("western_breast_collar_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BreastCollarItem> WESTERN_BREAST_COLLAR_CYAN = ITEMS.register("western_breast_collar_cyan", () -> new BreastCollarItem("western_breast_collar_cyan", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BreastCollarItem> WESTERN_BREAST_COLLAR_GREEN = ITEMS.register("western_breast_collar_green", () -> new BreastCollarItem("western_breast_collar_green", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BreastCollarItem> WESTERN_BREAST_COLLAR_GRAY = ITEMS.register("western_breast_collar_gray", () -> new BreastCollarItem("western_breast_collar_gray", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BreastCollarItem> WESTERN_BREAST_COLLAR_LIGHT_BLUE = ITEMS.register("western_breast_collar_light_blue", () -> new BreastCollarItem("western_breast_collar_light_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BreastCollarItem> WESTERN_BREAST_COLLAR_LIGHT_GRAY = ITEMS.register("western_breast_collar_light_gray", () -> new BreastCollarItem("western_breast_collar_light_gray", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BreastCollarItem> WESTERN_BREAST_COLLAR_LIME = ITEMS.register("western_breast_collar_lime", () -> new BreastCollarItem("western_breast_collar_lime", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BreastCollarItem> WESTERN_BREAST_COLLAR_MAGENTA = ITEMS.register("western_breast_collar_magenta", () -> new BreastCollarItem("western_breast_collar_magenta", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BreastCollarItem> WESTERN_BREAST_COLLAR_ORANGE = ITEMS.register("western_breast_collar_orange", () -> new BreastCollarItem("western_breast_collar_orange", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BreastCollarItem> WESTERN_BREAST_COLLAR_PINK = ITEMS.register("western_breast_collar_pink", () -> new BreastCollarItem("western_breast_collar_pink", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BreastCollarItem> WESTERN_BREAST_COLLAR_PURPLE = ITEMS.register("western_breast_collar_purple", () -> new BreastCollarItem("western_breast_collar_purple", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BreastCollarItem> WESTERN_BREAST_COLLAR_RED = ITEMS.register("western_breast_collar_red", () -> new BreastCollarItem("western_breast_collar_red", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+    public static final RegistryObject<BreastCollarItem> WESTERN_BREAST_COLLAR_YELLOW = ITEMS.register("western_breast_collar_yellow", () -> new BreastCollarItem("western_breast_collar_yellow", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 
     // Tools
     public static final RegistryObject<SwordItem> AMETHYST_LONGSWORD = ITEMS.register("amethyst_longsword", () ->
