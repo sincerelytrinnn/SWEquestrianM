@@ -41,7 +41,6 @@ public class RegistryHandler {
     public static DeferredRegister<ContainerType<?>> CONTAINER_TYPES = DeferredRegister.create(ForgeRegistries.CONTAINERS, SWEM.MOD_ID);
 
 
-
     public static void init(){
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -300,6 +299,7 @@ public class RegistryHandler {
     public static final RegistryObject<Block> INVISIBLE_GLOW_BLOCK = BLOCKS.register("invisible_glow_block", () -> new InvisibleGlowBlock(Block.Properties.create(Material.IRON)));
     public static final RegistryObject<Block> WESTERN_FENCE = BLOCKS.register("western_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
     public static final RegistryObject<Block> PASTURE_FENCE = BLOCKS.register("pasture_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
+    public static final RegistryObject<Block> HALF_BARREL = BLOCKS.register("half_barrel", () -> new HalfBarrelBlock(Block.Properties.create(Material.IRON)));
 
     // Block Items
     public static final RegistryObject<Item> FUEL_BLOCK_ITEM = ITEMS.register("fuel_block",
@@ -376,6 +376,7 @@ public class RegistryHandler {
             () -> new BlockItemBase(WESTERN_POLE.get()));
     public static final RegistryObject<Item> WESTERN_FENCE_ITEM = ITEMS.register("western_fence", () -> new BlockItemBase(WESTERN_FENCE.get()));
     public static final RegistryObject<Item> PASTURE_FENCE_ITEM = ITEMS.register("pasture_fence", () -> new BlockItemBase(PASTURE_FENCE.get()));
+    public static final RegistryObject<Item> HALF_BARREL_ITEM = ITEMS.register("half_barrel_item", () -> new BlockItemBase(HALF_BARREL.get()));
 
     // Entity's
     public static final RegistryObject<EntityType<SWEMHorseEntity>> SWEM_HORSE_ENTITY = ENTITY_TYPES.register("swem_horse",
