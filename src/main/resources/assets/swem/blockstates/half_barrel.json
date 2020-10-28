@@ -1,0 +1,36 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "level": 0
+      },
+      "apply": {
+        "model": "swem:block/half_barrel"
+      }
+    },
+    {
+      "when": {
+        "level": 1
+      },
+      "apply": {
+        "model": "swem:block/half_barrel_level1"
+      }
+    },
+    {
+      "when": {
+        "level": 2
+      },
+      "apply": {
+        "model": "swem:block/half_barrel_level2"
+      }
+    },
+    {
+      "when": {
+        "level": 3
+      },
+      "apply": {
+        "model": "swem:block/half_barrel_level3"
+      }
+    }
+  ]
+}
