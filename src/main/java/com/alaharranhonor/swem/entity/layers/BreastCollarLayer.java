@@ -15,8 +15,6 @@ import net.minecraft.item.ItemStack;
 
 public class BreastCollarLayer extends LayerRenderer<SWEMHorseEntity, SWEMHorseModel> {
 
-	private final SWEMHorseModel model = new SWEMHorseModel();
-
 	public BreastCollarLayer(IEntityRenderer<SWEMHorseEntity, SWEMHorseModel> entityRendererIn) {
 		super(entityRendererIn);
 	}
@@ -26,12 +24,8 @@ public class BreastCollarLayer extends LayerRenderer<SWEMHorseEntity, SWEMHorseM
 		ItemStack stack = entitylivingbaseIn.getBreastCollar();
 		if (!stack.isEmpty()) {
 			BreastCollarItem breastCollar = (BreastCollarItem)stack.getItem();
-			this.getEntityModel().copyModelAttributesTo(model);
-			this.model.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks);
-			this.model.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-
 			IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(breastCollar.getArmorTexture()));
-			this.model.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+			this.getEntityModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
 		}
 	}
 }

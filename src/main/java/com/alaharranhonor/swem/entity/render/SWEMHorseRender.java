@@ -18,6 +18,8 @@ public class SWEMHorseRender extends MobRenderer<SWEMHorseEntity, SWEMHorseModel
         this.addLayer(new GirthStrapLayer(this));
         this.addLayer(new BreastCollarLayer(this));
         this.addLayer(new HalterLayer(this));
+        this.addLayer(new EnglishBridleLayer(this));
+        this.addLayer(new WesternBridleLayer(this));
         this.addLayer(new LegWrapsLayer(this));
         this.addLayer(new WesternSaddleLayer(this));
         this.addLayer(new EnglishSaddleLayer(this));
