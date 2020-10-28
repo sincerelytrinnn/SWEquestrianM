@@ -42,7 +42,7 @@
 	},
 	"groups": [
 		{
-			"name": "group",
+			"name": "VoxelShapes",
 			"origin": [8, 8, 8],
 			"children": [
 				{
@@ -294,7 +294,7 @@
 				{
 					"name": "octagon",
 					"from": [4.68629, 0, 0],
-					"to": [11.31371, 1, 16],
+					"to": [11.31371, 0.99, 16],
 					"rotation": {"angle": 45, "axis": "y", "origin": [8, 1, 8]},
 					"faces": {
 						"north": {"uv": [5.75, 0, 7.5, 0.25], "texture": "#0"},
@@ -322,7 +322,7 @@
 				{
 					"name": "octagon",
 					"from": [0, 0, 4.68629],
-					"to": [16, 1, 11.31371],
+					"to": [16, 0.98, 11.31371],
 					"rotation": {"angle": 45, "axis": "y", "origin": [8, 1, 8]},
 					"faces": {
 						"north": {"uv": [9.75, 9.25, 13.75, 9.5], "texture": "#0"},
@@ -336,7 +336,7 @@
 				{
 					"name": "octagon",
 					"from": [0, 0, 4.68629],
-					"to": [16, 1, 11.31371],
+					"to": [16, 0.97, 11.31371],
 					"rotation": {"angle": 0, "axis": "y", "origin": [8, 1, 8]},
 					"faces": {
 						"north": {"uv": [10.75, 2.75, 14.75, 3], "texture": "#0"},
@@ -578,7 +578,7 @@
 				{
 					"name": "octagon",
 					"from": [4.68629, 0, 0],
-					"to": [11.31371, 1, 16],
+					"to": [11.31371, 0.99, 16],
 					"rotation": {"angle": 45, "axis": "y", "origin": [8, 1, 8]},
 					"faces": {
 						"north": {"uv": [5.75, 0, 7.5, 0.25], "texture": "#0"},
@@ -606,7 +606,7 @@
 				{
 					"name": "octagon",
 					"from": [0, 0, 4.68629],
-					"to": [16, 1, 11.31371],
+					"to": [16, 0.98, 11.31371],
 					"rotation": {"angle": 45, "axis": "y", "origin": [8, 1, 8]},
 					"faces": {
 						"north": {"uv": [9.75, 9.25, 13.75, 9.5], "texture": "#0"},
@@ -620,7 +620,7 @@
 				{
 					"name": "octagon",
 					"from": [0, 0, 4.68629],
-					"to": [16, 1, 11.31371],
+					"to": [16, 0.97, 11.31371],
 					"rotation": {"angle": 0, "axis": "y", "origin": [8, 1, 8]},
 					"faces": {
 						"north": {"uv": [10.75, 2.75, 14.75, 3], "texture": "#0"},
