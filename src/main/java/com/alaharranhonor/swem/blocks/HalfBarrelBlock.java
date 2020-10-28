@@ -81,7 +81,7 @@ public class HalfBarrelBlock extends Block {
 					}
 
 					player.addStat(Stats.FILL_CAULDRON);
-					this.setWaterLevel(worldIn, pos, state, 3);
+					this.setWaterLevel(worldIn, pos, state, i +1);
 					worldIn.playSound((PlayerEntity)null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				}
 
@@ -89,7 +89,7 @@ public class HalfBarrelBlock extends Block {
 
 
 			} else if (item == Items.BUCKET) {
-				if (i == 3 && !worldIn.isRemote) {
+				if (i >= 1 && !worldIn.isRemote) {
 					if (!player.abilities.isCreativeMode) {
 						itemstack.shrink(1);
 						if (itemstack.isEmpty()) {
@@ -100,44 +100,9 @@ public class HalfBarrelBlock extends Block {
 					}
 
 					player.addStat(Stats.USE_CAULDRON);
-					this.setWaterLevel(worldIn, pos, state, 0);
+					this.setWaterLevel(worldIn, pos, state, i - 1);
 					worldIn.playSound((PlayerEntity) null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				}
-			} else if (item == Items.GLASS_BOTTLE) {
-				if (i > 0 && !worldIn.isRemote) {
-					if (!player.abilities.isCreativeMode) {
-						ItemStack itemstack4 = PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), Potions.WATER);
-						player.addStat(Stats.USE_CAULDRON);
-						itemstack.shrink(1);
-						if (itemstack.isEmpty()) {
-							player.setHeldItem(handIn, itemstack4);
-						} else if (!player.inventory.addItemStackToInventory(itemstack4)) {
-							player.dropItem(itemstack4, false);
-						} else if (player instanceof ServerPlayerEntity) {
-							((ServerPlayerEntity)player).sendContainerToPlayer(player.container);
-						}
-					}
-
-					worldIn.playSound((PlayerEntity)null, pos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-					this.setWaterLevel(worldIn, pos, state, i - 1);
-				}
-
-				return ActionResultType.func_233537_a_(worldIn.isRemote);
-			} else if (item == Items.POTION && PotionUtils.getPotionFromItem(itemstack) == Potions.WATER) {
-				if (i < 3 && !worldIn.isRemote) {
-					if (!player.abilities.isCreativeMode) {
-						ItemStack itemstack3 = new ItemStack(Items.GLASS_BOTTLE);
-						player.addStat(Stats.USE_CAULDRON);
-						player.setHeldItem(handIn, itemstack3);
-						if (player instanceof ServerPlayerEntity) {
-							((ServerPlayerEntity)player).sendContainerToPlayer(player.container);
-						}
-					}
-
-					worldIn.playSound((PlayerEntity)null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
-					this.setWaterLevel(worldIn, pos, state, i + 1);
-				}
-				return ActionResultType.func_233537_a_(worldIn.isRemote);
 			} else {
 				return ActionResultType.PASS;
 			}
