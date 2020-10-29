@@ -1,0 +1,183 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "north": "true",
+        "west": "true",
+        "south": "false",
+        "east": "false"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder_corner"
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "east": "true",
+        "south": "false",
+        "west": "false"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder_corner",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "east": "true",
+        "south": "true",
+        "north": "false",
+        "west": "false"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder_corner",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "west": "true",
+        "north": "false",
+        "east": "false"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder_corner",
+        "y": 270
+      }
+    },
+
+    {
+      "when": {
+        "north": "true|false",
+        "east": "false",
+        "south": "false",
+        "west": "false"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder"
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+        "east": "true|false",
+        "south": "false",
+        "west": "true|false"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder"
+      }
+    },
+    {
+      "when": {
+        "north": "true|false",
+        "east": "false",
+        "south": "true|false",
+        "west": "false"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder"
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "true|false"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder"
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "east": "true",
+        "south": "true",
+        "west": "false"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder"
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+        "east": "true",
+        "south": "true",
+        "west": "true"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder"
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "east": "false",
+        "south": "true",
+        "west": "true"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder"
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "east": "true",
+        "south": "false",
+        "west": "true"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder"
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "east": "true",
+        "south": "true",
+        "west": "true"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder"
+      }
+    },
+    {
+      "when": {
+        "level": 1
+      },
+      "apply": {
+        "model": "swem:block/half_feeder"
+      }
+    },
+    {
+      "when": {
+        "level": 2
+      },
+      "apply": {
+        "model": "swem:block/full_feeder"
+      }
+    },
+    {
+      "when": {
+        "level_vanilla": 1
+      },
+      "apply": {
+        "model": "swem:block/half_feeder_vanilla"
+      }
+    },
+    {
+      "when": {
+        "level_vanilla": 2
+      },
+      "apply": {
+        "model": "swem:block/full_feeder_vanilla"
+      }
+    }
+  ]
+}
