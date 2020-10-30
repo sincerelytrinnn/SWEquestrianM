@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "texture0": "swem:items/slow_feeder_white"
+  }
+}
