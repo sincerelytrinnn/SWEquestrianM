@@ -1,3 +1,6 @@
 {
-  "parent": "swem:block/pasture_fence_full"
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "swem:items/pasture_fence"
+  }
 }

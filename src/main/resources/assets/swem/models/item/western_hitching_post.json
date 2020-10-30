@@ -1,3 +1,6 @@
 {
-  "parent": "swem:block/western_hitching_post"
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "swem:items/western_hitching_post"
+  }
 }
