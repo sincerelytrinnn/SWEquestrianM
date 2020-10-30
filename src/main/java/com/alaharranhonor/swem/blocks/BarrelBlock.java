@@ -56,9 +56,9 @@ public class BarrelBlock extends Block {
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		if (state.get(PART) == HitchingPostBase.PostPart.UPPER) {
-			return VoxelShapes.create(0, 0, 0, 1, 1.4d, 1).withOffset(0.0D, -1.0D, 0.0D);
+			return VoxelShapes.create(0.01D, 0.01D, 0.01D, 0.99D, 1.45d, 0.99D).withOffset(0.0D, -1.0D, 0.0D);
 		} else {
-			return VoxelShapes.create(0, 0, 0, 1, 1.4d, 1);
+			return VoxelShapes.create(0.01D, 0.01D, 0.01D, 0.99D, 1.45d, 0.99D);
 		}
 	}
 
