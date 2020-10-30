@@ -343,12 +343,9 @@ public class RegistryHandler {
     public static final RegistryObject<Block> WESTERN_FENCE = BLOCKS.register("western_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
     public static final RegistryObject<Block> PASTURE_FENCE = BLOCKS.register("pasture_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
     public static final RegistryObject<Block> HALF_BARREL = BLOCKS.register("half_barrel", () -> new HalfBarrelBlock(Block.Properties.create(Material.IRON)));
-<<<<<<< Updated upstream
     public static final RegistryObject<Block> SLOW_FEEDER = BLOCKS.register("slow_feeder", () -> new SlowFeederBlock(Block.Properties.create(Material.IRON)));
 
-=======
     public static final RegistryObject<Block> WESTERN_BARREL = BLOCKS.register("western_barrel", () -> new BarrelBlock(Block.Properties.create(Material.IRON)));
->>>>>>> Stashed changes
 
     // Block Items
     public static final RegistryObject<Item> FUEL_BLOCK_ITEM = ITEMS.register("fuel_block",
@@ -426,11 +423,8 @@ public class RegistryHandler {
     public static final RegistryObject<Item> WESTERN_FENCE_ITEM = ITEMS.register("western_fence", () -> new BlockItemBase(WESTERN_FENCE.get()));
     public static final RegistryObject<Item> PASTURE_FENCE_ITEM = ITEMS.register("pasture_fence", () -> new BlockItemBase(PASTURE_FENCE.get()));
     public static final RegistryObject<Item> HALF_BARREL_ITEM = ITEMS.register("half_barrel", () -> new BlockItemBase(HALF_BARREL.get()));
-<<<<<<< Updated upstream
     public static final RegistryObject<Item> SLOW_FEEDER_ITEM = ITEMS.register("slow_feeder", () -> new BlockItemBase(SLOW_FEEDER.get()));
-=======
     public static final RegistryObject<Item> WESTERN_BARREL_ITEM = ITEMS.register("western_barrel", () -> new BlockItemBase(WESTERN_BARREL.get()));
->>>>>>> Stashed changes
 
     // Entity's
     public static final RegistryObject<EntityType<SWEMHorseEntity>> SWEM_HORSE_ENTITY = ENTITY_TYPES.register("swem_horse",
