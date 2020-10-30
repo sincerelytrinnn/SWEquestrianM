@@ -10,7 +10,9 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -64,6 +66,8 @@ public class SWEM
                     blockItem.setRegistryName(block.getRegistryName());
                     registry.register(blockItem);
                 });
+
+        BrewingRecipeRegistry.addRecipe(null, Ingredient.fromItems(RegistryHandler.CANTAZARITE.get()), new ItemStack(RegistryHandler.CANTAZARITE_POTION.get()));
 
         LOGGER.debug("Registered BlockItems!");
     }
