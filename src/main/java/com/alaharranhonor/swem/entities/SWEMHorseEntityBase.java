@@ -60,8 +60,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	private int SWEMHorsePoopTimer;
 	private static Random rand = new Random();
 
-	private final LevelingManager leveling;
-	private final StatManager stats;
+	public final LevelingManager leveling;
+	public final StatManager stats;
 	private LazyOptional<InvWrapper> itemHandler;
 
 	public SWEMHorseEntityBase(EntityType<? extends AbstractHorseEntity> type, World worldIn)
@@ -72,13 +72,20 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	}
 
+	@Override
+	protected void func_230273_eI_() {
+		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getAlteredMaxHealth());
+		this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getAlteredMovementSpeed());
+		this.getAttribute(Attributes.HORSE_JUMP_STRENGTH).setBaseValue(this.getAlteredJumpStrength());
+	}
+
 	// func_233666_p_ -> registerAttributes()
 	public static AttributeModifierMap.MutableAttribute setCustomAttributes()
 	{
 		return MobEntity.func_233666_p_()
-				.createMutableAttribute(Attributes.MAX_HEALTH, getAlteredMaxHealth())
-				.createMutableAttribute(Attributes.HORSE_JUMP_STRENGTH, getAlteredJumpStrength())
-				.createMutableAttribute(Attributes.MOVEMENT_SPEED, getAlteredMovementSpeed());
+				.createMutableAttribute(Attributes.MAX_HEALTH)
+				.createMutableAttribute(Attributes.HORSE_JUMP_STRENGTH)
+				.createMutableAttribute(Attributes.MOVEMENT_SPEED);
 	}
 
 	@Override
@@ -337,6 +344,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		if (!this.horseChest.getStackInSlot(5).isEmpty()) {
 			compound.put("GirthStrapItem", this.horseChest.getStackInSlot(5).write(new CompoundNBT()));
 		}
+
+		compound.putFloat("CurrentXP", this.leveling.getXP());
+		compound.putInt("CurrentLevel", this.leveling.getLevel());
+		compound.putFloat("RequiredXP", this.leveling.getXPRequired());
 	}
 
 	public ItemStack func_213803_dV() {
@@ -390,6 +401,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 				this.horseChest.setInventorySlotContents(5, itemstack);
 			}
 		}
+
+		this.leveling.setLevel(compound.getInt("CurrentLevel"));
+		this.leveling.setXP(compound.getFloat("CurrentXP"));
+		this.leveling.setXPRequired(compound.getInt("RequiredXP"));
 
 		this.func_230275_fc_();
 	}
@@ -692,16 +707,68 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return super.func_230277_fr_();
 	}
 
-	private class LevelingManager
+	public float getJumpHeight() {
+		float jumpStrength = (float) this.getHorseJumpStrength();
+		float jumpHeight = (float) (-0.1817584952 * ((float)Math.pow(jumpStrength, 3.0F)) + 3.689713992 * ((float)Math.pow(jumpStrength, 2.0F)) + 2.128599134 * jumpStrength - 0.343930367);
+		return jumpHeight;
+	}
+
+	public class LevelingManager
 	{
+		private int level = 1;
+		private float xp = 0.0f;
+		private float xpRequired = 100.0f;
+		private float xpMultiplier = 1.2f;
 		private LevelingManager()
 		{
 
 		}
 
+		public int getLevel() {
+			return this.level;
+		}
+
+		public void setLevel(int level) {
+			this.level = level;
+		}
+
+		public float getXP() {
+			return this.xp;
+		}
+
+		public void setXP(float amount) {
+			this.xp = amount;
+		}
+
+		public float getXPRequired() {
+			return this.xpRequired;
+		}
+
+		public void setXPRequired(float amount) {
+			this.xpRequired = amount;
+		}
+
+		public void addXP(float amount) {
+			this.xp += amount;
+			this.checkLevelUp();
+		}
+
+		private void checkLevelUp() {
+			if (this.xp > xpRequired) {
+				this.levelUp();
+			}
+		}
+
+		private void levelUp() {
+			float excessXP = this.xp - xpRequired;
+			this.level++;
+			this.xp = excessXP;
+			this.xpRequired *= xpMultiplier;
+		}
+
 	}
 
-	private class StatManager {
+	public class StatManager {
 		private StatManager()
 		{
 
