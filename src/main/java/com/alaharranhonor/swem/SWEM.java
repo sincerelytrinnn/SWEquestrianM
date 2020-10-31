@@ -69,8 +69,6 @@ public class SWEM
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-//      OreGeneration.initGen();
-//      OreGeneration.setupGen();
         DeferredWorkQueue.runLater(() -> {
             GlobalEntityTypeAttributes.put(RegistryHandler.SWEM_HORSE_ENTITY.get(), SWEMHorseEntityBase.setCustomAttributes().create());
         });
