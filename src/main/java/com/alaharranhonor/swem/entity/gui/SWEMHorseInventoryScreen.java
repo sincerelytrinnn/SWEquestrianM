@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -57,6 +58,18 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 
 		// Render the horse
 		//InventoryScreen.drawEntityOnScreen(i + 51, j + 60, 17, (float)(i + 51) - this.mousePosx, (float)(j + 75 - 50) - this.mousePosY, this.horseEntity);
+	}
+
+	@Override
+	protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
+		super.drawGuiContainerForegroundLayer(matrixStack, x, y);
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Level: " + this.horseEntity.leveling.getLevel()), (float)120, (float)20, 4210752);
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent("XP:"), (float)120, (float)30, 4210752);
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent(this.horseEntity.leveling.getXP() + "/" + this.horseEntity.leveling.getXPRequired()), (float)120, (float)40, 4210752);
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Health:"), (float)120, (float)50, 4210752);
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent(this.horseEntity.getHealth() + "/" + this.horseEntity.getMaxHealth()), (float)120, (float)60, 4210752);
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("Speed: %.1f", this.horseEntity.getAIMoveSpeed() * 42.16)), (float)120, (float)70, 4210752);
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("Jump: %.1f", this.horseEntity.getJumpHeight())), (float)120, (float)80, 4210752);
 	}
 
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
