@@ -63,13 +63,13 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 	@Override
 	protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
 		super.drawGuiContainerForegroundLayer(matrixStack, x, y);
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Level: " + this.horseEntity.leveling.getLevel()), (float)120, (float)20, 4210752);
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent("XP:"), (float)120, (float)30, 4210752);
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent(this.horseEntity.leveling.getXP() + "/" + this.horseEntity.leveling.getXPRequired()), (float)120, (float)40, 4210752);
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Health:"), (float)120, (float)50, 4210752);
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent(this.horseEntity.getHealth() + "/" + this.horseEntity.getMaxHealth()), (float)120, (float)60, 4210752);
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("Speed: %.1f", this.horseEntity.getAIMoveSpeed() * 42.16)), (float)120, (float)70, 4210752);
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("Jump: %.1f", this.horseEntity.getJumpHeight())), (float)120, (float)80, 4210752);
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Level: " + this.horseEntity.leveling.getLevel()), 120.0f, 20.0f, 4210752);
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent("XP:"), 120.0f, 30.0f, 4210752);
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("%.0f/%.0f", this.horseEntity.leveling.getXP(), this.horseEntity.leveling.getXPRequired())), (float)120, (float)40, 4210752);
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Health:"), 120.0f, 50.0f, 4210752);
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("%.1f/%.0f", this.horseEntity.getHealth(), this.horseEntity.getMaxHealth())), 120.0f, 60.0f, 4210752);
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("Speed: %.1f", this.horseEntity.getAIMoveSpeed() * 42.16)), 120.0f, 70.0f, 4210752);
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("Jump: %.1f", this.horseEntity.getJumpHeight())), 120.0f, 80.0f, 4210752);
 	}
 
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
