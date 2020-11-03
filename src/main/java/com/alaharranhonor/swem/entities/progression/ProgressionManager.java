@@ -40,40 +40,6 @@ public class ProgressionManager {
 		this.affinityLeveling.read(compound);
 	}
 
-	public static void registerData(EntityDataManager dm) {
-		SpeedLeveling.registerData(dm);
-		JumpLeveling.registerData(dm);
-		HealthLeveling.registerData(dm);
-		AffinityLeveling.registerData(dm);
-	}
-
-	public void setDataManagers(@Nullable String identifier) {
-		switch (identifier) {
-			case "jump": {
-				this.jumpLeveling.setDataManager();
-				break;
-			}
-			case "speed": {
-				this.speedLeveling.setDataManager();
-				break;
-			}
-			case "health": {
-				this.healthLeveling.setDataManager();
-				break;
-			}
-			case "affinity": {
-				this.affinityLeveling.setDataManager();
-				break;
-			}
-			default: {
-				this.speedLeveling.setDataManager();
-				this.jumpLeveling.setDataManager();
-				this.healthLeveling.setDataManager();
-				this.affinityLeveling.setDataManager();
-			}
-		}
-	}
-
 	public SpeedLeveling getSpeedLeveling() {
 		return speedLeveling;
 	}

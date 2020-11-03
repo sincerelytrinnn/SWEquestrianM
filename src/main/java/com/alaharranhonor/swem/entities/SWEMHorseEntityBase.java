@@ -242,7 +242,14 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		super.registerData();
 		//this.dataManager.register(HORSE_VARIANT, 0);
 
-		ProgressionManager.registerData(this.dataManager);
+		this.dataManager.register(SpeedLeveling.LEVEL, 0);
+		this.dataManager.register(SpeedLeveling.XP, 0.0f);
+		this.dataManager.register(JumpLeveling.LEVEL, 0);
+		this.dataManager.register(JumpLeveling.XP, 0.0f);
+		this.dataManager.register(HealthLeveling.LEVEL, 0);
+		this.dataManager.register(HealthLeveling.XP, 0.0f);
+		this.dataManager.register(AffinityLeveling.LEVEL, 0);
+		this.dataManager.register(AffinityLeveling.XP, 0.0f);
 
 	}
 
@@ -535,7 +542,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		}
 
 		if (this.ticksExisted % 100 == 0) {
-			// TODO: CHECK FOR FOOD AND WATER IN A 5x5 Proximity if Thirsy or Hungry.
+			// TODO: CHECK FOR FOOD AND WATER IN A 5x5 Proximity if Thirsty or Hungry.
 		}
 		super.tick();
 	}
@@ -591,8 +598,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 				}
 				if (levelupJump)
 					this.levelUpJump();
-
-				jumpLeveling.setDataManager();
 
 
 
@@ -707,7 +712,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 					return new SWEMHorseInventoryContainer(p_createMenu_1_, p_createMenu_2_, getEntityId());
 				}
 			};
-			this.progressionManager.setDataManagers("");
 			NetworkHooks.openGui((ServerPlayerEntity) playerEntity, provider, buffer ->
 					buffer
 						.writeInt(getEntityId())

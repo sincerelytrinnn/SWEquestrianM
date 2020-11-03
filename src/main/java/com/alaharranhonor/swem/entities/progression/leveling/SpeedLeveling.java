@@ -6,28 +6,29 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 
-public class SpeedLeveling implements ILeveling{
+public class SpeedLeveling {
 
 	private SWEMHorseEntityBase horse;
+
+	private EntityDataManager dataManager;
 	public static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
 	public static final DataParameter<Float> XP = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
-	int level = 0;
 	int maxLevel = 5;
-	float xp = 0.0f;
 	float[] requiredXpArray = new float[]{500, 2000, 4000, 7000};
-	String[] levelNames = new String[] {"Speed I", "Speed II", "Speed III", "Speed IV", "Speed V"};
+	String[] levelNames = new String[]{"Speed I", "Speed II", "Speed III", "Speed IV", "Speed V"};
+
 	public SpeedLeveling(SWEMHorseEntityBase horse) {
 		this.horse = horse;
+		this.dataManager = this.horse.getDataManager();
 	}
-	@Override
+
 	public boolean addXP(float amount) {
-		this.xp += amount;
+		this.dataManager.set(XP, this.dataManager.get(XP) + amount);
 		return this.checkLevelUp();
 	}
 
-	@Override
 	public boolean checkLevelUp() {
-		if (this.xp >= this.getRequiredXp() && this.level < this.maxLevel) {
+		if (this.getXp() >= this.getRequiredXp() && this.getLevel() < this.maxLevel) {
 			this.levelUp();
 			return true;
 		} else {
@@ -35,64 +36,52 @@ public class SpeedLeveling implements ILeveling{
 		}
 	}
 
-	@Override
 	public void levelUp() {
-		float excessXP = this.xp - this.getRequiredXp();
-		this.level++;
-		this.xp = excessXP;
+		float excessXP = this.getXp() - this.getRequiredXp();
+		this.setLevel(this.getLevel() + 1);
+		this.setXp(excessXP);
 	}
 
-	@Override
 	public int getLevel() {
-		return this.level;
+		return this.dataManager.get(LEVEL);
 	}
 
-	@Override
+	public void setLevel(int level) {
+		this.dataManager.set(LEVEL, level);
+	}
+
 	public int getMaxLevel() {
 		return this.maxLevel;
 	}
 
-	@Override
 	public float getXp() {
-		return this.horse.getDataManager().get(XP);
+		return this.dataManager.get(XP);
 	}
 
-	@Override
+	public void setXp(float xp) {
+		this.dataManager.set(XP, xp);
+	}
+
 	public float getRequiredXp() {
-		return this.requiredXpArray[this.horse.getDataManager().get(LEVEL)];
+		return this.requiredXpArray[this.dataManager.get(LEVEL)];
 	}
 
-	@Override
 	public String getLevelName() {
-		return this.levelNames[this.horse.getDataManager().get(LEVEL)];
+		return this.levelNames[this.dataManager.get(LEVEL)];
 	}
 
-	@Override
 	public void write(CompoundNBT compound) {
-		this.setDataManager();
-		compound.putInt("SpeedLevel", this.horse.getDataManager().get(LEVEL));
-		compound.putFloat("SpeedXP", this.horse.getDataManager().get(XP));
+		compound.putInt("SpeedLevel", this.dataManager.get(LEVEL));
+		compound.putFloat("SpeedXP", this.dataManager.get(XP));
 	}
 
-	@Override
 	public void read(CompoundNBT compound) {
 		if (compound.contains("SpeedLevel")) {
-			this.level = compound.getInt("SpeedLevel");
+			this.setLevel(compound.getInt("SpeedLevel"));
 		}
 		if (compound.contains("SpeedXP")) {
-			this.xp = compound.getFloat("SpeedXP");
+			this.setXp(compound.getFloat("SpeedXP"));
 		}
-		this.setDataManager();
-	}
-
-	public void setDataManager() {
-		EntityDataManager dm = this.horse.getDataManager();
-		dm.set(LEVEL, this.level);
-		dm.set(XP, this.xp);
-	}
-
-	public static void registerData(EntityDataManager dm) {
-		dm.register(LEVEL, 0);
-		dm.register(XP, 0.0f);
 	}
 }
+
