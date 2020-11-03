@@ -1,9 +1,16 @@
 package com.alaharranhonor.swem.entities;
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.goals.PoopGoal;
+import com.alaharranhonor.swem.entities.progression.ProgressionManager;
+import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
+import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
+import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
+import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.util.RegistryHandler;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.entity.*;
@@ -25,8 +32,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.DifficultyInstance;
@@ -53,6 +68,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("556E1665-8B10-40C8-8F9D-CF9B1667F295");
 	//private static final DataParameter<Integer> HORSE_VARIANT = EntityDataManager.createKey(HorseEntity.class, DataSerializers.VARINT);
+
 	public static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(RegistryHandler.AMETHYST.get());
 	private EatGrassGoal eatGrassGoal;
 	private PoopGoal poopGoal;
@@ -60,15 +76,15 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	private int SWEMHorsePoopTimer;
 	private static Random rand = new Random();
 
-	public final LevelingManager leveling;
-	public final StatManager stats;
+	public final ProgressionManager progressionManager;
+	private BlockPos currentPos;
 	private LazyOptional<InvWrapper> itemHandler;
 
 	public SWEMHorseEntityBase(EntityType<? extends AbstractHorseEntity> type, World worldIn)
 	{
 		super(type, worldIn);
-		this.leveling = new LevelingManager();
-		this.stats = new StatManager();
+		this.currentPos = this.getPosition();
+		this.progressionManager = new ProgressionManager(this);
 
 	}
 
@@ -173,25 +189,62 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 
 
-	private static double getAlteredMovementSpeed()
+	private double getAlteredMovementSpeed()
 	{
-		return ((double)0.45F + rand.nextDouble() * 0.3D + rand.nextDouble() * 0.3D + rand.nextDouble() * 0.3D) * 0.25D;
+		switch (this.progressionManager.getSpeedLeveling().getLevel()) {
+			case 1:
+				return 0.284629981024667d;
+			case 2:
+				return 0.332068311195445d;
+			case 3:
+				return 0.379506641366223d;
+			case 4:
+				return 0.426944971537001d;
+			default:
+				return 0.237191650853889d;
+		}
 	}
 
-	private static double getAlteredJumpStrength()
+	private double getAlteredJumpStrength()
 	{
-		return (double)0.4F + rand.nextDouble() * 0.4D + rand.nextDouble() * 0.4D + rand.nextDouble() * 0.4D;
+		switch(this.progressionManager.getJumpLeveling().getLevel()) {
+			case 1:
+				return 0.642707;
+			case 2:
+				return 0.783313;
+			case 3:
+				return 0.90862;
+			case 4:
+				return 1.02295;
+			default: {
+				return 0.478591;
+			}
+		}
 	}
 
-	private static double getAlteredMaxHealth()
+	private double getAlteredMaxHealth()
 	{
-		return 15.0F + (float)rand.nextInt(8) + (float)rand.nextInt(9);
+		switch(this.progressionManager.getHealthLeveling().getLevel()) {
+			case 1:
+				return 24.0D;
+			case 2:
+				return 28.0D;
+			case 3:
+				return 32.0D;
+			case 4:
+				return 34.0D;
+			default:
+				return 20.0D;
+		}
 	}
 
-//	protected void registerData() {
-//		super.registerData();
-//		this.dataManager.register(HORSE_VARIANT, 0);
-//	}
+	protected void registerData() {
+		super.registerData();
+		//this.dataManager.register(HORSE_VARIANT, 0);
+
+		ProgressionManager.registerData(this.dataManager);
+
+	}
 
 	public boolean func_230264_L__() {
 		return this.isAlive() && !this.isChild() && this.isTame();
@@ -345,9 +398,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			compound.put("GirthStrapItem", this.horseChest.getStackInSlot(5).write(new CompoundNBT()));
 		}
 
-		compound.putFloat("CurrentXP", this.leveling.getXP());
-		compound.putInt("CurrentLevel", this.leveling.getLevel());
-		compound.putFloat("RequiredXP", this.leveling.getXPRequired());
+		this.progressionManager.write(compound);
 	}
 
 	public ItemStack func_213803_dV() {
@@ -402,9 +453,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			}
 		}
 
-		this.leveling.setLevel(compound.getInt("CurrentLevel"));
-		this.leveling.setXP(compound.getFloat("CurrentXP"));
-		this.leveling.setXPRequired(compound.getInt("RequiredXP"));
+		this.progressionManager.read(compound);
+
+//		this.leveling.setLevel(compound.getInt("CurrentLevel"));
+//		this.leveling.setXP(compound.getFloat("CurrentXP"));
+//		this.leveling.setXPRequired(compound.getInt("RequiredXP"));
 
 		this.func_230275_fc_();
 	}
@@ -448,6 +501,146 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			}
 		}
 
+	}
+
+	/**
+	 * Called to update the entity's position/logic.
+	 */
+	@Override
+	public void tick() {
+		if (this.ticksExisted % 10 == 0) {
+			if (this.canBeSteered() && this.isBeingRidden()) { // Check for the current set speed. If it's canter, add the distance, if it's gallop, add the distance * 3) {
+				int x = this.getPosition().getX();
+				int z = this.getPosition().getZ();
+				if (x != this.currentPos.getX() || z != this.currentPos.getZ()) {
+					x = Math.abs(x - this.currentPos.getX());
+					z = Math.abs(z - this.currentPos.getZ());
+					int dist = ((int)Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)));
+					SWEM.LOGGER.debug("Distance: " + dist);
+					if (dist > 0 && dist < 25) {
+						boolean speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist);
+						if (speedLevelUp) {
+							this.levelUpSpeed();
+						}
+						// Affinity leveling, is not affected by speed. so no matter the speed, just add 1xp per block.
+						this.progressionManager.getAffinityLeveling().addXP(dist);
+					}
+
+
+				}
+				this.currentPos = this.getPosition();
+			} else {
+				this.currentPos = this.getPosition();
+			}
+		}
+
+		if (this.ticksExisted % 100 == 0) {
+			// TODO: CHECK FOR FOOD AND WATER IN A 5x5 Proximity if Thirsy or Hungry.
+		}
+		super.tick();
+	}
+
+	@Override
+	public void travel(Vector3d travelVector) {
+		if (this.isBeingRidden() && this.canBeSteered() && this.isHorseSaddled()) {
+			LivingEntity livingentity = (LivingEntity) this.getControllingPassenger();
+			this.rotationYaw = livingentity.rotationYaw;
+			this.prevRotationYaw = this.rotationYaw;
+			this.rotationPitch = livingentity.rotationPitch * 0.5F;
+			this.setRotation(this.rotationYaw, this.rotationPitch);
+			this.renderYawOffset = this.rotationYaw;
+			this.rotationYawHead = this.renderYawOffset;
+			float f = livingentity.moveStrafing * 0.5F;
+			float f1 = livingentity.moveForward;
+			if (f1 <= 0.0F) {
+				f1 *= 0.25F;
+				this.gallopTime = 0;
+			}
+
+			if (this.onGround && this.jumpPower == 0.0F && this.isRearing() && !this.allowStandSliding) {
+				f = 0.0F;
+				f1 = 0.0F;
+			}
+
+			if (this.jumpPower > 0.0F && !this.isHorseJumping() && this.onGround) {
+				double d0 = this.getHorseJumpStrength() * (double) this.jumpPower * (double) this.getJumpFactor();
+				double d1;
+				if (this.isPotionActive(Effects.JUMP_BOOST)) {
+					d1 = d0 + (double) ((float) (this.getActivePotionEffect(Effects.JUMP_BOOST).getAmplifier() + 1) * 0.1F);
+				} else {
+					d1 = d0;
+				}
+
+				Vector3d vector3d = this.getMotion();
+				this.setMotion(vector3d.x, d1, vector3d.z);
+
+
+				JumpLeveling jumpLeveling = this.progressionManager.getJumpLeveling();
+				// Check jumpheight, and add XP accordingly.
+				float jumpHeight = (float) (-0.1817584952 * ((float)Math.pow(d1, 3.0F)) + 3.689713992 * ((float)Math.pow(d1, 2.0F)) + 2.128599134 * d1 - 0.343930367);
+				boolean levelupJump = false;
+				SWEM.LOGGER.debug("Height: " +jumpHeight);
+				if (jumpHeight >= 4.0f) {
+					levelupJump = jumpLeveling.addXP(40.0f);
+				} else if (jumpHeight >= 3.0f) {
+					levelupJump = jumpLeveling.addXP(30.0f);
+				} else if (jumpHeight >= 2.0f) {
+					levelupJump = jumpLeveling.addXP(25.0f);
+				} else if (jumpHeight >= 1.0f) {
+					levelupJump = jumpLeveling.addXP(20.0f);
+				}
+				if (levelupJump)
+					this.levelUpJump();
+
+				jumpLeveling.setDataManager();
+
+
+
+				this.setHorseJumping(true);
+				this.isAirBorne = true;
+				net.minecraftforge.common.ForgeHooks.onLivingJump(this);
+				if (f1 > 0.0F) {
+					float f2 = MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F));
+					float f3 = MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F));
+					this.setMotion(this.getMotion().add((double) (-0.4F * f2 * this.jumpPower), 0.0D, (double) (0.4F * f3 * this.jumpPower)));
+				}
+
+
+
+				this.jumpPower = 0.0F;
+			}
+
+			this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
+			if (this.canPassengerSteer()) {
+				this.setAIMoveSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
+				super.travel(new Vector3d((double) f, travelVector.y, (double) f1));
+			} else if (livingentity instanceof PlayerEntity) {
+				this.setMotion(Vector3d.ZERO);
+			}
+
+			if (this.onGround) {
+				this.jumpPower = 0.0F;
+				this.setHorseJumping(false);
+			}
+
+			this.func_233629_a_(this, false);
+		} else {
+			super.travel(travelVector);
+		}
+
+	}
+
+	public void levelUpJump() {
+		double currentSpeed = this.getAttribute(Attributes.HORSE_JUMP_STRENGTH).getValue();
+		double newSpeed = this.getAlteredJumpStrength();
+		this.getAttribute(Attributes.HORSE_JUMP_STRENGTH).applyPersistentModifier(new AttributeModifier(this.progressionManager.getJumpLeveling().getLevelName(), newSpeed - currentSpeed, AttributeModifier.Operation.ADDITION));
+
+	}
+
+	public void levelUpSpeed() {
+		double currentSpeed = this.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
+		double newSpeed = this.getAlteredMovementSpeed();
+		this.getAttribute(Attributes.MOVEMENT_SPEED).applyPersistentModifier(new AttributeModifier(this.progressionManager.getSpeedLeveling().getLevelName(), newSpeed - currentSpeed, AttributeModifier.Operation.ADDITION));
 	}
 
 	/**
@@ -514,13 +707,15 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 					return new SWEMHorseInventoryContainer(p_createMenu_1_, p_createMenu_2_, getEntityId());
 				}
 			};
-			NetworkHooks.openGui((ServerPlayerEntity) playerEntity, provider, buffer -> buffer.writeVarInt(getEntityId()).writeVarInt(getEntityId()));
+			this.progressionManager.setDataManagers("");
+			NetworkHooks.openGui((ServerPlayerEntity) playerEntity, provider, buffer ->
+					buffer
+						.writeInt(getEntityId())
+						.writeInt(getEntityId())
+			);
+
 		}
 	}
-
-
-
-
 
 	// Item interaction with horse.
 	public ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {
@@ -713,67 +908,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return jumpHeight;
 	}
 
-	public class LevelingManager
-	{
-		private int level = 1;
-		private float xp = 0.0f;
-		private float xpRequired = 100.0f;
-		private float xpMultiplier = 1.2f;
-		private LevelingManager()
-		{
-
-		}
-
-		public int getLevel() {
-			return this.level;
-		}
-
-		public void setLevel(int level) {
-			this.level = level;
-		}
-
-		public float getXP() {
-			return this.xp;
-		}
-
-		public void setXP(float amount) {
-			this.xp = amount;
-		}
-
-		public float getXPRequired() {
-			return this.xpRequired;
-		}
-
-		public void setXPRequired(float amount) {
-			this.xpRequired = amount;
-		}
-
-		public void addXP(float amount) {
-			this.xp += amount;
-			this.checkLevelUp();
-		}
-
-		private void checkLevelUp() {
-			if (this.xp > xpRequired) {
-				this.levelUp();
-			}
-		}
-
-		private void levelUp() {
-			float excessXP = this.xp - xpRequired;
-			this.level++;
-			this.xp = excessXP;
-			this.xpRequired *= xpMultiplier;
-		}
-
-	}
-
-	public class StatManager {
-		private StatManager()
-		{
-
-		}
-	}
 
 	public enum HorseType {
 

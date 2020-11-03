@@ -47,7 +47,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatedEnt
 	{
 		if (event.isWalking())
 		{
-			controller.setAnimation(new AnimationBuilder().addAnimation("walk", true));
+			controller.setAnimation(new AnimationBuilder().addAnimation("canter", true));
 			return true;
 		} else {
 			controller.setAnimation(new AnimationBuilder().addAnimation("stand_idle"));

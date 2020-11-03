@@ -3,6 +3,10 @@ package com.alaharranhonor.swem.entity.gui;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
+import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
+import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
+import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.IHasContainer;
@@ -63,13 +67,33 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 	@Override
 	protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
 		super.drawGuiContainerForegroundLayer(matrixStack, x, y);
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Level: " + this.horseEntity.leveling.getLevel()), 120.0f, 20.0f, 4210752);
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent("XP:"), 120.0f, 30.0f, 4210752);
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("%.0f/%.0f", this.horseEntity.leveling.getXP(), this.horseEntity.leveling.getXPRequired())), (float)120, (float)40, 4210752);
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Health:"), 120.0f, 50.0f, 4210752);
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("%.1f/%.0f", this.horseEntity.getHealth(), this.horseEntity.getMaxHealth())), 120.0f, 60.0f, 4210752);
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("Speed: %.1f", this.horseEntity.getAIMoveSpeed() * 42.16)), 120.0f, 70.0f, 4210752);
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("Jump: %.1f", this.horseEntity.getJumpHeight())), 120.0f, 80.0f, 4210752);
+
+		SpeedLeveling speedLeveling = this.horseEntity.progressionManager.getSpeedLeveling();
+		AffinityLeveling affinityLeveling = this.horseEntity.progressionManager.getAffinityLeveling();
+		JumpLeveling jumpLeveling = this.horseEntity.progressionManager.getJumpLeveling();
+		HealthLeveling healthLeveling = this.horseEntity.progressionManager.getHealthLeveling();
+
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("%s:", affinityLeveling.getLevelName())), 120.0f, 20.0f, 4210752);
+		if (affinityLeveling.getLevel() != affinityLeveling.getMaxLevel()) {
+			this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("%.0f/%.0f", affinityLeveling.getXp(), affinityLeveling.getRequiredXp())), 120.0f, 30.0f, 4210752);
+		}
+		// Health TEXT
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("%s:", healthLeveling.getLevelName())), 120.0f, 45.0f, 4210752);
+
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("%.1f/%.0f", this.horseEntity.getHealth(), this.horseEntity.getMaxHealth())), 120.0f, 55.0f, 4210752);
+
+		// Speed TEXT
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("%s:", speedLeveling.getLevelName())), 120.0f, 70.0f, 4210752);
+		if (speedLeveling.getLevel() != speedLeveling.getMaxLevel()) {
+			this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("%.0f/%.0f", speedLeveling.getXp(), speedLeveling.getRequiredXp())), 120.0f, 80.0f, 4210752);
+		}
+
+		// Jump TEXT
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("%s:", jumpLeveling.getLevelName())), 120.0f, 95.0f, 4210752);
+		if (jumpLeveling.getLevel() != jumpLeveling.getMaxLevel()) {
+			this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("%.0f/%.0f", jumpLeveling.getXp(), jumpLeveling.getRequiredXp())), 120.0f, 105.0f, 4210752);
+		}
+
 	}
 
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
