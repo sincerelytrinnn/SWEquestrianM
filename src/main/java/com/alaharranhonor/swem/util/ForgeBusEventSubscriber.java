@@ -1,12 +1,8 @@
 package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.world.gen.SWEMOreGen;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.passive.horse.HorseEntity;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
