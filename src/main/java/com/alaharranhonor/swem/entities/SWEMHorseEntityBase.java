@@ -530,7 +530,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	 */
 	@Override
 	public void tick() {
-		if (this.ticksExisted % 10 == 0) {
+		if (this.ticksExisted % 5 == 0) {
 			if (this.canBeSteered() && this.isBeingRidden()) { // Check for the current set speed. If it's canter, add the distance, if it's gallop, add the distance * 3) {
 				int x = this.getPosition().getX();
 				int z = this.getPosition().getZ();
@@ -714,10 +714,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	@Override
 	public void openGUI(PlayerEntity playerEntity) {
 		if (!this.world.isRemote && (!this.isBeingRidden() || this.isPassenger(playerEntity)) && this.isTame()) {
+			ITextComponent horseDisplayName = this.getDisplayName();
 			INamedContainerProvider provider = new INamedContainerProvider() {
 				@Override
 				public ITextComponent getDisplayName() {
-					return new TranslationTextComponent( "entity.swem.swem_horse");
+					return horseDisplayName;
 				}
 
 				@Nullable

@@ -11,24 +11,30 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.Timer;
+
 
 @OnlyIn(Dist.CLIENT)
 public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventoryContainer> implements IHasContainer<SWEMHorseInventoryContainer> {
 
-	private static final ResourceLocation HORSE_GUI_TEXTURES = new ResourceLocation(SWEM.MOD_ID, "textures/gui/container/swem_horse.png");
+	private static final ResourceLocation HORSE_GUI_TEXTURES = new ResourceLocation(SWEM.MOD_ID, "textures/gui/container/swem_horse_western.png");
 	/** The EntityHorse whose inventory is currently being accessed. */
 	private SWEMHorseEntityBase horseEntity;
 	/** The mouse x-position recorded during the last rendered frame. */
 	private float mousePosx;
 	/** The mouse y-position recorded during the last renderered frame. */
 	private float mousePosY;
+
+	public static Timer TIMER;
 
 
 
@@ -40,6 +46,8 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		this.ySize = 221;
 		this.horseEntity = p_i51084_1_.horse;
 		this.playerInventoryTitleY = this.ySize - 94;
+		this.titleX = 65;
+		this.titleY = 22;
 	}
 
 	@Override
@@ -73,10 +81,12 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		JumpLeveling jumpLeveling = this.horseEntity.progressionManager.getJumpLeveling();
 		HealthLeveling healthLeveling = this.horseEntity.progressionManager.getHealthLeveling();
 
-		// Horse name
+		// Top Text
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Tack"), 15, 6, 4210752);
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Stats"), 65, 6,4210752);
 
 		// Owner name.
-		this.font.func_243248_b(matrixStack, this.horseEntity.getOwnerDisplayName(), 68.2f, 36.0f, 4210752);
+		this.font.func_243248_b(matrixStack, this.horseEntity.getOwnerDisplayName(), 65.2f, 36.0f, 4210752);
 
 		// Jump TEXT
 		TranslationTextComponent jumpInfo;
@@ -85,7 +95,7 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		} else {
 			jumpInfo = new TranslationTextComponent(String.format("%s", jumpLeveling.getLevelName()));
 		}
-		this.font.func_243248_b(matrixStack, jumpInfo, 68.0f, 49.0f, 4210752);
+		this.font.func_243248_b(matrixStack, jumpInfo, 65.0f, 49.0f, 4210752);
 
 		// Speed TEXT
 		TranslationTextComponent speedInfo;
@@ -94,10 +104,10 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		} else {
 			speedInfo = new TranslationTextComponent(String.format("%s", speedLeveling.getLevelName()));
 		}
-		this.font.func_243248_b(matrixStack, speedInfo, 68.0f, 64.0f, 4210752);
+		this.font.func_243248_b(matrixStack, speedInfo, 65.0f, 64.0f, 4210752);
 
 		// Health TEXT
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("%s: %.1f/%.0f", healthLeveling.getLevelName(), this.horseEntity.getHealth(), this.horseEntity.getMaxHealth())), 68.0f, 78.0f, 4210752);
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("%s: %.1f/%.0f", healthLeveling.getLevelName(), this.horseEntity.getHealth(), this.horseEntity.getMaxHealth())), 65.0f, 78.0f, 4210752);
 
 		// Affinity TEXT
 		TranslationTextComponent affinityInfo;
@@ -106,8 +116,18 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		} else {
 			affinityInfo = new TranslationTextComponent(String.format("%s", affinityLeveling.getLevelName()));
 		}
-		this.font.func_243248_b(matrixStack, affinityInfo, 68.0f, 92.0f, 4210752);
+		this.font.func_243248_b(matrixStack, affinityInfo, 65.0f, 92.0f, 4210752);
 
+
+		// Gradient left-top = #479238
+		// Gradient Right-bottom = #abf99b
+		// Tracking Chip
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Tracking Chip"), 18.0f, 113.0f, 4210752);
+		// If enabled draw a 3x3 green box starting at 12x, 115y
+
+		// Whistle
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Whistle"), 124.0f, 113.0f, 4210752);
+		// If enabled draw a 3x3 green box starting at 118x, 115y
 	}
 
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
@@ -118,5 +138,8 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
 	}
 
-
+	@Override
+	public ITextComponent getTitle() {
+		return this.horseEntity.getDisplayName();
+	}
 }
