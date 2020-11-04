@@ -9,8 +9,10 @@ import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
 import com.alaharranhonor.swem.items.*;
+import com.alaharranhonor.swem.network.AddJumpXPMessage;
+import com.alaharranhonor.swem.network.SWEMPacketHandler;
+import com.alaharranhonor.swem.network.UpdateHorseInventoryMessage;
 import com.alaharranhonor.swem.util.RegistryHandler;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.entity.*;
@@ -34,9 +36,6 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -54,14 +53,16 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.UUID;
 
-public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable {
+public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable, IEntityAdditionalSpawnData {
 
 
 
@@ -244,12 +245,20 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 		this.dataManager.register(SpeedLeveling.LEVEL, 0);
 		this.dataManager.register(SpeedLeveling.XP, 0.0f);
+		this.dataManager.register(SpeedLeveling.MAX_LEVEL, 5);
+
 		this.dataManager.register(JumpLeveling.LEVEL, 0);
 		this.dataManager.register(JumpLeveling.XP, 0.0f);
+		this.dataManager.register(JumpLeveling.MAX_LEVEL, 5);
+
 		this.dataManager.register(HealthLeveling.LEVEL, 0);
 		this.dataManager.register(HealthLeveling.XP, 0.0f);
+		this.dataManager.register(HealthLeveling.MAX_LEVEL, 5);
+
 		this.dataManager.register(AffinityLeveling.LEVEL, 0);
 		this.dataManager.register(AffinityLeveling.XP, 0.0f);
+		this.dataManager.register(AffinityLeveling.MAX_LEVEL, 12);
+
 
 	}
 
@@ -260,31 +269,37 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	public void func_230266_a_(@Nullable SoundCategory p_230266_1_, ItemStack stack) {
 		if (stack.getItem() instanceof HorseSaddleItem) {
 			this.horseChest.setInventorySlotContents(2, stack);
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 2, stack));
 			if (p_230266_1_ != null) {
 				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof BlanketItem) {
 			this.horseChest.setInventorySlotContents(1, stack);
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 1, stack));
 			if (p_230266_1_ != null) {
 				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof BreastCollarItem) {
 			this.horseChest.setInventorySlotContents(3, stack);
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 3, stack));
 			if (p_230266_1_ != null) {
 				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof HalterItem) {
 			this.horseChest.setInventorySlotContents(0, stack);
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 0, stack));
 			if (p_230266_1_ != null) {
 				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof GirthStrapItem) {
 			this.horseChest.setInventorySlotContents(5, stack);
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 5, stack));
 			if (p_230266_1_ != null) {
 				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof LegWrapsItem) {
 			this.horseChest.setInventorySlotContents(4, stack);
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 4, stack));
 			if (p_230266_1_ != null) {
 				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
@@ -582,23 +597,22 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 				this.setMotion(vector3d.x, d1, vector3d.z);
 
 
-				JumpLeveling jumpLeveling = this.progressionManager.getJumpLeveling();
+
 				// Check jumpheight, and add XP accordingly.
 				float jumpHeight = (float) (-0.1817584952 * ((float)Math.pow(d1, 3.0F)) + 3.689713992 * ((float)Math.pow(d1, 2.0F)) + 2.128599134 * d1 - 0.343930367);
-				boolean levelupJump = false;
+				float xpToAdd = 0.0f;
 				SWEM.LOGGER.debug("Height: " +jumpHeight);
 				if (jumpHeight >= 4.0f) {
-					levelupJump = jumpLeveling.addXP(40.0f);
+					xpToAdd = 40.0f;
 				} else if (jumpHeight >= 3.0f) {
-					levelupJump = jumpLeveling.addXP(30.0f);
+					xpToAdd = 30.0f;
 				} else if (jumpHeight >= 2.0f) {
-					levelupJump = jumpLeveling.addXP(25.0f);
+					xpToAdd = 25.0f;
 				} else if (jumpHeight >= 1.0f) {
-					levelupJump = jumpLeveling.addXP(20.0f);
+					xpToAdd = 20.0f;
 				}
-				if (levelupJump)
-					this.levelUpJump();
 
+				SWEMPacketHandler.INSTANCE.sendToServer(new AddJumpXPMessage(xpToAdd, this.getEntityId()));
 
 
 				this.setHorseJumping(true);
@@ -838,6 +852,47 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
 	}
 
+	/**
+	 * Called by the server when constructing the spawn packet.
+	 * Data should be added to the provided stream.
+	 *
+	 * @param buffer The packet data stream
+	 */
+	@Override
+	public void writeSpawnData(PacketBuffer buffer) {
+		buffer.writeItemStack(this.horseChest.getStackInSlot(0));
+		buffer.writeItemStack(this.horseChest.getStackInSlot(1));
+		buffer.writeItemStack(this.horseChest.getStackInSlot(2));
+		buffer.writeItemStack(this.horseChest.getStackInSlot(3));
+		buffer.writeItemStack(this.horseChest.getStackInSlot(4));
+		buffer.writeItemStack(this.horseChest.getStackInSlot(5));
+		buffer.writeItemStack(this.horseChest.getStackInSlot(6));
+		buffer.writeItemStack(this.horseChest.getStackInSlot(7));
+	}
+
+	/**
+	 * Called by the client when it receives a Entity spawn packet.
+	 * Data should be read out of the stream in the same way as it was written.
+	 *
+	 * @param additionalData The packet data stream
+	 */
+	@Override
+	public void readSpawnData(PacketBuffer additionalData) {
+		this.horseChest.setInventorySlotContents(0, additionalData.readItemStack());
+		this.horseChest.setInventorySlotContents(1, additionalData.readItemStack());
+		this.horseChest.setInventorySlotContents(2, additionalData.readItemStack());
+		this.horseChest.setInventorySlotContents(3, additionalData.readItemStack());
+		this.horseChest.setInventorySlotContents(4, additionalData.readItemStack());
+		this.horseChest.setInventorySlotContents(5, additionalData.readItemStack());
+		this.horseChest.setInventorySlotContents(6, additionalData.readItemStack());
+		this.horseChest.setInventorySlotContents(7, additionalData.readItemStack());
+	}
+
+	@Override
+	public IPacket<?> createSpawnPacket() {
+		return NetworkHooks.getEntitySpawningPacket(this);
+	}
+
 	public static class HorseData extends AgeableEntity.AgeableData {
 		public final CoatColors variant;
 
@@ -912,6 +967,13 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return jumpHeight;
 	}
 
+	public TranslationTextComponent getOwnerDisplayName() {
+		UUID PlayerUUID = this.getOwnerUniqueId();
+		if (PlayerUUID == null) {
+			return new TranslationTextComponent("Not owned.");
+		}
+		return new TranslationTextComponent(this.world.getPlayerByUuid(PlayerUUID).getDisplayName().getString());
+	}
 
 	public enum HorseType {
 
