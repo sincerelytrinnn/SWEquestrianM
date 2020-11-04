@@ -25,7 +25,6 @@ public class SWEMHorseInventoryContainer extends Container {
 
 	public SWEMHorseInventoryContainer(final int id, final PlayerInventory playerInventory, final int entityId) {
 		super(RegistryHandler.SWEM_HORSE_CONTAINER.get(), id);
-		SWEM.LOGGER.debug(entityId);
 		this.horse = (SWEMHorseEntityBase) playerInventory.player.world.getEntityByID(entityId);
 		this.horseInventory = horse.getHorseInventory();
 		horseInventory.openInventory(playerInventory.player);
@@ -59,7 +58,7 @@ public class SWEMHorseInventoryContainer extends Container {
 		});
 
 		// Blanket slot 2
-		this.addSlot(new Slot(horseInventory, 1, 44, 17) {
+		this.addSlot(new Slot(horseInventory, 1, 29, 38) {
 			 /**
 			  * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			  */
@@ -86,7 +85,7 @@ public class SWEMHorseInventoryContainer extends Container {
 		});
 
 		// Saddle slot 3
-		this.addSlot(new Slot(horseInventory, 2, 80, 17) {
+		this.addSlot(new Slot(horseInventory, 2, 29, 17) {
 			/**
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
@@ -113,7 +112,7 @@ public class SWEMHorseInventoryContainer extends Container {
 		});
 
 		// Breast Collar slot 4
-		this.addSlot(new Slot(horseInventory, 3, 8, 59) {
+		this.addSlot(new Slot(horseInventory, 3, 8, 38) {
 			/**
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
@@ -140,7 +139,7 @@ public class SWEMHorseInventoryContainer extends Container {
 		});
 
 		// Leg Wraps Slot 5
-		this.addSlot(new Slot(horseInventory, 4, 8, 103) {
+		this.addSlot(new Slot(horseInventory, 4, 8, 59) {
 			/**
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
@@ -167,7 +166,7 @@ public class SWEMHorseInventoryContainer extends Container {
 		});
 
 		// Girth Strap Slot 6
-		this.addSlot(new Slot(horseInventory, 5, 44, 103) {
+		this.addSlot(new Slot(horseInventory, 5, 29, 59) {
 			/**
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
@@ -194,7 +193,35 @@ public class SWEMHorseInventoryContainer extends Container {
 		});
 
 		// SWEM Horse Armor Slot 7
-		this.addSlot(new Slot(horseInventory, 6, 80, 103) {
+		this.addSlot(new Slot(horseInventory, 6, 8, 87) {
+			/**
+			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
+			 */
+			public boolean isItemValid(ItemStack stack) {
+				return horse.isSWEMArmor(stack);
+			}
+
+			/**
+			 * Actualy only call when we want to render the white square effect over the slots. Return always True, except
+			 * for the armor slot of the Donkey/Mule (we can't interact with the Undead and Skeleton horses)
+			 */
+			@OnlyIn(Dist.CLIENT)
+			public boolean isEnabled() {
+				return horse.func_230276_fq_();
+			}
+
+			/**
+			 * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1 in the
+			 * case of armor slots)
+			 */
+			public int getSlotStackLimit() {
+				return 1;
+			}
+
+		});
+
+		// SaddleBag Slot
+		this.addSlot(new Slot(horseInventory, 7, 29, 87) {
 			/**
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
