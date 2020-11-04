@@ -12,9 +12,9 @@ public class JumpLeveling implements ILeveling{
 	private EntityDataManager dataManager;
 	public static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
 	public static final DataParameter<Float> XP = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
-	int maxLevel = 5;
-	float[] requiredXpArray = new float[]{500, 2000, 4000, 7000};
-	String[] levelNames = new String[] {"Jump I", "Jump II", "Jump III", "Jump IV", "Jump V"};
+	public static final DataParameter<Integer> MAX_LEVEL = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
+	private float[] requiredXpArray = new float[]{500, 2000, 4000, 7000};
+	private String[] levelNames = new String[] {"Jump I", "Jump II", "Jump III", "Jump IV", "Jump V"};
 	public JumpLeveling(SWEMHorseEntityBase horse) {
 		this.horse = horse;
 		this.dataManager = this.horse.getDataManager();
@@ -27,7 +27,7 @@ public class JumpLeveling implements ILeveling{
 
 	@Override
 	public boolean checkLevelUp() {
-		if (this.getXp() >= this.getRequiredXp() && this.getLevel() < this.maxLevel) {
+		if (this.getXp() >= this.getRequiredXp() && this.getLevel() < this.getMaxLevel()) {
 			this.levelUp();
 			return true;
 		} else {
@@ -39,6 +39,7 @@ public class JumpLeveling implements ILeveling{
 	public void levelUp() {
 		float excessXP = this.getXp() - this.getRequiredXp();
 		this.setLevel(this.getLevel() + 1);
+		this.horse.levelUpJump();
 		this.setXp(excessXP);
 	}
 
@@ -53,7 +54,11 @@ public class JumpLeveling implements ILeveling{
 
 	@Override
 	public int getMaxLevel() {
-		return this.maxLevel;
+		return this.dataManager.get(MAX_LEVEL);
+	}
+
+	public void setMaxLevel(int max_level) {
+		this.dataManager.set(MAX_LEVEL, max_level);
 	}
 
 	@Override
@@ -67,6 +72,9 @@ public class JumpLeveling implements ILeveling{
 
 	@Override
 	public float getRequiredXp() {
+		if (this.getLevel() == this.getMaxLevel() - 1) {
+			return -1.0f;
+		}
 		return this.requiredXpArray[this.dataManager.get(LEVEL)];
 	}
 
@@ -79,6 +87,7 @@ public class JumpLeveling implements ILeveling{
 	public void write(CompoundNBT compound) {
 		compound.putInt("JumpLevel", this.dataManager.get(LEVEL));
 		compound.putFloat("JumpXP", this.dataManager.get(XP));
+		compound.putInt("JumpMaxLevel", this.dataManager.get(MAX_LEVEL));
 	}
 
 	@Override
@@ -88,6 +97,9 @@ public class JumpLeveling implements ILeveling{
 		}
 		if (compound.contains("JumpXP")) {
 			this.setXp(compound.getFloat("JumpXP"));
+		}
+		if (compound.contains("JumpMaxLevel")) {
+			this.setMaxLevel(compound.getInt("JumpMaxLevel"));
 		}
 	}
 

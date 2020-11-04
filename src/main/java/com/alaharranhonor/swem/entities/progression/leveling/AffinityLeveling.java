@@ -12,9 +12,9 @@ public class AffinityLeveling implements ILeveling{
 	private EntityDataManager dataManager;
 	public static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
 	public static final DataParameter<Float> XP = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
-	int maxLevel = 12;
-	float[] requiredXpArray = new float[]{500, 1000, 1500, 2000, 3000, 4000, 5000, 7000, 10000, 13000, 17000};
-	String[] levelNames = new String[] {"Unwilling", "Reluctant", "Tolerant", "Indifferent", "Accepting",  "Willing",  "Committed", "Trusted",  "Friends",  "Best Friends", "Inseparable", "Bonded", };
+	public static final DataParameter<Integer> MAX_LEVEL = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
+	private float[] requiredXpArray = new float[]{500, 1000, 1500, 2000, 3000, 4000, 5000, 7000, 10000, 13000, 17000};
+	private String[] levelNames = new String[] {"Unwilling", "Reluctant", "Tolerant", "Indifferent", "Accepting",  "Willing",  "Committed", "Trusted",  "Friends",  "Best Friends", "Inseparable", "Bonded", };
 	public AffinityLeveling(SWEMHorseEntityBase horse) {
 		this.horse = horse;
 		this.dataManager = this.horse.getDataManager();
@@ -27,7 +27,7 @@ public class AffinityLeveling implements ILeveling{
 
 	@Override
 	public boolean checkLevelUp() {
-		if (this.getXp() >= this.getRequiredXp() && this.getLevel() < this.maxLevel) {
+		if (this.getXp() >= this.getRequiredXp() && this.getLevel() < this.getMaxLevel()) {
 			this.levelUp();
 			return true;
 		} else {
@@ -54,7 +54,11 @@ public class AffinityLeveling implements ILeveling{
 
 	@Override
 	public int getMaxLevel() {
-		return this.maxLevel;
+		return this.dataManager.get(MAX_LEVEL);
+	}
+
+	public void setMaxLevel(int max_level) {
+		this.dataManager.set(MAX_LEVEL, max_level);
 	}
 
 	@Override
@@ -68,6 +72,9 @@ public class AffinityLeveling implements ILeveling{
 
 	@Override
 	public float getRequiredXp() {
+		if (this.getLevel() == this.getMaxLevel() - 1) {
+			return -1.0f;
+		}
 		return this.requiredXpArray[this.dataManager.get(LEVEL)];
 	}
 
@@ -80,6 +87,7 @@ public class AffinityLeveling implements ILeveling{
 	public void write(CompoundNBT compound) {
 		compound.putInt("AffinityLevel", this.dataManager.get(LEVEL));
 		compound.putFloat("AffinityXP", this.dataManager.get(XP));
+		compound.putInt("AffinityMaxLevel", this.dataManager.get(MAX_LEVEL));
 	}
 
 	@Override
@@ -89,6 +97,9 @@ public class AffinityLeveling implements ILeveling{
 		}
 		if (compound.contains("AffinityXP")) {
 			this.setXp(compound.getFloat("AffinityXP"));
+		}
+		if (compound.contains("AffinityMaxLevel")) {
+			this.setMaxLevel(compound.getInt("AffinityMaxLevel"));
 		}
 	}
 }
