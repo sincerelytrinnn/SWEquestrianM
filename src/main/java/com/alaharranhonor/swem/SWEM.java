@@ -3,6 +3,7 @@ package com.alaharranhonor.swem;
 import com.alaharranhonor.swem.blocks.TimothyGrass;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.SWLRegistryHandler;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
@@ -72,6 +73,8 @@ public class SWEM
         DeferredWorkQueue.runLater(() -> {
             GlobalEntityTypeAttributes.put(RegistryHandler.SWEM_HORSE_ENTITY.get(), SWEMHorseEntityBase.setCustomAttributes().create());
         });
+
+        SWEMPacketHandler.init();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
