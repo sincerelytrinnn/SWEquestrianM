@@ -80,6 +80,9 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	public final ProgressionManager progressionManager;
 	private BlockPos currentPos;
 	private LazyOptional<InvWrapper> itemHandler;
+	private boolean whistleBound;
+
+	private BlockPos whistlePosition;
 
 	public SWEMHorseEntityBase(EntityType<? extends AbstractHorseEntity> type, World worldIn)
 	{
@@ -420,6 +423,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			compound.put("GirthStrapItem", this.horseChest.getStackInSlot(5).write(new CompoundNBT()));
 		}
 
+		compound.putBoolean("whistleBound", this.getWhistleBound());
+
 		this.progressionManager.write(compound);
 	}
 
@@ -475,6 +480,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			}
 		}
 
+		this.setWhistleBound(compound.getBoolean("whistleBound"));
+
 		this.progressionManager.read(compound);
 
 //		this.leveling.setLevel(compound.getInt("CurrentLevel"));
@@ -503,6 +510,13 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 //	public CoatTypes func_234240_eM_() {
 //		return CoatTypes.func_234248_a_((this.getHorseVariant() & '\uff00') >> 8);
 //	}
+
+
+	@Override
+	public void setHorseTamed(boolean tamed) {
+		super.setHorseTamed(tamed);
+		this.progressionManager.getAffinityLeveling().addXP(100.0f);
+	}
 
 	@Override
 	protected void func_230275_fc_() {
@@ -966,6 +980,14 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		float jumpStrength = (float) this.getHorseJumpStrength();
 		float jumpHeight = (float) (-0.1817584952 * ((float)Math.pow(jumpStrength, 3.0F)) + 3.689713992 * ((float)Math.pow(jumpStrength, 2.0F)) + 2.128599134 * jumpStrength - 0.343930367);
 		return jumpHeight;
+	}
+
+	public boolean getWhistleBound() {
+		return this.whistleBound;
+	}
+
+	public void setWhistleBound(boolean bound) {
+		this.whistleBound = bound;
 	}
 
 	public TranslationTextComponent getOwnerDisplayName() {

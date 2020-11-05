@@ -13,8 +13,10 @@ public class AffinityLeveling implements ILeveling{
 	public static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
 	public static final DataParameter<Float> XP = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
 	public static final DataParameter<Integer> MAX_LEVEL = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
-	private float[] requiredXpArray = new float[]{500, 1000, 1500, 2000, 3000, 4000, 5000, 7000, 10000, 13000, 17000};
+	private float[] requiredXpArray = new float[]{100, 500, 1000, 1500, 2000, 3000, 4000, 5000, 7000, 10000, 13000, 17000};
 	private String[] levelNames = new String[] {"Unwilling", "Reluctant", "Tolerant", "Indifferent", "Accepting",  "Willing",  "Committed", "Trusted",  "Friends",  "Best Friends", "Inseparable", "Bonded", };
+	private float[] obeyDebuff = new float[] {1.0f, 0.9f, 0.75f, 0.65f, 0.5f, 0.4f, 0.35f, 0.3f, 0.25f, 0.2f, 0.1f, 0};
+
 	public AffinityLeveling(SWEMHorseEntityBase horse) {
 		this.horse = horse;
 		this.dataManager = this.horse.getDataManager();
@@ -81,6 +83,10 @@ public class AffinityLeveling implements ILeveling{
 	@Override
 	public String getLevelName() {
 		return this.levelNames[this.dataManager.get(LEVEL)];
+	}
+
+	public float getDebuff() {
+		return this.obeyDebuff[this.dataManager.get(LEVEL)];
 	}
 
 	@Override

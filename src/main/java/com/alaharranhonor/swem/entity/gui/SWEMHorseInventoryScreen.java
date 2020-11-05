@@ -9,6 +9,7 @@ import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -125,9 +126,7 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Tracking Chip"), 18.0f, 113.0f, 4210752);
 		// If enabled draw a 3x3 green box starting at 12x, 115y
 
-		// Whistle
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Whistle"), 124.0f, 113.0f, 4210752);
-		// If enabled draw a 3x3 green box starting at 118x, 115y
+		//this.buttons.add(new Button(124, 113, 50, 20, new TranslationTextComponent("Click Me"), pressable));
 	}
 
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
