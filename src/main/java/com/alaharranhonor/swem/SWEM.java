@@ -3,6 +3,7 @@ package com.alaharranhonor.swem;
 import com.alaharranhonor.swem.blocks.TimothyGrass;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.entities.WormieBoiEntity;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.SWLRegistryHandler;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
@@ -25,6 +26,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import software.bernie.geckolib.GeckoLib;
 
 @Mod("swem")
 public class SWEM
@@ -43,6 +45,7 @@ public class SWEM
 
         RegistryHandler.init();
         SWLRegistryHandler.init();
+        GeckoLib.initialize();
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -73,6 +76,7 @@ public class SWEM
 //      OreGeneration.setupGen();
         DeferredWorkQueue.runLater(() -> {
             GlobalEntityTypeAttributes.put(RegistryHandler.SWEM_HORSE_ENTITY.get(), SWEMHorseEntityBase.setCustomAttributes().create());
+            GlobalEntityTypeAttributes.put(RegistryHandler.WORMIE_BOI_ENTITY.get(), WormieBoiEntity.setCustomAttributes().create());
         });
     }
 

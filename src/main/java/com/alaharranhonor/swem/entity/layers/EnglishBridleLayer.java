@@ -14,12 +14,15 @@ import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.vector.Quaternion;
+import software.bernie.geckolib.renderers.geo.GeoLayerRenderer;
+import software.bernie.geckolib.renderers.geo.IGeoRenderer;
 
-public class EnglishBridleLayer extends LayerRenderer<SWEMHorseEntity, SWEMHorseModel> {
+public class EnglishBridleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
 	private final EnglishBridleModel<SWEMHorseEntity> modelBridle = new EnglishBridleModel<>();
 
-	public EnglishBridleLayer(IEntityRenderer<SWEMHorseEntity, SWEMHorseModel> entityRendererIn) {
+	public EnglishBridleLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
 		super(entityRendererIn);
 	}
 
@@ -31,7 +34,8 @@ public class EnglishBridleLayer extends LayerRenderer<SWEMHorseEntity, SWEMHorse
 				BridleItem bridleItem = (BridleItem)stack.getItem();
 				if (shouldRender(stack, entitylivingbaseIn)) {
 					matrixStackIn.push();
-					matrixStackIn.translate(0.0D, 0.0D, 0.125D);
+					matrixStackIn.translate(0.0D, 1.7D, 0.125D);
+					matrixStackIn.rotate(new Quaternion(0.0f, 0.0f, 1.0f, 0.0f));
 					this.modelBridle.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 					IVertexBuilder ivertexbuilder = ItemRenderer.getArmorVertexBuilder(bufferIn, RenderType.getArmorCutoutNoCull(bridleItem.getModelTexture()), false, stack.hasEffect());
 					this.modelBridle.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);

@@ -9,13 +9,19 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
+import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
+import software.bernie.geckolib.renderers.geo.GeoLayerRenderer;
+import software.bernie.geckolib.renderers.geo.IGeoRenderer;
 
-public class LegWrapsLayer extends LayerRenderer<SWEMHorseEntity, SWEMHorseModel> {
-	public LegWrapsLayer(IEntityRenderer<SWEMHorseEntity, SWEMHorseModel> entityRendererIn) {
+public class LegWrapsLayer extends GeoLayerRenderer<SWEMHorseEntity> {
+
+	private IGeoRenderer<SWEMHorseEntity> entity;
+	public LegWrapsLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
 		super(entityRendererIn);
+		this.entity = entityRendererIn;
 	}
 
 	@Override
@@ -25,7 +31,8 @@ public class LegWrapsLayer extends LayerRenderer<SWEMHorseEntity, SWEMHorseModel
 			LegWrapsItem legWraps = (LegWrapsItem)stack.getItem();
 
 			IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(legWraps.getArmorTexture()));
-			this.getEntityModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+			this.entity.render(this.entity.getGeoModelProvider().getModel(this.getEntityModel().getModelLocation(entitylivingbaseIn)), entitylivingbaseIn, partialTicks, this.entity.getRenderType(entitylivingbaseIn, partialTicks, matrixStackIn, bufferIn, ivertexbuilder, packedLightIn, legWraps.getArmorTexture()),matrixStackIn, bufferIn, ivertexbuilder, packedLightIn, LivingRenderer.getPackedOverlay(entitylivingbaseIn, 0.0f), 1.0f, 1.0f, 1.0f, 1.0f);
+
 		}
 	}
 }

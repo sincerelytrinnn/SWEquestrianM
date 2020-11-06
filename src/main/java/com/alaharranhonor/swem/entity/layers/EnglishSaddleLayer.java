@@ -14,12 +14,15 @@ import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.vector.Quaternion;
+import software.bernie.geckolib.renderers.geo.GeoLayerRenderer;
+import software.bernie.geckolib.renderers.geo.IGeoRenderer;
 
-public class EnglishSaddleLayer extends LayerRenderer<SWEMHorseEntity, SWEMHorseModel> {
+public class EnglishSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
 	private final EnglishSaddleModel<SWEMHorseEntity> modelSaddle = new EnglishSaddleModel<>();
 
-	public EnglishSaddleLayer(IEntityRenderer<SWEMHorseEntity, SWEMHorseModel> entityRendererIn) {
+	public EnglishSaddleLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
 		super(entityRendererIn);
 	}
 
@@ -30,8 +33,8 @@ public class EnglishSaddleLayer extends LayerRenderer<SWEMHorseEntity, SWEMHorse
 			HorseSaddleItem saddleItem = (HorseSaddleItem)stack.getItem();
 			if (shouldRender(stack, entitylivingbaseIn)) {
 				matrixStackIn.push();
-				matrixStackIn.translate(0.0D, 0.0D, 0.125D);
-				this.getEntityModel().copyModelAttributesTo(this.modelSaddle);
+				matrixStackIn.translate(0.0D, 1.55D, 0.125D);
+				matrixStackIn.rotate(new Quaternion(0.0f, 0.0f, 1.0f, 0.0f));
 				this.modelSaddle.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 				IVertexBuilder ivertexbuilder = ItemRenderer.getArmorVertexBuilder(bufferIn, RenderType.getArmorCutoutNoCull(saddleItem.getTexture()), false, stack.hasEffect());
 				this.modelSaddle.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);

@@ -4,29 +4,28 @@ import com.alaharranhonor.swem.util.RegistryHandler;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.horse.HorseEntity;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import software.bernie.geckolib.animation.builder.AnimationBuilder;
-import software.bernie.geckolib.animation.controller.AnimationController;
-import software.bernie.geckolib.animation.controller.EntityAnimationController;
-import software.bernie.geckolib.entity.IAnimatedEntity;
-import software.bernie.geckolib.event.AnimationTestEvent;
-import software.bernie.geckolib.event.ParticleKeyFrameEvent;
-import software.bernie.geckolib.event.SoundKeyframeEvent;
-import software.bernie.geckolib.manager.EntityAnimationManager;
+import software.bernie.geckolib.core.IAnimatable;
+import software.bernie.geckolib.core.PlayState;
+import software.bernie.geckolib.core.builder.AnimationBuilder;
+import software.bernie.geckolib.core.controller.AnimationController;
+import software.bernie.geckolib.core.event.ParticleKeyFrameEvent;
+import software.bernie.geckolib.core.event.SoundKeyframeEvent;
+import software.bernie.geckolib.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib.core.manager.AnimationData;
+import software.bernie.geckolib.core.manager.AnimationFactory;
 
 import javax.annotation.Nullable;
 
-public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatedEntity {
+public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable {
 
-	private EntityAnimationManager manager = new EntityAnimationManager();
-	private AnimationController controller = new EntityAnimationController(this, "moveController", 20, this::animationPredicate);
+	private AnimationFactory factory = new AnimationFactory(this);
 
 	public SWEMHorseEntity(EntityType<? extends SWEMHorseEntityBase> type, World worldIn) {
 		super(type, worldIn);
-		registerAnimationControllers();
+		this.ignoreFrustumCheck = true;
 	}
 
 	// createChild method
@@ -38,23 +37,17 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatedEnt
 		return RegistryHandler.SWEM_HORSE_ENTITY.get().create(this.world);
 	}
 
-	@Override
-	public EntityAnimationManager getAnimationManager() {
-		return this.manager;
-	}
-
-	private <E extends SWEMHorseEntityBase> boolean animationPredicate(AnimationTestEvent<E> event)
+	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
 	{
-		if (event.isWalking())
-		{
-			controller.setAnimation(new AnimationBuilder().addAnimation("walk", true));
-			return true;
+		if (event.isMoving()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("canter", true));
+			return PlayState.CONTINUE;
 		} else {
-			controller.setAnimation(new AnimationBuilder().addAnimation("stand_idle"));
-			return true;
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("stand_idle"));
+			return PlayState.CONTINUE;
 		}
-
 	}
+
 
 	private <E extends Entity> SoundEvent soundListener(SoundKeyframeEvent<E> event)
 	{
@@ -88,10 +81,13 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatedEnt
 
 	}
 
-	private void registerAnimationControllers()
-	{
-		manager.addAnimationController(controller);
-		//controller.registerSoundListener(this::soundListener);
-		//controller.registerParticleListener(this::particleListener);
+	@Override
+	public void registerControllers(AnimationData animationData) {
+		animationData.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
 	}
 }
