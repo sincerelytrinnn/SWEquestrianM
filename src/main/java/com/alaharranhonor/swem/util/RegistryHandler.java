@@ -6,17 +6,20 @@ import com.alaharranhonor.swem.blocks.*;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.RopeKnotEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
+import com.alaharranhonor.swem.entities.WormieBoiEntity;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.tools.FenceToolItem;
 import com.alaharranhonor.swem.tools.SWEMItemTier;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.Color;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -107,6 +110,8 @@ public class RegistryHandler {
     public static final RegistryObject<Item> ALFALFA_BUSHEL = ITEMS.register("alfalfa_bushel", ItemBase::new);
     public static final RegistryObject<Item> SWEM_WORM = ITEMS.register("swem_worm", ItemBase::new);
     public static final RegistryObject<FenceToolItem> FENCE_TOOL = ITEMS.register("fence_tool", FenceToolItem::new);
+    public static final RegistryObject<SWEMSpawnEggItem> WORM_SPAWN_EGG = ITEMS.register("worm_spawn_egg", () -> new SWEMSpawnEggItem(RegistryHandler.WORMIE_BOI_ENTITY, Color.fromHex("#bf7b05").getColor(), Color.fromHex("#663c02").getColor(), new Item.Properties().group(SWEM.TAB)));
+    public static final RegistryObject<SWEMSpawnEggItem> SWEM_HORSE_SPAWN_EGG = ITEMS.register("swem_horse_spawn_egg", () -> new SWEMSpawnEggItem(RegistryHandler.SWEM_HORSE_ENTITY, Color.fromHex("#bf7b05").getColor(), Color.fromHex("#663c02").getColor(), new Item.Properties().group(SWEM.TAB)));
 
     // SADDLES
     public static final RegistryObject<WesternSaddleItem> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new WesternSaddleItem("western_saddle_light_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
@@ -432,6 +437,12 @@ public class RegistryHandler {
                 .trackingRange(10)
                 .func_233608_b_(Integer.MAX_VALUE)
                 .build("rope_knot")
+    );
+
+    public static final RegistryObject<EntityType<WormieBoiEntity>> WORMIE_BOI_ENTITY = ENTITY_TYPES.register("wormieboi",
+            () -> EntityType.Builder.create(WormieBoiEntity::new, EntityClassification.CREATURE)
+                .size(2.0f, 0.4f)
+                .build(new ResourceLocation(SWEM.MOD_ID, "wormieboi").toString())
     );
 
     // Containers
