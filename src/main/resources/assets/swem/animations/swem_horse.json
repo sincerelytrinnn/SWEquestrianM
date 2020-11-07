@@ -2448,7 +2448,7 @@
 				}
 			}
 		},
-		"BuckTimingFix": {
+		"buck": {
 			"animation_length": 2.8,
 			"bones": {
 				"bone": {

@@ -36,6 +36,9 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -57,6 +60,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import software.bernie.geckolib.core.event.predicate.AnimationEvent;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -80,7 +84,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	public final ProgressionManager progressionManager;
 	private BlockPos currentPos;
 	private LazyOptional<InvWrapper> itemHandler;
-	private boolean whistleBound;
+	public static DataParameter<Boolean> whistleBound = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 
 	private BlockPos whistlePosition;
 
@@ -262,6 +266,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.dataManager.register(AffinityLeveling.XP, 0.0f);
 		this.dataManager.register(AffinityLeveling.MAX_LEVEL, 12);
 
+		this.dataManager.register(whistleBound, false);
+
 
 	}
 
@@ -308,6 +314,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			}
 		}
 
+	}
+
+	@Override
+	public void makeMad() {
+		super.makeMad();
 	}
 
 	/**
@@ -552,7 +563,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 					x = Math.abs(x - this.currentPos.getX());
 					z = Math.abs(z - this.currentPos.getZ());
 					int dist = ((int)Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)));
-					SWEM.LOGGER.debug("Distance: " + dist);
 					if (dist > 0 && dist < 25) {
 						boolean speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist);
 						if (speedLevelUp) {
@@ -615,7 +625,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 				// Check jumpheight, and add XP accordingly.
 				float jumpHeight = (float) (-0.1817584952 * ((float)Math.pow(d1, 3.0F)) + 3.689713992 * ((float)Math.pow(d1, 2.0F)) + 2.128599134 * d1 - 0.343930367);
 				float xpToAdd = 0.0f;
-				SWEM.LOGGER.debug("Height: " +jumpHeight);
 				if (jumpHeight >= 4.0f) {
 					xpToAdd = 40.0f;
 				} else if (jumpHeight >= 3.0f) {
@@ -773,6 +782,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			if (actionresulttype.isSuccessOrConsume()) {
 				if (itemstack.getItem() instanceof HorseSaddleItem && actionresulttype.isSuccessOrConsume()) {
 					this.setSWEMSaddled();
+				}
+				if (itemstack.getItem() instanceof WhistleItem && actionresulttype.isSuccessOrConsume()) {
 				}
 				return actionresulttype;
 			}
@@ -983,11 +994,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	}
 
 	public boolean getWhistleBound() {
-		return this.whistleBound;
+		return this.dataManager.get(whistleBound);
 	}
 
 	public void setWhistleBound(boolean bound) {
-		this.whistleBound = bound;
+		this.dataManager.set(whistleBound, bound);
 	}
 
 	public TranslationTextComponent getOwnerDisplayName() {

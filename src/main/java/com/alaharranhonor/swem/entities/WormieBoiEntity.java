@@ -67,14 +67,11 @@ public class WormieBoiEntity extends SheepEntity implements IAnimatable {
 		if (event.isMoving()) {
 
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("slither2.io", true));
-			event.getController().markNeedsReload();
 			return PlayState.CONTINUE;
 		} else {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("idle"));
 			return PlayState.CONTINUE;
 		}
-
-
 
 	}
 

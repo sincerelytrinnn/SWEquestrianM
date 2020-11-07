@@ -37,8 +37,13 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		return RegistryHandler.SWEM_HORSE_ENTITY.get().create(this.world);
 	}
 
-	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
+	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
 	{
+		SWEMHorseEntityBase horse = null;
+		if (event.getAnimatable() instanceof SWEMHorseEntityBase) {
+			horse = (SWEMHorseEntityBase) event.getAnimatable();
+		}
+
 		if (event.isMoving()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("canter", true));
 			return PlayState.CONTINUE;
@@ -49,6 +54,12 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 	}
 
 
+	/**
+	 *
+	 * @param event
+	 * @param <E>
+	 * @return
+	 */
 	private <E extends Entity> SoundEvent soundListener(SoundKeyframeEvent<E> event)
 	{
 		// Sound event should be added in the animation.json file.
