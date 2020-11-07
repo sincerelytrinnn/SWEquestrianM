@@ -8,6 +8,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -34,32 +35,33 @@ public class WhistleItem extends Item {
 	 */
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		if (!playerIn.getActiveItemStack().hasTag()) {
-			playerIn.getActiveItemStack().getOrCreateTag();
+		if (worldIn.isRemote) return ActionResult.resultPass(playerIn.getHeldItem(handIn));
+
+		if (!playerIn.getHeldItem(handIn).hasTag()) {
+			playerIn.getHeldItem(handIn).getOrCreateTag();
 		}
-		if (!playerIn.getActiveItemStack().getTag().contains("horseBound")) return ActionResult.resultPass(playerIn.getActiveItemStack());
-		UUID horseUUID = playerIn.getActiveItemStack().getTag().getUniqueId("horseBound");
+		if (!playerIn.getHeldItem(handIn).getTag().contains("boundHorse")) return ActionResult.resultFail(playerIn.getHeldItem(handIn));
+		SWEM.LOGGER.info("Horse is not null");
+		UUID horseUUID = playerIn.getHeldItem(handIn).getTag().getUniqueId("boundHorse");
 		SWEMHorseEntityBase horse = ((SWEMHorseEntityBase)((ServerWorld) playerIn.getEntityWorld()).getEntityByUuid(horseUUID));
 		if (horse != null) {
+			SWEM.LOGGER.info("Horse is not null");
 			if (horse.getPosition().withinDistance(playerIn.getPosition(), 100.0f)) {
 				// Try and whistle the horse.
+				SWEM.LOGGER.info("Horse is within 100 blocks of the player.");
 				horse.playSound(SoundEvents.ENTITY_HORSE_ANGRY, 0.15f, 1.0f);
 				float disobeyChance = horse.progressionManager.getAffinityLeveling().getDebuff();
 				float roll = horse.getRNG().nextFloat();
 				if (roll > disobeyChance) {
-					horse.getNavigator().clearPath();
-					horse.getNavigator().setPath(horse.getNavigator().getPathToEntity(playerIn, 0), 1.0D);
+					SWEM.LOGGER.info("The roll was succesfull");
+					horse.getMoveHelper().setMoveTo(playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ(), 1.0f);
 
-					return ActionResult.resultPass(playerIn.getActiveItemStack());
+					return ActionResult.func_233538_a_(playerIn.getHeldItem(handIn), worldIn.isRemote);
 				}
 			}
-
 		}
-		return ActionResult.resultPass(playerIn.getActiveItemStack());
-
+		return ActionResult.resultFail(playerIn.getHeldItem(handIn));
 	}
-
-
 
 	/**
 	 * Returns true if the item can be used on the given entity, e.g. shears on sheep.
@@ -71,24 +73,24 @@ public class WhistleItem extends Item {
 	 */
 	@Override
 	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+		if (playerIn.getEntityWorld().isRemote) return ActionResultType.PASS;
 		if (!stack.hasTag()) {
 			stack.getOrCreateTag();
 		}
 		if (target instanceof SWEMHorseEntityBase) {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
+			SWEM.LOGGER.info(horse.getWhistleBound());
+			SWEM.LOGGER.info(stack.getTag());
 			if (!horse.getWhistleBound()) {
 				if (stack.getTag().contains("boundHorse")) {
-					((SWEMHorseEntityBase)((ServerWorld) playerIn.getEntityWorld()).getEntityByUuid(stack.getTag().getUniqueId("horseBound"))).setWhistleBound(false);
+					((SWEMHorseEntityBase)((ServerWorld) playerIn.getEntityWorld()).getEntityByUuid(stack.getTag().getUniqueId("boundHorse"))).setWhistleBound(false);
 				}
 				horse.setWhistleBound(true);
-				stack.getTag().putUniqueId("horseBound", horse.getUniqueID());
-				return ActionResultType.SUCCESS;
-			} else {
-				return ActionResultType.FAIL;
+				stack.getTag().putUniqueId("boundHorse", horse.getUniqueID());
+				return ActionResultType.func_233537_a_(playerIn.getEntityWorld().isRemote);
 			}
-		} else {
-			return ActionResultType.FAIL;
 		}
+		return ActionResultType.FAIL;
 	}
 
 }
