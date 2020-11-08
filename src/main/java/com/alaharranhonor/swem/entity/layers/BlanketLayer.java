@@ -8,8 +8,8 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.item.ItemStack;
-import software.bernie.geckolib.renderers.geo.GeoLayerRenderer;
-import software.bernie.geckolib.renderers.geo.IGeoRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
+import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 
 public class BlanketLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 

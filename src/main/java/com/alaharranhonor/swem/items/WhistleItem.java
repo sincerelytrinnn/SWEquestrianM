@@ -41,19 +41,15 @@ public class WhistleItem extends Item {
 			playerIn.getHeldItem(handIn).getOrCreateTag();
 		}
 		if (!playerIn.getHeldItem(handIn).getTag().contains("boundHorse")) return ActionResult.resultFail(playerIn.getHeldItem(handIn));
-		SWEM.LOGGER.info("Horse is not null");
 		UUID horseUUID = playerIn.getHeldItem(handIn).getTag().getUniqueId("boundHorse");
 		SWEMHorseEntityBase horse = ((SWEMHorseEntityBase)((ServerWorld) playerIn.getEntityWorld()).getEntityByUuid(horseUUID));
 		if (horse != null) {
-			SWEM.LOGGER.info("Horse is not null");
 			if (horse.getPosition().withinDistance(playerIn.getPosition(), 100.0f)) {
 				// Try and whistle the horse.
-				SWEM.LOGGER.info("Horse is within 100 blocks of the player.");
 				horse.playSound(SoundEvents.ENTITY_HORSE_ANGRY, 0.15f, 1.0f);
 				float disobeyChance = horse.progressionManager.getAffinityLeveling().getDebuff();
 				float roll = horse.getRNG().nextFloat();
 				if (roll > disobeyChance) {
-					SWEM.LOGGER.info("The roll was succesfull");
 					horse.getMoveHelper().setMoveTo(playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ(), 1.0f);
 
 					return ActionResult.func_233538_a_(playerIn.getHeldItem(handIn), worldIn.isRemote);

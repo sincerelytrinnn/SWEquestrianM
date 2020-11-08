@@ -13,9 +13,9 @@ import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
-import software.bernie.geckolib.renderers.geo.GeoEntityRenderer;
-import software.bernie.geckolib.renderers.geo.GeoLayerRenderer;
-import software.bernie.geckolib.renderers.geo.IGeoRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
+import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 
 public class GirthStrapLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 

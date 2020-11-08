@@ -4,7 +4,7 @@ import com.alaharranhonor.swem.entities.WormieBoiEntity;
 import com.alaharranhonor.swem.entity.model.WormieBoiModel;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
-import software.bernie.geckolib.renderers.geo.GeoEntityRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 public class WormieBoiRender extends GeoEntityRenderer<WormieBoiEntity> {
 

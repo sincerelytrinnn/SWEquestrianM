@@ -6,7 +6,7 @@ import com.alaharranhonor.swem.entity.layers.*;
 import com.alaharranhonor.swem.entity.model.SWEMHorseModel;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
-import software.bernie.geckolib.renderers.geo.GeoEntityRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity>{
 
