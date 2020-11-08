@@ -83,6 +83,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	@Override
 	protected void registerGoals() {
+		// TODO: ADD AI TO FOLLOW WHISTLE POSITION AS TOP PRIORITY
 		super.registerGoals();
 		this.eatGrassGoal = new EatGrassGoal(this);
 		this.poopGoal = new PoopGoal(this);

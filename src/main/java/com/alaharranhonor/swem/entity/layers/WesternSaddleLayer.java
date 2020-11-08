@@ -15,9 +15,9 @@ import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.vector.Quaternion;
-import software.bernie.geckolib.renderers.geo.GeoLayerRenderer;
-import software.bernie.geckolib.renderers.geo.GeoReplacedEntityRenderer;
-import software.bernie.geckolib.renderers.geo.IGeoRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoReplacedEntityRenderer;
+import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 
 public class WesternSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 

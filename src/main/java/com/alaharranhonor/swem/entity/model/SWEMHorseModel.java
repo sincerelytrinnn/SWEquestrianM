@@ -4,7 +4,7 @@ package com.alaharranhonor.swem.entity.model;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import net.minecraft.util.ResourceLocation;
-import software.bernie.geckolib.model.AnimatedGeoModel;
+import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 public class SWEMHorseModel extends AnimatedGeoModel<SWEMHorseEntity> {
 
