@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.entities;
 
 import com.alaharranhonor.swem.util.RegistryHandler;
+import com.alaharranhonor.swem.util.initialization.SWEMEntities;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
@@ -51,7 +52,7 @@ public class WormieBoiEntity extends SheepEntity implements IAnimatable {
 	public SheepEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_)
 	{
 
-		return RegistryHandler.WORMIE_BOI_ENTITY.get().create(this.world);
+		return SWEMEntities.WORMIE_BOI_ENTITY.get().create(this.world);
 	}
 
 	/**

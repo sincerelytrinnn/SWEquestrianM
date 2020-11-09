@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.tools;
 
 import com.alaharranhonor.swem.util.RegistryHandler;
+import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.crafting.Ingredient;
 
@@ -9,7 +10,7 @@ import java.util.function.Supplier;
 public enum SWEMItemTier implements IItemTier {
 
     AMETHYST(4, 10000, 8, 20.0F, 0, () ->{
-        return Ingredient.fromItems(RegistryHandler.AMETHYST_LONGSWORD.get());
+        return Ingredient.fromItems(SWEMItems.AMETHYST_LONGSWORD.get());
     });
 
     private final int harvestLevel;

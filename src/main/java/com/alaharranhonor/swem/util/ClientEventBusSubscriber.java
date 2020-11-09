@@ -4,6 +4,9 @@ import com.alaharranhonor.swem.entity.gui.SWEMHorseInventoryScreen;
 import com.alaharranhonor.swem.entity.render.SWEMHorseRender;
 import com.alaharranhonor.swem.entity.render.WormieBoiRender;
 import com.alaharranhonor.swem.items.SWEMSpawnEggItem;
+import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.initialization.SWEMContainers;
+import com.alaharranhonor.swem.util.initialization.SWEMEntities;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
@@ -32,20 +35,24 @@ public class ClientEventBusSubscriber {
     {
         DeferredWorkQueue.runLater(ClientEventBusSubscriber::initLate);
         registerRenderers(event);
-        RenderTypeLookup.setRenderLayer(RegistryHandler.TIMOTHY_GRASS.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.OAT_PLANT.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.ALFALFA_PLANT.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.RIDING_DOOR.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.HALF_BARREL.get(), RenderType.getTranslucent());
+        setRenderLayers();
     }
 
     public static void initLate() {
-        ScreenManager.registerFactory(RegistryHandler.SWEM_HORSE_CONTAINER.get(), SWEMHorseInventoryScreen::new);
+        ScreenManager.registerFactory(SWEMContainers.SWEM_HORSE_CONTAINER.get(), SWEMHorseInventoryScreen::new);
     }
 
     public static void registerRenderers(final FMLClientSetupEvent event) {
-        RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.SWEM_HORSE_ENTITY.get(), SWEMHorseRender::new);
-        RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.WORMIE_BOI_ENTITY.get(), WormieBoiRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiRender::new);
+    }
+
+    public static void setRenderLayers() {
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.TIMOTHY_GRASS.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.OAT_PLANT.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.ALFALFA_PLANT.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.RIDING_DOOR.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.HALF_BARREL.get(), RenderType.getTranslucent());
     }
 
     @SubscribeEvent
@@ -53,7 +60,7 @@ public class ClientEventBusSubscriber {
         BlockColors colors = event.getBlockColors();
         colors.register((state, reader, pos, color) -> {
             return reader != null && pos != null ? BiomeColors.getWaterColor(reader, pos) : -1;
-        }, RegistryHandler.HALF_BARREL.get());
+        }, SWEMBlocks.HALF_BARREL.get());
     }
 
     @SubscribeEvent

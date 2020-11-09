@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.container;
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.RegistryHandler;
+import com.alaharranhonor.swem.util.initialization.SWEMContainers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
@@ -23,7 +24,7 @@ public class SWEMHorseInventoryContainer extends Container {
 	}
 
 	public SWEMHorseInventoryContainer(final int id, final PlayerInventory playerInventory, final int entityId) {
-		super(RegistryHandler.SWEM_HORSE_CONTAINER.get(), id);
+		super(SWEMContainers.SWEM_HORSE_CONTAINER.get(), id);
 		this.horse = (SWEMHorseEntityBase) playerInventory.player.world.getEntityByID(entityId);
 		this.horseInventory = horse.getHorseInventory();
 		horseInventory.openInventory(playerInventory.player);

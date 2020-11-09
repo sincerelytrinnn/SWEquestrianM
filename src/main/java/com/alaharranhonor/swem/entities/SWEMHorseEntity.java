@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.entities;
 
 import com.alaharranhonor.swem.util.RegistryHandler;
+import com.alaharranhonor.swem.util.initialization.SWEMEntities;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -34,11 +35,20 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 	public AgeableEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_)
 	{
 
-		return RegistryHandler.SWEM_HORSE_ENTITY.get().create(this.world);
+		return SWEMEntities.SWEM_HORSE_ENTITY.get().create(this.world);
 	}
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
 	{
+		SWEMHorseEntityBase horse = null;
+		if (event.getAnimatable() instanceof SWEMHorseEntityBase) {
+			horse = (SWEMHorseEntityBase) event.getAnimatable();
+		}
+
+		if (horse != null && horse.isHorseJumping()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("jump"));
+			return PlayState.CONTINUE;
+		}
 		if (event.isMoving()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("canter", true));
 			return PlayState.CONTINUE;
@@ -83,7 +93,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 	@Override
 	public void registerControllers(AnimationData animationData) {
-		animationData.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+		animationData.addAnimationController(new AnimationController(this, "controller", 5, this::predicate));
 	}
 
 	@Override

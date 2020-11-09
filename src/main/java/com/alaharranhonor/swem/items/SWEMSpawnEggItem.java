@@ -11,12 +11,10 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class SWEMSpawnEggItem extends SpawnEggItem {
 	protected static final List<SWEMSpawnEggItem> UNADDED_EGGS = new ArrayList<>();
@@ -30,7 +28,6 @@ public class SWEMSpawnEggItem extends SpawnEggItem {
 	}
 
 	public static void initSpawnEggs() {
-		final Map<EntityType<?>, SpawnEggItem> EGGS = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, null, "EGGS");
 		DefaultDispenseItemBehavior dispenseBehavior = new DefaultDispenseItemBehavior() {
 			/**
 			 * Dispense the specified stack, play the dispense sound and spawn particles.

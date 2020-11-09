@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.world.gen;
 
 import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.SWLRegistryHandler;
+import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
@@ -26,10 +27,10 @@ public class SWEMOreGen {
 
 	protected static void initOverWorldFeatures() {
 		if (AMETHYST_ORE == null) {
-			AMETHYST_ORE = OreGenUtils.buildOverWorldFeature(RegistryHandler.AMETHYST_ORE.get().getDefaultState());
+			AMETHYST_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.AMETHYST_ORE.get().getDefaultState());
 		}
 		if (CANTAZARITE_ORE == null) {
-			CANTAZARITE_ORE = OreGenUtils.buildOverWorldFeature(RegistryHandler.CANTAZARITE_ORE.get().getDefaultState());
+			CANTAZARITE_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.CANTAZARITE_ORE.get().getDefaultState());
 		}
 		if (SWLM_COBBLE_ORE == null) {
 			SWLM_COBBLE_ORE = OreGenUtils.buildOverWorldFeature(SWLRegistryHandler.STAR_WORM_COBBLE.get().getDefaultState());
