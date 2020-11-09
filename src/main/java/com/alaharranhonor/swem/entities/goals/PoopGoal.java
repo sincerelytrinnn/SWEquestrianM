@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.entities.goals;
 
 import com.alaharranhonor.swem.util.RegistryHandler;
+import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.MobEntity;
@@ -70,7 +71,7 @@ public class PoopGoal extends Goal {
 		this.poopTimer = Math.max(0, this.poopTimer - 1);
 		if (this.poopTimer == 4) {
 			BlockPos blockpos = this.pooperEntity.getPosition();
-			this.entityWorld.setBlockState(blockpos, RegistryHandler.HORSE_POO.get().getDefaultState(), 2);
+			this.entityWorld.setBlockState(blockpos, SWEMBlocks.HORSE_POO.get().getDefaultState(), 2);
 		}
 	}
 }

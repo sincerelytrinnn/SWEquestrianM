@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.entities;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
+import com.alaharranhonor.swem.entities.goals.FollowWhistleGoal;
 import com.alaharranhonor.swem.entities.goals.PoopGoal;
 import com.alaharranhonor.swem.entities.progression.ProgressionManager;
 import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
@@ -13,6 +14,7 @@ import com.alaharranhonor.swem.network.AddJumpXPMessage;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.network.UpdateHorseInventoryMessage;
 import com.alaharranhonor.swem.util.RegistryHandler;
+import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.entity.*;
@@ -60,7 +62,6 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.wrapper.InvWrapper;
-import software.bernie.geckolib.core.event.predicate.AnimationEvent;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -74,7 +75,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("556E1665-8B10-40C8-8F9D-CF9B1667F295");
 	//private static final DataParameter<Integer> HORSE_VARIANT = EntityDataManager.createKey(HorseEntity.class, DataSerializers.VARINT);
 
-	public static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(RegistryHandler.AMETHYST.get());
+	public static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(SWEMItems.AMETHYST.get());
 	private EatGrassGoal eatGrassGoal;
 	private PoopGoal poopGoal;
 	private int SWEMHorseGrassTimer;
@@ -86,7 +87,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	private LazyOptional<InvWrapper> itemHandler;
 	public static DataParameter<Boolean> whistleBound = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 
-	private BlockPos whistlePosition;
+	@Nullable
+	private LivingEntity whistleCaller;
 
 	public SWEMHorseEntityBase(EntityType<? extends AbstractHorseEntity> type, World worldIn)
 	{
@@ -118,6 +120,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		super.registerGoals();
 		this.eatGrassGoal = new EatGrassGoal(this);
 		this.poopGoal = new PoopGoal(this);
+		this.goalSelector.addGoal(0, new FollowWhistleGoal(this, 1.0d));
 		this.goalSelector.addGoal(0, new SwimGoal(this));
 		this.goalSelector.addGoal(1, new PanicGoal(this, 1.2D));
 		//this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 1.2D));
@@ -998,8 +1001,17 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return this.dataManager.get(whistleBound);
 	}
 
+
 	public void setWhistleBound(boolean bound) {
 		this.dataManager.set(whistleBound, bound);
+	}
+
+	public LivingEntity getWhistleCaller() {
+		return this.whistleCaller;
+	}
+
+	public void setWhistleCaller(LivingEntity player) {
+		this.whistleCaller = player;
 	}
 
 	public TranslationTextComponent getOwnerDisplayName() {

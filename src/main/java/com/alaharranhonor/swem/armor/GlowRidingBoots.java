@@ -3,6 +3,7 @@ package com.alaharranhonor.swem.armor;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.enchantments.UpstepEnchantment;
 import com.alaharranhonor.swem.util.RegistryHandler;
+import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
@@ -48,11 +49,11 @@ public class GlowRidingBoots extends LeatherRidingBoots {
 				World world = player.getEntityWorld();
 				if (glowBlockPos == null) {
 					glowBlockPos = player.getPosition().up();
-					world.setBlockState(glowBlockPos, RegistryHandler.INVISIBLE_GLOW_BLOCK.get().getDefaultState());
+					world.setBlockState(glowBlockPos, SWEMBlocks.INVISIBLE_GLOW_BLOCK.get().getDefaultState());
 				} else if (glowBlockPos != player.getPosition().up()) {
 					world.setBlockState(glowBlockPos, Blocks.AIR.getDefaultState());
 					glowBlockPos = player.getPosition().up();
-					world.setBlockState(glowBlockPos, RegistryHandler.INVISIBLE_GLOW_BLOCK.get().getDefaultState());
+					world.setBlockState(glowBlockPos, SWEMBlocks.INVISIBLE_GLOW_BLOCK.get().getDefaultState());
 				}
 
 			}

@@ -50,7 +50,7 @@ public class WhistleItem extends Item {
 				float disobeyChance = horse.progressionManager.getAffinityLeveling().getDebuff();
 				float roll = horse.getRNG().nextFloat();
 				if (roll > disobeyChance) {
-					horse.getMoveHelper().setMoveTo(playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ(), 1.0f);
+					horse.setWhistleCaller(playerIn);
 
 					return ActionResult.func_233538_a_(playerIn.getHeldItem(handIn), worldIn.isRemote);
 				}

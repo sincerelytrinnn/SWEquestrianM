@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.entities;
 
 import com.alaharranhonor.swem.util.RegistryHandler;
+import com.alaharranhonor.swem.util.initialization.SWEMEntities;
 import net.minecraft.entity.*;
 import net.minecraft.entity.item.HangingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,7 +31,7 @@ public class RopeKnotEntity extends HangingEntity {
 	}
 
 	public RopeKnotEntity(World worldIn, BlockPos hangingPositionIn) {
-		super(RegistryHandler.ROPE_KNOT_ENTITY.get(), worldIn, hangingPositionIn);
+		super(SWEMEntities.ROPE_KNOT_ENTITY.get(), worldIn, hangingPositionIn);
 		this.setPosition((double)hangingPositionIn.getX() + 0.5D, (double)hangingPositionIn.getY() + 0.5D, (double)hangingPositionIn.getZ() + 0.5D);
 		float f = 0.125F;
 		float f1 = 0.1875F;

@@ -7,6 +7,9 @@ import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.entities.WormieBoiEntity;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.SWLRegistryHandler;
+import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.initialization.SWEMEntities;
+import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -44,7 +47,7 @@ public class SWEM
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::doClientStuff);
 
-        RegistryHandler.init();
+        RegistryHandler.init(modEventBus);
         SWLRegistryHandler.init();
         GeckoLib.initialize();
 
@@ -60,7 +63,7 @@ public class SWEM
     public static void onRegisterItems(final RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
 
-        RegistryHandler.BLOCKS.getEntries().stream().map(RegistryObject::get)
+        SWEMBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)
                 .filter(block -> !(block instanceof TimothyGrass))
                 .forEach(block -> {
                     final Item.Properties properties = new Item.Properties().group(TAB);
@@ -74,8 +77,8 @@ public class SWEM
 
     private void setup(final FMLCommonSetupEvent event) {
         DeferredWorkQueue.runLater(() -> {
-            GlobalEntityTypeAttributes.put(RegistryHandler.SWEM_HORSE_ENTITY.get(), SWEMHorseEntityBase.setCustomAttributes().create());
-            GlobalEntityTypeAttributes.put(RegistryHandler.WORMIE_BOI_ENTITY.get(), WormieBoiEntity.setCustomAttributes().create());
+            GlobalEntityTypeAttributes.put(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseEntityBase.setCustomAttributes().create());
+            GlobalEntityTypeAttributes.put(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiEntity.setCustomAttributes().create());
         });
 
         SWEMPacketHandler.init();
@@ -88,14 +91,14 @@ public class SWEM
     public static final ItemGroup SWLMTAB = new ItemGroup("SWLMTab") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(RegistryHandler.SWEM_WORM.get());
+            return new ItemStack(SWEMItems.SWEM_WORM.get());
         }
     };
 
     public static final ItemGroup TAB = new ItemGroup("SWEMTab") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(RegistryHandler.WESTERN_SADDLE_LIGHT_BLUE.get());
+            return new ItemStack(SWEMItems.WESTERN_SADDLE_LIGHT_BLUE.get());
         }
     };
 }
