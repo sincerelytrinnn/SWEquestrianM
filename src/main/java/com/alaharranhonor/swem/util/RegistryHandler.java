@@ -1,10 +1,7 @@
 package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import com.alaharranhonor.swem.util.initialization.SWEMContainers;
-import com.alaharranhonor.swem.util.initialization.SWEMEntities;
-import com.alaharranhonor.swem.util.initialization.SWEMItems;
+import com.alaharranhonor.swem.util.initialization.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -25,6 +22,7 @@ public class RegistryHandler {
         SWEMBlocks.init(modBus);
         SWEMEntities.init(modBus);
         SWEMContainers.init(modBus);
+        SWEMTileEntities.init(modBus);
     }
 
 }
