@@ -30,7 +30,7 @@ public class TackBoxBlockItem extends BlockItem {
 		if (target instanceof SWEMHorseEntityBase) {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
 			// TODO: ONLY ALLOW HORSES TAMED BY THE PLAYER TO SET THE HORSE ID
-			stack.getOrCreateTag().putInt("horseID", horse.getEntityId());
+			stack.getOrCreateTag().putUniqueId("horseUUID", horse.getUniqueID());
 			return ActionResultType.func_233537_a_(playerIn.world.isRemote);
 
 		}

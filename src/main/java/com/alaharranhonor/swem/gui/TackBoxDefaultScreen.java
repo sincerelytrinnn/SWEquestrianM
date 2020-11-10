@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.gui;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.TackBoxContainer;
+import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -14,6 +15,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
 public class TackBoxDefaultScreen extends ContainerScreen<TackBoxContainer> {
@@ -39,6 +41,7 @@ public class TackBoxDefaultScreen extends ContainerScreen<TackBoxContainer> {
 		this.container = screenContainer;
 		this.inventory = inv;
 		this.text = titleIn;
+		//this.title = new TranslationTextComponent("Tack and Training");
 
 	}
 
@@ -57,7 +60,9 @@ public class TackBoxDefaultScreen extends ContainerScreen<TackBoxContainer> {
 
 		// TODO: CHECK IF HORSE IS SET; ELSE DON'T RENDER HORSE STUFF. TO AVOID CRASH
 		if (getContainer().horse != null) {
-			this.font.func_243248_b(matrixStack, getContainer().horse.getOwnerDisplayName(), 150, 150, 4210752);
+			SWEMHorseEntityBase horse = getContainer().horse;
+			//this.font.func_243248_b(matrixStack, new StringTextComponent( String.format("Jump Status: %s %.0f/%.0f",horse.) ), 17, 10, 4210752);
+			// 17px x for stats.
 		}
 
 	}

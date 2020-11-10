@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.container;
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.tileentity.TackBoxTE;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
@@ -26,14 +27,20 @@ public class TackBoxContainer extends Container {
 	public final SWEMHorseEntityBase horse;
 
 	public TackBoxContainer(final int id, final PlayerInventory playerInventory, final PacketBuffer data) {
-		this(id, playerInventory, getTileEntity(playerInventory, data), data.readInt());
+		this(id, playerInventory, getTileEntity(playerInventory, data), data.readUniqueId());
 	}
 
-	public TackBoxContainer(final int id, final PlayerInventory playerInventory, final TackBoxTE tileEntity, final int entityID) {
+	public TackBoxContainer(final int id, final PlayerInventory playerInventory, final TackBoxTE tileEntity, final UUID entityUUID) {
 		super(SWEMContainers.TACKBOX_CONTAINER.get(), id);
 		this.tileEntity = tileEntity;
+		if (playerInventory.player.world.isRemote) {
+			this.horse = (SWEMHorseEntityBase) playerInventory.player.world.getEntityByID(this.tileEntity.getTileData().getInt("horseID"));
+		} else {
+			this.horse = (SWEMHorseEntityBase) ((ServerWorld)playerInventory.player.world).getEntityByUuid(entityUUID);
+		}
 		this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
-		this.horse = (SWEMHorseEntityBase) playerInventory.player.world.getEntityByID(entityID);
+		SWEM.LOGGER.info(entityUUID);
+
 
 		// 10 gap between each compartment.
 		// Slot is 16x16 without border - 18x18 with border.
@@ -148,22 +155,19 @@ public class TackBoxContainer extends Container {
 		if (slot != null && slot.getHasStack()) {
 			ItemStack stack = slot.getStack();
 			itemstack = stack.copy();
-			if (index >= 30 && index <= 67) {
-				if (!mergeItemStack(stack, 0, 30, false)) {
+			if (index < 30) {
+				if (!mergeItemStack(stack, 30, this.inventorySlots.size(), true)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (index >= 58 && index < 67) {
-				if (!mergeItemStack(stack, 30, 58, false)) {
-					return ItemStack.EMPTY;
-				}
-			} else if (!mergeItemStack(stack, 30, 67, true)) {
+			} else if (!mergeItemStack(stack, 0, 30, false)) {
 				return ItemStack.EMPTY;
 			}
-			slot.onSlotChanged();
-			if (stack.getCount() == itemstack.getCount()) {
-				return ItemStack.EMPTY;
+
+			if (stack.isEmpty()) {
+				slot.putStack(ItemStack.EMPTY);
+			} else {
+				slot.onSlotChanged();
 			}
-			slot.onTake(playerIn, stack);
 		}
 
 		return itemstack;

@@ -3,6 +3,7 @@ package com.alaharranhonor.swem.blocks;
 import com.alaharranhonor.swem.tileentity.TackBoxTE;
 import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -63,7 +64,7 @@ public class TackBoxBlock extends Block {
 			if (tile instanceof TackBoxTE) {
 				NetworkHooks.openGui((ServerPlayerEntity) player, (TackBoxTE) tile, (buffer) -> {
 					buffer.writeBlockPos(pos);
-					buffer.writeInt(tile.getTileData().getInt("horseID"));
+					buffer.writeUniqueId(tile.getTileData().getUniqueId("horseUUID"));
 				});
 
 			}
@@ -93,10 +94,25 @@ public class TackBoxBlock extends Block {
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
 		if (stack.hasTag()) {
-			int id = stack.getTag().getInt("horseID");
-			if (id != 0) {
-				worldIn.getTileEntity(pos).getTileData().putInt("horseID", id);
+			UUID id = stack.getTag().getUniqueId("horseUUID");
+			if (id != null) {
+				TileEntity tile = worldIn.getTileEntity(pos);
+				if (tile instanceof TackBoxTE) {
+					((TackBoxTE)tile).getTileData().putUniqueId("horseUUID", id);
+				}
 			}
 		}
+	}
+
+	/**
+	 * The type of render function called. MODEL for mixed tesr and static model, MODELBLOCK_ANIMATED for TESR-only,
+	 * LIQUID for vanilla liquids, INVISIBLE to skip all rendering
+	 *
+	 * @param state
+	 * @deprecated call via {@link IBlockState#getRenderType()} whenever possible. Implementing/overriding is fine.
+	 */
+	@Override
+	public BlockRenderType getRenderType(BlockState state) {
+		return BlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
 }

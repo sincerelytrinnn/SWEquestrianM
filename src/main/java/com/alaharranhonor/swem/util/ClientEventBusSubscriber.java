@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.util;
 
+import com.alaharranhonor.swem.entity.render.TackBoxRender;
 import com.alaharranhonor.swem.gui.SWEMHorseInventoryScreen;
 import com.alaharranhonor.swem.entity.render.SWEMHorseRender;
 import com.alaharranhonor.swem.entity.render.WormieBoiRender;
@@ -8,6 +9,7 @@ import com.alaharranhonor.swem.items.SWEMSpawnEggItem;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMContainers;
 import com.alaharranhonor.swem.util.initialization.SWEMEntities;
+import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
@@ -19,6 +21,7 @@ import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import com.alaharranhonor.swem.SWEM;
@@ -42,6 +45,7 @@ public class ClientEventBusSubscriber {
     public static void registerRenderers(final FMLClientSetupEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseRender::new);
         RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiRender::new);
+        ClientRegistry.bindTileEntityRenderer(SWEMTileEntities.TACK_BOX_TILE_ENTITY.get(), TackBoxRender::new);
     }
 
     public static void setRenderLayers() {

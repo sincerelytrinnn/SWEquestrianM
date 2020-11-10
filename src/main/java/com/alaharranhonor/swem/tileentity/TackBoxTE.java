@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.tileentity;
 
 import com.alaharranhonor.swem.blocks.TackBoxBlock;
 import com.alaharranhonor.swem.container.TackBoxContainer;
+import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -12,7 +13,8 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -23,29 +25,38 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class TackBoxTE extends LockableLootTileEntity implements INamedContainerProvider {
+public class TackBoxTE extends LockableLootTileEntity implements INamedContainerProvider, IAnimatable {
 
+	private AnimationFactory factory = new AnimationFactory(this);
 	private NonNullList<ItemStack> tackContents = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
 	private int numPlayersUsing;
 	private IItemHandlerModifiable items = createHandler();
 	private LazyOptional<IItemHandlerModifiable> itemHandler = LazyOptional.of(() -> items);
-	private int entityId;
+	private UUID entityUUID;
+
 	public TackBoxTE() {
 		super(SWEMTileEntities.TACK_BOX_TILE_ENTITY.get());
 	}
 
 	@Override
 	public ITextComponent getDisplayName() {
-		return new TranslationTextComponent("Tackbox");
+		return new TranslationTextComponent("container.tack_box");
 	}
 
 	@Override
@@ -65,7 +76,7 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 
 	@Override
 	protected Container createMenu(int id, PlayerInventory player) {
-		return new TackBoxContainer(id, player, this, 0);
+		return new TackBoxContainer(id, player, this, this.getTileData().getUniqueId("horseUUID"));
 	}
 
 	@Override
@@ -74,9 +85,10 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 		if (!this.checkLootAndWrite(compound)) {
 			ItemStackHelper.saveAllItems(compound, this.tackContents);
 		}
-		compound.putInt("horseID", entityId);
 		return compound;
 	}
+
+
 
 	@Override
 	public void read(BlockState state, CompoundNBT nbt) {
@@ -85,7 +97,7 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 		if (!this.checkLootAndRead(nbt)) {
 			ItemStackHelper.loadAllItems(nbt, this.tackContents);
 		}
-		entityId = nbt.getInt("horseID");
+
 	}
 
 	private void playSound(SoundEvent event) {
@@ -200,5 +212,46 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 		return 30;
 	}
 
+
+	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+		return PlayState.CONTINUE;
+	}
+
+	@Override
+	public void registerControllers(AnimationData animationData) {
+		animationData.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
+	}
+
+	/**
+	 * Retrieves packet to send to the client whenever this Tile Entity is resynced via World.notifyBlockUpdate. For
+	 * modded TE's, this packet comes back to you clientside in {@link #onDataPacket}
+	 */
+	@Nullable
+	@Override
+	public SUpdateTileEntityPacket getUpdatePacket() {
+		SWEMHorseEntityBase horse = (SWEMHorseEntityBase) ((ServerWorld)this.world).getEntityByUuid(this.getTileData().getUniqueId("horseUUID"));
+		CompoundNBT nbt = new CompoundNBT();
+		nbt.putInt("horseID", horse.getEntityId());
+		return new SUpdateTileEntityPacket(this.pos, 0, nbt);
+	}
+
+	/**
+	 * Called when you receive a TileEntityData packet for the location this
+	 * TileEntity is currently in. On the client, the NetworkManager will always
+	 * be the remote server. On the server, it will be whomever is responsible for
+	 * sending the packet.
+	 *
+	 * @param net The NetworkManager the packet originated from
+	 * @param pkt The data packet
+	 */
+	@Override
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+		this.getTileData().putInt("horseID", pkt.getNbtCompound().getInt("horseID"));
+	}
 
 }
