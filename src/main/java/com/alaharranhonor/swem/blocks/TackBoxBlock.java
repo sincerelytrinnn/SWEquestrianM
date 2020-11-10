@@ -87,7 +87,7 @@ public class TackBoxBlock extends Block {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return VoxelShapes.create(0.01d, 0.01d, 0.01d, 15.99d, 15.99d, 15.99);
+		return VoxelShapes.create(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
 	}
 
 	/**
