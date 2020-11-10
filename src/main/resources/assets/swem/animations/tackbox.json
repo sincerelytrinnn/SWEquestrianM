@@ -1,0 +1,21 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"open_lid": {
+			"animation_length": 0.76,
+			"bones": {
+				"lid": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.76": {
+							"vector": [0, 0, -40]
+						}
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

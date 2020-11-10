@@ -1,0 +1,43 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.TackBox",
+				"texture_width": 256,
+				"texture_height": 256,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "lid",
+					"pivot": [-7, 8, 0],
+					"cubes": [
+						{"origin": [-7, 8, -15], "size": [14, 3, 30], "inflate": 0.0625, "uv": [0, 38]},
+						{"origin": [7, 8, -1], "size": [1, 1, 2], "uv": [6, 6]},
+						{"origin": [-8, 8, -9], "size": [16, 4, 1], "uv": [34, 80]},
+						{"origin": [-8, 8, 8], "size": [16, 4, 1], "uv": [58, 0]},
+						{"origin": [-4, 8, -16], "size": [1, 3, 32], "uv": [90, 90]},
+						{"origin": [3, 8, -16], "size": [1, 3, 32], "uv": [0, 71]}
+					]
+				},
+				{
+					"name": "box",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-7, 0, -15], "size": [14, 8, 30], "inflate": 0.0625, "uv": [0, 0]},
+						{"origin": [7, 6, -1], "size": [1, 2, 2], "uv": [6, 0]},
+						{"origin": [-8, 0, -9], "size": [16, 8, 1], "uv": [34, 71]},
+						{"origin": [-8, 0, 8], "size": [16, 8, 1], "uv": [58, 46]},
+						{"origin": [-4, 0, -16], "size": [1, 8, 32], "uv": [58, 6]},
+						{"origin": [3, 0, -16], "size": [1, 8, 32], "uv": [56, 56]},
+						{"origin": [-8, 8, 4], "size": [1, 1, 4], "uv": [0, 5]},
+						{"origin": [-8, 8, -8], "size": [1, 1, 4], "uv": [0, 0]}
+					]
+				}
+			]
+		}
+	]
+}
