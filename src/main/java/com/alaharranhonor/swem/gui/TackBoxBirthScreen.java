@@ -62,24 +62,24 @@ public class TackBoxBirthScreen extends Screen {
 			this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Name: %s", horse.getDisplayName().getString()) ), this.guiLeft + 17, this.guiTop + 67, 4210752);
 			this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Show Name: %s", horse.getDisplayName().getString())), this.guiLeft + 17, this.guiTop + 77, 4210752);
 
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Dam: Phase 2"), this.guiLeft + 17, this.guiTop + 99, 0xb74242);
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Sire: Phase 2"), this.guiLeft + 17, this.guiTop + 109, 0xb74242);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Dam: Phase 2"), this.guiLeft + 17, this.guiTop + 99, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Sire: Phase 2"), this.guiLeft + 17, this.guiTop + 109, 4210752);
 
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Sex: Phase 2"), this.guiLeft + 17, this.guiTop + 123, 0xb74242);
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Birthdate: Phase 2"), this.guiLeft + 73, this.guiTop + 123, 0xb74242);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Sex: Phase 2"), this.guiLeft + 17, this.guiTop + 123, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Birthdate: Phase 2"), this.guiLeft + 90, this.guiTop + 123, 4210752);
 
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Breed: Phase 2"), this.guiLeft + 17, this.guiTop + 137, 0xb74242);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Breed: Phase 2"), this.guiLeft + 17, this.guiTop + 137, 4210752);
 
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Temperament: Phase 2"), this.guiLeft + 17, this.guiTop + 151, 0xb74242);
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Stamina: Phase 2"), this.guiLeft + 17, this.guiTop + 161, 0xb74242);
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Conformation: Phase 2"), this.guiLeft + 136, this.guiTop + 151, 0xb74242);
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Immunity: Phase 2"), this.guiLeft + 136, this.guiTop + 161, 0xb74242);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Temperament: Phase 2"), this.guiLeft + 17, this.guiTop + 151, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Stamina: Phase 2"), this.guiLeft + 17, this.guiTop + 161, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Confirmation: Phase 2"), this.guiLeft + 133, this.guiTop + 151, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Immunity: Phase 2"), this.guiLeft + 133, this.guiTop + 161, 4210752);
 
 
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Discipline Affinity:"), this.guiLeft + 17, this.guiTop + 175, 4210752);
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Eng: Phase 2"), this.guiLeft + 24, this.guiTop + 185, 0xb74242);
-			this.font.func_243248_b(matrixStack, new StringTextComponent("West: Phase 2"), this.guiLeft + 97, this.guiTop + 185, 0xb74242);
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Adv: Phase 2"), this.guiLeft + 180, this.guiTop + 185, 0xb74242);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Discipline Affinity:"), this.guiLeft + 17, this.guiTop + 173, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Eng: Phase 2"), this.guiLeft + 24, this.guiTop + 183, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("West: Phase 2"), this.guiLeft + 97, this.guiTop + 183, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Adv: Phase 2"), this.guiLeft + 180, this.guiTop + 183, 4210752);
 
 		}
 

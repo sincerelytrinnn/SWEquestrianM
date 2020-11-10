@@ -69,13 +69,13 @@ public class TackBoxDefaultScreen extends ContainerScreen<TackBoxContainer> {
 		}
 
 		this.font.func_243248_b(matrixStack, new StringTextComponent("English"), 13, 128, 4210752);
-		this.font.func_243248_b(matrixStack, new StringTextComponent("Western"), 58, 128, 4210752);
-		this.font.func_243248_b(matrixStack, new StringTextComponent("Adv."), 107, 128, 4210752);
+		this.font.func_243248_b(matrixStack, new StringTextComponent("Western"), 59, 128, 4210752);
+		this.font.func_243248_b(matrixStack, new StringTextComponent("Adv."), 109, 128, 4210752);
 		this.font.func_243248_b(matrixStack, new StringTextComponent("General"), 168, 128, 4210752);
 
-		this.addButton(new Button(189, 47, 44, 11, new TranslationTextComponent("access.swem.riding_everyone"), (button) -> {
+		/* this.addButton(new Button(189, 47, 44, 11, new TranslationTextComponent("access.swem.riding_everyone"), (button) -> {
 
-		}));
+		}));*/
 
 
 	}
