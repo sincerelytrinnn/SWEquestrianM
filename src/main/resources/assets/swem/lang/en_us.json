@@ -416,10 +416,16 @@
 
   "entity.swem.swem_horse": "SWEM Horse",
   "entity.swem.rope_knot": "Rope Knot",
+  "entity.swem.wormieboi": "Worm Boy",
 
   "enchantment.swem.upstep": "UPstep",
   "enchantment.swem.destrier": "Destrier",
 
   "itemGroup.SWEMTab": "SWEquestrian",
-  "itemGroup.SWLMTab": "Star Worm Lighting"
+  "itemGroup.SWLMTab": "Star Worm Lighting",
+
+  "container.swem.tack_box": "Tack and Training",
+  "container.swem.tack_box_certificate": "Birth Certificate",
+  "container.swem.tack_box_genetics": "Lineage and Genetics",
+  "container.swem.tack_box_progression": "Progression"
 }
