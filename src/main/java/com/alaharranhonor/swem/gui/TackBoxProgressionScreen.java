@@ -62,12 +62,12 @@ public class TackBoxProgressionScreen extends Screen {
 			}
 			if (mouseX >= this.guiLeft + 34 && mouseX <= this.guiLeft + 56) {
 				this.getMinecraft().getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
-				minecraft.displayGuiScreen(new TackBoxBirthScreen(this.container, this.inv, this.text, new TranslationTextComponent("Birth Certificate")));
+				minecraft.displayGuiScreen(new TackBoxBirthScreen(this.container, this.inv, this.text, new TranslationTextComponent("container.swem.tack_box_certificate")));
 				return true;
 			}
 			if (mouseX >= this.guiLeft + 65 && mouseX <= this.guiLeft + 87) {
 				this.getMinecraft().getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
-				minecraft.displayGuiScreen(new TackBoxGeneticsScreen(this.container, this.inv, this.text, new TranslationTextComponent("Genetics")));
+				minecraft.displayGuiScreen(new TackBoxGeneticsScreen(this.container, this.inv, this.text, new TranslationTextComponent("container.swem.tack_box_genetics")));
 				return true;
 			}
 			if (mouseX >= this.guiLeft + 96 && mouseX <= this.guiLeft + 118) {

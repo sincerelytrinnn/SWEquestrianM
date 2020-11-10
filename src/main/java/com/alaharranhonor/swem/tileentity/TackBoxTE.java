@@ -48,7 +48,6 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 	private int numPlayersUsing;
 	private IItemHandlerModifiable items = createHandler();
 	private LazyOptional<IItemHandlerModifiable> itemHandler = LazyOptional.of(() -> items);
-	private UUID entityUUID;
 
 	public TackBoxTE() {
 		super(SWEMTileEntities.TACK_BOX_TILE_ENTITY.get());
@@ -56,12 +55,12 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 
 	@Override
 	public ITextComponent getDisplayName() {
-		return new TranslationTextComponent("container.tack_box");
+		return new TranslationTextComponent("container.swem.tack_box");
 	}
 
 	@Override
 	protected ITextComponent getDefaultName() {
-		return new TranslationTextComponent("container.tack_box");
+		return new TranslationTextComponent("container.swem.tack_box");
 	}
 
 	@Override
@@ -76,7 +75,7 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 
 	@Override
 	protected Container createMenu(int id, PlayerInventory player) {
-		return new TackBoxContainer(id, player, this, this.getTileData().getUniqueId("horseUUID"));
+		return new TackBoxContainer(id, player, this);
 	}
 
 	@Override
@@ -227,31 +226,5 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 		return this.factory;
 	}
 
-	/**
-	 * Retrieves packet to send to the client whenever this Tile Entity is resynced via World.notifyBlockUpdate. For
-	 * modded TE's, this packet comes back to you clientside in {@link #onDataPacket}
-	 */
-	@Nullable
-	@Override
-	public SUpdateTileEntityPacket getUpdatePacket() {
-		SWEMHorseEntityBase horse = (SWEMHorseEntityBase) ((ServerWorld)this.world).getEntityByUuid(this.getTileData().getUniqueId("horseUUID"));
-		CompoundNBT nbt = new CompoundNBT();
-		nbt.putInt("horseID", horse.getEntityId());
-		return new SUpdateTileEntityPacket(this.pos, 0, nbt);
-	}
-
-	/**
-	 * Called when you receive a TileEntityData packet for the location this
-	 * TileEntity is currently in. On the client, the NetworkManager will always
-	 * be the remote server. On the server, it will be whomever is responsible for
-	 * sending the packet.
-	 *
-	 * @param net The NetworkManager the packet originated from
-	 * @param pkt The data packet
-	 */
-	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		this.getTileData().putInt("horseID", pkt.getNbtCompound().getInt("horseID"));
-	}
 
 }

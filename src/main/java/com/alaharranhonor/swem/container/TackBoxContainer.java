@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.container;
 
-import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.tileentity.TackBoxTE;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
@@ -10,14 +9,11 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.world.server.ServerWorld;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class TackBoxContainer extends Container {
 
@@ -27,19 +23,14 @@ public class TackBoxContainer extends Container {
 	public final SWEMHorseEntityBase horse;
 
 	public TackBoxContainer(final int id, final PlayerInventory playerInventory, final PacketBuffer data) {
-		this(id, playerInventory, getTileEntity(playerInventory, data), data.readUniqueId());
+		this(id, playerInventory, getTileEntity(playerInventory, data));
 	}
 
-	public TackBoxContainer(final int id, final PlayerInventory playerInventory, final TackBoxTE tileEntity, final UUID entityUUID) {
+	public TackBoxContainer(final int id, final PlayerInventory playerInventory, final TackBoxTE tileEntity) {
 		super(SWEMContainers.TACKBOX_CONTAINER.get(), id);
 		this.tileEntity = tileEntity;
-		if (playerInventory.player.world.isRemote) {
-			this.horse = (SWEMHorseEntityBase) playerInventory.player.world.getEntityByID(this.tileEntity.getTileData().getInt("horseID"));
-		} else {
-			this.horse = (SWEMHorseEntityBase) ((ServerWorld)playerInventory.player.world).getEntityByUuid(entityUUID);
-		}
+		this.horse = (SWEMHorseEntityBase) playerInventory.player.world.getEntityByID(this.tileEntity.getTileData().getInt("horseID"));
 		this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
-		SWEM.LOGGER.info(entityUUID);
 
 
 		// 10 gap between each compartment.
