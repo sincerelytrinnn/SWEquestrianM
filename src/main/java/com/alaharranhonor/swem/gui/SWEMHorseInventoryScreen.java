@@ -1,4 +1,4 @@
-package com.alaharranhonor.swem.entity.gui;
+package com.alaharranhonor.swem.gui;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
@@ -72,6 +72,59 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 
 		// Render the horse
 		//InventoryScreen.drawEntityOnScreen(i + 51, j + 60, 17, (float)(i + 51) - this.mousePosx, (float)(j + 75 - 50) - this.mousePosY, this.horseEntity);
+	}
+	
+	@Override
+	protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
+		super.drawGuiContainerForegroundLayer(matrixStack, x, y);
+
+		SpeedLeveling speedLeveling = this.horseEntity.progressionManager.getSpeedLeveling();
+		AffinityLeveling affinityLeveling = this.horseEntity.progressionManager.getAffinityLeveling();
+		JumpLeveling jumpLeveling = this.horseEntity.progressionManager.getJumpLeveling();
+		HealthLeveling healthLeveling = this.horseEntity.progressionManager.getHealthLeveling();
+
+		// Top Text
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Tack"), 15, 6, 4210752);
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Stats"), 65, 6,4210752);
+
+		// Owner name.
+		this.font.func_243248_b(matrixStack, this.horseEntity.getOwnerDisplayName(), 65.2f, 36.0f, 4210752);
+
+		// Jump TEXT
+		TranslationTextComponent jumpInfo;
+		if (jumpLeveling.getLevel() != jumpLeveling.getMaxLevel()) {
+			jumpInfo = new TranslationTextComponent(String.format("%s: %.0f/%.0f", jumpLeveling.getLevelName(), jumpLeveling.getXp(), jumpLeveling.getRequiredXp()));
+		} else {
+			jumpInfo = new TranslationTextComponent(String.format("%s", jumpLeveling.getLevelName()));
+		}
+		this.font.func_243248_b(matrixStack, jumpInfo, 65.0f, 49.0f, 4210752);
+
+		// Speed TEXT
+		TranslationTextComponent speedInfo;
+		if (speedLeveling.getLevel() != speedLeveling.getMaxLevel()) {
+			speedInfo = new TranslationTextComponent(String.format("%s: %.0f/%.0f", speedLeveling.getLevelName(), speedLeveling.getXp(), speedLeveling.getRequiredXp()));
+		} else {
+			speedInfo = new TranslationTextComponent(String.format("%s", speedLeveling.getLevelName()));
+		}
+		this.font.func_243248_b(matrixStack, speedInfo, 65.0f, 64.0f, 4210752);
+
+		// Health TEXT
+		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("%s: %.1f/%.0f", healthLeveling.getLevelName(), this.horseEntity.getHealth(), this.horseEntity.getMaxHealth())), 65.0f, 78.0f, 4210752);
+
+		// Affinity TEXT
+		TranslationTextComponent affinityInfo;
+		if (affinityLeveling.getLevel() != affinityLeveling.getMaxLevel()) {
+			affinityInfo = new TranslationTextComponent(String.format("%s: %.0f/%.0f", affinityLeveling.getLevelName(), affinityLeveling.getXp(), affinityLeveling.getRequiredXp()));
+		} else {
+			affinityInfo = new TranslationTextComponent(String.format("%s", affinityLeveling.getLevelName()));
+		}
+		this.font.func_243248_b(matrixStack, affinityInfo, 65.0f, 92.0f, 4210752);
+
+
+		// Tracking Chip
+
+
+		//this.buttons.add(new Button(124, 113, 50, 20, new TranslationTextComponent("Click Me"), pressable));
 	}
 
 	@Override

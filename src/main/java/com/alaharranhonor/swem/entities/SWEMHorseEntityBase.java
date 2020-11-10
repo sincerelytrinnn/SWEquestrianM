@@ -1014,12 +1014,12 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.whistleCaller = player;
 	}
 
-	public TranslationTextComponent getOwnerDisplayName() {
+	public ITextComponent getOwnerDisplayName() {
 		UUID PlayerUUID = this.getOwnerUniqueId();
 		if (PlayerUUID == null) {
 			return new TranslationTextComponent("Not owned.");
 		}
-		return new TranslationTextComponent(this.world.getPlayerByUuid(PlayerUUID).getDisplayName().getString());
+		return this.world.getPlayerByUuid(PlayerUUID).getDisplayName();
 	}
 
 	public enum HorseType {
