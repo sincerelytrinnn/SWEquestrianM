@@ -15,6 +15,9 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -80,6 +83,11 @@ public class TackBoxBlock extends Block {
 				InventoryHelper.dropItems(worldIn, pos, ((TackBoxTE)te).getItems());
 			}
 		}
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		return VoxelShapes.create(0.01d, 0.01d, 0.01d, 15.99d, 15.99d, 15.99);
 	}
 
 	/**
