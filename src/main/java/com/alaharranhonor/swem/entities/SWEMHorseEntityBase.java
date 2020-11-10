@@ -1,9 +1,18 @@
 package com.alaharranhonor.swem.entities;
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.goals.FollowWhistleGoal;
 import com.alaharranhonor.swem.entities.goals.PoopGoal;
+import com.alaharranhonor.swem.entities.progression.ProgressionManager;
+import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
+import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
+import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
+import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
 import com.alaharranhonor.swem.items.*;
+import com.alaharranhonor.swem.network.AddJumpXPMessage;
+import com.alaharranhonor.swem.network.SWEMPacketHandler;
+import com.alaharranhonor.swem.network.UpdateHorseInventoryMessage;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.block.BlockState;
@@ -27,11 +36,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.DifficultyInstance;
@@ -44,14 +58,16 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.UUID;
 
-public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable {
+public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable, IEntityAdditionalSpawnData {
 
 
 
@@ -66,7 +82,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	private int SWEMHorsePoopTimer;
 	private static Random rand = new Random();
 
-	private final LevelingManager leveling;
+	public final ProgressionManager progressionManager;
+	private BlockPos currentPos;
 	private LazyOptional<InvWrapper> itemHandler;
 	public static DataParameter<Boolean> whistleBound = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 
@@ -76,17 +93,25 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	public SWEMHorseEntityBase(EntityType<? extends AbstractHorseEntity> type, World worldIn)
 	{
 		super(type, worldIn);
-		this.leveling = new LevelingManager();
+		this.currentPos = this.getPosition();
+		this.progressionManager = new ProgressionManager(this);
 
+	}
+
+	@Override
+	protected void func_230273_eI_() {
+		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getAlteredMaxHealth());
+		this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getAlteredMovementSpeed());
+		this.getAttribute(Attributes.HORSE_JUMP_STRENGTH).setBaseValue(this.getAlteredJumpStrength());
 	}
 
 	// func_233666_p_ -> registerAttributes()
 	public static AttributeModifierMap.MutableAttribute setCustomAttributes()
 	{
 		return MobEntity.func_233666_p_()
-				.createMutableAttribute(Attributes.MAX_HEALTH, getAlteredMaxHealth())
-				.createMutableAttribute(Attributes.HORSE_JUMP_STRENGTH, getAlteredJumpStrength())
-				.createMutableAttribute(Attributes.MOVEMENT_SPEED, getAlteredMovementSpeed());
+				.createMutableAttribute(Attributes.MAX_HEALTH)
+				.createMutableAttribute(Attributes.HORSE_JUMP_STRENGTH)
+				.createMutableAttribute(Attributes.MOVEMENT_SPEED);
 	}
 
 	@Override
@@ -176,25 +201,79 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 
 
-	private static double getAlteredMovementSpeed()
+	private double getAlteredMovementSpeed()
 	{
-		return ((double)0.45F + rand.nextDouble() * 0.3D + rand.nextDouble() * 0.3D + rand.nextDouble() * 0.3D) * 0.25D;
+		switch (this.progressionManager.getSpeedLeveling().getLevel()) {
+			case 1:
+				return 0.284629981024667d;
+			case 2:
+				return 0.332068311195445d;
+			case 3:
+				return 0.379506641366223d;
+			case 4:
+				return 0.426944971537001d;
+			default:
+				return 0.237191650853889d;
+		}
 	}
 
-	private static double getAlteredJumpStrength()
+	private double getAlteredJumpStrength()
 	{
-		return (double)0.4F + rand.nextDouble() * 0.4D + rand.nextDouble() * 0.4D + rand.nextDouble() * 0.4D;
+		switch(this.progressionManager.getJumpLeveling().getLevel()) {
+			case 1:
+				return 0.642707;
+			case 2:
+				return 0.783313;
+			case 3:
+				return 0.90862;
+			case 4:
+				return 1.02295;
+			default: {
+				return 0.478591;
+			}
+		}
 	}
 
-	private static double getAlteredMaxHealth()
+	private double getAlteredMaxHealth()
 	{
-		return 15.0F + (float)rand.nextInt(8) + (float)rand.nextInt(9);
+		switch(this.progressionManager.getHealthLeveling().getLevel()) {
+			case 1:
+				return 24.0D;
+			case 2:
+				return 28.0D;
+			case 3:
+				return 32.0D;
+			case 4:
+				return 34.0D;
+			default:
+				return 20.0D;
+		}
 	}
 
-//	protected void registerData() {
-//		super.registerData();
-//		this.dataManager.register(HORSE_VARIANT, 0);
-//	}
+	protected void registerData() {
+		super.registerData();
+		//this.dataManager.register(HORSE_VARIANT, 0);
+
+		this.dataManager.register(SpeedLeveling.LEVEL, 0);
+		this.dataManager.register(SpeedLeveling.XP, 0.0f);
+		this.dataManager.register(SpeedLeveling.MAX_LEVEL, 5);
+
+		this.dataManager.register(JumpLeveling.LEVEL, 0);
+		this.dataManager.register(JumpLeveling.XP, 0.0f);
+		this.dataManager.register(JumpLeveling.MAX_LEVEL, 5);
+
+		this.dataManager.register(HealthLeveling.LEVEL, 0);
+		this.dataManager.register(HealthLeveling.XP, 0.0f);
+		this.dataManager.register(HealthLeveling.MAX_LEVEL, 5);
+
+		this.dataManager.register(AffinityLeveling.LEVEL, 0);
+		this.dataManager.register(AffinityLeveling.XP, 0.0f);
+		this.dataManager.register(AffinityLeveling.MAX_LEVEL, 12);
+
+		this.dataManager.register(whistleBound, false);
+
+
+	}
 
 	public boolean func_230264_L__() {
 		return this.isAlive() && !this.isChild() && this.isTame();
@@ -203,36 +282,47 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	public void func_230266_a_(@Nullable SoundCategory p_230266_1_, ItemStack stack) {
 		if (stack.getItem() instanceof HorseSaddleItem) {
 			this.horseChest.setInventorySlotContents(2, stack);
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 2, stack));
 			if (p_230266_1_ != null) {
 				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof BlanketItem) {
 			this.horseChest.setInventorySlotContents(1, stack);
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 1, stack));
 			if (p_230266_1_ != null) {
 				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof BreastCollarItem) {
 			this.horseChest.setInventorySlotContents(3, stack);
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 3, stack));
 			if (p_230266_1_ != null) {
 				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof HalterItem) {
 			this.horseChest.setInventorySlotContents(0, stack);
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 0, stack));
 			if (p_230266_1_ != null) {
 				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof GirthStrapItem) {
 			this.horseChest.setInventorySlotContents(5, stack);
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 5, stack));
 			if (p_230266_1_ != null) {
 				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof LegWrapsItem) {
 			this.horseChest.setInventorySlotContents(4, stack);
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 4, stack));
 			if (p_230266_1_ != null) {
 				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		}
 
+	}
+
+	@Override
+	public void makeMad() {
+		super.makeMad();
 	}
 
 	/**
@@ -347,6 +437,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		if (!this.horseChest.getStackInSlot(5).isEmpty()) {
 			compound.put("GirthStrapItem", this.horseChest.getStackInSlot(5).write(new CompoundNBT()));
 		}
+
+		compound.putBoolean("whistleBound", this.getWhistleBound());
+
+		this.progressionManager.write(compound);
 	}
 
 	public ItemStack func_213803_dV() {
@@ -401,6 +495,14 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			}
 		}
 
+		this.setWhistleBound(compound.getBoolean("whistleBound"));
+
+		this.progressionManager.read(compound);
+
+//		this.leveling.setLevel(compound.getInt("CurrentLevel"));
+//		this.leveling.setXP(compound.getFloat("CurrentXP"));
+//		this.leveling.setXPRequired(compound.getInt("RequiredXP"));
+
 		this.func_230275_fc_();
 	}
 
@@ -424,6 +526,13 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 //		return CoatTypes.func_234248_a_((this.getHorseVariant() & '\uff00') >> 8);
 //	}
 
+
+	@Override
+	public void setHorseTamed(boolean tamed) {
+		super.setHorseTamed(tamed);
+		this.progressionManager.getAffinityLeveling().addXP(100.0f);
+	}
+
 	@Override
 	protected void func_230275_fc_() {
 		if (!this.world.isRemote) {
@@ -443,6 +552,141 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			}
 		}
 
+	}
+
+	/**
+	 * Called to update the entity's position/logic.
+	 */
+	@Override
+	public void tick() {
+		if (this.ticksExisted % 5 == 0) {
+			if (this.canBeSteered() && this.isBeingRidden()) { // Check for the current set speed. If it's canter, add the distance, if it's gallop, add the distance * 3) {
+				int x = this.getPosition().getX();
+				int z = this.getPosition().getZ();
+				if (x != this.currentPos.getX() || z != this.currentPos.getZ()) {
+					x = Math.abs(x - this.currentPos.getX());
+					z = Math.abs(z - this.currentPos.getZ());
+					int dist = ((int)Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)));
+					if (dist > 0 && dist < 25) {
+						boolean speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist);
+						if (speedLevelUp) {
+							this.levelUpSpeed();
+						}
+						// Affinity leveling, is not affected by speed. so no matter the speed, just add 1xp per block.
+						this.progressionManager.getAffinityLeveling().addXP(dist);
+					}
+
+
+				}
+				this.currentPos = this.getPosition();
+			} else {
+				this.currentPos = this.getPosition();
+			}
+		}
+
+		if (this.ticksExisted % 100 == 0) {
+			// TODO: CHECK FOR FOOD AND WATER IN A 5x5 Proximity if Thirsty or Hungry.
+		}
+		super.tick();
+	}
+
+	@Override
+	public void travel(Vector3d travelVector) {
+		if (this.isBeingRidden() && this.canBeSteered() && this.isHorseSaddled()) {
+			LivingEntity livingentity = (LivingEntity) this.getControllingPassenger();
+			this.rotationYaw = livingentity.rotationYaw;
+			this.prevRotationYaw = this.rotationYaw;
+			this.rotationPitch = livingentity.rotationPitch * 0.5F;
+			this.setRotation(this.rotationYaw, this.rotationPitch);
+			this.renderYawOffset = this.rotationYaw;
+			this.rotationYawHead = this.renderYawOffset;
+			float f = livingentity.moveStrafing * 0.5F;
+			float f1 = livingentity.moveForward;
+			if (f1 <= 0.0F) {
+				f1 *= 0.25F;
+				this.gallopTime = 0;
+			}
+
+			if (this.onGround && this.jumpPower == 0.0F && this.isRearing() && !this.allowStandSliding) {
+				f = 0.0F;
+				f1 = 0.0F;
+			}
+
+			if (this.jumpPower > 0.0F && !this.isHorseJumping() && this.onGround) {
+				double d0 = this.getHorseJumpStrength() * (double) this.jumpPower * (double) this.getJumpFactor();
+				double d1;
+				if (this.isPotionActive(Effects.JUMP_BOOST)) {
+					d1 = d0 + (double) ((float) (this.getActivePotionEffect(Effects.JUMP_BOOST).getAmplifier() + 1) * 0.1F);
+				} else {
+					d1 = d0;
+				}
+
+				Vector3d vector3d = this.getMotion();
+				this.setMotion(vector3d.x, d1, vector3d.z);
+
+
+
+				// Check jumpheight, and add XP accordingly.
+				float jumpHeight = (float) (-0.1817584952 * ((float)Math.pow(d1, 3.0F)) + 3.689713992 * ((float)Math.pow(d1, 2.0F)) + 2.128599134 * d1 - 0.343930367);
+				float xpToAdd = 0.0f;
+				if (jumpHeight >= 4.0f) {
+					xpToAdd = 40.0f;
+				} else if (jumpHeight >= 3.0f) {
+					xpToAdd = 30.0f;
+				} else if (jumpHeight >= 2.0f) {
+					xpToAdd = 25.0f;
+				} else if (jumpHeight >= 1.0f) {
+					xpToAdd = 20.0f;
+				}
+
+				SWEMPacketHandler.INSTANCE.sendToServer(new AddJumpXPMessage(xpToAdd, this.getEntityId()));
+
+
+				this.setHorseJumping(true);
+				this.isAirBorne = true;
+				net.minecraftforge.common.ForgeHooks.onLivingJump(this);
+				if (f1 > 0.0F) {
+					float f2 = MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F));
+					float f3 = MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F));
+					this.setMotion(this.getMotion().add((double) (-0.4F * f2 * this.jumpPower), 0.0D, (double) (0.4F * f3 * this.jumpPower)));
+				}
+
+
+
+				this.jumpPower = 0.0F;
+			}
+
+			this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
+			if (this.canPassengerSteer()) {
+				this.setAIMoveSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
+				super.travel(new Vector3d((double) f, travelVector.y, (double) f1));
+			} else if (livingentity instanceof PlayerEntity) {
+				this.setMotion(Vector3d.ZERO);
+			}
+
+			if (this.onGround) {
+				this.jumpPower = 0.0F;
+				this.setHorseJumping(false);
+			}
+
+			this.func_233629_a_(this, false);
+		} else {
+			super.travel(travelVector);
+		}
+
+	}
+
+	public void levelUpJump() {
+		double currentSpeed = this.getAttribute(Attributes.HORSE_JUMP_STRENGTH).getValue();
+		double newSpeed = this.getAlteredJumpStrength();
+		this.getAttribute(Attributes.HORSE_JUMP_STRENGTH).applyPersistentModifier(new AttributeModifier(this.progressionManager.getJumpLeveling().getLevelName(), newSpeed - currentSpeed, AttributeModifier.Operation.ADDITION));
+
+	}
+
+	public void levelUpSpeed() {
+		double currentSpeed = this.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
+		double newSpeed = this.getAlteredMovementSpeed();
+		this.getAttribute(Attributes.MOVEMENT_SPEED).applyPersistentModifier(new AttributeModifier(this.progressionManager.getSpeedLeveling().getLevelName(), newSpeed - currentSpeed, AttributeModifier.Operation.ADDITION));
 	}
 
 	/**
@@ -497,10 +741,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	@Override
 	public void openGUI(PlayerEntity playerEntity) {
 		if (!this.world.isRemote && (!this.isBeingRidden() || this.isPassenger(playerEntity)) && this.isTame()) {
+			ITextComponent horseDisplayName = this.getDisplayName();
 			INamedContainerProvider provider = new INamedContainerProvider() {
 				@Override
 				public ITextComponent getDisplayName() {
-					return new TranslationTextComponent( "entity.swem.swem_horse");
+					return horseDisplayName;
 				}
 
 				@Nullable
@@ -509,13 +754,14 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 					return new SWEMHorseInventoryContainer(p_createMenu_1_, p_createMenu_2_, getEntityId());
 				}
 			};
-			NetworkHooks.openGui((ServerPlayerEntity) playerEntity, provider, buffer -> buffer.writeVarInt(getEntityId()).writeVarInt(getEntityId()));
+			NetworkHooks.openGui((ServerPlayerEntity) playerEntity, provider, buffer ->
+					buffer
+						.writeInt(getEntityId())
+						.writeInt(getEntityId())
+			);
+
 		}
 	}
-
-
-
-
 
 	// Item interaction with horse.
 	public ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {
@@ -540,6 +786,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			if (actionresulttype.isSuccessOrConsume()) {
 				if (itemstack.getItem() instanceof HorseSaddleItem && actionresulttype.isSuccessOrConsume()) {
 					this.setSWEMSaddled();
+				}
+				if (itemstack.getItem() instanceof WhistleItem && actionresulttype.isSuccessOrConsume()) {
 				}
 				return actionresulttype;
 			}
@@ -634,6 +882,47 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
 	}
 
+	/**
+	 * Called by the server when constructing the spawn packet.
+	 * Data should be added to the provided stream.
+	 *
+	 * @param buffer The packet data stream
+	 */
+	@Override
+	public void writeSpawnData(PacketBuffer buffer) {
+		buffer.writeItemStack(this.horseChest.getStackInSlot(0));
+		buffer.writeItemStack(this.horseChest.getStackInSlot(1));
+		buffer.writeItemStack(this.horseChest.getStackInSlot(2));
+		buffer.writeItemStack(this.horseChest.getStackInSlot(3));
+		buffer.writeItemStack(this.horseChest.getStackInSlot(4));
+		buffer.writeItemStack(this.horseChest.getStackInSlot(5));
+		buffer.writeItemStack(this.horseChest.getStackInSlot(6));
+		buffer.writeItemStack(this.horseChest.getStackInSlot(7));
+	}
+
+	/**
+	 * Called by the client when it receives a Entity spawn packet.
+	 * Data should be read out of the stream in the same way as it was written.
+	 *
+	 * @param additionalData The packet data stream
+	 */
+	@Override
+	public void readSpawnData(PacketBuffer additionalData) {
+		this.horseChest.setInventorySlotContents(0, additionalData.readItemStack());
+		this.horseChest.setInventorySlotContents(1, additionalData.readItemStack());
+		this.horseChest.setInventorySlotContents(2, additionalData.readItemStack());
+		this.horseChest.setInventorySlotContents(3, additionalData.readItemStack());
+		this.horseChest.setInventorySlotContents(4, additionalData.readItemStack());
+		this.horseChest.setInventorySlotContents(5, additionalData.readItemStack());
+		this.horseChest.setInventorySlotContents(6, additionalData.readItemStack());
+		this.horseChest.setInventorySlotContents(7, additionalData.readItemStack());
+	}
+
+	@Override
+	public IPacket<?> createSpawnPacket() {
+		return NetworkHooks.getEntitySpawningPacket(this);
+	}
+
 	public static class HorseData extends AgeableEntity.AgeableData {
 		public final CoatColors variant;
 
@@ -702,13 +991,19 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return super.func_230277_fr_();
 	}
 
-	private class LevelingManager
-	{
-		private LevelingManager()
-		{
+	public float getJumpHeight() {
+		float jumpStrength = (float) this.getHorseJumpStrength();
+		float jumpHeight = (float) (-0.1817584952 * ((float)Math.pow(jumpStrength, 3.0F)) + 3.689713992 * ((float)Math.pow(jumpStrength, 2.0F)) + 2.128599134 * jumpStrength - 0.343930367);
+		return jumpHeight;
+	}
 
-		}
+	public boolean getWhistleBound() {
+		return this.dataManager.get(whistleBound);
+	}
 
+
+	public void setWhistleBound(boolean bound) {
+		this.dataManager.set(whistleBound, bound);
 	}
 
 	public LivingEntity getWhistleCaller() {
@@ -724,7 +1019,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		if (PlayerUUID == null) {
 			return new TranslationTextComponent("Not owned.");
 		}
-		return (TranslationTextComponent) this.world.getPlayerByUuid(PlayerUUID).getDisplayName();
+		return new TranslationTextComponent(this.world.getPlayerByUuid(PlayerUUID).getDisplayName().getString());
 	}
 
 	public enum HorseType {

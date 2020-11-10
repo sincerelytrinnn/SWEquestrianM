@@ -3,6 +3,7 @@ package com.alaharranhonor.swem;
 import com.alaharranhonor.swem.blocks.TimothyGrass;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.entities.WormieBoiEntity;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.SWLRegistryHandler;
@@ -75,12 +76,12 @@ public class SWEM
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-//      OreGeneration.initGen();
-//      OreGeneration.setupGen();
         DeferredWorkQueue.runLater(() -> {
             GlobalEntityTypeAttributes.put(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseEntityBase.setCustomAttributes().create());
             GlobalEntityTypeAttributes.put(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiEntity.setCustomAttributes().create());
         });
+
+        SWEMPacketHandler.init();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

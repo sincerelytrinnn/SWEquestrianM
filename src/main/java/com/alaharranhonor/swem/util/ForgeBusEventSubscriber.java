@@ -23,5 +23,4 @@ public class ForgeBusEventSubscriber {
 			SWEMOreGen.generateOverworldOres(event);
 		}
 	}
-
 }

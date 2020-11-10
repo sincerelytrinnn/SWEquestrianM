@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.entities;
 
-import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.initialization.SWEMEntities;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
@@ -38,7 +37,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		return SWEMEntities.SWEM_HORSE_ENTITY.get().create(this.world);
 	}
 
-	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
+	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
 	{
 		SWEMHorseEntityBase horse = null;
 		if (event.getAnimatable() instanceof SWEMHorseEntityBase) {
@@ -59,6 +58,12 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 	}
 
 
+	/**
+	 *
+	 * @param event
+	 * @param <E>
+	 * @return
+	 */
 	private <E extends Entity> SoundEvent soundListener(SoundKeyframeEvent<E> event)
 	{
 		// Sound event should be added in the animation.json file.
