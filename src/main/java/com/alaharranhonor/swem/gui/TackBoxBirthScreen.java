@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.gui;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.TackBoxContainer;
+import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -12,6 +13,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
 public class TackBoxBirthScreen extends Screen {
@@ -49,7 +51,37 @@ public class TackBoxBirthScreen extends Screen {
 		int i = (this.width - 247) / 2;
 		int j = (this.height - 207) / 2;
 		this.blit(matrixStack, i, j, 0, 0, 247, 207);
+
+		// Title
 		this.font.func_243248_b(matrixStack, this.title, (float) this.guiLeft + 13, (float)this.guiTop + 30, 4210752);
+
+		if (this.container.horse != null) {
+			SWEMHorseEntityBase horse = this.container.horse;
+
+			this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Owner: %s", horse.getOwnerDisplayName().getString()) ), this.guiLeft + 17, this.guiTop + 57, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Name: %s", horse.getDisplayName().getString()) ), this.guiLeft + 17, this.guiTop + 67, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Show Name: %s", horse.getDisplayName().getString())), this.guiLeft + 17, this.guiTop + 77, 4210752);
+
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Dam: Phase 2"), this.guiLeft + 17, this.guiTop + 99, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Sire: Phase 2"), this.guiLeft + 17, this.guiTop + 109, 4210752);
+
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Sex: Phase 2"), this.guiLeft + 17, this.guiTop + 123, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Birthdate: Phase 2"), this.guiLeft + 90, this.guiTop + 123, 4210752);
+
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Breed: Phase 2"), this.guiLeft + 17, this.guiTop + 137, 4210752);
+
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Temperament: Phase 2"), this.guiLeft + 17, this.guiTop + 151, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Stamina: Phase 2"), this.guiLeft + 17, this.guiTop + 161, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Confirmation: Phase 2"), this.guiLeft + 133, this.guiTop + 151, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Immunity: Phase 2"), this.guiLeft + 133, this.guiTop + 161, 4210752);
+
+
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Discipline Affinity:"), this.guiLeft + 17, this.guiTop + 173, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Eng: Phase 2"), this.guiLeft + 24, this.guiTop + 183, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("West: Phase 2"), this.guiLeft + 97, this.guiTop + 183, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent("Adv: Phase 2"), this.guiLeft + 180, this.guiTop + 183, 4210752);
+
+		}
 
 	}
 
@@ -67,12 +99,12 @@ public class TackBoxBirthScreen extends Screen {
 			}
 			if (mouseX >= this.guiLeft + 65 && mouseX <= this.guiLeft + 87) {
 				this.getMinecraft().getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
-				minecraft.displayGuiScreen(new TackBoxGeneticsScreen(this.container, this.inv, this.text, new TranslationTextComponent("Genetics")));
+				minecraft.displayGuiScreen(new TackBoxGeneticsScreen(this.container, this.inv, this.text, new TranslationTextComponent("container.swem.tack_box_genetics")));
 				return true;
 			}
 			if (mouseX >= this.guiLeft + 96 && mouseX <= this.guiLeft + 118) {
 				this.getMinecraft().getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
-				minecraft.displayGuiScreen(new TackBoxProgressionScreen(this.container, this.inv, this.text, new TranslationTextComponent("Progression")));
+				minecraft.displayGuiScreen(new TackBoxProgressionScreen(this.container, this.inv, this.text, new TranslationTextComponent("container.swem.tack_box_progression")));
 				return true;
 			}
 		}

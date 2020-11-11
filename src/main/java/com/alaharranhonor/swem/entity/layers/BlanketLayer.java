@@ -1,7 +1,7 @@
 package com.alaharranhonor.swem.entity.layers;
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
-import com.alaharranhonor.swem.items.BlanketItem;
+import com.alaharranhonor.swem.items.tack.BlanketItem;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;

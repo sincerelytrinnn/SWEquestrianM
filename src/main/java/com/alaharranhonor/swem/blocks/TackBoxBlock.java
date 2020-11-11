@@ -1,5 +1,8 @@
 package com.alaharranhonor.swem.blocks;
 
+import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.network.SWEMPacketHandler;
+import com.alaharranhonor.swem.network.SyncEntityIdToClient;
 import com.alaharranhonor.swem.tileentity.TackBoxTE;
 import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
 import net.minecraft.block.Block;
@@ -20,7 +23,9 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -65,9 +70,11 @@ public class TackBoxBlock extends Block {
 		if (!worldIn.isRemote) {
 			TileEntity tile = worldIn.getTileEntity(pos);
 			if (tile instanceof TackBoxTE) {
+				UUID uuid = tile.getTileData().getUniqueId("horseUUID");
+				int entityID = ((ServerWorld)worldIn).getEntityByUuid(uuid).getEntityId();
+				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new SyncEntityIdToClient(entityID, tile.getPos().getX(), tile.getPos().getY(), tile.getPos().getZ()));
 				NetworkHooks.openGui((ServerPlayerEntity) player, (TackBoxTE) tile, (buffer) -> {
 					buffer.writeBlockPos(pos);
-					buffer.writeUniqueId(tile.getTileData().getUniqueId("horseUUID"));
 				});
 
 			}
@@ -87,7 +94,7 @@ public class TackBoxBlock extends Block {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return VoxelShapes.create(0.01d, 0.01d, 0.01d, 15.99d, 15.99d, 15.99);
+		return VoxelShapes.create(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
 	}
 
 	/**
@@ -101,24 +108,18 @@ public class TackBoxBlock extends Block {
 	 */
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		if (stack.hasTag()) {
-			UUID id = stack.getTag().getUniqueId("horseUUID");
-			if (id != null) {
+		if (!worldIn.isRemote) {
+			if (stack.hasTag()) {
+				UUID id = stack.getTag().getUniqueId("horseUUID");
 				TileEntity tile = worldIn.getTileEntity(pos);
 				if (tile instanceof TackBoxTE) {
-					((TackBoxTE)tile).getTileData().putUniqueId("horseUUID", id);
+					tile.getTileData().putUniqueId("horseUUID", id);
 				}
 			}
 		}
+
 	}
 
-	/**
-	 * The type of render function called. MODEL for mixed tesr and static model, MODELBLOCK_ANIMATED for TESR-only,
-	 * LIQUID for vanilla liquids, INVISIBLE to skip all rendering
-	 *
-	 * @param state
-	 * @deprecated call via {@link IBlockState#getRenderType()} whenever possible. Implementing/overriding is fine.
-	 */
 	@Override
 	public BlockRenderType getRenderType(BlockState state) {
 		return BlockRenderType.ENTITYBLOCK_ANIMATED;

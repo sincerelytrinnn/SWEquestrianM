@@ -1,7 +1,7 @@
 package com.alaharranhonor.swem.container;
 
-import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.tileentity.TackBoxTE;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMContainers;
@@ -10,14 +10,11 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.world.server.ServerWorld;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class TackBoxContainer extends Container {
 
@@ -27,19 +24,14 @@ public class TackBoxContainer extends Container {
 	public final SWEMHorseEntityBase horse;
 
 	public TackBoxContainer(final int id, final PlayerInventory playerInventory, final PacketBuffer data) {
-		this(id, playerInventory, getTileEntity(playerInventory, data), data.readUniqueId());
+		this(id, playerInventory, getTileEntity(playerInventory, data));
 	}
 
-	public TackBoxContainer(final int id, final PlayerInventory playerInventory, final TackBoxTE tileEntity, final UUID entityUUID) {
+	public TackBoxContainer(final int id, final PlayerInventory playerInventory, final TackBoxTE tileEntity) {
 		super(SWEMContainers.TACKBOX_CONTAINER.get(), id);
 		this.tileEntity = tileEntity;
-		if (playerInventory.player.world.isRemote) {
-			this.horse = (SWEMHorseEntityBase) playerInventory.player.world.getEntityByID(this.tileEntity.getTileData().getInt("horseID"));
-		} else {
-			this.horse = (SWEMHorseEntityBase) ((ServerWorld)playerInventory.player.world).getEntityByUuid(entityUUID);
-		}
+		this.horse = (SWEMHorseEntityBase) playerInventory.player.world.getEntityByID(this.tileEntity.getTileData().getInt("horseID"));
 		this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
-		SWEM.LOGGER.info(entityUUID);
 
 
 		// 10 gap between each compartment.
@@ -51,55 +43,114 @@ public class TackBoxContainer extends Container {
 		// English Section
 		int englishX = 11;
 		this.addSlot(new Slot(this.tileEntity, 0, englishX, slotStartY) {
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return stack.getItem() instanceof EnglishBridleItem;
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 1, englishX + 3 + 18, slotStartY){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return stack.getItem() instanceof EnglishSaddleItem;
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 2, englishX, slotStartY + 3 + 18){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return stack.getItem() instanceof EnglishBreastCollar;
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 3, englishX + 3 + 18, slotStartY + 3 + 18){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return stack.getItem() instanceof EnglishBlanketItem;
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 4, englishX, slotStartY + 6 + 36){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return stack.getItem() instanceof EnglishLegWraps;
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 5, englishX + 3 + 18, slotStartY + 6 + 36){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return stack.getItem() instanceof EnglishGirthStrap;
+			}
 		});
 
 		//Western Section
 		int westernX = 60;
 		this.addSlot(new Slot(this.tileEntity, 6, westernX, slotStartY){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return stack.getItem() instanceof WesternBridleItem;
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 7, westernX + 3 + 18, slotStartY){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return stack.getItem() instanceof WesternSaddleItem;
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 8, westernX, slotStartY + 3 + 18){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return stack.getItem() instanceof WesternBreastCollarItem;
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 9, westernX + 3 + 18, slotStartY + 3 + 18){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return stack.getItem() instanceof WesternBlanketItem;
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 10, westernX, slotStartY + 6 + 36){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return stack.getItem() instanceof WesternLegWraps;
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 11, westernX + 3 + 18, slotStartY + 6 + 36){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return stack.getItem() instanceof WesternGirthStrapItem;
+			}
 		});
 
 		// Adventure Section
 		int adventureX = 110;
 		this.addSlot(new Slot(this.tileEntity, 12, adventureX, slotStartY){
+			@Override
+			public boolean isEnabled() {
+				return false;
+			}
 
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return false;
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 13, adventureX, slotStartY + 3 + 18){
+			@Override
+			public boolean isEnabled() {
+				return false;
+			}
 
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return false;
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 14, adventureX, slotStartY + 6 + 36){
-
+			@Override
+			public boolean isEnabled() {
+				return false;
+			}
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return false;
+			}
 		});
 
 		// General Compartment

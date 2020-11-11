@@ -1,4 +1,4 @@
-package com.alaharranhonor.swem.items;
+package com.alaharranhonor.swem.items.tack;
 
 import com.alaharranhonor.swem.SWEM;
 import net.minecraft.util.ResourceLocation;
