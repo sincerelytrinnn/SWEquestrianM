@@ -1,9 +1,7 @@
 package com.alaharranhonor.swem.container;
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.items.tack.BlanketItem;
-import com.alaharranhonor.swem.items.tack.WesternBridleItem;
-import com.alaharranhonor.swem.items.tack.WesternSaddleItem;
+import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.tileentity.TackBoxTE;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMContainers;
@@ -47,37 +45,37 @@ public class TackBoxContainer extends Container {
 		this.addSlot(new Slot(this.tileEntity, 0, englishX, slotStartY) {
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				return super.isItemValid(stack);
+				return stack.getItem() instanceof EnglishBridleItem;
 			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 1, englishX + 3 + 18, slotStartY){
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				return super.isItemValid(stack);
+				return stack.getItem() instanceof EnglishSaddleItem;
 			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 2, englishX, slotStartY + 3 + 18){
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				return super.isItemValid(stack);
+				return stack.getItem() instanceof EnglishBreastCollar;
 			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 3, englishX + 3 + 18, slotStartY + 3 + 18){
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				return super.isItemValid(stack);
+				return stack.getItem() instanceof EnglishBlanketItem;
 			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 4, englishX, slotStartY + 6 + 36){
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				return super.isItemValid(stack);
+				return stack.getItem() instanceof EnglishLegWraps;
 			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 5, englishX + 3 + 18, slotStartY + 6 + 36){
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				return super.isItemValid(stack);
+				return stack.getItem() instanceof EnglishGirthStrap;
 			}
 		});
 
@@ -98,25 +96,25 @@ public class TackBoxContainer extends Container {
 		this.addSlot(new Slot(this.tileEntity, 8, westernX, slotStartY + 3 + 18){
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				return stack.getItem() instanceof BlanketItem;
+				return stack.getItem() instanceof WesternBreastCollarItem;
 			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 9, westernX + 3 + 18, slotStartY + 3 + 18){
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				return super.isItemValid(stack);
+				return stack.getItem() instanceof WesternBlanketItem;
 			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 10, westernX, slotStartY + 6 + 36){
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				return super.isItemValid(stack);
+				return stack.getItem() instanceof WesternLegWraps;
 			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 11, westernX + 3 + 18, slotStartY + 6 + 36){
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				return super.isItemValid(stack);
+				return stack.getItem() instanceof WesternGirthStrapItem;
 			}
 		});
 
