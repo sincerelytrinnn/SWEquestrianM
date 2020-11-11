@@ -323,7 +323,7 @@
 				}
 			}
 		},
-		"Hock": {
+		"hock": {
 			"loop": true,
 			"animation_length": 4.16,
 			"bones": {
@@ -1008,7 +1008,7 @@
 				}
 			}
 		},
-		"GallopTimingFix": {
+		"gallop": {
 			"loop": true,
 			"animation_length": 1.68,
 			"anim_time_update": "0",
