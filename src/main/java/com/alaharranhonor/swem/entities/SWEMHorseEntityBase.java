@@ -16,6 +16,7 @@ import com.alaharranhonor.swem.network.UpdateHorseInventoryMessage;
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -89,11 +90,14 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	@Nullable
 	private LivingEntity whistleCaller;
 
+	public HorseSpeed currentSpeed;
+
 	public SWEMHorseEntityBase(EntityType<? extends AbstractHorseEntity> type, World worldIn)
 	{
 		super(type, worldIn);
 		this.currentPos = this.getPosition();
 		this.progressionManager = new ProgressionManager(this);
+		this.currentSpeed = HorseSpeed.CANTER;
 
 	}
 
@@ -559,7 +563,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	@Override
 	public void tick() {
 		if (this.ticksExisted % 5 == 0) {
-			if (this.canBeSteered() && this.isBeingRidden()) { // Check for the current set speed. If it's canter, add the distance, if it's gallop, add the distance * 3) {
+			if (this.canBeSteered() && this.isBeingRidden() && this.currentSpeed != HorseSpeed.TROT && this.currentSpeed != HorseSpeed.WALK) {
 				int x = this.getPosition().getX();
 				int z = this.getPosition().getZ();
 				if (x != this.currentPos.getX() || z != this.currentPos.getZ()) {
@@ -567,7 +571,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 					z = Math.abs(z - this.currentPos.getZ());
 					int dist = ((int)Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)));
 					if (dist > 0 && dist < 25) {
-						boolean speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist);
+						boolean speedLevelUp = false;
+						if (this.currentSpeed == HorseSpeed.CANTER) {
+							speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist);
+						}
 						if (speedLevelUp) {
 							this.levelUpSpeed();
 						}
@@ -679,7 +686,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		double currentSpeed = this.getAttribute(Attributes.HORSE_JUMP_STRENGTH).getValue();
 		double newSpeed = this.getAlteredJumpStrength();
 		this.getAttribute(Attributes.HORSE_JUMP_STRENGTH).applyPersistentModifier(new AttributeModifier(this.progressionManager.getJumpLeveling().getLevelName(), newSpeed - currentSpeed, AttributeModifier.Operation.ADDITION));
-
 	}
 
 	public void levelUpSpeed() {
@@ -922,6 +928,33 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
+	public void decrementSpeed() {
+		HorseSpeed oldSpeed = this.currentSpeed;
+		if (oldSpeed == HorseSpeed.WALK) return;
+		else if (oldSpeed == HorseSpeed.TROT) {
+			this.currentSpeed = HorseSpeed.WALK;
+		} else if (oldSpeed == HorseSpeed.CANTER) {
+			this.currentSpeed = HorseSpeed.TROT;
+		}
+		this.updateSelectedSpeed(oldSpeed);
+	}
+
+	public void incrementSpeed() {
+		HorseSpeed oldSpeed = this.currentSpeed;
+		if (oldSpeed == HorseSpeed.CANTER) return;
+		else if (oldSpeed == HorseSpeed.TROT) {
+			this.currentSpeed = HorseSpeed.CANTER;
+		} else if (oldSpeed == HorseSpeed.WALK) {
+			this.currentSpeed = HorseSpeed.TROT;
+		}
+		this.updateSelectedSpeed(oldSpeed);
+	}
+
+	public void updateSelectedSpeed(HorseSpeed oldSpeed) {
+		this.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(oldSpeed.getModifier());
+		this.getAttribute(Attributes.MOVEMENT_SPEED).applyNonPersistentModifier(this.currentSpeed.getModifier());
+	}
+
 	public static class HorseData extends AgeableEntity.AgeableData {
 		public final CoatColors variant;
 
@@ -1021,18 +1054,22 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return this.world.getPlayerByUuid(PlayerUUID).getDisplayName();
 	}
 
-	public enum HorseType {
+	public enum HorseSpeed {
 
-		Western(1.0f, 1.0f, 1.0f);
+		WALK(new AttributeModifier("HORSE_WALK", -0.9d, AttributeModifier.Operation.MULTIPLY_TOTAL)),
+		TROT(new AttributeModifier("HORSE_TROT", -0.75d, AttributeModifier.Operation.MULTIPLY_TOTAL)),
+		CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.MULTIPLY_TOTAL));
 
-		private float movementModifier;
-		private float healthModifier;
-		private float jumpModifier;
-		HorseType(float movementModifier, float healthModifier, float jumpModifier) {
-			this.movementModifier = movementModifier;
-			this.healthModifier = healthModifier;
-			this.jumpModifier = jumpModifier;
+		private AttributeModifier modifier;
+
+		HorseSpeed(AttributeModifier modifier) {
+			this.modifier = modifier;
 		}
+
+		public AttributeModifier getModifier() {
+			return this.modifier;
+		}
+
 	}
 
 
