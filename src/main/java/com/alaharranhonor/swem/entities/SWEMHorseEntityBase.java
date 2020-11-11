@@ -12,12 +12,12 @@ import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.network.AddJumpXPMessage;
+import com.alaharranhonor.swem.network.GallopCooldownPacket;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.network.UpdateHorseInventoryMessage;
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -88,11 +88,13 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	private LazyOptional<InvWrapper> itemHandler;
 	public static DataParameter<Boolean> whistleBound = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 
+	private static DataParameter<Integer> GALLOP_TIMER = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
+	private static DataParameter<Integer> GALLOP_COOLDOWN_TIMER = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
+	private static DataParameter<Boolean> GALLOP_ON_COOLDOWN = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	@Nullable
 	private LivingEntity whistleCaller;
 
 	public HorseSpeed currentSpeed;
-	public static DataParameter<Float> CURRENT_SPEED = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
 
 	public SWEMHorseEntityBase(EntityType<? extends AbstractHorseEntity> type, World worldIn)
 	{
@@ -187,6 +189,25 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			this.SWEMHorsePoopTimer = Math.max(0, this.SWEMHorsePoopTimer - 1);
 			this.SWEMHorseGrassTimer = Math.max(0, this.SWEMHorseGrassTimer - 1);
 		}
+		if (!this.world.isRemote) {
+			if (this.dataManager.get(GALLOP_ON_COOLDOWN)) {
+				this.dataManager.set(GALLOP_COOLDOWN_TIMER, this.dataManager.get(GALLOP_COOLDOWN_TIMER) + 1);
+				if (this.dataManager.get(GALLOP_COOLDOWN_TIMER) == 35*20) {
+					this.dataManager.set(GALLOP_COOLDOWN_TIMER, 0);
+					this.dataManager.set(GALLOP_ON_COOLDOWN, false);
+				}
+			} else {
+				if (this.dataManager.get(GALLOP_TIMER) == 7*20) {
+					this.dataManager.set(GALLOP_ON_COOLDOWN, true);
+					this.dataManager.set(GALLOP_TIMER, 0);
+					this.decrementSpeed();
+				} else {
+					if (this.currentSpeed.getSpeed() == 1.3f) {
+						this.dataManager.set(GALLOP_TIMER, this.dataManager.get(GALLOP_TIMER) + 1);
+					}
+				}
+			}
+		}
 		super.livingTick();
 	}
 
@@ -276,7 +297,9 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 		this.dataManager.register(whistleBound, false);
 
-		this.dataManager.register(CURRENT_SPEED, 1.0f);
+		this.dataManager.register(GALLOP_ON_COOLDOWN, false);
+		this.dataManager.register(GALLOP_COOLDOWN_TIMER, 0);
+		this.dataManager.register(GALLOP_TIMER, 0);
 
 
 	}
@@ -942,12 +965,22 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		} else if (oldSpeed == HorseSpeed.CANTER) {
 			this.currentSpeed = HorseSpeed.TROT;
 		}
+		else if (oldSpeed == HorseSpeed.GALLOP) {
+			this.currentSpeed = HorseSpeed.CANTER;
+		}
 		this.updateSelectedSpeed(oldSpeed);
 	}
 
 	public void incrementSpeed() {
 		HorseSpeed oldSpeed = this.currentSpeed;
-		if (oldSpeed == HorseSpeed.CANTER) return;
+		if (oldSpeed == HorseSpeed.GALLOP) return;
+		else if (oldSpeed == HorseSpeed.CANTER) {
+			if (this.dataManager.get(GALLOP_ON_COOLDOWN)) {
+				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)), new GallopCooldownPacket(Math.round((35 - this.dataManager.get(GALLOP_COOLDOWN_TIMER) / 20) )));
+				return;
+			}
+			this.currentSpeed = HorseSpeed.GALLOP;
+		}
 		else if (oldSpeed == HorseSpeed.TROT) {
 			this.currentSpeed = HorseSpeed.CANTER;
 		} else if (oldSpeed == HorseSpeed.WALK) {
@@ -959,7 +992,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	public void updateSelectedSpeed(HorseSpeed oldSpeed) {
 		this.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(oldSpeed.getModifier());
 		this.getAttribute(Attributes.MOVEMENT_SPEED).applyNonPersistentModifier(this.currentSpeed.getModifier());
-		this.dataManager.set(CURRENT_SPEED, this.currentSpeed.getSpeed());
 	}
 
 	public static class HorseData extends AgeableEntity.AgeableData {
@@ -1065,11 +1097,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 		WALK(new AttributeModifier("HORSE_WALK", -0.9d, AttributeModifier.Operation.MULTIPLY_TOTAL), 0.1f),
 		TROT(new AttributeModifier("HORSE_TROT", -0.75d, AttributeModifier.Operation.MULTIPLY_TOTAL), 0.25f),
-		CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.MULTIPLY_TOTAL), 1.0f);
-
+		CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.MULTIPLY_TOTAL), 1.0f),
+		GALLOP(new AttributeModifier("HORSE_GALLOP", 0.07115276974015008d, AttributeModifier.Operation.ADDITION), 1.3f);
 		private AttributeModifier modifier;
 		private float speed;
-
 		HorseSpeed(AttributeModifier modifier, float speed) {
 			this.modifier = modifier;
 			this.speed = speed;
@@ -1081,6 +1112,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 		public float getSpeed() {
 			return this.speed;
+		}
+
+		public void setSpeed(float speed) {
+			this.speed = speed;
 		}
 
 	}

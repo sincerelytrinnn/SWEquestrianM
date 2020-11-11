@@ -2,6 +2,8 @@ package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.network.SWEMPacketHandler;
+import com.alaharranhonor.swem.network.SendHorseSpeedChange;
 import com.alaharranhonor.swem.world.gen.SWEMOreGen;
 import cpw.mods.modlauncher.serviceapi.ILaunchPluginService;
 import net.minecraft.client.Minecraft;
@@ -18,6 +20,7 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
 
 import static net.minecraftforge.forgespi.Environment.Keys.DIST;
@@ -51,7 +54,7 @@ public class ForgeBusEventSubscriber {
 				Entity entity = player.getRidingEntity();
 				if (entity instanceof SWEMHorseEntityBase) {
 					SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-					horse.incrementSpeed();
+					SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(1, horse.getEntityId()));
 				}
 			}
 
@@ -61,7 +64,7 @@ public class ForgeBusEventSubscriber {
 				Entity entity = player.getRidingEntity();
 				if (entity instanceof SWEMHorseEntityBase) {
 					SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-					horse.decrementSpeed();
+					SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(0, horse.getEntityId()));
 				}
 			}
 
