@@ -1,6 +1,9 @@
 package com.alaharranhonor.swem.container;
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.items.tack.BlanketItem;
+import com.alaharranhonor.swem.items.tack.WesternBridleItem;
+import com.alaharranhonor.swem.items.tack.WesternSaddleItem;
 import com.alaharranhonor.swem.tileentity.TackBoxTE;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMContainers;
@@ -42,55 +45,114 @@ public class TackBoxContainer extends Container {
 		// English Section
 		int englishX = 11;
 		this.addSlot(new Slot(this.tileEntity, 0, englishX, slotStartY) {
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return super.isItemValid(stack);
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 1, englishX + 3 + 18, slotStartY){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return super.isItemValid(stack);
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 2, englishX, slotStartY + 3 + 18){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return super.isItemValid(stack);
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 3, englishX + 3 + 18, slotStartY + 3 + 18){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return super.isItemValid(stack);
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 4, englishX, slotStartY + 6 + 36){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return super.isItemValid(stack);
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 5, englishX + 3 + 18, slotStartY + 6 + 36){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return super.isItemValid(stack);
+			}
 		});
 
 		//Western Section
 		int westernX = 60;
 		this.addSlot(new Slot(this.tileEntity, 6, westernX, slotStartY){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return stack.getItem() instanceof WesternBridleItem;
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 7, westernX + 3 + 18, slotStartY){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return stack.getItem() instanceof WesternSaddleItem;
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 8, westernX, slotStartY + 3 + 18){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return stack.getItem() instanceof BlanketItem;
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 9, westernX + 3 + 18, slotStartY + 3 + 18){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return super.isItemValid(stack);
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 10, westernX, slotStartY + 6 + 36){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return super.isItemValid(stack);
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 11, westernX + 3 + 18, slotStartY + 6 + 36){
-
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return super.isItemValid(stack);
+			}
 		});
 
 		// Adventure Section
 		int adventureX = 110;
 		this.addSlot(new Slot(this.tileEntity, 12, adventureX, slotStartY){
+			@Override
+			public boolean isEnabled() {
+				return false;
+			}
 
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return false;
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 13, adventureX, slotStartY + 3 + 18){
+			@Override
+			public boolean isEnabled() {
+				return false;
+			}
 
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return false;
+			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 14, adventureX, slotStartY + 6 + 36){
-
+			@Override
+			public boolean isEnabled() {
+				return false;
+			}
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return false;
+			}
 		});
 
 		// General Compartment

@@ -1,17 +1,14 @@
 package com.alaharranhonor.swem.entity.layers;
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
-import com.alaharranhonor.swem.entity.model.SWEMHorseModel;
 import com.alaharranhonor.swem.entity.model.WesternBridleModel;
-import com.alaharranhonor.swem.items.BridleItem;
-import com.alaharranhonor.swem.items.WesternBridleItem;
+import com.alaharranhonor.swem.items.tack.BridleItem;
+import com.alaharranhonor.swem.items.tack.WesternBridleItem;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.vector.Quaternion;
