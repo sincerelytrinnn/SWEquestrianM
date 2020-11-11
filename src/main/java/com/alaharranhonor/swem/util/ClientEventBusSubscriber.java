@@ -14,6 +14,7 @@ import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
@@ -26,15 +27,20 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import com.alaharranhonor.swem.SWEM;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import org.lwjgl.glfw.GLFW;
 
 @Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEventBusSubscriber {
+
+    public static KeyBinding[] keyBindings;
+
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event)
     {
         DeferredWorkQueue.runLater(ClientEventBusSubscriber::initLate);
         registerRenderers(event);
         setRenderLayers();
+        registerKeybinds();
     }
 
     public static void initLate() {
@@ -54,6 +60,17 @@ public class ClientEventBusSubscriber {
         RenderTypeLookup.setRenderLayer(SWEMBlocks.ALFALFA_PLANT.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.RIDING_DOOR.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.HALF_BARREL.get(), RenderType.getTranslucent());
+    }
+
+    public static void registerKeybinds() {
+        keyBindings = new KeyBinding[2];
+
+        keyBindings[0] = new KeyBinding("key.swem.horse.increment", GLFW.GLFW_KEY_H, "key.swem.category");
+        keyBindings[1] = new KeyBinding("key.swem.horse.decrement", GLFW.GLFW_KEY_G, "key.swem.category");
+
+        for (int i = 0; i < keyBindings.length; i++) {
+            ClientRegistry.registerKeyBinding(keyBindings[i]);
+        }
     }
 
     @SubscribeEvent
