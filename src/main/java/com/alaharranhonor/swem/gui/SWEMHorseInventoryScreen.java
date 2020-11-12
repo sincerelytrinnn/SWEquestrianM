@@ -121,10 +121,38 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		this.font.func_243248_b(matrixStack, affinityInfo, 65.0f, 92.0f, 4210752);
 
 
-		// Tracking Chip
+		// Overlay, for Tracker.
+		//fillGradient(matrixStack, 9, 117, 12, 120, 0xFF479238, 0xFF85f96d);
 
+		// Hunger.
+		// if (horse.hunger < 2)
+		fill(matrixStack, 45, 121, 46, 124, 0xFFc6c6c6);
+		fill(matrixStack, 47, 121, 53, 124, 0xFFc6c6c6);
 
-		//this.buttons.add(new Button(124, 113, 50, 20, new TranslationTextComponent("Click Me"), pressable));
+		// if (horse.hunger < 3)
+		fill(matrixStack, 53, 121, 59, 124, 0xFFc6c6c6);
+
+		// if (horse.hunger < 4)
+		fill(matrixStack, 59, 121, 65, 124, 0xFFc6c6c6);
+
+		// if (horse.hunger < 5)
+		fill(matrixStack, 65, 121, 70, 124, 0xFFc6c6c6);
+
+		
+		// Thirst
+		// if (horse.thirst < 2)
+		fill(matrixStack, 86, 121, 87, 124, 0xFFc6c6c6);
+		fill(matrixStack, 88, 121, 94, 124, 0xFFc6c6c6);
+
+		// if (horse.thirst < 3)
+		fill(matrixStack, 94, 121, 100, 124, 0xFFc6c6c6);
+
+		// if (horse.thirst < 4)
+		fill(matrixStack, 100, 121, 106, 124, 0xFFc6c6c6);
+
+		// if (horse.thirst < 5)
+		fill(matrixStack, 106, 121, 111, 124, 0xFFc6c6c6);
+
 	}
 
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
