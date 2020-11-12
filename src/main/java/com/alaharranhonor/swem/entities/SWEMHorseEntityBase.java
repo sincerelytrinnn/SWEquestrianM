@@ -91,6 +91,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	private static DataParameter<Integer> GALLOP_TIMER = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
 	private static DataParameter<Integer> GALLOP_COOLDOWN_TIMER = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
 	private static DataParameter<Boolean> GALLOP_ON_COOLDOWN = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	public static DataParameter<Integer> SPEED_LEVEL = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
+
 	@Nullable
 	private LivingEntity whistleCaller;
 
@@ -101,7 +103,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		super(type, worldIn);
 		this.currentPos = this.getPosition();
 		this.progressionManager = new ProgressionManager(this);
-		this.currentSpeed = HorseSpeed.WALK;
+		this.currentSpeed = HorseSpeed.TROT;
 	}
 
 	@Override
@@ -197,12 +199,13 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 					this.dataManager.set(GALLOP_ON_COOLDOWN, false);
 				}
 			} else {
+				// TODO: If gallop ended early, calculate the remaining cooldown.
 				if (this.dataManager.get(GALLOP_TIMER) == 7*20) {
 					this.dataManager.set(GALLOP_ON_COOLDOWN, true);
 					this.dataManager.set(GALLOP_TIMER, 0);
 					this.decrementSpeed();
 				} else {
-					if (this.currentSpeed.getSpeed() == 1.3f) {
+					if (this.currentSpeed == HorseSpeed.GALLOP) {
 						this.dataManager.set(GALLOP_TIMER, this.dataManager.get(GALLOP_TIMER) + 1);
 					}
 				}
@@ -300,6 +303,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.dataManager.register(GALLOP_ON_COOLDOWN, false);
 		this.dataManager.register(GALLOP_COOLDOWN_TIMER, 0);
 		this.dataManager.register(GALLOP_TIMER, 0);
+		this.dataManager.register(SPEED_LEVEL, 0);
 
 
 	}
@@ -384,7 +388,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			player.startRiding(this);
 		}
 		HorseSpeed oldSpeed = this.currentSpeed;
-		this.currentSpeed = HorseSpeed.WALK;
+		this.currentSpeed = HorseSpeed.TROT;
 		this.updateSelectedSpeed(oldSpeed);
 	}
 
@@ -591,36 +595,38 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	 */
 	@Override
 	public void tick() {
-		if (this.ticksExisted % 5 == 0) {
-			if (this.canBeSteered() && this.isBeingRidden() && this.currentSpeed.getSpeed() > 0.99f ) {
-				int x = this.getPosition().getX();
-				int z = this.getPosition().getZ();
-				if (x != this.currentPos.getX() || z != this.currentPos.getZ()) {
-					x = Math.abs(x - this.currentPos.getX());
-					z = Math.abs(z - this.currentPos.getZ());
-					int dist = ((int)Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)));
-					if (dist > 0 && dist < 25) {
-						boolean speedLevelUp = false;
-						if (this.currentSpeed.getSpeed() == 1.0f) {
-							speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist);
-						} else if (this.currentSpeed.getSpeed() == 1.3f) {
-							speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist * 3);
+		if (!this.world.isRemote) {
+			if (this.ticksExisted % 5 == 0) {
+				if (this.canBeSteered() && this.isBeingRidden() && this.currentSpeed != HorseSpeed.WALK && this.currentSpeed != HorseSpeed.TROT) {
+					int x = this.getPosition().getX();
+					int z = this.getPosition().getZ();
+					if (x != this.currentPos.getX() || z != this.currentPos.getZ()) {
+						x = Math.abs(x - this.currentPos.getX());
+						z = Math.abs(z - this.currentPos.getZ());
+						int dist = ((int)Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)));
+						if (dist > 0 && dist < 25) {
+							boolean speedLevelUp = false;
+							if (this.currentSpeed == HorseSpeed.CANTER) {
+								speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist);
+							} else if (this.currentSpeed == HorseSpeed.GALLOP) {
+								speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist * 3);
+							}
+							if (speedLevelUp) {
+								this.levelUpSpeed();
+							}
+							// Affinity leveling, is not affected by speed. so no matter the speed, just add 1xp per block.
+							this.progressionManager.getAffinityLeveling().addXP(dist);
 						}
-						if (speedLevelUp) {
-							this.levelUpSpeed();
-						}
-						// Affinity leveling, is not affected by speed. so no matter the speed, just add 1xp per block.
-						this.progressionManager.getAffinityLeveling().addXP(dist);
+
+
 					}
-
-
 				}
+				this.currentPos = this.getPosition();
 			}
-			this.currentPos = this.getPosition();
-		}
 
-		if (this.ticksExisted % 100 == 0) {
-			// TODO: CHECK FOR FOOD AND WATER IN A 5x5 Proximity if Thirsty or Hungry.
+			if (this.ticksExisted % 100 == 0) {
+				// TODO: CHECK FOR FOOD AND WATER IN A 5x5 Proximity if Thirsty or Hungry.
+			}
 		}
 		super.tick();
 	}
@@ -992,6 +998,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	public void updateSelectedSpeed(HorseSpeed oldSpeed) {
 		this.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(oldSpeed.getModifier());
 		this.getAttribute(Attributes.MOVEMENT_SPEED).applyNonPersistentModifier(this.currentSpeed.getModifier());
+		this.dataManager.set(SPEED_LEVEL, this.currentSpeed.speedLevel);
 	}
 
 	public static class HorseData extends AgeableEntity.AgeableData {
@@ -1095,27 +1102,23 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	public enum HorseSpeed {
 
-		WALK(new AttributeModifier("HORSE_WALK", -0.9d, AttributeModifier.Operation.MULTIPLY_TOTAL), 0.1f),
-		TROT(new AttributeModifier("HORSE_TROT", -0.75d, AttributeModifier.Operation.MULTIPLY_TOTAL), 0.25f),
-		CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.MULTIPLY_TOTAL), 1.0f),
-		GALLOP(new AttributeModifier("HORSE_GALLOP", 0.07115276974015008d, AttributeModifier.Operation.ADDITION), 1.3f);
+		WALK(new AttributeModifier("HORSE_WALK", -0.85d, AttributeModifier.Operation.MULTIPLY_TOTAL), 0),
+		TROT(new AttributeModifier("HORSE_TROT", -0.7d, AttributeModifier.Operation.MULTIPLY_TOTAL), 1),
+		CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.MULTIPLY_TOTAL), 2),
+		GALLOP(new AttributeModifier("HORSE_GALLOP", 0.07115276974015008d, AttributeModifier.Operation.ADDITION), 3);
 		private AttributeModifier modifier;
-		private float speed;
-		HorseSpeed(AttributeModifier modifier, float speed) {
+		private int speedLevel;
+		HorseSpeed(AttributeModifier modifier, int speedLevel) {
 			this.modifier = modifier;
-			this.speed = speed;
+			this.speedLevel = speedLevel;
 		}
 
 		public AttributeModifier getModifier() {
 			return this.modifier;
 		}
 
-		public float getSpeed() {
-			return this.speed;
-		}
-
-		public void setSpeed(float speed) {
-			this.speed = speed;
+		public int getSpeedLevel() {
+			return this.speedLevel;
 		}
 
 	}

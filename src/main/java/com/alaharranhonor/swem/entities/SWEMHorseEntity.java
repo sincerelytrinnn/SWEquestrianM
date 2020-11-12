@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.entities;
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.util.initialization.SWEMEntities;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
@@ -49,20 +50,25 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		}
 
 		if (horse != null && horse.isBeingRidden()) {
-			if (horse.currentSpeed == HorseSpeed.WALK) {
+			if (!event.isMoving()) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("stand_idle"));
+			}
+			if (horse.getDataManager().get(SPEED_LEVEL) == 0) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", true));
+				return PlayState.CONTINUE;
+			} else if (horse.getDataManager().get(SPEED_LEVEL) == 1) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("buck", true));
 				return PlayState.CONTINUE;
-			} else if (horse.currentSpeed == HorseSpeed.TROT) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("hock", true));
+			} else if (horse.getDataManager().get(SPEED_LEVEL) == 2) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("canter", true));
 				return PlayState.CONTINUE;
-			} else if (horse.currentSpeed == HorseSpeed.CANTER) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("canter"));
-				return PlayState.CONTINUE;
+			} else if (horse.getDataManager().get(SPEED_LEVEL) == 3) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("gallop", true));
 			}
 		}
 
 		if (event.isMoving()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("canter", true));
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", true));
 			return PlayState.CONTINUE;
 		} else {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("stand_idle"));
