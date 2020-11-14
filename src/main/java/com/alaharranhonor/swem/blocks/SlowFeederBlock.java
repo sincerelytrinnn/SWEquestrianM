@@ -1,6 +1,6 @@
 package com.alaharranhonor.swem.blocks;
 
-import com.alaharranhonor.swem.util.RegistryHandler;
+import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -63,7 +63,7 @@ public class SlowFeederBlock extends Block {
 			int level_swem = state.get(LEVEL);
 			int level_vanilla = state.get(LEVEL_VANILLA);
 			Item item = itemstack.getItem();
-			if (item == RegistryHandler.QUALITY_BALE_ITEM.get() && level_vanilla == 0) {
+			if (item == SWEMBlocks.QUALITY_BALE_ITEM.get() && level_vanilla == 0) {
 				if (level_swem == 0) {
 					this.setHayLevel(worldIn, pos, state, LEVEL, 2);
 					return ActionResultType.func_233537_a_(worldIn.isRemote);

@@ -1,6 +1,8 @@
 package com.alaharranhonor.swem.blocks;
 
 import com.alaharranhonor.swem.util.RegistryHandler;
+import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -42,8 +44,8 @@ public class BarrelBlock extends Block {
 		if (itemstack.getItem() == Items.SHEARS) {
 			itemstack.damageItem(1, player, (entity) -> entity.sendBreakAnimation(handIn));
 			worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
-			ItemEntity entity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(RegistryHandler.HALF_BARREL_ITEM.get()));
-			ItemEntity entity1 = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(RegistryHandler.HALF_BARREL_ITEM.get()));
+			ItemEntity entity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(SWEMBlocks.HALF_BARREL_ITEM.get()));
+			ItemEntity entity1 = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(SWEMBlocks.HALF_BARREL_ITEM.get()));
 
 			worldIn.addEntity(entity);
 			worldIn.addEntity(entity1);
