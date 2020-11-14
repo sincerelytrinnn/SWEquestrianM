@@ -18,5 +18,7 @@ public class SWEMPacketHandler {
 		INSTANCE.registerMessage(0, AddJumpXPMessage.class, AddJumpXPMessage::encode, AddJumpXPMessage::decode, AddJumpXPMessage::handle);
 		INSTANCE.registerMessage(1, UpdateHorseInventoryMessage.class, UpdateHorseInventoryMessage::encode, UpdateHorseInventoryMessage::decode, UpdateHorseInventoryMessage::handle);
 		INSTANCE.registerMessage(2, SyncEntityIdToClient.class, SyncEntityIdToClient::encode, SyncEntityIdToClient::decode, SyncEntityIdToClient::handle);
+		INSTANCE.registerMessage(3, SendHorseSpeedChange.class, SendHorseSpeedChange::encode, SendHorseSpeedChange::decode, SendHorseSpeedChange::handle);
+		INSTANCE.registerMessage(4, GallopCooldownPacket.class, GallopCooldownPacket::encode, GallopCooldownPacket::decode, GallopCooldownPacket::handle);
 	}
 }

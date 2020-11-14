@@ -7,6 +7,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
@@ -67,15 +68,19 @@ public class TackBoxDefaultScreen extends ContainerScreen<TackBoxContainer> {
 			this.font.func_243248_b(matrixStack, new StringTextComponent( String.format("Affinity Status: %s %.0f/%.0f",horse.progressionManager.getAffinityLeveling().getLevelName(), horse.progressionManager.getAffinityLeveling().getXp(), horse.progressionManager.getAffinityLeveling().getRequiredXp()) ), 18, 79, 4210752);
 			// 17px x for stats.
 		}
-
 		this.font.func_243248_b(matrixStack, new StringTextComponent("English"), 13, 128, 4210752);
 		this.font.func_243248_b(matrixStack, new StringTextComponent("Western"), 59, 128, 4210752);
 		this.font.func_243248_b(matrixStack, new StringTextComponent("Adv."), 109, 128, 4210752);
 		this.font.func_243248_b(matrixStack, new StringTextComponent("General"), 168, 128, 4210752);
 
-		/* this.addButton(new Button(189, 47, 44, 11, new TranslationTextComponent("access.swem.riding_everyone"), (button) -> {
+		// Overlay, for Tracker.
+		//fillGradient(matrixStack, 214, 32, 217, 35, 0xFF479238, 0xFF85f96d);
 
-		}));*/
+
+
+		// 69 123
+
+
 
 
 	}

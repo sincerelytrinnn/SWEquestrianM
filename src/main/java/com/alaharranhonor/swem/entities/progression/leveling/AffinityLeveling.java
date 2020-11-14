@@ -23,6 +23,7 @@ public class AffinityLeveling implements ILeveling{
 	}
 	@Override
 	public boolean addXP(float amount) {
+		if (this.getLevel() == this.getMaxLevel()) return false;
 		this.setXp(this.getXp() + amount);
 		return this.checkLevelUp();
 	}
@@ -74,7 +75,7 @@ public class AffinityLeveling implements ILeveling{
 
 	@Override
 	public float getRequiredXp() {
-		if (this.getLevel() == this.getMaxLevel() - 1) {
+		if (this.getLevel() == this.getMaxLevel()) {
 			return -1.0f;
 		}
 		return this.requiredXpArray[this.dataManager.get(LEVEL)];
@@ -82,6 +83,9 @@ public class AffinityLeveling implements ILeveling{
 
 	@Override
 	public String getLevelName() {
+		if (this.getLevel() == this.getMaxLevel()) {
+			return this.levelNames[this.getMaxLevel() - 1];
+		}
 		return this.levelNames[this.dataManager.get(LEVEL)];
 	}
 

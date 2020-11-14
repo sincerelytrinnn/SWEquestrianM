@@ -21,6 +21,7 @@ public class JumpLeveling implements ILeveling{
 	}
 	@Override
 	public boolean addXP(float amount) {
+		if (this.getLevel() == this.getMaxLevel()) return false;
 		this.setXp(this.getXp() + amount);
 		return this.checkLevelUp();
 	}
@@ -80,6 +81,9 @@ public class JumpLeveling implements ILeveling{
 
 	@Override
 	public String getLevelName() {
+		if (this.getLevel() == this.getMaxLevel()) {
+			return this.levelNames[this.getMaxLevel() - 1];
+		}
 		return this.levelNames[this.dataManager.get(LEVEL)];
 	}
 

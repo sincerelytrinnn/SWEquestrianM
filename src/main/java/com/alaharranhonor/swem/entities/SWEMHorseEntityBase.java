@@ -1,8 +1,12 @@
 package com.alaharranhonor.swem.entities;
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.goals.FollowWhistleGoal;
 import com.alaharranhonor.swem.entities.goals.PoopGoal;
+import com.alaharranhonor.swem.entities.needs.HungerNeed;
+import com.alaharranhonor.swem.entities.needs.NeedManager;
+import com.alaharranhonor.swem.entities.needs.ThirstNeed;
 import com.alaharranhonor.swem.entities.progression.ProgressionManager;
 import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
@@ -11,6 +15,7 @@ import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.network.AddJumpXPMessage;
+import com.alaharranhonor.swem.network.GallopCooldownPacket;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.network.UpdateHorseInventoryMessage;
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
@@ -86,15 +91,25 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	private LazyOptional<InvWrapper> itemHandler;
 	public static DataParameter<Boolean> whistleBound = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 
+	private static DataParameter<Integer> GALLOP_TIMER = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
+	private static DataParameter<Integer> GALLOP_COOLDOWN_TIMER = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
+	private static DataParameter<Boolean> GALLOP_ON_COOLDOWN = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	public static DataParameter<Integer> SPEED_LEVEL = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
+
 	@Nullable
 	private LivingEntity whistleCaller;
+
+	public HorseSpeed currentSpeed;
+
+	private NeedManager needs;
 
 	public SWEMHorseEntityBase(EntityType<? extends AbstractHorseEntity> type, World worldIn)
 	{
 		super(type, worldIn);
 		this.currentPos = this.getPosition();
 		this.progressionManager = new ProgressionManager(this);
-
+		this.currentSpeed = HorseSpeed.TROT;
+		this.needs = new NeedManager(this);
 	}
 
 	@Override
@@ -181,6 +196,24 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		{
 			this.SWEMHorsePoopTimer = Math.max(0, this.SWEMHorsePoopTimer - 1);
 			this.SWEMHorseGrassTimer = Math.max(0, this.SWEMHorseGrassTimer - 1);
+		}
+		if (!this.world.isRemote) {
+			if (this.dataManager.get(GALLOP_ON_COOLDOWN)) {
+				// Count the cooldown.
+				this.dataManager.set(GALLOP_TIMER, this.dataManager.get(GALLOP_TIMER) + 1);
+				int currentTimer = this.dataManager.get(GALLOP_TIMER);
+				int cooldownTimer = this.dataManager.get(GALLOP_COOLDOWN_TIMER);
+				if (currentTimer >= cooldownTimer) {
+					this.resetGallopCooldown();
+				}
+			} else if (this.currentSpeed == HorseSpeed.GALLOP && !this.dataManager.get(GALLOP_ON_COOLDOWN)) {
+				// COUNT
+				int timer = this.dataManager.get(GALLOP_TIMER);
+				this.dataManager.set(GALLOP_TIMER, this.dataManager.get(GALLOP_TIMER) + 1);
+				if (timer == 7*20) {
+					this.decrementSpeed();
+				}
+			}
 		}
 		super.livingTick();
 	}
@@ -269,7 +302,15 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.dataManager.register(AffinityLeveling.XP, 0.0f);
 		this.dataManager.register(AffinityLeveling.MAX_LEVEL, 12);
 
+		this.dataManager.register(HungerNeed.HungerState.ID, 0);
+		this.dataManager.register(ThirstNeed.ThirstState.ID, 0);
+
 		this.dataManager.register(whistleBound, false);
+
+		this.dataManager.register(GALLOP_ON_COOLDOWN, false);
+		this.dataManager.register(GALLOP_COOLDOWN_TIMER, 0);
+		this.dataManager.register(GALLOP_TIMER, 0);
+		this.dataManager.register(SPEED_LEVEL, 0);
 
 
 	}
@@ -353,6 +394,23 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			player.rotationPitch = this.rotationPitch;
 			player.startRiding(this);
 		}
+		HorseSpeed oldSpeed = this.currentSpeed;
+		this.currentSpeed = HorseSpeed.TROT;
+		this.updateSelectedSpeed(oldSpeed);
+	}
+
+	private void setGallopCooldown() {
+		int gallopTime = this.dataManager.get(GALLOP_TIMER);
+		int cooldown = gallopTime * 5;
+		this.dataManager.set(GALLOP_COOLDOWN_TIMER, cooldown);
+		this.dataManager.set(GALLOP_ON_COOLDOWN, true);
+		this.dataManager.set(GALLOP_TIMER, 0);
+	}
+
+	private void resetGallopCooldown() {
+		this.dataManager.set(GALLOP_COOLDOWN_TIMER, 0);
+		this.dataManager.set(GALLOP_ON_COOLDOWN, false);
+		this.dataManager.set(GALLOP_TIMER, 0);
 	}
 
 
@@ -440,6 +498,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		compound.putBoolean("whistleBound", this.getWhistleBound());
 
 		this.progressionManager.write(compound);
+
+		this.needs.write(compound);
 	}
 
 	public ItemStack func_213803_dV() {
@@ -498,6 +558,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 		this.progressionManager.read(compound);
 
+		this.needs.read(compound);
+
 //		this.leveling.setLevel(compound.getInt("CurrentLevel"));
 //		this.leveling.setXP(compound.getFloat("CurrentXP"));
 //		this.leveling.setXPRequired(compound.getInt("RequiredXP"));
@@ -512,6 +574,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 //	private int getHorseVariant() {
 //		return this.dataManager.get(HORSE_VARIANT);
 //	}
+
+
 
 	private void func_234238_a_(CoatColors p_234238_1_, CoatTypes p_234238_2_) {
 //		this.func_234242_w_(p_234238_1_.getId() & 255 | p_234238_2_.getId() << 8 & '\uff00');
@@ -558,33 +622,38 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	 */
 	@Override
 	public void tick() {
-		if (this.ticksExisted % 5 == 0) {
-			if (this.canBeSteered() && this.isBeingRidden()) { // Check for the current set speed. If it's canter, add the distance, if it's gallop, add the distance * 3) {
-				int x = this.getPosition().getX();
-				int z = this.getPosition().getZ();
-				if (x != this.currentPos.getX() || z != this.currentPos.getZ()) {
-					x = Math.abs(x - this.currentPos.getX());
-					z = Math.abs(z - this.currentPos.getZ());
-					int dist = ((int)Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)));
-					if (dist > 0 && dist < 25) {
-						boolean speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist);
-						if (speedLevelUp) {
-							this.levelUpSpeed();
+		if (!this.world.isRemote) {
+			if (this.ticksExisted % 5 == 0) {
+				if (this.canBeSteered() && this.isBeingRidden() && this.currentSpeed != HorseSpeed.WALK && this.currentSpeed != HorseSpeed.TROT) {
+					int x = this.getPosition().getX();
+					int z = this.getPosition().getZ();
+					if (x != this.currentPos.getX() || z != this.currentPos.getZ()) {
+						x = Math.abs(x - this.currentPos.getX());
+						z = Math.abs(z - this.currentPos.getZ());
+						int dist = ((int)Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)));
+						if (dist > 0 && dist < 25) {
+							boolean speedLevelUp = false;
+							if (this.currentSpeed == HorseSpeed.CANTER) {
+								speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist);
+							} else if (this.currentSpeed == HorseSpeed.GALLOP) {
+								speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist * 2);
+							}
+							if (speedLevelUp) {
+								this.levelUpSpeed();
+							}
+							// Affinity leveling, is not affected by speed. so no matter the speed, just add 1xp per block.
+							this.progressionManager.getAffinityLeveling().addXP(dist);
 						}
-						// Affinity leveling, is not affected by speed. so no matter the speed, just add 1xp per block.
-						this.progressionManager.getAffinityLeveling().addXP(dist);
+
+
 					}
-
-
 				}
 				this.currentPos = this.getPosition();
-			} else {
-				this.currentPos = this.getPosition();
 			}
-		}
 
-		if (this.ticksExisted % 100 == 0) {
-			// TODO: CHECK FOR FOOD AND WATER IN A 5x5 Proximity if Thirsty or Hungry.
+			if (this.ticksExisted % 100 == 0) {
+				// TODO: CHECK FOR FOOD AND WATER IN A 5x5 Proximity if Thirsty or Hungry.
+			}
 		}
 		super.tick();
 	}
@@ -679,7 +748,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		double currentSpeed = this.getAttribute(Attributes.HORSE_JUMP_STRENGTH).getValue();
 		double newSpeed = this.getAlteredJumpStrength();
 		this.getAttribute(Attributes.HORSE_JUMP_STRENGTH).applyPersistentModifier(new AttributeModifier(this.progressionManager.getJumpLeveling().getLevelName(), newSpeed - currentSpeed, AttributeModifier.Operation.ADDITION));
-
 	}
 
 	public void levelUpSpeed() {
@@ -922,6 +990,45 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
+	public void decrementSpeed() {
+		HorseSpeed oldSpeed = this.currentSpeed;
+		if (oldSpeed == HorseSpeed.WALK) return;
+		else if (oldSpeed == HorseSpeed.TROT) {
+			this.currentSpeed = HorseSpeed.WALK;
+		} else if (oldSpeed == HorseSpeed.CANTER) {
+			this.currentSpeed = HorseSpeed.TROT;
+		}
+		else if (oldSpeed == HorseSpeed.GALLOP) {
+			this.currentSpeed = HorseSpeed.CANTER;
+			this.setGallopCooldown();
+		}
+		this.updateSelectedSpeed(oldSpeed);
+	}
+
+	public void incrementSpeed() {
+		HorseSpeed oldSpeed = this.currentSpeed;
+		if (oldSpeed == HorseSpeed.GALLOP) return;
+		else if (oldSpeed == HorseSpeed.CANTER) {
+			if (this.dataManager.get(GALLOP_ON_COOLDOWN)) {
+				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)), new GallopCooldownPacket(Math.round( ( this.dataManager.get(GALLOP_COOLDOWN_TIMER) - this.dataManager.get(GALLOP_TIMER) ) / 20) ));
+				return;
+			}
+			this.currentSpeed = HorseSpeed.GALLOP;
+		}
+		else if (oldSpeed == HorseSpeed.TROT) {
+			this.currentSpeed = HorseSpeed.CANTER;
+		} else if (oldSpeed == HorseSpeed.WALK) {
+			this.currentSpeed = HorseSpeed.TROT;
+		}
+		this.updateSelectedSpeed(oldSpeed);
+	}
+
+	public void updateSelectedSpeed(HorseSpeed oldSpeed) {
+		this.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(oldSpeed.getModifier());
+		this.getAttribute(Attributes.MOVEMENT_SPEED).applyNonPersistentModifier(this.currentSpeed.getModifier());
+		this.dataManager.set(SPEED_LEVEL, this.currentSpeed.speedLevel);
+	}
+
 	public static class HorseData extends AgeableEntity.AgeableData {
 		public final CoatColors variant;
 
@@ -1021,18 +1128,27 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return this.world.getPlayerByUuid(PlayerUUID).getDisplayName();
 	}
 
-	public enum HorseType {
+	public enum HorseSpeed {
 
-		Western(1.0f, 1.0f, 1.0f);
-
-		private float movementModifier;
-		private float healthModifier;
-		private float jumpModifier;
-		HorseType(float movementModifier, float healthModifier, float jumpModifier) {
-			this.movementModifier = movementModifier;
-			this.healthModifier = healthModifier;
-			this.jumpModifier = jumpModifier;
+		WALK(new AttributeModifier("HORSE_WALK", -0.85d, AttributeModifier.Operation.MULTIPLY_TOTAL), 0),
+		TROT(new AttributeModifier("HORSE_TROT", -0.7d, AttributeModifier.Operation.MULTIPLY_TOTAL), 1),
+		CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.MULTIPLY_TOTAL), 2),
+		GALLOP(new AttributeModifier("HORSE_GALLOP", 0.07115276974015008d, AttributeModifier.Operation.ADDITION), 3);
+		private AttributeModifier modifier;
+		private int speedLevel;
+		HorseSpeed(AttributeModifier modifier, int speedLevel) {
+			this.modifier = modifier;
+			this.speedLevel = speedLevel;
 		}
+
+		public AttributeModifier getModifier() {
+			return this.modifier;
+		}
+
+		public int getSpeedLevel() {
+			return this.speedLevel;
+		}
+
 	}
 
 

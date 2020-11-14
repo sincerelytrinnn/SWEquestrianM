@@ -3,6 +3,7 @@ package com.alaharranhonor.swem;
 import com.alaharranhonor.swem.blocks.TimothyGrass;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.items.potions.CantazariteBrewingRecipe;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.entities.WormieBoiEntity;
 import com.alaharranhonor.swem.util.RegistryHandler;
@@ -15,7 +16,10 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.potion.Potions;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,13 +47,14 @@ public class SWEM
         // Register the setup method for modloading
         final ModLoadingContext modLoadingContext = ModLoadingContext.get();
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::doClientStuff);
 
         RegistryHandler.init(modEventBus);
         SWLRegistryHandler.init();
         GeckoLib.initialize();
+
+
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -79,6 +84,7 @@ public class SWEM
         DeferredWorkQueue.runLater(() -> {
             GlobalEntityTypeAttributes.put(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseEntityBase.setCustomAttributes().create());
             GlobalEntityTypeAttributes.put(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiEntity.setCustomAttributes().create());
+            //BrewingRecipeRegistry.addRecipe(new CantazariteBrewingRecipe());
         });
 
         SWEMPacketHandler.init();

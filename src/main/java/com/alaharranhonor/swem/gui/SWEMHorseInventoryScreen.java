@@ -3,6 +3,8 @@ package com.alaharranhonor.swem.gui;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.entities.needs.HungerNeed;
+import com.alaharranhonor.swem.entities.needs.ThirstNeed;
 import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
@@ -92,7 +94,7 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 
 		// Jump TEXT
 		TranslationTextComponent jumpInfo;
-		if (jumpLeveling.getLevel() != jumpLeveling.getMaxLevel()) {
+		if (jumpLeveling.getLevel() != jumpLeveling.getMaxLevel() - 1) {
 			jumpInfo = new TranslationTextComponent(String.format("%s: %.0f/%.0f", jumpLeveling.getLevelName(), jumpLeveling.getXp(), jumpLeveling.getRequiredXp()));
 		} else {
 			jumpInfo = new TranslationTextComponent(String.format("%s", jumpLeveling.getLevelName()));
@@ -121,10 +123,63 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		this.font.func_243248_b(matrixStack, affinityInfo, 65.0f, 92.0f, 4210752);
 
 
-		// Tracking Chip
+		// Overlay, for Tracker.
+		//fillGradient(matrixStack, 9, 117, 12, 120, 0xFF479238, 0xFF85f96d);
 
+		// Hunger.
+		switch (this.horseEntity.getDataManager().get(HungerNeed.HungerState.ID)) {
+			case 0: {
+				fill(matrixStack, 45, 121, 46, 124, 0xFFc6c6c6);
+				fill(matrixStack, 47, 121, 53, 124, 0xFFc6c6c6);
+				fill(matrixStack, 53, 121, 59, 124, 0xFFc6c6c6);
+				fill(matrixStack, 59, 121, 65, 124, 0xFFc6c6c6);
+				fill(matrixStack, 65, 121, 70, 124, 0xFFc6c6c6);
+				break;
+			}
+			case 1: {
+				fill(matrixStack, 53, 121, 59, 124, 0xFFc6c6c6);
+				fill(matrixStack, 59, 121, 65, 124, 0xFFc6c6c6);
+				fill(matrixStack, 65, 121, 70, 124, 0xFFc6c6c6);
+				break;
+			}
+			case 2: {
+				fill(matrixStack, 59, 121, 65, 124, 0xFFc6c6c6);
+				fill(matrixStack, 65, 121, 70, 124, 0xFFc6c6c6);
+				break;
+			}
+			case 3: {
+				fill(matrixStack, 65, 121, 70, 124, 0xFFc6c6c6);
+				break;
+			}
+		}
 
-		//this.buttons.add(new Button(124, 113, 50, 20, new TranslationTextComponent("Click Me"), pressable));
+		// Thirst
+		switch (this.horseEntity.getDataManager().get(ThirstNeed.ThirstState.ID)) {
+			case 0: {
+				fill(matrixStack, 86, 121, 87, 124, 0xFFc6c6c6);
+				fill(matrixStack, 88, 121, 94, 124, 0xFFc6c6c6);
+				fill(matrixStack, 94, 121, 100, 124, 0xFFc6c6c6);
+				fill(matrixStack, 100, 121, 106, 124, 0xFFc6c6c6);
+				fill(matrixStack, 106, 121, 111, 124, 0xFFc6c6c6);
+				break;
+			}
+			case 1: {
+				fill(matrixStack, 94, 121, 100, 124, 0xFFc6c6c6);
+				fill(matrixStack, 100, 121, 106, 124, 0xFFc6c6c6);
+				fill(matrixStack, 106, 121, 111, 124, 0xFFc6c6c6);
+				break;
+			}
+			case 2: {
+				fill(matrixStack, 100, 121, 106, 124, 0xFFc6c6c6);
+				fill(matrixStack, 106, 121, 111, 124, 0xFFc6c6c6);
+				break;
+			}
+			case 3: {
+				fill(matrixStack, 106, 121, 111, 124, 0xFFc6c6c6);
+				break;
+			}
+		}
+
 	}
 
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {

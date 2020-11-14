@@ -23,6 +23,7 @@ public class SpeedLeveling {
 	}
 
 	public boolean addXP(float amount) {
+		if (this.getLevel() == this.getMaxLevel()) return false;
 		this.dataManager.set(XP, this.dataManager.get(XP) + amount);
 		return this.checkLevelUp();
 	}
@@ -67,13 +68,16 @@ public class SpeedLeveling {
 	}
 
 	public float getRequiredXp() {
-		if (this.getLevel() == this.getMaxLevel() - 1) {
+		if (this.getLevel() == this.getMaxLevel()) {
 			return -1.0f;
 		}
 		return this.requiredXpArray[this.dataManager.get(LEVEL)];
 	}
 
 	public String getLevelName() {
+		if (this.getLevel() == this.getMaxLevel()) {
+			return this.levelNames[this.getMaxLevel() - 1];
+		}
 		return this.levelNames[this.dataManager.get(LEVEL)];
 	}
 
