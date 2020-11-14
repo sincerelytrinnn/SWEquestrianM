@@ -1,43 +1,76 @@
 package com.alaharranhonor.swem.util;
 
-import com.alaharranhonor.swem.entity.gui.SWEMHorseInventoryScreen;
+import com.alaharranhonor.swem.entity.render.TackBoxRender;
+import com.alaharranhonor.swem.gui.SWEMHorseInventoryScreen;
 import com.alaharranhonor.swem.entity.render.SWEMHorseRender;
-import net.minecraft.block.Blocks;
+import com.alaharranhonor.swem.entity.render.WormieBoiRender;
+import com.alaharranhonor.swem.gui.TackBoxDefaultScreen;
+import com.alaharranhonor.swem.items.SWEMSpawnEggItem;
+import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.initialization.SWEMContainers;
+import com.alaharranhonor.swem.util.initialization.SWEMEntities;
+import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.EntityType;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import com.alaharranhonor.swem.SWEM;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.registries.IForgeRegistry;
+import org.lwjgl.glfw.GLFW;
 
 @Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEventBusSubscriber {
+
+    public static KeyBinding[] keyBindings;
+
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event)
     {
         DeferredWorkQueue.runLater(ClientEventBusSubscriber::initLate);
-        RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.SWEM_HORSE_ENTITY.get(), SWEMHorseRender::new);
-        RenderTypeLookup.setRenderLayer(RegistryHandler.TIMOTHY_GRASS.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.OAT_PLANT.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.ALFALFA_PLANT.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.RIDING_DOOR.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.HALF_BARREL.get(), RenderType.getTranslucent());
+        registerRenderers(event);
+        setRenderLayers();
+        registerKeybinds();
     }
 
     public static void initLate() {
-        ScreenManager.registerFactory(RegistryHandler.SWEM_HORSE_CONTAINER.get(), SWEMHorseInventoryScreen::new);
+        ScreenManager.registerFactory(SWEMContainers.SWEM_HORSE_CONTAINER.get(), SWEMHorseInventoryScreen::new);
+        ScreenManager.registerFactory(SWEMContainers.TACKBOX_CONTAINER.get(), TackBoxDefaultScreen::new);
+    }
+
+    public static void registerRenderers(final FMLClientSetupEvent event) {
+        RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiRender::new);
+        ClientRegistry.bindTileEntityRenderer(SWEMTileEntities.TACK_BOX_TILE_ENTITY.get(), TackBoxRender::new);
+    }
+
+    public static void setRenderLayers() {
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.TIMOTHY_GRASS.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.OAT_PLANT.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.ALFALFA_PLANT.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.RIDING_DOOR.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.HALF_BARREL.get(), RenderType.getTranslucent());
+    }
+
+    public static void registerKeybinds() {
+        keyBindings = new KeyBinding[2];
+
+        keyBindings[0] = new KeyBinding("key.swem.horse.increment", GLFW.GLFW_KEY_H, "key.swem.category");
+        keyBindings[1] = new KeyBinding("key.swem.horse.decrement", GLFW.GLFW_KEY_G, "key.swem.category");
+
+        for (int i = 0; i < keyBindings.length; i++) {
+            ClientRegistry.registerKeyBinding(keyBindings[i]);
+        }
     }
 
     @SubscribeEvent
@@ -45,7 +78,12 @@ public class ClientEventBusSubscriber {
         BlockColors colors = event.getBlockColors();
         colors.register((state, reader, pos, color) -> {
             return reader != null && pos != null ? BiomeColors.getWaterColor(reader, pos) : -1;
-        }, RegistryHandler.HALF_BARREL.get());
+        }, SWEMBlocks.HALF_BARREL.get());
+    }
+
+    @SubscribeEvent
+    public static void onRegisterEntities(RegistryEvent.Register<EntityType<?>> event) {
+        SWEMSpawnEggItem.initSpawnEggs();
     }
 
 

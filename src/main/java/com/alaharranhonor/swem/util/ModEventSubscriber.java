@@ -3,6 +3,7 @@ package com.alaharranhonor.swem.util;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.config.ConfigHelper;
 import com.alaharranhonor.swem.config.ConfigHolder;
+import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.world.gen.OreGenUtils;
 import com.alaharranhonor.swem.world.gen.SWEMOreGen;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,10 +20,10 @@ public class ModEventSubscriber {
 		if (config.getModId().equals(SWEM.MOD_ID)) {
 			if (config.getSpec() == ConfigHolder.SERVER_SPEC) {
 				if (SWEMOreGen.AMETHYST_ORE == null) {
-					SWEMOreGen.AMETHYST_ORE = OreGenUtils.buildOverWorldFeature(RegistryHandler.AMETHYST_ORE.get().getDefaultState());
+					SWEMOreGen.AMETHYST_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.AMETHYST_ORE.get().getDefaultState());
 				}
 				if (SWEMOreGen.CANTAZARITE_ORE == null) {
-					SWEMOreGen.CANTAZARITE_ORE = OreGenUtils.buildOverWorldFeature(RegistryHandler.AMETHYST_ORE.get().getDefaultState());
+					SWEMOreGen.CANTAZARITE_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.CANTAZARITE_ORE.get().getDefaultState());
 				}
 				if (SWEMOreGen.SWLM_COBBLE_ORE == null) {
 					SWEMOreGen.SWLM_COBBLE_ORE = OreGenUtils.buildOverWorldFeature(SWLRegistryHandler.STAR_WORM_COBBLE.get().getDefaultState());

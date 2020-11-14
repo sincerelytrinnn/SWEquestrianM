@@ -10,7 +10,7 @@ issueTrackerURL="http://my.issue.tracker/"
 
 modId="swem" 
 
-version="1.16.3-0.34.0" 
+version="1.16.3-0.8.1"
 
 displayName="Star Worm Equestrian Mod" 
 
@@ -29,9 +29,9 @@ Minecraft Java 1.16 (Forge) mod called Star Worm Equestrian Mod. The mod is brin
 '''
 
 [[dependencies.swem]]
-    modId="geckolib"
+    modId="geckolib3"
     mandatory=true
-    versionRange="[2.1.1]"
+    versionRange="[3.0.0-beta.8]"
     ordering="BEFORE"
     side="BOTH"
 [[dependencies.swem]] 

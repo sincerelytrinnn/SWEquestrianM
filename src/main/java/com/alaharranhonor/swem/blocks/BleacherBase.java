@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.blocks;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.util.RegistryHandler;
+import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
@@ -113,8 +114,8 @@ public class BleacherBase extends SlabBlock {
 	@Override
 	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
 		World world = (World) worldIn;
-		if (facing == Direction.UP && stateIn.get(TYPE) == SlabType.DOUBLE && world.getBlockState(currentPos.up()).getBlock() == RegistryHandler.BLEACHER_SLAB.get()) {
-			Block wireframe = RegistryHandler.BLEACHER_WIREFRAME.get();
+		if (facing == Direction.UP && stateIn.get(TYPE) == SlabType.DOUBLE && world.getBlockState(currentPos.up()).getBlock() == SWEMBlocks.BLEACHER_SLAB.get()) {
+			Block wireframe = SWEMBlocks.BLEACHER_WIREFRAME.get();
 			return wireframe.getDefaultState().with(BlockStateProperties.SLAB_TYPE, SlabType.DOUBLE);
 		}
 		return stateIn;

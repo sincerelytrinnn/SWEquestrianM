@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.armor;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.util.RegistryHandler;
+import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.Items;
@@ -35,7 +36,7 @@ public enum ModArmorMaterial implements IArmorMaterial {
     }),
 
     AMETHYST(SWEM.MOD_ID + ":amethyst", 61, new int[] {5, 8, 14, 5}, 0, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0.0f, () -> {
-        return Ingredient.fromItems(RegistryHandler.CANTAZARITE.get());
+        return Ingredient.fromItems(SWEMItems.CANTAZARITE.get());
     });
 
 	private static final int[] MAX_DAMAGE_ARRAY = new int[] {13, 16, 15, 11};

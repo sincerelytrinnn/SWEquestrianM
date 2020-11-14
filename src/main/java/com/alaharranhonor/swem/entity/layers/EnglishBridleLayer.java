@@ -2,24 +2,24 @@ package com.alaharranhonor.swem.entity.layers;
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.entity.model.EnglishBridleModel;
-import com.alaharranhonor.swem.entity.model.SWEMHorseModel;
-import com.alaharranhonor.swem.items.BridleItem;
-import com.alaharranhonor.swem.items.EnglishBridleItem;
+import com.alaharranhonor.swem.items.tack.BridleItem;
+import com.alaharranhonor.swem.items.tack.EnglishBridleItem;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.vector.Quaternion;
+import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
+import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 
-public class EnglishBridleLayer extends LayerRenderer<SWEMHorseEntity, SWEMHorseModel> {
+public class EnglishBridleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
 	private final EnglishBridleModel<SWEMHorseEntity> modelBridle = new EnglishBridleModel<>();
 
-	public EnglishBridleLayer(IEntityRenderer<SWEMHorseEntity, SWEMHorseModel> entityRendererIn) {
+	public EnglishBridleLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
 		super(entityRendererIn);
 	}
 
@@ -31,7 +31,8 @@ public class EnglishBridleLayer extends LayerRenderer<SWEMHorseEntity, SWEMHorse
 				BridleItem bridleItem = (BridleItem)stack.getItem();
 				if (shouldRender(stack, entitylivingbaseIn)) {
 					matrixStackIn.push();
-					matrixStackIn.translate(0.0D, 0.0D, 0.125D);
+					matrixStackIn.translate(0.0D, 1.7D, 0.125D);
+					matrixStackIn.rotate(new Quaternion(0.0f, 0.0f, 1.0f, 0.0f));
 					this.modelBridle.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 					IVertexBuilder ivertexbuilder = ItemRenderer.getArmorVertexBuilder(bufferIn, RenderType.getArmorCutoutNoCull(bridleItem.getModelTexture()), false, stack.hasEffect());
 					this.modelBridle.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);

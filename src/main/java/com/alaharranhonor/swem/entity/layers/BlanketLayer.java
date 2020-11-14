@@ -1,21 +1,23 @@
 package com.alaharranhonor.swem.entity.layers;
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
-import com.alaharranhonor.swem.entity.model.SWEMHorseModel;
-import com.alaharranhonor.swem.items.BlanketItem;
+import com.alaharranhonor.swem.items.tack.BlanketItem;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.item.ItemStack;
+import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
+import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 
-public class BlanketLayer extends LayerRenderer<SWEMHorseEntity, SWEMHorseModel> {
+public class BlanketLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
-	public BlanketLayer(IEntityRenderer<SWEMHorseEntity, SWEMHorseModel> entityRendererIn) {
+	private IGeoRenderer<SWEMHorseEntity> entity;
+
+	public BlanketLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
 		super(entityRendererIn);
+		this.entity = entityRendererIn;
 
 	}
 
@@ -24,9 +26,8 @@ public class BlanketLayer extends LayerRenderer<SWEMHorseEntity, SWEMHorseModel>
 		ItemStack stack = entitylivingbaseIn.getBlanket();
 		if (!stack.isEmpty()) {
 			BlanketItem blanket = (BlanketItem)stack.getItem();
-
 			IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(blanket.getArmorTexture()));
-			this.getEntityModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+			this.entity.render(this.entity.getGeoModelProvider().getModel(this.getEntityModel().getModelLocation(entitylivingbaseIn)), entitylivingbaseIn, partialTicks, this.entity.getRenderType(entitylivingbaseIn, partialTicks, matrixStackIn, bufferIn, ivertexbuilder, packedLightIn, blanket.getArmorTexture()),matrixStackIn, bufferIn, ivertexbuilder, packedLightIn, LivingRenderer.getPackedOverlay(entitylivingbaseIn, 0.0f), 1.0f, 1.0f, 1.0f, 1.0f);
 		}
 	}
 }

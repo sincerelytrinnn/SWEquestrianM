@@ -1,32 +1,31 @@
 package com.alaharranhonor.swem.entities;
 
-import com.alaharranhonor.swem.util.RegistryHandler;
+import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.util.initialization.SWEMEntities;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.horse.HorseEntity;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import software.bernie.geckolib.animation.builder.AnimationBuilder;
-import software.bernie.geckolib.animation.controller.AnimationController;
-import software.bernie.geckolib.animation.controller.EntityAnimationController;
-import software.bernie.geckolib.entity.IAnimatedEntity;
-import software.bernie.geckolib.event.AnimationTestEvent;
-import software.bernie.geckolib.event.ParticleKeyFrameEvent;
-import software.bernie.geckolib.event.SoundKeyframeEvent;
-import software.bernie.geckolib.manager.EntityAnimationManager;
-
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.ParticleKeyFrameEvent;
+import software.bernie.geckolib3.core.event.SoundKeyframeEvent;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 import javax.annotation.Nullable;
 
-public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatedEntity {
+public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable {
 
-	private EntityAnimationManager manager = new EntityAnimationManager();
-	private AnimationController controller = new EntityAnimationController(this, "moveController", 20, this::animationPredicate);
+	private AnimationFactory factory = new AnimationFactory(this);
 
 	public SWEMHorseEntity(EntityType<? extends SWEMHorseEntityBase> type, World worldIn) {
 		super(type, worldIn);
-		registerAnimationControllers();
+		this.ignoreFrustumCheck = true;
 	}
 
 	// createChild method
@@ -35,27 +34,55 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatedEnt
 	public AgeableEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_)
 	{
 
-		return RegistryHandler.SWEM_HORSE_ENTITY.get().create(this.world);
+		return SWEMEntities.SWEM_HORSE_ENTITY.get().create(this.world);
 	}
 
-	@Override
-	public EntityAnimationManager getAnimationManager() {
-		return this.manager;
-	}
-
-	private <E extends SWEMHorseEntityBase> boolean animationPredicate(AnimationTestEvent<E> event)
+	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
 	{
-		if (event.isWalking())
-		{
-			controller.setAnimation(new AnimationBuilder().addAnimation("walk", true));
-			return true;
-		} else {
-			controller.setAnimation(new AnimationBuilder().addAnimation("stand_idle"));
-			return true;
+		SWEMHorseEntityBase horse = null;
+		if (event.getAnimatable() instanceof SWEMHorseEntityBase) {
+			horse = (SWEMHorseEntityBase) event.getAnimatable();
 		}
 
+		if (horse != null && horse.isHorseJumping()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("jump"));
+			return PlayState.CONTINUE;
+		}
+
+		if (horse != null && horse.isBeingRidden()) {
+			if (!event.isMoving()) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("stand_idle"));
+			}
+			if (horse.getDataManager().get(SPEED_LEVEL) == 0) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", true));
+				return PlayState.CONTINUE;
+			} else if (horse.getDataManager().get(SPEED_LEVEL) == 1) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("buck", true));
+				return PlayState.CONTINUE;
+			} else if (horse.getDataManager().get(SPEED_LEVEL) == 2) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("canter", true));
+				return PlayState.CONTINUE;
+			} else if (horse.getDataManager().get(SPEED_LEVEL) == 3) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("gallop", true));
+			}
+		}
+
+		if (event.isMoving()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", true));
+			return PlayState.CONTINUE;
+		} else {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("stand_idle"));
+			return PlayState.CONTINUE;
+		}
 	}
 
+
+	/**
+	 *
+	 * @param event
+	 * @param <E>
+	 * @return
+	 */
 	private <E extends Entity> SoundEvent soundListener(SoundKeyframeEvent<E> event)
 	{
 		// Sound event should be added in the animation.json file.
@@ -88,10 +115,13 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatedEnt
 
 	}
 
-	private void registerAnimationControllers()
-	{
-		manager.addAnimationController(controller);
-		//controller.registerSoundListener(this::soundListener);
-		//controller.registerParticleListener(this::particleListener);
+	@Override
+	public void registerControllers(AnimationData animationData) {
+		animationData.addAnimationController(new AnimationController(this, "controller", 5, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
 	}
 }

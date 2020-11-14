@@ -3,14 +3,21 @@ package com.alaharranhonor.swem;
 import com.alaharranhonor.swem.blocks.TimothyGrass;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.items.potions.CantazariteBrewingRecipe;
+import com.alaharranhonor.swem.network.SWEMPacketHandler;
+import com.alaharranhonor.swem.entities.WormieBoiEntity;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.SWLRegistryHandler;
+import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.initialization.SWEMEntities;
+import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.potion.Potions;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.event.RegistryEvent;
@@ -27,6 +34,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import software.bernie.geckolib3.GeckoLib;
 
 @Mod("swem")
 public class SWEM
@@ -39,12 +47,14 @@ public class SWEM
         // Register the setup method for modloading
         final ModLoadingContext modLoadingContext = ModLoadingContext.get();
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::doClientStuff);
 
-        RegistryHandler.init();
+        RegistryHandler.init(modEventBus);
         SWLRegistryHandler.init();
+        GeckoLib.initialize();
+
+
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -58,7 +68,7 @@ public class SWEM
     public static void onRegisterItems(final RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
 
-        RegistryHandler.BLOCKS.getEntries().stream().map(RegistryObject::get)
+        SWEMBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)
                 .filter(block -> !(block instanceof TimothyGrass))
                 .forEach(block -> {
                     final Item.Properties properties = new Item.Properties().group(TAB);
@@ -73,11 +83,13 @@ public class SWEM
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-//      OreGeneration.initGen();
-//      OreGeneration.setupGen();
         DeferredWorkQueue.runLater(() -> {
-            GlobalEntityTypeAttributes.put(RegistryHandler.SWEM_HORSE_ENTITY.get(), SWEMHorseEntityBase.setCustomAttributes().create());
+            GlobalEntityTypeAttributes.put(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseEntityBase.setCustomAttributes().create());
+            GlobalEntityTypeAttributes.put(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiEntity.setCustomAttributes().create());
+            //BrewingRecipeRegistry.addRecipe(new CantazariteBrewingRecipe());
         });
+
+        SWEMPacketHandler.init();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
@@ -87,14 +99,14 @@ public class SWEM
     public static final ItemGroup SWLMTAB = new ItemGroup("SWLMTab") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(RegistryHandler.SWEM_WORM.get());
+            return new ItemStack(SWEMItems.SWEM_WORM.get());
         }
     };
 
     public static final ItemGroup TAB = new ItemGroup("SWEMTab") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(RegistryHandler.WESTERN_SADDLE_LIGHT_BLUE.get());
+            return new ItemStack(SWEMItems.WESTERN_SADDLE_LIGHT_BLUE.get());
         }
     };
 }

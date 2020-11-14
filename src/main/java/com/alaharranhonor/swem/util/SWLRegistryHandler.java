@@ -177,6 +177,8 @@ public class SWLRegistryHandler {
 	public static final RegistryObject<Item> STAR_WORM_GOOP = ITEMS.register("star_worm_goop", () -> new Item(new Item.Properties().group(SWEM.SWLMTAB)));
 	public static final RegistryObject<Item> PESTLE_MORTAR = ITEMS.register("pestle_mortar", () -> new PestleMortarItem(new Item.Properties().maxStackSize(1).maxDamage(128).group(SWEM.SWLMTAB)));
 
+	public static final RegistryObject<Item> STAR_WORM_COBBLE_ITEM = ITEMS.register("star_worm_cobble", () -> new SWLMBlockItemBase(STAR_WORM_COBBLE.get()));
+
 	public static final RegistryObject<Item> STAR_WORM_BLOCK_ACACIA_LOG_ITEM = ITEMS.register("star_worm_block_acacia_log", () -> new SWLMBlockItemBase(STAR_WORM_BLOCK_ACACIA_LOG.get()));
 	public static final RegistryObject<Item> STAR_WORM_BLOCK_BIRCH_LOG_ITEM = ITEMS.register("star_worm_block_birch_log", () -> new SWLMBlockItemBase(STAR_WORM_BLOCK_BIRCH_LOG.get()));
 	public static final RegistryObject<Item> STAR_WORM_BLOCK_DARK_OAK_LOG_ITEM = ITEMS.register("star_worm_block_dark_oak_log", () -> new SWLMBlockItemBase(STAR_WORM_BLOCK_DARK_OAK_LOG.get()));
