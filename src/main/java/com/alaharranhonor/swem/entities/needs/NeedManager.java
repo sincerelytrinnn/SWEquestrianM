@@ -14,6 +14,7 @@ public class NeedManager {
 		this.horse = horse;
 		this.thirst = new ThirstNeed(horse);
 		this.hunger = new HungerNeed(horse);
+
 	}
 
 	public ThirstNeed getThirst() {
@@ -30,8 +31,8 @@ public class NeedManager {
 	}
 
 	public CompoundNBT write(CompoundNBT nbt) {
-		this.thirst.write(nbt);
-		this.hunger.write(nbt);
+		nbt = this.thirst.write(nbt);
+		nbt = this.hunger.write(nbt);
 		return nbt;
 	}
 

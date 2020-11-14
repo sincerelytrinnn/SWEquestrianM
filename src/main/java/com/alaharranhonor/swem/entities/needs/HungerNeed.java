@@ -29,8 +29,10 @@ public class HungerNeed {
 	}
 
 	public CompoundNBT write(CompoundNBT nbt) {
-		nbt.putInt("hungerStateID", this.state.getId());
-		nbt.putInt("hungerStateTick", this.state.getCurrentTicks());
+		if (this.state != null) {
+			nbt.putInt("hungerStateID", this.state.getId());
+			nbt.putInt("hungerStateTick", this.state.getCurrentTicks());
+		}
 		return nbt;
 	}
 
@@ -45,6 +47,7 @@ public class HungerNeed {
 			int ticks = nbt.getInt("hungerStateTick");
 			this.state.setCurrentTicks(ticks);
 		}
+		this.state.setHorse(this.horse);
 	}
 
 	private void setStateById(int id) {

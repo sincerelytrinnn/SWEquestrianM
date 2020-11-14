@@ -29,8 +29,10 @@ public class ThirstNeed {
 	}
 
 	public CompoundNBT write(CompoundNBT nbt) {
-		nbt.putInt("thirstStateID", this.state.getId());
-		nbt.putInt("thirstStateTick", this.state.getCurrentTicks());
+		if (this.state != null) {
+			nbt.putInt("thirstStateID", this.state.getId());
+			nbt.putInt("thirstStateTick", this.state.getCurrentTicks());
+		}
 		return nbt;
 	}
 
