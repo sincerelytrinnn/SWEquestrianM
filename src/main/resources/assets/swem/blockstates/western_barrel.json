@@ -1,0 +1,20 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "post_part": "lower"
+      },
+      "apply": {
+        "model": "swem:block/western_barrel_lower"
+      }
+    },
+    {
+      "when": {
+        "post_part": "upper"
+      },
+      "apply": {
+        "model": "swem:block/western_barrel_upper"
+      }
+    }
+  ]
+}

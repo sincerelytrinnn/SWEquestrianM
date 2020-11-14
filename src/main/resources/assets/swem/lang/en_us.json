@@ -209,6 +209,7 @@
   "item.swem.western_blanket_brown": "Brown Western Blanket",
   "item.swem.western_blanket_green": "Green Western Blanket",
   "item.swem.western_blanket_red": "Red Western Blanket",
+  "item.swem.western_blanket_black": "Black Western Blanket",
 
   "item.swem.english_blanket_light_blue": "Light Blue English Blanket",
   "item.swem.english_blanket_white": "White English Blanket",
@@ -266,6 +267,9 @@
   "block.swem.western_pole": "Western Pole",
   "block.swem.western_fence": "Western Fence",
   "block.swem.pasture_fence": "Pasture Fence",
+  "block.swem.half_barrel": "Half Barrel",
+  "block.swem.western_barrel": "Western Barrel",
+  "block.swem.slow_feeder": "Slow Feeder",
 
   "block.swem.star_worm_cobble": "Star Worm Cobble",
   "block.swem.star_worm_vine": "Star Worm Vine",

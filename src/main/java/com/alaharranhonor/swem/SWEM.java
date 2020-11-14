@@ -77,6 +77,8 @@ public class SWEM
                     registry.register(blockItem);
                 });
 
+        BrewingRecipeRegistry.addRecipe(null, Ingredient.fromItems(RegistryHandler.CANTAZARITE.get()), new ItemStack(RegistryHandler.CANTAZARITE_POTION.get()));
+
         LOGGER.debug("Registered BlockItems!");
     }
 

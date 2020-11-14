@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "swem:items/western_hitching_post"
+    "texture0": "swem:items/slow_feeder_white"
   }
 }
