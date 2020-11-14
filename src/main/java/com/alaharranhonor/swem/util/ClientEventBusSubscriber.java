@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.util;
 
+import com.alaharranhonor.swem.blocks.SWEMBlockStateProperties;
 import com.alaharranhonor.swem.entity.render.TackBoxRender;
 import com.alaharranhonor.swem.gui.SWEMHorseInventoryScreen;
 import com.alaharranhonor.swem.entity.render.SWEMHorseRender;
@@ -60,6 +61,11 @@ public class ClientEventBusSubscriber {
         RenderTypeLookup.setRenderLayer(SWEMBlocks.ALFALFA_PLANT.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.RIDING_DOOR.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.HALF_BARREL.get(), RenderType.getTranslucent());
+
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.WESTERN_RIDER_DOOR.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.DARK_OAK_STALL_HORSE.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.OAK_STALL_HORSE.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.BIRCH_STALL_HORSE.get(), RenderType.getCutout());
     }
 
     public static void registerKeybinds() {
