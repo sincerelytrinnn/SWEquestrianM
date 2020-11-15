@@ -83,11 +83,10 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> PASTURE_FENCE = BLOCKS.register("pasture_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> HALF_BARREL = BLOCKS.register("half_barrel", () -> new HalfBarrelBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> TACK_BOX = BLOCKS.register("tack_box", () -> new TackBoxBlock(Block.Properties.create(Material.IRON)));
-	public static final RegistryObject<RiderDoorBlock> SIMPLE_RIDER_DOOR_ORANGE = BLOCKS.register("simple_rider_door_orange", () -> new RiderDoorBlock(Block.Properties.create(Material.WOOD)));
-	public static final RegistryObject<HorseDoorBlock> DARK_OAK_STALL_HORSE = BLOCKS.register("dark_oak_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD)));
-	public static final RegistryObject<HorseDoorBlock> OAK_STALL_HORSE = BLOCKS.register("oak_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD)));
-	public static final RegistryObject<HorseDoorBlock> BIRCH_STALL_HORSE = BLOCKS.register("birch_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD)));
-
+	public static final RegistryObject<RiderDoorBlock> SIMPLE_RIDER_DOOR_ORANGE = BLOCKS.register("simple_rider_door_orange", () -> new RiderDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
+	public static final RegistryObject<HorseDoorBlock> DARK_OAK_STALL_HORSE = BLOCKS.register("dark_oak_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
+	public static final RegistryObject<HorseDoorBlock> OAK_STALL_HORSE = BLOCKS.register("oak_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
+	public static final RegistryObject<HorseDoorBlock> BIRCH_STALL_HORSE = BLOCKS.register("birch_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
 
 	// Block Items
 	public static final RegistryObject<Item> FUEL_BLOCK_ITEM = SWEMItems.ITEMS.register("fuel_block",
