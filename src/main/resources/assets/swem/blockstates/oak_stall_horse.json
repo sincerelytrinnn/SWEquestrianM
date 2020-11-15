@@ -38,7 +38,7 @@
       "y": 90
     },
     "facing=south,half=upper,hinge=left,open=true,side=left": {
-      "model": "swem:block/oak_stall_horse_top_hinge",
+      "model": "swem:block/oak_stall_horse_top_right",
       "y": 180
     },
 
@@ -47,7 +47,7 @@
       "y": 90
     },
     "facing=south,half=upper,hinge=left,open=true,side=right": {
-      "model": "swem:block/oak_stall_horse_top",
+      "model": "swem:block/oak_stall_horse_top_hinge_right",
       "y": 180
     },
 
@@ -109,7 +109,7 @@
       "y": 180
     },
     "facing=west,half=upper,hinge=left,open=true,side=left": {
-      "model": "swem:block/oak_stall_horse_top_hinge",
+      "model": "swem:block/oak_stall_horse_top_right",
       "y": 270
     },
 
@@ -118,7 +118,7 @@
       "y": 180
     },
     "facing=west,half=upper,hinge=left,open=true,side=right": {
-      "model": "swem:block/oak_stall_horse_top",
+      "model": "swem:block/oak_stall_horse_top_hinge_right",
       "y": 270
     },
 
@@ -156,11 +156,12 @@
     "facing=north,half=lower,hinge=left,open=true,side=right": {
       "model": "swem:block/oak_stall_horse_bottom_hinge_right"
     },
+
+
     "facing=north,half=lower,hinge=right,open=false,side=left": {
       "model": "swem:block/oak_stall_horse_bottom_hinge_right",
       "y": 270
     },
-
     "facing=north,half=lower,hinge=right,open=true,side=left": {
       "model": "swem:block/oak_stall_horse_bottom_hinge",
       "y": 180
@@ -179,7 +180,7 @@
       "y": 270
     },
     "facing=north,half=upper,hinge=left,open=true,side=left": {
-      "model": "swem:block/oak_stall_horse_top_hinge"
+      "model": "swem:block/oak_stall_horse_top_right"
     },
 
     "facing=north,half=upper,hinge=left,open=false,side=right": {
@@ -187,7 +188,7 @@
       "y": 270
     },
     "facing=north,half=upper,hinge=left,open=true,side=right": {
-      "model": "swem:block/oak_stall_horse_top"
+      "model": "swem:block/oak_stall_horse_top_hinge_right"
     },
 
     "facing=north,half=upper,hinge=right,open=false,side=left": {
@@ -244,7 +245,7 @@
       "model": "swem:block/oak_stall_horse_top"
     },
     "facing=east,half=upper,hinge=left,open=true,side=left": {
-      "model": "swem:block/oak_stall_horse_top_hinge",
+      "model": "swem:block/oak_stall_horse_top_right",
       "y": 90
     },
 
@@ -252,7 +253,7 @@
       "model": "swem:block/oak_stall_horse_top_hinge"
     },
     "facing=east,half=upper,hinge=left,open=true,side=right": {
-      "model": "swem:block/oak_stall_horse_top",
+      "model": "swem:block/oak_stall_horse_top_hinge_right",
       "y": 90
     },
 
