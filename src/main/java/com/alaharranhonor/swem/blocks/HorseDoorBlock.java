@@ -446,23 +446,10 @@ public class HorseDoorBlock extends Block{
 	}
 
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		BlockPos blockpos = pos.down();
-		BlockState blockstate = worldIn.getBlockState(blockpos);
-		return true;
-//		if (state.get(SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
-//			ArrayList<Boolean> blockChecks = new ArrayList<>();
-//			BlockPos.getAllInBox(pos, pos.func_241872_a(state.get(FACING).getAxis(), 1)).forEach(block -> {
-//				blockChecks.add(worldIn.getBlockState(block).isSolid());
-//			});
-//			return blockChecks.stream().allMatch((bool) -> bool);
-//		} else {
-//			ArrayList<Boolean> blockChecks = new ArrayList<>();
-//			BlockPos.getAllInBox(pos, pos.func_241872_a(state.get(FACING).getAxis(), -1)).forEach(block -> {
-//				blockChecks.add(worldIn.getBlockState(block).isSolid());
-//			});
-//			return blockChecks.stream().allMatch((bool) -> bool);
-//		}
-
+		return this.getAllDoorParts(state, pos, (World) worldIn).stream().allMatch((pos1) ->  {
+			BlockState state1 = worldIn.getBlockState(pos1);
+			return state1 == Blocks.AIR.getDefaultState();
+		});
 	}
 
 	@Override
