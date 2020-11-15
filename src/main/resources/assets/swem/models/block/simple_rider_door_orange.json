@@ -2,6 +2,6 @@
   "parent": "minecraft:block/door_bottom",
   "textures": {
     "top": "minecraft:block/acacia_door_top",
-    "bottom": "swem:blocks/western_rider_door_bottom"
+    "bottom": "swem:blocks/simple_rider_door_orange"
   }
 }
