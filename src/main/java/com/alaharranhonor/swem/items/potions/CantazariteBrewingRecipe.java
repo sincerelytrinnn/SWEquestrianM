@@ -20,6 +20,6 @@ public class CantazariteBrewingRecipe implements IBrewingRecipe {
 
 	@Override
 	public ItemStack getOutput(ItemStack input, ItemStack ingredient) {
-		return new ItemStack(SWEMItems.CANTAZARITE_POTION.get());
+		return new ItemStack(SWEMItems.CANTAZARITE.get());
 	}
 }

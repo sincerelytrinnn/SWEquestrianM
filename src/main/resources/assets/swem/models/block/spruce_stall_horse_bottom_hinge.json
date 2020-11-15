@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom",
+  "textures": {
+    "top": "swem:blocks/spruce_stall_horse_upper_right",
+    "bottom": "swem:blocks/spruce_stall_horse_lower_right"
+  }
+}

@@ -270,6 +270,12 @@
   "block.swem.half_barrel": "Half Barrel",
   "block.swem.western_barrel": "Western Barrel",
   "block.swem.slow_feeder": "Slow Feeder",
+  "block.swem.acacia_stall_horse": "Acacia Stall Door (Horse)",
+  "block.swem.birch_stall_horse": "Birch Stall Door (Horse)",
+  "block.swem.dark_oak_stall_horse": "Dark Oak Stall Door (Horse)",
+  "block.swem.jungle_stall_horse": "Jungle Stall Door (Horse)",
+  "block.swem.oak_stall_horse": "Oak Stall Door (Horse)",
+  "block.swem.spruce_stall_horse": "Spruce Stall Door (Horse)",
 
   "block.swem.star_worm_cobble": "Star Worm Cobble",
   "block.swem.star_worm_vine": "Star Worm Vine",
