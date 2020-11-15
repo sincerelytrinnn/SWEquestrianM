@@ -192,9 +192,7 @@ public class RiderDoorBlock extends Block{
 	}
 
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		BlockPos blockpos = pos.down();
-		BlockState blockstate = worldIn.getBlockState(blockpos);
-		return state.get(HALF) == DoubleBlockHalf.LOWER ? blockstate.isSolidSide(worldIn, blockpos, Direction.UP) : blockstate.isIn(this);
+		return true;
 	}
 
 	private void playSound(World worldIn, BlockPos pos, boolean isOpening) {
