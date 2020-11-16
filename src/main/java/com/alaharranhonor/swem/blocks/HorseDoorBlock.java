@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.blocks;
 
+import com.alaharranhonor.swem.SWEM;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.PushReaction;
@@ -63,21 +64,6 @@ public class HorseDoorBlock extends Block{
 				return flag ? WEST_AABB : (flag1 ? SOUTH_AABB : NORTH_AABB);
 			case NORTH:
 				return flag ? NORTH_AABB : (flag1 ? WEST_AABB : EAST_AABB);
-		}
-	}
-
-	/**
-	 * Update the provided state given the provided neighbor facing and neighbor state, returning a new state.
-	 * For example, fences make their connections to the passed in state if possible, and wet concrete powder immediately
-	 * returns its solidified counterpart.
-	 * Note that this method should ideally consider only the specific face passed in.
-	 */
-	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		DoubleBlockHalf doubleblockhalf = stateIn.get(HALF);
-		if (facing.getAxis() == Direction.Axis.Y && doubleblockhalf == DoubleBlockHalf.LOWER == (facing == Direction.UP)) {
-			return facingState.isIn(this) && facingState.get(HALF) != doubleblockhalf ? stateIn.with(FACING, facingState.get(FACING)).with(OPEN, facingState.get(OPEN)).with(HINGE, facingState.get(HINGE)) : Blocks.AIR.getDefaultState();
-		} else {
-			return doubleblockhalf == DoubleBlockHalf.LOWER && facing == Direction.DOWN && !stateIn.isValidPosition(worldIn, currentPos) ? Blocks.AIR.getDefaultState() : super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 		}
 	}
 
@@ -146,9 +132,11 @@ public class HorseDoorBlock extends Block{
 
 	@Override
 	public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
-		if (!worldIn.isRemote && player.isCreative()) {
-			worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 35);
-			worldIn.playEvent(player, 2001, pos, Block.getStateId(state));
+		if (!worldIn.isRemote) {
+			this.getAllDoorParts(state, pos, worldIn, true).stream().forEach((blockPos) -> {
+				worldIn.setBlockState(blockPos, Blocks.AIR.getDefaultState(), 35);
+				worldIn.playEvent(player, 2001, pos, Block.getStateId(state));
+			});
 		}
 
 		super.onBlockHarvested(worldIn, pos, state, player);
@@ -265,7 +253,7 @@ public class HorseDoorBlock extends Block{
 				state = state.func_235896_a_(OPEN);
 				boolean open = state.get(OPEN);
 				ArrayList<BlockState> states = new ArrayList<>();
-				ArrayList<BlockPos> positions = this.getAllDoorParts(state, pos, worldIn);
+				ArrayList<BlockPos> positions = this.getAllDoorParts(state, pos, worldIn, open);
 				positions.forEach((pos1) -> states.add(worldIn.getBlockState(pos1)));
 				for (int i = 0; i < 4; i++) {
 					this.openDoor(worldIn, states.get(i), positions.get(i), open);
@@ -375,8 +363,7 @@ public class HorseDoorBlock extends Block{
 		}
 	}
 
-	public ArrayList<BlockPos> getAllDoorParts(BlockState state, BlockPos pos, World worldIn) {
-		boolean opened = state.get(OPEN);
+	public ArrayList<BlockPos> getAllDoorParts(BlockState state, BlockPos pos, World worldIn, boolean opened) {
 		Direction direction = state.get(FACING);
 		ArrayList<BlockPos> positions = new ArrayList<>();
 		if (state.get(HINGE) == DoorHingeSide.LEFT && state.get(SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
@@ -442,7 +429,7 @@ public class HorseDoorBlock extends Block{
 	}
 
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		return this.getAllDoorParts(state, pos, (World) worldIn).stream().allMatch((pos1) ->  {
+		return this.getAllDoorParts(state, pos, (World) worldIn, true).stream().allMatch((pos1) ->  {
 			BlockState state1 = worldIn.getBlockState(pos1);
 			return state1 == Blocks.AIR.getDefaultState();
 		});
