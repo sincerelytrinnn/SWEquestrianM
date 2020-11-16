@@ -271,11 +271,12 @@ public class CareDoorBlock extends Block {
 		} else {
 			if (!worldIn.isRemote) {
 				ArrayList<BlockPos> openPositions = this.getAllDoorParts(state, this.getInvertedOpenPos(state, pos), worldIn, state.get(OPEN));
+				SWEM.LOGGER.debug(openPositions);
 				switch (state.get(SIDE)) {
 					case RIGHT: {
 						if (state.get(HINGE) == DoorHingeSide.LEFT) {
-							openPositions.remove(2);
-							openPositions.remove(2);
+							openPositions.remove(4);
+							openPositions.remove(4);
 						} else {
 							openPositions.remove(0);
 							openPositions.remove(0);
@@ -287,8 +288,14 @@ public class CareDoorBlock extends Block {
 							openPositions.remove(4);
 							openPositions.remove(4);
 						} else {
-							openPositions.remove(0);
-							openPositions.remove(0);
+							if (state.get(OPEN) == true) {
+								openPositions.remove(2);
+								openPositions.remove(2);
+							} else {
+								openPositions.remove(4);
+								openPositions.remove(4);
+							}
+
 						}
 						break;
 					}
@@ -297,13 +304,13 @@ public class CareDoorBlock extends Block {
 							openPositions.remove(0);
 							openPositions.remove(0);
 						} else {
-							openPositions.remove(2);
-							openPositions.remove(2);
+							openPositions.remove(4);
+							openPositions.remove(4);
 						}
 						break;
 					}
 				}
-				SWEM.LOGGER.debug(openPositions);
+
 
 				boolean shouldOpen = openPositions.stream().allMatch((pos1) -> worldIn.getBlockState(pos1) == Blocks.AIR.getDefaultState());
 				if (shouldOpen) {
