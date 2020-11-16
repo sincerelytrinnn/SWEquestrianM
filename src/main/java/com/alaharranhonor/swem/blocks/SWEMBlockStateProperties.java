@@ -16,7 +16,8 @@ public class SWEMBlockStateProperties extends BlockStateProperties {
 	public static final IntegerProperty LEVEL_0_2 = IntegerProperty.create("level", 0, 2);
 	public static final IntegerProperty LEVEL_0_2_VANILLA = IntegerProperty.create("level_vanilla", 0, 2);
 
-	public static final EnumProperty<DoubleBlockSide> SIDE = EnumProperty.create("side", DoubleBlockSide.class);
+	public static final EnumProperty<DoubleBlockSide> D_SIDE = EnumProperty.create("side", DoubleBlockSide.class);
+	public static final EnumProperty<TripleBlockSide> T_SIDE = EnumProperty.create("side", TripleBlockSide.class);
 
 	public enum DoubleBlockSide implements IStringSerializable {
 		LEFT,
@@ -28,6 +29,20 @@ public class SWEMBlockStateProperties extends BlockStateProperties {
 
 		public String getString() {
 			return this == LEFT ? "left" : "right";
+		}
+	}
+
+	public enum TripleBlockSide implements IStringSerializable {
+		LEFT,
+		MIDDLE,
+		RIGHT;
+
+		public String toString() {
+			return this.getString();
+		}
+
+		public String getString() {
+			return this == LEFT ? "left" : this == MIDDLE ? "middle" : "right";
 		}
 	}
 }
