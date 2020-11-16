@@ -276,6 +276,12 @@
   "block.swem.jungle_stall_horse": "Jungle Stall Door (Horse)",
   "block.swem.oak_stall_horse": "Oak Stall Door (Horse)",
   "block.swem.spruce_stall_horse": "Spruce Stall Door (Horse)",
+  "block.swem.acacia_stall_care": "Acacia Stall Door (Care)",
+  "block.swem.birch_stall_care": "Birch Stall Door (Care)",
+  "block.swem.dark_oak_stall_care": "Dark Oak Stall Door (Care)",
+  "block.swem.jungle_stall_care": "Jungle Stall Door (Care)",
+  "block.swem.oak_stall_care": "Oak Stall Door (Care)",
+  "block.swem.spruce_stall_care": "Spruce Stall Door (Care)",
 
   "block.swem.star_worm_cobble": "Star Worm Cobble",
   "block.swem.star_worm_vine": "Star Worm Vine",
