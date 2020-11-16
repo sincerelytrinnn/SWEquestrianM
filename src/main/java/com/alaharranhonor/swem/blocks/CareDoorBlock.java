@@ -268,15 +268,24 @@ public class CareDoorBlock extends Block {
 			return ActionResultType.PASS;
 		} else {
 			if (!worldIn.isRemote) {
-				state = state.func_235896_a_(OPEN);
-				boolean open = state.get(OPEN);
-				ArrayList<BlockState> states = new ArrayList<>();
-				ArrayList<BlockPos> positions = this.getAllDoorParts(state, pos, worldIn, open);
-				positions.forEach((pos1) -> states.add(worldIn.getBlockState(pos1)));
-				for (int i = 0; i < 6; i++) {
-					this.openDoor(worldIn, states.get(i), positions.get(i), open);
+				ArrayList<BlockPos> openPositions = this.getAllDoorParts(state, pos, worldIn, state.get(OPEN));
+				openPositions.remove(0);
+				openPositions.remove(0);
+				boolean shouldOpen = openPositions.stream().allMatch((pos1) -> worldIn.getBlockState(pos1) == Blocks.AIR.getDefaultState());
+				if (shouldOpen) {
+					state = state.func_235896_a_(OPEN);
+					boolean open = state.get(OPEN);
+					ArrayList<BlockState> states = new ArrayList<>();
+					ArrayList<BlockPos> positions = this.getAllDoorParts(state, pos, worldIn, open);
+					positions.forEach((pos1) -> states.add(worldIn.getBlockState(pos1)));
+					for (int i = 0; i < 6; i++) {
+						this.openDoor(worldIn, states.get(i), positions.get(i), open);
+					}
+					worldIn.playEvent(player, state.get(OPEN) ? this.getOpenSound() : this.getCloseSound(), pos, 0);
+				} else {
+					return ActionResultType.FAIL;
 				}
-				worldIn.playEvent(player, state.get(OPEN) ? this.getOpenSound() : this.getCloseSound(), pos, 0);
+
 			}
 			return ActionResultType.func_233537_a_(worldIn.isRemote);
 		}
