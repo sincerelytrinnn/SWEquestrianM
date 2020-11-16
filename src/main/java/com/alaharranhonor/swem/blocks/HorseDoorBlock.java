@@ -250,9 +250,29 @@ public class HorseDoorBlock extends Block{
 			return ActionResultType.PASS;
 		} else {
 			if (!worldIn.isRemote) {
-				ArrayList<BlockPos> openPositions = this.getAllDoorParts(state, pos, worldIn, state.get(OPEN));
-				openPositions.remove(0);
-				openPositions.remove(0);
+				ArrayList<BlockPos> openPositions = this.getAllDoorParts(state, this.getInvertedOpenPos(state, pos), worldIn, state.get(OPEN));
+				switch (state.get(SIDE)) {
+					case RIGHT: {
+						if (state.get(HINGE) == DoorHingeSide.LEFT) {
+							openPositions.remove(2);
+							openPositions.remove(2);
+						} else {
+							openPositions.remove(0);
+							openPositions.remove(0);
+						}
+						break;
+					}
+					default: {
+						if (state.get(HINGE) == DoorHingeSide.LEFT) {
+							openPositions.remove(0);
+							openPositions.remove(0);
+						} else {
+							openPositions.remove(2);
+							openPositions.remove(2);
+						}
+						break;
+					}
+				}
 				boolean shouldOpen = openPositions.stream().allMatch((pos1) -> worldIn.getBlockState(pos1) == Blocks.AIR.getDefaultState());
 				if (shouldOpen) {
 					state = state.func_235896_a_(OPEN);
@@ -275,6 +295,93 @@ public class HorseDoorBlock extends Block{
 	public boolean isOpen(BlockState state) {
 		return state.get(OPEN);
 	}
+
+	public BlockPos getInvertedOpenPos(BlockState state, BlockPos pos) {
+		if (state.get(SIDE).toString().equals(state.get(HINGE).toString())) return pos;
+		boolean open = !state.get(OPEN);
+		if (open) {
+			switch (state.get(FACING)) {
+				case NORTH: {
+
+					if (state.get(HINGE) == DoorHingeSide.LEFT) {
+							return pos.add(-1, 0, -1);
+
+					} else {
+							return pos.add(1, 0, -1);
+
+					}
+				}
+				case EAST: {
+					if (state.get(HINGE) == DoorHingeSide.LEFT) {
+							return pos.add(1, 0, -1);
+
+					} else {
+							return pos.add(1, 0, 1);
+
+					}
+				}
+				case SOUTH: {
+					if (state.get(HINGE) == DoorHingeSide.LEFT) {
+							return pos.add(1, 0, 1);
+
+					} else {
+							return pos.add(-1, 0, 1);
+
+					}
+				}
+				case WEST: {
+					if (state.get(HINGE) == DoorHingeSide.LEFT) {
+							return pos.add(-1, 0, 1);
+
+					} else {
+							return pos.add(-1, 0, -1);
+
+					}
+				}
+			}
+			return pos;
+		} else {
+			switch (state.get(FACING)) {
+				case NORTH: {
+					if (state.get(HINGE) == DoorHingeSide.LEFT) {
+							return pos.add(1, 0, 1);
+
+					} else {
+							return pos.add(-1, 0, 1);
+
+					}
+				}
+				case EAST: {
+					if (state.get(HINGE) == DoorHingeSide.LEFT) {
+							return pos.add(-1, 0, 1);
+
+					} else {
+							return pos.add(-1, 0, -1);
+
+					}
+				}
+				case SOUTH: {
+					if (state.get(HINGE) == DoorHingeSide.LEFT) {
+							return pos.add(-1, 0, -1);
+
+					} else {
+							return pos.add(1, 0, -1);
+
+					}
+				}
+				case WEST: {
+					if (state.get(HINGE) == DoorHingeSide.LEFT) {
+							return pos.add(1, 0, -1);
+
+					} else {
+							return pos.add(1, 0, 1);
+
+					}
+				}
+			}
+			return pos;
+		}
+	};
 
 	public void openDoor(World worldIn, BlockState state, BlockPos pos, boolean open) {
 		if (state.isIn(this)) {

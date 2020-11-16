@@ -4,6 +4,8 @@ import com.alaharranhonor.swem.SWEM;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.PushReaction;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.overlay.DebugOverlayGui;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -268,9 +270,41 @@ public class CareDoorBlock extends Block {
 			return ActionResultType.PASS;
 		} else {
 			if (!worldIn.isRemote) {
-				ArrayList<BlockPos> openPositions = this.getAllDoorParts(state, pos, worldIn, state.get(OPEN));
-				openPositions.remove(0);
-				openPositions.remove(0);
+				ArrayList<BlockPos> openPositions = this.getAllDoorParts(state, this.getInvertedOpenPos(state, pos), worldIn, state.get(OPEN));
+				switch (state.get(SIDE)) {
+					case RIGHT: {
+						if (state.get(HINGE) == DoorHingeSide.LEFT) {
+							openPositions.remove(2);
+							openPositions.remove(2);
+						} else {
+							openPositions.remove(0);
+							openPositions.remove(0);
+						}
+						break;
+					}
+					case MIDDLE: {
+						if (state.get(HINGE) == DoorHingeSide.LEFT) {
+							openPositions.remove(4);
+							openPositions.remove(4);
+						} else {
+							openPositions.remove(0);
+							openPositions.remove(0);
+						}
+						break;
+					}
+					default: {
+						if (state.get(HINGE) == DoorHingeSide.LEFT) {
+							openPositions.remove(0);
+							openPositions.remove(0);
+						} else {
+							openPositions.remove(2);
+							openPositions.remove(2);
+						}
+						break;
+					}
+				}
+				SWEM.LOGGER.debug(openPositions);
+
 				boolean shouldOpen = openPositions.stream().allMatch((pos1) -> worldIn.getBlockState(pos1) == Blocks.AIR.getDefaultState());
 				if (shouldOpen) {
 					state = state.func_235896_a_(OPEN);
@@ -294,6 +328,141 @@ public class CareDoorBlock extends Block {
 	public boolean isOpen(BlockState state) {
 		return state.get(OPEN);
 	}
+
+	public BlockPos getInvertedOpenPos(BlockState state, BlockPos pos) {
+		if (state.get(SIDE).toString().equals(state.get(HINGE).toString())) return pos;
+		boolean open = !state.get(OPEN);
+		if (open) {
+			switch (state.get(FACING)) {
+				case NORTH: {
+
+					if (state.get(HINGE) == DoorHingeSide.LEFT) {
+						if (state.get(SIDE) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+							return pos.add(-1, 0, -1);
+						} else {
+							return pos.add(-2, 0, -2);
+						}
+					} else {
+						if (state.get(SIDE) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+							return pos.add(1, 0, -1);
+						} else {
+							return pos.add(2, 0, -2);
+						}
+					}
+				}
+				case EAST: {
+					if (state.get(HINGE) == DoorHingeSide.LEFT) {
+						if (state.get(SIDE) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+							return pos.add(1, 0, -1);
+						} else {
+							return pos.add(2, 0, -2);
+						}
+					} else {
+						if (state.get(SIDE) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+							return pos.add(1, 0, 1);
+						} else {
+							return pos.add(2, 0, 2);
+						}
+					}
+				}
+				case SOUTH: {
+					if (state.get(HINGE) == DoorHingeSide.LEFT) {
+						if (state.get(SIDE) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+							return pos.add(1, 0, 1);
+						} else {
+							return pos.add(2, 0, 2);
+						}
+					} else {
+						if (state.get(SIDE) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+							return pos.add(-1, 0, 1);
+						} else {
+							return pos.add(-2, 0, 2);
+						}
+					}
+				}
+				case WEST: {
+					if (state.get(HINGE) == DoorHingeSide.LEFT) {
+						if (state.get(SIDE) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+							return pos.add(-1, 0, 1);
+						} else {
+							return pos.add(-2, 0, 2);
+						}
+					} else {
+						if (state.get(SIDE) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+							return pos.add(-1, 0, -1);
+						} else {
+							return pos.add(-2, 0, -2);
+						}
+					}
+				}
+			}
+			return pos;
+		} else {
+			switch (state.get(FACING)) {
+				case NORTH: {
+					if (state.get(HINGE) == DoorHingeSide.LEFT) {
+						if (state.get(SIDE) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+							return pos.add(1, 0, 1);
+						} else {
+							return pos.add(2, 0, 2);
+						}
+					} else {
+						if (state.get(SIDE) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+							return pos.add(-1, 0, 1);
+						} else {
+							return pos.add(-2, 0, 2);
+						}
+					}
+				}
+				case EAST: {
+					if (state.get(HINGE) == DoorHingeSide.LEFT) {
+						if (state.get(SIDE) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+							return pos.add(-1, 0, 1);
+						} else {
+							return pos.add(-2, 0, 2);
+						}
+					} else {
+						if (state.get(SIDE) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+							return pos.add(-1, 0, -1);
+						} else {
+							return pos.add(-2, 0, -2);
+						}
+					}
+				}
+				case SOUTH: {
+					if (state.get(HINGE) == DoorHingeSide.LEFT) {
+						if (state.get(SIDE) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+							return pos.add(-1, 0, -1);
+						} else {
+							return pos.add(-2, 0, -2);
+						}
+					} else {
+						if (state.get(SIDE) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+							return pos.add(1, 0, -1);
+						} else {
+							return pos.add(2, 0, -2);
+						}
+					}
+				}
+				case WEST: {
+					if (state.get(HINGE) == DoorHingeSide.LEFT) {
+						if (state.get(SIDE) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+							return pos.add(1, 0, -1);
+						} else {
+							return pos.add(2, 0, -2);
+						}
+					} else {
+						if (state.get(SIDE) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+							return pos.add(1, 0, 1);
+						} else {
+							return pos.add(2, 0, 2);
+						}
+					}
+				}
+			}
+			return pos;
+		}
+	};
 
 	public void openDoor(World worldIn, BlockState state, BlockPos pos, boolean open) {
 		if (state.isIn(this)) {
