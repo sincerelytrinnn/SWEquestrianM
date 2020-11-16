@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top",
+  "textures": {
+    "top": "swem:blocks/jungle_stall_care_upper_right",
+    "bottom": "swem:blocks/jungle_rider_door_bottom"
+  }
+}

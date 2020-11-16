@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top",
+  "textures": {
+    "top": "swem:blocks/birch_stall_care_upper_middle",
+    "bottom": "swem:blocks/birch_stall_care_bottom_middle"
+  }
+}
