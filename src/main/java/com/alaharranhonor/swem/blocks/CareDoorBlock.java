@@ -70,8 +70,20 @@ public class CareDoorBlock extends Block {
 		}
 	}
 
-
-
+	@Override
+	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+		if (stateIn.get(HALF) == DoubleBlockHalf.LOWER) {
+			if (facing == Direction.DOWN) {
+				if (facingState == Blocks.AIR.getDefaultState()) {
+					this.getAllDoorParts(stateIn, currentPos, (World) worldIn, !stateIn.get(OPEN)).stream().forEach((blockPos) -> {
+						((World) worldIn).setBlockState(blockPos, Blocks.AIR.getDefaultState());
+					});
+					return Blocks.AIR.getDefaultState();
+				}
+			}
+		}
+		return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+	}
 
 	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
 		switch(type) {
