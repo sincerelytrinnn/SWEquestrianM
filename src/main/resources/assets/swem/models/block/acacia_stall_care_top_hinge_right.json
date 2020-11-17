@@ -2,6 +2,6 @@
   "parent": "minecraft:block/door_top_rh",
   "textures": {
     "top": "swem:blocks/acacia_stall_care_upper_left",
-    "bottom": "swem:blocks/acacia_rider_door_bottom"
+    "bottom": "swem:blocks/transparent_16_16"
   }
 }

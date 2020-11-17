@@ -2,6 +2,6 @@
   "parent": "minecraft:block/door_top_rh",
   "textures": {
     "top": "swem:blocks/oak_stall_horse_upper_right",
-    "bottom": "swem:blocks/oak_rider_door_bottom"
+    "bottom": "swem:blocks/transparent_16_16"
   }
 }
