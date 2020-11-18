@@ -421,7 +421,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	@Override
 	public boolean hasBlanket() {
-		return this.horseChest.getStackInSlot(1).getItem() instanceof HorseSaddleItem;
+		return this.horseChest.getStackInSlot(1).getItem() instanceof BlanketItem;
 	}
 
 	@Override
@@ -865,11 +865,20 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			}
 
 			boolean flag = !this.isChild() && !this.isSWEMSaddled() && (itemstack.getItem() instanceof HorseSaddleItem);
+			boolean flag1 = !this.isChild() && this.hasHalter() && (itemstack.getItem() instanceof GirthStrapItem);
+			boolean flag2 = !this.isChild() && this.hasHalter() && (itemstack.getItem() instanceof BlanketItem);
+			boolean flag3 = !this.isChild() && this.hasHalter() && (itemstack.getItem() instanceof LegWrapsItem);
+			boolean flag4 = !this.isChild() && this.hasHalter() && (itemstack.getItem() instanceof BreastCollarItem);
 			if (this.isSWEMArmor(itemstack) || flag) {
 				this.setSWEMSaddled();
 				this.openGUI(p_230254_1_);
 				return ActionResultType.func_233537_a_(this.world.isRemote);
 			}
+			if (flag1 || flag2 || flag3 || flag4) {
+				this.openGUI(p_230254_1_);
+				return ActionResultType.func_233537_a_(this.world.isRemote);
+			}
+
 		}
 
 		if (this.isChild()) {
@@ -1073,6 +1082,27 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	public ItemStack getGirthStrap() {
 		return this.horseChest.getStackInSlot(5);
+	}
+
+	private boolean hasBridle() {
+		return this.horseChest.getStackInSlot(0).getItem() instanceof BridleItem;
+	}
+
+	public boolean canEquipSaddle() {
+		return this.hasBlanket();
+	}
+
+	public boolean canEquipGirthStrap() {
+		return this.isSWEMSaddled();
+	}
+
+	@Override
+	public boolean canBeSteered() {
+		if (this.hasBridle()) {
+			return super.canBeSteered();
+		} else {
+			return false;
+		}
 	}
 
 	public boolean isSWEMArmor(ItemStack stack) {
