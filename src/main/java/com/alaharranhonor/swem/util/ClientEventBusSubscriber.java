@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.blocks.SWEMBlockStateProperties;
+import com.alaharranhonor.swem.entity.render.RopeKnotRenderer;
 import com.alaharranhonor.swem.entity.render.TackBoxRender;
 import com.alaharranhonor.swem.gui.SWEMHorseInventoryScreen;
 import com.alaharranhonor.swem.entity.render.SWEMHorseRender;
@@ -15,8 +16,10 @@ import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.entity.LeashKnotRenderer;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.LeashKnotEntity;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
@@ -52,6 +55,7 @@ public class ClientEventBusSubscriber {
     public static void registerRenderers(final FMLClientSetupEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseRender::new);
         RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.ROPE_KNOT_ENTITY.get(), RopeKnotRenderer::new);
         ClientRegistry.bindTileEntityRenderer(SWEMTileEntities.TACK_BOX_TILE_ENTITY.get(), TackBoxRender::new);
     }
 

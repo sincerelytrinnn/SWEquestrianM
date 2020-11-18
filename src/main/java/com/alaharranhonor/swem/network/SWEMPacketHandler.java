@@ -20,5 +20,6 @@ public class SWEMPacketHandler {
 		INSTANCE.registerMessage(2, SyncEntityIdToClient.class, SyncEntityIdToClient::encode, SyncEntityIdToClient::decode, SyncEntityIdToClient::handle);
 		INSTANCE.registerMessage(3, SendHorseSpeedChange.class, SendHorseSpeedChange::encode, SendHorseSpeedChange::decode, SendHorseSpeedChange::handle);
 		INSTANCE.registerMessage(4, GallopCooldownPacket.class, GallopCooldownPacket::encode, GallopCooldownPacket::decode, GallopCooldownPacket::handle);
+		INSTANCE.registerMessage(5, ClientEntitySpawnPacket.class, ClientEntitySpawnPacket::encode, ClientEntitySpawnPacket::decode, ClientEntitySpawnPacket::handle);
 	}
 }
