@@ -62,10 +62,31 @@ public class TackBoxDefaultScreen extends ContainerScreen<TackBoxContainer> {
 		// TODO: CHECK IF HORSE IS SET; ELSE DON'T RENDER HORSE STUFF. TO AVOID CRASH
 		if (getContainer().horse != null) {
 			SWEMHorseEntityBase horse = getContainer().horse;
-			this.font.func_243248_b(matrixStack, new StringTextComponent( String.format("Jump Status: %s %.0f/%.0f",horse.progressionManager.getJumpLeveling().getLevelName(), horse.progressionManager.getJumpLeveling().getXp(), horse.progressionManager.getJumpLeveling().getRequiredXp()) ), 18, 49, 4210752);
-			this.font.func_243248_b(matrixStack, new StringTextComponent( String.format("Speed Status: %s %.0f/%.0f",horse.progressionManager.getSpeedLeveling().getLevelName(), horse.progressionManager.getSpeedLeveling().getXp(), horse.progressionManager.getSpeedLeveling().getRequiredXp()) ), 18, 59, 4210752);
-			this.font.func_243248_b(matrixStack, new StringTextComponent( String.format("Health Status: %s %.0f/%.0f",horse.progressionManager.getHealthLeveling().getLevelName(), horse.progressionManager.getHealthLeveling().getXp(), horse.progressionManager.getHealthLeveling().getRequiredXp()) ), 18, 69, 4210752);
-			this.font.func_243248_b(matrixStack, new StringTextComponent( String.format("Affinity Status: %s %.0f/%.0f",horse.progressionManager.getAffinityLeveling().getLevelName(), horse.progressionManager.getAffinityLeveling().getXp(), horse.progressionManager.getAffinityLeveling().getRequiredXp()) ), 18, 79, 4210752);
+
+			if (horse.progressionManager.getJumpLeveling().getLevel() != horse.progressionManager.getJumpLeveling().getMaxLevel()) {
+				this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Jump Status: %s %.0f/%.0f", horse.progressionManager.getJumpLeveling().getLevelName(), horse.progressionManager.getJumpLeveling().getXp(), horse.progressionManager.getJumpLeveling().getRequiredXp())), 18, 49, 4210752);
+			} else {
+				this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Jump Status: %s", horse.progressionManager.getJumpLeveling().getLevelName())), 18, 49, 4210752);
+			}
+
+			if (horse.progressionManager.getSpeedLeveling().getLevel() != horse.progressionManager.getSpeedLeveling().getMaxLevel()) {
+				this.font.func_243248_b(matrixStack, new StringTextComponent( String.format("Speed Status: %s %.0f/%.0f",horse.progressionManager.getSpeedLeveling().getLevelName(), horse.progressionManager.getSpeedLeveling().getXp(), horse.progressionManager.getSpeedLeveling().getRequiredXp()) ), 18, 59, 4210752);
+			} else {
+				this.font.func_243248_b(matrixStack, new StringTextComponent( String.format("Speed Status: %s",horse.progressionManager.getSpeedLeveling().getLevelName())), 18, 59, 4210752);
+			}
+
+			if (horse.progressionManager.getHealthLeveling().getLevel() != horse.progressionManager.getHealthLeveling().getMaxLevel()) {
+				this.font.func_243248_b(matrixStack, new StringTextComponent( String.format("Health Status: %s %.0f/%.0f",horse.progressionManager.getHealthLeveling().getLevelName(), horse.progressionManager.getHealthLeveling().getXp(), horse.progressionManager.getHealthLeveling().getRequiredXp()) ), 18, 69, 4210752);
+			} else {
+				this.font.func_243248_b(matrixStack, new StringTextComponent( String.format("Health Status: %s",horse.progressionManager.getHealthLeveling().getLevelName())), 18, 69, 4210752);
+			}
+
+			if (horse.progressionManager.getAffinityLeveling().getLevel() != horse.progressionManager.getAffinityLeveling().getMaxLevel()) {
+				this.font.func_243248_b(matrixStack, new StringTextComponent( String.format("Affinity Status: %s %.0f/%.0f",horse.progressionManager.getAffinityLeveling().getLevelName(), horse.progressionManager.getAffinityLeveling().getXp(), horse.progressionManager.getAffinityLeveling().getRequiredXp()) ), 18, 79, 4210752);
+			} else {
+				this.font.func_243248_b(matrixStack, new StringTextComponent( String.format("Affinity Status: %s",horse.progressionManager.getAffinityLeveling().getLevelName())), 18, 79, 4210752);
+			}
+
 			// 17px x for stats.
 		}
 		this.font.func_243248_b(matrixStack, new StringTextComponent("English"), 13, 128, 4210752);
