@@ -43,7 +43,7 @@ public class GallopCooldownPacket {
 
 	public static void handle(GallopCooldownPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			Minecraft.getInstance().player.sendStatusMessage(new StringTextComponent("Gallop is still on cooldown. " + msg.cooldown + "s remaining."),true);
+			Minecraft.getInstance().player.sendStatusMessage(new StringTextComponent("Gallop is still on cooldown: " + msg.cooldown + "s remaining."),true);
 		});
 		ctx.get().setPacketHandled(true);
 	}
