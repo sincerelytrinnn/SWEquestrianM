@@ -18,8 +18,8 @@ import java.util.function.Supplier;
 public class DiamondRidingBoots extends GoldRidingBoots {
 
 	private int tickDurability = 0;
-	public DiamondRidingBoots(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn, Supplier<Supplier<ArmorBaseModel>> armorModel) {
-		super(materialIn, slot, builderIn, armorModel);
+	public DiamondRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
+		super(path, materialIn, slot, builderIn);
 	}
 
 	@Override

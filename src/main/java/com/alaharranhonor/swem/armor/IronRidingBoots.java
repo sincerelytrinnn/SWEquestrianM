@@ -14,8 +14,8 @@ import net.minecraft.world.World;
 import java.util.function.Supplier;
 
 public class IronRidingBoots extends GlowRidingBoots {
-	public IronRidingBoots(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn, Supplier<Supplier<ArmorBaseModel>> armorModel) {
-		super(materialIn, slot, builderIn, armorModel);
+	public IronRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
+		super(path, materialIn, slot, builderIn);
 	}
 
 	/**

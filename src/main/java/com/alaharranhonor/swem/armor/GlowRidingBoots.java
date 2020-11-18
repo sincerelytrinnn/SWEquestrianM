@@ -27,8 +27,8 @@ public class GlowRidingBoots extends LeatherRidingBoots {
 
 	private static BlockPos glowBlockPos;
 	private static LivingEntity player;
-	public GlowRidingBoots(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn, Supplier<Supplier<ArmorBaseModel>> armorModel) {
-		super(materialIn, slot, builderIn, armorModel);
+	public GlowRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
+		super(path, materialIn, slot, builderIn);
 	}
 
 	@Override

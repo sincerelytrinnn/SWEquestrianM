@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.armor;
 
 import com.alaharranhonor.swem.enchantments.UpstepEnchantment;
+import com.alaharranhonor.swem.items.SWEMArmorItem;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,9 +13,9 @@ import net.minecraft.world.World;
 
 import java.util.function.Supplier;
 
-public class LeatherRidingBoots extends ArmorBaseItem {
-	public LeatherRidingBoots(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn, Supplier<Supplier<ArmorBaseModel>> armorModel) {
-		super(materialIn, slot, builderIn, armorModel);
+public class LeatherRidingBoots extends SWEMArmorItem {
+	public LeatherRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
+		super(path, materialIn, slot, builderIn);
 	}
 
 	/**
