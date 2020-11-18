@@ -94,7 +94,7 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 
 		// Jump TEXT
 		TranslationTextComponent jumpInfo;
-		if (jumpLeveling.getLevel() != jumpLeveling.getMaxLevel() - 1) {
+		if (jumpLeveling.getLevel() != jumpLeveling.getMaxLevel()) {
 			jumpInfo = new TranslationTextComponent(String.format("%s: %.0f/%.0f", jumpLeveling.getLevelName(), jumpLeveling.getXp(), jumpLeveling.getRequiredXp()));
 		} else {
 			jumpInfo = new TranslationTextComponent(String.format("%s", jumpLeveling.getLevelName()));
