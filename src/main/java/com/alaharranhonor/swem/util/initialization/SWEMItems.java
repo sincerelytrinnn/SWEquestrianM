@@ -92,6 +92,7 @@ public class SWEMItems {
 	public static final RegistryObject<SWEMSpawnEggItem> SWEM_HORSE_SPAWN_EGG = ITEMS.register("swem_horse_spawn_egg", () -> new SWEMSpawnEggItem(SWEMEntities.SWEM_HORSE_ENTITY, Color.fromHex("#bf7b05").getColor(), Color.fromHex("#663c02").getColor(), new Item.Properties().group(SWEM.TAB)));
 	public static final RegistryObject<PotionItem> CANTAZARITE_POTION = ITEMS.register("cantazarite_potion", () -> new CantazaritePotionItem(new Item.Properties().maxStackSize(1).group(SWEM.TAB)));
 	public static final RegistryObject<Item> CANTAZARITE_DYE = ITEMS.register("cantazarite_dye", ItemBase::new);
+	public static final RegistryObject<Item> PENDANT = ITEMS.register("pendant", PendantItem::new);
 
 	// SADDLES
 	public static final RegistryObject<WesternSaddleItem> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new WesternSaddleItem("western_saddle_light_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
