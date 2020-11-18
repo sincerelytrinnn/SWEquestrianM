@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.util;
 
+import com.alaharranhonor.swem.armor.*;
 import com.alaharranhonor.swem.blocks.SWEMBlockStateProperties;
 import com.alaharranhonor.swem.entity.render.RopeKnotRenderer;
 import com.alaharranhonor.swem.entity.render.TackBoxRender;
@@ -7,6 +8,7 @@ import com.alaharranhonor.swem.gui.SWEMHorseInventoryScreen;
 import com.alaharranhonor.swem.entity.render.SWEMHorseRender;
 import com.alaharranhonor.swem.entity.render.WormieBoiRender;
 import com.alaharranhonor.swem.gui.TackBoxDefaultScreen;
+import com.alaharranhonor.swem.items.SWEMArmorItem;
 import com.alaharranhonor.swem.items.SWEMSpawnEggItem;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMContainers;
@@ -32,6 +34,7 @@ import net.minecraftforge.fml.common.Mod;
 import com.alaharranhonor.swem.SWEM;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.lwjgl.glfw.GLFW;
+import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
 @Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEventBusSubscriber {
@@ -57,6 +60,12 @@ public class ClientEventBusSubscriber {
         RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiRender::new);
         RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.ROPE_KNOT_ENTITY.get(), RopeKnotRenderer::new);
         ClientRegistry.bindTileEntityRenderer(SWEMTileEntities.TACK_BOX_TILE_ENTITY.get(), TackBoxRender::new);
+        GeoArmorRenderer.registerArmorRenderer(SWEMArmorItem.class, new AmethystArmorModelRenderer());
+        GeoArmorRenderer.registerArmorRenderer(LeatherRidingBoots.class, new AmethystArmorModelRenderer());
+        GeoArmorRenderer.registerArmorRenderer(GlowRidingBoots.class, new AmethystArmorModelRenderer());
+        GeoArmorRenderer.registerArmorRenderer(IronRidingBoots.class, new AmethystArmorModelRenderer());
+        GeoArmorRenderer.registerArmorRenderer(GoldRidingBoots.class, new AmethystArmorModelRenderer());
+        GeoArmorRenderer.registerArmorRenderer(DiamondRidingBoots.class, new AmethystArmorModelRenderer());
     }
 
     public static void setRenderLayers() {
