@@ -13,7 +13,7 @@ public class CantazariteBrewingRecipe implements IBrewingRecipe {
 
 	@Override
 	public boolean isIngredient(ItemStack ingredient) {
-		return ingredient.getItem() == SWEMItems.CANTAZARITE.get();
+		return ingredient.getItem() == SWEMItems.CANTAZARITE_DYE.get();
 	}
 
 	@Override
