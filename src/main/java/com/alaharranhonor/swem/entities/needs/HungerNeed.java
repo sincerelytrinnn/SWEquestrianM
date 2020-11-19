@@ -16,8 +16,14 @@ public class HungerNeed {
 		this.horse = horse;
 	}
 
-	public void tick() {
 
+	public void tick() {
+		this.state.setCurrentTicks(this.state.getCurrentTicks() + 1);
+
+		if (this.state.getCurrentTicks() == this.state.getTicksToDowngrade() && this.state != HungerState.STARVING) {
+			this.setStateById(this.state.getId() - 1);
+			this.state.setCurrentTicks(0);
+		}
 	}
 
 	public HungerState getState() {

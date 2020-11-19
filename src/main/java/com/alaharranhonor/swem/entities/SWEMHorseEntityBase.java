@@ -1,8 +1,8 @@
 package com.alaharranhonor.swem.entities;
 
-import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.goals.FollowWhistleGoal;
+import com.alaharranhonor.swem.entities.goals.LookForWaterGoal;
 import com.alaharranhonor.swem.entities.goals.PoopGoal;
 import com.alaharranhonor.swem.entities.needs.HungerNeed;
 import com.alaharranhonor.swem.entities.needs.NeedManager;
@@ -14,10 +14,7 @@ import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.tack.*;
-import com.alaharranhonor.swem.network.AddJumpXPMessage;
-import com.alaharranhonor.swem.network.GallopCooldownPacket;
-import com.alaharranhonor.swem.network.SWEMPacketHandler;
-import com.alaharranhonor.swem.network.UpdateHorseInventoryMessage;
+import com.alaharranhonor.swem.network.*;
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -35,6 +32,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.item.BucketItem;
 import net.minecraft.item.HorseArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -68,6 +66,7 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
@@ -136,6 +135,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.poopGoal = new PoopGoal(this);
 		this.goalSelector.addGoal(0, new FollowWhistleGoal(this, 1.0d));
 		this.goalSelector.addGoal(0, new SwimGoal(this));
+		this.goalSelector.addGoal(1, new LookForWaterGoal(this, 1.0d));
 		this.goalSelector.addGoal(1, new PanicGoal(this, 1.2D));
 		//this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 1.2D));
 		this.goalSelector.addGoal(2, new BreedGoal(this, 1.0d));
@@ -214,6 +214,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 					this.decrementSpeed();
 				}
 			}
+
+			this.needs.tick();
 		}
 		super.livingTick();
 	}
@@ -849,6 +851,12 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 				return this.func_241395_b_(p_230254_1_, itemstack);
 			}
 
+			if (itemstack.getItem() == Items.WATER_BUCKET) {
+				SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(0, this.getEntityId()));
+				p_230254_1_.setHeldItem(p_230254_2_, ((BucketItem) itemstack.getItem()).emptyBucket(itemstack, p_230254_1_));
+				return ActionResultType.func_233537_a_(this.world.isRemote);
+			}
+
 			ActionResultType actionresulttype = itemstack.interactWithEntity(p_230254_1_, this, p_230254_2_);
 			if (actionresulttype.isSuccessOrConsume()) {
 				if (itemstack.getItem() instanceof HorseSaddleItem && actionresulttype.isSuccessOrConsume()) {
@@ -903,6 +911,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 //			return this.canMate() && ((AbstractHorseEntity)otherAnimal).canMate();
 //		}
 //	}
+
+	public NeedManager getNeeds() {
+		return this.needs;
+	}
 
 	// createChild method
 	public AgeableEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
@@ -1019,13 +1031,21 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		if (oldSpeed == HorseSpeed.GALLOP) return;
 		else if (oldSpeed == HorseSpeed.CANTER) {
 			if (this.dataManager.get(GALLOP_ON_COOLDOWN)) {
-				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)), new GallopCooldownPacket(Math.round( ( this.dataManager.get(GALLOP_COOLDOWN_TIMER) - this.dataManager.get(GALLOP_TIMER) ) / 20) ));
+				ArrayList<String> args = new ArrayList<>();
+				args.add(String.valueOf(Math.round(( this.dataManager.get(GALLOP_COOLDOWN_TIMER) - this.dataManager.get(GALLOP_TIMER) ) / 20)));
+				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)), new ClientStatusMessagePacket(0, 1, args));
 				return;
 			}
 			this.currentSpeed = HorseSpeed.GALLOP;
 		}
 		else if (oldSpeed == HorseSpeed.TROT) {
+			if (this.needs.getThirst().getState() == ThirstNeed.ThirstState.EXICCOSIS || this.needs.getHunger().getState() == HungerNeed.HungerState.STARVING) {
+				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)), new ClientStatusMessagePacket(1, 0, new ArrayList<>()));
+				return;
+			}
+
 			this.currentSpeed = HorseSpeed.CANTER;
+
 		} else if (oldSpeed == HorseSpeed.WALK) {
 			this.currentSpeed = HorseSpeed.TROT;
 		}
