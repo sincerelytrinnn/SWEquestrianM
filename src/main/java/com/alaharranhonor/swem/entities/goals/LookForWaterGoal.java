@@ -95,7 +95,7 @@ public class LookForWaterGoal extends Goal {
 				}
 			} else {
 				if (this.horse.getPosition().withinDistance(this.foundWater, 2)) {
-					this.horse.getNeeds().getThirst().addTicksToState(6000);
+					this.horse.getNeeds().getThirst().incrementState();
 				} else {
 					this.horse.getNavigator().tryMoveToXYZ(foundWater.getX(), foundWater.getY(), foundWater.getZ(), this.speed);
 				}

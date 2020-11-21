@@ -25,18 +25,14 @@ public class ThirstNeed {
 		}
 	}
 
-	public void addTicksToState(int amount) {
-		if (this.state.getCurrentTicks() + amount > 96000) {
-			this.state.setCurrentTicks(96000);
-		} else {
-			this.state.setCurrentTicks(this.state.getCurrentTicks() + amount);
-		}
-		checkStateIncrement();
-	}
-
-	public void checkStateIncrement() {
-		if (this.state.getCurrentTicks() >= this.getNextState().getTickAmountChange() && this.state != ThirstState.QUENCHED) {
+	public void incrementState() {
+		if (this.state != ThirstState.QUENCHED) {
 			this.setStateById(this.state.getId() + 1);
+			if (this.state == ThirstState.QUENCHED) {
+				this.state.setCurrentTicks(96000);
+			} else {
+				this.state.setCurrentTicks(this.getNextState().getTickAmountChange());
+			}
 		}
 	}
 

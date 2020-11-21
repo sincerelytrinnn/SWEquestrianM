@@ -46,7 +46,7 @@ public class HorseStateChange {
 		ctx.get().enqueueWork(() -> {
 			switch (msg.action) {
 				case 0: {
-					((SWEMHorseEntityBase)ctx.get().getSender().world.getEntityByID(msg.entityID)).getNeeds().getThirst().addTicksToState(6000);
+					((SWEMHorseEntityBase)ctx.get().getSender().world.getEntityByID(msg.entityID)).getNeeds().getThirst().incrementState();
 				}
 			}
 
