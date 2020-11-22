@@ -29,12 +29,13 @@ public class HungerNeed {
 					Ingredient.fromItems(SWEMItems.OAT_BUSHEL.get()),
 					Ingredient.fromItems(SWEMItems.TIMOTHY_BUSHEL.get()),
 					Ingredient.fromItems(SWEMItems.ALFALFA_BUSHEL.get()),
-					Ingredient.fromItems(SWEMBlocks.QUALITY_BALE_ITEM.get())
+					Ingredient.fromItems(SWEMBlocks.QUALITY_BALE_ITEM.get()),
+					Ingredient.fromItems(Items.GRASS_BLOCK)
 			).collect(Collectors.toList()));
 
-	private int[] POINTS_GIVEN = {1, 1, 5, 5, 5, 15};
-	private int[] TIMES_FED = new int[6];
-	private int[] MAX_TIMES = {1, 1, 1, 4, 4, 1};
+	private int[] POINTS_GIVEN = {1, 1, 5, 5, 5, 15, 1};
+	private int[] TIMES_FED = new int[7];
+	private int[] MAX_TIMES = {1, 1, 1, 4, 4, 1, -1};
 
 	public static final DataParameter<Integer> TOTAL_TIMES_FED = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
 
@@ -53,7 +54,7 @@ public class HungerNeed {
 	}
 
 	public boolean addPoints(ItemStack itemstack) {
-		if (this.getTotalTimesFed() == 7) {
+		if (this.getTotalTimesFed() == 7 && itemstack.getItem() != Items.GRASS_BLOCK) {
 			return false;
 		}
 		int itemIndex = this.getItemIndex(itemstack);
@@ -63,7 +64,10 @@ public class HungerNeed {
 		if (this.getMaxTimesFed(itemIndex) == this.getTimesFed(itemIndex)) return false; // That type of item, has already been fed it's max times.
 		int points = this.getPointsFromItem(itemIndex);
 
-		this.setTotalTimesFed(1);
+		if (itemstack.getItem() != Items.GRASS_BLOCK) {
+			this.setTotalTimesFed(1);
+		}
+
 		this.TIMES_FED[itemIndex]++; // Increment the times fed values.
 
 		this.state.setCurrentPoints(this.state.getCurrentPoints() + points);
@@ -172,8 +176,7 @@ public class HungerNeed {
 			this.setTotalTimesFed(totalTimesFed);
 		}
 		if (nbt.contains("hungerTimesFed")) {
-			int[] timesFeds = nbt.getIntArray("hungerTimesFed");
-			this.TIMES_FED = timesFeds;
+			this.TIMES_FED = nbt.getIntArray("hungerTimesFed");
 		}
 		this.state.setHorse(this.horse);
 	}
@@ -214,7 +217,7 @@ public class HungerNeed {
 
 	public void resetDaily() {
 		this.horse.getDataManager().set(TOTAL_TIMES_FED, 0);
-		this.state.currentPoints = 0;
+		this.state.resetCurrentPoints();
 		Arrays.fill(this.TIMES_FED, 0);
 	}
 
