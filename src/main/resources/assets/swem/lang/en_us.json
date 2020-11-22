@@ -447,6 +447,9 @@
 
   "key.swem.horse.decrement": "Decrement Speed",
   "key.swem.horse.increment": "Increment Speed",
-  "key.swem.category": "SWEM"
+  "key.swem.category": "SWEM",
+
+  "swem.horse.status.gallop_cooldown": "Gallop is on cooldown.",
+  "swem.horse.status.too_thirsy_to_canter": "The horse is too thirsty to canter. Find some water."
 
 }
