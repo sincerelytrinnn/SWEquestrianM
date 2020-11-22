@@ -41,7 +41,6 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
 	{
-		SWEM.LOGGER.debug(event.getPartialTick());
 		SWEMHorseEntityBase horse = null;
 		if (event.getAnimatable() instanceof SWEMHorseEntityBase) {
 			horse = (SWEMHorseEntityBase) event.getAnimatable();
@@ -65,7 +64,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 						event.getController().setAnimation(new AnimationBuilder().addAnimation("look_around_left"));
 					} else if (randomNum < 30 && randomNum > 14) {
 						event.getController().setAnimation(new AnimationBuilder().addAnimation("look_around_right"));
-					} else if (randomNum > 29 && randomNum < 35) {
+					} else if (randomNum > 29 && randomNum < 40) {
 						event.getController().setAnimation(new AnimationBuilder().addAnimation("hock"));
 					} else {
 						event.getController().setAnimation(new AnimationBuilder().addAnimation("stand_idle"));
