@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.entities;
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.goals.FollowWhistleGoal;
 import com.alaharranhonor.swem.entities.goals.LookForWaterGoal;
@@ -15,6 +16,7 @@ import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.network.*;
+import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -79,6 +81,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	//private static final DataParameter<Integer> HORSE_VARIANT = EntityDataManager.createKey(HorseEntity.class, DataSerializers.VARINT);
 
 	public static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(SWEMItems.AMETHYST.get());
+	public static final Ingredient FOOD_ITEMS = Ingredient.fromItems(Items.APPLE, Items.CARROT, SWEMItems.OAT_BUSHEL.get(), SWEMItems.TIMOTHY_BUSHEL.get(), SWEMItems.ALFALFA_BUSHEL.get(), SWEMBlocks.QUALITY_BALE_ITEM.get());
+	public static final Ingredient NEGATIVE_FOOD_ITEMS = Ingredient.fromItems(Items.WHEAT, Items.HAY_BLOCK);
+
+
 	private EatGrassGoal eatGrassGoal;
 	private PoopGoal poopGoal;
 	private int SWEMHorseGrassTimer;
@@ -198,6 +204,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			this.SWEMHorseGrassTimer = Math.max(0, this.SWEMHorseGrassTimer - 1);
 		}
 		if (!this.world.isRemote) {
+			if ((int)(this.world.getDayTime() % 24000L) == 12000) {
+				this.needs.getHunger().resetDaily();
+			}
+
 			if (this.dataManager.get(GALLOP_ON_COOLDOWN)) {
 				// Count the cooldown.
 				this.dataManager.set(GALLOP_TIMER, this.dataManager.get(GALLOP_TIMER) + 1);
@@ -313,6 +323,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.dataManager.register(GALLOP_COOLDOWN_TIMER, 0);
 		this.dataManager.register(GALLOP_TIMER, 0);
 		this.dataManager.register(SPEED_LEVEL, 0);
+
+		this.dataManager.register(HungerNeed.TOTAL_TIMES_FED, 0);
 
 
 	}
@@ -847,9 +859,26 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		}
 
 		if (!itemstack.isEmpty() && itemstack.getItem() != Items.SADDLE) {
-			if (this.isBreedingItem(itemstack)) {
-				return this.func_241395_b_(p_230254_1_, itemstack);
+			if (NEGATIVE_FOOD_ITEMS.test(itemstack)) {
+				// Emit negative particle effects.
+				return ActionResultType.FAIL;
 			}
+
+			if (FOOD_ITEMS.test(itemstack)) {
+				if (this.getNeeds().getHunger().getTotalTimesFed() == 7) {
+					// Emit negative particle effects.
+					return ActionResultType.FAIL;
+					Direction
+				}
+				SWEMPacketHandler.INSTANCE.sendToServer(new HorseHungerChange(this.getEntityId(), itemstack));
+				return ActionResultType.func_233537_a_(this.world.isRemote);
+			}
+
+//			if (this.isBreedingItem(itemstack)) {
+//				return this.func_241395_b_(p_230254_1_, itemstack);
+//			}
+
+
 
 			if (itemstack.getItem() == Items.WATER_BUCKET) {
 				SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(0, this.getEntityId()));
