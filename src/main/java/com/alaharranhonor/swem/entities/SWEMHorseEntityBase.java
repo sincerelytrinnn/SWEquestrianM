@@ -3,6 +3,7 @@ package com.alaharranhonor.swem.entities;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.goals.FollowWhistleGoal;
+import com.alaharranhonor.swem.entities.goals.LookForFood;
 import com.alaharranhonor.swem.entities.goals.LookForWaterGoal;
 import com.alaharranhonor.swem.entities.goals.PoopGoal;
 import com.alaharranhonor.swem.entities.needs.HungerNeed;
@@ -142,6 +143,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.goalSelector.addGoal(0, new FollowWhistleGoal(this, 1.0d));
 		this.goalSelector.addGoal(0, new SwimGoal(this));
 		this.goalSelector.addGoal(1, new LookForWaterGoal(this, 1.0d));
+		this.goalSelector.addGoal(1, new LookForFood(this, 1.0d));
 		this.goalSelector.addGoal(1, new PanicGoal(this, 1.2D));
 		//this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 1.2D));
 		this.goalSelector.addGoal(2, new BreedGoal(this, 1.0d));
@@ -868,7 +870,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 				if (this.getNeeds().getHunger().getTotalTimesFed() == 7) {
 					// Emit negative particle effects.
 					return ActionResultType.FAIL;
-					Direction
 				}
 				SWEMPacketHandler.INSTANCE.sendToServer(new HorseHungerChange(this.getEntityId(), itemstack));
 				return ActionResultType.func_233537_a_(this.world.isRemote);
