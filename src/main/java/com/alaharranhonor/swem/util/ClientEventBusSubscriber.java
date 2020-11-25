@@ -2,10 +2,8 @@ package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.armor.*;
 import com.alaharranhonor.swem.blocks.SWEMBlockStateProperties;
-import com.alaharranhonor.swem.entity.render.TackBoxRender;
+import com.alaharranhonor.swem.entity.render.*;
 import com.alaharranhonor.swem.gui.SWEMHorseInventoryScreen;
-import com.alaharranhonor.swem.entity.render.SWEMHorseRender;
-import com.alaharranhonor.swem.entity.render.WormieBoiRender;
 import com.alaharranhonor.swem.gui.TackBoxDefaultScreen;
 import com.alaharranhonor.swem.items.SWEMArmorItem;
 import com.alaharranhonor.swem.items.SWEMSpawnEggItem;
@@ -56,6 +54,7 @@ public class ClientEventBusSubscriber {
         RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseRender::new);
         RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiRender::new);
         ClientRegistry.bindTileEntityRenderer(SWEMTileEntities.TACK_BOX_TILE_ENTITY.get(), TackBoxRender::new);
+        ClientRegistry.bindTileEntityRenderer(SWEMTileEntities.ONE_SADDLE_RACK_TILE_ENTITY.get(), OneSaddleRackRender::new);
         GeoArmorRenderer.registerArmorRenderer(SWEMArmorItem.class, new AmethystArmorModelRenderer());
         GeoArmorRenderer.registerArmorRenderer(LeatherRidingBoots.class, new AmethystArmorModelRenderer());
         GeoArmorRenderer.registerArmorRenderer(GlowRidingBoots.class, new AmethystArmorModelRenderer());
