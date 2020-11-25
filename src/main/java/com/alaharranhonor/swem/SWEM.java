@@ -48,7 +48,6 @@ public class SWEM
         final ModLoadingContext modLoadingContext = ModLoadingContext.get();
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::setup);
-        modEventBus.addListener(this::doClientStuff);
 
         RegistryHandler.init(modEventBus);
         SWLRegistryHandler.init();
@@ -90,9 +89,6 @@ public class SWEM
         });
 
         SWEMPacketHandler.init();
-    }
-
-    private void doClientStuff(final FMLClientSetupEvent event) {
     }
 
 

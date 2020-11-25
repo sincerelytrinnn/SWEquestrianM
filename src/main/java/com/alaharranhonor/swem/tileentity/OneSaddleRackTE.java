@@ -2,7 +2,6 @@ package com.alaharranhonor.swem.tileentity;
 
 import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.controller.AnimationController;
@@ -15,7 +14,7 @@ public class OneSaddleRackTE extends TileEntity implements IAnimatable {
 	private AnimationFactory factory = new AnimationFactory(this);
 
 	public OneSaddleRackTE() {
-		super(SWEMTileEntities.TACK_BOX_TILE_ENTITY.get());
+		super(SWEMTileEntities.ONE_SADDLE_RACK_TILE_ENTITY.get());
 	}
 
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {

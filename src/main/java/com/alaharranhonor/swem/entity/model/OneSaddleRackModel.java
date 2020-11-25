@@ -18,6 +18,6 @@ public class OneSaddleRackModel extends AnimatedGeoModel<OneSaddleRackTE> {
 
 	@Override
 	public ResourceLocation getAnimationFileLocation(OneSaddleRackTE oneSaddleRackTE) {
-		return null;
+		return new ResourceLocation(SWEM.MOD_ID, "animations/tackbox.json");
 	}
 }
