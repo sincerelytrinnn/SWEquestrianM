@@ -19,12 +19,15 @@ import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
+import net.minecraft.util.text.Color;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -109,6 +112,12 @@ public class ClientEventBusSubscriber {
     @SubscribeEvent
     public static void onRegisterEntities(RegistryEvent.Register<EntityType<?>> event) {
         SWEMSpawnEggItem.initSpawnEggs();
+    }
+
+    @SubscribeEvent
+    public static void onRegisterItems(RegistryEvent.Register<Item> event) {
+            event.getRegistry().register(new SWEMSpawnEggItem(SWEMEntities.WORMIE_BOI_ENTITY, Color.fromHex("#bf7b05").getColor(), Color.fromHex("#663c02").getColor(), new Item.Properties().group(SWEM.TAB)).setRegistryName("worm_spawn_egg"));
+            event.getRegistry().register(new SWEMSpawnEggItem(SWEMEntities.SWEM_HORSE_ENTITY, Color.fromHex("#bf7b05").getColor(), Color.fromHex("#663c02").getColor(), new Item.Properties().group(SWEM.TAB)).setRegistryName("swem_horse_spawn_egg"));
     }
 
 
