@@ -260,7 +260,7 @@
   "block.swem.light_shavings_block": "Light Shavings Block",
   "block.swem.soiled_shavings": "Soiled Shavings",
   "block.swem.soiled_shavings_block": "Soiled Shavings Block",
-  "block.swem.riding_door": "Riding Door (WIP)",
+  "block.swem.riding_door": "Light Blue Simple Rider Door (WIP)",
   "block.swem.western_hitching_post": "Western Hitching Post",
   "block.swem.english_hitching_post": "English Hitching Post",
   "block.swem.pasture_hitching_post": "Pasture Hitching Post",
@@ -282,6 +282,9 @@
   "block.swem.jungle_stall_care": "Jungle Stall Door (Care)",
   "block.swem.oak_stall_care": "Oak Stall Door (Care)",
   "block.swem.spruce_stall_care": "Spruce Stall Door (Care)",
+  "block.swem.tack_box": "Tack Box",
+  "block.swem.one_saddle_rack": "One Saddle Rack",
+  "block.swem.simple_rider_door_orange": "Orange Simple Rider Door (WIP)",
 
   "block.swem.star_worm_cobble": "Star Worm Cobble",
   "block.swem.star_worm_vine": "Star Worm Vine",
