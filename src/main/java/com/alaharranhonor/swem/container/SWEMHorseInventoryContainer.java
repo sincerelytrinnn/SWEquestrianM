@@ -65,7 +65,7 @@ public class SWEMHorseInventoryContainer extends Container {
 			  * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			  */
 			 public boolean isItemValid(ItemStack stack) {
-				 return horse.isBlanket(stack);
+				 return horse.isBlanket(stack) && horse.hasHalter();
 			 }
 
 			 /**
@@ -92,7 +92,7 @@ public class SWEMHorseInventoryContainer extends Container {
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
 			public boolean isItemValid(ItemStack stack) {
-				return horse.isSaddle(stack);
+				return horse.isSaddle(stack) && horse.canEquipSaddle();
 			}
 
 			/**
@@ -119,7 +119,7 @@ public class SWEMHorseInventoryContainer extends Container {
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
 			public boolean isItemValid(ItemStack stack) {
-				return horse.isBreastCollar(stack);
+				return horse.isBreastCollar(stack) && horse.hasHalter();
 			}
 
 			/**
@@ -146,7 +146,7 @@ public class SWEMHorseInventoryContainer extends Container {
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
 			public boolean isItemValid(ItemStack stack) {
-				return horse.isLegWraps(stack);
+				return horse.isLegWraps(stack) && horse.hasHalter();
 			}
 
 			/**
@@ -173,7 +173,7 @@ public class SWEMHorseInventoryContainer extends Container {
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
 			public boolean isItemValid(ItemStack stack) {
-				return horse.isGirthStrap(stack);
+				return horse.isGirthStrap(stack) && horse.canEquipGirthStrap();
 			}
 
 			/**
