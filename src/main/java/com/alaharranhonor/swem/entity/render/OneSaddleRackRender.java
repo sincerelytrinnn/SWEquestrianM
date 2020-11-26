@@ -32,11 +32,10 @@ public class OneSaddleRackRender extends GeoBlockRenderer<OneSaddleRackTE> {
 	@Override
 	public void render(OneSaddleRackTE tile, float partialTicks, MatrixStack stack, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		super.render(tile, partialTicks, stack, bufferIn, packedLightIn);
-		ItemStack itemStack = tile.getItems();
-		if (itemStack.getItem() == Items.AIR) {
+		ItemStack itemStack = tile.itemHandler.getStackInSlot(0);
+		if (itemStack.getItem() == Items.AIR || itemStack == ItemStack.EMPTY) {
 			return;
 		}
-
 
 		stack.push();
 
