@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
-  "texutures": {
+  "textures": {
     "layer0": "swem:items/simple_rider_door_orange"
   }
 }
