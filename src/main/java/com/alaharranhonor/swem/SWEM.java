@@ -12,10 +12,7 @@ import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMEntities;
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.potion.Potions;
 import net.minecraftforge.common.MinecraftForge;
@@ -76,8 +73,6 @@ public class SWEM
                     registry.register(blockItem);
                 });
 
-        //BrewingRecipeRegistry.addRecipe(null, Ingredient.fromItems(RegistryHandler.CANTAZARITE.get()), new ItemStack(RegistryHandler.CANTAZARITE_POTION.get()));
-
         LOGGER.debug("Registered BlockItems!");
     }
 
@@ -85,7 +80,7 @@ public class SWEM
         DeferredWorkQueue.runLater(() -> {
             GlobalEntityTypeAttributes.put(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseEntityBase.setCustomAttributes().create());
             GlobalEntityTypeAttributes.put(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiEntity.setCustomAttributes().create());
-            //BrewingRecipeRegistry.addRecipe(new CantazariteBrewingRecipe());
+            BrewingRecipeRegistry.addRecipe(new CantazariteBrewingRecipe());
         });
 
         SWEMPacketHandler.init();

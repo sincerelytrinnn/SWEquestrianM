@@ -61,6 +61,7 @@
   "item.swem.timothy_bushel": "Timothy Bushel",
   "item.swem.alfalfa_bushel": "Alfalfa Bushel",
   "item.swem.fence_tool": "Fence Tool",
+  "item.swem.cantazarite_potion.effect.empty": "Cantazarite Potion",
 
 
   "item.swem.western_saddle_light_blue": "Light Blue Western Saddle",
@@ -439,6 +440,8 @@
 
   "enchantment.swem.upstep": "UPstep",
   "enchantment.swem.destrier": "Destrier",
+
+  "swem.potion.cantazarite_potion.effect": "Right click a horse, to turn it into a SWEM horse.",
 
   "itemGroup.SWEMTab": "SWEquestrian",
   "itemGroup.SWLMTab": "Star Worm Lighting",
