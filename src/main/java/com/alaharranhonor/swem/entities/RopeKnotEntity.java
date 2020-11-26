@@ -1,9 +1,12 @@
 package com.alaharranhonor.swem.entities;
 
+import com.alaharranhonor.swem.network.ClientEntitySpawnPacket;
+import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.initialization.SWEMEntities;
 import net.minecraft.entity.*;
 import net.minecraft.entity.item.HangingEntity;
+import net.minecraft.entity.item.LeashKnotEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -20,6 +23,8 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -156,7 +161,8 @@ public class RopeKnotEntity extends HangingEntity {
 	}
 
 	public IPacket<?> createSpawnPacket() {
-		return new SSpawnObjectPacket(this, this.getType(), 0, this.getHangingPosition());
+		SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new ClientEntitySpawnPacket(this, this.getType(), 0, this.getHangingPosition()));
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@OnlyIn(Dist.CLIENT)

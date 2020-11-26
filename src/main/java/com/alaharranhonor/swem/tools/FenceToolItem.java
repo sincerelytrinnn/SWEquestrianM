@@ -8,6 +8,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResultType;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.BlockEvent;
 
 public class FenceToolItem extends ItemBase {
 	/**
@@ -21,9 +23,7 @@ public class FenceToolItem extends ItemBase {
 
 		Block target = targetState.getBlock();
 		if (target instanceof FenceBaseBlock) {
-			SWEM.LOGGER.info("Entered first if");
 			if (targetState.get(SWEMBlockStateProperties.FULL_FENCE) || targetState.get(SWEMBlockStateProperties.HALF_FENCE)) {
-				SWEM.LOGGER.info("Entered second if");
 				context.getWorld().setBlockState(context.getPos(), targetState.with(SWEMBlockStateProperties.FULL_FENCE, !targetState.get(SWEMBlockStateProperties.FULL_FENCE)).with(SWEMBlockStateProperties.HALF_FENCE, !targetState.get(SWEMBlockStateProperties.HALF_FENCE)));
 				return ActionResultType.SUCCESS;
 			}

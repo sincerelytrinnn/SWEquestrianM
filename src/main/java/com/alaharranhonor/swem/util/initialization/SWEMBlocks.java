@@ -191,5 +191,4 @@ public class SWEMBlocks {
 	public static final RegistryObject<Item> SPRUCE_STALL_CARE_ITEM = SWEMItems.ITEMS.register("spruce_stall_care", () -> new BlockItemBase(SPRUCE_STALL_CARE.get()));
 	public static final RegistryObject<Item> SLOW_FEEDER_ITEM = SWEMItems.ITEMS.register("slow_feeder", () -> new BlockItemBase(SLOW_FEEDER.get()));
 	public static final RegistryObject<Item> ONE_SADDLE_RACK_ITEM = SWEMItems.ITEMS.register("one_saddle_rack", () -> new BlockItemBase(ONE_SADDLE_RACK.get()));
-
 }

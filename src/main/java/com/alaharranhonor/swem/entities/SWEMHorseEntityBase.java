@@ -3,6 +3,8 @@ package com.alaharranhonor.swem.entities;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.goals.FollowWhistleGoal;
+import com.alaharranhonor.swem.entities.goals.LookForFood;
+import com.alaharranhonor.swem.entities.goals.LookForWaterGoal;
 import com.alaharranhonor.swem.entities.goals.PoopGoal;
 import com.alaharranhonor.swem.entities.needs.HungerNeed;
 import com.alaharranhonor.swem.entities.needs.NeedManager;
@@ -14,10 +16,8 @@ import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.tack.*;
-import com.alaharranhonor.swem.network.AddJumpXPMessage;
-import com.alaharranhonor.swem.network.GallopCooldownPacket;
-import com.alaharranhonor.swem.network.SWEMPacketHandler;
-import com.alaharranhonor.swem.network.UpdateHorseInventoryMessage;
+import com.alaharranhonor.swem.network.*;
+import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -35,6 +35,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.item.BucketItem;
 import net.minecraft.item.HorseArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -68,6 +69,7 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
@@ -80,6 +82,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	//private static final DataParameter<Integer> HORSE_VARIANT = EntityDataManager.createKey(HorseEntity.class, DataSerializers.VARINT);
 
 	public static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(SWEMItems.AMETHYST.get());
+	public static final Ingredient FOOD_ITEMS = Ingredient.fromItems(Items.APPLE, Items.CARROT, SWEMItems.OAT_BUSHEL.get(), SWEMItems.TIMOTHY_BUSHEL.get(), SWEMItems.ALFALFA_BUSHEL.get(), SWEMBlocks.QUALITY_BALE_ITEM.get());
+	public static final Ingredient NEGATIVE_FOOD_ITEMS = Ingredient.fromItems(Items.WHEAT, Items.HAY_BLOCK);
+
+
 	private EatGrassGoal eatGrassGoal;
 	private PoopGoal poopGoal;
 	private int SWEMHorseGrassTimer;
@@ -136,6 +142,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.poopGoal = new PoopGoal(this);
 		this.goalSelector.addGoal(0, new FollowWhistleGoal(this, 1.0d));
 		this.goalSelector.addGoal(0, new SwimGoal(this));
+		this.goalSelector.addGoal(1, new LookForWaterGoal(this, 1.0d));
+		this.goalSelector.addGoal(1, new LookForFood(this, 1.0d));
 		this.goalSelector.addGoal(1, new PanicGoal(this, 1.2D));
 		//this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 1.2D));
 		this.goalSelector.addGoal(2, new BreedGoal(this, 1.0d));
@@ -198,6 +206,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			this.SWEMHorseGrassTimer = Math.max(0, this.SWEMHorseGrassTimer - 1);
 		}
 		if (!this.world.isRemote) {
+			if ((int)(this.world.getDayTime() % 24000L) == 12000) {
+				this.needs.getHunger().resetDaily();
+			}
+
 			if (this.dataManager.get(GALLOP_ON_COOLDOWN)) {
 				// Count the cooldown.
 				this.dataManager.set(GALLOP_TIMER, this.dataManager.get(GALLOP_TIMER) + 1);
@@ -214,6 +226,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 					this.decrementSpeed();
 				}
 			}
+
+			this.needs.tick();
 		}
 		super.livingTick();
 	}
@@ -311,6 +325,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.dataManager.register(GALLOP_COOLDOWN_TIMER, 0);
 		this.dataManager.register(GALLOP_TIMER, 0);
 		this.dataManager.register(SPEED_LEVEL, 0);
+
+		this.dataManager.register(HungerNeed.TOTAL_TIMES_FED, 0);
 
 
 	}
@@ -421,7 +437,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	@Override
 	public boolean hasBlanket() {
-		return this.horseChest.getStackInSlot(1).getItem() instanceof HorseSaddleItem;
+		return this.horseChest.getStackInSlot(1).getItem() instanceof BlanketItem;
 	}
 
 	@Override
@@ -845,8 +861,30 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		}
 
 		if (!itemstack.isEmpty() && itemstack.getItem() != Items.SADDLE) {
-			if (this.isBreedingItem(itemstack)) {
-				return this.func_241395_b_(p_230254_1_, itemstack);
+			if (NEGATIVE_FOOD_ITEMS.test(itemstack)) {
+				// Emit negative particle effects.
+				return ActionResultType.FAIL;
+			}
+
+			if (FOOD_ITEMS.test(itemstack)) {
+				if (this.getNeeds().getHunger().getTotalTimesFed() == 7) {
+					// Emit negative particle effects.
+					return ActionResultType.FAIL;
+				}
+				SWEMPacketHandler.INSTANCE.sendToServer(new HorseHungerChange(this.getEntityId(), itemstack));
+				return ActionResultType.func_233537_a_(this.world.isRemote);
+			}
+
+//			if (this.isBreedingItem(itemstack)) {
+//				return this.func_241395_b_(p_230254_1_, itemstack);
+//			}
+
+
+
+			if (itemstack.getItem() == Items.WATER_BUCKET) {
+				SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(0, this.getEntityId()));
+				p_230254_1_.setHeldItem(p_230254_2_, ((BucketItem) itemstack.getItem()).emptyBucket(itemstack, p_230254_1_));
+				return ActionResultType.func_233537_a_(this.world.isRemote);
 			}
 
 			ActionResultType actionresulttype = itemstack.interactWithEntity(p_230254_1_, this, p_230254_2_);
@@ -865,11 +903,20 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			}
 
 			boolean flag = !this.isChild() && !this.isSWEMSaddled() && (itemstack.getItem() instanceof HorseSaddleItem);
+			boolean flag1 = !this.isChild() && this.hasHalter() && (itemstack.getItem() instanceof GirthStrapItem);
+			boolean flag2 = !this.isChild() && this.hasHalter() && (itemstack.getItem() instanceof BlanketItem);
+			boolean flag3 = !this.isChild() && this.hasHalter() && (itemstack.getItem() instanceof LegWrapsItem);
+			boolean flag4 = !this.isChild() && this.hasHalter() && (itemstack.getItem() instanceof BreastCollarItem);
 			if (this.isSWEMArmor(itemstack) || flag) {
 				this.setSWEMSaddled();
 				this.openGUI(p_230254_1_);
 				return ActionResultType.func_233537_a_(this.world.isRemote);
 			}
+			if (flag1 || flag2 || flag3 || flag4) {
+				this.openGUI(p_230254_1_);
+				return ActionResultType.func_233537_a_(this.world.isRemote);
+			}
+
 		}
 
 		if (this.isChild()) {
@@ -894,6 +941,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 //			return this.canMate() && ((AbstractHorseEntity)otherAnimal).canMate();
 //		}
 //	}
+
+	public NeedManager getNeeds() {
+		return this.needs;
+	}
 
 	// createChild method
 	public AgeableEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
@@ -1010,13 +1061,21 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		if (oldSpeed == HorseSpeed.GALLOP) return;
 		else if (oldSpeed == HorseSpeed.CANTER) {
 			if (this.dataManager.get(GALLOP_ON_COOLDOWN)) {
-				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)), new GallopCooldownPacket(Math.round( ( this.dataManager.get(GALLOP_COOLDOWN_TIMER) - this.dataManager.get(GALLOP_TIMER) ) / 20) ));
+				ArrayList<String> args = new ArrayList<>();
+				args.add(String.valueOf(Math.round(( this.dataManager.get(GALLOP_COOLDOWN_TIMER) - this.dataManager.get(GALLOP_TIMER) ) / 20)));
+				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)), new ClientStatusMessagePacket(0, 1, args));
 				return;
 			}
 			this.currentSpeed = HorseSpeed.GALLOP;
 		}
 		else if (oldSpeed == HorseSpeed.TROT) {
+			if (this.needs.getThirst().getState() == ThirstNeed.ThirstState.EXICCOSIS || this.needs.getHunger().getState() == HungerNeed.HungerState.STARVING) {
+				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)), new ClientStatusMessagePacket(1, 0, new ArrayList<>()));
+				return;
+			}
+
 			this.currentSpeed = HorseSpeed.CANTER;
+
 		} else if (oldSpeed == HorseSpeed.WALK) {
 			this.currentSpeed = HorseSpeed.TROT;
 		}
@@ -1073,6 +1132,27 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	public ItemStack getGirthStrap() {
 		return this.horseChest.getStackInSlot(5);
+	}
+
+	private boolean hasBridle() {
+		return this.horseChest.getStackInSlot(0).getItem() instanceof BridleItem;
+	}
+
+	public boolean canEquipSaddle() {
+		return this.hasBlanket();
+	}
+
+	public boolean canEquipGirthStrap() {
+		return this.isSWEMSaddled();
+	}
+
+	@Override
+	public boolean canBeSteered() {
+		if (this.hasBridle()) {
+			return super.canBeSteered();
+		} else {
+			return false;
+		}
 	}
 
 	public boolean isSWEMArmor(ItemStack stack) {
