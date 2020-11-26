@@ -129,6 +129,7 @@ public class OneSaddleRackTE extends TileEntity implements IAnimatable {
 				Random RANDOM = this.world.getRandom();
 				entity.setMotion(RANDOM.nextGaussian() * (double)0.05F, RANDOM.nextGaussian() * (double)0.05F + (double)0.2F, RANDOM.nextGaussian() * (double)0.05F);
 				this.world.addEntity(entity);
+				this.itemHandler.setStackInSlot(i, ItemStack.EMPTY);
 			}
 		}
 	}
