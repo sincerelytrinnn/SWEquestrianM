@@ -97,7 +97,7 @@ public class SWEMBlocks {
 	public static final RegistryObject<CareDoorBlock> OAK_STALL_CARE = BLOCKS.register("oak_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
 	public static final RegistryObject<CareDoorBlock> SPRUCE_STALL_CARE = BLOCKS.register("spruce_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
 	public static final RegistryObject<SlowFeederBlock> SLOW_FEEDER = BLOCKS.register("slow_feeder", () -> new SlowFeederBlock(Block.Properties.create(Material.IRON)));
-	public static final RegistryObject<Block> ONE_SADDLE_RACK = BLOCKS.register("one_saddle_rack", () -> new OneSaddleRack(Block.Properties.create(Material.IRON)));
+	public static final RegistryObject<Block> ONE_SADDLE_RACK = BLOCKS.register("one_saddle_rack", () -> new OneSaddleRack(Block.Properties.create(Material.IRON).notSolid()));
 
 	// Block Items
 	public static final RegistryObject<Item> FUEL_BLOCK_ITEM = SWEMItems.ITEMS.register("fuel_block",
