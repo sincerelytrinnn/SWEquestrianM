@@ -8,13 +8,18 @@ import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -30,9 +35,13 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class TackBoxBlock extends Block {
+public class TackBoxBlock extends HorizontalBlock {
 	public TackBoxBlock(Properties properties) {
 		super(properties);
+		this.setDefaultState(
+				this.stateContainer.getBaseState()
+						.with(HORIZONTAL_FACING, Direction.NORTH)
+		);
 	}
 
 	/**
@@ -118,6 +127,17 @@ public class TackBoxBlock extends Block {
 			}
 		}
 
+	}
+
+	@Nullable
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		return this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing().rotateYCCW());
+	}
+
+	@Override
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(HORIZONTAL_FACING);
 	}
 
 	@Override

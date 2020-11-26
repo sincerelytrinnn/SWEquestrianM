@@ -102,6 +102,16 @@ public class SlowFeederBlock extends Block {
 		return Block.makeCuboidShape(0, 0, 0, 15.99, 15.99, 15.99);
 	}
 
+	public boolean isFeedable(World worldIn, BlockState state) {
+		int level = state.get(LEVEL);
+
+		if (level > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public void setHayLevel(World worldIn, BlockPos pos, BlockState state, IntegerProperty prop, int level) {
 		worldIn.setBlockState(pos, state.with(prop, Integer.valueOf(MathHelper.clamp(level, 0, 2))));
 	}

@@ -1,11 +1,8 @@
 package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.armor.*;
-import com.alaharranhonor.swem.blocks.SWEMBlockStateProperties;
-import com.alaharranhonor.swem.entity.render.TackBoxRender;
+import com.alaharranhonor.swem.entity.render.*;
 import com.alaharranhonor.swem.gui.SWEMHorseInventoryScreen;
-import com.alaharranhonor.swem.entity.render.SWEMHorseRender;
-import com.alaharranhonor.swem.entity.render.WormieBoiRender;
 import com.alaharranhonor.swem.gui.TackBoxDefaultScreen;
 import com.alaharranhonor.swem.items.SWEMArmorItem;
 import com.alaharranhonor.swem.items.SWEMSpawnEggItem;
@@ -17,14 +14,18 @@ import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.entity.LeashKnotRenderer;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
+import net.minecraft.util.text.Color;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -55,7 +56,9 @@ public class ClientEventBusSubscriber {
     public static void registerRenderers(final FMLClientSetupEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseRender::new);
         RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.ROPE_KNOT_ENTITY.get(), RopeKnotRenderer::new);
         ClientRegistry.bindTileEntityRenderer(SWEMTileEntities.TACK_BOX_TILE_ENTITY.get(), TackBoxRender::new);
+        ClientRegistry.bindTileEntityRenderer(SWEMTileEntities.ONE_SADDLE_RACK_TILE_ENTITY.get(), OneSaddleRackRender::new);
         GeoArmorRenderer.registerArmorRenderer(SWEMArmorItem.class, new AmethystArmorModelRenderer());
         GeoArmorRenderer.registerArmorRenderer(LeatherRidingBoots.class, new AmethystArmorModelRenderer());
         GeoArmorRenderer.registerArmorRenderer(GlowRidingBoots.class, new AmethystArmorModelRenderer());
@@ -109,6 +112,12 @@ public class ClientEventBusSubscriber {
     @SubscribeEvent
     public static void onRegisterEntities(RegistryEvent.Register<EntityType<?>> event) {
         SWEMSpawnEggItem.initSpawnEggs();
+    }
+
+    @SubscribeEvent
+    public static void onRegisterItems(RegistryEvent.Register<Item> event) {
+            event.getRegistry().register(new SWEMSpawnEggItem(SWEMEntities.WORMIE_BOI_ENTITY, Color.fromHex("#bf7b05").getColor(), Color.fromHex("#663c02").getColor(), new Item.Properties().group(SWEM.TAB)).setRegistryName("worm_spawn_egg"));
+            event.getRegistry().register(new SWEMSpawnEggItem(SWEMEntities.SWEM_HORSE_ENTITY, Color.fromHex("#bf7b05").getColor(), Color.fromHex("#663c02").getColor(), new Item.Properties().group(SWEM.TAB)).setRegistryName("swem_horse_spawn_egg"));
     }
 
 

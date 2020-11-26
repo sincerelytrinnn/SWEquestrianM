@@ -17,15 +17,41 @@ public class ThirstNeed {
 	}
 
 	public void tick() {
+		if (this.state.getCurrentTicks() == 0) return;
+		this.state.setCurrentTicks(this.state.getCurrentTicks() - 1);
 
+		if (this.state.getCurrentTicks() <= this.state.getTickAmountChange() && this.state != ThirstState.EXICCOSIS) {
+			this.setStateById(this.state.getId() - 1);
+		}
+	}
+
+	public void incrementState() {
+		if (this.state != ThirstState.QUENCHED) {
+			this.setStateById(this.state.getId() + 1);
+			if (this.state == ThirstState.QUENCHED) {
+				this.state.setCurrentTicks(96000);
+			} else {
+				this.state.setCurrentTicks(this.getNextState().getTickAmountChange());
+			}
+		}
 	}
 
 	public ThirstState getState() {
 		return this.state;
 	}
 
+	public ThirstState getNextState() {
+		return this.state.values()[this.state.getId() + 1];
+	}
+
 	public void setState(ThirstState state) {
+		int ticks = 0;
+		if (this.state != null) {
+			ticks = this.state.getCurrentTicks();
+		}
 		this.state = state;
+		this.state.setCurrentTicks(ticks);
+		this.state.setHorse(this.horse);
 	}
 
 	public CompoundNBT write(CompoundNBT nbt) {
@@ -79,26 +105,26 @@ public class ThirstNeed {
 			}
 			default: {
 				this.setState(ThirstState.EXICCOSIS);
-				this.horse.getDataManager().set(ThirstState.ID, id);
+				this.horse.getDataManager().set(ThirstState.ID, 0);
 			}
 		}
 	}
 
 
 	public enum ThirstState {
-
+	// Water bucket is 6000 ticks
 		EXICCOSIS(-1),
 		DEHYDRATED(24000),
-		THIRSTY(48000),
-		SATISIFIED(12000),
-		QUENCHED(6000);
+		THIRSTY(72000),
+		SATISIFIED(84000),
+		QUENCHED(90000);
 
 		public static final DataParameter<Integer> ID = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
-		private int ticksToDowngrade;
+		private int tickAmountChange;
 		private int currentTicks;
 		private SWEMHorseEntityBase horse;
-		ThirstState(int ticksToDowngrade) {
-			this.ticksToDowngrade = ticksToDowngrade;
+		ThirstState(int tickAmountChange) {
+			this.tickAmountChange = tickAmountChange;
 			this.currentTicks = 0;
 		}
 
@@ -110,8 +136,8 @@ public class ThirstNeed {
 			return this.horse.getDataManager().get(ID);
 		}
 
-		public int getTicksToDowngrade() {
-			return ticksToDowngrade;
+		public int getTickAmountChange() {
+			return tickAmountChange;
 		}
 
 		public int getCurrentTicks() {

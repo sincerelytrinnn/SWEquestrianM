@@ -19,6 +19,9 @@ public class SWEMPacketHandler {
 		INSTANCE.registerMessage(1, UpdateHorseInventoryMessage.class, UpdateHorseInventoryMessage::encode, UpdateHorseInventoryMessage::decode, UpdateHorseInventoryMessage::handle);
 		INSTANCE.registerMessage(2, SyncEntityIdToClient.class, SyncEntityIdToClient::encode, SyncEntityIdToClient::decode, SyncEntityIdToClient::handle);
 		INSTANCE.registerMessage(3, SendHorseSpeedChange.class, SendHorseSpeedChange::encode, SendHorseSpeedChange::decode, SendHorseSpeedChange::handle);
-		INSTANCE.registerMessage(4, GallopCooldownPacket.class, GallopCooldownPacket::encode, GallopCooldownPacket::decode, GallopCooldownPacket::handle);
+		INSTANCE.registerMessage(4, ClientStatusMessagePacket.class, ClientStatusMessagePacket::encode, ClientStatusMessagePacket::decode, ClientStatusMessagePacket::handle);
+		INSTANCE.registerMessage(5, ClientEntitySpawnPacket.class, ClientEntitySpawnPacket::encode, ClientEntitySpawnPacket::decode, ClientEntitySpawnPacket::handle);
+		INSTANCE.registerMessage(6, HorseStateChange.class, HorseStateChange::encode, HorseStateChange::decode, HorseStateChange::handle);
+		INSTANCE.registerMessage(7, HorseHungerChange.class, HorseHungerChange::encode, HorseHungerChange::decode, HorseHungerChange::handle);
 	}
 }

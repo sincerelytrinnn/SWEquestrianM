@@ -22,4 +22,7 @@ public interface ISWEMEquipable extends IEquipable {
 	boolean hasGirthStrap();
 
 	boolean hasLegWraps();
+
+	boolean canEquipSaddle();
+	boolean canEquipGirthStrap();
 }

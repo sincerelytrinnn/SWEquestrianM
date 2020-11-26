@@ -38,6 +38,7 @@ public class NeedManager {
 
 	// SERVER-SIDE ONLY
 	public void tick() {
-
+		this.hunger.tick();
+		this.thirst.tick();
 	}
 }
