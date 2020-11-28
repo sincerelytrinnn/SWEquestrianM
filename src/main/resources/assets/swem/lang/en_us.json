@@ -63,6 +63,7 @@
   "item.swem.fence_tool": "Fence Tool",
   "item.swem.cantazarite_potion.effect.empty": "Cantazarite Potion",
   "item.swem.cantazarite_dye": "Cantazarite Dye",
+  "item.swem.whistle": "Horse Whistle",
 
 
   "item.swem.western_saddle_light_blue": "Light Blue Western Saddle",
@@ -456,7 +457,7 @@
   "key.swem.horse.increment": "Increment Speed",
   "key.swem.category": "SWEM",
 
-  "swem.horse.status.gallop_cooldown": "Gallop is on cooldown. Wait ", // Xs is appended to the string, where x is the amount of seconds, remanining.
+  "swem.horse.status.gallop_cooldown": "Gallop is on cooldown. Wait ",
   "swem.horse.status.too_thirsty_to_canter": "The horse is too thirsty to canter. Find some water."
 
 }
