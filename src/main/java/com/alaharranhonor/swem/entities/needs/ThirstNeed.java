@@ -14,6 +14,7 @@ public class ThirstNeed {
 
 	public ThirstNeed(SWEMHorseEntityBase horse) {
 		this.horse = horse;
+		this.setState(ThirstState.QUENCHED);
 	}
 
 	public void tick() {

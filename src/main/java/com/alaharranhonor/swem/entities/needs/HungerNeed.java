@@ -41,6 +41,7 @@ public class HungerNeed {
 
 	public HungerNeed(SWEMHorseEntityBase horse) {
 		this.horse = horse;
+		this.setState(HungerState.FULLY_FED);
 	}
 
 
