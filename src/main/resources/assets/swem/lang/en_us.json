@@ -456,7 +456,7 @@
   "key.swem.horse.increment": "Increment Speed",
   "key.swem.category": "SWEM",
 
-  "swem.horse.status.gallop_cooldown": "Gallop is on cooldown.",
-  "swem.horse.status.too_thirsy_to_canter": "The horse is too thirsty to canter. Find some water."
+  "swem.horse.status.gallop_cooldown": "Gallop is on cooldown. Wait ", // Xs is appended to the string, where x is the amount of seconds, remanining.
+  "swem.horse.status.too_thirsty_to_canter": "The horse is too thirsty to canter. Find some water."
 
 }
