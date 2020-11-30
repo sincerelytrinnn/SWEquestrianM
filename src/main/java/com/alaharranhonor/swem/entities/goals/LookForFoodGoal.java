@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
 
-public class LookForFood extends Goal {
+public class LookForFoodGoal extends Goal {
 
 	private SWEMHorseEntityBase horse;
 
@@ -25,9 +25,10 @@ public class LookForFood extends Goal {
 
 	private int blockFound;
 
-	public LookForFood(SWEMHorseEntityBase entityIn, double speed) {
+	public LookForFoodGoal(SWEMHorseEntityBase entityIn, double speed) {
 	 	this.horse = entityIn;
 	 	this.speed = speed;
+	 	this.blockFound = -1;
 	}
 
 
@@ -61,6 +62,7 @@ public class LookForFood extends Goal {
 	public void resetTask() {
 		this.foundFood = null;
 		this.tickTimer = 0;
+		this.blockFound = -1;
 	}
 
 	/**
@@ -90,22 +92,15 @@ public class LookForFood extends Goal {
 					for (int j = -3; j < 4; j++) { // Z Cord
 						for (int k = -1; k < 2; k++) { // k = y
 							BlockPos checkState = entityPos.add(i, j, k);
-							if (this.horse.world.getBlockState(checkState) == Blocks.GRASS_BLOCK.getDefaultState()) {
+							if (this.horse.world.getBlockState(checkState) == Blocks.GRASS_BLOCK.getDefaultState() && this.blockFound <= 0) {
 								this.foundFood = checkState;
 								this.blockFound = 0;
-								break;
-							} else if (this.horse.world.getBlockState(checkState) == SWEMBlocks.QUALITY_BALE.get().getDefaultState()) {
+							} else if (this.horse.world.getBlockState(checkState) == SWEMBlocks.QUALITY_BALE.get().getDefaultState() && this.blockFound <= 1) {
 								this.foundFood = checkState;
 								this.blockFound = 1;
-								break;
-							} else if (this.horse.world.getBlockState(checkState) == SWEMBlocks.SLOW_FEEDER.get().getDefaultState().with(SlowFeederBlock.LEVEL, 1)) {
+							} else if ((this.horse.world.getBlockState(checkState) == SWEMBlocks.SLOW_FEEDER.get().getDefaultState().with(SlowFeederBlock.LEVEL, 1) || this.horse.world.getBlockState(checkState) == SWEMBlocks.SLOW_FEEDER.get().getDefaultState().with(SlowFeederBlock.LEVEL, 2)) && this.blockFound <= 2) {
 								this.foundFood = checkState;
 								this.blockFound = 2;
-								break;
-							} else if (this.horse.world.getBlockState(checkState) == SWEMBlocks.SLOW_FEEDER.get().getDefaultState().with(SlowFeederBlock.LEVEL, 2)) {
-								this.foundFood = checkState;
-								this.blockFound = 3;
-								break;
 							}
 						}
 					}
@@ -132,8 +127,7 @@ public class LookForFood extends Goal {
 
 							break;
 						}
-						case 2:
-						case 3: {
+						case 2: {
 							this.horse.getNeeds().getHunger().addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get()));
 							((SlowFeederBlock) this.horse.world.getBlockState(foundFood).getBlock()).eatHay(this.horse.world, foundFood, this.horse.world.getBlockState(foundFood));
 							break;
