@@ -286,8 +286,9 @@
   "block.swem.oak_stall_care": "Oak Stall Door (Care)",
   "block.swem.spruce_stall_care": "Spruce Stall Door (Care)",
   "block.swem.tack_box": "Tack Box",
-  "block.swem.one_saddle_rack": "One Saddle Rack",
+  "block.swem.one_saddle_rack": "Saddle Rack",
   "block.swem.simple_rider_door_orange": "Orange Simple Rider Door (WIP)",
+  "block.swem.bridle_rack": "Bridle Rack",
 
   "block.swem.star_worm_cobble": "Star Worm Cobble",
   "block.swem.star_worm_vine": "Star Worm Vine",
