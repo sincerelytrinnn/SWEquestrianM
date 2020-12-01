@@ -41,20 +41,7 @@ public class BridleRackRender extends GeoBlockRenderer<BridleRackTE> {
 
 		stack.translate(0, 1.5, 0);
 
-		switch (direction) {
-			case WEST:
-				stack.translate(0.4375, 0, 0.5);
-				break;
-			case EAST:
-				stack.translate(0.5625, 0, 0.5);
-				break;
-			case SOUTH:
-				stack.translate(0.5, 0, 0.5625);
-				break;
-			case NORTH:
-				stack.translate(0.5, 0, 0.5);
-				break;
-		}
+		stack.translate(0.5d, 0, 0.5d);
 
 		stack.rotate(new Quaternion(0, 180 - direction.getHorizontalAngle(), 180, true));
 
