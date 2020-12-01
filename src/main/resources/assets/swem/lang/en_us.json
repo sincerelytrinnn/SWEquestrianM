@@ -289,6 +289,9 @@
   "block.swem.one_saddle_rack": "Saddle Rack",
   "block.swem.simple_rider_door_orange": "Orange Simple Rider Door (WIP)",
   "block.swem.bridle_rack": "Bridle Rack",
+  "block.swem.light_friendly_bars": "Friendly Bars (Light)",
+  "block.swem.medium_friendly_bars": "Friendly Bars (Medium)",
+  "block.swem.dark_friendly_bars": "Friendly Bars (Dark)",
 
   "block.swem.star_worm_cobble": "Star Worm Cobble",
   "block.swem.star_worm_vine": "Star Worm Vine",

@@ -1,0 +1,7 @@
+{
+  "parent": "swem:block/friendly_bars_post_ends",
+  "textures": {
+    "bars": "swem:blocks/friendly_bars_light",
+    "edge": "swem:blocks/friendly_bars_light"
+  }
+}
