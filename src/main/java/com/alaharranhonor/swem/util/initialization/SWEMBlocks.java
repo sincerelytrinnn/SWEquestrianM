@@ -101,6 +101,8 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> LIGHT_FRIENDLY_BARS = BLOCKS.register("light_friendly_bars", () -> new PaneBlock(Block.Properties.create(Material.IRON).notSolid()));
 	public static final RegistryObject<Block> MEDIUM_FRIENDLY_BARS = BLOCKS.register("medium_friendly_bars", () -> new PaneBlock(Block.Properties.create(Material.IRON).notSolid()));
 	public static final RegistryObject<Block> DARK_FRIENDLY_BARS = BLOCKS.register("dark_friendly_bars", () -> new PaneBlock(Block.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<NonParallelBlock> WATER_TROUGH = BLOCKS.register("water_trough", () -> new WaterThroughBlock(Block.Properties.create(Material.IRON)));
+	public static final RegistryObject<NonParallelBlock> BLUE_SEPARATOR = BLOCKS.register("blue_separator", () -> new NonParallelBlock(Block.Properties.create(Material.IRON).notSolid()));
 
 	// Block Items
 	public static final RegistryObject<Item> FUEL_BLOCK_ITEM = SWEMItems.ITEMS.register("fuel_block",
@@ -199,4 +201,6 @@ public class SWEMBlocks {
 	public static final RegistryObject<Item> LIGHT_FRIENDLY_BARS_ITEM = SWEMItems.ITEMS.register("light_friendly_bars", () -> new BlockItemBase(LIGHT_FRIENDLY_BARS.get()));
 	public static final RegistryObject<Item> MEDIUM_FRIENDLY_BARS_ITEM = SWEMItems.ITEMS.register("medium_friendly_bars", () -> new BlockItemBase(MEDIUM_FRIENDLY_BARS.get()));
 	public static final RegistryObject<Item> DARK_FRIENDLY_BARS_ITEM = SWEMItems.ITEMS.register("dark_friendly_bars", () -> new BlockItemBase(DARK_FRIENDLY_BARS.get()));
+	public static final RegistryObject<Item> WATER_TROUGH_ITEM = SWEMItems.ITEMS.register("water_trough", () -> new BlockItemBase(WATER_TROUGH.get()));
+	public static final RegistryObject<Item> BLUE_SEPARATOR_ITEM = SWEMItems.ITEMS.register("blue_separator", () -> new BlockItemBase(BLUE_SEPARATOR.get()));
 }

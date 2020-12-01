@@ -1,0 +1,160 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "facing": "north",
+        "two_way": "single"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_single",
+        "y": -90
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "two_way": "left"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_end",
+        "y": -90
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "two_way": "middle"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_middle",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "two_way": "right"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_end",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "two_way": "single"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_single",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "two_way": "left"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_end"
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "two_way": "middle"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_middle"
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "two_way": "right"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_end",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "two_way": "single"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_single",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "two_way": "left"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_end",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "two_way": "middle"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_middle",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "two_way": "right"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_end",
+        "y": -90
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "two_way": "single"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_single",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "two_way": "left"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_end",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "two_way": "middle"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_middle"
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "two_way": "right"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_end"
+      }
+    }
+  ]
+}
