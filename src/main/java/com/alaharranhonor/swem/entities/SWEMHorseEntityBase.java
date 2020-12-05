@@ -205,8 +205,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			this.SWEMHorseGrassTimer = Math.max(0, this.SWEMHorseGrassTimer - 1);
 		}
 		if (!this.world.isRemote) {
-			if ((int)(this.world.getDayTime() % 24000L) == 12000) {
-				this.needs.getHunger().resetDaily();
+			if ((int)(this.world.getDayTime() % 24000L) == 10000) {
+				this.resetDaily();
 			}
 
 			if (this.dataManager.get(GALLOP_ON_COOLDOWN)) {
@@ -229,6 +229,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			this.needs.tick();
 		}
 		super.livingTick();
+	}
+
+	private void resetDaily() {
+		this.needs.getHunger().resetDaily();
+		this.progressionManager.getAffinityLeveling().resetCurrentSwipes();
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -327,6 +332,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 		this.dataManager.register(HungerNeed.TOTAL_TIMES_FED, 0);
 
+		this.dataManager.register(AffinityLeveling.CURRENT_DESENSITIZING_ITEM, ItemStack.EMPTY);
 
 	}
 
