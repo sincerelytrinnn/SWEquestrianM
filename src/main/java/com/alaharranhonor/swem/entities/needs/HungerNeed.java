@@ -30,12 +30,13 @@ public class HungerNeed {
 					Ingredient.fromItems(SWEMItems.TIMOTHY_BUSHEL.get()),
 					Ingredient.fromItems(SWEMItems.ALFALFA_BUSHEL.get()),
 					Ingredient.fromItems(SWEMBlocks.QUALITY_BALE_ITEM.get()),
-					Ingredient.fromItems(Items.GRASS_BLOCK)
+					Ingredient.fromItems(Items.GRASS_BLOCK),
+					Ingredient.fromItems(SWEMItems.SUGAR_CUBE.get())
 			).collect(Collectors.toList()));
 
-	private int[] POINTS_GIVEN = {1, 1, 5, 5, 5, 15, 1};
-	private int[] TIMES_FED = new int[7];
-	private int[] MAX_TIMES = {1, 1, 1, 4, 4, 1, -1};
+	private int[] POINTS_GIVEN = {1, 1, 5, 5, 5, 15, 1, 1};
+	private int[] TIMES_FED = new int[8];
+	private int[] MAX_TIMES = {1, 1, 1, 4, 4, 1, -1, 1};
 
 	public static final DataParameter<Integer> TOTAL_TIMES_FED = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
 
