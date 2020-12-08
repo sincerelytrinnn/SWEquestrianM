@@ -222,7 +222,7 @@ public class SWEMHorseInventoryContainer extends Container {
 
 		});
 
-		// SaddleBag Slot
+		// SaddleBag Slot 8
 		this.addSlot(new Slot(horseInventory, 7, 29, 87) {
 			/**
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
