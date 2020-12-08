@@ -88,6 +88,7 @@ public class ClientEventBusSubscriber {
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUNGLE_STALL_CARE.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.OAK_STALL_CARE.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.SPRUCE_STALL_CARE.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.PASTURE_WHITE_HORSE.get(), RenderType.getCutout());
     }
 
     public static void registerKeybinds() {
