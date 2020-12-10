@@ -1,0 +1,171 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "level": "2"
+      },
+      "apply": {
+        "model": "swem:block/full_feeder"
+      }
+    },
+    {
+      "when": {
+        "level": "1"
+      },
+      "apply": {
+        "model": "swem:block/half_feeder"
+      }
+    },
+    {
+      "when": {
+        "level_vanilla": "2"
+      },
+      "apply": {
+        "model": "swem:block/full_feeder_vanilla"
+      }
+    },
+    {
+      "when": {
+        "level_vanilla": "1"
+      },
+      "apply": {
+        "model": "swem:block/half_feeder_vanilla"
+      }
+    },
+    {
+      "when": {
+        "south": "false",
+        "north": "true",
+        "east": "false",
+        "west": "true"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder_corner_black"
+      }
+    },
+    {
+      "when": {
+        "south": "false",
+        "north": "true",
+        "east": "true",
+        "west": "false"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder_corner_black",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "north": "false",
+        "east": "true",
+        "west": "false"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder_corner_black",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "north": "false",
+        "east": "false",
+        "west": "true"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder_corner_black",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "south": "false",
+        "north": "false",
+        "east": "false|true",
+        "west": "false|true"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder_black"
+      }
+    },
+    {
+      "when": {
+        "south": "false|true",
+        "north": "false|true",
+        "east": "false",
+        "west": "false"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder_black"
+      }
+    },
+    {
+      "when": {
+        "south": "false",
+        "north": "false",
+        "east": "false",
+        "west": "false|true"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder_black"
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "north": "true",
+        "east": "true",
+        "west": "false"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder_black"
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "north": "false",
+        "east": "true",
+        "west": "true"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder_black"
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "north": "true",
+        "east": "false",
+        "west": "true"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder_black"
+      }
+    },
+    {
+      "when": {
+        "south": "false",
+        "north": "true",
+        "east": "true",
+        "west": "true"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder_black"
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "north": "true",
+        "east": "true",
+        "west": "true"
+      },
+      "apply": {
+        "model": "swem:block/slow_feeder_black"
+      }
+    }
+  ]
+}
