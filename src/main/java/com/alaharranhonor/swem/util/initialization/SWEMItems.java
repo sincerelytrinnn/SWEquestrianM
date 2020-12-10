@@ -6,6 +6,7 @@ import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.potions.CantazaritePotionItem;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.tools.FenceToolItem;
+import com.alaharranhonor.swem.tools.PitchforkTool;
 import com.alaharranhonor.swem.tools.SWEMItemTier;
 import com.alaharranhonor.swem.util.ArmorItemRegistration;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -96,6 +97,7 @@ public class SWEMItems {
 	public static final RegistryObject<DesensitizingItem> POMPOM = ITEMS.register("pompom", () -> new DesensitizingItem(2));
 	public static final RegistryObject<DesensitizingItem> SHOPPING_BAG = ITEMS.register("shopping_bag", () -> new DesensitizingItem(3));
 	public static final RegistryObject<DesensitizingItem> TARP = ITEMS.register("tarp", () -> new DesensitizingItem(4));
+	public static final RegistryObject<PitchforkTool> PITCHFORK = ITEMS.register("pitchfork", PitchforkTool::new);
 
 	// SADDLES
 	public static final RegistryObject<WesternSaddleItem> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new WesternSaddleItem("western_saddle_light_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));

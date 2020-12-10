@@ -7,10 +7,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.SixWayBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
@@ -34,9 +31,16 @@ public class SlowFeederBlock extends Block {
 	public static final IntegerProperty LEVEL = SWEMBlockStateProperties.LEVEL_0_2;
 	public static final IntegerProperty LEVEL_VANILLA = SWEMBlockStateProperties.LEVEL_0_2_VANILLA;
 
-	public SlowFeederBlock(Properties properties) {
+	private DyeColor colour;
+
+	public SlowFeederBlock(Properties properties, DyeColor colour) {
 		super(properties);
 		this.setDefaultState(this.stateContainer.getBaseState().with(NORTH, Boolean.valueOf(false)).with(EAST, Boolean.valueOf(false)).with(SOUTH, Boolean.valueOf(false)).with(WEST, Boolean.valueOf(false)).with(LEVEL, 0).with(LEVEL_VANILLA, 0));
+		this.colour = colour;
+	}
+
+	public DyeColor getColour() {
+		return this.colour;
 	}
 
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
