@@ -24,4 +24,13 @@ public class ShavingsItem extends BlockItem {
         player.inventory.add(player.inventory.currentItem, newItem);
         return false;
     }
+
+    public static class SoiledShavingsItem extends Item {
+
+        public SoiledShavingsItem() {
+            super(new Item.Properties().group(SWEM.TAB).maxStackSize(16));
+        }
+
+
+    }
 }
