@@ -1,0 +1,7 @@
+{
+  "parent": "swem:block/wheel_barrow_level_3",
+  "textures": {
+    "0": "swem:blocks/wheel_barrow_orange",
+    "particle": "swem:blocks/wheel_barrow_orange"
+  }
+}
