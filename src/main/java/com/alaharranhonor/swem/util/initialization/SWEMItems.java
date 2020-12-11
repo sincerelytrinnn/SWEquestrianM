@@ -92,6 +92,11 @@ public class SWEMItems {
 	public static final RegistryObject<PotionItem> CANTAZARITE_POTION = ITEMS.register("cantazarite_potion", () -> new CantazaritePotionItem(new Item.Properties().maxStackSize(1).group(SWEM.TAB)));
 	public static final RegistryObject<Item> CANTAZARITE_DYE = ITEMS.register("cantazarite_dye", ItemBase::new);
 	public static final RegistryObject<Item> PENDANT = ITEMS.register("pendant", PendantItem::new);
+	public static final RegistryObject<DesensitizingItem> BELLS = ITEMS.register("bells", () -> new DesensitizingItem(0));
+	public static final RegistryObject<DesensitizingItem> HOOLAHOOP = ITEMS.register("hoolahoop", () -> new DesensitizingItem(1));
+	public static final RegistryObject<DesensitizingItem> POMPOM = ITEMS.register("pompom", () -> new DesensitizingItem(2));
+	public static final RegistryObject<DesensitizingItem> SHOPPING_BAG = ITEMS.register("shopping_bag", () -> new DesensitizingItem(3));
+	public static final RegistryObject<DesensitizingItem> TARP = ITEMS.register("tarp", () -> new DesensitizingItem(4));
 	public static final RegistryObject<PitchforkTool> PITCHFORK = ITEMS.register("pitchfork", PitchforkTool::new);
 
 	// SADDLES

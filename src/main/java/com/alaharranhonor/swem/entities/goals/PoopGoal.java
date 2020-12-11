@@ -1,12 +1,16 @@
 package com.alaharranhonor.swem.entities.goals;
 
+import com.alaharranhonor.swem.blocks.HorsePoopBlock;
+import com.alaharranhonor.swem.entities.PoopEntity;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.initialization.SWEMEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.EatGrassGoal;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.item.ArmorStandItem;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -30,7 +34,7 @@ public class PoopGoal extends Goal {
 	 */
 	@Override
 	public boolean shouldExecute() {
-		return this.pooperEntity.getRNG().nextInt(10000) == 0;
+		return this.pooperEntity.getRNG().nextInt(100) == 0 && this.pooperEntity.getPassengers().isEmpty();
 	}
 
 	/**
@@ -38,7 +42,7 @@ public class PoopGoal extends Goal {
 	 */
 	@Override
 	public void startExecuting() {
-		this.poopTimer = 9600;
+		this.poopTimer = 100;
 		this.entityWorld.setEntityState(this.pooperEntity, (byte)10);
 		this.pooperEntity.getNavigator().clearPath();
 	}
@@ -71,7 +75,10 @@ public class PoopGoal extends Goal {
 		this.poopTimer = Math.max(0, this.poopTimer - 1);
 		if (this.poopTimer == 4) {
 			BlockPos blockpos = this.pooperEntity.getPosition();
-			this.entityWorld.setBlockState(blockpos, SWEMBlocks.HORSE_POO.get().getDefaultState(), 2);
+			PoopEntity poop = SWEMEntities.HORSE_POOP_ENTITY.get().create(this.entityWorld);
+			BlockPos posToPoop = blockpos.add(0, 1.5d, 0).offset(this.pooperEntity.getHorizontalFacing().getOpposite());
+			poop.setPosition(posToPoop.getX(), posToPoop.getY(), posToPoop.getZ());
+			this.entityWorld.addEntity(poop);
 		}
 	}
 }
