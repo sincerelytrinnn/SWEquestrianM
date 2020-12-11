@@ -35,7 +35,13 @@ public class BlockStates extends BlockStateProvider {
 
 
 		for (RegistryObject<WheelBarrowBlock> wb : SWEMBlocks.WHEEL_BARROWS) {
+
 			WheelBarrowBlock wheel = wb.get();
+
+			itemModels().withExistingParent("item/" + wheel.getTranslationKey().split("\\.")[2], "item/generated")
+					.texture("layer0", new ResourceLocation(SWEM.MOD_ID, "items/" + wheel.getTranslationKey().split("\\.")[2]));
+
+
 			getVariantBuilder(wheel)
 					.forAllStates((state) -> {
 						Direction dir = state.get(WheelBarrowBlock.HORIZONTAL_FACING);
@@ -60,6 +66,10 @@ public class BlockStates extends BlockStateProvider {
 
 		for(RegistryObject<SlowFeederBlock> sf : SWEMBlocks.SLOW_FEEDERS) {
 			SlowFeederBlock slow = sf.get();
+
+			itemModels().withExistingParent("item/" + slow.getTranslationKey().split("\\.")[2], "item/generated")
+					.texture("layer0", new ResourceLocation(SWEM.MOD_ID, "items/" + slow.getTranslationKey().split("\\.")[2]));
+
 			ModelFile sfModel = models().getBuilder(models[0]+ "_" + slow.getColour().getTranslationKey())
 					.texture("0", new ResourceLocation(SWEM.MOD_ID, "blocks/" + models[0].split("/")[1] + "_"+slow.getColour().getTranslationKey()))
 					.texture("particle", new ResourceLocation(SWEM.MOD_ID, "blocks/" + models[0].split("/")[1] + "_"+slow.getColour().getTranslationKey()))
