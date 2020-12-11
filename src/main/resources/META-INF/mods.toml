@@ -10,7 +10,7 @@ issueTrackerURL="http://my.issue.tracker/"
 
 modId="swem" 
 
-version="1.16.3-0.8.4"
+version="1.16.3-0.10.5"
 
 displayName="Star Worm Equestrian Mod" 
 
@@ -20,7 +20,7 @@ displayURL="https://alaharranhonor.github.io"
 
 logoFile="icon.jpg" 
 
-credits="Thanks for this example mod goes to Java" 
+credits="" 
 
 authors="AlaharranHonor" 
 
