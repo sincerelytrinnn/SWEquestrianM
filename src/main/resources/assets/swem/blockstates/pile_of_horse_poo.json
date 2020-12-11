@@ -1,5 +1,19 @@
 {
   "variants": {
-    "": { "model":  "swem:block/pile_of_horse_poo"}
+    "facing=north": {
+      "model":  "swem:block/pile_of_horse_poo"
+    },
+    "facing=east": {
+      "model":  "swem:block/pile_of_horse_poo",
+      "y": 90
+    },
+    "facing=south": {
+      "model":  "swem:block/pile_of_horse_poo",
+      "y": 180
+    },
+    "facing=west": {
+      "model":  "swem:block/pile_of_horse_poo",
+      "y": 270
+    }
   }
 }
