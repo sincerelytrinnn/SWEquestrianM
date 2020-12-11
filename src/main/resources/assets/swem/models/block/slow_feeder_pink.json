@@ -1,0 +1,7 @@
+{
+  "parent": "swem:block/slow_feeder",
+  "textures": {
+    "0": "swem:blocks/slow_feeder_pink",
+    "particle": "swem:blocks/slow_feeder_pink"
+  }
+}

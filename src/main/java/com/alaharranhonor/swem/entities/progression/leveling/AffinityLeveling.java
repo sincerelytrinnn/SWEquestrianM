@@ -1,6 +1,8 @@
 package com.alaharranhonor.swem.entities.progression.leveling;
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.util.initialization.SWEMItems;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -16,6 +18,12 @@ public class AffinityLeveling implements ILeveling{
 	private float[] requiredXpArray = new float[]{100, 500, 1000, 1500, 2000, 3000, 4000, 5000, 7000, 10000, 13000, 17000};
 	private String[] levelNames = new String[] {"Unwilling", "Reluctant", "Tolerant", "Indifferent", "Accepting",  "Willing",  "Committed", "Trusted",  "Friends",  "Best Friends", "Inseparable", "Bonded", };
 	private float[] obeyDebuff = new float[] {1.0f, 0.9f, 0.75f, 0.65f, 0.5f, 0.4f, 0.35f, 0.3f, 0.25f, 0.2f, 0.1f, 0};
+
+	public static final DataParameter<ItemStack> CURRENT_DESENSITIZING_ITEM = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.ITEMSTACK);
+	private int currentSwipes = 0;
+	private int[] daysSwiped = new int[5];
+
+
 
 	public AffinityLeveling(SWEMHorseEntityBase horse) {
 		this.horse = horse;
@@ -93,11 +101,83 @@ public class AffinityLeveling implements ILeveling{
 		return this.obeyDebuff[this.dataManager.get(LEVEL)];
 	}
 
+	public ItemStack getCurrentDesensitizingItem() {
+		return this.dataManager.get(CURRENT_DESENSITIZING_ITEM);
+	}
+
+	private void setCurrentDesensitizingItem(ItemStack stack) {
+		this.dataManager.set(CURRENT_DESENSITIZING_ITEM, stack);
+	}
+
+	public void resetCurrentSwipes() {
+		this.currentSwipes = 0;
+	}
+
+	public void desensitize(ItemStack stack) {
+		if ((this.getCurrentDesensitizingItem().getItem() != stack.getItem() && !this.getCurrentDesensitizingItem().isEmpty()) || this.currentSwipes >= 7) {
+			// TODO: SEND STATUS MESSAGE TO CLIENT.
+			return;
+		}
+		this.currentSwipes++;
+		if (stack.getItem() == SWEMItems.BELLS.get() && this.daysSwiped[0] != -1) {
+			this.setCurrentDesensitizingItem(stack);
+			if (this.currentSwipes == 7) {
+				this.daysSwiped[0]++;
+				if (this.daysSwiped[0] == 3) {
+					this.daysSwiped[0] = -1;
+					return;
+				}
+			}
+		} else if (stack.getItem() == SWEMItems.HOOLAHOOP.get() && this.daysSwiped[1] != -1) {
+			this.setCurrentDesensitizingItem(stack);
+			if (this.currentSwipes == 7) {
+				this.daysSwiped[1]++;
+				if (this.daysSwiped[1] == 3) {
+					this.daysSwiped[1] = -1;
+					return;
+				}
+			}
+		} else if (stack.getItem() == SWEMItems.POMPOM.get() && this.daysSwiped[2] != -1) {
+			this.setCurrentDesensitizingItem(stack);
+			if (this.currentSwipes == 7) {
+				this.daysSwiped[2]++;
+				if (this.daysSwiped[2] == 3) {
+					this.daysSwiped[2] = -1;
+					return;
+				}
+			}
+		} else if (stack.getItem() == SWEMItems.SHOPPING_BAG.get() && this.daysSwiped[3] != -1) {
+			this.setCurrentDesensitizingItem(stack);
+			if (this.currentSwipes == 7) {
+				this.daysSwiped[3]++;
+				if (this.daysSwiped[3] == 3) {
+					this.daysSwiped[3] = -1;
+					return;
+				}
+			}
+		} else if (stack.getItem() == SWEMItems.TARP.get() && this.daysSwiped[4] != -1) {
+			this.setCurrentDesensitizingItem(stack);
+			if (this.currentSwipes == 7) {
+				this.daysSwiped[4]++;
+				if (this.daysSwiped[4] == 3) {
+					this.daysSwiped[4] = -1;
+					return;
+				}
+			}
+		}
+
+		this.addXP(250);
+	}
+
 	@Override
 	public void write(CompoundNBT compound) {
 		compound.putInt("AffinityLevel", this.dataManager.get(LEVEL));
 		compound.putFloat("AffinityXP", this.dataManager.get(XP));
 		compound.putInt("AffinityMaxLevel", this.dataManager.get(MAX_LEVEL));
+		CompoundNBT nbt = new CompoundNBT();
+		compound.put("desensiztingItem", this.dataManager.get(CURRENT_DESENSITIZING_ITEM).write(nbt));
+		compound.putInt("currentSwipes", this.currentSwipes);
+		compound.putIntArray("daysSwiped", this.daysSwiped);
 	}
 
 	@Override
@@ -110,6 +190,15 @@ public class AffinityLeveling implements ILeveling{
 		}
 		if (compound.contains("AffinityMaxLevel")) {
 			this.setMaxLevel(compound.getInt("AffinityMaxLevel"));
+		}
+		if (compound.contains("desensiztingItem")) {
+			this.setCurrentDesensitizingItem(ItemStack.read((CompoundNBT) compound.get("desensiztingItem")));
+		}
+		if (compound.contains("currentSwipes")) {
+			this.currentSwipes = compound.getInt("currentSwipes");
+		}
+		if (compound.contains("daysSwiped")) {
+			this.daysSwiped = compound.getIntArray("daysSwiped");
 		}
 	}
 }
