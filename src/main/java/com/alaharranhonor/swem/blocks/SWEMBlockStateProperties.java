@@ -9,7 +9,6 @@ import net.minecraft.util.IStringSerializable;
 
 public class SWEMBlockStateProperties extends BlockStateProperties {
 	public static final EnumProperty<HitchingPostBase.PostPart> POST_PART = EnumProperty.create("post_part", HitchingPostBase.PostPart.class);
-	public static final EnumProperty<FenceBaseBlock.FencePart> FENCE_PART = EnumProperty.create("fence_part", FenceBaseBlock.FencePart.class);
 	public static final BooleanProperty FULL_FENCE = BooleanProperty.create("full_fence");
 	public static final BooleanProperty HALF_FENCE = BooleanProperty.create("half_fence");
 
@@ -18,6 +17,7 @@ public class SWEMBlockStateProperties extends BlockStateProperties {
 
 	public static final EnumProperty<DoubleBlockSide> D_SIDE = EnumProperty.create("side", DoubleBlockSide.class);
 	public static final EnumProperty<TripleBlockSide> T_SIDE = EnumProperty.create("side", TripleBlockSide.class);
+	public static final EnumProperty<TwoWay> TWO_WAY = EnumProperty.create("two_way", TwoWay.class);
 
 	public enum DoubleBlockSide implements IStringSerializable {
 		LEFT,
@@ -43,6 +43,21 @@ public class SWEMBlockStateProperties extends BlockStateProperties {
 
 		public String getString() {
 			return this == LEFT ? "left" : this == MIDDLE ? "middle" : "right";
+		}
+	}
+
+	public enum TwoWay implements IStringSerializable {
+		SINGLE,
+		LEFT,
+		MIDDLE,
+		RIGHT;
+
+		public String toString() {
+			return this.getString();
+		}
+
+		public String getString() {
+			return this == SINGLE ? "single" : this == LEFT ? "left" : this == MIDDLE ? "middle" : "right";
 		}
 	}
 }

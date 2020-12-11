@@ -1,0 +1,58 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.BridleRackREMASTER",
+				"texture_width": 16,
+				"texture_height": 16,
+				"visible_bounds_width": 2,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "english",
+					"pivot": [-6, 19, 4],
+					"cubes": [
+						{"origin": [-2.5, 13.5, -5.75], "size": [5, 0, 1], "uv": [0, 0]},
+						{"origin": [2.5, 5.5, -5.75], "size": [0, 8, 1], "uv": [2, 6]},
+						{"origin": [-2.5, 5.5, -5.75], "size": [0, 8, 1], "uv": [0, 6]},
+						{"origin": [-2.5, 4.5, -7.75], "size": [0, 1, 4], "uv": [0, 1]},
+						{"origin": [-2.5, 10.5, -4.75], "size": [0, 1, 2], "uv": [4, 6]},
+						{"origin": [-2.5, 9.5, -7.75], "size": [0, 1, 2], "uv": [4, 8]},
+						{"origin": [-2.5, 4.5, -3.75], "size": [5, 1, 0], "uv": [0, 6]},
+						{"origin": [-2.5, 10.5, -2.75], "size": [5, 1, 0], "uv": [0, 1]},
+						{"origin": [-2.5, 4.5, -7.75], "size": [5, 1, 0], "uv": [0, 3]},
+						{"origin": [-2.5, 9.5, -7.75], "size": [5, 1, 0], "uv": [0, 2]},
+						{"origin": [2.5, 4.5, -7.75], "size": [0, 1, 4], "uv": [0, 0]},
+						{"origin": [2.5, 10.5, -4.75], "size": [0, 1, 2], "uv": [4, 5]},
+						{"origin": [2.5, 9.5, -7.75], "size": [0, 1, 2], "uv": [4, 7]}
+					]
+				},
+				{
+					"name": "bitright",
+					"parent": "english",
+					"pivot": [-11, 13, 0],
+					"cubes": [
+						{"origin": [-2.5625, 3, -5], "size": [0, 3, 1], "uv": [4, 10]},
+						{"origin": [-2.5625, 4, -7], "size": [0, 1, 1], "uv": [8, 7]},
+						{"origin": [-2.5625, 5, -6], "size": [0, 1, 1], "uv": [10, 10]},
+						{"origin": [-2.5625, 3, -6], "size": [0, 1, 1], "uv": [6, 10]}
+					]
+				},
+				{
+					"name": "bitleft",
+					"parent": "english",
+					"pivot": [-11, 13, 0],
+					"cubes": [
+						{"origin": [2.5625, 3, -5], "size": [0, 3, 1], "uv": [8, 8]},
+						{"origin": [2.5625, 4, -7], "size": [0, 1, 1], "uv": [8, 6]},
+						{"origin": [2.5625, 5, -6], "size": [0, 1, 1], "uv": [8, 4]},
+						{"origin": [2.5625, 3, -6], "size": [0, 1, 1], "uv": [8, 3]}
+					]
+				}
+			]
+		}
+	]
+}

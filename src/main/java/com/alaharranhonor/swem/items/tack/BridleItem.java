@@ -25,6 +25,7 @@ public class BridleItem extends HalterItem {
 		return this.modelTexture;
 	}
 
+	@Override
 	public ResourceLocation getBridleRackTexture() {
 		return this.bridleRackTexture;
 	}
