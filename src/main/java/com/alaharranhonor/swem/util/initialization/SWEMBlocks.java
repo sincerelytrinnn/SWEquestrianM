@@ -2,11 +2,9 @@ package com.alaharranhonor.swem.util.initialization;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.blocks.*;
+import net.minecraft.block.*;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.RegistryUtil;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.OreBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeColor;
@@ -122,6 +120,13 @@ public class SWEMBlocks {
 	public static final RegistryObject<CareDoorBlock> OAK_STALL_CARE = BLOCKS.register("oak_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
 	public static final RegistryObject<CareDoorBlock> SPRUCE_STALL_CARE = BLOCKS.register("spruce_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
 	public static final RegistryObject<Block> ONE_SADDLE_RACK = BLOCKS.register("one_saddle_rack", () -> new OneSaddleRack(Block.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<Block> BRIDLE_RACK = BLOCKS.register("bridle_rack", () -> new BridleRackBlock(Block.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<Block> METAL_GRATE = BLOCKS.register("metal_grate", () -> new TrapDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
+	public static final RegistryObject<Block> LIGHT_FRIENDLY_BARS = BLOCKS.register("light_friendly_bars", () -> new PaneBlock(Block.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<Block> MEDIUM_FRIENDLY_BARS = BLOCKS.register("medium_friendly_bars", () -> new PaneBlock(Block.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<Block> DARK_FRIENDLY_BARS = BLOCKS.register("dark_friendly_bars", () -> new PaneBlock(Block.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<NonParallelBlock> WATER_TROUGH = BLOCKS.register("water_trough", () -> new WaterThroughBlock(Block.Properties.create(Material.IRON)));
+	public static final RegistryObject<NonParallelBlock> BLUE_SEPARATOR = BLOCKS.register("blue_separator", () -> new NonParallelBlock(Block.Properties.create(Material.IRON).notSolid()));
 	public static final RegistryObject<Block> WET_COMPOST = BLOCKS.register("wet_compost", () -> new Block(Block.Properties.create(Material.ORGANIC)));
 	public static final RegistryObject<Block> COMPOST = BLOCKS.register("compost", () -> new Block(Block.Properties.create(Material.ORGANIC)));
 
@@ -223,6 +228,13 @@ public class SWEMBlocks {
 	public static final RegistryObject<Item> OAK_STALL_CARE_ITEM = SWEMItems.ITEMS.register("oak_stall_care", () -> new BlockItemBase(OAK_STALL_CARE.get()));
 	public static final RegistryObject<Item> SPRUCE_STALL_CARE_ITEM = SWEMItems.ITEMS.register("spruce_stall_care", () -> new BlockItemBase(SPRUCE_STALL_CARE.get()));
 	public static final RegistryObject<Item> ONE_SADDLE_RACK_ITEM = SWEMItems.ITEMS.register("one_saddle_rack", () -> new BlockItemBase(ONE_SADDLE_RACK.get()));
+	public static final RegistryObject<Item> BRIDLE_RACK_ITEM = SWEMItems.ITEMS.register("bridle_rack", () -> new BlockItemBase(BRIDLE_RACK.get()));
+	public static final RegistryObject<Item> METAL_GRATE_ITEM = SWEMItems.ITEMS.register("metal_grate", () -> new BlockItemBase(METAL_GRATE.get()));
+	public static final RegistryObject<Item> LIGHT_FRIENDLY_BARS_ITEM = SWEMItems.ITEMS.register("light_friendly_bars", () -> new BlockItemBase(LIGHT_FRIENDLY_BARS.get()));
+	public static final RegistryObject<Item> MEDIUM_FRIENDLY_BARS_ITEM = SWEMItems.ITEMS.register("medium_friendly_bars", () -> new BlockItemBase(MEDIUM_FRIENDLY_BARS.get()));
+	public static final RegistryObject<Item> DARK_FRIENDLY_BARS_ITEM = SWEMItems.ITEMS.register("dark_friendly_bars", () -> new BlockItemBase(DARK_FRIENDLY_BARS.get()));
+	public static final RegistryObject<Item> WATER_TROUGH_ITEM = SWEMItems.ITEMS.register("water_trough", () -> new BlockItemBase(WATER_TROUGH.get()));
+	public static final RegistryObject<Item> BLUE_SEPARATOR_ITEM = SWEMItems.ITEMS.register("blue_separator", () -> new BlockItemBase(BLUE_SEPARATOR.get()));
 	public static final RegistryObject<Item> WET_COMPOST_ITEM = SWEMItems.ITEMS.register("wet_compost", () -> new BlockItemBase(WET_COMPOST.get()));
 	public static final RegistryObject<Item> COMPOST_ITEM = SWEMItems.ITEMS.register("compost", () -> new BonemealBlockItem(COMPOST.get()));
 }

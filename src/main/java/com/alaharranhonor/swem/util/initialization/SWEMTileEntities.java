@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.util.initialization;
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.tileentity.BridleRackTE;
 import com.alaharranhonor.swem.blocks.WheelBarrowBlock;
 import com.alaharranhonor.swem.tileentity.OneSaddleRackTE;
 import com.alaharranhonor.swem.tileentity.TackBoxTE;
@@ -26,5 +27,6 @@ public class SWEMTileEntities {
 
 	public static final RegistryObject<TileEntityType<TackBoxTE>> TACK_BOX_TILE_ENTITY = TILE_ENTITY_TYPES.register("tack_box", () -> TileEntityType.Builder.create(TackBoxTE::new, SWEMBlocks.TACK_BOX.get()).build(null));
 	public static final RegistryObject<TileEntityType<OneSaddleRackTE>> ONE_SADDLE_RACK_TILE_ENTITY = TILE_ENTITY_TYPES.register("one_saddle_rack", () -> TileEntityType.Builder.create(OneSaddleRackTE::new, SWEMBlocks.ONE_SADDLE_RACK.get()).build(null));
+	public static final RegistryObject<TileEntityType<BridleRackTE>> BRIDLE_RACK_TILE_ENTITY = TILE_ENTITY_TYPES.register("bridle_rack", () -> TileEntityType.Builder.create(BridleRackTE::new, SWEMBlocks.BRIDLE_RACK.get()).build(null));
 	public static final RegistryObject<TileEntityType<WheelBarrowTE>> WHEEL_BARROW_TILE_ENTITY = TILE_ENTITY_TYPES.register("wheel_barrow", () -> TileEntityType.Builder.create(WheelBarrowTE::new, SWEMBlocks.WHEEL_BARROWS.stream().map((block) -> block.get()).collect(Collectors.toList()).toArray(new Block[SWEMBlocks.WHEEL_BARROWS.size()])).build(null));
 }

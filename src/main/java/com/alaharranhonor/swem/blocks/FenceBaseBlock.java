@@ -115,23 +115,5 @@ public class FenceBaseBlock extends FourWayBlock {
 		}
 		return east && west && !north && !south;
 	}
-
-	public enum FencePart implements IStringSerializable {
-		POST("post"),
-		CONNECTOR("connector");
-
-		private final String name;
-
-		private FencePart(String name) {
-			this.name = name;
-		}
-
-		public String toString() {
-			return this.name;
-		}
-
-		public String getString() {
-			return this.name;
-		}
-	}
+	
 }

@@ -1,0 +1,7 @@
+{
+  "parent": "swem:block/friendly_bars_side_alt",
+  "textures": {
+    "bars": "swem:blocks/friendly_bars_dark",
+    "edge": "swem:blocks/friendly_bars_dark"
+  }
+}
