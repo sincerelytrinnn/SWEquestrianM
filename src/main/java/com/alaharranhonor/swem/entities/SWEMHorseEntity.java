@@ -35,7 +35,6 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 	@Override
 	public AgeableEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_)
 	{
-
 		return SWEMEntities.SWEM_HORSE_ENTITY.get().create(this.world);
 	}
 
