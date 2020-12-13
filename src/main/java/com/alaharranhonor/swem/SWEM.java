@@ -2,6 +2,7 @@ package com.alaharranhonor.swem;
 
 import com.alaharranhonor.swem.blocks.TimothyGrass;
 import com.alaharranhonor.swem.config.ConfigHolder;
+import com.alaharranhonor.swem.entities.PoopEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.items.potions.CantazariteBrewingRecipe;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
@@ -80,6 +81,7 @@ public class SWEM
         DeferredWorkQueue.runLater(() -> {
             GlobalEntityTypeAttributes.put(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseEntityBase.setCustomAttributes().create());
             GlobalEntityTypeAttributes.put(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiEntity.setCustomAttributes().create());
+            GlobalEntityTypeAttributes.put(SWEMEntities.HORSE_POOP_ENTITY.get(), PoopEntity.registerAttributes().create());
             BrewingRecipeRegistry.addRecipe(new CantazariteBrewingRecipe());
         });
 

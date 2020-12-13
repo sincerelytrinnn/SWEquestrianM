@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.util.initialization;
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.entities.PoopEntity;
 import com.alaharranhonor.swem.entities.RopeKnotEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.entities.WormieBoiEntity;
@@ -39,5 +40,10 @@ public class SWEMEntities {
 			() -> EntityType.Builder.create(WormieBoiEntity::new, EntityClassification.CREATURE)
 					.size(2.0f, 0.4f)
 					.build(new ResourceLocation(SWEM.MOD_ID, "wormieboi").toString())
+	);
+	public static final RegistryObject<EntityType<PoopEntity>> HORSE_POOP_ENTITY = ENTITY_TYPES.register("horse_poop",
+			() -> EntityType.Builder.create(PoopEntity::new, EntityClassification.MISC)
+					.size(0.5f, 0.186f) // 0.186f
+					.build(new ResourceLocation(SWEM.MOD_ID, "horse_poop").toString())
 	);
 }

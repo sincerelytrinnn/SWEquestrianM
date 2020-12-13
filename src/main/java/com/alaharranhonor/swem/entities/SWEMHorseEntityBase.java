@@ -1,10 +1,7 @@
 package com.alaharranhonor.swem.entities;
 
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
-import com.alaharranhonor.swem.entities.goals.FollowWhistleGoal;
-import com.alaharranhonor.swem.entities.goals.LookForFoodGoal;
-import com.alaharranhonor.swem.entities.goals.LookForWaterGoal;
-import com.alaharranhonor.swem.entities.goals.PoopGoal;
+import com.alaharranhonor.swem.entities.goals.*;
 import com.alaharranhonor.swem.entities.needs.HungerNeed;
 import com.alaharranhonor.swem.entities.needs.NeedManager;
 import com.alaharranhonor.swem.entities.needs.ThirstNeed;
@@ -88,8 +85,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	private EatGrassGoal eatGrassGoal;
 	private PoopGoal poopGoal;
+	private PeeGoal peeGoal;
 	private int SWEMHorseGrassTimer;
 	private int SWEMHorsePoopTimer;
+	private int SWEMHorsePeeTimer;
 	private static Random rand = new Random();
 
 	public final ProgressionManager progressionManager;
@@ -140,6 +139,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		super.registerGoals();
 		this.eatGrassGoal = new EatGrassGoal(this);
 		this.poopGoal = new PoopGoal(this);
+		this.peeGoal = new PeeGoal(this);
 		this.goalSelector.addGoal(0, new FollowWhistleGoal(this, 1.0d));
 		this.goalSelector.addGoal(0, new SwimGoal(this));
 		this.goalSelector.addGoal(1, new LookForWaterGoal(this, 1.0d));
@@ -149,9 +149,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.goalSelector.addGoal(2, new BreedGoal(this, 1.0d));
 		this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, TEMPTATION_ITEMS, false));
 		this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.0D));
-		this.goalSelector.addGoal(5, this.eatGrassGoal);
 		this.goalSelector.addGoal(5, this.poopGoal);
+		this.goalSelector.addGoal(5, this.peeGoal);
 		this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.7D));
+		this.goalSelector.addGoal(7, this.eatGrassGoal);
 		//this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
 	}
@@ -193,6 +194,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	{
 		this.SWEMHorsePoopTimer = this.poopGoal.getPoopTimer();
 		this.SWEMHorseGrassTimer = this.eatGrassGoal.getEatingGrassTimer();
+		this.SWEMHorsePeeTimer = this.peeGoal.getPeeTimer();
 		super.updateAITasks();
 	}
 
@@ -204,10 +206,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		{
 			this.SWEMHorsePoopTimer = Math.max(0, this.SWEMHorsePoopTimer - 1);
 			this.SWEMHorseGrassTimer = Math.max(0, this.SWEMHorseGrassTimer - 1);
+			this.SWEMHorsePeeTimer = Math.max(0, this.SWEMHorsePeeTimer - 1);
 		}
 		if (!this.world.isRemote) {
-			if ((int)(this.world.getDayTime() % 24000L) == 12000) {
-				this.needs.getHunger().resetDaily();
+			if ((int)(this.world.getDayTime() % 24000L) == 10000) {
+				this.resetDaily();
 			}
 
 			if (this.dataManager.get(GALLOP_ON_COOLDOWN)) {
@@ -232,6 +235,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		super.livingTick();
 	}
 
+	private void resetDaily() {
+		this.needs.getHunger().resetDaily();
+		this.progressionManager.getAffinityLeveling().resetCurrentSwipes();
+	}
+
 	@OnlyIn(Dist.CLIENT)
 	public void handleStatusUpdates(byte id)
 	{
@@ -239,6 +247,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		{
 			this.SWEMHorseGrassTimer = 40;
 			this.SWEMHorsePoopTimer = 80;
+			this.SWEMHorsePeeTimer = 80;
 		} else {
 			super.handleStatusUpdate(id);
 		}
@@ -316,8 +325,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.dataManager.register(AffinityLeveling.XP, 0.0f);
 		this.dataManager.register(AffinityLeveling.MAX_LEVEL, 12);
 
-		this.dataManager.register(HungerNeed.HungerState.ID, 0);
-		this.dataManager.register(ThirstNeed.ThirstState.ID, 0);
+		this.dataManager.register(HungerNeed.HungerState.ID, 4);
+		this.dataManager.register(ThirstNeed.ThirstState.ID, 4);
 
 		this.dataManager.register(whistleBound, false);
 
@@ -328,6 +337,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 		this.dataManager.register(HungerNeed.TOTAL_TIMES_FED, 0);
 
+		this.dataManager.register(AffinityLeveling.CURRENT_DESENSITIZING_ITEM, ItemStack.EMPTY);
 
 	}
 

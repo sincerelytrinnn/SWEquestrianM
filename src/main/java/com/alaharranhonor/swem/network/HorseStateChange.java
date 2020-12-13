@@ -2,8 +2,10 @@ package com.alaharranhonor.swem.network;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 
@@ -44,9 +46,32 @@ public class HorseStateChange {
 
 	public static void handle(HorseStateChange msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
+			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) ctx.get().getSender().world.getEntityByID(msg.entityID);
 			switch (msg.action) {
+
 				case 0: {
-					((SWEMHorseEntityBase)ctx.get().getSender().world.getEntityByID(msg.entityID)).getNeeds().getThirst().incrementState();
+					horse.getNeeds().getThirst().incrementState();
+					break;
+				}
+				case 1: {
+					horse.progressionManager.getAffinityLeveling().desensitize(new ItemStack(SWEMItems.BELLS.get()));
+					break;
+				}
+				case 2: {
+					horse.progressionManager.getAffinityLeveling().desensitize(new ItemStack(SWEMItems.HOOLAHOOP.get()));
+					break;
+				}
+				case 3: {
+					horse.progressionManager.getAffinityLeveling().desensitize(new ItemStack(SWEMItems.POMPOM.get()));
+					break;
+				}
+				case 4: {
+					horse.progressionManager.getAffinityLeveling().desensitize(new ItemStack(SWEMItems.SHOPPING_BAG.get()));
+					break;
+				}
+				case 5: {
+					horse.progressionManager.getAffinityLeveling().desensitize(new ItemStack(SWEMItems.TARP.get()));
+					break;
 				}
 			}
 

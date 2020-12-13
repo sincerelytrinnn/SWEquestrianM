@@ -1,0 +1,79 @@
+{
+  "variants": {
+    "facing=north,level=0": {
+      "model": "swem:block/wheel_barrow_cyan"
+    },
+    "facing=south,level=0": {
+      "model": "swem:block/wheel_barrow_cyan",
+      "y": 180
+    },
+    "facing=west,level=0": {
+      "model": "swem:block/wheel_barrow_cyan",
+      "y": 270
+    },
+    "facing=east,level=0": {
+      "model": "swem:block/wheel_barrow_cyan",
+      "y": 90
+    },
+    "facing=north,level=1": {
+      "model": "swem:block/wheel_barrow_level_1_cyan"
+    },
+    "facing=south,level=1": {
+      "model": "swem:block/wheel_barrow_level_1_cyan",
+      "y": 180
+    },
+    "facing=west,level=1": {
+      "model": "swem:block/wheel_barrow_level_1_cyan",
+      "y": 270
+    },
+    "facing=east,level=1": {
+      "model": "swem:block/wheel_barrow_level_1_cyan",
+      "y": 90
+    },
+    "facing=north,level=2": {
+      "model": "swem:block/wheel_barrow_level_2_cyan"
+    },
+    "facing=south,level=2": {
+      "model": "swem:block/wheel_barrow_level_2_cyan",
+      "y": 180
+    },
+    "facing=west,level=2": {
+      "model": "swem:block/wheel_barrow_level_2_cyan",
+      "y": 270
+    },
+    "facing=east,level=2": {
+      "model": "swem:block/wheel_barrow_level_2_cyan",
+      "y": 90
+    },
+    "facing=north,level=3": {
+      "model": "swem:block/wheel_barrow_level_3_cyan"
+    },
+    "facing=south,level=3": {
+      "model": "swem:block/wheel_barrow_level_3_cyan",
+      "y": 180
+    },
+    "facing=west,level=3": {
+      "model": "swem:block/wheel_barrow_level_3_cyan",
+      "y": 270
+    },
+    "facing=east,level=3": {
+      "model": "swem:block/wheel_barrow_level_3_cyan",
+      "y": 90
+    },
+    "facing=north,level=4": {
+      "model": "swem:block/wheel_barrow_full_cyan"
+    },
+    "facing=south,level=4": {
+      "model": "swem:block/wheel_barrow_full_cyan",
+      "y": 180
+    },
+    "facing=west,level=4": {
+      "model": "swem:block/wheel_barrow_full_cyan",
+      "y": 270
+    },
+    "facing=east,level=4": {
+      "model": "swem:block/wheel_barrow_full_cyan",
+      "y": 90
+    }
+  }
+}

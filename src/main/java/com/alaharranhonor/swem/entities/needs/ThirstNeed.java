@@ -68,7 +68,7 @@ public class ThirstNeed {
 			int stateId = nbt.getInt("thirstStateID");
 			this.setStateById(stateId);
 		} else {
-			this.setStateById(0);
+			this.setStateById(4);
 		}
 		if (nbt.contains("thirstStateTick")) {
 			int ticks = nbt.getInt("thirstStateTick");

@@ -163,7 +163,7 @@ public class HungerNeed {
 			int stateId = nbt.getInt("hungerStateID");
 			this.setStateById(stateId);
 		} else {
-			this.setStateById(0);
+			this.setStateById(4);
 		}
 		if (nbt.contains("hungerStateTick")) {
 			int ticks = nbt.getInt("hungerStateTick");

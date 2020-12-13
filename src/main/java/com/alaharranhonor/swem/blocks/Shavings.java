@@ -3,24 +3,29 @@ package com.alaharranhonor.swem.blocks;
 import java.util.Random;
 import javax.annotation.Nullable;
 
+import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.tools.PitchforkTool;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FallingBlock;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathType;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.LightType;
+import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
 
 public class Shavings extends FallingBlock {
@@ -108,4 +113,23 @@ public class Shavings extends FallingBlock {
     public void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(LAYERS);
     }
+
+    @Override
+    public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
+        if (player.getHeldItemMainhand().getItem() instanceof PitchforkTool) {
+            int damage = state.get(LAYERS);
+            ItemStack shavingsItem = new ItemStack(state.getBlock().asItem());
+            shavingsItem.damageItem(8 - damage, player, playerEntity -> {});
+            ItemEntity shavingEntity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), shavingsItem);
+            worldIn.addEntity(shavingEntity);
+        } else {
+            ItemStack shavingsItem = new ItemStack(state.getBlock().asItem());
+            shavingsItem.damageItem(7, player, playerEntity -> {});
+            ItemEntity shavingEntity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), shavingsItem);
+            worldIn.addEntity(shavingEntity);
+        }
+        super.onBlockHarvested(worldIn, pos, state, player);
+    }
+
+
 }
