@@ -127,7 +127,7 @@ public class PeeGoal extends Goal {
 			int layers = state.get(Shavings.LAYERS);
 			this.entityWorld.setBlockState(posToPee, SWEMBlocks.SOILED_SHAVINGS.get().getDefaultState().with(Shavings.LAYERS, layers));
 		} else {
-			// TODO: PLACE THE PEE BLOCK IN THE *posToPee.offset(Direction.UP)*
+			this.entityWorld.setBlockState(posToPee, SWEMBlocks.HORSE_PEE.get().getDefaultState());
 		}
 	}
 }
