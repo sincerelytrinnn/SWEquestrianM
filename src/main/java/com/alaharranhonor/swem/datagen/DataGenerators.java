@@ -19,6 +19,7 @@ public class DataGenerators {
 		if (event.includeClient()) {
 			data.addProvider(new BlockStates(data, event.getExistingFileHelper()));
 			//data.addProvider(new Items(data, event.getExistingFileHelper()));
+			data.addProvider(new Languages(data, SWEM.MOD_ID, "en_us"));
 		}
 	}
 
