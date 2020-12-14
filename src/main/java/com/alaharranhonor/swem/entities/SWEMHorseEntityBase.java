@@ -406,7 +406,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	public void positionRider(Entity entity, IMoveCallback callback) {
 		if (this.isPassenger(entity)) {
 			double d0 = this.getPosY() + this.getMountedYOffset() + entity.getYOffset();
-			callback.accept(entity, this.getPosX(), d0, this.getPosZ() - 0.2F);
+			callback.accept(entity, this.getPosX(), d0, this.getPosZ());
 		}
 	}
 
