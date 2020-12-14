@@ -47,10 +47,16 @@ public class SWEMBlockStateProperties extends BlockStateProperties {
 	}
 
 	public enum TwoWay implements IStringSerializable {
-		SINGLE,
-		LEFT,
-		MIDDLE,
-		RIGHT;
+		SINGLE(0),
+		LEFT(1),
+		MIDDLE(2),
+		RIGHT(3);
+
+		private int id;
+
+		TwoWay(int id) {
+			this.id = id;
+		}
 
 		public String toString() {
 			return this.getString();
@@ -58,6 +64,10 @@ public class SWEMBlockStateProperties extends BlockStateProperties {
 
 		public String getString() {
 			return this == SINGLE ? "single" : this == LEFT ? "left" : this == MIDDLE ? "middle" : "right";
+		}
+
+		public int getId() {
+			return this.id;
 		}
 	}
 }
