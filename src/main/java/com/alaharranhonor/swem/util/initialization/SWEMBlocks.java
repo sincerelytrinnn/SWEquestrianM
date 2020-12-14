@@ -6,6 +6,7 @@ import net.minecraft.block.*;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.RegistryUtil;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
@@ -82,11 +83,11 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> QUALITY_BALE = BLOCKS.register("quality_bale",
 			() -> new HayBlockBase(Block.Properties.from(Blocks.HAY_BLOCK)));
 	public static final RegistryObject<Block> DARK_SHAVINGS = BLOCKS.register("dark_shavings",
-			() -> new Shavings(Block.Properties.from(Blocks.SNOW)));
+			() -> new Shavings(AbstractBlock.Properties.create(new Material.Builder(MaterialColor.SNOW).doesNotBlockMovement().notOpaque().notSolid().pushDestroys().replaceable().build()).tickRandomly().hardnessAndResistance(0.1F).setRequiresTool().sound(SoundType.SNOW)));
 	public static final RegistryObject<Block> LIGHT_SHAVINGS = BLOCKS.register("light_shavings",
-			() -> new Shavings(Block.Properties.from(Blocks.SNOW)));
+			() -> new Shavings(AbstractBlock.Properties.create(new Material.Builder(MaterialColor.SNOW).doesNotBlockMovement().notOpaque().notSolid().pushDestroys().replaceable().build()).tickRandomly().hardnessAndResistance(0.1F).setRequiresTool().sound(SoundType.SNOW)));
 	public static final RegistryObject<Block> SOILED_SHAVINGS = BLOCKS.register("soiled_shavings",
-			() -> new Shavings(Block.Properties.from(Blocks.SNOW)));
+			() -> new Shavings(AbstractBlock.Properties.create(new Material.Builder(MaterialColor.SNOW).doesNotBlockMovement().notOpaque().notSolid().pushDestroys().replaceable().build()).tickRandomly().hardnessAndResistance(0.1F).setRequiresTool().sound(SoundType.SNOW)));
 	public static final RegistryObject<Block> RIDING_DOOR = BLOCKS.register("riding_door",
 			() -> new DoorBase(Block.Properties.from(Blocks.OAK_FENCE_GATE)));
 	public static final RegistryObject<Block> BLEACHER_SLAB = BLOCKS.register("bleacher",
@@ -125,19 +126,22 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> LIGHT_FRIENDLY_BARS = BLOCKS.register("light_friendly_bars", () -> new PaneBlock(Block.Properties.create(Material.IRON).notSolid()));
 	public static final RegistryObject<Block> MEDIUM_FRIENDLY_BARS = BLOCKS.register("medium_friendly_bars", () -> new PaneBlock(Block.Properties.create(Material.IRON).notSolid()));
 	public static final RegistryObject<Block> DARK_FRIENDLY_BARS = BLOCKS.register("dark_friendly_bars", () -> new PaneBlock(Block.Properties.create(Material.IRON).notSolid()));
-	public static final RegistryObject<NonParallelBlock> WATER_TROUGH = BLOCKS.register("water_trough", () -> new WaterThroughBlock(Block.Properties.create(Material.IRON)));
-	public static final RegistryObject<NonParallelBlock> BLUE_SEPARATOR = BLOCKS.register("blue_separator", () -> new NonParallelBlock(Block.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<NonParallelBlock> WATER_TROUGH = BLOCKS.register("water_trough", () -> new WaterThroughBlock(Block.Properties.create(Material.IRON), DyeColor.BLACK));
 	public static final RegistryObject<Block> WET_COMPOST = BLOCKS.register("wet_compost", () -> new Block(Block.Properties.create(Material.ORGANIC)));
 	public static final RegistryObject<Block> COMPOST = BLOCKS.register("compost", () -> new Block(Block.Properties.create(Material.ORGANIC)));
+	public static final RegistryObject<Block> HORSE_PEE = BLOCKS.register("horse_pee", () -> new PeeBlock(Block.Properties.create(Material.ORGANIC).notSolid().setAllowsSpawn(Blocks::neverAllowSpawn).setOpaque(Blocks::isntSolid).setSuffocates(Blocks::isntSolid).setBlocksVision(Blocks::isntSolid)));
 
 	public static final List<RegistryObject<WheelBarrowBlock>> WHEEL_BARROWS = new ArrayList<>();
 	public static final List<RegistryObject<SlowFeederBlock>> SLOW_FEEDERS = new ArrayList<>();
+	public static final List<RegistryObject<NonParallelBlock>> SEPARATORS = new ArrayList<>();
 
 	static {
 		for (DyeColor color : DyeColor.values()) {
 			 WHEEL_BARROWS.add(register("wheel_barrow_"+color.getTranslationKey(), () -> new WheelBarrowBlock(Block.Properties.create(Material.IRON).notSolid(), color),
 					 block -> () -> new BlockItemBase(block.get())));
 			SLOW_FEEDERS.add(register("slow_feeder_"+color.getTranslationKey(), () -> new SlowFeederBlock(Block.Properties.create(Material.IRON), color),
+					block -> () -> new BlockItemBase(block.get())));
+			SEPARATORS.add(register("separator_"+color.getTranslationKey(), () -> new NonParallelBlock(Block.Properties.create(Material.IRON), color),
 					block -> () -> new BlockItemBase(block.get())));
 		}
 	}
@@ -234,7 +238,6 @@ public class SWEMBlocks {
 	public static final RegistryObject<Item> MEDIUM_FRIENDLY_BARS_ITEM = SWEMItems.ITEMS.register("medium_friendly_bars", () -> new BlockItemBase(MEDIUM_FRIENDLY_BARS.get()));
 	public static final RegistryObject<Item> DARK_FRIENDLY_BARS_ITEM = SWEMItems.ITEMS.register("dark_friendly_bars", () -> new BlockItemBase(DARK_FRIENDLY_BARS.get()));
 	public static final RegistryObject<Item> WATER_TROUGH_ITEM = SWEMItems.ITEMS.register("water_trough", () -> new BlockItemBase(WATER_TROUGH.get()));
-	public static final RegistryObject<Item> BLUE_SEPARATOR_ITEM = SWEMItems.ITEMS.register("blue_separator", () -> new BlockItemBase(BLUE_SEPARATOR.get()));
 	public static final RegistryObject<Item> WET_COMPOST_ITEM = SWEMItems.ITEMS.register("wet_compost", () -> new BlockItemBase(WET_COMPOST.get()));
 	public static final RegistryObject<Item> COMPOST_ITEM = SWEMItems.ITEMS.register("compost", () -> new BonemealBlockItem(COMPOST.get()));
 }
