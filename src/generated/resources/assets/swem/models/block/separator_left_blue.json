@@ -1,7 +1,0 @@
-{
-  "parent": "swem:block/separator_left",
-  "textures": {
-    "0": "swem:blocks/separator_left_blue",
-    "particle": "swem:blocks/separator_left_blue"
-  }
-}
