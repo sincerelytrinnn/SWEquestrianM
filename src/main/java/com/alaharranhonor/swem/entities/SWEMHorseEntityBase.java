@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.entities;
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.goals.*;
 import com.alaharranhonor.swem.entities.needs.HungerNeed;
@@ -396,9 +397,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	@Override
 	public double getMountedYOffset() {
 		double def = (double)(this.getSize(this.getPose()).height * 0.75D);
-		if (this.hasSaddle().getItem() instanceof WesternSaddleItem) {
-			def += 0.15D;
-		}
+		def += 0.15D;
 		return def;
 	}
 
