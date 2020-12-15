@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.datagen;
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.blocks.GrainFeederBlock;
 import com.alaharranhonor.swem.blocks.NonParallelBlock;
 import com.alaharranhonor.swem.blocks.SlowFeederBlock;
 import com.alaharranhonor.swem.blocks.WheelBarrowBlock;
@@ -28,6 +29,36 @@ public class BlockStates extends BlockStateProvider {
 		this.registerWheelBarrows();
 		this.registerSlowFeeders();
 		this.registerNonParallelBlock(SWEMBlocks.SEPARATORS);
+		this.registerGrainFeeders();
+	}
+
+	protected void registerGrainFeeders() {
+		String[] models = new String[2];
+		models[0] = "block/grain_feeder";
+		models[1] = "block/grain_feeder_corner";
+
+		for (RegistryObject<GrainFeederBlock> gf : SWEMBlocks.GRAIN_FEEDERS) {
+			GrainFeederBlock feeder = gf.get();
+
+			//itemModels().withExistingParent("item/" + feeder.getTranslationKey().split("\\.")[2], "item/generated")
+			//		.texture("layer0", new ResourceLocation(SWEM.MOD_ID, "items/" + feeder.getTranslationKey().split("\\.")[2]));
+
+			getVariantBuilder(feeder)
+					.forAllStates((state) -> {
+						Direction dir = state.get(GrainFeederBlock.HORIZONTAL_FACING);
+						boolean corner = state.get(GrainFeederBlock.LEFT) || state.get(GrainFeederBlock.RIGHT);
+						ModelFile model = models().getBuilder("grain_feeder_" + (corner ? "corner_" : "") + feeder.getColour().getTranslationKey())
+								.texture("0", new ResourceLocation(SWEM.MOD_ID, "blocks/grain_feeder_" + (corner ? "corner_" : "") + feeder.getColour().getTranslationKey()))
+								.texture("particle", new ResourceLocation(SWEM.MOD_ID, "blocks/grain_feeder_" + (corner ? "corner_" : "") + feeder.getColour().getTranslationKey()))
+								.parent(models().getBuilder(models[corner ? 1 : 0]));
+
+						int originalRotation = dir.getAxis() != Direction.Axis.Y ? ((dir.getHorizontalIndex() + 2) % 4) * 90 : 0;
+						return ConfiguredModel.builder()
+								.modelFile(model)
+								.rotationY(state.get(GrainFeederBlock.RIGHT) ? 90 + originalRotation : originalRotation)
+								.build();
+					});
+		}
 	}
 
 	protected void registerNonParallelBlock(List<RegistryObject<NonParallelBlock>> blockArray) {

@@ -1,23 +1,35 @@
 package com.alaharranhonor.swem.datagen;
 
-import com.alaharranhonor.swem.blocks.NonParallelBlock;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.google.common.base.Charsets;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
-import net.minecraftforge.fml.RegistryObject;
+
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
 public class Languages extends LanguageProvider {
+
+	private String[][] translations;
+	private int localeIndex;
+
+	public Languages(DataGenerator gen, String modid, String locale, String[][] translations, int localeIndex) {
+		this(gen, modid, locale);
+		this.translations = translations;
+		this.localeIndex = localeIndex;
+	}
 	public Languages(DataGenerator gen, String modid, String locale) {
 		super(gen, modid, locale);
 	}
 
 	@Override
 	protected void addTranslations() {
-		for (RegistryObject<NonParallelBlock> block : SWEMBlocks.SEPARATORS) {
-			// capital colour letter.
-			String first = block.get().getColour().getString().substring(0, 1).toUpperCase();
-			String colour = first + block.get().getColour().getString().substring(1);
-			this.add(block.get().asItem(), "Separator " + colour);
+		for (String[] set : this.translations) {
+			String key = set[0];
+			if (set.length - 1 < this.localeIndex)
+				continue;
+			String translation = set[this.localeIndex];
+			this.add(key, translation);
+
 		}
 	}
 }
