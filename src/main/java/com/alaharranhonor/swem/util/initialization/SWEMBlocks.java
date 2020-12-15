@@ -134,6 +134,7 @@ public class SWEMBlocks {
 	public static final List<RegistryObject<WheelBarrowBlock>> WHEEL_BARROWS = new ArrayList<>();
 	public static final List<RegistryObject<SlowFeederBlock>> SLOW_FEEDERS = new ArrayList<>();
 	public static final List<RegistryObject<NonParallelBlock>> SEPARATORS = new ArrayList<>();
+	public static final List<RegistryObject<GrainFeederBlock>> GRAIN_FEEDERS = new ArrayList<>();
 
 	static {
 		for (DyeColor color : DyeColor.values()) {
@@ -142,6 +143,8 @@ public class SWEMBlocks {
 			SLOW_FEEDERS.add(register("slow_feeder_"+color.getTranslationKey(), () -> new SlowFeederBlock(Block.Properties.create(Material.IRON), color),
 					block -> () -> new BlockItemBase(block.get())));
 			SEPARATORS.add(register("separator_"+color.getTranslationKey(), () -> new NonParallelBlock(Block.Properties.create(Material.IRON), color),
+					block -> () -> new BlockItemBase(block.get())));
+			GRAIN_FEEDERS.add(register("grain_feeder_"+color.getTranslationKey(), () -> new GrainFeederBlock(Block.Properties.create(Material.IRON), color),
 					block -> () -> new BlockItemBase(block.get())));
 		}
 	}

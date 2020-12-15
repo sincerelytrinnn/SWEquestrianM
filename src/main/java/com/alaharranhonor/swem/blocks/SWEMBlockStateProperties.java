@@ -18,6 +18,8 @@ public class SWEMBlockStateProperties extends BlockStateProperties {
 	public static final EnumProperty<DoubleBlockSide> D_SIDE = EnumProperty.create("side", DoubleBlockSide.class);
 	public static final EnumProperty<TripleBlockSide> T_SIDE = EnumProperty.create("side", TripleBlockSide.class);
 	public static final EnumProperty<TwoWay> TWO_WAY = EnumProperty.create("two_way", TwoWay.class);
+	public static final BooleanProperty CONNECTED_LEFT = BooleanProperty.create("con_left");
+	public static final BooleanProperty CONNECTED_RIGHT = BooleanProperty.create("con_right");
 
 	public enum DoubleBlockSide implements IStringSerializable {
 		LEFT,
