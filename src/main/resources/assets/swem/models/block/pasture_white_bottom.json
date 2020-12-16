@@ -1,0 +1,7 @@
+{
+  "parent":"minecraft:block/door_bottom",
+  "textures":
+  {
+    "bottom":"swem:blocks/pasture_white_lower_left"
+  }
+}

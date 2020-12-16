@@ -92,6 +92,7 @@ public class SWEMItems {
 	public static final RegistryObject<PotionItem> CANTAZARITE_POTION = ITEMS.register("cantazarite_potion", () -> new CantazaritePotionItem(new Item.Properties().maxStackSize(1).group(SWEM.TAB)));
 	public static final RegistryObject<Item> CANTAZARITE_DYE = ITEMS.register("cantazarite_dye", ItemBase::new);
 	public static final RegistryObject<Item> PENDANT = ITEMS.register("pendant", PendantItem::new);
+	public static final RegistryObject<Item> SUGAR_CUBE = ITEMS.register("sugar_cube", ItemBase::new);
 	public static final RegistryObject<DesensitizingItem> BELLS = ITEMS.register("bells", () -> new DesensitizingItem(0));
 	public static final RegistryObject<DesensitizingItem> HOOLAHOOP = ITEMS.register("hoolahoop", () -> new DesensitizingItem(1));
 	public static final RegistryObject<DesensitizingItem> POMPOM = ITEMS.register("pompom", () -> new DesensitizingItem(2));
@@ -118,9 +119,8 @@ public class SWEMItems {
 	public static final RegistryObject<WesternSaddleItem> WESTERN_SADDLE_BLACK = ITEMS.register("western_saddle_black", () -> new WesternSaddleItem("western_saddle_black", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<EnglishSaddleItem> ENGLISH_SADDLE_BLACK = ITEMS.register("english_saddle_black", () -> new EnglishSaddleItem("english_saddle_black", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<EnglishSaddleItem> ENGLISH_SADDLE_BROWN = ITEMS.register("english_saddle_brown", () -> new EnglishSaddleItem("english_saddle_brown", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
-	public static final RegistryObject<HorseSaddleItem> ADVENTURE_SADDLE_ONE = ITEMS.register("adventure_saddle_1", () -> new HorseSaddleItem("test", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
-	public static final RegistryObject<HorseSaddleItem> ADVENTURE_SADDLE_TWO = ITEMS.register("adventure_saddle_2", () -> new HorseSaddleItem("test", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
-	public static final RegistryObject<HorseSaddleItem> ADVENTURE_SADDLE_THREE = ITEMS.register("adventure_saddle_3", () -> new HorseSaddleItem("test", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+	public static final RegistryObject<AdventureSaddleItem> ADVENTURE_SADDLE = ITEMS.register("adventure_saddle", () -> new AdventureSaddleItem("adventure_saddle", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+	public static final RegistryObject<AdventureSaddleItem> ADVENTURE_SADDLE_GLOW = ITEMS.register("adventure_saddle_glow", () -> new AdventureSaddleItem("adventure_saddle_glow", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 
 	// BLANKETS
 	public static final RegistryObject<EnglishBlanketItem> ENGLISH_BLANKET_BLACK = ITEMS.register("english_blanket_black", () -> new EnglishBlanketItem("english_blanket_black", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));

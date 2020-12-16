@@ -1,9 +1,11 @@
 package com.alaharranhonor.swem.entity.render;
 
 import com.alaharranhonor.swem.blocks.OneSaddleRack;
+import com.alaharranhonor.swem.entity.model.AdventureSaddleModel;
 import com.alaharranhonor.swem.entity.model.EnglishSaddleModel;
 import com.alaharranhonor.swem.entity.model.OneSaddleRackModel;
 import com.alaharranhonor.swem.entity.model.WesternSaddleModel;
+import com.alaharranhonor.swem.items.tack.AdventureSaddleItem;
 import com.alaharranhonor.swem.items.tack.EnglishSaddleItem;
 import com.alaharranhonor.swem.items.tack.WesternSaddleItem;
 import com.alaharranhonor.swem.tileentity.OneSaddleRackTE;
@@ -16,8 +18,10 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.math.vector.Vector3i;
 import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 
 import java.awt.*;
@@ -74,6 +78,14 @@ public class OneSaddleRackRender extends GeoBlockRenderer<OneSaddleRackTE> {
 
 			EnglishSaddleItem item = (EnglishSaddleItem) itemStack.getItem();
 			EnglishSaddleModel model = new EnglishSaddleModel<>();
+			IVertexBuilder builder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(item.getTexture()));
+			Color renderColor = this.getRenderColor(tile, partialTicks, stack, bufferIn, (IVertexBuilder)null, packedLightIn);
+			model.render(stack, builder, packedLightIn, OverlayTexture.NO_OVERLAY, (float)renderColor.getRed() / 255.0F, (float)renderColor.getGreen() / 255.0F, (float)renderColor.getBlue() / 255.0F, (float)renderColor.getAlpha() / 255.0F);
+
+		} else if (itemStack.getItem() instanceof AdventureSaddleItem) {
+			stack.translate(0, -1.425, 0);
+			AdventureSaddleItem item = (AdventureSaddleItem) itemStack.getItem();
+			AdventureSaddleModel model = new AdventureSaddleModel<>();
 			IVertexBuilder builder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(item.getTexture()));
 			Color renderColor = this.getRenderColor(tile, partialTicks, stack, bufferIn, (IVertexBuilder)null, packedLightIn);
 			model.render(stack, builder, packedLightIn, OverlayTexture.NO_OVERLAY, (float)renderColor.getRed() / 255.0F, (float)renderColor.getGreen() / 255.0F, (float)renderColor.getBlue() / 255.0F, (float)renderColor.getAlpha() / 255.0F);
