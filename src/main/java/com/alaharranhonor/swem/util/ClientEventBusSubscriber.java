@@ -1,6 +1,8 @@
 package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.armor.*;
+import com.alaharranhonor.swem.blocks.CareDoorBlock;
+import com.alaharranhonor.swem.blocks.HorseDoorBlock;
 import com.alaharranhonor.swem.blocks.NonParallelBlock;
 import com.alaharranhonor.swem.blocks.WheelBarrowBlock;
 import com.alaharranhonor.swem.entity.render.*;
@@ -98,12 +100,17 @@ public class ClientEventBusSubscriber {
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUNGLE_STALL_CARE.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.OAK_STALL_CARE.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.SPRUCE_STALL_CARE.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(SWEMBlocks.PASTURE_WHITE_HORSE.get(), RenderType.getCutout());
         for (RegistryObject<WheelBarrowBlock> wb : SWEMBlocks.WHEEL_BARROWS) {
             RenderTypeLookup.setRenderLayer(wb.get(), RenderType.getCutout());
         }
         for (RegistryObject<NonParallelBlock> sep : SWEMBlocks.SEPARATORS) {
             RenderTypeLookup.setRenderLayer(sep.get(), RenderType.getCutout());
+        }
+        for (RegistryObject<HorseDoorBlock> hd : SWEMBlocks.PASTURE_GATES_HORSE) {
+            RenderTypeLookup.setRenderLayer(hd.get(), RenderType.getCutout());
+        }
+        for (RegistryObject<CareDoorBlock> hd : SWEMBlocks.PASTURE_GATES_CARE) {
+            RenderTypeLookup.setRenderLayer(hd.get(), RenderType.getCutout());
         }
     }
 
