@@ -23,7 +23,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class WheelBarrowTE extends TileEntity implements ITickableTileEntity, ITickable {
+public class WheelBarrowTE extends TileEntity implements ITickableTileEntity {
 
 	public ItemStackHandler itemHandler = createHandler();
 
