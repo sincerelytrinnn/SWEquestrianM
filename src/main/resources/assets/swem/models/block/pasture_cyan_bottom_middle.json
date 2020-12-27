@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom",
+  "textures": {
+    "top": "swem:blocks/acacia_stall_care_upper_left",
+    "bottom": "swem:blocks/pasture_cyan_lower_middle"
+  }
+}
