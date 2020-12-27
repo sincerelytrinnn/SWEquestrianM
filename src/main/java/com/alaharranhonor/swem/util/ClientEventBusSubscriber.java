@@ -1,6 +1,9 @@
 package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.armor.*;
+import com.alaharranhonor.swem.blocks.CareDoorBlock;
+import com.alaharranhonor.swem.blocks.HorseDoorBlock;
+import com.alaharranhonor.swem.blocks.NonParallelBlock;
 import com.alaharranhonor.swem.blocks.WheelBarrowBlock;
 import com.alaharranhonor.swem.entity.render.*;
 import com.alaharranhonor.swem.gui.SWEMHorseInventoryScreen;
@@ -81,7 +84,7 @@ public class ClientEventBusSubscriber {
         RenderTypeLookup.setRenderLayer(SWEMBlocks.LIGHT_FRIENDLY_BARS.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.MEDIUM_FRIENDLY_BARS.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.DARK_FRIENDLY_BARS.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(SWEMBlocks.BLUE_SEPARATOR.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.HORSE_PEE.get(), RenderType.getCutout());
 
         RenderTypeLookup.setRenderLayer(SWEMBlocks.SIMPLE_RIDER_DOOR_ORANGE.get(), RenderType.getCutout());
 
@@ -97,9 +100,17 @@ public class ClientEventBusSubscriber {
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUNGLE_STALL_CARE.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.OAK_STALL_CARE.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.SPRUCE_STALL_CARE.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(SWEMBlocks.PASTURE_WHITE_HORSE.get(), RenderType.getCutout());
         for (RegistryObject<WheelBarrowBlock> wb : SWEMBlocks.WHEEL_BARROWS) {
             RenderTypeLookup.setRenderLayer(wb.get(), RenderType.getCutout());
+        }
+        for (RegistryObject<NonParallelBlock> sep : SWEMBlocks.SEPARATORS) {
+            RenderTypeLookup.setRenderLayer(sep.get(), RenderType.getCutout());
+        }
+        for (RegistryObject<HorseDoorBlock> hd : SWEMBlocks.PASTURE_GATES_HORSE) {
+            RenderTypeLookup.setRenderLayer(hd.get(), RenderType.getCutout());
+        }
+        for (RegistryObject<CareDoorBlock> hd : SWEMBlocks.PASTURE_GATES_CARE) {
+            RenderTypeLookup.setRenderLayer(hd.get(), RenderType.getCutout());
         }
     }
 

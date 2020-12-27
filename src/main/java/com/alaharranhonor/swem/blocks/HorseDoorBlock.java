@@ -8,6 +8,7 @@ import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathType;
 import net.minecraft.state.BooleanProperty;
@@ -45,9 +46,16 @@ public class HorseDoorBlock extends Block{
 	protected static final VoxelShape WEST_AABB = Block.makeCuboidShape(13.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
 	protected static final VoxelShape EAST_AABB = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 3.0D, 16.0D, 16.0D);
 
-	public HorseDoorBlock(AbstractBlock.Properties builder) {
+	private DyeColor colour;
+
+	public HorseDoorBlock(AbstractBlock.Properties builder, DyeColor colour) {
 		super(builder);
 		this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(OPEN, Boolean.valueOf(false)).with(HINGE, DoorHingeSide.LEFT).with(HALF, DoubleBlockHalf.LOWER));
+		this.colour = colour;
+	}
+
+	public DyeColor getColour() {
+		return this.colour;
 	}
 
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
@@ -246,50 +254,47 @@ public class HorseDoorBlock extends Block{
 
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 
-		if (this.material == Material.IRON) {
-			return ActionResultType.PASS;
-		} else {
-			if (!worldIn.isRemote) {
-				ArrayList<BlockPos> openPositions = this.getAllDoorParts(state, this.getInvertedOpenPos(state, pos), worldIn, state.get(OPEN));
-				switch (state.get(SIDE)) {
-					case RIGHT: {
-						if (state.get(HINGE) == DoorHingeSide.LEFT) {
-							openPositions.remove(2);
-							openPositions.remove(2);
-						} else {
-							openPositions.remove(0);
-							openPositions.remove(0);
-						}
-						break;
+
+		if (!worldIn.isRemote) {
+			ArrayList<BlockPos> openPositions = this.getAllDoorParts(state, this.getInvertedOpenPos(state, pos), worldIn, state.get(OPEN));
+			switch (state.get(SIDE)) {
+				case RIGHT: {
+					if (state.get(HINGE) == DoorHingeSide.LEFT) {
+						openPositions.remove(2);
+						openPositions.remove(2);
+					} else {
+						openPositions.remove(0);
+						openPositions.remove(0);
 					}
-					default: {
-						if (state.get(HINGE) == DoorHingeSide.LEFT) {
-							openPositions.remove(0);
-							openPositions.remove(0);
-						} else {
-							openPositions.remove(2);
-							openPositions.remove(2);
-						}
-						break;
-					}
+					break;
 				}
-				boolean shouldOpen = openPositions.stream().allMatch((pos1) -> worldIn.getBlockState(pos1) == Blocks.AIR.getDefaultState());
-				if (shouldOpen) {
-					state = state.func_235896_a_(OPEN);
-					boolean open = state.get(OPEN);
-					ArrayList<BlockState> states = new ArrayList<>();
-					ArrayList<BlockPos> positions = this.getAllDoorParts(state, pos, worldIn, open);
-					positions.forEach((pos1) -> states.add(worldIn.getBlockState(pos1)));
-					for (int i = 0; i < 4; i++) {
-						this.openDoor(worldIn, states.get(i), positions.get(i), open);
+				default: {
+					if (state.get(HINGE) == DoorHingeSide.LEFT) {
+						openPositions.remove(0);
+						openPositions.remove(0);
+					} else {
+						openPositions.remove(2);
+						openPositions.remove(2);
 					}
-					worldIn.playEvent(player, state.get(OPEN) ? this.getOpenSound() : this.getCloseSound(), pos, 0);
-				} else {
-					return ActionResultType.FAIL;
+					break;
 				}
 			}
-			return ActionResultType.func_233537_a_(worldIn.isRemote);
+			boolean shouldOpen = openPositions.stream().allMatch((pos1) -> worldIn.getBlockState(pos1) == Blocks.AIR.getDefaultState());
+			if (shouldOpen) {
+				state = state.func_235896_a_(OPEN);
+				boolean open = state.get(OPEN);
+				ArrayList<BlockState> states = new ArrayList<>();
+				ArrayList<BlockPos> positions = this.getAllDoorParts(state, pos, worldIn, open);
+				positions.forEach((pos1) -> states.add(worldIn.getBlockState(pos1)));
+				for (int i = 0; i < 4; i++) {
+					this.openDoor(worldIn, states.get(i), positions.get(i), open);
+				}
+				worldIn.playEvent(player, state.get(OPEN) ? this.getOpenSound() : this.getCloseSound(), pos, 0);
+			} else {
+				return ActionResultType.FAIL;
+			}
 		}
+		return ActionResultType.func_233537_a_(worldIn.isRemote);
 	}
 
 	public boolean isOpen(BlockState state) {
@@ -559,35 +564,22 @@ public class HorseDoorBlock extends Block{
 		worldIn.playEvent((PlayerEntity)null, isOpening ? this.getOpenSound() : this.getCloseSound(), pos, 0);
 	}
 
-	/**
-	 * @deprecated call via {@link IBlockState#getMobilityFlag()} whenever possible. Implementing/overriding is fine.
-	 */
+
 	public PushReaction getPushReaction(BlockState state) {
 		return PushReaction.DESTROY;
 	}
 
-	/**
-	 * Returns the blockstate with the given rotation from the passed blockstate. If inapplicable, returns the passed
-	 * blockstate.
-	 * @deprecated call via {@link IBlockState#withRotation(Rotation)} whenever possible. Implementing/overriding is
-	 * fine.
-	 */
+
 	public BlockState rotate(BlockState state, Rotation rot) {
 		return state.with(FACING, rot.rotate(state.get(FACING)));
 	}
 
-	/**
-	 * Returns the blockstate with the given mirror of the passed blockstate. If inapplicable, returns the passed
-	 * blockstate.
-	 * @deprecated call via {@link IBlockState#withMirror(Mirror)} whenever possible. Implementing/overriding is fine.
-	 */
+
 	public BlockState mirror(BlockState state, Mirror mirrorIn) {
 		return mirrorIn == Mirror.NONE ? state : state.rotate(mirrorIn.toRotation(state.get(FACING))).func_235896_a_(HINGE);
 	}
 
-	/**
-	 * Return a random long to be passed to {@link IBakedModel#getQuads}, used for random model rotations
-	 */
+	
 	@OnlyIn(Dist.CLIENT)
 	public long getPositionRandom(BlockState state, BlockPos pos) {
 		return MathHelper.getCoordinateRandom(pos.getX(), pos.down(state.get(HALF) == DoubleBlockHalf.LOWER ? 0 : 1).getY(), pos.getZ());

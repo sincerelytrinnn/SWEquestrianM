@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.entities;
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.goals.*;
 import com.alaharranhonor.swem.entities.needs.HungerNeed;
@@ -10,6 +11,7 @@ import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
+import com.alaharranhonor.swem.entity.coats.SWEMCoatColors;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.network.*;
@@ -76,7 +78,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 
 	private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("556E1665-8B10-40C8-8F9D-CF9B1667F295");
-	//private static final DataParameter<Integer> HORSE_VARIANT = EntityDataManager.createKey(HorseEntity.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> HORSE_VARIANT = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
 
 	public static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(SWEMItems.AMETHYST.get());
 	public static final Ingredient FOOD_ITEMS = Ingredient.fromItems(Items.APPLE, Items.CARROT, SWEMItems.OAT_BUSHEL.get(), SWEMItems.TIMOTHY_BUSHEL.get(), SWEMItems.ALFALFA_BUSHEL.get(), SWEMBlocks.QUALITY_BALE_ITEM.get(), SWEMItems.SUGAR_CUBE.get());
@@ -338,6 +340,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.dataManager.register(HungerNeed.TOTAL_TIMES_FED, 0);
 
 		this.dataManager.register(AffinityLeveling.CURRENT_DESENSITIZING_ITEM, ItemStack.EMPTY);
+		this.dataManager.register(HORSE_VARIANT, 12);
 
 	}
 
@@ -397,9 +400,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	@Override
 	public double getMountedYOffset() {
 		double def = (double)(this.getSize(this.getPose()).height * 0.75D);
-		if (this.hasSaddle().getItem() instanceof WesternSaddleItem) {
-			def += 0.15D;
-		}
+		def += 0.15D;
 		return def;
 	}
 
@@ -407,7 +408,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	public void positionRider(Entity entity, IMoveCallback callback) {
 		if (this.isPassenger(entity)) {
 			double d0 = this.getPosY() + this.getMountedYOffset() + entity.getYOffset();
-			callback.accept(entity, this.getPosX(), d0, this.getPosZ() - 0.2F);
+			callback.accept(entity, this.getPosX(), d0, this.getPosZ());
 		}
 	}
 
@@ -594,34 +595,94 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 		this.needs.read(compound);
 
-//		this.leveling.setLevel(compound.getInt("CurrentLevel"));
-//		this.leveling.setXP(compound.getFloat("CurrentXP"));
-//		this.leveling.setXPRequired(compound.getInt("RequiredXP"));
-
 		this.func_230275_fc_();
 	}
 
-//	private void func_234242_w_(int p_234242_1_) {
-//		this.dataManager.set(HORSE_VARIANT, p_234242_1_);
-//	}
-//
-//	private int getHorseVariant() {
-//		return this.dataManager.get(HORSE_VARIANT);
-//	}
-
+	private void setHorseVariant(int id) {
+		this.dataManager.set(HORSE_VARIANT, id);
+	}
 
 
 	private void func_234238_a_(CoatColors p_234238_1_, CoatTypes p_234238_2_) {
 //		this.func_234242_w_(p_234238_1_.getId() & 255 | p_234238_2_.getId() << 8 & '\uff00');
 	}
 
-//	public CoatColors func_234239_eK_() {
-//		return CoatColors.func_234254_a_(this.getHorseVariant() & 255);
-//	}
+	public SWEMCoatColors getCoatColor() {
+		return SWEMCoatColors.getById(this.getHorseVariant() & 255);
+	}
 
-//	public CoatTypes func_234240_eM_() {
-//		return CoatTypes.func_234248_a_((this.getHorseVariant() & '\uff00') >> 8);
-//	}
+	private int getHorseVariant() {
+		return this.dataManager.get(HORSE_VARIANT);
+	}
+
+	public void calculatePotionCoat(CoatColors vanillaCoat) {
+		int randomNum = rand.nextInt(100) + 1;
+		switch (vanillaCoat) {
+			case BLACK: {
+				if (randomNum <= 65)
+					this.setHorseVariant(2);
+				else if (randomNum <= 95)
+					this.setHorseVariant(12);
+				else
+					this.setHorseVariant(11);
+				break;
+			}
+			case GRAY: {
+				if (randomNum <= 7)
+					this.setHorseVariant(11);
+				else if (randomNum <= 97)
+					this.setHorseVariant(1);
+				else
+					this.setHorseVariant(0);
+				break;
+			}
+			case WHITE: {
+				if (randomNum <= 10)
+					this.setHorseVariant(14);
+				else if (randomNum <= 25)
+					this.setHorseVariant(1);
+				else
+					this.setHorseVariant(0);
+				break;
+			}
+			case CHESTNUT: {
+				if (randomNum <= 30)
+					this.setHorseVariant(13);
+				else if (randomNum <= 90)
+					this.setHorseVariant(10);
+				else
+					this.setHorseVariant(5);
+				break;
+			}
+			case CREAMY: {
+				if (randomNum <= 49)
+					this.setHorseVariant(6);
+				else if (randomNum <= 98)
+					this.setHorseVariant(8);
+				else
+					this.setHorseVariant(14);
+				break;
+			}
+			case BROWN: {
+				if (randomNum <= 20)
+					this.setHorseVariant(7);
+				else if (randomNum <= 29)
+					this.setHorseVariant(6);
+				else
+					this.setHorseVariant(4);
+				break;
+			}
+			case DARKBROWN: {
+				if (randomNum <= 80)
+					this.setHorseVariant(3);
+				else if (randomNum <= 85)
+					this.setHorseVariant(9);
+				else
+					this.setHorseVariant(7);
+				break;
+			}
+		}
+	}
 
 
 	@Override
@@ -967,33 +1028,29 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	// createChild method
 	public AgeableEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
 		AbstractHorseEntity abstracthorseentity;
-		if (p_241840_2_ instanceof DonkeyEntity) {
-			abstracthorseentity = EntityType.MULE.create(p_241840_1_);
-		} else {
-			HorseEntity horseentity = (HorseEntity)p_241840_2_;
-			abstracthorseentity = EntityType.HORSE.create(p_241840_1_);
-			int i = this.rand.nextInt(9);
-			CoatColors coatcolors;
-			if (i < 4) {
+		HorseEntity horseentity = (HorseEntity)p_241840_2_;
+		abstracthorseentity = EntityType.HORSE.create(p_241840_1_);
+		int i = this.rand.nextInt(9);
+		CoatColors coatcolors;
+		if (i < 4) {
 //				coatcolors = this.func_234239_eK_();
-			} else if (i < 8) {
-				coatcolors = horseentity.func_234239_eK_();
-			} else {
-				coatcolors = Util.getRandomObject(CoatColors.values(), this.rand);
-			}
+		} else if (i < 8) {
+			coatcolors = horseentity.func_234239_eK_();
+		} else {
+			coatcolors = Util.getRandomObject(CoatColors.values(), this.rand);
+		}
 
-			int j = this.rand.nextInt(5);
-			CoatTypes coattypes;
-			if (j < 2) {
+		int j = this.rand.nextInt(5);
+		CoatTypes coattypes;
+		if (j < 2) {
 //				coattypes = this.func_234240_eM_();
-			} else if (j < 4) {
-				coattypes = horseentity.func_234240_eM_();
-			} else {
-				coattypes = Util.getRandomObject(CoatTypes.values(), this.rand);
-			}
+		} else if (j < 4) {
+			coattypes = horseentity.func_234240_eM_();
+		} else {
+			coattypes = Util.getRandomObject(CoatTypes.values(), this.rand);
+		}
 
 //			((SWEMHorseEntityBase)abstracthorseentity).func_234238_a_(coatcolors, coattypes);
-		}
 
 		this.setOffspringAttributes(p_241840_2_, abstracthorseentity);
 		return abstracthorseentity;

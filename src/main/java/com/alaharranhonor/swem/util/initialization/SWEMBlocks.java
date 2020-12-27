@@ -6,6 +6,7 @@ import net.minecraft.block.*;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.RegistryUtil;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
@@ -82,11 +83,11 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> QUALITY_BALE = BLOCKS.register("quality_bale",
 			() -> new HayBlockBase(Block.Properties.from(Blocks.HAY_BLOCK)));
 	public static final RegistryObject<Block> DARK_SHAVINGS = BLOCKS.register("dark_shavings",
-			() -> new Shavings(Block.Properties.from(Blocks.SNOW)));
+			() -> new Shavings(AbstractBlock.Properties.create(new Material.Builder(MaterialColor.SNOW).doesNotBlockMovement().notOpaque().notSolid().pushDestroys().replaceable().build()).tickRandomly().hardnessAndResistance(0.1F).setRequiresTool().sound(SoundType.SNOW)));
 	public static final RegistryObject<Block> LIGHT_SHAVINGS = BLOCKS.register("light_shavings",
-			() -> new Shavings(Block.Properties.from(Blocks.SNOW)));
+			() -> new Shavings(AbstractBlock.Properties.create(new Material.Builder(MaterialColor.SNOW).doesNotBlockMovement().notOpaque().notSolid().pushDestroys().replaceable().build()).tickRandomly().hardnessAndResistance(0.1F).setRequiresTool().sound(SoundType.SNOW)));
 	public static final RegistryObject<Block> SOILED_SHAVINGS = BLOCKS.register("soiled_shavings",
-			() -> new Shavings(Block.Properties.from(Blocks.SNOW)));
+			() -> new Shavings(AbstractBlock.Properties.create(new Material.Builder(MaterialColor.SNOW).doesNotBlockMovement().notOpaque().notSolid().pushDestroys().replaceable().build()).tickRandomly().hardnessAndResistance(0.1F).setRequiresTool().sound(SoundType.SNOW)));
 	public static final RegistryObject<Block> RIDING_DOOR = BLOCKS.register("riding_door",
 			() -> new DoorBase(Block.Properties.from(Blocks.OAK_FENCE_GATE)));
 	public static final RegistryObject<Block> BLEACHER_SLAB = BLOCKS.register("bleacher",
@@ -107,69 +108,49 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> HALF_BARREL = BLOCKS.register("half_barrel", () -> new HalfBarrelBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> TACK_BOX = BLOCKS.register("tack_box", () -> new TackBoxBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<RiderDoorBlock> SIMPLE_RIDER_DOOR_ORANGE = BLOCKS.register("simple_rider_door_orange", () -> new RiderDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-	public static final RegistryObject<HorseDoorBlock> ACACIA_STALL_HORSE = BLOCKS.register("acacia_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-	public static final RegistryObject<HorseDoorBlock> BIRCH_STALL_HORSE = BLOCKS.register("birch_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-	public static final RegistryObject<HorseDoorBlock> DARK_OAK_STALL_HORSE = BLOCKS.register("dark_oak_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-	public static final RegistryObject<HorseDoorBlock> JUNGLE_STALL_HORSE = BLOCKS.register("jungle_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-	public static final RegistryObject<HorseDoorBlock> OAK_STALL_HORSE = BLOCKS.register("oak_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-	public static final RegistryObject<HorseDoorBlock> SPRUCE_STALL_HORSE = BLOCKS.register("spruce_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-	public static final RegistryObject<CareDoorBlock> ACACIA_STALL_CARE = BLOCKS.register("acacia_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-	public static final RegistryObject<CareDoorBlock> BIRCH_STALL_CARE = BLOCKS.register("birch_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-	public static final RegistryObject<CareDoorBlock> DARK_OAK_STALL_CARE = BLOCKS.register("dark_oak_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-	public static final RegistryObject<CareDoorBlock> JUNGLE_STALL_CARE = BLOCKS.register("jungle_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-	public static final RegistryObject<CareDoorBlock> OAK_STALL_CARE = BLOCKS.register("oak_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-	public static final RegistryObject<CareDoorBlock> SPRUCE_STALL_CARE = BLOCKS.register("spruce_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-	public static final RegistryObject<HorseDoorBlock> PASTURE_WHITE_HORSE = BLOCKS.register("pasture_white_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<HorseDoorBlock> PASTURE_YELLOW_HORSE = BLOCKS.register("pasture_yellow_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<HorseDoorBlock> PASTURE_LIGHT_BLUE_HORSE = BLOCKS.register("pasture_light_blue_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<HorseDoorBlock> PASTURE_ORANGE_HORSE = BLOCKS.register("pasture_orange_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<HorseDoorBlock> PASTURE_MAGENTA_HORSE = BLOCKS.register("pasture_magenta_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<HorseDoorBlock> PASTURE_LIME_HORSE = BLOCKS.register("pasture_lime_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<HorseDoorBlock> PASTURE_PINK_HORSE = BLOCKS.register("pasture_pink_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<HorseDoorBlock> PASTURE_GRAY_HORSE = BLOCKS.register("pasture_gray_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<HorseDoorBlock> PASTURE_LIGHT_GRAY_HORSE = BLOCKS.register("pasture_light_gray_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<HorseDoorBlock> PASTURE_CYAN_HORSE = BLOCKS.register("pasture_cyan_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<HorseDoorBlock> PASTURE_PURPLE_HORSE = BLOCKS.register("pasture_purple_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<HorseDoorBlock> PASTURE_RED_HORSE = BLOCKS.register("pasture_red_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<HorseDoorBlock> PASTURE_BLACK_HORSE = BLOCKS.register("pasture_black_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<HorseDoorBlock> PASTURE_BLUE_HORSE = BLOCKS.register("pasture_blue_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<HorseDoorBlock> PASTURE_BROWN_HORSE = BLOCKS.register("pasture_brown_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<HorseDoorBlock> PASTURE_GREEN_HORSE = BLOCKS.register("pasture_green_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<CareDoorBlock> PASTURE_WHITE_CARE = BLOCKS.register("pasture_white_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<CareDoorBlock> PASTURE_YELLOW_CARE = BLOCKS.register("pasture_yellow_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<CareDoorBlock> PASTURE_LIGHT_BLUE_CARE = BLOCKS.register("pasture_light_blue_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<CareDoorBlock> PASTURE_ORANGE_CARE = BLOCKS.register("pasture_orange_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<CareDoorBlock> PASTURE_MAGENTA_CARE = BLOCKS.register("pasture_magenta_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<CareDoorBlock> PASTURE_LIME_CARE = BLOCKS.register("pasture_lime_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<CareDoorBlock> PASTURE_PINK_CARE = BLOCKS.register("pasture_pink_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<CareDoorBlock> PASTURE_GRAY_CARE = BLOCKS.register("pasture_gray_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<CareDoorBlock> PASTURE_LIGHT_GRAY_CARE = BLOCKS.register("pasture_light_gray_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<CareDoorBlock> PASTURE_CYAN_CARE = BLOCKS.register("pasture_cyan_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<CareDoorBlock> PASTURE_PURPLE_CARE = BLOCKS.register("pasture_purple_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<CareDoorBlock> PASTURE_RED_CARE = BLOCKS.register("pasture_red_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<CareDoorBlock> PASTURE_BLACK_CARE = BLOCKS.register("pasture_black_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<CareDoorBlock> PASTURE_BLUE_CARE = BLOCKS.register("pasture_blue_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<CareDoorBlock> PASTURE_BROWN_CARE = BLOCKS.register("pasture_brown_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-//	public static final RegistryObject<CareDoorBlock> PASTURE_GREEN_CARE = BLOCKS.register("pasture_green_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
+	public static final RegistryObject<HorseDoorBlock> ACACIA_STALL_HORSE = BLOCKS.register("acacia_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
+	public static final RegistryObject<HorseDoorBlock> BIRCH_STALL_HORSE = BLOCKS.register("birch_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
+	public static final RegistryObject<HorseDoorBlock> DARK_OAK_STALL_HORSE = BLOCKS.register("dark_oak_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
+	public static final RegistryObject<HorseDoorBlock> JUNGLE_STALL_HORSE = BLOCKS.register("jungle_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
+	public static final RegistryObject<HorseDoorBlock> OAK_STALL_HORSE = BLOCKS.register("oak_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
+	public static final RegistryObject<HorseDoorBlock> SPRUCE_STALL_HORSE = BLOCKS.register("spruce_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
+	public static final RegistryObject<CareDoorBlock> ACACIA_STALL_CARE = BLOCKS.register("acacia_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
+	public static final RegistryObject<CareDoorBlock> BIRCH_STALL_CARE = BLOCKS.register("birch_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
+	public static final RegistryObject<CareDoorBlock> DARK_OAK_STALL_CARE = BLOCKS.register("dark_oak_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
+	public static final RegistryObject<CareDoorBlock> JUNGLE_STALL_CARE = BLOCKS.register("jungle_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
+	public static final RegistryObject<CareDoorBlock> OAK_STALL_CARE = BLOCKS.register("oak_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
+	public static final RegistryObject<CareDoorBlock> SPRUCE_STALL_CARE = BLOCKS.register("spruce_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
 	public static final RegistryObject<Block> ONE_SADDLE_RACK = BLOCKS.register("one_saddle_rack", () -> new OneSaddleRack(Block.Properties.create(Material.IRON).notSolid()));
 	public static final RegistryObject<Block> BRIDLE_RACK = BLOCKS.register("bridle_rack", () -> new BridleRackBlock(Block.Properties.create(Material.IRON).notSolid()));
 	public static final RegistryObject<Block> METAL_GRATE = BLOCKS.register("metal_grate", () -> new TrapDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
 	public static final RegistryObject<Block> LIGHT_FRIENDLY_BARS = BLOCKS.register("light_friendly_bars", () -> new PaneBlock(Block.Properties.create(Material.IRON).notSolid()));
 	public static final RegistryObject<Block> MEDIUM_FRIENDLY_BARS = BLOCKS.register("medium_friendly_bars", () -> new PaneBlock(Block.Properties.create(Material.IRON).notSolid()));
 	public static final RegistryObject<Block> DARK_FRIENDLY_BARS = BLOCKS.register("dark_friendly_bars", () -> new PaneBlock(Block.Properties.create(Material.IRON).notSolid()));
-	public static final RegistryObject<NonParallelBlock> WATER_TROUGH = BLOCKS.register("water_trough", () -> new WaterThroughBlock(Block.Properties.create(Material.IRON)));
-	public static final RegistryObject<NonParallelBlock> BLUE_SEPARATOR = BLOCKS.register("blue_separator", () -> new NonParallelBlock(Block.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<NonParallelBlock> WATER_TROUGH = BLOCKS.register("water_trough", () -> new WaterThroughBlock(Block.Properties.create(Material.IRON), DyeColor.BLACK));
 	public static final RegistryObject<Block> WET_COMPOST = BLOCKS.register("wet_compost", () -> new Block(Block.Properties.create(Material.ORGANIC)));
 	public static final RegistryObject<Block> COMPOST = BLOCKS.register("compost", () -> new Block(Block.Properties.create(Material.ORGANIC)));
+	public static final RegistryObject<Block> HORSE_PEE = BLOCKS.register("horse_pee", () -> new PeeBlock(Block.Properties.create(Material.ORGANIC).notSolid().setAllowsSpawn(Blocks::neverAllowSpawn).setOpaque(Blocks::isntSolid).setSuffocates(Blocks::isntSolid).setBlocksVision(Blocks::isntSolid)));
 
 	public static final List<RegistryObject<WheelBarrowBlock>> WHEEL_BARROWS = new ArrayList<>();
 	public static final List<RegistryObject<SlowFeederBlock>> SLOW_FEEDERS = new ArrayList<>();
+	public static final List<RegistryObject<NonParallelBlock>> SEPARATORS = new ArrayList<>();
+	public static final List<RegistryObject<GrainFeederBlock>> GRAIN_FEEDERS = new ArrayList<>();
+	public static final List<RegistryObject<HorseDoorBlock>> PASTURE_GATES_HORSE = new ArrayList<>();
+	public static final List<RegistryObject<CareDoorBlock>> PASTURE_GATES_CARE = new ArrayList<>();
 
 	static {
 		for (DyeColor color : DyeColor.values()) {
 			 WHEEL_BARROWS.add(register("wheel_barrow_"+color.getTranslationKey(), () -> new WheelBarrowBlock(Block.Properties.create(Material.IRON).notSolid(), color),
 					 block -> () -> new BlockItemBase(block.get())));
 			SLOW_FEEDERS.add(register("slow_feeder_"+color.getTranslationKey(), () -> new SlowFeederBlock(Block.Properties.create(Material.IRON), color),
+					block -> () -> new BlockItemBase(block.get())));
+			SEPARATORS.add(register("separator_"+color.getTranslationKey(), () -> new NonParallelBlock(Block.Properties.create(Material.IRON), color),
+					block -> () -> new BlockItemBase(block.get())));
+			GRAIN_FEEDERS.add(register("grain_feeder_"+color.getTranslationKey(), () -> new GrainFeederBlock(Block.Properties.create(Material.IRON), color),
+					block -> () -> new BlockItemBase(block.get())));
+			PASTURE_GATES_HORSE.add(register("pasture_"+color.getTranslationKey() + "_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
+					block -> () -> new BlockItemBase(block.get())));
+			PASTURE_GATES_CARE.add(register("pasture_"+color.getTranslationKey() + "_care", () -> new CareDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
 					block -> () -> new BlockItemBase(block.get())));
 		}
 	}
@@ -259,38 +240,6 @@ public class SWEMBlocks {
 	public static final RegistryObject<Item> JUNGLE_STALL_CARE_ITEM = SWEMItems.ITEMS.register("jungle_stall_care", () -> new BlockItemBase(JUNGLE_STALL_CARE.get()));
 	public static final RegistryObject<Item> OAK_STALL_CARE_ITEM = SWEMItems.ITEMS.register("oak_stall_care", () -> new BlockItemBase(OAK_STALL_CARE.get()));
 	public static final RegistryObject<Item> SPRUCE_STALL_CARE_ITEM = SWEMItems.ITEMS.register("spruce_stall_care", () -> new BlockItemBase(SPRUCE_STALL_CARE.get()));
-	public static final RegistryObject<Item> PASTURE_WHITE_HORSE_ITEM = SWEMItems.ITEMS.register("pasture_white_horse", () -> new BlockItemBase(PASTURE_WHITE_HORSE.get()));
-//	public static final RegistryObject<Item> PASTURE_YELLOW_HORSE_ITEM = SWEMItems.ITEMS.register("pasture_yellow_horse", () -> new BlockItemBase(PASTURE_YELLOW_HORSE.get()));
-//	public static final RegistryObject<Item> PASTURE_LIGHT_BLUE_HORSE_ITEM = SWEMItems.ITEMS.register("pasture_light_blue_horse", () -> new BlockItemBase(PASTURE_LIGHT_BLUE_HORSE.get()));
-//	public static final RegistryObject<Item> PASTURE_ORANGE_HORSE_ITEM = SWEMItems.ITEMS.register("pasture_orange_horse", () -> new BlockItemBase(PASTURE_ORANGE_HORSE.get()));
-//	public static final RegistryObject<Item> PASTURE_MAGENTA_HORSE_ITEM = SWEMItems.ITEMS.register("pasture_magenta_horse", () -> new BlockItemBase(PASTURE_MAGENTA_HORSE.get()));
-//	public static final RegistryObject<Item> PASTURE_LIME_HORSE_ITEM = SWEMItems.ITEMS.register("pasture_lime_horse", () -> new BlockItemBase(PASTURE_LIME_HORSE.get()));
-//	public static final RegistryObject<Item> PASTURE_PINK_HORSE_ITEM = SWEMItems.ITEMS.register("pasture_pink_horse", () -> new BlockItemBase(PASTURE_PINK_HORSE.get()));
-//	public static final RegistryObject<Item> PASTURE_GRAY_HORSE_ITEM = SWEMItems.ITEMS.register("pasture_gray_horse", () -> new BlockItemBase(PASTURE_GRAY_HORSE.get()));
-//	public static final RegistryObject<Item> PASTURE_CYAN_HORSE_ITEM = SWEMItems.ITEMS.register("pasture_cyan_horse", () -> new BlockItemBase(PASTURE_CYAN_HORSE.get()));
-//	public static final RegistryObject<Item> PASTURE_LIGHT_GRAY_HORSE_ITEM = SWEMItems.ITEMS.register("pasture_light_gray_horse", () -> new BlockItemBase(PASTURE_LIGHT_GRAY_HORSE.get()));
-//	public static final RegistryObject<Item> PASTURE_PURPLE_HORSE_ITEM = SWEMItems.ITEMS.register("pasture_purple_horse", () -> new BlockItemBase(PASTURE_PURPLE_HORSE.get()));
-//	public static final RegistryObject<Item> PASTURE_RED_HORSE_ITEM = SWEMItems.ITEMS.register("pasture_red_horse", () -> new BlockItemBase(PASTURE_RED_HORSE.get()));
-//	public static final RegistryObject<Item> PASTURE_BLACK_HORSE_ITEM = SWEMItems.ITEMS.register("pasture_black_horse", () -> new BlockItemBase(PASTURE_BLACK_HORSE.get()));
-//	public static final RegistryObject<Item> PASTURE_BLUE_HORSE_ITEM = SWEMItems.ITEMS.register("pasture_blue_horse", () -> new BlockItemBase(PASTURE_BLUE_HORSE.get()));
-//	public static final RegistryObject<Item> PASTURE_BROWN_HORSE_ITEM = SWEMItems.ITEMS.register("pasture_brown_horse", () -> new BlockItemBase(PASTURE_BROWN_HORSE.get()));
-//	public static final RegistryObject<Item> PASTURE_GREEN_HORSE_ITEM = SWEMItems.ITEMS.register("pasture_green_horse", () -> new BlockItemBase(PASTURE_GREEN_HORSE.get()));
-//	public static final RegistryObject<Item> PASTURE_WHITE_CARE_ITEM = SWEMItems.ITEMS.register("pasture_white_care", () -> new BlockItemBase(PASTURE_WHITE_CARE.get()));
-//	public static final RegistryObject<Item> PASTURE_YELLOW_CARE_ITEM = SWEMItems.ITEMS.register("pasture_yellow_care", () -> new BlockItemBase(PASTURE_YELLOW_CARE.get()));
-//	public static final RegistryObject<Item> PASTURE_LIGHT_BLUE_CARE_ITEM = SWEMItems.ITEMS.register("pasture_light_blue_care", () -> new BlockItemBase(PASTURE_LIGHT_BLUE_CARE.get()));
-//	public static final RegistryObject<Item> PASTURE_ORANGE_CARE_ITEM = SWEMItems.ITEMS.register("pasture_orange_care", () -> new BlockItemBase(PASTURE_ORANGE_CARE.get()));
-//	public static final RegistryObject<Item> PASTURE_MAGENTA_CARE_ITEM = SWEMItems.ITEMS.register("pasture_magenta_care", () -> new BlockItemBase(PASTURE_MAGENTA_CARE.get()));
-//	public static final RegistryObject<Item> PASTURE_LIME_CARE_ITEM = SWEMItems.ITEMS.register("pasture_lime_care", () -> new BlockItemBase(PASTURE_LIME_CARE.get()));
-//	public static final RegistryObject<Item> PASTURE_PINK_CARE_ITEM = SWEMItems.ITEMS.register("pasture_pink_care", () -> new BlockItemBase(PASTURE_PINK_CARE.get()));
-//	public static final RegistryObject<Item> PASTURE_GRAY_CARE_ITEM = SWEMItems.ITEMS.register("pasture_gray_care", () -> new BlockItemBase(PASTURE_GRAY_CARE.get()));
-//	public static final RegistryObject<Item> PASTURE_LIGHT_GRAY_CARE_ITEM = SWEMItems.ITEMS.register("pasture_light_gray_care", () -> new BlockItemBase(PASTURE_LIGHT_GRAY_CARE.get()));
-//	public static final RegistryObject<Item> PASTURE_CYAN_CARE_ITEM = SWEMItems.ITEMS.register("pasture_cyan_care", () -> new BlockItemBase(PASTURE_CYAN_CARE.get()));
-//	public static final RegistryObject<Item> PASTURE_PURPLE_CARE_ITEM = SWEMItems.ITEMS.register("pasture_purple_care", () -> new BlockItemBase(PASTURE_PURPLE_CARE.get()));
-//	public static final RegistryObject<Item> PASTURE_RED_CARE_ITEM = SWEMItems.ITEMS.register("pasture_red_care", () -> new BlockItemBase(PASTURE_RED_CARE.get()));
-//	public static final RegistryObject<Item> PASTURE_BLACK_CARE_ITEM = SWEMItems.ITEMS.register("pasture_black_care", () -> new BlockItemBase(PASTURE_BLACK_CARE.get()));
-//	public static final RegistryObject<Item> PASTURE_BLUE_CARE_ITEM = SWEMItems.ITEMS.register("pasture_blue_care", () -> new BlockItemBase(PASTURE_BLUE_CARE.get()));
-//	public static final RegistryObject<Item> PASTURE_BROWN_CARE_ITEM = SWEMItems.ITEMS.register("pasture_brown_care", () -> new BlockItemBase(PASTURE_BROWN_CARE.get()));
-//	public static final RegistryObject<Item> PASTURE_GREEN_CARE_ITEM = SWEMItems.ITEMS.register("pasture_green_care", () -> new BlockItemBase(PASTURE_GREEN_CARE.get()));
 	public static final RegistryObject<Item> ONE_SADDLE_RACK_ITEM = SWEMItems.ITEMS.register("one_saddle_rack", () -> new BlockItemBase(ONE_SADDLE_RACK.get()));
 	public static final RegistryObject<Item> BRIDLE_RACK_ITEM = SWEMItems.ITEMS.register("bridle_rack", () -> new BlockItemBase(BRIDLE_RACK.get()));
 	public static final RegistryObject<Item> METAL_GRATE_ITEM = SWEMItems.ITEMS.register("metal_grate", () -> new BlockItemBase(METAL_GRATE.get()));
@@ -298,7 +247,6 @@ public class SWEMBlocks {
 	public static final RegistryObject<Item> MEDIUM_FRIENDLY_BARS_ITEM = SWEMItems.ITEMS.register("medium_friendly_bars", () -> new BlockItemBase(MEDIUM_FRIENDLY_BARS.get()));
 	public static final RegistryObject<Item> DARK_FRIENDLY_BARS_ITEM = SWEMItems.ITEMS.register("dark_friendly_bars", () -> new BlockItemBase(DARK_FRIENDLY_BARS.get()));
 	public static final RegistryObject<Item> WATER_TROUGH_ITEM = SWEMItems.ITEMS.register("water_trough", () -> new BlockItemBase(WATER_TROUGH.get()));
-	public static final RegistryObject<Item> BLUE_SEPARATOR_ITEM = SWEMItems.ITEMS.register("blue_separator", () -> new BlockItemBase(BLUE_SEPARATOR.get()));
 	public static final RegistryObject<Item> WET_COMPOST_ITEM = SWEMItems.ITEMS.register("wet_compost", () -> new BlockItemBase(WET_COMPOST.get()));
 	public static final RegistryObject<Item> COMPOST_ITEM = SWEMItems.ITEMS.register("compost", () -> new BonemealBlockItem(COMPOST.get()));
 }

@@ -1,6 +1,8 @@
 package com.alaharranhonor.swem.datagen;
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.blocks.GrainFeederBlock;
+import com.alaharranhonor.swem.blocks.NonParallelBlock;
 import com.alaharranhonor.swem.blocks.SlowFeederBlock;
 import com.alaharranhonor.swem.blocks.WheelBarrowBlock;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
@@ -10,6 +12,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.RegistryObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class BlockStates extends BlockStateProvider {
@@ -23,6 +28,70 @@ public class BlockStates extends BlockStateProvider {
 	protected void registerStatesAndModels() {
 		this.registerWheelBarrows();
 		this.registerSlowFeeders();
+		this.registerNonParallelBlock(SWEMBlocks.SEPARATORS);
+		this.registerGrainFeeders();
+	}
+
+	protected void registerGrainFeeders() {
+		String[] models = new String[2];
+		models[0] = "block/grain_feeder";
+		models[1] = "block/grain_feeder_corner";
+
+		for (RegistryObject<GrainFeederBlock> gf : SWEMBlocks.GRAIN_FEEDERS) {
+			GrainFeederBlock feeder = gf.get();
+
+			//itemModels().withExistingParent("item/" + feeder.getTranslationKey().split("\\.")[2], "item/generated")
+			//		.texture("layer0", new ResourceLocation(SWEM.MOD_ID, "items/" + feeder.getTranslationKey().split("\\.")[2]));
+
+			getVariantBuilder(feeder)
+					.forAllStates((state) -> {
+						Direction dir = state.get(GrainFeederBlock.HORIZONTAL_FACING);
+						boolean corner = state.get(GrainFeederBlock.LEFT) || state.get(GrainFeederBlock.RIGHT);
+						ModelFile model = models().getBuilder("grain_feeder_" + (corner ? "corner_" : "") + feeder.getColour().getTranslationKey())
+								.texture("0", new ResourceLocation(SWEM.MOD_ID, "blocks/grain_feeder_" + (corner ? "corner_" : "") + feeder.getColour().getTranslationKey()))
+								.texture("particle", new ResourceLocation(SWEM.MOD_ID, "blocks/grain_feeder_" + (corner ? "corner_" : "") + feeder.getColour().getTranslationKey()))
+								.parent(models().getBuilder(models[corner ? 1 : 0]));
+
+						int originalRotation = dir.getAxis() != Direction.Axis.Y ? ((dir.getHorizontalIndex() + 2) % 4) * 90 : 0;
+						if (state.get(GrainFeederBlock.RIGHT)) {
+							originalRotation += 90;
+							if (originalRotation == 360) originalRotation = 0;
+						}
+						return ConfiguredModel.builder()
+								.modelFile(model)
+								.rotationY(originalRotation)
+								.build();
+					});
+		}
+	}
+
+	protected void registerNonParallelBlock(List<RegistryObject<NonParallelBlock>> blockArray) {
+		String[] models = new String[4];
+		models[0] = "block/separator_single";
+		models[1] = "block/separator_left";
+		models[2] = "block/separator_middle";
+		models[3] = "block/separator_right";
+
+		for (RegistryObject<NonParallelBlock> sep : blockArray) {
+			NonParallelBlock sepBlock = sep.get();
+
+			itemModels().withExistingParent("item/" + sepBlock.getTranslationKey().split("\\.")[2], "item/generated")
+					.texture("layer0", new ResourceLocation(SWEM.MOD_ID, "items/" + sepBlock.getTranslationKey().split("\\.")[2]));
+
+			getVariantBuilder(sepBlock)
+					.forAllStates((state) -> {
+						Direction dir = state.get(WheelBarrowBlock.HORIZONTAL_FACING);
+						ModelFile model = models().getBuilder( "separator_" + state.get(NonParallelBlock.PART).getString() + "_" + sepBlock.getColour().getTranslationKey())
+								.texture("0", new ResourceLocation(SWEM.MOD_ID, "blocks/separator_" + state.get(NonParallelBlock.PART).getString() + "_" + sepBlock.getColour().getTranslationKey()))
+								.texture("particle", new ResourceLocation(SWEM.MOD_ID, "blocks/separator_" + state.get(NonParallelBlock.PART).getString() + "_" + sepBlock.getColour().getTranslationKey()))
+								.parent(models().getBuilder(models[state.get(NonParallelBlock.PART).getId()]));
+
+						return ConfiguredModel.builder()
+								.modelFile(model)
+								.rotationY(dir.getAxis() != Direction.Axis.Y ? ((dir.getHorizontalIndex() + 2) % 4) * 90 : 0)
+								.build();
+					});
+		}
 	}
 
 	protected void registerWheelBarrows() {

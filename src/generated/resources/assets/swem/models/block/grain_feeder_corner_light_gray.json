@@ -1,0 +1,7 @@
+{
+  "parent": "swem:block/grain_feeder_corner",
+  "textures": {
+    "0": "swem:blocks/grain_feeder_corner_light_gray",
+    "particle": "swem:blocks/grain_feeder_corner_light_gray"
+  }
+}

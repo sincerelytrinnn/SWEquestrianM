@@ -34,7 +34,7 @@ public class PoopGoal extends Goal {
 	 */
 	@Override
 	public boolean shouldExecute() {
-		return this.pooperEntity.getRNG().nextInt(100) == 0 && this.pooperEntity.getPassengers().isEmpty();
+		return this.pooperEntity.getRNG().nextInt(10000) == 0 && this.pooperEntity.getPassengers().isEmpty();
 	}
 
 	/**
@@ -42,7 +42,7 @@ public class PoopGoal extends Goal {
 	 */
 	@Override
 	public void startExecuting() {
-		this.poopTimer = 100;
+		this.poopTimer = 9600;
 		this.entityWorld.setEntityState(this.pooperEntity, (byte)10);
 		this.pooperEntity.getNavigator().clearPath();
 	}

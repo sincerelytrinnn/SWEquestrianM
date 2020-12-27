@@ -34,37 +34,37 @@
     },
 
     "facing=south,half=upper,hinge=left,open=false,side=left": {
-      "model": "swem:block/pasture_white_top",
+      "model": "swem:block/pasture_white_top_hinge",
       "y": 90
     },
     "facing=south,half=upper,hinge=left,open=true,side=left": {
-      "model": "swem:block/pasture_white_top_right",
+      "model": "swem:block/pasture_white_top_hinge_right",
       "y": 180
     },
 
     "facing=south,half=upper,hinge=left,open=false,side=right": {
-      "model": "swem:block/pasture_white_top_hinge",
+      "model": "swem:block/pasture_white_top",
       "y": 90
     },
     "facing=south,half=upper,hinge=left,open=true,side=right": {
-      "model": "swem:block/pasture_white_top_hinge_right",
+      "model": "swem:block/pasture_white_top_right",
       "y": 180
     },
 
     "facing=south,half=upper,hinge=right,open=false,side=left": {
-      "model": "swem:block/pasture_white_top_hinge_right",
-      "y": 90
-    },
-    "facing=south,half=upper,hinge=right,open=true,side=left": {
-      "model": "swem:block/pasture_white_top_hinge"
-    },
-
-    "facing=south,half=upper,hinge=right,open=false,side=right": {
       "model": "swem:block/pasture_white_top_right",
       "y": 90
     },
-    "facing=south,half=upper,hinge=right,open=true,side=right": {
+    "facing=south,half=upper,hinge=right,open=true,side=left": {
       "model": "swem:block/pasture_white_top"
+    },
+
+    "facing=south,half=upper,hinge=right,open=false,side=right": {
+      "model": "swem:block/pasture_white_top_hinge_right",
+      "y": 90
+    },
+    "facing=south,half=upper,hinge=right,open=true,side=right": {
+      "model": "swem:block/pasture_white_top_hinge"
     },
 
 
@@ -105,38 +105,38 @@
     },
 
     "facing=west,half=upper,hinge=left,open=false,side=left": {
-      "model": "swem:block/pasture_white_top",
+      "model": "swem:block/pasture_white_top_hinge",
       "y": 180
     },
     "facing=west,half=upper,hinge=left,open=true,side=left": {
-      "model": "swem:block/pasture_white_top_right",
+      "model": "swem:block/pasture_white_top_hinge_right",
       "y": 270
     },
 
     "facing=west,half=upper,hinge=left,open=false,side=right": {
-      "model": "swem:block/pasture_white_top_hinge",
+      "model": "swem:block/pasture_white_top",
       "y": 180
     },
     "facing=west,half=upper,hinge=left,open=true,side=right": {
-      "model": "swem:block/pasture_white_top_hinge_right",
+      "model": "swem:block/pasture_white_top_right",
       "y": 270
     },
 
     "facing=west,half=upper,hinge=right,open=false,side=left": {
-      "model": "swem:block/pasture_white_top_hinge_right",
+      "model": "swem:block/pasture_white_top_right",
       "y": 180
     },
     "facing=west,half=upper,hinge=right,open=true,side=left": {
-      "model": "swem:block/pasture_white_top_hinge",
+      "model": "swem:block/pasture_white_top",
       "y": 90
     },
 
     "facing=west,half=upper,hinge=right,open=false,side=right": {
-      "model": "swem:block/pasture_white_top_right",
+      "model": "swem:block/pasture_white_top_hinge_right",
       "y": 180
     },
     "facing=west,half=upper,hinge=right,open=true,side=right": {
-      "model": "swem:block/pasture_white_top",
+      "model": "swem:block/pasture_white_top_hinge",
       "y": 90
     },
 
@@ -176,36 +176,36 @@
     },
 
     "facing=north,half=upper,hinge=left,open=false,side=left": {
-      "model": "swem:block/pasture_white_top",
+      "model": "swem:block/pasture_white_top_hinge",
       "y": 270
     },
     "facing=north,half=upper,hinge=left,open=true,side=left": {
-      "model": "swem:block/pasture_white_top_right"
-    },
-
-    "facing=north,half=upper,hinge=left,open=false,side=right": {
-      "model": "swem:block/pasture_white_top_hinge",
-      "y": 270
-    },
-    "facing=north,half=upper,hinge=left,open=true,side=right": {
       "model": "swem:block/pasture_white_top_hinge_right"
     },
 
+    "facing=north,half=upper,hinge=left,open=false,side=right": {
+      "model": "swem:block/pasture_white_top",
+      "y": 270
+    },
+    "facing=north,half=upper,hinge=left,open=true,side=right": {
+      "model": "swem:block/pasture_white_top_right"
+    },
+
     "facing=north,half=upper,hinge=right,open=false,side=left": {
-      "model": "swem:block/pasture_white_top_hinge_right",
+      "model": "swem:block/pasture_white_top_right",
       "y": 270
     },
     "facing=north,half=upper,hinge=right,open=true,side=left": {
-      "model": "swem:block/pasture_white_top_hinge",
+      "model": "swem:block/pasture_white_top",
       "y": 180
     },
 
     "facing=north,half=upper,hinge=right,open=false,side=right": {
-      "model": "swem:block/pasture_white_top_right",
+      "model": "swem:block/pasture_white_top_hinge_right",
       "y": 270
     },
     "facing=north,half=upper,hinge=right,open=true,side=right": {
-      "model": "swem:block/pasture_white_top",
+      "model": "swem:block/pasture_white_top_hinge",
       "y": 180
     },
 
@@ -242,34 +242,34 @@
     },
 
     "facing=east,half=upper,hinge=left,open=false,side=left": {
-      "model": "swem:block/pasture_white_top"
-    },
-    "facing=east,half=upper,hinge=left,open=true,side=left": {
-      "model": "swem:block/pasture_white_top_right",
-      "y": 90
-    },
-
-    "facing=east,half=upper,hinge=left,open=false,side=right": {
       "model": "swem:block/pasture_white_top_hinge"
     },
-    "facing=east,half=upper,hinge=left,open=true,side=right": {
+    "facing=east,half=upper,hinge=left,open=true,side=left": {
       "model": "swem:block/pasture_white_top_hinge_right",
       "y": 90
     },
 
-    "facing=east,half=upper,hinge=right,open=false,side=left": {
-      "model": "swem:block/pasture_white_top_hinge_right"
+    "facing=east,half=upper,hinge=left,open=false,side=right": {
+      "model": "swem:block/pasture_white_top"
     },
-    "facing=east,half=upper,hinge=right,open=true,side=left": {
-      "model": "swem:block/pasture_white_top_hinge",
+    "facing=east,half=upper,hinge=left,open=true,side=right": {
+      "model": "swem:block/pasture_white_top_right",
       "y": 90
     },
 
-    "facing=east,half=upper,hinge=right,open=false,side=right": {
+    "facing=east,half=upper,hinge=right,open=false,side=left": {
       "model": "swem:block/pasture_white_top_right"
     },
-    "facing=east,half=upper,hinge=right,open=true,side=right": {
+    "facing=east,half=upper,hinge=right,open=true,side=left": {
       "model": "swem:block/pasture_white_top",
+      "y": 270
+    },
+
+    "facing=east,half=upper,hinge=right,open=false,side=right": {
+      "model": "swem:block/pasture_white_top_hinge_right"
+    },
+    "facing=east,half=upper,hinge=right,open=true,side=right": {
+      "model": "swem:block/pasture_white_top_hinge",
       "y": 270
     }
   }
