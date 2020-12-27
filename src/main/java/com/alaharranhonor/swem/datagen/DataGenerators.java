@@ -33,7 +33,7 @@ public class DataGenerators {
 			//data.addProvider(new LootTables(data));
 		}
 		if (event.includeClient()) {
-			//data.addProvider(new BlockStates(data, event.getExistingFileHelper()));
+			data.addProvider(new BlockStates(data, event.getExistingFileHelper()));
 			//data.addProvider(new Items(data, event.getExistingFileHelper()));
 
 
@@ -42,7 +42,7 @@ public class DataGenerators {
 			// Read the output into a Data Class.
 			// get the Translation array, and then pass it into registerLanguageProviders
 			String api = System.getenv("SWEM_TRANSLATION_API_KEY");
-			HttpGet get = new HttpGet("https://sheets.googleapis.com/v4/spreadsheets/1nIuoznNlkud57_eE_piMSLIQAsQ9XRIiyzTBtwDC2kg/values/A57:D573?key=" + api);
+			HttpGet get = new HttpGet("https://sheets.googleapis.com/v4/spreadsheets/1nIuoznNlkud57_eE_piMSLIQAsQ9XRIiyzTBtwDC2kg/values/A57:H573?key=" + api);
 
 			CloseableHttpClient client = HttpClients.createDefault();
 			CloseableHttpResponse response = client.execute(get);
@@ -50,7 +50,6 @@ public class DataGenerators {
 			assert (response.getStatusLine().getStatusCode() < 300);
 			Reader targetReader = new InputStreamReader(response.getEntity().getContent(), StandardCharsets.UTF_8);
 			LanguageSheetData langData = new Gson().fromJson(targetReader, LanguageSheetData.class);
-			System.out.println(Arrays.deepToString(langData.getValues()));
 			registerLanguageProviders(data, langData.getValues());
 		}
 	}
@@ -58,6 +57,10 @@ public class DataGenerators {
 	private static void registerLanguageProviders(DataGenerator data, String[][] values) {
 		data.addProvider(new Languages(data, SWEM.MOD_ID, "en_us", values, 2));
 		data.addProvider(new Languages(data, SWEM.MOD_ID, "da_dk", values, 3));
+		data.addProvider(new Languages(data, SWEM.MOD_ID, "nl_nl", values, 4));
+		data.addProvider(new Languages(data, SWEM.MOD_ID, "sv_se", values, 5));
+		data.addProvider(new Languages(data, SWEM.MOD_ID, "fr_fr", values, 6));
+		data.addProvider(new Languages(data, SWEM.MOD_ID, "pl_pl", values, 7));
 	}
 
 }

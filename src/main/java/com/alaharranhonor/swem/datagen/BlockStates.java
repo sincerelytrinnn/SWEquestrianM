@@ -53,9 +53,13 @@ public class BlockStates extends BlockStateProvider {
 								.parent(models().getBuilder(models[corner ? 1 : 0]));
 
 						int originalRotation = dir.getAxis() != Direction.Axis.Y ? ((dir.getHorizontalIndex() + 2) % 4) * 90 : 0;
+						if (state.get(GrainFeederBlock.RIGHT)) {
+							originalRotation += 90;
+							if (originalRotation == 360) originalRotation = 0;
+						}
 						return ConfiguredModel.builder()
 								.modelFile(model)
-								.rotationY(state.get(GrainFeederBlock.RIGHT) ? 90 + originalRotation : originalRotation)
+								.rotationY(originalRotation)
 								.build();
 					});
 		}
