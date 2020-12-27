@@ -386,7 +386,7 @@
     },
     "facing=east,half=upper,hinge=right,open=true,side=left": {
       "model": "swem:block/pasture_pink_top",
-      "y": 90
+      "y": 270
     },
 
     "facing=east,half=upper,hinge=right,open=false,side=right": {

@@ -15,46 +15,50 @@
       "y": 90
     },
     "con_left=false,con_right=false,facing=south,level=0": {
-      "model": "swem:block/grain_feeder_light_blue"
+      "model": "swem:block/grain_feeder_light_blue",
+      "y": 180
     },
     "con_left=true,con_right=false,facing=south,level=0": {
-      "model": "swem:block/grain_feeder_corner_light_blue"
+      "model": "swem:block/grain_feeder_corner_light_blue",
+      "y": 180
     },
     "con_left=false,con_right=true,facing=south,level=0": {
       "model": "swem:block/grain_feeder_corner_light_blue",
-      "y": 90
+      "y": 270
     },
     "con_left=true,con_right=true,facing=south,level=0": {
       "model": "swem:block/grain_feeder_corner_light_blue",
-      "y": 90
+      "y": 270
     },
     "con_left=false,con_right=false,facing=west,level=0": {
-      "model": "swem:block/grain_feeder_light_blue"
+      "model": "swem:block/grain_feeder_light_blue",
+      "y": 270
     },
     "con_left=true,con_right=false,facing=west,level=0": {
-      "model": "swem:block/grain_feeder_corner_light_blue"
+      "model": "swem:block/grain_feeder_corner_light_blue",
+      "y": 270
     },
     "con_left=false,con_right=true,facing=west,level=0": {
-      "model": "swem:block/grain_feeder_corner_light_blue",
-      "y": 90
+      "model": "swem:block/grain_feeder_corner_light_blue"
     },
     "con_left=true,con_right=true,facing=west,level=0": {
-      "model": "swem:block/grain_feeder_corner_light_blue",
-      "y": 90
+      "model": "swem:block/grain_feeder_corner_light_blue"
     },
     "con_left=false,con_right=false,facing=east,level=0": {
-      "model": "swem:block/grain_feeder_light_blue"
+      "model": "swem:block/grain_feeder_light_blue",
+      "y": 90
     },
     "con_left=true,con_right=false,facing=east,level=0": {
-      "model": "swem:block/grain_feeder_corner_light_blue"
+      "model": "swem:block/grain_feeder_corner_light_blue",
+      "y": 90
     },
     "con_left=false,con_right=true,facing=east,level=0": {
       "model": "swem:block/grain_feeder_corner_light_blue",
-      "y": 90
+      "y": 180
     },
     "con_left=true,con_right=true,facing=east,level=0": {
       "model": "swem:block/grain_feeder_corner_light_blue",
-      "y": 90
+      "y": 180
     },
     "con_left=false,con_right=false,facing=north,level=1": {
       "model": "swem:block/grain_feeder_light_blue"
@@ -71,46 +75,50 @@
       "y": 90
     },
     "con_left=false,con_right=false,facing=south,level=1": {
-      "model": "swem:block/grain_feeder_light_blue"
+      "model": "swem:block/grain_feeder_light_blue",
+      "y": 180
     },
     "con_left=true,con_right=false,facing=south,level=1": {
-      "model": "swem:block/grain_feeder_corner_light_blue"
+      "model": "swem:block/grain_feeder_corner_light_blue",
+      "y": 180
     },
     "con_left=false,con_right=true,facing=south,level=1": {
       "model": "swem:block/grain_feeder_corner_light_blue",
-      "y": 90
+      "y": 270
     },
     "con_left=true,con_right=true,facing=south,level=1": {
       "model": "swem:block/grain_feeder_corner_light_blue",
-      "y": 90
+      "y": 270
     },
     "con_left=false,con_right=false,facing=west,level=1": {
-      "model": "swem:block/grain_feeder_light_blue"
+      "model": "swem:block/grain_feeder_light_blue",
+      "y": 270
     },
     "con_left=true,con_right=false,facing=west,level=1": {
-      "model": "swem:block/grain_feeder_corner_light_blue"
+      "model": "swem:block/grain_feeder_corner_light_blue",
+      "y": 270
     },
     "con_left=false,con_right=true,facing=west,level=1": {
-      "model": "swem:block/grain_feeder_corner_light_blue",
-      "y": 90
+      "model": "swem:block/grain_feeder_corner_light_blue"
     },
     "con_left=true,con_right=true,facing=west,level=1": {
-      "model": "swem:block/grain_feeder_corner_light_blue",
-      "y": 90
+      "model": "swem:block/grain_feeder_corner_light_blue"
     },
     "con_left=false,con_right=false,facing=east,level=1": {
-      "model": "swem:block/grain_feeder_light_blue"
+      "model": "swem:block/grain_feeder_light_blue",
+      "y": 90
     },
     "con_left=true,con_right=false,facing=east,level=1": {
-      "model": "swem:block/grain_feeder_corner_light_blue"
+      "model": "swem:block/grain_feeder_corner_light_blue",
+      "y": 90
     },
     "con_left=false,con_right=true,facing=east,level=1": {
       "model": "swem:block/grain_feeder_corner_light_blue",
-      "y": 90
+      "y": 180
     },
     "con_left=true,con_right=true,facing=east,level=1": {
       "model": "swem:block/grain_feeder_corner_light_blue",
-      "y": 90
+      "y": 180
     },
     "con_left=false,con_right=false,facing=north,level=2": {
       "model": "swem:block/grain_feeder_light_blue"
@@ -127,46 +135,50 @@
       "y": 90
     },
     "con_left=false,con_right=false,facing=south,level=2": {
-      "model": "swem:block/grain_feeder_light_blue"
+      "model": "swem:block/grain_feeder_light_blue",
+      "y": 180
     },
     "con_left=true,con_right=false,facing=south,level=2": {
-      "model": "swem:block/grain_feeder_corner_light_blue"
+      "model": "swem:block/grain_feeder_corner_light_blue",
+      "y": 180
     },
     "con_left=false,con_right=true,facing=south,level=2": {
       "model": "swem:block/grain_feeder_corner_light_blue",
-      "y": 90
+      "y": 270
     },
     "con_left=true,con_right=true,facing=south,level=2": {
       "model": "swem:block/grain_feeder_corner_light_blue",
-      "y": 90
+      "y": 270
     },
     "con_left=false,con_right=false,facing=west,level=2": {
-      "model": "swem:block/grain_feeder_light_blue"
+      "model": "swem:block/grain_feeder_light_blue",
+      "y": 270
     },
     "con_left=true,con_right=false,facing=west,level=2": {
-      "model": "swem:block/grain_feeder_corner_light_blue"
+      "model": "swem:block/grain_feeder_corner_light_blue",
+      "y": 270
     },
     "con_left=false,con_right=true,facing=west,level=2": {
-      "model": "swem:block/grain_feeder_corner_light_blue",
-      "y": 90
+      "model": "swem:block/grain_feeder_corner_light_blue"
     },
     "con_left=true,con_right=true,facing=west,level=2": {
-      "model": "swem:block/grain_feeder_corner_light_blue",
-      "y": 90
+      "model": "swem:block/grain_feeder_corner_light_blue"
     },
     "con_left=false,con_right=false,facing=east,level=2": {
-      "model": "swem:block/grain_feeder_light_blue"
+      "model": "swem:block/grain_feeder_light_blue",
+      "y": 90
     },
     "con_left=true,con_right=false,facing=east,level=2": {
-      "model": "swem:block/grain_feeder_corner_light_blue"
+      "model": "swem:block/grain_feeder_corner_light_blue",
+      "y": 90
     },
     "con_left=false,con_right=true,facing=east,level=2": {
       "model": "swem:block/grain_feeder_corner_light_blue",
-      "y": 90
+      "y": 180
     },
     "con_left=true,con_right=true,facing=east,level=2": {
       "model": "swem:block/grain_feeder_corner_light_blue",
-      "y": 90
+      "y": 180
     }
   }
 }
