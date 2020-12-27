@@ -1,0 +1,79 @@
+{
+  "variants": {
+    "facing=north,level=0": {
+      "model": "swem:block/wheel_barrow_orange"
+    },
+    "facing=south,level=0": {
+      "model": "swem:block/wheel_barrow_orange",
+      "y": 180
+    },
+    "facing=west,level=0": {
+      "model": "swem:block/wheel_barrow_orange",
+      "y": 270
+    },
+    "facing=east,level=0": {
+      "model": "swem:block/wheel_barrow_orange",
+      "y": 90
+    },
+    "facing=north,level=1": {
+      "model": "swem:block/wheel_barrow_level_1_orange"
+    },
+    "facing=south,level=1": {
+      "model": "swem:block/wheel_barrow_level_1_orange",
+      "y": 180
+    },
+    "facing=west,level=1": {
+      "model": "swem:block/wheel_barrow_level_1_orange",
+      "y": 270
+    },
+    "facing=east,level=1": {
+      "model": "swem:block/wheel_barrow_level_1_orange",
+      "y": 90
+    },
+    "facing=north,level=2": {
+      "model": "swem:block/wheel_barrow_level_2_orange"
+    },
+    "facing=south,level=2": {
+      "model": "swem:block/wheel_barrow_level_2_orange",
+      "y": 180
+    },
+    "facing=west,level=2": {
+      "model": "swem:block/wheel_barrow_level_2_orange",
+      "y": 270
+    },
+    "facing=east,level=2": {
+      "model": "swem:block/wheel_barrow_level_2_orange",
+      "y": 90
+    },
+    "facing=north,level=3": {
+      "model": "swem:block/wheel_barrow_level_3_orange"
+    },
+    "facing=south,level=3": {
+      "model": "swem:block/wheel_barrow_level_3_orange",
+      "y": 180
+    },
+    "facing=west,level=3": {
+      "model": "swem:block/wheel_barrow_level_3_orange",
+      "y": 270
+    },
+    "facing=east,level=3": {
+      "model": "swem:block/wheel_barrow_level_3_orange",
+      "y": 90
+    },
+    "facing=north,level=4": {
+      "model": "swem:block/wheel_barrow_full_orange"
+    },
+    "facing=south,level=4": {
+      "model": "swem:block/wheel_barrow_full_orange",
+      "y": 180
+    },
+    "facing=west,level=4": {
+      "model": "swem:block/wheel_barrow_full_orange",
+      "y": 270
+    },
+    "facing=east,level=4": {
+      "model": "swem:block/wheel_barrow_full_orange",
+      "y": 90
+    }
+  }
+}
