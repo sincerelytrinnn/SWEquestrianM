@@ -116,6 +116,8 @@ public class Shavings extends Block {
 
     @Override
     public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
+        super.onBlockHarvested(worldIn, pos, state, player);
+        if (player.abilities.isCreativeMode) return;
         if (player.getHeldItemMainhand().getItem() instanceof PitchforkTool) {
             int damage = state.get(LAYERS);
             ItemStack shavingsItem = new ItemStack(state.getBlock().asItem());
@@ -128,7 +130,6 @@ public class Shavings extends Block {
             ItemEntity shavingEntity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), shavingsItem);
             worldIn.addEntity(shavingEntity);
         }
-        super.onBlockHarvested(worldIn, pos, state, player);
     }
 
 

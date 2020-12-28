@@ -23,7 +23,7 @@ public class SWEMEntities {
 
 	public static final RegistryObject<EntityType<SWEMHorseEntity>> SWEM_HORSE_ENTITY = ENTITY_TYPES.register("swem_horse",
 			() -> EntityType.Builder.create(SWEMHorseEntity::new, EntityClassification.CREATURE)
-					.size(1.13f, 2.3f) // Hitbox Size
+					.size(1.73f, 2.3f) // Hitbox Size
 					.build(new ResourceLocation(SWEM.MOD_ID, "swem_horse").toString())
 	);
 	public static final RegistryObject<EntityType<RopeKnotEntity>> ROPE_KNOT_ENTITY =
@@ -38,12 +38,12 @@ public class SWEMEntities {
 
 	public static final RegistryObject<EntityType<WormieBoiEntity>> WORMIE_BOI_ENTITY = ENTITY_TYPES.register("wormieboi",
 			() -> EntityType.Builder.create(WormieBoiEntity::new, EntityClassification.CREATURE)
-					.size(2.0f, 0.4f)
+					.size(1.0f, 0.4f)
 					.build(new ResourceLocation(SWEM.MOD_ID, "wormieboi").toString())
 	);
 	public static final RegistryObject<EntityType<PoopEntity>> HORSE_POOP_ENTITY = ENTITY_TYPES.register("horse_poop",
 			() -> EntityType.Builder.create(PoopEntity::new, EntityClassification.MISC)
-					.size(0.5f, 0.186f) // 0.186f
+					.size(0.6f, 0.2f) // 0.186f
 					.build(new ResourceLocation(SWEM.MOD_ID, "horse_poop").toString())
 	);
 }

@@ -9,6 +9,7 @@ import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
+import com.alaharranhonor.swem.util.SWEMUtil;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -20,6 +21,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -90,7 +92,7 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Stats"), 65, 6,4210752);
 
 		// Owner name.
-		this.font.func_243248_b(matrixStack, this.horseEntity.getOwnerDisplayName(), 65.2f, 36.0f, 4210752);
+		this.font.func_243248_b(matrixStack, new StringTextComponent(SWEMUtil.checkTextOverflow(this.horseEntity.getOwnerDisplayName().getString(), 22)), 65.2f, 36.0f, 4210752);
 
 		// Jump TEXT
 		TranslationTextComponent jumpInfo;
@@ -190,8 +192,4 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
 	}
 
-	@Override
-	public ITextComponent getTitle() {
-		return this.horseEntity.getDisplayName();
-	}
 }
