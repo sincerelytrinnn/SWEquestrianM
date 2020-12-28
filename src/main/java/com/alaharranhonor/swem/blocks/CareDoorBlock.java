@@ -155,9 +155,8 @@ public class CareDoorBlock extends Block {
 	@Override
 	public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
 		if (!worldIn.isRemote) {
-			this.getAllDoorParts(state, pos, worldIn, true).stream().forEach((blockPos) -> {
+			this.getAllDoorParts(state, pos, worldIn, !state.get(OPEN)).stream().forEach((blockPos) -> {
 				worldIn.setBlockState(blockPos, Blocks.AIR.getDefaultState(), 35);
-				worldIn.playEvent(player, 2001, pos, Block.getStateId(state));
 			});
 		}
 
