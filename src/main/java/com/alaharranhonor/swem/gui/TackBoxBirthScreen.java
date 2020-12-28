@@ -3,6 +3,7 @@ package com.alaharranhonor.swem.gui;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.TackBoxContainer;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.util.SWEMUtil;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -58,9 +59,9 @@ public class TackBoxBirthScreen extends Screen {
 		if (this.container.horse != null) {
 			SWEMHorseEntityBase horse = this.container.horse;
 
-			this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Owner: %s", horse.getOwnerDisplayName().getString()) ), this.guiLeft + 17, this.guiTop + 57, 4210752);
-			this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Name: %s", horse.getDisplayName().getString()) ), this.guiLeft + 17, this.guiTop + 67, 4210752);
-			this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Show Name: %s", horse.getDisplayName().getString())), this.guiLeft + 17, this.guiTop + 77, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Owner: %s", SWEMUtil.checkTextOverflow(horse.getOwnerDisplayName().getString(), 24)) ), this.guiLeft + 17, this.guiTop + 57, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Name: %s", SWEMUtil.checkTextOverflow(horse.getDisplayName().getString(), 24)) ), this.guiLeft + 17, this.guiTop + 67, 4210752);
+			this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Show Name: %s", SWEMUtil.checkTextOverflow(horse.getDisplayName().getString(), 24))), this.guiLeft + 17, this.guiTop + 77, 4210752);
 
 			this.font.func_243248_b(matrixStack, new StringTextComponent("Dam: Phase 2"), this.guiLeft + 17, this.guiTop + 99, 4210752);
 			this.font.func_243248_b(matrixStack, new StringTextComponent("Sire: Phase 2"), this.guiLeft + 17, this.guiTop + 109, 4210752);
