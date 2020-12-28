@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -15,6 +16,8 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+
+import javax.annotation.Nullable;
 
 public class PoopEntity extends LivingEntity implements IAnimatable {
 
@@ -72,6 +75,12 @@ public class PoopEntity extends LivingEntity implements IAnimatable {
 	@Override
 	public boolean canBeHitWithPotion() {
 		return false;
+	}
+
+	@Nullable
+	@Override
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+		return null;
 	}
 
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
