@@ -26,6 +26,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.horse.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -744,6 +745,22 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 
 					}
+				}
+
+				if (this.isBeingRidden() && !this.hasGirthStrap()) {
+					if (this.ticksExisted % 20 == 0) {
+						int rand = this.getRNG().nextInt(5);
+						if (rand == 0) {
+							Entity rider = this.getPassengers().get(0);
+							rider.stopRiding();
+							ItemStack saddle = this.hasSaddle();
+							this.horseChest.setInventorySlotContents(2, ItemStack.EMPTY);
+							this.setSWEMSaddled();
+							SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 2, ItemStack.EMPTY));
+							this.world.addEntity(new ItemEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ(), saddle));
+						}
+					}
+
 				}
 				this.currentPos = this.getPosition();
 			}
