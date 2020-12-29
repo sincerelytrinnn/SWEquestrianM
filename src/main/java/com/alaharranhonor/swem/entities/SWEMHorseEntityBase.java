@@ -1312,8 +1312,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	public enum HorseSpeed {
 
-		WALK(new AttributeModifier("HORSE_WALK", -0.85d, AttributeModifier.Operation.MULTIPLY_TOTAL), 0),
-		TROT(new AttributeModifier("HORSE_TROT", -0.7d, AttributeModifier.Operation.MULTIPLY_TOTAL), 1),
+		WALK(new AttributeModifier("HORSE_WALK", -0.8d, AttributeModifier.Operation.MULTIPLY_TOTAL), 0),
+		TROT(new AttributeModifier("HORSE_TROT", -0.6d, AttributeModifier.Operation.MULTIPLY_TOTAL), 1),
 		CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.MULTIPLY_TOTAL), 2),
 		GALLOP(new AttributeModifier("HORSE_GALLOP", 0.07115276974015008d, AttributeModifier.Operation.ADDITION), 3);
 		private AttributeModifier modifier;
