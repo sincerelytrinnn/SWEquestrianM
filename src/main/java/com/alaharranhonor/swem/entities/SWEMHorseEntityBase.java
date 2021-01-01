@@ -316,19 +316,19 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 		this.dataManager.register(SpeedLeveling.LEVEL, 0);
 		this.dataManager.register(SpeedLeveling.XP, 0.0f);
-		this.dataManager.register(SpeedLeveling.MAX_LEVEL, 5);
+		this.dataManager.register(SpeedLeveling.MAX_LEVEL, 4);
 
 		this.dataManager.register(JumpLeveling.LEVEL, 0);
 		this.dataManager.register(JumpLeveling.XP, 0.0f);
-		this.dataManager.register(JumpLeveling.MAX_LEVEL, 5);
+		this.dataManager.register(JumpLeveling.MAX_LEVEL, 4);
 
 		this.dataManager.register(HealthLeveling.LEVEL, 0);
 		this.dataManager.register(HealthLeveling.XP, 0.0f);
-		this.dataManager.register(HealthLeveling.MAX_LEVEL, 5);
+		this.dataManager.register(HealthLeveling.MAX_LEVEL, 4);
 
 		this.dataManager.register(AffinityLeveling.LEVEL, 0);
 		this.dataManager.register(AffinityLeveling.XP, 0.0f);
-		this.dataManager.register(AffinityLeveling.MAX_LEVEL, 12);
+		this.dataManager.register(AffinityLeveling.MAX_LEVEL, 11);
 
 		this.dataManager.register(HungerNeed.HungerState.ID, 4);
 		this.dataManager.register(ThirstNeed.ThirstState.ID, 4);
