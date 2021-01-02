@@ -64,7 +64,7 @@ public class PeeGoal extends Goal {
 	 */
 	@Override
 	public boolean shouldContinueExecuting() {
-		return this.peeTimer > 0;
+		return this.peeTimer > 0 && this.peeEntity.getPassengers().isEmpty();
 	}
 
 	public int getPeeTimer() {
