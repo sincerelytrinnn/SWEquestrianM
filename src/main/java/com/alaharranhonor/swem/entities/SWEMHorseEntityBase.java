@@ -235,7 +235,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 				}
 			}
 
-			this.needs.tick();
+			//this.needs.tick();
 		}
 		super.livingTick();
 	}
