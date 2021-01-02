@@ -13,7 +13,6 @@ public class SpeedLeveling {
 	private EntityDataManager dataManager;
 	public static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
 	public static final DataParameter<Float> XP = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
-	public static final DataParameter<Integer> MAX_LEVEL = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
 	private float[] requiredXpArray = new float[]{500, 2000, 4000, 7000};
 	private String[] levelNames = new String[]{"Speed I", "Speed II", "Speed III", "Speed IV", "Speed V"};
 
@@ -52,11 +51,7 @@ public class SpeedLeveling {
 	}
 
 	public int getMaxLevel() {
-		return this.dataManager.get(MAX_LEVEL);
-	}
-
-	public void setMaxLevel(int max_level) {
-		this.dataManager.set(MAX_LEVEL, max_level);
+		return 4;
 	}
 
 	public float getXp() {
@@ -84,7 +79,6 @@ public class SpeedLeveling {
 	public void write(CompoundNBT compound) {
 		compound.putInt("SpeedLevel", this.dataManager.get(LEVEL));
 		compound.putFloat("SpeedXP", this.dataManager.get(XP));
-		compound.putInt("SpeedMaxLevel", this.dataManager.get(MAX_LEVEL));
 	}
 
 	public void read(CompoundNBT compound) {
@@ -93,9 +87,6 @@ public class SpeedLeveling {
 		}
 		if (compound.contains("SpeedXP")) {
 			this.setXp(compound.getFloat("SpeedXP"));
-		}
-		if (compound.contains("SpeedMaxLevel")) {
-			this.setMaxLevel(compound.getInt("SpeedMaxLevel"));
 		}
 	}
 }
