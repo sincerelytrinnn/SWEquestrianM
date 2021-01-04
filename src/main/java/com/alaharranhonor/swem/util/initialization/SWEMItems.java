@@ -99,6 +99,12 @@ public class SWEMItems {
 	public static final RegistryObject<DesensitizingItem> SHOPPING_BAG = ITEMS.register("shopping_bag", () -> new DesensitizingItem(3));
 	public static final RegistryObject<DesensitizingItem> TARP = ITEMS.register("tarp", () -> new DesensitizingItem(4));
 	public static final RegistryObject<PitchforkTool> PITCHFORK = ITEMS.register("pitchfork", PitchforkTool::new);
+	public static final RegistryObject<HorseXPBottle> SPEED_XP_BOTTLE = ITEMS.register("speed_xp_bottle", () -> new HorseXPBottle("speed"));
+	public static final RegistryObject<HorseXPBottle> JUMP_XP_BOTTLE = ITEMS.register("jump_xp_bottle", () -> new HorseXPBottle("jump"));
+	public static final RegistryObject<HorseXPBottle> AFFINITY_XP_BOTTLE = ITEMS.register("affinity_xp_bottle", () -> new HorseXPBottle("affinity"));
+	public static final RegistryObject<HorseXPBottle> HEALTH_XP_BOTTLE = ITEMS.register("health_xp_bottle", () -> new HorseXPBottle("health"));
+	public static final RegistryObject<HorseXPBottle> ALL_XP_BOTTLE = ITEMS.register("all_xp_bottle", () -> new HorseXPBottle("all"));
+	
 
 	// SADDLES
 	public static final RegistryObject<WesternSaddleItem> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new WesternSaddleItem("western_saddle_light_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
