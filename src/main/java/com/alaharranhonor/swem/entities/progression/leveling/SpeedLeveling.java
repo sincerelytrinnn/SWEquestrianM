@@ -70,9 +70,6 @@ public class SpeedLeveling {
 	}
 
 	public String getLevelName() {
-		if (this.getLevel() == this.getMaxLevel()) {
-			return this.levelNames[this.getMaxLevel() - 1];
-		}
 		return this.levelNames[this.dataManager.get(LEVEL)];
 	}
 

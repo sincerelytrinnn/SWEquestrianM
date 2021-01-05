@@ -78,9 +78,6 @@ public class AffinityLeveling implements ILeveling{
 
 	@Override
 	public float getRequiredXp() {
-		if (this.getLevel() == this.getMaxLevel()) {
-			return -1.0f;
-		}
 		return this.requiredXpArray[this.dataManager.get(LEVEL)];
 	}
 
