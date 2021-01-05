@@ -93,9 +93,7 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 
 		// Owner name.
 		// this.horseEntity.getOwnerDisplayName().getString() produces NullPointerException
-		this.horseEntity.getOwnerDisplayName().getString();
 		this.font.func_243248_b(matrixStack, new StringTextComponent(SWEMUtil.checkTextOverflow("NULLPOINTEREXCEPTION", 22)), 65.2f, 36.0f, 4210752);
-		
 		// Jump TEXT
 		TranslationTextComponent jumpInfo;
 		if (jumpLeveling.getLevel() != jumpLeveling.getMaxLevel()) {

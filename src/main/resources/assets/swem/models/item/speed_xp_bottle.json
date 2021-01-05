@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "layers": {
+    "layer0": "swem:items/speed_xp_bottle"
+  }
+}

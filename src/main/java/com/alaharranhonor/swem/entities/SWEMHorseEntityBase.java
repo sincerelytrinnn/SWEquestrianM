@@ -26,6 +26,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.horse.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -234,7 +235,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 				}
 			}
 
-			this.needs.tick();
+			//this.needs.tick();
 		}
 		super.livingTick();
 	}
@@ -315,19 +316,15 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 		this.dataManager.register(SpeedLeveling.LEVEL, 0);
 		this.dataManager.register(SpeedLeveling.XP, 0.0f);
-		this.dataManager.register(SpeedLeveling.MAX_LEVEL, 5);
 
 		this.dataManager.register(JumpLeveling.LEVEL, 0);
 		this.dataManager.register(JumpLeveling.XP, 0.0f);
-		this.dataManager.register(JumpLeveling.MAX_LEVEL, 5);
 
 		this.dataManager.register(HealthLeveling.LEVEL, 0);
 		this.dataManager.register(HealthLeveling.XP, 0.0f);
-		this.dataManager.register(HealthLeveling.MAX_LEVEL, 5);
 
 		this.dataManager.register(AffinityLeveling.LEVEL, 0);
 		this.dataManager.register(AffinityLeveling.XP, 0.0f);
-		this.dataManager.register(AffinityLeveling.MAX_LEVEL, 12);
 
 		this.dataManager.register(HungerNeed.HungerState.ID, 4);
 		this.dataManager.register(ThirstNeed.ThirstState.ID, 4);
@@ -744,6 +741,22 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 
 					}
+				}
+
+				if (this.isBeingRidden() && !this.hasGirthStrap()) {
+					if (this.ticksExisted % 20 == 0) {
+						int rand = this.getRNG().nextInt(5);
+						if (rand == 0) {
+							Entity rider = this.getPassengers().get(0);
+							rider.stopRiding();
+							ItemStack saddle = this.hasSaddle();
+							this.horseChest.setInventorySlotContents(2, ItemStack.EMPTY);
+							this.setSWEMSaddled();
+							SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 2, ItemStack.EMPTY));
+							this.world.addEntity(new ItemEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ(), saddle));
+						}
+					}
+
 				}
 				this.currentPos = this.getPosition();
 			}
@@ -1295,8 +1308,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	public enum HorseSpeed {
 
-		WALK(new AttributeModifier("HORSE_WALK", -0.85d, AttributeModifier.Operation.MULTIPLY_TOTAL), 0),
-		TROT(new AttributeModifier("HORSE_TROT", -0.7d, AttributeModifier.Operation.MULTIPLY_TOTAL), 1),
+		WALK(new AttributeModifier("HORSE_WALK", -0.8d, AttributeModifier.Operation.MULTIPLY_TOTAL), 0),
+		TROT(new AttributeModifier("HORSE_TROT", -0.6d, AttributeModifier.Operation.MULTIPLY_TOTAL), 1),
 		CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.MULTIPLY_TOTAL), 2),
 		GALLOP(new AttributeModifier("HORSE_GALLOP", 0.07115276974015008d, AttributeModifier.Operation.ADDITION), 3);
 		private AttributeModifier modifier;

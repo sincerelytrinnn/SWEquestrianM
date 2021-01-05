@@ -60,7 +60,8 @@ public class TackBoxBirthScreen extends Screen {
 			SWEMHorseEntityBase horse = this.container.horse;
 
 			this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Owner: %s", SWEMUtil.checkTextOverflow(horse.getOwnerDisplayName().getString(), 24)) ), this.guiLeft + 17, this.guiTop + 57, 4210752);
-			this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Name: %s", SWEMUtil.checkTextOverflow(horse.getDisplayName().getString(), 24)) ), this.guiLeft + 17, this.guiTop + 67, 4210752);
+			// horse.getDisplayName().getString()
+			this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Name: %s", SWEMUtil.checkTextOverflow("SWEMHBE#getOwnerDisplayName", 24)) ), this.guiLeft + 17, this.guiTop + 67, 4210752);
 			this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Show Name: %s", SWEMUtil.checkTextOverflow(horse.getDisplayName().getString(), 24))), this.guiLeft + 17, this.guiTop + 77, 4210752);
 
 			this.font.func_243248_b(matrixStack, new StringTextComponent("Dam: Phase 2"), this.guiLeft + 17, this.guiTop + 99, 4210752);

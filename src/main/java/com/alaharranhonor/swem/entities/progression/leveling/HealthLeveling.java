@@ -12,12 +12,9 @@ public class HealthLeveling implements ILeveling{
 	private EntityDataManager dataManager;
 	public static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
 	public static final DataParameter<Float> XP = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
-	public static final DataParameter<Integer> MAX_LEVEL = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
-	private int maxLevel;
 	private float[] requiredXpArray = new float[]{500, 2000, 4000, 7000};
 	private String[] levelNames = new String[] {"Health I", "Health II", "Health III", "Health IV", "Health V"};
 	public HealthLeveling(SWEMHorseEntityBase horse) {
-		this.maxLevel = 5;
 		this.horse = horse;
 		this.dataManager = this.horse.getDataManager();
 	}
@@ -56,12 +53,9 @@ public class HealthLeveling implements ILeveling{
 
 	@Override
 	public int getMaxLevel() {
-		return this.dataManager.get(MAX_LEVEL);
+		return 4;
 	}
 
-	public void setMaxLevel(int max_level) {
-		this.dataManager.set(MAX_LEVEL, max_level);
-	}
 
 	@Override
 	public float getXp() {
@@ -82,9 +76,6 @@ public class HealthLeveling implements ILeveling{
 
 	@Override
 	public String getLevelName() {
-		if (this.getLevel() == this.getMaxLevel()) {
-			return this.levelNames[this.getMaxLevel() - 1];
-		}
 		return this.levelNames[this.dataManager.get(LEVEL)];
 	}
 
@@ -92,7 +83,6 @@ public class HealthLeveling implements ILeveling{
 	public void write(CompoundNBT compound) {
 		compound.putInt("HealthLevel", this.dataManager.get(LEVEL));
 		compound.putFloat("HealthXP", this.dataManager.get(XP));
-		compound.putInt("HealthMaxLevel", this.dataManager.get(MAX_LEVEL));
 	}
 
 	@Override
@@ -102,9 +92,6 @@ public class HealthLeveling implements ILeveling{
 		}
 		if (compound.contains("HealthXP")) {
 			this.setXp(compound.getFloat("HealthXP"));
-		}
-		if (compound.contains("HealthMaxLevel")) {
-			this.setMaxLevel(compound.getInt("HealthMaxLevel"));
 		}
 	}
 }

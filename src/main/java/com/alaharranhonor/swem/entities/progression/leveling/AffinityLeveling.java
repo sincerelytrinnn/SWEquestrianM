@@ -14,7 +14,6 @@ public class AffinityLeveling implements ILeveling{
 	private EntityDataManager dataManager;
 	public static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
 	public static final DataParameter<Float> XP = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
-	public static final DataParameter<Integer> MAX_LEVEL = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
 	private float[] requiredXpArray = new float[]{100, 500, 1000, 1500, 2000, 3000, 4000, 5000, 7000, 10000, 13000, 17000};
 	private String[] levelNames = new String[] {"Unwilling", "Reluctant", "Tolerant", "Indifferent", "Accepting",  "Willing",  "Committed", "Trusted",  "Friends",  "Best Friends", "Inseparable", "Bonded", };
 	private float[] obeyDebuff = new float[] {1.0f, 0.9f, 0.75f, 0.65f, 0.5f, 0.4f, 0.35f, 0.3f, 0.25f, 0.2f, 0.1f, 0};
@@ -65,11 +64,7 @@ public class AffinityLeveling implements ILeveling{
 
 	@Override
 	public int getMaxLevel() {
-		return this.dataManager.get(MAX_LEVEL);
-	}
-
-	public void setMaxLevel(int max_level) {
-		this.dataManager.set(MAX_LEVEL, max_level);
+		return 11;
 	}
 
 	@Override
@@ -83,9 +78,6 @@ public class AffinityLeveling implements ILeveling{
 
 	@Override
 	public float getRequiredXp() {
-		if (this.getLevel() == this.getMaxLevel()) {
-			return -1.0f;
-		}
 		return this.requiredXpArray[this.dataManager.get(LEVEL)];
 	}
 
@@ -173,7 +165,6 @@ public class AffinityLeveling implements ILeveling{
 	public void write(CompoundNBT compound) {
 		compound.putInt("AffinityLevel", this.dataManager.get(LEVEL));
 		compound.putFloat("AffinityXP", this.dataManager.get(XP));
-		compound.putInt("AffinityMaxLevel", this.dataManager.get(MAX_LEVEL));
 		CompoundNBT nbt = new CompoundNBT();
 		compound.put("desensiztingItem", this.dataManager.get(CURRENT_DESENSITIZING_ITEM).write(nbt));
 		compound.putInt("currentSwipes", this.currentSwipes);
@@ -187,9 +178,6 @@ public class AffinityLeveling implements ILeveling{
 		}
 		if (compound.contains("AffinityXP")) {
 			this.setXp(compound.getFloat("AffinityXP"));
-		}
-		if (compound.contains("AffinityMaxLevel")) {
-			this.setMaxLevel(compound.getInt("AffinityMaxLevel"));
 		}
 		if (compound.contains("desensiztingItem")) {
 			this.setCurrentDesensitizingItem(ItemStack.read((CompoundNBT) compound.get("desensiztingItem")));

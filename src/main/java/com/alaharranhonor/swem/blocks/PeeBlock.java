@@ -27,11 +27,6 @@ public class PeeBlock extends Block {
 	}
 
 	@Override
-	public SoundType getSoundType(BlockState state, IWorldReader world, BlockPos pos, @Nullable Entity entity) {
-		return null;
-	}
-
-	@Override
 	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
 		if (facing == Direction.DOWN) {
 			if (!facingState.isSolid()) {

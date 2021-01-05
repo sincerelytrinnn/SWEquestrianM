@@ -60,7 +60,7 @@ public class PoopGoal extends Goal {
 	 */
 	@Override
 	public boolean shouldContinueExecuting() {
-		return this.poopTimer > 0;
+		return this.poopTimer > 0 && this.pooperEntity.getPassengers().isEmpty();
 	}
 
 	public int getPoopTimer() {
