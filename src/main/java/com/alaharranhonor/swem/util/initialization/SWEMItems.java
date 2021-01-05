@@ -9,6 +9,7 @@ import com.alaharranhonor.swem.tools.FenceToolItem;
 import com.alaharranhonor.swem.tools.PitchforkTool;
 import com.alaharranhonor.swem.tools.SWEMItemTier;
 import com.alaharranhonor.swem.util.ArmorItemRegistration;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
@@ -99,6 +100,13 @@ public class SWEMItems {
 	public static final RegistryObject<DesensitizingItem> SHOPPING_BAG = ITEMS.register("shopping_bag", () -> new DesensitizingItem(3));
 	public static final RegistryObject<DesensitizingItem> TARP = ITEMS.register("tarp", () -> new DesensitizingItem(4));
 	public static final RegistryObject<PitchforkTool> PITCHFORK = ITEMS.register("pitchfork", PitchforkTool::new);
+	public static final RegistryObject<HorseXPBottle> SPEED_XP_BOTTLE = ITEMS.register("speed_xp_bottle", () -> new HorseXPBottle("speed"));
+	public static final RegistryObject<HorseXPBottle> JUMP_XP_BOTTLE = ITEMS.register("jump_xp_bottle", () -> new HorseXPBottle("jump"));
+	public static final RegistryObject<HorseXPBottle> AFFINITY_XP_BOTTLE = ITEMS.register("affinity_xp_bottle", () -> new HorseXPBottle("affinity"));
+	public static final RegistryObject<HorseXPBottle> HEALTH_XP_BOTTLE = ITEMS.register("health_xp_bottle", () -> new HorseXPBottle("health"));
+	public static final RegistryObject<HorseXPBottle> ALL_XP_BOTTLE = ITEMS.register("all_xp_bottle", () -> new HorseXPBottle("all"));
+	public static final RegistryObject<HoseItem> HOSE = ITEMS.register("hose", () -> new HoseItem(() -> Fluids.EMPTY, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+	public static final RegistryObject<HoseItem> HOSE_WATER = ITEMS.register("hose_water", () -> new HoseItem(() -> Fluids.WATER, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 
 	// SADDLES
 	public static final RegistryObject<WesternSaddleItem> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new WesternSaddleItem("western_saddle_light_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));

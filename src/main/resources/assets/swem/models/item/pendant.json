@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
-  "textures": {
-    "texture0": "swem:items/pendant"
+  "layers": {
+    "layer0": "swem:items/pendant"
   }
 }
