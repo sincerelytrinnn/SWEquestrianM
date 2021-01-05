@@ -2,9 +2,11 @@ package com.alaharranhonor.swem.items;
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.entities.progression.leveling.ILeveling;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 
