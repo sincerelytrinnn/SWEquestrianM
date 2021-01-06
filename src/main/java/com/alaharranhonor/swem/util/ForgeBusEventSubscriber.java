@@ -124,6 +124,5 @@ public class ForgeBusEventSubscriber {
 		if (stack.getItem() instanceof AmethystRidingBoots) {
 			event.setAmount(-1);
 		}
-
 	}
 }

@@ -72,9 +72,9 @@ public class SWEMItems {
 	public static final RegistryObject<Item> DIAMOND_CHESTPLATE = ITEMS.register("diamond_chestplate", ItemBase::new);
 	public static final RegistryObject<Item> DIAMOND_BOW = ITEMS.register("diamond_bow", ItemBase::new);
 	public static final RegistryObject<Item> AMETHYST_BOW = ITEMS.register("amethyst_bow", ItemBase::new);
-	public static final RegistryObject<SWEMArmorItem> AMETHYST_HELMET = ITEMS.register("amethyst_helmet", () -> new SWEMArmorItem("amethyst_layer",ModArmorMaterial.AMETHYST, EquipmentSlotType.HEAD, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
-	public static final RegistryObject<SWEMArmorItem> AMETHYST_CHESTPLATE = ITEMS.register("amethyst_chestplate", () -> new SWEMArmorItem("amethyst_layer",ModArmorMaterial.AMETHYST, EquipmentSlotType.CHEST, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
-	public static final RegistryObject<SWEMArmorItem> AMETHYST_PANTS = ITEMS.register("amethyst_pants", () -> new SWEMArmorItem("amethyst_layer",ModArmorMaterial.AMETHYST, EquipmentSlotType.LEGS, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+	public static final RegistryObject<SWEMArmorItem> AMETHYST_HELMET = ITEMS.register("amethyst_helmet", () -> new AmethystHelmet("amethyst_layer",ModArmorMaterial.AMETHYST, EquipmentSlotType.HEAD, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+	public static final RegistryObject<SWEMArmorItem> AMETHYST_CHESTPLATE = ITEMS.register("amethyst_chestplate", () -> new AmethystChestplate("amethyst_layer",ModArmorMaterial.AMETHYST, EquipmentSlotType.CHEST, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+	public static final RegistryObject<SWEMArmorItem> AMETHYST_PANTS = ITEMS.register("amethyst_pants", () -> new AmethystLeggings("amethyst_layer",ModArmorMaterial.AMETHYST, EquipmentSlotType.LEGS, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<Item> AMETHYST_SCYTHE = ITEMS.register("amethyst_scythe", ItemBase::new);
 	public static final RegistryObject<Item> AMETHYST_SHIELD = ITEMS.register("amethyst_shield", ItemBase::new);
 	public static final RegistryObject<Item> AMETHYST_SHIELD_LEATHER = ITEMS.register("amethyst_shield_leather", ItemBase::new);
