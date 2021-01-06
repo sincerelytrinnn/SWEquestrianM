@@ -8,14 +8,14 @@ public class AmethystArmorModelRenderer extends GeoArmorRenderer<SWEMArmorItem> 
 	public AmethystArmorModelRenderer() {
 		super (new AmethystArmorModel());
 
-		this.headBone = "helmet";
-		this.bodyBone = "chestplate";
-		this.rightArmBone = "rightArm";
-		this.leftArmBone = "leftArm";
-		this.rightLegBone = "rightLeg";
-		this.leftLegBone = "leftLeg";
-		this.rightBootBone = "rightBoot";
-		this.leftBootBone = "leftBoot";
+		this.headBone = "Head";
+		this.bodyBone = "Body";
+		this.rightArmBone = "RightArm";
+		this.leftArmBone = "LeftArm";
+		this.rightLegBone = "LeftLeg";
+		this.leftLegBone = "RightLeg";
+		this.rightBootBone = "LeftBoot";
+		this.leftBootBone = "RightBoot";
 	}
 
 }

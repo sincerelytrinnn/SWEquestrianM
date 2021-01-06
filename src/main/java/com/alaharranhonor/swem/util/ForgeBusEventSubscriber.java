@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.armor.AmethystRidingBoots;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.network.SendHorseSpeedChange;
@@ -11,10 +12,16 @@ import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.IngameGui;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -104,5 +111,18 @@ public class ForgeBusEventSubscriber {
 			Minecraft.getInstance().ingameGUI.blit(stack, xPosition + 1, k, 201 - ((level + 1) * 40), 25, amountToDraw, 5, 201, 30);
 		}
 
+	}
+
+	@SubscribeEvent
+	public static void onUserHurt(LivingHurtEvent event) {
+		if (!(event.getEntity() instanceof PlayerEntity)) return;
+		if (event.getSource() != DamageSource.FALL) return;
+		PlayerEntity player = (PlayerEntity) event.getEntity();
+		if (player.isSneaking()) return;
+
+		ItemStack stack = player.getItemStackFromSlot(EquipmentSlotType.FEET);
+		if (stack.getItem() instanceof AmethystRidingBoots) {
+			event.setAmount(-1);
+		}
 	}
 }

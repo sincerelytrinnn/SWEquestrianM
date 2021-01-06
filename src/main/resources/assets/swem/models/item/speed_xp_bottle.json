@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
-  "layers": {
+  "textures": {
     "layer0": "swem:items/speed_xp_bottle"
   }
 }
