@@ -35,7 +35,7 @@ public enum ModArmorMaterial implements IArmorMaterial {
         return Ingredient.fromItems(Items.DIAMOND);
     }),
 
-    AMETHYST(SWEM.MOD_ID + ":amethyst", 61, new int[] {5, 8, 14, 5}, 0, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0.0f, () -> {
+    AMETHYST(SWEM.MOD_ID + ":amethyst", 61, new int[] {5, 8, 14, 5}, 0, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0f, () -> {
         return Ingredient.fromItems(SWEMItems.CANTAZARITE.get());
     });
 

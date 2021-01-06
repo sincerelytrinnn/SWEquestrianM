@@ -23,6 +23,7 @@ public class AmethystRidingBoots extends DiamondRidingBoots {
 
 	@Override
 	public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
+		super.onArmorTick(stack, world, player);
 		if (player.isSneaking()) return;
 		Vector3d motion = player.getMotion();
 		if (!player.isOnGround() && motion.y < 0.0D) {
