@@ -1,0 +1,74 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.unknown",
+				"texture_width": 128,
+				"texture_height": 128,
+				"visible_bounds_width": 5,
+				"visible_bounds_height": 4.5,
+				"visible_bounds_offset": [0, 1.75, 0]
+			},
+			"bones": [
+				{
+					"name": "cloth",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-5, 13, -7], "size": [8, 17, 1], "inflate": 0.125, "uv": [18, 19]},
+						{"origin": [-5, 13, 6], "size": [8, 17, 1], "inflate": 0.125, "uv": [0, 19]}
+					]
+				},
+				{
+					"name": "iron",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-14, 20, -8], "size": [8, 11, 1], "inflate": 0.0625, "uv": [0, 37]},
+						{"origin": [-14, 20, 7], "size": [8, 11, 1], "inflate": 0.0625, "uv": [36, 19]},
+						{"origin": [-14, 31, -7], "size": [8, 1, 4], "inflate": 0.0625, "uv": [14, 45]},
+						{"origin": [-14, 31, 3], "size": [8, 1, 4], "inflate": 0.0625, "uv": [36, 31]},
+						{"origin": [4, 20, -8], "size": [11, 11, 1], "inflate": 0.0625, "uv": [35, 36]},
+						{"origin": [4, 20, 7], "size": [11, 11, 1], "inflate": 0.0625, "uv": [32, 7]},
+						{"origin": [4, 31, -7], "size": [11, 1, 5], "inflate": 0.0625, "uv": [0, 13]},
+						{"origin": [4, 31, 2], "size": [11, 1, 5], "inflate": 0.0625, "uv": [0, 7]},
+						{"origin": [-27, 34, 3], "size": [8, 4, 1], "inflate": 0.0625, "uv": [0, 50]},
+						{"origin": [-27, 34, -4], "size": [8, 4, 1], "inflate": 0.0625, "uv": [38, 48]},
+						{"origin": [-22, 38, -4], "size": [3, 5, 1], "inflate": 0.0626, "uv": [54, 19]},
+						{"origin": [-22, 38, 3], "size": [3, 5, 1], "inflate": 0.0626, "uv": [26, 37]},
+						{"origin": [-22, 42, -3], "size": [1, 1, 6], "inflate": 0.125, "uv": [12, 50]},
+						{"origin": [4, 31, -2], "size": [9, 1, 4], "uv": [28, 0]}
+					]
+				},
+				{
+					"name": "bone2",
+					"parent": "iron",
+					"pivot": [-22.9375, 42.875, 0],
+					"rotation": [0, 0, -30],
+					"cubes": [
+						{"origin": [-32.9375, 41.875, -3], "size": [11, 1, 6], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "bone",
+					"parent": "iron",
+					"pivot": [-26, 37, 0],
+					"rotation": [0, 0, -15],
+					"cubes": [
+						{"origin": [-26.78971, 37.78481, -3], "size": [1, 2, 6], "inflate": 0.125, "uv": [18, 37]}
+					]
+				},
+				{
+					"name": "gold",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-26.875, 33.875, -3], "size": [1, 1, 6], "inflate": 0.0625, "uv": [48, 0]},
+						{"origin": [-11, 0, -5.25], "size": [3, 3, 3], "inflate": 0.3125, "uv": [53, 53]},
+						{"origin": [-11, 0, 2.25], "size": [3, 3, 3], "inflate": 0.3125, "uv": [41, 53]},
+						{"origin": [11.25, 0, -5.25], "size": [3, 3, 3], "inflate": 0.3125, "uv": [29, 53]},
+						{"origin": [11.25, 0, 2.25], "size": [3, 3, 3], "inflate": 0.3125, "uv": [20, 50]}
+					]
+				}
+			]
+		}
+	]
+}
