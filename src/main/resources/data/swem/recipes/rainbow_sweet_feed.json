@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#S"
+  ],
+  "ingredients": [
+    {
+      "item": "swem:dehydrated_rainbow"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "result": {
+    "item": "swem:rainbow_sweet_feed"
+  }
+}

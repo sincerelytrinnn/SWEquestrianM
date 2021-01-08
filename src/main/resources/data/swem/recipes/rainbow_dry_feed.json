@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# ",
+    "S  "
+  ],
+  "ingredients": [
+    {
+      "item": "swem:rainbow_heavy_feed"
+    },
+    {
+      "item": "minecraft:bucket"
+    }
+  ],
+  "result": {
+    "item": "swem:rainbow_dry_feed"
+  }
+}
