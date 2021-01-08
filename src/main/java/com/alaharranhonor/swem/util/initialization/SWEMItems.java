@@ -108,6 +108,17 @@ public class SWEMItems {
 	public static final RegistryObject<HoseItem> HOSE = ITEMS.register("hose", () -> new HoseItem(() -> Fluids.EMPTY, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<HoseItem> HOSE_WATER = ITEMS.register("hose_water", () -> new HoseItem(() -> Fluids.WATER, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 
+	// Rainbow Horse recipe items.
+	public static final RegistryObject<Item> WARMER_EGG = ITEMS.register("warmer_egg", ItemBase::new);
+	public static final RegistryObject<Item> COOLER_EGG = ITEMS.register("cooler_egg", ItemBase::new);
+	public static final RegistryObject<Item> RAINBOW_EGG = ITEMS.register("rainbow_egg", ItemBase::new);
+	public static final RegistryObject<Item> RAINBOW_CHIC = ITEMS.register("rainbow_chic", ItemBase::new);
+	public static final RegistryObject<Item> DEHYDRATED_RAINBOW = ITEMS.register("dehydrated_rainbow", ItemBase::new);
+	public static final RegistryObject<Item> RAINBOW_SWEET_FEED = ITEMS.register("rainbow_sweet_feed", ItemBase::new);
+	public static final RegistryObject<Item> RAINBOW_HEAVY_FEED = ITEMS.register("rainbow_heavy_feed", ItemBase::new);
+	public static final RegistryObject<Item> RAINBOW_DRY_FEED = ITEMS.register("rainbow_dry_feed", ItemBase::new);
+	public static final RegistryObject<Item> RAINBOW_DINDIN = ITEMS.register("rainbow_dindin", ItemBase::new);
+
 	// SADDLES
 	public static final RegistryObject<WesternSaddleItem> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new WesternSaddleItem("western_saddle_light_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<WesternSaddleItem> WESTERN_SADDLE_WHITE = ITEMS.register("western_saddle_white", () -> new WesternSaddleItem("western_saddle_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
