@@ -75,7 +75,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
-public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable, IEntityAdditionalSpawnData {
+public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable, IEntityAdditionalSpawnData {
 
 
 
@@ -384,6 +384,12 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			if (p_230266_1_ != null) {
 				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
+		} else if (stack.getItem() instanceof SWEMHorseArmorItem) {
+			this.horseChest.setInventorySlotContents(6, stack);
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 6, stack));
+			if (p_230266_1_ != null) {
+				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
+			}
 		}
 
 	}
@@ -528,6 +534,9 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		if (!this.horseChest.getStackInSlot(5).isEmpty()) {
 			compound.put("GirthStrapItem", this.horseChest.getStackInSlot(5).write(new CompoundNBT()));
 		}
+		if (!this.horseChest.getStackInSlot(6).isEmpty()) {
+			compound.put("SWEMArmorItem", this.horseChest.getStackInSlot(6).write(new CompoundNBT()));
+		}
 
 		compound.putBoolean("whistleBound", this.getWhistleBound());
 
@@ -585,6 +594,12 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			ItemStack itemstack = ItemStack.read(compound.getCompound("GirthStrapItem"));
 			if (!itemstack.isEmpty() && this.isGirthStrap(itemstack)) {
 				this.horseChest.setInventorySlotContents(5, itemstack);
+			}
+		}
+		if (compound.contains("SWEMArmorItem", 10)) {
+			ItemStack itemstack = ItemStack.read(compound.getCompound("SWEMArmorItem"));
+			if (!itemstack.isEmpty() && this.isSWEMArmor(itemstack)) {
+				this.horseChest.setInventorySlotContents(6, itemstack);
 			}
 		}
 
@@ -743,6 +758,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 					}
 				}
 
+				// Kick off rider, if no girth strap is equipped.
 				if (this.isBeingRidden() && !this.hasGirthStrap()) {
 					if (this.ticksExisted % 20 == 0) {
 						int rand = this.getRNG().nextInt(5);

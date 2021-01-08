@@ -9,18 +9,26 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.vector.Quaternion;
+import software.bernie.geckolib3.geo.render.built.GeoBone;
+import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
 import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
+import software.bernie.geckolib3.util.GeoUtils;
+
+import java.util.Iterator;
 
 public class WesternSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
-	private final WesternSaddleModel<SWEMHorseEntity> modelSaddle = new WesternSaddleModel<>();
+	private final WesternSaddleModel modelSaddle = new WesternSaddleModel();
+	private final IGeoRenderer entityRenderer;
 
 	public WesternSaddleLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
 		super(entityRendererIn);
+		this.entityRenderer = entityRendererIn;
 	}
 
 	@Override
@@ -31,10 +39,28 @@ public class WesternSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 			if (shouldRender(stack, entitylivingbaseIn)) {
 				matrixStackIn.push();
 				matrixStackIn.translate(0.0D, 1.5D, 0.125D);
-				matrixStackIn.rotate(new Quaternion(0.0f, 0.0f, 1.0f, 0.0f));
-				this.modelSaddle.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+				GeoModel horseModel = this.entityRenderer.getGeoModelProvider().getModel(this.entityRenderer.getGeoModelProvider().getModelLocation(entitylivingbaseIn));
+
 				IVertexBuilder ivertexbuilder = ItemRenderer.getArmorVertexBuilder(bufferIn, RenderType.getArmorCutoutNoCull(saddleItem.getTexture()), false, stack.hasEffect());
-				this.modelSaddle.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+				Iterator group = modelSaddle.getModel(modelSaddle.getModelLocation((WesternSaddleItem) saddleItem)).topLevelBones.iterator();
+				while (group.hasNext()) {
+					GeoBone bone = (GeoBone) group.next();
+					GeoBone horseBody = horseModel.getBone("body").get();
+					GeoBone horseBack = horseModel.getBone("middle").get();
+
+					bone.setPivotY(0);
+
+					bone.setRotationY(horseBody.getRotationY());
+					bone.setRotationX(horseBody.getRotationZ());
+					bone.setRotationZ(horseBody.getRotationX());
+
+					bone.setPositionX(horseBody.getPositionZ());
+					bone.setPositionY(horseBody.getPositionY());
+					bone.setPositionZ(horseBody.getPositionX());
+
+
+					this.entityRenderer.renderRecursively(bone, matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+				}
 				matrixStackIn.pop();
 			}
 		}
