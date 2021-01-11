@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "Alight/cantazarite_anvil_texture",
-		"particle": "Alight/cantazarite_anvil_texture"
+		"0": "swem:blocks/cantazarite_anvil",
+		"particle": "swem:blocks/cantazarite_anvil"
 	},
 	"groups": [
 		{
@@ -27,8 +27,8 @@
 	"layers": {
 		"solid": {
 			"textures": {
-				"0": "Alight/cantazarite_anvil_texture",
-				"particle": "Alight/cantazarite_anvil_texture"
+				"0": "swem:blocks/cantazarite_anvil",
+				"particle": "swem:blocks/cantazarite_anvil"
 			},
 			"elements": [
 				{
@@ -139,8 +139,8 @@
 		},
 		"translucent": {
 			"textures": {
-				"0": "Alight/cantazarite_anvil_texture",
-				"particle": "Alight/cantazarite_anvil_texture"
+				"0": "swem:blocks/cantazarite_anvil",
+				"particle": "swem:blocks/cantazarite_anvil"
 			},
 			"elements": [
 				{

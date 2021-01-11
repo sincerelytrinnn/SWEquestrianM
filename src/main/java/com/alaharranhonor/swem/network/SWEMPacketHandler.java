@@ -22,5 +22,6 @@ public class SWEMPacketHandler {
 		INSTANCE.registerMessage(4, ClientStatusMessagePacket.class, ClientStatusMessagePacket::encode, ClientStatusMessagePacket::decode, ClientStatusMessagePacket::handle);
 		INSTANCE.registerMessage(6, HorseStateChange.class, HorseStateChange::encode, HorseStateChange::decode, HorseStateChange::handle);
 		INSTANCE.registerMessage(7, HorseHungerChange.class, HorseHungerChange::encode, HorseHungerChange::decode, HorseHungerChange::handle);
+		INSTANCE.registerMessage(8, RenameItemPacket.class, RenameItemPacket::encode, RenameItemPacket::decode, RenameItemPacket::handle);
 	}
 }

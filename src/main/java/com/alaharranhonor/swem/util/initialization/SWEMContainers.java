@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.util.initialization;
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.container.CantazariteAnvilContainer;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.container.TackBoxContainer;
 import net.minecraft.inventory.container.Container;
@@ -24,5 +25,9 @@ public class SWEMContainers {
 
 	public static final RegistryObject<ContainerType<TackBoxContainer>> TACKBOX_CONTAINER = CONTAINER_TYPES.register("tackbox_container",
 			() -> IForgeContainerType.create(TackBoxContainer::new)
+	);
+
+	public static final RegistryObject<ContainerType<CantazariteAnvilContainer>> CANTAZARITE_ANVIL_CONTAINER = CONTAINER_TYPES.register("cantazarite_anvil",
+			() -> IForgeContainerType.create(CantazariteAnvilContainer::new)
 	);
 }
