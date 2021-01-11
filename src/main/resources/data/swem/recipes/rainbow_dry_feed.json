@@ -2,16 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "# ",
-    "S  "
+    "S "
   ],
-  "ingredients": [
-    {
+  "key": {
+    "#": {
       "item": "swem:rainbow_heavy_feed"
     },
-    {
+    "S": {
       "item": "minecraft:bucket"
     }
-  ],
+  },
   "result": {
     "item": "swem:rainbow_dry_feed"
   }

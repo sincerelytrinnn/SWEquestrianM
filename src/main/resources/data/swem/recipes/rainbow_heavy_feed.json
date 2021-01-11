@@ -3,14 +3,14 @@
   "pattern": [
     "#S"
   ],
-  "ingredients": [
-    {
+  "key": {
+    "#": {
       "item": "swem:rainbow_sweet_feed"
     },
-    {
+    "S": {
       "item": "minecraft:wheat"
     }
-  ],
+  },
   "result": {
     "item": "swem:rainbow_heavy_feed"
   }
