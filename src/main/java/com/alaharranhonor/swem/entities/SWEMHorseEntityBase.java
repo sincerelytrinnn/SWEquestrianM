@@ -683,6 +683,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		}
 	}
 
+	public void setCoatColour(SWEMCoatColors coat) {
+		this.setHorseVariant(coat.getId());
+	}
+
 
 	@Override
 	public void setHorseTamed(boolean tamed) {
@@ -939,6 +943,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 		}
 	}
+
+
 
 	// Item interaction with horse.
 	public ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {

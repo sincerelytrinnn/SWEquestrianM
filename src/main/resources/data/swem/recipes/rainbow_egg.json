@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "swem:warmer_egg"
+    },
+    {
+      "item": "swem:cooler_egg"
+    }
+  ],
+  "result": {
+    "item": "swem:rainbow_egg"
+  }
+}
