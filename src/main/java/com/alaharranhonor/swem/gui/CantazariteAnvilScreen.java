@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.gui;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.CantazariteAnvilContainer;
+import com.alaharranhonor.swem.items.SWEMArmorItem;
 import com.alaharranhonor.swem.network.RenameItemPacket;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -78,7 +79,7 @@ public class CantazariteAnvilScreen extends AbstractRepairScreen<CantazariteAnvi
 		RenderSystem.disableBlend();
 		super.drawGuiContainerForegroundLayer(matrixStack, x, y);
 		int i = this.container.getMaximumCost();
-		if (i > 0) {
+		if (i > 0 && !(this.container.getSlot(0).getStack().getItem() instanceof SWEMArmorItem)) {
 			int j = 8453920;
 			ITextComponent itextcomponent;
 			if (i >= 40 && !this.minecraft.player.abilities.isCreativeMode) {

@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.container;
 
+import com.alaharranhonor.swem.items.SWEMArmorItem;
 import com.alaharranhonor.swem.util.initialization.SWEMContainers;
 import net.minecraft.block.AnvilBlock;
 import net.minecraft.block.BlockState;
@@ -45,7 +46,7 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 	}
 
 	protected ItemStack func_230301_a_(PlayerEntity p_230301_1_, ItemStack p_230301_2_) {
-		if (!p_230301_1_.abilities.isCreativeMode) {
+		if (!p_230301_1_.abilities.isCreativeMode && !(this.field_234643_d_.getStackInSlot(0).getItem() instanceof SWEMArmorItem)) {
 			p_230301_1_.addExperienceLevel(-this.maximumCost.get());
 		}
 
