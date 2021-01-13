@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.util.initialization;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.*;
+import com.alaharranhonor.swem.entity.coats.SWEMCoatColors;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.potions.CantazaritePotionItem;
 import com.alaharranhonor.swem.items.tack.*;
@@ -115,6 +116,17 @@ public class SWEMItems {
 	public static final RegistryObject<SWEMHorseArmorItem> AMETHYST_HORSE_ARMOR = ITEMS.register("amethyst_horse_armor", () -> new SWEMHorseArmorItem(5, "amethyst", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 
 
+
+	// Rainbow Horse recipe items.
+	public static final RegistryObject<Item> WARMER_EGG = ITEMS.register("warmer_egg", ItemBase::new);
+	public static final RegistryObject<Item> COOLER_EGG = ITEMS.register("cooler_egg", ItemBase::new);
+	public static final RegistryObject<Item> RAINBOW_EGG = ITEMS.register("rainbow_egg", ItemBase::new);
+	public static final RegistryObject<Item> RAINBOW_CHIC = ITEMS.register("rainbow_chic", ItemBase::new);
+	public static final RegistryObject<Item> DEHYDRATED_RAINBOW = ITEMS.register("dehydrated_rainbow", ItemBase::new);
+	public static final RegistryObject<Item> RAINBOW_SWEET_FEED = ITEMS.register("rainbow_sweet_feed", ItemBase::new);
+	public static final RegistryObject<Item> RAINBOW_HEAVY_FEED = ITEMS.register("rainbow_heavy_feed", ItemBase::new);
+	public static final RegistryObject<Item> RAINBOW_DRY_FEED = ITEMS.register("rainbow_dry_feed", RainbowDryFeedItem::new);
+	public static final RegistryObject<Item> RAINBOW_DINDIN = ITEMS.register("rainbow_dindin", () -> new HorseTransformItem(SWEMCoatColors.RAINBOW));
 
 	// SADDLES
 	public static final RegistryObject<WesternSaddleItem> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new WesternSaddleItem("western_saddle_light_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "swem:rainbow_chic"
+  },
+  "result": {
+    "item": "swem:dehydrated_rainbow",
+    "count": 1
+  },
+  "experience": 1.5,
+  "cookingtime": 240
+}

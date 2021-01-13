@@ -6,6 +6,7 @@ import com.alaharranhonor.swem.blocks.HorseDoorBlock;
 import com.alaharranhonor.swem.blocks.NonParallelBlock;
 import com.alaharranhonor.swem.blocks.WheelBarrowBlock;
 import com.alaharranhonor.swem.entity.render.*;
+import com.alaharranhonor.swem.gui.CantazariteAnvilScreen;
 import com.alaharranhonor.swem.gui.SWEMHorseInventoryScreen;
 import com.alaharranhonor.swem.gui.TackBoxDefaultScreen;
 import com.alaharranhonor.swem.items.SWEMArmorItem;
@@ -55,6 +56,7 @@ public class ClientEventBusSubscriber {
     public static void initLate() {
         ScreenManager.registerFactory(SWEMContainers.SWEM_HORSE_CONTAINER.get(), SWEMHorseInventoryScreen::new);
         ScreenManager.registerFactory(SWEMContainers.TACKBOX_CONTAINER.get(), TackBoxDefaultScreen::new);
+        ScreenManager.registerFactory(SWEMContainers.CANTAZARITE_ANVIL_CONTAINER.get(), CantazariteAnvilScreen::new);
     }
 
     public static void registerRenderers(final FMLClientSetupEvent event) {
