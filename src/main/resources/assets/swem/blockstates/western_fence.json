@@ -2,53 +2,6 @@
   "multipart": [
     {
       "when": {
-        "full_fence": "true",
-        "north": "true",
-        "south": "true",
-        "east": "false",
-        "west": "false"
-      },
-      "apply": {
-        "model": "swem:block/western_fence_full"
-      }
-    },
-    {
-      "when": {
-        "full_fence": "true",
-        "east": "true",
-        "west": "true",
-        "north": "false",
-        "south": "false"
-      },
-      "apply": {
-        "model": "swem:block/western_fence_full",
-        "y": 90
-      }
-    },
-    {
-      "when": {
-        "half_fence": "true",
-        "north": "true",
-        "south": "true"
-      },
-      "apply": {
-        "model": "swem:block/western_fence_half"
-      }
-    },
-    {
-      "when": {
-        "half_fence": "true",
-        "east": "true",
-        "west": "true"
-      },
-      "apply": {
-        "model": "swem:block/western_fence_half",
-        "y": 90
-      }
-    },
-    {
-      "when": {
-        "full_fence": "false",
         "half_fence": "false"
       },
       "apply": {
@@ -57,46 +10,99 @@
     },
     {
       "when": {
-        "north": "true",
-        "full_fence": "false",
-        "half_fence": "false"
-      },
-      "apply": {
-        "model": "swem:block/western_fence_side"
-      }
-    },
-    {
-      "when": {
-        "east": "true",
-        "full_fence": "false",
-        "half_fence": "false"
+        "half_fence": false,
+        "north": "true"
       },
       "apply": {
         "model": "swem:block/western_fence_side",
+        "uvlock": true,
         "y": 90
       }
     },
     {
       "when": {
-        "south": "true",
-        "full_fence": "false",
-        "half_fence": "false"
+        "half_fence": false,
+        "east": "true"
       },
       "apply": {
         "model": "swem:block/western_fence_side",
+        "uvlock": true,
         "y": 180
       }
     },
     {
       "when": {
-        "west": "true",
-        "full_fence": "false",
-        "half_fence": "false"
+        "half_fence": false,
+        "south": "true"
       },
       "apply": {
         "model": "swem:block/western_fence_side",
+        "uvlock": true,
         "y": 270
       }
+    },
+    {
+      "when": {
+        "half_fence": false,
+        "west": "true"
+      },
+      "apply": {
+        "model": "swem:block/western_fence_side",
+        "uvlock": true
+      }
+    },
+
+    {
+      "when": {
+        "half_fence": "true"
+      },
+      "apply": {
+        "model": "swem:block/western_fence_post_half"
+      }
+    },
+    {
+      "when": {
+        "half_fence": "true",
+        "north": "true"
+      },
+      "apply": {
+        "model": "swem:block/western_fence_side_half",
+        "uvlock": true,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "half_fence": "true",
+        "east": "true"
+      },
+      "apply": {
+        "model": "swem:block/western_fence_side_half",
+        "uvlock": true,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "half_fence": "true",
+        "south": "true"
+      },
+      "apply": {
+        "model": "swem:block/western_fence_side_half",
+        "uvlock": true,
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "half_fence": "true",
+        "west": "true"
+      },
+      "apply": {
+        "model": "swem:block/western_fence_side_half",
+        "uvlock": true
+      }
     }
+
   ]
 }

@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "minecraft:block/oak_planks",
-		"particle": "minecraft:block/oak_planks"
+		"0": "swem:blocks/western_fence",
+		"particle": "swem:blocks/western_fence"
 	},
 	"groups": [
 		{
@@ -15,19 +15,19 @@
 	"layers": {
 		"solid": {
 			"textures": {
-				"0": "minecraft:block/oak_planks",
-				"particle": "minecraft:block/oak_planks"
+				"0": "swem:blocks/western_fence",
+				"particle": "swem:blocks/western_fence"
 			},
 			"elements": [
 				{
 					"from": [6, 0, 6],
-					"to": [10, 16, 10],
+					"to": [10, 8, 10],
 					"rotation": {"angle": 0, "axis": "y", "origin": [17, 8, 17]},
 					"faces": {
-						"north": {"uv": [0, 0, 4, 16], "texture": "#0"},
-						"east": {"uv": [12, 0, 16, 16], "texture": "#0"},
-						"south": {"uv": [4, 0, 8, 16], "texture": "#0"},
-						"west": {"uv": [8, 0, 12, 16], "texture": "#0"},
+						"north": {"uv": [0, 0, 4, 8], "texture": "#0"},
+						"east": {"uv": [12, 0, 16, 8], "texture": "#0"},
+						"south": {"uv": [4, 0, 8, 8], "texture": "#0"},
+						"west": {"uv": [8, 0, 12, 8], "texture": "#0"},
 						"up": {"uv": [0, 0, 4, 4], "texture": "#0"},
 						"down": {"uv": [0, 0, 4, 4], "texture": "#0"}
 					}
@@ -36,19 +36,19 @@
 		},
 		"translucent": {
 			"textures": {
-				"0": "minecraft:block/oak_planks",
-				"particle": "minecraft:block/oak_planks"
+				"0": "swem:blocks/western_fence",
+				"particle": "swem:blocks/western_fence"
 			},
 			"elements": [
 				{
 					"from": [6, 0, 6],
-					"to": [10, 16, 10],
+					"to": [10, 8, 10],
 					"rotation": {"angle": 0, "axis": "y", "origin": [17, 8, 17]},
 					"faces": {
-						"north": {"uv": [0, 0, 4, 16], "texture": "#0"},
-						"east": {"uv": [12, 0, 16, 16], "texture": "#0"},
-						"south": {"uv": [4, 0, 8, 16], "texture": "#0"},
-						"west": {"uv": [8, 0, 12, 16], "texture": "#0"},
+						"north": {"uv": [0, 0, 4, 8], "texture": "#0"},
+						"east": {"uv": [12, 0, 16, 8], "texture": "#0"},
+						"south": {"uv": [4, 0, 8, 8], "texture": "#0"},
+						"west": {"uv": [8, 0, 12, 8], "texture": "#0"},
 						"up": {"uv": [0, 0, 4, 4], "texture": "#0"},
 						"down": {"uv": [0, 0, 4, 4], "texture": "#0"}
 					}
