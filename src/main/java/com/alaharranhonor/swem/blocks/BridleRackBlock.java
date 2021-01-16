@@ -75,12 +75,9 @@ public class BridleRackBlock extends HorizontalBlock {
 	}
 
 	@Override
-	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (state.getBlock() != newState.getBlock()) {
-			TileEntity te = worldIn.getTileEntity(pos);
-			if (te instanceof BridleRackTE) {
-				((BridleRackTE)te).dropItems();
-			}
+	public void harvestBlock(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity te, ItemStack stack) {
+		if (te instanceof BridleRackTE && !player.abilities.isCreativeMode) {
+			((BridleRackTE)te).dropItems();
 		}
 	}
 
