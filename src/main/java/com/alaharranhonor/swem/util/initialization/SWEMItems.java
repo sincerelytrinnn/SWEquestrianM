@@ -9,14 +9,11 @@ import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.tools.FenceToolItem;
 import com.alaharranhonor.swem.tools.PitchforkTool;
 import com.alaharranhonor.swem.tools.SWEMItemTier;
-import com.alaharranhonor.swem.util.ArmorItemRegistration;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.PotionItem;
 import net.minecraft.item.SwordItem;
-import net.minecraft.util.text.Color;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -108,6 +105,7 @@ public class SWEMItems {
 	public static final RegistryObject<HorseXPBottle> ALL_XP_BOTTLE = ITEMS.register("all_xp_bottle", () -> new HorseXPBottle("all"));
 	public static final RegistryObject<HoseItem> HOSE = ITEMS.register("hose", () -> new HoseItem(() -> Fluids.EMPTY, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<HoseItem> HOSE_WATER = ITEMS.register("hose_water", () -> new HoseItem(() -> Fluids.WATER, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+	public static final RegistryObject<Item> TRACKER_CHIP = ITEMS.register("tracker_chip", TrackerChipItem::new);
 
 	// Rainbow Horse recipe items.
 	public static final RegistryObject<Item> WARMER_EGG = ITEMS.register("warmer_egg", ItemBase::new);
