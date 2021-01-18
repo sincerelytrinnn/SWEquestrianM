@@ -114,6 +114,7 @@ public class SWEMItems {
 	public static final RegistryObject<SWEMHorseArmorItem> GOLD_HORSE_ARMOR = ITEMS.register("gold_horse_armor", () -> new SWEMHorseArmorItem(3, "gold", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<SWEMHorseArmorItem> DIAMOND_HORSE_ARMOR = ITEMS.register("diamond_horse_armor", () -> new SWEMHorseArmorItem(4, "diamond", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<SWEMHorseArmorItem> AMETHYST_HORSE_ARMOR = ITEMS.register("amethyst_horse_armor", () -> new SWEMHorseArmorItem(5, "amethyst", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+	public static final RegistryObject<SaddlebagItem> SADDLEBAG = ITEMS.register("saddlebag", () -> new SaddlebagItem("saddlebags"));
 
 
 
