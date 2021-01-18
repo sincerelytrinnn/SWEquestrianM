@@ -32,7 +32,7 @@ Minecraft Java 1.16 (Forge) mod called Star Worm Equestrian Mod. The mod is brin
     modId="geckolib3"
     mandatory=true
     versionRange="[3.0.0]"
-    ordering="BEFORE"
+    ordering="AFTER"
     side="BOTH"
 [[dependencies.swem]] 
     modId="forge"
