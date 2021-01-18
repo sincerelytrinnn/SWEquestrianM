@@ -120,35 +120,34 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 	 */
 	private <E extends Entity> SoundEvent soundListener(SoundKeyframeEvent<E> event)
 	{
-		/* Sound event should be added in the animation.json file.
-		if (event.sound.equals("moving"))
-		{
-			return (SoundEvent) ForgeRegistries.SOUND_EVENTS.getValues().toArray()[rand.nextInt((ForgeRegistries.SOUND_EVENTS.getValues().size()))];
-		}
-		else if (event.sound.equals("ambient"))
-		{
-			return getAmbientSound();
-		} else {
-			return null;
-		}
-		*/
+		// Sound event should be added in the animation.json file.
+//		if (event.sound.equals("moving"))
+//		{
+//			return (SoundEvent) ForgeRegistries.SOUND_EVENTS.getValues().toArray()[rand.nextInt((ForgeRegistries.SOUND_EVENTS.getValues().size()))];
+//		}
+//		else if (event.sound.equals("ambient"))
+//		{
+//			return getAmbientSound();
+//		} else {
+//			return null;
+//		}
 		return null;
 	}
 
 	private <E extends Entity> void particleListener(ParticleKeyFrameEvent<E> event)
 	{
-		/* Particle effects should be added in the animation.json file.
-		if (event.effect.equals("moving"))
-		{
+		// Particle effects should be added in the animation.json file.
+//		if (event.effect.equals("moving"))
+//		{
+//
+//		}
+//		else if (event.effect.equals("ambient"))
+//		{
+//
+//		} else {
+//
+//		}
 
-		}
-		else if (event.effect.equals("ambient"))
-		{
-
-		} else {
-
-		}
-		*/
 	}
 
 	@Override

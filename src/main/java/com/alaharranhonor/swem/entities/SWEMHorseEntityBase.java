@@ -413,18 +413,16 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	@Override
 	protected void mountTo(PlayerEntity player) {
-		if(!(player.getHeldItemMainhand().getItem() instanceof TrackerChipItem)) {
-			this.setEatingHaystack(false);
-			this.setRearing(false);
-			if (!this.world.isRemote) {
-				player.rotationYaw = this.rotationYaw - 0.2F;
-				player.rotationPitch = this.rotationPitch;
-				player.startRiding(this);
-			}
-			HorseSpeed oldSpeed = this.currentSpeed;
-			this.currentSpeed = HorseSpeed.TROT;
-			this.updateSelectedSpeed(oldSpeed);
+		this.setEatingHaystack(false);
+		this.setRearing(false);
+		if (!this.world.isRemote) {
+			player.rotationYaw = this.rotationYaw - 0.2F;
+			player.rotationPitch = this.rotationPitch;
+			player.startRiding(this);
 		}
+		HorseSpeed oldSpeed = this.currentSpeed;
+		this.currentSpeed = HorseSpeed.TROT;
+		this.updateSelectedSpeed(oldSpeed);
 	}
 
 	@Override
