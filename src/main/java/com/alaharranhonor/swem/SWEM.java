@@ -29,6 +29,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import software.bernie.example.GeckoLibMod;
 import software.bernie.geckolib3.GeckoLib;
 
 @Mod("swem")
@@ -37,6 +38,10 @@ public class SWEM
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "swem";
+
+    static {
+        GeckoLibMod.DISABLE_IN_DEV = true;
+    }
 
     public SWEM() {
         // Register the setup method for modloading
