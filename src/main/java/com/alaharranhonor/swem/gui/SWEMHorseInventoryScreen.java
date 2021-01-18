@@ -48,8 +48,8 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		super(p_i51084_1_, playerInventoryIn, title);
 		//this(p_i51084_1_, playerInventoryIn, p_i51084_1_.horse);
 		this.passEvents = false;
-		this.xSize = 175;
-		this.ySize = 221;
+		this.xSize = 176;
+		this.ySize = 222;
 		this.horseEntity = p_i51084_1_.horse;
 		this.playerInventoryTitleY = this.ySize - 94;
 		this.titleX = 65;
