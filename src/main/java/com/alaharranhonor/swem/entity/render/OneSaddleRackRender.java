@@ -61,7 +61,7 @@ public class OneSaddleRackRender extends GeoBlockRenderer<OneSaddleRackTE> {
 				break;
 		}
 
-		stack.rotate(new Quaternion(0, 0 - direction.getHorizontalAngle(), 180, true));
+		stack.rotate(new Quaternion(0, 0 - direction.getHorizontalAngle(), 0, true));
 
 		if (itemStack.getItem() instanceof WesternSaddleItem) {
 

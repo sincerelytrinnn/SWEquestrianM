@@ -48,8 +48,6 @@ public class WesternSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 					GeoBone horseBody = horseModel.getBone("body").get();
 					GeoBone horseBack = horseModel.getBone("middle").get();
 
-					bone.setPivotY(0);
-
 					bone.setRotationY(horseBody.getRotationY());
 					bone.setRotationX(horseBody.getRotationZ());
 					bone.setRotationZ(horseBody.getRotationX());
