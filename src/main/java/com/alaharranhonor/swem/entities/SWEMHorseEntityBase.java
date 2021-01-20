@@ -101,7 +101,9 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	private BlockPos currentPos;
 	private LazyOptional<InvWrapper> itemHandler;
 	private LazyOptional<InvWrapper> saddlebagItemHandler;
+	private LazyOptional<InvWrapper> bedrollItemHandler;
 	private Inventory saddlebagInventory;
+	private Inventory bedrollInventory;
 	public static DataParameter<Boolean> whistleBound = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 
 	private static final DataParameter<Integer> GALLOP_TIMER = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
@@ -124,6 +126,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		this.currentSpeed = HorseSpeed.TROT;
 		this.needs = new NeedManager(this);
 		this.initSaddlebagInventory();
+		this.initBedrollInventory();
 	}
 
 	@Override
@@ -546,6 +549,29 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		return this.saddlebagInventory;
 	}
 
+	protected void initBedrollInventory() {
+		Inventory inventory = this.bedrollInventory;
+		this.bedrollInventory = new Inventory(4);
+		if (inventory != null) {
+			inventory.removeListener(this);
+			int i = Math.min(inventory.getSizeInventory(), this.bedrollInventory.getSizeInventory());
+
+			for(int j = 0; j < i; ++j) {
+				ItemStack itemstack = inventory.getStackInSlot(j);
+				if (!itemstack.isEmpty()) {
+					this.bedrollInventory.setInventorySlotContents(j, itemstack.copy());
+				}
+			}
+		}
+
+		this.bedrollInventory.addListener(this);
+		this.bedrollItemHandler = net.minecraftforge.common.util.LazyOptional.of(() -> new net.minecraftforge.items.wrapper.InvWrapper(this.bedrollInventory));
+	}
+
+	public Inventory getBedrollInventory() {
+		return this.bedrollInventory;
+	}
+
 	public void writeAdditional(CompoundNBT compound) {
 		super.writeAdditional(compound);
 //		compound.putInt("Variant", this.getHorseVariant());
@@ -575,6 +601,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		}
 
 		this.writeSaddlebagInventory(compound);
+		this.writeBedrollInventory(compound);
 
 		compound.putBoolean("whistleBound", this.getWhistleBound());
 
@@ -648,6 +675,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		}
 
 		this.readSaddlebagInventory(compound);
+		this.readBedrollInventory(compound);
 
 		this.setWhistleBound(compound.getBoolean("whistleBound"));
 
@@ -660,10 +688,54 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 	private void writeSaddlebagInventory(CompoundNBT compound) {
 
+		if (!this.saddlebagInventory.isEmpty()) {
+			CompoundNBT saddlebag = new CompoundNBT();
+			for (int i = 0; i < this.saddlebagInventory.getSizeInventory(); i++) {
+				saddlebag.put(Integer.toString(i), this.saddlebagInventory.getStackInSlot(i).write(new CompoundNBT()));
+			}
+			compound.put("saddlebag", saddlebag);
+		}
+
 	}
 
 	private void readSaddlebagInventory(CompoundNBT compound) {
+		if (compound.contains("saddlebag")) {
+			CompoundNBT saddlebag = compound.getCompound("saddlebag");
 
+			for (int i = 0; i < this.saddlebagInventory.getSizeInventory(); i++) {
+				if (saddlebag.contains(Integer.toString(i))) {
+					CompoundNBT stackNBT = (CompoundNBT) saddlebag.get(Integer.toString(i));
+					ItemStack readStack = ItemStack.read(stackNBT);
+					this.saddlebagInventory.setInventorySlotContents(i, readStack);
+				}
+			}
+		}
+	}
+
+	private void writeBedrollInventory(CompoundNBT compound) {
+
+		if (!this.bedrollInventory.isEmpty()) {
+			CompoundNBT bedroll = new CompoundNBT();
+			for (int i = 0; i < this.bedrollInventory.getSizeInventory(); i++) {
+				bedroll.put(Integer.toString(i), this.bedrollInventory.getStackInSlot(i).write(new CompoundNBT()));
+			}
+			compound.put("bedroll", bedroll);
+		}
+
+	}
+
+	private void readBedrollInventory(CompoundNBT compound) {
+		if (compound.contains("bedroll")) {
+			CompoundNBT bedroll = compound.getCompound("bedroll");
+
+			for (int i = 0; i < this.bedrollInventory.getSizeInventory(); i++) {
+				if (bedroll.contains(Integer.toString(i))) {
+					CompoundNBT stackNBT = (CompoundNBT) bedroll.get(Integer.toString(i));
+					ItemStack readStack = ItemStack.read(stackNBT);
+					this.bedrollInventory.setInventorySlotContents(i, readStack);
+				}
+			}
+		}
 	}
 
 	private void setHorseVariant(int id) {
