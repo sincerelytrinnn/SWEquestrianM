@@ -1,10 +1,7 @@
 package com.alaharranhonor.swem.util.initialization;
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.container.CantazariteAnvilContainer;
-import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
-import com.alaharranhonor.swem.container.SaddlebagContainer;
-import com.alaharranhonor.swem.container.TackBoxContainer;
+import com.alaharranhonor.swem.container.*;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.common.extensions.IForgeContainerType;
@@ -34,5 +31,9 @@ public class SWEMContainers {
 
 	public static final RegistryObject<ContainerType<SaddlebagContainer>> SADDLE_BAG_CONTAINER = CONTAINER_TYPES.register("saddle_bag",
 			() -> IForgeContainerType.create(SaddlebagContainer::new)
+	);
+
+	public static final RegistryObject<ContainerType<BedrollContainer>> BED_ROLL_CONTAINER = CONTAINER_TYPES.register("bedroll",
+			() -> IForgeContainerType.create(BedrollContainer::new)
 	);
 }
