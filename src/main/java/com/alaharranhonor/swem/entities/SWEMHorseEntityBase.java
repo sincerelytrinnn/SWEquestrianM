@@ -528,7 +528,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 	protected void initSaddlebagInventory() {
 		Inventory inventory = this.saddlebagInventory;
-		this.saddlebagInventory = new Inventory(27 + 5);
+		this.saddlebagInventory = new Inventory(27);
 		if (inventory != null) {
 			inventory.removeListener(this);
 			int i = Math.min(inventory.getSizeInventory(), this.saddlebagInventory.getSizeInventory());
