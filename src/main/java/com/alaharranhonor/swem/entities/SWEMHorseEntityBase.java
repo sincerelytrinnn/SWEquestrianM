@@ -1101,7 +1101,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	public ActionResultType applyPlayerInteraction(PlayerEntity player, Vector3d vec, Hand hand) {
 		// Vec is a local hit vector for the horse, not sure how vec.x and vec.z applies.
 
-		if (player.getEntityWorld().isRemote) return ActionResultType.PASS;
+
 		if (player.isSecondaryUseActive()) {
 			return ActionResultType.PASS;
 		}
@@ -1119,6 +1119,8 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		if (!backHit) {
 			return ActionResultType.PASS;
 		}
+
+		if (player.getEntityWorld().isRemote) return ActionResultType.CONSUME;
 
 		NetworkHooks.openGui((ServerPlayerEntity) player, new INamedContainerProvider() {
 			@Override
