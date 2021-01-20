@@ -57,7 +57,7 @@ public class ClientStatusMessagePacket {
 		ctx.get().enqueueWork(() -> {
 			switch (msg.action) {
 				case 0: {
-					Minecraft.getInstance().player.sendStatusMessage(new TranslationTextComponent("swem.horse.status.gallop_cooldown ").appendString( msg.args.get(0) + "s"),true);
+					Minecraft.getInstance().player.sendStatusMessage(new TranslationTextComponent("swem.horse.status.gallop_cooldown").appendString( msg.args.get(0) + "s"),true);
 					break;
 				}
 				case 1: {
