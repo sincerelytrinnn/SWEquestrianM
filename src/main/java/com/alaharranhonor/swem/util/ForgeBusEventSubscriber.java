@@ -3,6 +3,7 @@ package com.alaharranhonor.swem.util;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.AmethystRidingBoots;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.network.HorseStateChange;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.network.SendHorseSpeedChange;
 import com.alaharranhonor.swem.world.gen.SWEMOreGen;
@@ -17,6 +18,7 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -72,6 +74,21 @@ public class ForgeBusEventSubscriber {
 				if (entity instanceof SWEMHorseEntityBase) {
 					SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 					SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(0, horse.getEntityId()));
+				}
+			}
+
+			if (keyBindings[2].isPressed()) {
+				ClientPlayerEntity player = Minecraft.getInstance().player;
+				Entity entity = player.getRidingEntity();
+				if (entity instanceof SWEMHorseEntityBase) {
+					SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+					ItemStack saddleBagStack = horse.getHorseInventory().getStackInSlot(7);
+					if (saddleBagStack.isEmpty()) {
+						player.sendStatusMessage(new TranslationTextComponent("swem.horse.status.no_saddle_bag"), true);
+						return;
+					}
+
+					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(6, horse.getEntityId()));
 				}
 			}
 

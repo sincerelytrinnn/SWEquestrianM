@@ -6,10 +6,7 @@ import com.alaharranhonor.swem.blocks.HorseDoorBlock;
 import com.alaharranhonor.swem.blocks.NonParallelBlock;
 import com.alaharranhonor.swem.blocks.WheelBarrowBlock;
 import com.alaharranhonor.swem.entity.render.*;
-import com.alaharranhonor.swem.gui.CantazariteAnvilScreen;
-import com.alaharranhonor.swem.gui.SWEMHorseInventoryScreen;
-import com.alaharranhonor.swem.gui.SaddlebagScreen;
-import com.alaharranhonor.swem.gui.TackBoxDefaultScreen;
+import com.alaharranhonor.swem.gui.*;
 import com.alaharranhonor.swem.items.SWEMArmorItem;
 import com.alaharranhonor.swem.items.SWEMSpawnEggItem;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
@@ -59,6 +56,7 @@ public class ClientEventBusSubscriber {
         ScreenManager.registerFactory(SWEMContainers.TACKBOX_CONTAINER.get(), TackBoxDefaultScreen::new);
         ScreenManager.registerFactory(SWEMContainers.CANTAZARITE_ANVIL_CONTAINER.get(), CantazariteAnvilScreen::new);
         ScreenManager.registerFactory(SWEMContainers.SADDLE_BAG_CONTAINER.get(), SaddlebagScreen::new);
+        ScreenManager.registerFactory(SWEMContainers.BED_ROLL_CONTAINER.get(), BedrollScreen::new);
     }
 
     public static void registerRenderers(final FMLClientSetupEvent event) {
@@ -122,10 +120,12 @@ public class ClientEventBusSubscriber {
     }
 
     public static void registerKeybinds() {
-        keyBindings = new KeyBinding[2];
+        keyBindings = new KeyBinding[3];
 
         keyBindings[0] = new KeyBinding("key.swem.horse.increment", GLFW.GLFW_KEY_H, "key.swem.category");
         keyBindings[1] = new KeyBinding("key.swem.horse.decrement", GLFW.GLFW_KEY_G, "key.swem.category");
+        keyBindings[2] = new KeyBinding("key.swem.horse.toggle_bedroll", GLFW.GLFW_KEY_K, "key.swem.category");
+
 
         for (int i = 0; i < keyBindings.length; i++) {
             ClientRegistry.registerKeyBinding(keyBindings[i]);
