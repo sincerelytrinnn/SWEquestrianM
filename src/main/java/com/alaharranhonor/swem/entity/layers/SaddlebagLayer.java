@@ -44,16 +44,17 @@ public class SaddlebagLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 				GeoBone horseBack = horseModel.getBone("base").get();
 				GeoBone horseBody = horseModel.getBone("body").get();
 
-				bone.setPivotX(horseBack.getPivotX());
-				bone.setPivotZ(horseBack.getPivotZ());
-				bone.setPivotY(horseBack.getPivotY());
+				bone.setPivotX(2);
+				bone.setPivotZ(0);
+				bone.setPivotY(12);
 				bone.setRotationY(horseBack.getRotationY());
 				bone.setRotationX(horseBack.getRotationX());
-				bone.setRotationZ(horseBack.getRotationZ());
+				bone.setRotationZ(-horseBack.getRotationZ());
 				bone.setPositionY(horseBody.getPositionY());
+				bone.setPositionX(horseBack.getPositionX());
 
 				matrixStack.push();
-				matrixStack.translate(0, 1.55D, 0.55D);
+				matrixStack.translate(0, 1.5D, 0.65D);
 				matrixStack.rotate(new Quaternion(0.0F, -90.0F, 0.0F, true));
 				this.entityRenderer.renderRecursively(bone, matrixStack, ivertexbuilder, i, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 				matrixStack.pop();
