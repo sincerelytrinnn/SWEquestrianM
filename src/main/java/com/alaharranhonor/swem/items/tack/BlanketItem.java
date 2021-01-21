@@ -36,7 +36,8 @@ public class BlanketItem extends Item {
 			if (!iequipable.hasBlanket() && iequipable.func_230264_L__() && iequipable.hasHalter()) {
 				if (!playerIn.world.isRemote) {
 					iequipable.func_230266_a_(SoundCategory.NEUTRAL, stack);
-					stack.shrink(1);
+					if (!playerIn.abilities.isCreativeMode)
+						stack.shrink(1);
 				}
 
 				return ActionResultType.func_233537_a_(playerIn.world.isRemote);
