@@ -30,8 +30,8 @@ public class TackBoxProgressionScreen extends Screen {
 		this.container = screenContainer;
 		this.inv = inv;
 		this.text = defaultTitle;
-		this.xSize = 249;
-		this.ySize = 207;
+		this.xSize = 250;
+		this.ySize = 208;
 	}
 
 	@Override
@@ -43,6 +43,7 @@ public class TackBoxProgressionScreen extends Screen {
 
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.minecraft.getTextureManager().bindTexture(TACKBOX_PROGRESSION_TEXTURE);

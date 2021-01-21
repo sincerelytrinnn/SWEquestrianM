@@ -22,9 +22,11 @@ import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.math.vector.Vector3i;
+import software.bernie.geckolib3.geo.render.built.GeoBone;
 import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 
 import java.awt.*;
+import java.util.Iterator;
 
 public class OneSaddleRackRender extends GeoBlockRenderer<OneSaddleRackTE> {
 
@@ -59,18 +61,23 @@ public class OneSaddleRackRender extends GeoBlockRenderer<OneSaddleRackTE> {
 				break;
 		}
 
-		stack.rotate(new Quaternion(0, 0 - direction.getHorizontalAngle(), 180, true));
+		stack.rotate(new Quaternion(0, 0 - direction.getHorizontalAngle(), 0, true));
 
 		if (itemStack.getItem() instanceof WesternSaddleItem) {
 
 
 
 			WesternSaddleItem item = (WesternSaddleItem) itemStack.getItem();
-			WesternSaddleModel model = new WesternSaddleModel<>();
+			WesternSaddleModel model = new WesternSaddleModel();
 			IVertexBuilder builder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(item.getTexture()));
 
 			Color renderColor = this.getRenderColor(tile, partialTicks, stack, bufferIn, (IVertexBuilder)null, packedLightIn);
-			model.render(stack, builder, packedLightIn, OverlayTexture.NO_OVERLAY, (float)renderColor.getRed() / 255.0F, (float)renderColor.getGreen() / 255.0F, (float)renderColor.getBlue() / 255.0F, (float)renderColor.getAlpha() / 255.0F);
+			Iterator group = model.getModel(model.getModelLocation(item)).topLevelBones.iterator();
+			while (group.hasNext()) {
+				GeoBone bone = (GeoBone) group.next();
+
+				this.renderRecursively(bone, stack, builder, packedLightIn, OverlayTexture.NO_OVERLAY, renderColor.getRed() / 255.0F, renderColor.getGreen() / 255.0F, renderColor.getBlue() / 255.0F, renderColor.getAlpha() / 255.0F );
+			}
 
 		} else if (itemStack.getItem() instanceof EnglishSaddleItem) {
 

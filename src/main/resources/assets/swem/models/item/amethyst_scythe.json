@@ -2,5 +2,55 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "swem:items/amethyst_scythe"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        180,
+        20
+      ],
+      "translation": [
+        0.5,
+        3,
+        0.5
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        0,
+        -15
+      ],
+      "translation": [
+        -0.5,
+        3,
+        0.5
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        20,
+        100,
+        0
+      ],
+      "translation": [
+        0,
+        1,
+        -1.25
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        0,
+        -100,
+        0
+      ],
+      "translation": [
+        0,
+        1,
+        1.25
+      ]
+    }
   }
 }

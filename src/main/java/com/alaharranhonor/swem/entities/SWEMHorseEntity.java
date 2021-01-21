@@ -40,7 +40,32 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
 	{
-		SWEMHorseEntityBase horse = null;
+
+		SWEMHorseEntityBase horse = (SWEMHorseEntityBase) event.getAnimatable();
+
+		if (horse.isHorseJumping()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump"));
+			return PlayState.CONTINUE;
+		}
+
+		if (!event.isMoving()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("stand_idle"));
+		} else {
+
+			if (horse.getDataManager().get(SPEED_LEVEL) == 0) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("walk"));
+			} else if (horse.getDataManager().get(SPEED_LEVEL) == 1) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Trot"));
+			} else if (horse.getDataManager().get(SPEED_LEVEL) == 2) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Canter"));
+			} else if (horse.getDataManager().get(SPEED_LEVEL) == 3) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("GallopFINAL"));
+			}
+		}
+		return PlayState.CONTINUE;
+
+
+		/*SWEMHorseEntityBase horse = null;
 		if (event.getAnimatable() instanceof SWEMHorseEntityBase) {
 			horse = (SWEMHorseEntityBase) event.getAnimatable();
 		}
@@ -108,7 +133,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 				}
 			}
 			return PlayState.CONTINUE;
-		}
+		}*/
 	}
 
 

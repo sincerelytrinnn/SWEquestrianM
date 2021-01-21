@@ -1,0 +1,57 @@
+{
+  "parent": "swem:item/amethyst_shield",
+  "textures": {
+    "layer0": "swem:items/amethyst_shield"
+  },
+
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        35,
+        -20,
+        -2
+      ],
+      "translation": [
+        0,
+        0,
+        -1
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        35,
+        -20,
+        2
+      ],
+      "translation": [
+        0,
+        0,
+        -1
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        5,
+        180,
+        -20
+      ],
+      "translation": [
+        0,
+        1,
+        -1
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        5,
+        0,
+        20
+      ],
+      "translation": [
+        0,
+        1,
+        1
+      ]
+    }
+  }
+}

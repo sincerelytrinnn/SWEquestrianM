@@ -6,16 +6,12 @@ import com.alaharranhonor.swem.entity.coats.SWEMCoatColors;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.potions.CantazaritePotionItem;
 import com.alaharranhonor.swem.items.tack.*;
-import com.alaharranhonor.swem.tools.FenceToolItem;
-import com.alaharranhonor.swem.tools.PitchforkTool;
-import com.alaharranhonor.swem.tools.SWEMItemTier;
+import com.alaharranhonor.swem.tools.*;
 import com.alaharranhonor.swem.util.ArmorItemRegistration;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.PotionItem;
-import net.minecraft.item.SwordItem;
+import net.minecraft.item.*;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.Color;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
@@ -72,12 +68,9 @@ public class SWEMItems {
 	public static final RegistryObject<Item> DIAMOND_HELMET = ITEMS.register("diamond_helmet", ItemBase::new);
 	public static final RegistryObject<Item> DIAMOND_CHESTPLATE = ITEMS.register("diamond_chestplate", ItemBase::new);
 	public static final RegistryObject<Item> DIAMOND_BOW = ITEMS.register("diamond_bow", ItemBase::new);
-	public static final RegistryObject<Item> AMETHYST_BOW = ITEMS.register("amethyst_bow", ItemBase::new);
 	public static final RegistryObject<SWEMArmorItem> AMETHYST_HELMET = ITEMS.register("amethyst_helmet", () -> new AmethystHelmet("amethyst_layer",ModArmorMaterial.AMETHYST, EquipmentSlotType.HEAD, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<SWEMArmorItem> AMETHYST_CHESTPLATE = ITEMS.register("amethyst_chestplate", () -> new AmethystChestplate("amethyst_layer",ModArmorMaterial.AMETHYST, EquipmentSlotType.CHEST, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<SWEMArmorItem> AMETHYST_PANTS = ITEMS.register("amethyst_pants", () -> new AmethystLeggings("amethyst_layer",ModArmorMaterial.AMETHYST, EquipmentSlotType.LEGS, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
-	public static final RegistryObject<Item> AMETHYST_SCYTHE = ITEMS.register("amethyst_scythe", ItemBase::new);
-	public static final RegistryObject<Item> AMETHYST_SHIELD = ITEMS.register("amethyst_shield", ItemBase::new);
 	public static final RegistryObject<Item> AMETHYST_SHIELD_LEATHER = ITEMS.register("amethyst_shield_leather", ItemBase::new);
 	public static final RegistryObject<Item> AMETHYST_SHIELD_IRON = ITEMS.register("amethyst_shield_iron", ItemBase::new);
 	public static final RegistryObject<Item> AMETHYST_SHIELD_GOLD = ITEMS.register("amethyst_shield_gold", ItemBase::new);
@@ -108,6 +101,14 @@ public class SWEMItems {
 	public static final RegistryObject<HorseXPBottle> ALL_XP_BOTTLE = ITEMS.register("all_xp_bottle", () -> new HorseXPBottle("all"));
 	public static final RegistryObject<HoseItem> HOSE = ITEMS.register("hose", () -> new HoseItem(() -> Fluids.EMPTY, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<HoseItem> HOSE_WATER = ITEMS.register("hose_water", () -> new HoseItem(() -> Fluids.WATER, new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+	public static final RegistryObject<SWEMHorseArmorItem> CLOTH_HORSE_ARMOR = ITEMS.register("cloth_horse_armor", () -> new SWEMHorseArmorItem(1, "cloth", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+	public static final RegistryObject<SWEMHorseArmorItem> IRON_HORSE_ARMOR = ITEMS.register("iron_horse_armor", () -> new SWEMHorseArmorItem(2, "iron", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+	public static final RegistryObject<SWEMHorseArmorItem> GOLD_HORSE_ARMOR = ITEMS.register("gold_horse_armor", () -> new SWEMHorseArmorItem(3, "gold", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+	public static final RegistryObject<SWEMHorseArmorItem> DIAMOND_HORSE_ARMOR = ITEMS.register("diamond_horse_armor", () -> new SWEMHorseArmorItem(4, "diamond", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+	public static final RegistryObject<SWEMHorseArmorItem> AMETHYST_HORSE_ARMOR = ITEMS.register("amethyst_horse_armor", () -> new SWEMHorseArmorItem(5, "amethyst", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+	public static final RegistryObject<SaddlebagItem> SADDLEBAG = ITEMS.register("saddlebag", () -> new SaddlebagItem("saddlebags"));
+
+
 
 	// Rainbow Horse recipe items.
 	public static final RegistryObject<Item> WARMER_EGG = ITEMS.register("warmer_egg", ItemBase::new);
@@ -290,6 +291,15 @@ public class SWEMItems {
 
 	// Tools
 	public static final RegistryObject<SwordItem> AMETHYST_LONGSWORD = ITEMS.register("amethyst_longsword", () ->
-			new SwordItem(SWEMItemTier.AMETHYST, 10, 2F, new Item.Properties().group(SWEM.TAB))
+			new AmethystSword(SWEMItemTier.AMETHYST, 4, 2F, new Item.Properties().group(SWEM.TAB))
+	);
+	public static final RegistryObject<BowItem> AMETHYST_BOW = ITEMS.register("amethyst_bow", () ->
+			new AmethystBow(new Item.Properties().group(SWEM.TAB))
+	);
+	public static final RegistryObject<AmethystScythe> AMETHYST_SCYTHE = ITEMS.register("amethyst_scythe", () ->
+			new AmethystScythe(SWEMItemTier.AMETHYST, 4, 2F, new Item.Properties().group(SWEM.TAB))
+	);
+	public static final RegistryObject<ShieldItem> AMETHYST_SHIELD = ITEMS.register("amethyst_shield", () ->
+			new AmethystShield(new Item.Properties().group(SWEM.TAB))
 	);
 }

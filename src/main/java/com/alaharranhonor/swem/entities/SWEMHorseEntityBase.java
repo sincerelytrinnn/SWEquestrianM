@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.entities;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
+import com.alaharranhonor.swem.container.SaddlebagContainer;
 import com.alaharranhonor.swem.entities.goals.*;
 import com.alaharranhonor.swem.entities.needs.HungerNeed;
 import com.alaharranhonor.swem.entities.needs.NeedManager;
@@ -75,7 +76,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
-public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable, IEntityAdditionalSpawnData {
+public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable, IEntityAdditionalSpawnData {
 
 
 
@@ -99,11 +100,15 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	public final ProgressionManager progressionManager;
 	private BlockPos currentPos;
 	private LazyOptional<InvWrapper> itemHandler;
+	private LazyOptional<InvWrapper> saddlebagItemHandler;
+	private LazyOptional<InvWrapper> bedrollItemHandler;
+	private Inventory saddlebagInventory;
+	private Inventory bedrollInventory;
 	public static DataParameter<Boolean> whistleBound = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 
-	private static DataParameter<Integer> GALLOP_TIMER = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
-	private static DataParameter<Integer> GALLOP_COOLDOWN_TIMER = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
-	private static DataParameter<Boolean> GALLOP_ON_COOLDOWN = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Integer> GALLOP_TIMER = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> GALLOP_COOLDOWN_TIMER = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
+	private static final DataParameter<Boolean> GALLOP_ON_COOLDOWN = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public static DataParameter<Integer> SPEED_LEVEL = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
 
 	@Nullable
@@ -120,6 +125,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.progressionManager = new ProgressionManager(this);
 		this.currentSpeed = HorseSpeed.TROT;
 		this.needs = new NeedManager(this);
+		this.initSaddlebagInventory();
+		this.initBedrollInventory();
 	}
 
 	@Override
@@ -384,6 +391,18 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			if (p_230266_1_ != null) {
 				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
+		} else if (stack.getItem() instanceof SWEMHorseArmorItem) {
+			this.horseChest.setInventorySlotContents(6, stack);
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 6, stack));
+			if (p_230266_1_ != null) {
+				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
+			}
+		} else if (stack.getItem() instanceof SaddlebagItem) {
+			this.horseChest.setInventorySlotContents(7, stack);
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 7, stack));
+			if (p_230266_1_ != null) {
+				this.world.playMovingSound((PlayerEntity)null, this, SoundEvents.ENTITY_HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
+			}
 		}
 
 	}
@@ -507,6 +526,52 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return this.horseChest;
 	}
 
+	protected void initSaddlebagInventory() {
+		Inventory inventory = this.saddlebagInventory;
+		this.saddlebagInventory = new Inventory(27);
+		if (inventory != null) {
+			inventory.removeListener(this);
+			int i = Math.min(inventory.getSizeInventory(), this.saddlebagInventory.getSizeInventory());
+
+			for(int j = 0; j < i; ++j) {
+				ItemStack itemstack = inventory.getStackInSlot(j);
+				if (!itemstack.isEmpty()) {
+					this.saddlebagInventory.setInventorySlotContents(j, itemstack.copy());
+				}
+			}
+		}
+
+		this.saddlebagInventory.addListener(this);
+		this.saddlebagItemHandler = net.minecraftforge.common.util.LazyOptional.of(() -> new net.minecraftforge.items.wrapper.InvWrapper(this.saddlebagInventory));
+	}
+
+	public Inventory getSaddlebagInventory() {
+		return this.saddlebagInventory;
+	}
+
+	protected void initBedrollInventory() {
+		Inventory inventory = this.bedrollInventory;
+		this.bedrollInventory = new Inventory(4);
+		if (inventory != null) {
+			inventory.removeListener(this);
+			int i = Math.min(inventory.getSizeInventory(), this.bedrollInventory.getSizeInventory());
+
+			for(int j = 0; j < i; ++j) {
+				ItemStack itemstack = inventory.getStackInSlot(j);
+				if (!itemstack.isEmpty()) {
+					this.bedrollInventory.setInventorySlotContents(j, itemstack.copy());
+				}
+			}
+		}
+
+		this.bedrollInventory.addListener(this);
+		this.bedrollItemHandler = net.minecraftforge.common.util.LazyOptional.of(() -> new net.minecraftforge.items.wrapper.InvWrapper(this.bedrollInventory));
+	}
+
+	public Inventory getBedrollInventory() {
+		return this.bedrollInventory;
+	}
+
 	public void writeAdditional(CompoundNBT compound) {
 		super.writeAdditional(compound);
 //		compound.putInt("Variant", this.getHorseVariant());
@@ -528,6 +593,15 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		if (!this.horseChest.getStackInSlot(5).isEmpty()) {
 			compound.put("GirthStrapItem", this.horseChest.getStackInSlot(5).write(new CompoundNBT()));
 		}
+		if (!this.horseChest.getStackInSlot(6).isEmpty()) {
+			compound.put("SWEMArmorItem", this.horseChest.getStackInSlot(6).write(new CompoundNBT()));
+		}
+		if (!this.horseChest.getStackInSlot(7).isEmpty()) {
+			compound.put("SaddlebagItem", this.horseChest.getStackInSlot(7).write(new CompoundNBT()));
+		}
+
+		this.writeSaddlebagInventory(compound);
+		this.writeBedrollInventory(compound);
 
 		compound.putBoolean("whistleBound", this.getWhistleBound());
 
@@ -587,6 +661,21 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 				this.horseChest.setInventorySlotContents(5, itemstack);
 			}
 		}
+		if (compound.contains("SWEMArmorItem", 10)) {
+			ItemStack itemstack = ItemStack.read(compound.getCompound("SWEMArmorItem"));
+			if (!itemstack.isEmpty() && this.isSWEMArmor(itemstack)) {
+				this.horseChest.setInventorySlotContents(6, itemstack);
+			}
+		}
+		if (compound.contains("SaddlebagItem", 10)) {
+			ItemStack itemstack = ItemStack.read(compound.getCompound("SaddlebagItem"));
+			if (!itemstack.isEmpty() && this.isSaddlebag(itemstack)) {
+				this.horseChest.setInventorySlotContents(7, itemstack);
+			}
+		}
+
+		this.readSaddlebagInventory(compound);
+		this.readBedrollInventory(compound);
 
 		this.setWhistleBound(compound.getBoolean("whistleBound"));
 
@@ -595,6 +684,58 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.needs.read(compound);
 
 		this.func_230275_fc_();
+	}
+
+	private void writeSaddlebagInventory(CompoundNBT compound) {
+
+		if (!this.saddlebagInventory.isEmpty()) {
+			CompoundNBT saddlebag = new CompoundNBT();
+			for (int i = 0; i < this.saddlebagInventory.getSizeInventory(); i++) {
+				saddlebag.put(Integer.toString(i), this.saddlebagInventory.getStackInSlot(i).write(new CompoundNBT()));
+			}
+			compound.put("saddlebag", saddlebag);
+		}
+
+	}
+
+	private void readSaddlebagInventory(CompoundNBT compound) {
+		if (compound.contains("saddlebag")) {
+			CompoundNBT saddlebag = compound.getCompound("saddlebag");
+
+			for (int i = 0; i < this.saddlebagInventory.getSizeInventory(); i++) {
+				if (saddlebag.contains(Integer.toString(i))) {
+					CompoundNBT stackNBT = (CompoundNBT) saddlebag.get(Integer.toString(i));
+					ItemStack readStack = ItemStack.read(stackNBT);
+					this.saddlebagInventory.setInventorySlotContents(i, readStack);
+				}
+			}
+		}
+	}
+
+	private void writeBedrollInventory(CompoundNBT compound) {
+
+		if (!this.bedrollInventory.isEmpty()) {
+			CompoundNBT bedroll = new CompoundNBT();
+			for (int i = 0; i < this.bedrollInventory.getSizeInventory(); i++) {
+				bedroll.put(Integer.toString(i), this.bedrollInventory.getStackInSlot(i).write(new CompoundNBT()));
+			}
+			compound.put("bedroll", bedroll);
+		}
+
+	}
+
+	private void readBedrollInventory(CompoundNBT compound) {
+		if (compound.contains("bedroll")) {
+			CompoundNBT bedroll = compound.getCompound("bedroll");
+
+			for (int i = 0; i < this.bedrollInventory.getSizeInventory(); i++) {
+				if (bedroll.contains(Integer.toString(i))) {
+					CompoundNBT stackNBT = (CompoundNBT) bedroll.get(Integer.toString(i));
+					ItemStack readStack = ItemStack.read(stackNBT);
+					this.bedrollInventory.setInventorySlotContents(i, readStack);
+				}
+			}
+		}
 	}
 
 	private void setHorseVariant(int id) {
@@ -747,7 +888,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 					}
 				}
 
-				if (this.isBeingRidden() && !this.hasGirthStrap()) {
+				// Kick off rider, if no girth strap is equipped.
+				if (this.isSWEMSaddled() && !this.hasGirthStrap()) {
 					if (this.ticksExisted % 20 == 0) {
 						int rand = this.getRNG().nextInt(5);
 						if (rand == 0) {
@@ -756,7 +898,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 							ItemStack saddle = this.hasSaddle();
 							this.horseChest.setInventorySlotContents(2, ItemStack.EMPTY);
 							this.setSWEMSaddled();
-							SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 2, ItemStack.EMPTY));
+							SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 2, ItemStack.EMPTY));
 							this.world.addEntity(new ItemEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ(), saddle));
 						}
 					}
@@ -1027,7 +1169,85 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		}
 	}
 
+	@Override
+	public ActionResultType applyPlayerInteraction(PlayerEntity player, Vector3d vec, Hand hand) {
+		// Vec is a local hit vector for the horse, not sure how vec.x and vec.z applies.
 
+
+		if (player.isSecondaryUseActive()) {
+			return ActionResultType.PASS;
+		}
+
+		ItemStack stack = this.getSaddlebag();
+
+		if (stack == ItemStack.EMPTY) {
+			return ActionResultType.PASS;
+		}
+
+		SaddlebagItem saddleBag = (SaddlebagItem) stack.getItem();
+
+		boolean backHit = this.checkForBackHit(vec);
+
+		if (!backHit) {
+			return ActionResultType.PASS;
+		}
+
+		if (player.getEntityWorld().isRemote) return ActionResultType.CONSUME;
+
+		NetworkHooks.openGui((ServerPlayerEntity) player, new INamedContainerProvider() {
+			@Override
+			public ITextComponent getDisplayName() {
+				return new TranslationTextComponent("container.swem.saddlebag");
+			}
+
+			@Nullable
+			@Override
+			public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
+				return new SaddlebagContainer(p_createMenu_1_, p_createMenu_2_, getEntityId());
+			}
+		}, buffer ->   {
+			buffer.writeInt(getEntityId());
+			buffer.writeInt(getEntityId());
+		});
+
+		return ActionResultType.CONSUME;
+	}
+
+	private boolean checkForBackHit(Vector3d vec) {
+		Direction facing = this.getHorizontalFacing();
+
+		switch (facing) {
+			case NORTH: {
+				if (vec.z > 0) {
+					SWEM.LOGGER.debug("Back was hit, while facing NORTH.");
+					return true;
+				}
+				break;
+			}
+			case SOUTH: {
+				if (vec.z < 0) {
+					SWEM.LOGGER.debug("Back was hit, while facing SOUTH.");
+					return true;
+				}
+				break;
+			}
+			case EAST: {
+				if (vec.x > 0) {
+					SWEM.LOGGER.debug("Back was hit, while facing EAST.");
+					return true;
+				}
+				break;
+			}
+			case WEST: {
+				if (vec.x < 0) {
+					SWEM.LOGGER.debug("Back was hit, while facing north.");
+					return true;
+				}
+				break;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Returns true if the mob is currently able to mate with the specified mob.
@@ -1257,6 +1477,14 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	public ItemStack getSWEMArmor() {
 		return this.horseChest.getStackInSlot(6);
+	}
+
+	public boolean isSaddlebag(ItemStack stack) {
+		return stack.getItem() instanceof SaddlebagItem;
+	}
+
+	public ItemStack getSaddlebag() {
+		return this.horseChest.getStackInSlot(7);
 	}
 
 	@Override

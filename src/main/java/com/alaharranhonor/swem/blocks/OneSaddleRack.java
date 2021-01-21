@@ -23,6 +23,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.PacketDistributor;
@@ -46,47 +47,44 @@ public class OneSaddleRack extends HorizontalBlock {
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if (!worldIn.isRemote && handIn == Hand.MAIN_HAND) {
-			TileEntity tile = worldIn.getTileEntity(pos);
-			OneSaddleRackTE rack = (OneSaddleRackTE) tile;
-			if (player.getHeldItem(handIn).getItem() instanceof HorseSaddleItem) {
-				ItemStack saddle = player.getHeldItem(handIn);
-				if (rack.itemHandler.getStackInSlot(0) == ItemStack.EMPTY) {
-					ItemStack saddleCopy;
-					if (player.isCreative()) {
-						saddleCopy = saddle.copy();
-					} else {
-						saddleCopy = saddle.split(1);
+			TileEntity tile = worldIn.getTileEntity(hit.getPos());
+			if (tile instanceof OneSaddleRackTE) {
+				OneSaddleRackTE rack = (OneSaddleRackTE) tile;
+				if (player.getHeldItem(handIn).getItem() instanceof HorseSaddleItem) {
+					ItemStack saddle = player.getHeldItem(handIn);
+					if (rack.itemHandler.getStackInSlot(0) == ItemStack.EMPTY) {
+						ItemStack saddleCopy;
+						if (player.isCreative()) {
+							saddleCopy = saddle.copy();
+						} else {
+							saddleCopy = saddle.split(1);
+						}
+
+						rack.itemHandler.setStackInSlot(0, saddleCopy);
+						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
+						return ActionResultType.func_233537_a_(worldIn.isRemote);
+					}
+				} else {
+					if (rack.itemHandler.getStackInSlot(0) != ItemStack.EMPTY) {
+						ItemEntity itementity = new ItemEntity(worldIn, rack.getPos().getX(), rack.getPos().getY(), rack.getPos().getZ(), rack.itemHandler.getStackInSlot(0));
+						itementity.setMotion(RANDOM.nextGaussian() * (double)0.05F, RANDOM.nextGaussian() * (double)0.05F + (double)0.2F, RANDOM.nextGaussian() * (double)0.05F);
+						worldIn.addEntity(itementity);
+
+						rack.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
+						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
+						return ActionResultType.func_233537_a_(worldIn.isRemote);
 					}
 
-					rack.itemHandler.setStackInSlot(0, saddleCopy);
-					PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
-					return ActionResultType.func_233537_a_(worldIn.isRemote);
 				}
-			} else {
-				if (rack.itemHandler.getStackInSlot(0) != ItemStack.EMPTY) {
-					ItemEntity itementity = new ItemEntity(worldIn, rack.getPos().getX(), rack.getPos().getY(), rack.getPos().getZ(), rack.itemHandler.getStackInSlot(0));
-					itementity.setMotion(RANDOM.nextGaussian() * (double)0.05F, RANDOM.nextGaussian() * (double)0.05F + (double)0.2F, RANDOM.nextGaussian() * (double)0.05F);
-					worldIn.addEntity(itementity);
-
-					rack.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
-					PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
-					return ActionResultType.func_233537_a_(worldIn.isRemote);
-				}
-
 			}
 		}
 		return ActionResultType.PASS;
 	}
 
-
-
 	@Override
-	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (state.getBlock() != newState.getBlock()) {
-			TileEntity te = worldIn.getTileEntity(pos);
-			if (te instanceof OneSaddleRackTE) {
-				((OneSaddleRackTE)te).dropItems();
-			}
+	public void harvestBlock(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity te, ItemStack stack) {
+		if (te instanceof OneSaddleRackTE && !player.abilities.isCreativeMode) {
+			((OneSaddleRackTE)te).dropItems();
 		}
 	}
 

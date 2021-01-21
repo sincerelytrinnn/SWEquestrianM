@@ -23,10 +23,8 @@ public class FenceToolItem extends ItemBase {
 
 		Block target = targetState.getBlock();
 		if (target instanceof FenceBaseBlock) {
-			if (targetState.get(SWEMBlockStateProperties.FULL_FENCE) || targetState.get(SWEMBlockStateProperties.HALF_FENCE)) {
-				context.getWorld().setBlockState(context.getPos(), targetState.with(SWEMBlockStateProperties.FULL_FENCE, !targetState.get(SWEMBlockStateProperties.FULL_FENCE)).with(SWEMBlockStateProperties.HALF_FENCE, !targetState.get(SWEMBlockStateProperties.HALF_FENCE)));
-				return ActionResultType.SUCCESS;
-			}
+			context.getWorld().setBlockState(context.getPos(), targetState.with(SWEMBlockStateProperties.HALF_FENCE, !targetState.get(SWEMBlockStateProperties.HALF_FENCE)));
+			return ActionResultType.SUCCESS;
 		}
 		return ActionResultType.PASS;
 	}

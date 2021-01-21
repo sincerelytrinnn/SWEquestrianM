@@ -32,8 +32,8 @@ public class TackBoxDefaultScreen extends ContainerScreen<TackBoxContainer> {
 
 	public TackBoxDefaultScreen(TackBoxContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
 		super(screenContainer, inv, titleIn);
-		this.xSize = 247;
-		this.ySize = 302;
+		this.xSize = 248;
+		this.ySize = 303;
 		this.player = inv.player;
 		this.titleX = 13;
 		this.titleY = 32;
@@ -131,5 +131,12 @@ public class TackBoxDefaultScreen extends ContainerScreen<TackBoxContainer> {
 		}
 
 		return super.mouseClicked(mouseX, mouseY, button);
+	}
+
+	@Override
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground(matrixStack);
+		super.render(matrixStack, mouseX, mouseY, partialTicks);
+		this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
 	}
 }

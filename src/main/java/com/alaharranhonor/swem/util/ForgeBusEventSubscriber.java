@@ -3,6 +3,7 @@ package com.alaharranhonor.swem.util;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.AmethystRidingBoots;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.network.HorseStateChange;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.network.SendHorseSpeedChange;
 import com.alaharranhonor.swem.world.gen.SWEMOreGen;
@@ -17,7 +18,10 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -73,6 +77,21 @@ public class ForgeBusEventSubscriber {
 				}
 			}
 
+			if (keyBindings[2].isPressed()) {
+				ClientPlayerEntity player = Minecraft.getInstance().player;
+				Entity entity = player.getRidingEntity();
+				if (entity instanceof SWEMHorseEntityBase) {
+					SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+					ItemStack saddleBagStack = horse.getHorseInventory().getStackInSlot(7);
+					if (saddleBagStack.isEmpty()) {
+						player.sendStatusMessage(new TranslationTextComponent("swem.horse.status.no_saddle_bag"), true);
+						return;
+					}
+
+					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(6, horse.getEntityId()));
+				}
+			}
+
 			KEY_PRESS_COUNTER = 0;
 		} else {
 			// TODO: FIGURE OUT WHY THIS EVENT IS BEING RUN TWICE, AND GET RID OF THIS UGLY STATIC COUNTER.
@@ -80,6 +99,7 @@ public class ForgeBusEventSubscriber {
 		}
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public static void onRenderHorseJumpBar(RenderGameOverlayEvent.Pre event) {
 		if (event.getType() != RenderGameOverlayEvent.ElementType.JUMPBAR) return;

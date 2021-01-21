@@ -307,7 +307,8 @@
   "block.swem.wheel_barrow_yellow": "Wheel Barrow Yellow",
   "block.swem.white_cone": "White Cone",
   "block.swem.yellow_cone": "Yellow Cone",
-  "care": "Care",
+  "container.swem.bedroll": "Bed Roll",
+  "container.swem.saddlebag": "Saddle Bag",
   "container.swem.tack_box": "Tack and Training",
   "container.swem.tack_box_certificate": "Birth Certificate",
   "container.swem.tack_box_genetics": "Lineage and Genetics",
@@ -317,7 +318,6 @@
   "entity.swem.rope_knot": "Rope Knot",
   "entity.swem.swem_horse": "SWEM Horse",
   "entity.swem.wormieboi": "Worm Boy",
-  "horse": "Horse",
   "item.swem.affinity_xp_bottle": "Affinity XP Bottle",
   "item.swem.alfalfa_bushel": "Alfalfa Bushel",
   "item.swem.all_xp_bottle": "All XP Bottle",
@@ -551,8 +551,8 @@
   "key.swem.category": "SWEM",
   "key.swem.horse.decrement": "Decrement Speed",
   "key.swem.horse.increment": "Increment Speed",
-  "pasture_gate": "Pasture Gate",
   "swem.horse.status.gallop_cooldown": "Gallop is on cooldown. Wait ",
+  "swem.horse.status.no_saddle_bag": "Your horse doesn't have a saddle bag/bedroll equipped.",
   "swem.horse.status.too_thirsty_to_canter": "The horse is too thirsty to canter. Find some water.",
   "swem.potion.cantazarite_potion.effect": "Right click a horse to turn it into a SWEM horse."
 }

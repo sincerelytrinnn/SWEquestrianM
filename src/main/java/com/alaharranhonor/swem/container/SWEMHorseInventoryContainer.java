@@ -4,6 +4,7 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.initialization.SWEMContainers;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
@@ -228,7 +229,7 @@ public class SWEMHorseInventoryContainer extends Container {
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
 			public boolean isItemValid(ItemStack stack) {
-				return horse.isSWEMArmor(stack);
+				return horse.isSaddlebag(stack);
 			}
 
 			/**
@@ -248,6 +249,26 @@ public class SWEMHorseInventoryContainer extends Container {
 				return 1;
 			}
 
+			@Override
+			public void onSlotChanged() {
+				ItemStack stack = this.getStack();
+				if (stack.isEmpty() && !horse.getSaddlebagInventory().isEmpty()) {
+					for (int i = 0; i < horse.getSaddlebagInventory().getSizeInventory(); i++) {
+						ItemStack stackToDrop = horse.getSaddlebagInventory().getStackInSlot(i);
+						ItemEntity stackToSpawn = new ItemEntity(horse.getEntityWorld(), horse.getPosX(), horse.getPosY(), horse.getPosZ(), stackToDrop);
+						horse.getEntityWorld().addEntity(stackToSpawn);
+					}
+					horse.getSaddlebagInventory().clear();
+				}
+				if (stack.isEmpty() && !horse.getBedrollInventory().isEmpty()) {
+					for (int i = 0; i < horse.getBedrollInventory().getSizeInventory(); i++) {
+						ItemStack stackToDrop = horse.getBedrollInventory().getStackInSlot(i);
+						ItemEntity stackToSpawn = new ItemEntity(horse.getEntityWorld(), horse.getPosX(), horse.getPosY(), horse.getPosZ(), stackToDrop);
+						horse.getEntityWorld().addEntity(stackToSpawn);
+					}
+					horse.getBedrollInventory().clear();
+				}
+			}
 		});
 
 		// Player Main Inventory

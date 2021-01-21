@@ -15,13 +15,17 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.StringTextComponent;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nullable;
 
 
-public class HorseSaddleItem extends Item {
+public class HorseSaddleItem extends Item implements IAnimatable {
 
 	private ResourceLocation texture;
+	private final AnimationFactory factory = new AnimationFactory(this);
 
 
 	public HorseSaddleItem(String textureName, Properties properties) {
@@ -51,5 +55,15 @@ public class HorseSaddleItem extends Item {
 
 	public ResourceLocation getTexture() {
 		return this.texture;
+	}
+
+	@Override
+	public void registerControllers(AnimationData animationData) {
+
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
 	}
 }

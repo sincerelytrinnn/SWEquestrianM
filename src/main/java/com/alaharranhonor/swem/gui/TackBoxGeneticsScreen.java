@@ -29,8 +29,8 @@ public class TackBoxGeneticsScreen extends Screen {
 		this.container = screenContainer;
 		this.inv = inv;
 		this.text = defaultTitle;
-		this.xSize = 248;
-		this.ySize = 207;
+		this.xSize = 249;
+		this.ySize = 208;
 	}
 
 	@Override
@@ -42,6 +42,7 @@ public class TackBoxGeneticsScreen extends Screen {
 
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.minecraft.getTextureManager().bindTexture(TACKBOX_GENETICS_TEXTURE);

@@ -35,5 +35,5 @@ public class LeatherRidingBoots extends SWEMArmorItem {
 	public boolean hasEffect(ItemStack stack) {
 		return false;
 	}
-	
+
 }
