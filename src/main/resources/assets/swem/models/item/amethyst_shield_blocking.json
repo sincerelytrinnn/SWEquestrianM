@@ -1,55 +1,56 @@
 {
-  "parent": "item/generated",
+  "parent": "swem:item/amethyst_shield",
   "textures": {
-    "layer0": "swem:items/amethyst_scythe"
+    "layer0": "swem:items/amethyst_shield"
   },
+
   "display": {
     "thirdperson_righthand": {
       "rotation": [
-        0,
-        180,
-        20
+        35,
+        -20,
+        -2
       ],
       "translation": [
-        0.5,
-        3,
-        0.5
+        0,
+        0,
+        -1
       ]
     },
     "thirdperson_lefthand": {
       "rotation": [
-        0,
-        0,
-        -15
+        35,
+        -20,
+        2
       ],
       "translation": [
-        -0.5,
-        3,
-        0.5
+        0,
+        0,
+        -1
       ]
     },
     "firstperson_righthand": {
       "rotation": [
-        20,
-        100,
-        0
+        5,
+        180,
+        -20
       ],
       "translation": [
         0,
         1,
-        -1.25
+        -1
       ]
     },
     "firstperson_lefthand": {
       "rotation": [
+        5,
         0,
-        -100,
-        0
+        20
       ],
       "translation": [
         0,
         1,
-        1.25
+        1
       ]
     }
   }

@@ -1,0 +1,6 @@
+{
+  "parent": "swem:item/amethyst_bow",
+  "textures": {
+    "layer0": "swem:items/amethyst_bow_pulling_2"
+  }
+}
