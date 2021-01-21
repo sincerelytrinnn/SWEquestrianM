@@ -354,7 +354,8 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		return this.isAlive() && !this.isChild() && this.isTame();
 	}
 
-	public void func_230266_a_(@Nullable SoundCategory p_230266_1_, ItemStack stack) {
+	public void func_230266_a_(@Nullable SoundCategory p_230266_1_, ItemStack stackIn) {
+		ItemStack stack = stackIn.copy();
 		if (stack.getItem() instanceof HorseSaddleItem) {
 			this.horseChest.setInventorySlotContents(2, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 2, stack));
@@ -517,7 +518,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 			}
 		}
 
-		this.horseChest.addListener(this);
+		this.horseChest.addListener(this::onHorseInventoryChanged);
 		this.func_230275_fc_();
 		this.itemHandler = net.minecraftforge.common.util.LazyOptional.of(() -> new net.minecraftforge.items.wrapper.InvWrapper(this.horseChest));
 	}
@@ -541,7 +542,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 			}
 		}
 
-		this.saddlebagInventory.addListener(this);
+		this.saddlebagInventory.addListener(this::onInventoryChanged);
 		this.saddlebagItemHandler = net.minecraftforge.common.util.LazyOptional.of(() -> new net.minecraftforge.items.wrapper.InvWrapper(this.saddlebagInventory));
 	}
 
@@ -564,7 +565,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 			}
 		}
 
-		this.bedrollInventory.addListener(this);
+		this.bedrollInventory.addListener(this::onInventoryChanged);
 		this.bedrollItemHandler = net.minecraftforge.common.util.LazyOptional.of(() -> new net.minecraftforge.items.wrapper.InvWrapper(this.bedrollInventory));
 	}
 
@@ -1015,6 +1016,21 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	/**
 	 * Called by InventoryBasic.onInventoryChanged() on a array that is never filled.
 	 */
+	public void onHorseInventoryChanged(IInventory invBasic) {
+		this.setSWEMSaddled();
+		ItemStack itemstack = this.func_213803_dV();
+		super.onInventoryChanged(invBasic);
+
+		ItemStack itemstack1 = this.func_213803_dV();
+		if (this.ticksExisted > 20 && this.isSWEMArmor(itemstack1) && itemstack != itemstack1) {
+			this.playSound(SoundEvents.ENTITY_HORSE_ARMOR, 0.5F, 1.0F);
+		}
+		if (this.world.isRemote) return;
+		for (int i = 0; i < invBasic.getSizeInventory(); i++) {
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new UpdateHorseInventoryMessage(getEntityId(), i, invBasic.getStackInSlot(i)));
+		}
+	}
+
 	public void onInventoryChanged(IInventory invBasic) {
 		this.setSWEMSaddled();
 		ItemStack itemstack = this.func_213803_dV();
