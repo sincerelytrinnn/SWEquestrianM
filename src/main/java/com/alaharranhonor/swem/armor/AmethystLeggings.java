@@ -35,6 +35,7 @@ public class AmethystLeggings extends SWEMArmorItem {
 
 				if (playerExp >= requiredXp) {
 					player.giveExperiencePoints((int)-requiredXp);
+					event.setAmount(-1);
 					event.setCanceled(true);
 					player.setHealth(6);
 				}

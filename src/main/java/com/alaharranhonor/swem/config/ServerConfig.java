@@ -6,7 +6,7 @@ import net.minecraft.world.gen.feature.FeatureSpreadConfig;
 import net.minecraftforge.common.ForgeConfigSpec;
 import com.alaharranhonor.swem.SWEM;
 
-final class ServerConfig {
+public final class ServerConfig {
 
 	final ForgeConfigSpec.BooleanValue serverEnableAmethystOre;
 	final ForgeConfigSpec.IntValue serverAmethystVeinSize;
@@ -25,6 +25,11 @@ final class ServerConfig {
 	final ForgeConfigSpec.IntValue serverSWLMCobbleVeinCount;
 	final ForgeConfigSpec.IntValue serverSWLMCobbleBottomHeight;
 	final ForgeConfigSpec.IntValue serverSWLMCobbleMaxHeight;
+
+	public final ForgeConfigSpec.BooleanValue serverTickFoodNeed;
+	public final ForgeConfigSpec.BooleanValue serverTickWaterNeed;
+	public final ForgeConfigSpec.BooleanValue serverTickPoopNeed;
+	public final ForgeConfigSpec.BooleanValue serverTickPeeNeed;
 
 	ServerConfig(ForgeConfigSpec.Builder builder) {
 
@@ -49,6 +54,14 @@ final class ServerConfig {
 		this.serverSWLMCobbleVeinCount = builder.comment("SWLMCobble ore vein count per chunk").translation("swem:config.serverSWLMCobbleVeinCount").defineInRange("SWLMCobbleVeinCount", 12, 1, 2147483647);
 		this.serverSWLMCobbleBottomHeight = builder.comment("SWLMCobble ore minimum height").translation("swem:config.serverSWLMCobbleBottomHeight").defineInRange("SWLMCobbleBottomHeight", 50, 1, 2147483647);
 		this.serverSWLMCobbleMaxHeight = builder.comment("SWLMCobble ore maximum height").translation("swem:config.serverSWLMCobbleMaxHeight").defineInRange("SWLMCobbleMaxHeight", 128, 1, 2147483647);
+		builder.pop();
+
+		builder.push("Config");
+		this.serverTickFoodNeed = builder.comment("Enable Food need ticking on swem horses?").translation("swem.config.enableFoodTick").define("foodTick", true);
+		this.serverTickWaterNeed = builder.comment("Enable Water need ticking on swem horses?").translation("swem.config.enableWaterTick").define("waterTick", true);
+		this.serverTickPoopNeed = builder.comment("Enable Poop ticking on swem horses?").translation("swem.config.enablePoopTick").define("poopTick", true);
+		this.serverTickPeeNeed = builder.comment("Enable Pee ticking on swem horses?").translation("swem.config.enablePeeTick").define("peeTick", true);
+
 		builder.pop();
 	}
 }

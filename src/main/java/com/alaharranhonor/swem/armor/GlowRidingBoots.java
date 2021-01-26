@@ -14,6 +14,7 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
@@ -55,19 +56,24 @@ public class GlowRidingBoots extends LeatherRidingBoots {
 					glowBlockPos = player.getPosition().up();
 					world.setBlockState(glowBlockPos, SWEMBlocks.INVISIBLE_GLOW_BLOCK.get().getDefaultState());
 				}
-
+				
 			}
 		}
 
 
 		@SubscribeEvent
 		public static void onInventoryChange(LivingEquipmentChangeEvent event) {
-			if (event.getTo().getItem() instanceof GlowRidingBoots && event.getEntityLiving().equals(player)) {
-				glowBlockPos = event.getEntityLiving().getPosition().up();
-			}
-			if (!(event.getTo().getItem() instanceof GlowRidingBoots) && glowBlockPos != null && event.getEntityLiving().equals(player)) {
-				player.getEntityWorld().setBlockState(glowBlockPos, Blocks.AIR.getDefaultState());
-				glowBlockPos = null;
+			if (!(event.getEntityLiving() instanceof PlayerEntity)) return;
+
+			if (event.getFrom().getItem() instanceof GlowRidingBoots) {
+				ItemStack stack = event.getFrom();
+				CompoundNBT stackData = stack.getTag();
+				if (stackData != null) {
+					if (stackData.contains("glowBlockPos")) {
+						BlockPos oldGlowBlockPos = new BlockPos(stackData.getInt("x"), stackData.getInt("y"), stackData.getInt("z"));
+						event.getEntityLiving().getEntityWorld().setBlockState(oldGlowBlockPos, Blocks.AIR.getDefaultState(), 3);
+					}
+				}
 			}
 		}
 

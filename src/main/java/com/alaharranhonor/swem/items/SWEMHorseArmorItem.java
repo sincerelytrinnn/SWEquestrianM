@@ -3,6 +3,7 @@ package com.alaharranhonor.swem.items;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.util.initialization.SWEMEntities;
 import net.minecraft.client.renderer.entity.layers.LeatherHorseArmorLayer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -12,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.controller.AnimationController;
@@ -24,10 +26,13 @@ public class SWEMHorseArmorItem extends HorseArmorItem implements IAnimatable {
 	public final String type;
 	private final AnimationFactory factory = new AnimationFactory(this);
 
+	public final HorseArmorTier tier;
 
-	public SWEMHorseArmorItem(int armorValue, String texture, Properties builder) {
+
+	public SWEMHorseArmorItem(HorseArmorTier tier, int armorValue, String texture, Properties builder) {
 		super(armorValue, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + texture + ".png"), builder);
 		this.type = texture;
+		this.tier = tier;
 	}
 
 
@@ -46,4 +51,21 @@ public class SWEMHorseArmorItem extends HorseArmorItem implements IAnimatable {
 		return this.factory;
 	}
 
+
+	public static enum HorseArmorTier {
+		CLOTH(0),
+		IRON(1),
+		GOLD(2),
+		DIAMOND(3),
+		AMETHYST(4);
+
+		private int id;
+		HorseArmorTier(int id) {
+			this.id = id;
+		}
+
+		public int getId() {
+			return this.id;
+		}
+	}
 }

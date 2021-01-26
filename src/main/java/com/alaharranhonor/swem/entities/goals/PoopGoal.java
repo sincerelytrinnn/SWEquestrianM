@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.entities.goals;
 
 import com.alaharranhonor.swem.blocks.HorsePoopBlock;
+import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.PoopEntity;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
@@ -73,7 +74,7 @@ public class PoopGoal extends Goal {
 	@Override
 	public void tick() {
 		this.poopTimer = Math.max(0, this.poopTimer - 1);
-		if (this.poopTimer == 4) {
+		if (this.poopTimer == 4 && ConfigHolder.SERVER.serverTickPoopNeed.get()) {
 			BlockPos blockpos = this.pooperEntity.getPosition();
 			PoopEntity poop = SWEMEntities.HORSE_POOP_ENTITY.get().create(this.entityWorld);
 			BlockPos posToPoop = blockpos.add(0, 1.5d, 0).offset(this.pooperEntity.getHorizontalFacing().getOpposite());

@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.entities.goals;
 
 import com.alaharranhonor.swem.blocks.HorsePoopBlock;
 import com.alaharranhonor.swem.blocks.Shavings;
+import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import net.minecraft.block.*;
 import net.minecraft.entity.MobEntity;
@@ -77,7 +78,7 @@ public class PeeGoal extends Goal {
 	@Override
 	public void tick() {
 		this.peeTimer = Math.max(0, this.peeTimer - 1);
-		if (this.peeTimer == 4) {
+		if (this.peeTimer == 4 && ConfigHolder.SERVER.serverTickPoopNeed.get()) {
 			BlockPos blockpos = this.peeEntity.getPosition();
 			BlockPos bestPos = this.getPosOfBestBlock(blockpos);
 			this.pee(bestPos);

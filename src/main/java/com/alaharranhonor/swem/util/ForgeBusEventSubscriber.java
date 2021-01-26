@@ -3,6 +3,7 @@ package com.alaharranhonor.swem.util;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.AmethystRidingBoots;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.network.HorseFlyingMessage;
 import com.alaharranhonor.swem.network.HorseStateChange;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.network.SendHorseSpeedChange;
@@ -90,6 +91,14 @@ public class ForgeBusEventSubscriber {
 
 					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(6, horse.getEntityId()));
 				}
+			}
+
+			while (Minecraft.getInstance().gameSettings.keyBindJump.isPressed()) {
+				SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(1));
+			}
+
+			if (keyBindings[3].isPressed()) {
+				SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(2));
 			}
 
 			KEY_PRESS_COUNTER = 0;

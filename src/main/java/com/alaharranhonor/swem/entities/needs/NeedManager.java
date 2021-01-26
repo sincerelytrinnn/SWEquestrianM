@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.entities.needs;
 
+import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import net.minecraft.nbt.CompoundNBT;
 
@@ -38,7 +39,9 @@ public class NeedManager {
 
 	// SERVER-SIDE ONLY
 	public void tick() {
-		this.hunger.tick();
-		this.thirst.tick();
+		if (ConfigHolder.SERVER.serverTickFoodNeed.get())
+			this.hunger.tick();
+		if (ConfigHolder.SERVER.serverTickWaterNeed.get())
+			this.thirst.tick();
 	}
 }
