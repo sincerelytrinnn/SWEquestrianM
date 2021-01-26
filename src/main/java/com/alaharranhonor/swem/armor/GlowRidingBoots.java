@@ -14,6 +14,7 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
@@ -41,33 +42,52 @@ public class GlowRidingBoots extends LeatherRidingBoots {
 
 		@SubscribeEvent
 		public static void onJump(LivingEvent.LivingJumpEvent event) {
-			if (player == null) {
-				player = event.getEntityLiving();
-			}
-			if (event.getEntityLiving().getItemStackFromSlot(EquipmentSlotType.FEET).getItem() instanceof GlowRidingBoots) {
-				LivingEntity player = event.getEntityLiving();
-				World world = player.getEntityWorld();
-				if (glowBlockPos == null) {
-					glowBlockPos = player.getPosition().up();
-					world.setBlockState(glowBlockPos, SWEMBlocks.INVISIBLE_GLOW_BLOCK.get().getDefaultState());
-				} else if (glowBlockPos != player.getPosition().up()) {
-					world.setBlockState(glowBlockPos, Blocks.AIR.getDefaultState());
-					glowBlockPos = player.getPosition().up();
-					world.setBlockState(glowBlockPos, SWEMBlocks.INVISIBLE_GLOW_BLOCK.get().getDefaultState());
-				}
+			if (!(event.getEntityLiving() instanceof PlayerEntity)) return;
+			ItemStack stack = event.getEntityLiving().getItemStackFromSlot(EquipmentSlotType.FEET);
 
+			// TODO: GlowBlockPos is shared between all item stacks, store the pos in the nbt data. instead.
+			if (stack.getItem() instanceof GlowRidingBoots) {
+				PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+				World world = player.getEntityWorld();
+				CompoundNBT stackData = stack.getOrCreateTag();
+				BlockPos glowBlockPos = player.getPosition().up();
+
+				if (!stackData.contains("glowBlockPos")) {
+					CompoundNBT glowBlockData = new CompoundNBT();
+					glowBlockData.putInt("x", glowBlockPos.getX());
+					glowBlockData.putInt("y", glowBlockPos.getY());
+					glowBlockData.putInt("z", glowBlockPos.getZ());
+					stackData.put("glowBlockPos", glowBlockData);
+					world.setBlockState(glowBlockPos, SWEMBlocks.INVISIBLE_GLOW_BLOCK.get().getDefaultState(), 3);
+				} else {
+					CompoundNBT glowBlockData = (CompoundNBT) stackData.get("glowBlockPos");
+					BlockPos oldGlowBlockPos = new BlockPos(glowBlockData.getInt("x"), glowBlockData.getInt("y"), glowBlockData.getInt("z"));
+					if (!glowBlockPos.equals(oldGlowBlockPos)) {
+						world.setBlockState(oldGlowBlockPos, Blocks.AIR.getDefaultState(), 3);
+						glowBlockData.putInt("x", glowBlockPos.getX());
+						glowBlockData.putInt("y", glowBlockPos.getY());
+						glowBlockData.putInt("z", glowBlockPos.getZ());
+						world.setBlockState(glowBlockPos, SWEMBlocks.INVISIBLE_GLOW_BLOCK.get().getDefaultState(), 3);
+					}
+
+				}
 			}
 		}
 
 
 		@SubscribeEvent
 		public static void onInventoryChange(LivingEquipmentChangeEvent event) {
-			if (event.getTo().getItem() instanceof GlowRidingBoots && event.getEntityLiving().equals(player)) {
-				glowBlockPos = event.getEntityLiving().getPosition().up();
-			}
-			if (!(event.getTo().getItem() instanceof GlowRidingBoots) && glowBlockPos != null && event.getEntityLiving().equals(player)) {
-				player.getEntityWorld().setBlockState(glowBlockPos, Blocks.AIR.getDefaultState());
-				glowBlockPos = null;
+			if (!(event.getEntityLiving() instanceof PlayerEntity)) return;
+
+			if (!(event.getTo().getItem() instanceof GlowRidingBoots)) {
+				ItemStack stack = event.getFrom();
+				CompoundNBT stackData = stack.getTag();
+				if (stackData != null) {
+					if (stackData.contains("glowBlockPos")) {
+						BlockPos oldGlowBlockPos = new BlockPos(stackData.getInt("x"), stackData.getInt("y"), stackData.getInt("z"));
+						event.getEntityLiving().getEntityWorld().setBlockState(oldGlowBlockPos, Blocks.AIR.getDefaultState(), 3);
+					}
+				}
 			}
 		}
 
