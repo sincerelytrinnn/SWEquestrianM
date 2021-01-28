@@ -1,4 +1,3 @@
-/*
 package com.alaharranhonor.swem.network;
 
 import com.alaharranhonor.swem.SWEM;
@@ -87,4 +86,3 @@ public class HorseFlyingMessage {
 		ctx.get().setPacketHandled(true);
 	}
 }
-*/
