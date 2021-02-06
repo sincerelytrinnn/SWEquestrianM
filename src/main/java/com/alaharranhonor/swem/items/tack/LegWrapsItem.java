@@ -31,7 +31,7 @@ public class LegWrapsItem extends Item {
 			ISWEMEquipable iequipable = (ISWEMEquipable)target;
 			if (playerIn.world.isRemote && !iequipable.hasHalter()) {
 				playerIn.sendStatusMessage(new StringTextComponent("You need to equip a Halter/Bridle first."), true);
-				return ActionResultType.FAIL;
+				return ActionResultType.CONSUME;
 			}
 			if (!iequipable.hasLegWraps() && iequipable.func_230264_L__() && iequipable.hasHalter()) {
 				if (!playerIn.world.isRemote) {

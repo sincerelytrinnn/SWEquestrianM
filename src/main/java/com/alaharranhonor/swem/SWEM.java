@@ -60,7 +60,7 @@ public class SWEM
 
 
 
-        // Register ourselves for server and other game events we are interested in
+        // Register ourselves for server and other game dk.magnusjensen.events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
         // Register config

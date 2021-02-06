@@ -25,6 +25,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -93,8 +94,44 @@ public class ForgeBusEventSubscriber {
 				}
 			}
 
-			while (Minecraft.getInstance().gameSettings.keyBindJump.isPressed()) {
+			if (Minecraft.getInstance().gameSettings.keyBindForward.isKeyDown()) {
+				SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(3));
+			}
+
+			if (Minecraft.getInstance().gameSettings.keyBindRight.isKeyDown()) {
+				Entity entity = Minecraft.getInstance().player.getRidingEntity();
+				if (entity != null) {
+					if (entity instanceof SWEMHorseEntityBase) {
+						SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+						if (horse.isFlying()) {
+							SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(6));
+							horse.setRotation((horse.rotationYaw + 5) % 360.0F, horse.rotationPitch);
+						}
+
+					}
+				}
+			}
+
+			if (Minecraft.getInstance().gameSettings.keyBindLeft.isKeyDown()) {
+				Entity entity = Minecraft.getInstance().player.getRidingEntity();
+				if (entity != null) {
+					if (entity instanceof SWEMHorseEntityBase) {
+						SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+						if (horse.isFlying()) {
+							SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(5));
+							horse.setRotation((horse.rotationYaw - 5) % 360.0F, horse.rotationPitch);
+						}
+
+					}
+				}
+			}
+
+			if (Minecraft.getInstance().gameSettings.keyBindJump.isPressed()) {
 				SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(1));
+			}
+
+			if (Minecraft.getInstance().gameSettings.keyBindDrop.isKeyDown()) {
+				SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(4));
 			}
 
 			if (keyBindings[3].isPressed()) {
@@ -105,6 +142,20 @@ public class ForgeBusEventSubscriber {
 		} else {
 			// TODO: FIGURE OUT WHY THIS EVENT IS BEING RUN TWICE, AND GET RID OF THIS UGLY STATIC COUNTER.
 			KEY_PRESS_COUNTER++;
+		}
+	}
+
+	@SubscribeEvent
+	public static void onEntityMountEvent(EntityMountEvent event) {
+		if (event.isMounting()) return;
+		if (event.getEntityBeingMounted() == null) return;
+
+		Entity entity = event.getEntityBeingMounted();
+		if (entity instanceof SWEMHorseEntityBase) {
+			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+			if (horse.isFlying()) {
+				event.setCanceled(true);
+			}
 		}
 	}
 

@@ -62,20 +62,37 @@ public class HorseFlyingMessage {
 					}
 					case 1: {
 						if (horse.isFlying()) {
-							horse.setMotion(new Vector3d(0.0D, 1.0D, 0.0D));
+							horse.setMotion(new Vector3d(0.0D, 0.5D, 0.0D));
 						}
 						break;
 					}
 					case 2: {
-						horse.setFlying(!horse.isFlying());
-						SWEM.LOGGER.debug("Horse is now flying: " + horse.isFlying());
+						if (horse.canFly()) {
+							horse.setFlying(!horse.isFlying());
+						}
 						break;
 					}
 					case 3: {
 						if (horse.isFlying()) {
-							horse.setMotion(player.getLookVec().scale(3));
+							Vector3d motion = horse.getLookVec().scale(1.5);
+							horse.setMotion(motion.x, 0.0d, motion.z);
 						}
 						break;
+					}
+					case 4: {
+						if (horse.isFlying()) {
+							horse.setMotion(new Vector3d(0.0D, -0.5D, 0.0D));
+						}
+					}
+					case 5: {
+						if (horse.isFlying()) {
+							horse.setRotation((horse.rotationYaw - 5) % 360.0F, horse.rotationPitch);
+						}
+					}
+					case 6: {
+						if (horse.isFlying()) {
+							horse.setRotation((horse.rotationYaw + 5) % 360.0F, horse.rotationPitch);
+						}
 					}
 
 				}

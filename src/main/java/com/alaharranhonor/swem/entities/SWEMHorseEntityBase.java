@@ -91,6 +91,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
+import java.util.Vector;
 
 public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable, IEntityAdditionalSpawnData {
 
@@ -115,6 +116,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 	public final ProgressionManager progressionManager;
 	private BlockPos currentPos;
+
 	private LazyOptional<InvWrapper> itemHandler;
 	private LazyOptional<InvWrapper> saddlebagItemHandler;
 	private LazyOptional<InvWrapper> bedrollItemHandler;
@@ -133,6 +135,8 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	public HorseSpeed currentSpeed;
 
 	private NeedManager needs;
+	private boolean isLaunching;
+	private boolean isLanding;
 
 	public SWEMHorseEntityBase(EntityType<? extends AbstractHorseEntity> type, World worldIn)
 	{
@@ -456,6 +460,39 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 	public void setFlying(boolean flying) {
 		this.dataManager.set(FLYING, flying);
+		if (flying) {
+			this.setNoGravity(true);
+			this.launchFlight();
+		} else {
+			this.landFlight();
+		}
+	}
+
+	private void launchFlight() {
+		int airHeight = this.checkHeightInAir();
+		if (airHeight < 6) {
+			this.isLaunching = true;
+		}
+	}
+
+	private void landFlight() {
+		int airHeight = this.checkHeightInAir();
+		if (airHeight > 1) {
+			this.isLanding = true;
+		}
+	}
+
+
+	private int checkHeightInAir() {
+		BlockPos currentPos = this.getPosition();
+		BlockState checkState = this.world.getBlockState(currentPos);
+		int counter = 0;
+		while (checkState == Blocks.AIR.getDefaultState()) {
+			counter++;
+			currentPos = currentPos.down();
+			checkState = this.world.getBlockState(currentPos);
+		}
+		return counter;
 	}
 
 
@@ -727,7 +764,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 		this.func_230275_fc_();
 
-		this.setFlying(compound.getBoolean("flying"));
+		//this.setFlying(compound.getBoolean("flying"));
 	}
 
 	private void writeSaddlebagInventory(CompoundNBT compound) {
@@ -906,7 +943,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	@Override
 	public void tick() {
 		if (!this.world.isRemote) {
-			if (this.ticksExisted % 5 == 0) {
+			if (this.ticksExisted % 5 == 0 && !isFlying()) {
 				if (this.canBeSteered() && this.isBeingRidden() && this.currentSpeed != HorseSpeed.WALK && this.currentSpeed != HorseSpeed.TROT) {
 					int x = this.getPosition().getX();
 					int z = this.getPosition().getZ();
@@ -951,14 +988,32 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 				this.currentPos = this.getPosition();
 			}
 
-			if (this.ticksExisted % 100 == 0) {
-				// TODO: CHECK FOR FOOD AND WATER IN A 5x5 Proximity if Thirsty or Hungry.
-			}
 			if (!this.horseChest.getStackInSlot(6).isEmpty()) {
 				this.checkArmorPiece(((SWEMHorseArmorItem)this.horseChest.getStackInSlot(6).getItem()));
 			}
+
+
 		}
 		super.tick();
+
+		if (!this.world.isRemote) {
+			int airHeight = this.checkHeightInAir();
+			if (this.isLaunching && airHeight < 6) {
+				this.setMotion(this.getMotion().add(0.0d, 0.15d, 0.0d));
+			} else if (this.isLaunching) {
+				this.setMotion(Vector3d.ZERO);
+				this.isLaunching = false;
+			} else if (this.isLanding && airHeight > 1) {
+				Vector3d lookVec = this.getLookVec();
+				Vector3d downwards = new Vector3d(lookVec.x, -0.2D, lookVec.z);
+				this.setMotion(downwards);
+			}
+
+			if (this.isLanding && airHeight <= 1) {
+				this.isLanding = false;
+				this.setNoGravity(false);
+			}
+		}
 	}
 
 	private void checkArmorPiece(SWEMHorseArmorItem armor) {
@@ -1038,14 +1093,17 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 	}
 
+
 	@Override
 	public void travel(Vector3d travelVector) {
+		if (this.isFlying()) {
+			this.onGround = true;
+		}
 		if (this.isBeingRidden() && this.canBeSteered() && this.isHorseSaddled()) {
 			LivingEntity livingentity = (LivingEntity) this.getControllingPassenger();
-			if (this.isFlying()) {
-				this.onGround = true;
-			}
+
 			this.rotationYaw = livingentity.rotationYaw;
+			SWEM.LOGGER.debug(this.rotationYaw);
 			this.prevRotationYaw = this.rotationYaw;
 			this.rotationPitch = livingentity.rotationPitch * 0.5F;
 			this.setRotation(this.rotationYaw, this.rotationPitch);
@@ -1108,10 +1166,10 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 			}
 
 			this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
-			if (this.canPassengerSteer()) {
+			if (this.canPassengerSteer() && !isFlying() && !isLanding) {
 				this.setAIMoveSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
 				super.travel(new Vector3d((double) f, travelVector.y, (double) f1));
-			} else if (livingentity instanceof PlayerEntity) {
+			} else if ((livingentity instanceof PlayerEntity) && !isFlying()) {
 				this.setMotion(Vector3d.ZERO);
 			}
 
@@ -1590,6 +1648,15 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		this.dataManager.set(SPEED_LEVEL, this.currentSpeed.speedLevel);
 	}
 
+	public boolean canFly() {
+		// && ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() == 4
+		if (!this.hasSaddle().isEmpty()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public static class HorseData extends AgeableEntity.AgeableData {
 		public final CoatColors variant;
 
@@ -1651,6 +1718,9 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	@Override
 	public boolean canBeSteered() {
 		if (this.hasBridle()) {
+			if (this.isFlying()) {
+				return false;
+			}
 			return super.canBeSteered();
 		} else {
 			return false;
