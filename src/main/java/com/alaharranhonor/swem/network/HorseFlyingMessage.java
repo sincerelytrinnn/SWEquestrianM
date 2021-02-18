@@ -18,7 +18,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 public class HorseFlyingMessage {
@@ -62,7 +61,7 @@ public class HorseFlyingMessage {
 					}
 					case 1: {
 						if (horse.isFlying()) {
-							horse.setMotion(new Vector3d(0.0D, 0.5D, 0.0D));
+							horse.setMotion(horse.getMotion().add(new Vector3d(0.0D, 0.5D, 0.0D)));
 						}
 						break;
 					}
@@ -74,27 +73,16 @@ public class HorseFlyingMessage {
 					}
 					case 3: {
 						if (horse.isFlying()) {
-							Vector3d motion = horse.getLookVec().scale(1.5);
-							horse.setMotion(motion.x, 0.0d, motion.z);
+							Vector3d motion = player.getLookVec().scale(0.882);
+							horse.setMotion(motion.x, horse.getMotion().y, motion.z);
 						}
 						break;
 					}
 					case 4: {
 						if (horse.isFlying()) {
-							horse.setMotion(new Vector3d(0.0D, -0.5D, 0.0D));
+							horse.setMotion(horse.getMotion().add(new Vector3d(0.0D, -0.5D, 0.0D)));
 						}
 					}
-					case 5: {
-						if (horse.isFlying()) {
-							horse.setRotation((horse.rotationYaw - 5) % 360.0F, horse.rotationPitch);
-						}
-					}
-					case 6: {
-						if (horse.isFlying()) {
-							horse.setRotation((horse.rotationYaw + 5) % 360.0F, horse.rotationPitch);
-						}
-					}
-
 				}
 			}
 
