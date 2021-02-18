@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.AmethystRidingBoots;
+import com.alaharranhonor.swem.commands.YeetCommand;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.network.HorseFlyingMessage;
 import com.alaharranhonor.swem.network.HorseStateChange;
@@ -25,6 +26,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -52,6 +54,11 @@ public class ForgeBusEventSubscriber {
 		} else {
 			SWEMOreGen.generateOverworldOres(event);
 		}
+	}
+
+	@SubscribeEvent
+	public static void registerCommands(RegisterCommandsEvent event) {
+		//event.getDispatcher().register(YeetCommand.register());
 	}
 
 	@SubscribeEvent
