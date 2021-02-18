@@ -35,9 +35,9 @@ public class SWEMBlockStateProperties extends BlockStateProperties {
 	}
 
 	public enum TripleBlockSide implements IStringSerializable {
-		LEFT,
-		MIDDLE,
-		RIGHT;
+		LEFT, // For Jumps = OUTER // For standards = Bottom
+		MIDDLE, // For Jumps = MIDDLE // For standards = middle
+		RIGHT; // For Jumps = BETWEEN // For standards = top
 
 		public String toString() {
 			return this.getString();

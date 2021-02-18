@@ -2,9 +2,9 @@ package com.alaharranhonor.swem.util.initialization;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.blocks.*;
+import com.alaharranhonor.swem.blocks.jumps.JumpBlock;
+import com.alaharranhonor.swem.blocks.jumps.JumpStandardBlock;
 import net.minecraft.block.*;
-import com.alaharranhonor.swem.util.RegistryHandler;
-import com.alaharranhonor.swem.util.RegistryUtil;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
@@ -16,11 +16,12 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+import static net.minecraft.block.Blocks.TRIPWIRE_HOOK;
 
 @SuppressWarnings("unused")
 public class SWEMBlocks {
@@ -132,6 +133,48 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> HORSE_PEE = BLOCKS.register("horse_pee", () -> new PeeBlock(Block.Properties.create(Material.ORGANIC).notSolid().setAllowsSpawn(Blocks::neverAllowSpawn).setOpaque(Blocks::isntSolid).setSuffocates(Blocks::isntSolid).setBlocksVision(Blocks::isntSolid)));
 	public static final RegistryObject<Block> CANTAZARITE_ANVIL = BLOCKS.register("cantazarite_anvil", () -> new CantazariteAnvilBlock(Block.Properties.from(Blocks.ANVIL).notSolid()));
 	public static final RegistryObject<Block> TEARING_MAGMA = BLOCKS.register("tearing_magma", () -> new TearingMagma(AbstractBlock.Properties.create(Material.ROCK, MaterialColor.NETHERRACK).setRequiresTool().notSolid().tickRandomly()));
+	public static final RegistryObject<Block> GLOW_STRING = BLOCKS.register("glow_string", () -> new GlowTripwireBlock((TripWireHookBlock)TRIPWIRE_HOOK, AbstractBlock.Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement()));
+
+	// Jump blocks
+	public static final RegistryObject<Block> JUMP_STANDARD_SCHOOLING = BLOCKS.register("jump_standard_schooling", () -> new JumpStandardBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<Block> JUMP_STANDARD_RADIAL = BLOCKS.register("jump_standard_radial", () -> new JumpStandardBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<Block> JUMP_STANDARD_VERTICAL_SLAT = BLOCKS.register("jump_standard_vertical_slat", () -> new JumpStandardBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<Block> JUMP_STANDARD_NONE = BLOCKS.register("jump_standard_none", () -> new JumpStandardBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
+
+	public static final RegistryObject<Block> JUMP_NONE = BLOCKS.register("jump_none", JumpBlock::new);
+	public static final RegistryObject<Block> JUMP_LOG = BLOCKS.register("jump_log", JumpBlock::new);
+	public static final RegistryObject<Block> JUMP_CAVALETTI = BLOCKS.register("jump_cavaletti", JumpBlock::new);
+	public static final RegistryObject<Block> JUMP_POLE_ON_BOX = BLOCKS.register("jump_pole_on_box", JumpBlock::new);
+	public static final RegistryObject<Block> JUMP_STAIR_DROP = BLOCKS.register("jump_stair_drop", JumpBlock::new);
+
+	public static final RegistryObject<Block> JUMP_HEDGE = BLOCKS.register("jump_hedge", JumpBlock::new);
+	public static final RegistryObject<Block> JUMP_WALL = BLOCKS.register("jump_wall", JumpBlock::new);
+
+	public static final RegistryObject<Block> JUMP_BRUSH_BOX = BLOCKS.register("jump_brush_box", JumpBlock::new);
+	public static final RegistryObject<Block> JUMP_FLOWER_BOX = BLOCKS.register("jump_flower_box", JumpBlock::new);
+	public static final RegistryObject<Block> JUMP_COOP = BLOCKS.register("jump_coop", JumpBlock::new);
+	public static final RegistryObject<Block> JUMP_ROLL_TOP = BLOCKS.register("jump_roll_top", JumpBlock::new);
+	public static final RegistryObject<Block> JUMP_WALL_MINI = BLOCKS.register("jump_wall_mini", JumpBlock::new);
+	public static final RegistryObject<Block> JUMP_GROUND_POLE = BLOCKS.register("jump_ground_pole", JumpBlock::new);
+
+	public static final RegistryObject<Block> JUMP_RAIL = BLOCKS.register("jump_rail", JumpBlock::new);
+	public static final RegistryObject<Block> JUMP_PLANK = BLOCKS.register("jump_plank", JumpBlock::new);
+	public static final RegistryObject<Block> JUMP_PLANK_FANCY = BLOCKS.register("jump_plank_fancy", JumpBlock::new);
+
+	public static final RegistryObject<Block> JUMP_PANELS = BLOCKS.register("jump_panels", JumpBlock::new);
+
+	public static final RegistryObject<Block> JUMP_CROSS_RAILS = BLOCKS.register("jump_cross_rails", JumpBlock::new);
+
+	public static final RegistryObject<Block> JUMP_SWEDISH_RAILS = BLOCKS.register("jump_swedish_rails", JumpBlock::new);
+
+	public static final RegistryObject<Block> JUMP_RED_FLAG = BLOCKS.register("jump_red_flag", JumpBlock::new);
+	public static final RegistryObject<Block> JUMP_WHITE_FLAG = BLOCKS.register("jump_white_flag", JumpBlock::new);
+	public static final RegistryObject<Block> JUMP_RED_WHITE_FLAG = BLOCKS.register("jump_red_white_flag", JumpBlock::new);
+
+	public static final RegistryObject<Block> JUMP_NUMBERS = BLOCKS.register("jump_numbers", JumpBlock::new);
+
+
+
 
 	public static final List<RegistryObject<WheelBarrowBlock>> WHEEL_BARROWS = new ArrayList<>();
 	public static final List<RegistryObject<SlowFeederBlock>> SLOW_FEEDERS = new ArrayList<>();
