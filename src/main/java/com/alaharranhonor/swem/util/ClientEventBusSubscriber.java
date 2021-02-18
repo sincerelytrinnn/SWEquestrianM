@@ -7,20 +7,19 @@ import com.alaharranhonor.swem.blocks.NonParallelBlock;
 import com.alaharranhonor.swem.blocks.WheelBarrowBlock;
 import com.alaharranhonor.swem.entity.render.*;
 import com.alaharranhonor.swem.gui.*;
-import com.alaharranhonor.swem.items.SWEMArmorItem;
 import com.alaharranhonor.swem.items.SWEMSpawnEggItem;
 import com.alaharranhonor.swem.util.initialization.*;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
-import net.minecraft.client.renderer.entity.LeashKnotRenderer;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.Color;
+import net.minecraft.world.FoliageColors;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
@@ -102,6 +101,31 @@ public class ClientEventBusSubscriber {
         RenderTypeLookup.setRenderLayer(SWEMBlocks.DARK_FRIENDLY_BARS.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.HORSE_PEE.get(), RenderType.getCutout());
 
+        // Jump blocks.
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_STANDARD_SCHOOLING.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_BRUSH_BOX.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_RAIL.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_LOG.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_CAVALETTI.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_POLE_ON_BOX.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_STAIR_DROP.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_HEDGE.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_FLOWER_BOX.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_COOP.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_ROLL_TOP.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_WALL.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_WALL_MINI.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_GROUND_POLE.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_PANELS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_CROSS_RAILS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_SWEDISH_RAILS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_PLANK.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_PLANK_FANCY.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_RED_FLAG.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_WHITE_FLAG.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_RED_WHITE_FLAG.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_NUMBERS.get(), RenderType.getTranslucent());
+
         RenderTypeLookup.setRenderLayer(SWEMBlocks.SIMPLE_RIDER_DOOR_ORANGE.get(), RenderType.getCutout());
 
         RenderTypeLookup.setRenderLayer(SWEMBlocks.ACACIA_STALL_HORSE.get(), RenderType.getCutout());
@@ -150,6 +174,11 @@ public class ClientEventBusSubscriber {
         colors.register((state, reader, pos, color) -> {
             return reader != null && pos != null ? BiomeColors.getWaterColor(reader, pos) : -1;
         }, SWEMBlocks.HALF_BARREL.get());
+
+        colors.register((state, reader, pos, color) -> {
+            return reader != null && pos != null ? BiomeColors.getFoliageColor(reader, pos) : FoliageColors.getDefault();
+        }, SWEMBlocks.JUMP_HEDGE.get());
+
     }
 
     @SubscribeEvent
