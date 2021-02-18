@@ -1,0 +1,59 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "swem:blocks/red_white_flag",
+		"particle": "swem:blocks/red_white_flag"
+	},
+	"groups": [
+		{
+			"name": "group",
+			"origin": [8, 8, 8],
+			"children": [0]
+		}
+	],
+	"loader": "forge:multi-layer",
+	"layers": {
+		"solid": {
+			"textures": {
+				"0": "swem:blocks/red_white_flag",
+				"particle": "swem:blocks/red_white_flag"
+			},
+			"elements": [
+				{
+					"from": [0, 12, 5],
+					"to": [5, 17, 6],
+					"rotation": {"angle": 0, "axis": "y", "origin": [2.5, 14.5, 5.5]},
+					"faces": {
+						"north": {"uv": [0, 0, 5, 5], "texture": "#0"},
+						"east": {"uv": [5, 5, 6, 10], "texture": "#0"},
+						"south": {"uv": [0, 5, 5, 10], "texture": "#0"},
+						"west": {"uv": [5, 0, 6, 5], "texture": "#0"},
+						"up": {"uv": [11, 7, 6, 6], "texture": "#0"},
+						"down": {"uv": [11, 0, 6, 1], "texture": "#0"}
+					}
+				}
+			]
+		},
+		"translucent": {
+			"textures": {
+				"0": "swem:blocks/red_white_flag",
+				"particle": "swem:blocks/red_white_flag"
+			},
+			"elements": [
+				{
+					"from": [0, 12, 5],
+					"to": [5, 17, 6],
+					"rotation": {"angle": 0, "axis": "y", "origin": [2.5, 14.5, 5.5]},
+					"faces": {
+						"north": {"uv": [0, 0, 5, 5], "texture": "#0"},
+						"east": {"uv": [5, 5, 6, 10], "texture": "#0"},
+						"south": {"uv": [0, 5, 5, 10], "texture": "#0"},
+						"west": {"uv": [5, 0, 6, 5], "texture": "#0"},
+						"up": {"uv": [11, 7, 6, 6], "texture": "#0"},
+						"down": {"uv": [11, 0, 6, 1], "texture": "#0"}
+					}
+				}
+			]
+		}
+	}
+}

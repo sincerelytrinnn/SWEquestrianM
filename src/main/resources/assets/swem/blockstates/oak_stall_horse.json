@@ -262,7 +262,7 @@
     },
     "facing=east,half=upper,hinge=right,open=true,side=left": {
       "model": "swem:block/oak_stall_horse_top_hinge",
-      "y": 90
+      "y": 270
     },
 
     "facing=east,half=upper,hinge=right,open=false,side=right": {

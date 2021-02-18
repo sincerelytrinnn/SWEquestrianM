@@ -1,0 +1,63 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "side": "left",
+        "facing": "north|south"
+      },
+      "apply": {
+        "model": "swem:block/white_flag"
+      }
+    },
+    {
+      "when": {
+        "side": "left",
+        "facing": "east|west"
+      },
+      "apply": {
+        "model": "swem:block/white_flag",
+        "y": 90
+      }
+    },
+
+    {
+      "when": {
+        "side": "middle",
+        "facing": "north|south"
+      },
+      "apply": {
+        "model": "swem:block/white_flag"
+      }
+    },
+    {
+      "when": {
+        "side": "middle",
+        "facing": "east|west"
+      },
+      "apply": {
+        "model": "swem:block/white_flag",
+        "y": 90
+      }
+    },
+
+    {
+      "when": {
+        "side": "right",
+        "facing": "north|south"
+      },
+      "apply": {
+        "model": "swem:block/white_flag"
+      }
+    },
+    {
+      "when": {
+        "side": "right",
+        "facing": "east|west"
+      },
+      "apply": {
+        "model": "swem:block/white_flag",
+        "y": 90
+      }
+    }
+  ]
+}
