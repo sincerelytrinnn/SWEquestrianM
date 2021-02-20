@@ -78,9 +78,9 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> TIMOTHY_GRASS = BLOCKS.register("timothy_grass",
 			() -> new TimothyGrass(Block.Properties.from(Blocks.WHEAT)));
 	public static final RegistryObject<Block> ALFALFA_PLANT = BLOCKS.register("alfalfa_plant",
-			() -> new TimothyGrass(Block.Properties.from(Blocks.WHEAT)));
+			() -> new AlfalfaPlant(Block.Properties.from(Blocks.WHEAT)));
 	public static final RegistryObject<Block> OAT_PLANT = BLOCKS.register("oat_plant",
-			() -> new TimothyGrass(Block.Properties.from(Blocks.WHEAT)));
+			() -> new OatPlant(Block.Properties.from(Blocks.WHEAT)));
 	public static final RegistryObject<Block> QUALITY_BALE = BLOCKS.register("quality_bale",
 			() -> new HayBlockBase(Block.Properties.from(Blocks.HAY_BLOCK)));
 	public static final RegistryObject<Block> DARK_SHAVINGS = BLOCKS.register("dark_shavings",
