@@ -521,13 +521,6 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		this.updateSelectedSpeed(oldSpeed);
 	}
 
-	@Override
-	public void dismount() {
-		if (this.dataManager.get(SPEED_LEVEL) != 1) {
-			this.currentSpeed = HorseSpeed.TROT;
-		}
-		super.dismount();
-	}
 
 	private void setGallopCooldown() {
 		int gallopTime = this.dataManager.get(GALLOP_TIMER);

@@ -57,6 +57,21 @@ public class ForgeBusEventSubscriber {
 	}
 
 	@SubscribeEvent
+	public static void entityMount(EntityMountEvent event) {
+		if (event.isMounting()) return;
+
+		if (event.getEntityBeingMounted() == null) return;
+
+		Entity entity = event.getEntityBeingMounted();
+
+		if (entity instanceof SWEMHorseEntityBase) {
+			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+			horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.TROT;
+			horse.getDataManager().set(SWEMHorseEntityBase.SPEED_LEVEL, SWEMHorseEntityBase.HorseSpeed.TROT.getSpeedLevel());
+		}
+	}
+
+	@SubscribeEvent
 	public static void registerCommands(RegisterCommandsEvent event) {
 		//event.getDispatcher().register(YeetCommand.register());
 	}
