@@ -62,19 +62,6 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> CANTAZARITE_BLOCK = BLOCKS.register("cantazarite_block", OreCraftedBase::new);
 	public static final RegistryObject<OreBlock> CANTAZARITE_ORE = BLOCKS.register("cantazarite_ore", () -> new OreBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<OreBlock> AMETHYST_ORE = BLOCKS.register("amethyst_ore", () -> new OreBlock(Block.Properties.create(Material.IRON)));
-	public static final RegistryObject<Block> YELLOW_CONE = BLOCKS.register("yellow_cone", ConeBase::new);
-	public static final RegistryObject<Block> WHITE_CONE = BLOCKS.register("white_cone", ConeBase::new);
-	public static final RegistryObject<Block> RED_CONE = BLOCKS.register("red_cone", ConeBase::new);
-	public static final RegistryObject<Block> PURPLE_CONE = BLOCKS.register("purple_cone", ConeBase::new);
-	public static final RegistryObject<Block> PINK_CONE = BLOCKS.register("pink_cone", ConeBase::new);
-	public static final RegistryObject<Block> ORANGE_CONE = BLOCKS.register("orange_cone", ConeBase::new);
-	public static final RegistryObject<Block> MAGENTA_CONE = BLOCKS.register("magenta_cone", ConeBase::new);
-	public static final RegistryObject<Block> LIGHT_BLUE_CONE = BLOCKS.register("light_blue_cone", ConeBase::new);
-	public static final RegistryObject<Block> GREY_CONE = BLOCKS.register("grey_cone", ConeBase::new);
-	public static final RegistryObject<Block> LIME_CONE = BLOCKS.register("lime_cone", ConeBase::new);
-	public static final RegistryObject<Block> BLUE_CONE = BLOCKS.register("blue_cone", ConeBase::new);
-	public static final RegistryObject<Block> CYAN_CONE = BLOCKS.register("cyan_cone", ConeBase::new);
-	public static final RegistryObject<Block> GREEN_CONE = BLOCKS.register("green_cone", ConeBase::new);
 	public static final RegistryObject<Block> TIMOTHY_GRASS = BLOCKS.register("timothy_grass",
 			() -> new TimothyGrass(Block.Properties.from(Blocks.WHEAT)));
 	public static final RegistryObject<Block> ALFALFA_PLANT = BLOCKS.register("alfalfa_plant",
@@ -175,7 +162,7 @@ public class SWEMBlocks {
 
 
 
-
+	public static final List<RegistryObject<ConeBase>> CONES = new ArrayList<>();
 	public static final List<RegistryObject<WheelBarrowBlock>> WHEEL_BARROWS = new ArrayList<>();
 	public static final List<RegistryObject<SlowFeederBlock>> SLOW_FEEDERS = new ArrayList<>();
 	public static final List<RegistryObject<NonParallelBlock>> SEPARATORS = new ArrayList<>();
@@ -185,7 +172,8 @@ public class SWEMBlocks {
 
 	static {
 		for (DyeColor color : DyeColor.values()) {
-			 WHEEL_BARROWS.add(register("wheel_barrow_"+color.getTranslationKey(), () -> new WheelBarrowBlock(Block.Properties.create(Material.IRON).notSolid(), color),
+			CONES.add(register(color.getTranslationKey()+"_cone", ConeBase::new, block -> () -> new ConeBlockItem(block.get())));
+			WHEEL_BARROWS.add(register("wheel_barrow_"+color.getTranslationKey(), () -> new WheelBarrowBlock(Block.Properties.create(Material.IRON).notSolid(), color),
 					 block -> () -> new BlockItemBase(block.get())));
 			SLOW_FEEDERS.add(register("slow_feeder_"+color.getTranslationKey(), () -> new SlowFeederBlock(Block.Properties.create(Material.IRON), color),
 					block -> () -> new BlockItemBase(block.get())));
@@ -216,32 +204,6 @@ public class SWEMBlocks {
 			() -> new BlockItemBase(CANTAZARITE_ORE.get()));
 	public static final RegistryObject<Item> AMETHYST_ORE_ITEM = SWEMItems.ITEMS.register("amethyst_ore",
 			() -> new BlockItemBase(AMETHYST_ORE.get()));
-	public static final RegistryObject<Item> YELLOW_CONE_ITEM = SWEMItems.ITEMS.register("yellow_cone",
-			() -> new ConeBlockItem(YELLOW_CONE.get()));
-	public static final RegistryObject<Item> WHITE_CONE_ITEM = SWEMItems.ITEMS.register("white_cone",
-			() -> new ConeBlockItem(WHITE_CONE.get()));
-	public static final RegistryObject<Item> RED_CONE_ITEM = SWEMItems.ITEMS.register("red_cone",
-			() -> new ConeBlockItem(RED_CONE.get()));
-	public static final RegistryObject<Item> PURPLE_CONE_ITEM = SWEMItems.ITEMS.register("purple_cone",
-			() -> new ConeBlockItem(PURPLE_CONE.get()));
-	public static final RegistryObject<Item> PINK_CONE_ITEM = SWEMItems.ITEMS.register("pink_cone",
-			() -> new ConeBlockItem(PINK_CONE.get()));
-	public static final RegistryObject<Item> ORANGE_CONE_ITEM = SWEMItems.ITEMS.register("orange_cone",
-			() -> new ConeBlockItem(ORANGE_CONE.get()));
-	public static final RegistryObject<Item> MAGENTA_CONE_ITEM = SWEMItems.ITEMS.register("magenta_cone",
-			() -> new ConeBlockItem(MAGENTA_CONE.get()));
-	public static final RegistryObject<Item> LIGHT_BLUE_CONE_ITEM = SWEMItems.ITEMS.register("light_blue_cone",
-			() -> new ConeBlockItem(LIGHT_BLUE_CONE.get()));
-	public static final RegistryObject<Item> GREY_CONE_ITEM = SWEMItems.ITEMS.register("grey_cone",
-			() -> new ConeBlockItem(GREY_CONE.get()));
-	public static final RegistryObject<Item> LIME_CONE_ITEM = SWEMItems.ITEMS.register("lime_cone",
-			() -> new ConeBlockItem(LIME_CONE.get()));
-	public static final RegistryObject<Item> GREEN_CONE_ITEM = SWEMItems.ITEMS.register("green_cone",
-			() -> new ConeBlockItem(GREEN_CONE.get()));
-	public static final RegistryObject<Item> CYAN_CONE_ITEM = SWEMItems.ITEMS.register("cyan_cone",
-			() -> new ConeBlockItem(CYAN_CONE.get()));
-	public static final RegistryObject<Item> BLUE_CONE_ITEM = SWEMItems.ITEMS.register("blue_cone",
-			() -> new ConeBlockItem(BLUE_CONE.get()));
 	public static final RegistryObject<Item> QUALITY_BALE_ITEM = SWEMItems.ITEMS.register("quality_bale",
 			() -> new BlockItemBase(QUALITY_BALE.get()));
 	public static final RegistryObject<Item> TIMOTHY_SEEDS = SWEMItems.ITEMS.register("timothy_seeds",
