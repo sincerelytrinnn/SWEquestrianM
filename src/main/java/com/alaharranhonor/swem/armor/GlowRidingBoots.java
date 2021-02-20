@@ -25,9 +25,6 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.function.Supplier;
 
 public class GlowRidingBoots extends LeatherRidingBoots {
-
-	private static BlockPos glowBlockPos;
-	private static LivingEntity player;
 	public GlowRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
 		super(path, materialIn, slot, builderIn);
 	}
@@ -45,7 +42,6 @@ public class GlowRidingBoots extends LeatherRidingBoots {
 			if (!(event.getEntityLiving() instanceof PlayerEntity)) return;
 			ItemStack stack = event.getEntityLiving().getItemStackFromSlot(EquipmentSlotType.FEET);
 
-			// TODO: GlowBlockPos is shared between all item stacks, store the pos in the nbt data. instead.
 			if (stack.getItem() instanceof GlowRidingBoots) {
 				PlayerEntity player = (PlayerEntity) event.getEntityLiving();
 				World world = player.getEntityWorld();
@@ -79,12 +75,13 @@ public class GlowRidingBoots extends LeatherRidingBoots {
 		public static void onInventoryChange(LivingEquipmentChangeEvent event) {
 			if (!(event.getEntityLiving() instanceof PlayerEntity)) return;
 
-			if (!(event.getTo().getItem() instanceof GlowRidingBoots)) {
+			if ((event.getFrom().getItem() instanceof GlowRidingBoots)) {
 				ItemStack stack = event.getFrom();
 				CompoundNBT stackData = stack.getTag();
 				if (stackData != null) {
 					if (stackData.contains("glowBlockPos")) {
-						BlockPos oldGlowBlockPos = new BlockPos(stackData.getInt("x"), stackData.getInt("y"), stackData.getInt("z"));
+						CompoundNBT glowBlockPos = stackData.getCompound("glowBlockPos");
+						BlockPos oldGlowBlockPos = new BlockPos(glowBlockPos.getInt("x"), glowBlockPos.getInt("y"), glowBlockPos.getInt("z"));
 						event.getEntityLiving().getEntityWorld().setBlockState(oldGlowBlockPos, Blocks.AIR.getDefaultState(), 3);
 					}
 				}
