@@ -550,6 +550,11 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	}
 
 	@Override
+	public boolean hasAdventureSaddle() {
+		return this.hasSaddle().getItem() instanceof AdventureSaddleItem;
+	}
+
+	@Override
 	public boolean hasBlanket() {
 		return this.horseChest.getStackInSlot(1).getItem() instanceof BlanketItem;
 	}
@@ -979,7 +984,6 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 							ItemStack saddle = this.hasSaddle();
 							this.horseChest.setInventorySlotContents(2, ItemStack.EMPTY);
 							this.setSWEMSaddled();
-							SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.noArg(), new UpdateHorseInventoryMessage(this.getEntityId(), 2, ItemStack.EMPTY));
 							this.world.addEntity(new ItemEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ(), saddle));
 						}
 					}
