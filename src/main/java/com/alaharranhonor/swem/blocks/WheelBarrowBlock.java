@@ -71,7 +71,8 @@ public class WheelBarrowBlock extends HorizontalBlock {
 				worldIn.setBlockState(pos, state.with(LEVEL, (int) Math.floor(te.itemHandler.getStackInSlot(0).getCount() / 2) ), 3);
 				if (te.itemHandler.getStackInSlot(0).getCount() == 8)
 					te.startTicking();
-				return ActionResultType.func_233537_a_(worldIn.isRemote);
+				
+				return ActionResultType.CONSUME;
 			}
 		}
 
