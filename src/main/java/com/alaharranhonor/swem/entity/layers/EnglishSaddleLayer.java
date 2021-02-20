@@ -38,7 +38,7 @@ public class EnglishSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 			HorseSaddleItem saddleItem = (HorseSaddleItem) stack.getItem();
 			if (shouldRender(stack, entitylivingbaseIn)) {
 				matrixStackIn.push();
-				matrixStackIn.translate(0.0D, 1.375D, 0.0D); // z: 1.25D
+				matrixStackIn.translate(0.0D, 1.5375D, 0.0D); // z: 1.25D
 				GeoModel horseModel = this.entityRenderer.getGeoModelProvider().getModel(this.entityRenderer.getGeoModelProvider().getModelLocation(entitylivingbaseIn));
 
 				IVertexBuilder ivertexbuilder = ItemRenderer.getArmorVertexBuilder(bufferIn, RenderType.getArmorCutoutNoCull(saddleItem.getTexture()), false, stack.hasEffect());
