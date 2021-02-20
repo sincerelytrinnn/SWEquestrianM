@@ -81,22 +81,30 @@ public class OneSaddleRackRender extends GeoBlockRenderer<OneSaddleRackTE> {
 
 		} else if (itemStack.getItem() instanceof EnglishSaddleItem) {
 
-			stack.translate(0, -0.0625, 0);
-
 			EnglishSaddleItem item = (EnglishSaddleItem) itemStack.getItem();
-			EnglishSaddleModel model = new EnglishSaddleModel<>();
+			EnglishSaddleModel model = new EnglishSaddleModel();
 			IVertexBuilder builder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(item.getTexture()));
+
 			Color renderColor = this.getRenderColor(tile, partialTicks, stack, bufferIn, (IVertexBuilder)null, packedLightIn);
-			model.render(stack, builder, packedLightIn, OverlayTexture.NO_OVERLAY, (float)renderColor.getRed() / 255.0F, (float)renderColor.getGreen() / 255.0F, (float)renderColor.getBlue() / 255.0F, (float)renderColor.getAlpha() / 255.0F);
+			Iterator group = model.getModel(model.getModelLocation(item)).topLevelBones.iterator();
+			while (group.hasNext()) {
+				GeoBone bone = (GeoBone) group.next();
+
+				this.renderRecursively(bone, stack, builder, packedLightIn, OverlayTexture.NO_OVERLAY, renderColor.getRed() / 255.0F, renderColor.getGreen() / 255.0F, renderColor.getBlue() / 255.0F, renderColor.getAlpha() / 255.0F );
+			}
 
 		} else if (itemStack.getItem() instanceof AdventureSaddleItem) {
-			stack.translate(0, -1.425, 0);
 			AdventureSaddleItem item = (AdventureSaddleItem) itemStack.getItem();
-			AdventureSaddleModel model = new AdventureSaddleModel<>();
+			AdventureSaddleModel model = new AdventureSaddleModel();
 			IVertexBuilder builder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(item.getTexture()));
-			Color renderColor = this.getRenderColor(tile, partialTicks, stack, bufferIn, (IVertexBuilder)null, packedLightIn);
-			model.render(stack, builder, packedLightIn, OverlayTexture.NO_OVERLAY, (float)renderColor.getRed() / 255.0F, (float)renderColor.getGreen() / 255.0F, (float)renderColor.getBlue() / 255.0F, (float)renderColor.getAlpha() / 255.0F);
 
+			Color renderColor = this.getRenderColor(tile, partialTicks, stack, bufferIn, (IVertexBuilder)null, packedLightIn);
+			Iterator group = model.getModel(model.getModelLocation(item)).topLevelBones.iterator();
+			while (group.hasNext()) {
+				GeoBone bone = (GeoBone) group.next();
+
+				this.renderRecursively(bone, stack, builder, packedLightIn, OverlayTexture.NO_OVERLAY, renderColor.getRed() / 255.0F, renderColor.getGreen() / 255.0F, renderColor.getBlue() / 255.0F, renderColor.getAlpha() / 255.0F );
+			}
 		}
 
 		stack.pop();
