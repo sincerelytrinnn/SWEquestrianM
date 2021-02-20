@@ -76,8 +76,6 @@ public class SWEMBlocks {
 			() -> new Shavings(AbstractBlock.Properties.create(new Material.Builder(MaterialColor.SNOW).doesNotBlockMovement().notOpaque().notSolid().pushDestroys().replaceable().build()).tickRandomly().hardnessAndResistance(0.1F).setRequiresTool().sound(SoundType.SNOW)));
 	public static final RegistryObject<Block> SOILED_SHAVINGS = BLOCKS.register("soiled_shavings",
 			() -> new Shavings(AbstractBlock.Properties.create(new Material.Builder(MaterialColor.SNOW).doesNotBlockMovement().notOpaque().notSolid().pushDestroys().replaceable().build()).tickRandomly().hardnessAndResistance(0.1F).setRequiresTool().sound(SoundType.SNOW)));
-	public static final RegistryObject<Block> RIDING_DOOR = BLOCKS.register("riding_door",
-			() -> new DoorBase(Block.Properties.from(Blocks.OAK_FENCE_GATE)));
 	public static final RegistryObject<Block> BLEACHER_SLAB = BLOCKS.register("bleacher",
 			() -> new BleacherBase(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> BLEACHER_WIREFRAME = BLOCKS.register("bleacher_wireframe",
@@ -95,7 +93,6 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> PASTURE_FENCE = BLOCKS.register("pasture_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> HALF_BARREL = BLOCKS.register("half_barrel", () -> new HalfBarrelBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> TACK_BOX = BLOCKS.register("tack_box", () -> new TackBoxBlock(Block.Properties.create(Material.IRON)));
-	public static final RegistryObject<RiderDoorBlock> SIMPLE_RIDER_DOOR_ORANGE = BLOCKS.register("simple_rider_door_orange", () -> new RiderDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
 	public static final RegistryObject<HorseDoorBlock> ACACIA_STALL_HORSE = BLOCKS.register("acacia_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
 	public static final RegistryObject<HorseDoorBlock> BIRCH_STALL_HORSE = BLOCKS.register("birch_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
 	public static final RegistryObject<HorseDoorBlock> DARK_OAK_STALL_HORSE = BLOCKS.register("dark_oak_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
@@ -163,6 +160,7 @@ public class SWEMBlocks {
 
 
 	public static final List<RegistryObject<ConeBase>> CONES = new ArrayList<>();
+	public static final List<RegistryObject<RiderDoorBlock>> RIDER_DOORS = new ArrayList<>();
 	public static final List<RegistryObject<WheelBarrowBlock>> WHEEL_BARROWS = new ArrayList<>();
 	public static final List<RegistryObject<SlowFeederBlock>> SLOW_FEEDERS = new ArrayList<>();
 	public static final List<RegistryObject<NonParallelBlock>> SEPARATORS = new ArrayList<>();
@@ -172,6 +170,8 @@ public class SWEMBlocks {
 
 	static {
 		for (DyeColor color : DyeColor.values()) {
+			//public static final RegistryObject<RiderDoorBlock> SIMPLE_RIDER_DOOR_ORANGE = BLOCKS.register("simple_rider_door_orange", () -> new RiderDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
+			RIDER_DOORS.add(register("simple_rider_door_" + color.getTranslationKey(), () -> new RiderDoorBlock(Block.Properties.create(Material.WOOD).notSolid()), block -> () -> new BlockItemBase(block.get())));
 			CONES.add(register(color.getTranslationKey()+"_cone", ConeBase::new, block -> () -> new ConeBlockItem(block.get())));
 			WHEEL_BARROWS.add(register("wheel_barrow_"+color.getTranslationKey(), () -> new WheelBarrowBlock(Block.Properties.create(Material.IRON).notSolid(), color),
 					 block -> () -> new BlockItemBase(block.get())));
@@ -218,8 +218,6 @@ public class SWEMBlocks {
 			() -> new ShavingsItem(LIGHT_SHAVINGS.get()));
 	public static final RegistryObject<Item> SOILED_SHAVINGS_ITEM = SWEMItems.ITEMS.register("soiled_shavings",
 			ShavingsItem.SoiledShavingsItem::new);
-	public static final RegistryObject<Item> RIDING_DOOR_ITEM = SWEMItems.ITEMS.register("riding_door",
-			() -> new BlockItemBase(RIDING_DOOR.get()));
 	public static final RegistryObject<Item> BLEACHER_SLAB_ITEM = SWEMItems.ITEMS.register("bleacher",
 			() -> new BlockItemBase(BLEACHER_SLAB.get()));
 	public static final RegistryObject<Item> WESTERN_HITCHING_POST_ITEM = SWEMItems.ITEMS.register("western_hitching_post",
@@ -234,7 +232,6 @@ public class SWEMBlocks {
 	public static final RegistryObject<Item> PASTURE_FENCE_ITEM = SWEMItems.ITEMS.register("pasture_fence", () -> new BlockItemBase(PASTURE_FENCE.get()));
 	public static final RegistryObject<Item> HALF_BARREL_ITEM = SWEMItems.ITEMS.register("half_barrel", () -> new BlockItemBase(HALF_BARREL.get()));
 	public static final RegistryObject<Item> TACK_BOX_ITEM = SWEMItems.ITEMS.register("tack_box", () -> new TackBoxBlockItem(TACK_BOX.get()));
-	public static final RegistryObject<Item> SIMPLE_RIDER_DOOR_ORANGE_ITEM = SWEMItems.ITEMS.register("simple_rider_door_orange", () -> new BlockItemBase(SIMPLE_RIDER_DOOR_ORANGE.get()));
 	public static final RegistryObject<Item> ACACIA_STALL_HORSE_ITEM = SWEMItems.ITEMS.register("acacia_stall_horse", () -> new BlockItemBase(ACACIA_STALL_HORSE.get()));
 	public static final RegistryObject<Item> BIRCH_STALL_HORSE_ITEM = SWEMItems.ITEMS.register("birch_stall_horse", () -> new BlockItemBase(BIRCH_STALL_HORSE.get()));
 	public static final RegistryObject<Item> DARK_OAK_STALL_HORSE_ITEM = SWEMItems.ITEMS.register("dark_oak_stall_horse", () -> new BlockItemBase(DARK_OAK_STALL_HORSE.get()));

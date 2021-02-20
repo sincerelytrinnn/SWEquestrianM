@@ -35,7 +35,6 @@ public class RiderDoorBlock extends Block{
 	public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 	public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 	public static final EnumProperty<DoorHingeSide> HINGE = BlockStateProperties.DOOR_HINGE;
-	public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
 	protected static final VoxelShape SOUTH_AABB = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 3.0D);
 	protected static final VoxelShape NORTH_AABB = Block.makeCuboidShape(0.0D, 0.0D, 13.0D, 16.0D, 16.0D, 16.0D);
@@ -44,7 +43,7 @@ public class RiderDoorBlock extends Block{
 
 	public RiderDoorBlock(AbstractBlock.Properties builder) {
 		super(builder);
-		this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(OPEN, Boolean.valueOf(false)).with(HINGE, DoorHingeSide.LEFT).with(POWERED, Boolean.valueOf(false)).with(HALF, DoubleBlockHalf.LOWER));
+		this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(OPEN, Boolean.valueOf(false)).with(HINGE, DoorHingeSide.LEFT).with(HALF, DoubleBlockHalf.LOWER));
 	}
 
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
@@ -62,28 +61,6 @@ public class RiderDoorBlock extends Block{
 			case NORTH:
 				return flag ? NORTH_AABB : (flag1 ? WEST_AABB : EAST_AABB);
 		}
-	}
-
-	/**
-	 * Update the provided state given the provided neighbor facing and neighbor state, returning a new state.
-	 * For example, fences make their connections to the passed in state if possible, and wet concrete powder immediately
-	 * returns its solidified counterpart.
-	 * Note that this method should ideally consider only the specific face passed in.
-	 */
-	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		return stateIn.getBlock().getDefaultState();
-	}
-
-	/**
-	 * Called before the Block is set to air in the world. Called regardless of if the player's tool can actually collect
-	 * this block
-	 */
-	public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
-		if (!worldIn.isRemote && player.isCreative()) {
-			//DoublePlantBlock.removeBottomHalf(worldIn, pos, state, player);
-		}
-
-		super.onBlockHarvested(worldIn, pos, state, player);
 	}
 
 	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
@@ -112,15 +89,16 @@ public class RiderDoorBlock extends Block{
 		BlockPos blockpos = context.getPos();
 		World world = context.getWorld();
 		boolean flag = world.isBlockPowered(blockpos) || world.isBlockPowered(blockpos.up());
-		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing()).with(HINGE, this.getHingeSide(context)).with(POWERED, Boolean.valueOf(flag)).with(OPEN, Boolean.valueOf(flag)).with(HALF, DoubleBlockHalf.LOWER);
+		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing()).with(HINGE, this.getHingeSide(context)).with(OPEN, Boolean.valueOf(flag)).with(HALF, DoubleBlockHalf.LOWER);
 
 	}
 
-	/**
-	 * Called by ItemBlocks after a block is set in the world, to allow post-place logic
-	 */
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-		//worldIn.setBlockState(pos.up(), state.with(HALF, DoubleBlockHalf.UPPER), 3);
+	@Override
+	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		if (!worldIn.isRemote) {
+			this.openDoor(worldIn, state, pos, !state.get(OPEN));
+		}
+		return ActionResultType.SUCCESS;
 	}
 
 	private DoorHingeSide getHingeSide(BlockItemUseContext context) {
@@ -157,16 +135,6 @@ public class RiderDoorBlock extends Block{
 		}
 	}
 
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		if (this.material == Material.IRON) {
-			return ActionResultType.PASS;
-		} else {
-			state = state.func_235896_a_(OPEN);
-			worldIn.setBlockState(pos, state, 10);
-			worldIn.playEvent(player, state.get(OPEN) ? this.getOpenSound() : this.getCloseSound(), pos, 0);
-			return ActionResultType.func_233537_a_(worldIn.isRemote);
-		}
-	}
 
 	public boolean isOpen(BlockState state) {
 		return state.get(OPEN);
@@ -179,18 +147,6 @@ public class RiderDoorBlock extends Block{
 		}
 	}
 
-	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
-		boolean flag = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(pos.offset(state.get(HALF) == DoubleBlockHalf.LOWER ? Direction.UP : Direction.DOWN));
-		if (blockIn != this && flag != state.get(POWERED)) {
-			if (flag != state.get(OPEN)) {
-				this.playSound(worldIn, pos, flag);
-			}
-
-			worldIn.setBlockState(pos, state.with(POWERED, Boolean.valueOf(flag)).with(OPEN, Boolean.valueOf(flag)), 2);
-		}
-
-	}
-
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
 		return true;
 	}
@@ -199,49 +155,8 @@ public class RiderDoorBlock extends Block{
 		worldIn.playEvent((PlayerEntity)null, isOpening ? this.getOpenSound() : this.getCloseSound(), pos, 0);
 	}
 
-	/**
-	 * @deprecated call via {@link IBlockState#getMobilityFlag()} whenever possible. Implementing/overriding is fine.
-	 */
-	public PushReaction getPushReaction(BlockState state) {
-		return PushReaction.DESTROY;
-	}
-
-	/**
-	 * Returns the blockstate with the given rotation from the passed blockstate. If inapplicable, returns the passed
-	 * blockstate.
-	 * @deprecated call via {@link IBlockState#withRotation(Rotation)} whenever possible. Implementing/overriding is
-	 * fine.
-	 */
-	public BlockState rotate(BlockState state, Rotation rot) {
-		return state.with(FACING, rot.rotate(state.get(FACING)));
-	}
-
-	/**
-	 * Returns the blockstate with the given mirror of the passed blockstate. If inapplicable, returns the passed
-	 * blockstate.
-	 * @deprecated call via {@link IBlockState#withMirror(Mirror)} whenever possible. Implementing/overriding is fine.
-	 */
-	public BlockState mirror(BlockState state, Mirror mirrorIn) {
-		return mirrorIn == Mirror.NONE ? state : state.rotate(mirrorIn.toRotation(state.get(FACING))).func_235896_a_(HINGE);
-	}
-
-	/**
-	 * Return a random long to be passed to {@link IBakedModel#getQuads}, used for random model rotations
-	 */
-	@OnlyIn(Dist.CLIENT)
-	public long getPositionRandom(BlockState state, BlockPos pos) {
-		return MathHelper.getCoordinateRandom(pos.getX(), pos.down(state.get(HALF) == DoubleBlockHalf.LOWER ? 0 : 1).getY(), pos.getZ());
-	}
-
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HALF, FACING, OPEN, HINGE, POWERED);
+		builder.add(HALF, FACING, OPEN, HINGE);
 	}
 
-	public static boolean isWooden(World world, BlockPos pos) {
-		return isWooden(world.getBlockState(pos));
-	}
-
-	public static boolean isWooden(BlockState state) {
-		return state.getBlock() instanceof DoorBlock && (state.getMaterial() == Material.WOOD || state.getMaterial() == Material.NETHER_WOOD);
-	}
 }

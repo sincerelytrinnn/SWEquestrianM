@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.util.ResourceLocation;
@@ -92,7 +93,6 @@ public class ClientEventBusSubscriber {
         RenderTypeLookup.setRenderLayer(SWEMBlocks.TIMOTHY_GRASS.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.OAT_PLANT.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.ALFALFA_PLANT.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(SWEMBlocks.RIDING_DOOR.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.HALF_BARREL.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.WATER_TROUGH.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.METAL_GRATE.get(), RenderType.getCutout());
@@ -126,8 +126,6 @@ public class ClientEventBusSubscriber {
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_RED_WHITE_FLAG.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_NUMBERS.get(), RenderType.getTranslucent());
 
-        RenderTypeLookup.setRenderLayer(SWEMBlocks.SIMPLE_RIDER_DOOR_ORANGE.get(), RenderType.getCutout());
-
         RenderTypeLookup.setRenderLayer(SWEMBlocks.ACACIA_STALL_HORSE.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.BIRCH_STALL_HORSE.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.DARK_OAK_STALL_HORSE.get(), RenderType.getCutout());
@@ -140,17 +138,13 @@ public class ClientEventBusSubscriber {
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUNGLE_STALL_CARE.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.OAK_STALL_CARE.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.SPRUCE_STALL_CARE.get(), RenderType.getCutout());
-        for (RegistryObject<WheelBarrowBlock> wb : SWEMBlocks.WHEEL_BARROWS) {
-            RenderTypeLookup.setRenderLayer(wb.get(), RenderType.getCutout());
-        }
-        for (RegistryObject<NonParallelBlock> sep : SWEMBlocks.SEPARATORS) {
-            RenderTypeLookup.setRenderLayer(sep.get(), RenderType.getCutout());
-        }
-        for (RegistryObject<HorseDoorBlock> hd : SWEMBlocks.PASTURE_GATES_HORSE) {
-            RenderTypeLookup.setRenderLayer(hd.get(), RenderType.getCutout());
-        }
-        for (RegistryObject<CareDoorBlock> hd : SWEMBlocks.PASTURE_GATES_CARE) {
-            RenderTypeLookup.setRenderLayer(hd.get(), RenderType.getCutout());
+
+        for (DyeColor color : DyeColor.values()) {
+            RenderTypeLookup.setRenderLayer(SWEMBlocks.WHEEL_BARROWS.get(color.getId()).get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(SWEMBlocks.SEPARATORS.get(color.getId()).get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(SWEMBlocks.PASTURE_GATES_HORSE.get(color.getId()).get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(SWEMBlocks.PASTURE_GATES_CARE.get(color.getId()).get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(SWEMBlocks.RIDER_DOORS.get(color.getId()).get(), RenderType.getCutout());
         }
     }
 

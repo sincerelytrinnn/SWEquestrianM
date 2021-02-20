@@ -1,0 +1,65 @@
+{
+  "variants": {
+    "facing=east,half=lower,hinge=left,open=false": {
+      "model": "swem:block/simple_rider_door_lime"
+    },
+    "facing=east,half=lower,hinge=left,open=true": {
+      "model": "swem:block/simple_rider_door_lime_hinge",
+      "y": 90
+    },
+    "facing=east,half=lower,hinge=right,open=false": {
+      "model": "swem:block/simple_rider_door_lime_hinge"
+    },
+    "facing=east,half=lower,hinge=right,open=true": {
+      "model": "swem:block/simple_rider_door_lime",
+      "y": 270
+    },
+    "facing=north,half=lower,hinge=left,open=false": {
+      "model": "swem:block/simple_rider_door_lime",
+      "y": 270
+    },
+    "facing=north,half=lower,hinge=left,open=true": {
+      "model": "swem:block/simple_rider_door_lime_hinge"
+    },
+    "facing=north,half=lower,hinge=right,open=false": {
+      "model": "swem:block/simple_rider_door_lime_hinge",
+      "y": 270
+    },
+    "facing=north,half=lower,hinge=right,open=true": {
+      "model": "swem:block/simple_rider_door_lime",
+      "y": 180
+    },
+    "facing=south,half=lower,hinge=left,open=false": {
+      "model": "swem:block/simple_rider_door_lime",
+      "y": 90
+    },
+    "facing=south,half=lower,hinge=left,open=true": {
+      "model": "swem:block/simple_rider_door_lime_hinge",
+      "y": 180
+    },
+    "facing=south,half=lower,hinge=right,open=false": {
+      "model": "swem:block/simple_rider_door_lime_hinge",
+      "y": 90
+    },
+    "facing=south,half=lower,hinge=right,open=true": {
+      "model": "swem:block/simple_rider_door_lime"
+    },
+    "facing=west,half=lower,hinge=left,open=false": {
+      "model": "swem:block/simple_rider_door_lime",
+      "y": 180
+    },
+    "facing=west,half=lower,hinge=left,open=true": {
+      "model": "swem:block/simple_rider_door_lime_hinge",
+      "y": 270
+    },
+
+    "facing=west,half=lower,hinge=right,open=false": {
+      "model": "swem:block/simple_rider_door_lime_hinge",
+      "y": 180
+    },
+    "facing=west,half=lower,hinge=right,open=true": {
+      "model": "swem:block/simple_rider_door_lime",
+      "y": 90
+    }
+  }
+}
