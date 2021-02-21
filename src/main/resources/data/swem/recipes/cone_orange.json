@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "cone",
+  "pattern":
+  [
+    " y ",
+    " x ",
+	"x x"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:dried_kelp"
+    },
+	"y":
+    {
+      "item": "minecraft:orange_dye"
+    }
+  },
+  "result":
+  {
+    "item": "swem:orange_cone",
+    "count": 4
+  }
+}

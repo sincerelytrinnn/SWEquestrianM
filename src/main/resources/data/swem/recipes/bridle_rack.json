@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    " x ",
+    " y "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:stone"
+    },
+	"y":
+    {
+      "item": "minecraft:stone_slab"
+    }
+  },
+  "result":
+  {
+    "item": "swem:bridle_rack",
+    "count": 1
+  }
+}

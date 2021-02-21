@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "yyy",
+    " x "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:stick"
+    },
+	"y":
+    {
+      "item": "minecraft:sugar_cane"
+    }
+  },
+  "result":
+  {
+    "item": "swem:pompom",
+    "count": 1
+  }
+}

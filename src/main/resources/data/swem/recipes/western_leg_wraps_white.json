@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "western_leg_wraps",
+  "pattern":
+  [
+    "x x",
+	"x x",
+	" y "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:white_carpet"
+    },
+	"y":
+    {
+      "item": "minecraft:dried_kelp"
+    }
+  },
+  "result":
+  {
+    "item": "swem:western_leg_wraps_white",
+    "count": 1
+  }
+}

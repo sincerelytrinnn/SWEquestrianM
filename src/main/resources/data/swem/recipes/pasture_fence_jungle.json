@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pasture_fence",
+  "pattern":
+  [
+    "xyx",
+	"xyx",
+	"x x"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:jungle_plank"
+    },
+	"y":
+    {
+      "item": "minecraft:stick"
+    }
+  },
+  "result":
+  {
+    "item": "swem:jungle_pasture_fence",
+    "count": 8
+  }
+}

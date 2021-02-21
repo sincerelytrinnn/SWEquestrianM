@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "revert_plates",
+  "pattern":
+  [
+    "x  "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:diamond_plate"
+    }
+  },
+  "result":
+  {
+    "item": "minecraft:diamond",
+    "count": 3
+  }
+}

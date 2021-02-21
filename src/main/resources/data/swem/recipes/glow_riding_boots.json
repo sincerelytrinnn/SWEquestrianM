@@ -1,19 +1,23 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "   ",
-    "#S#",
-    "   "
+  "group": "riding_boots",
+  "pattern":
+  [
+    "yxy"
   ],
-  "key": {
-    "#": {
-      "item": "swem:star_worm"
-    },
-    "S": {
+  "key":
+  {
+	"x":
+    {
       "item": "swem:leather_riding_boots"
+    },
+	"y":
+    {
+      "item": "swem:star_worm"
     }
   },
-  "result": {
+  "result":
+  {
     "item": "swem:glow_riding_boots",
     "count": 1
   }

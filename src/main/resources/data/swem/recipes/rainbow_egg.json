@@ -4,11 +4,13 @@
     {
       "item": "swem:warmer_egg"
     },
-    {
+	{
       "item": "swem:cooler_egg"
     }
   ],
-  "result": {
-    "item": "swem:rainbow_egg"
+  "result":
+  {
+    "item": "swem:rainbow_egg",
+    "count": 1
   }
 }

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "grain_feeder",
+  "ingredients": [
+    {
+      "item": "minecraft:bucket"
+    },
+	{
+      "item": "minecraft:dried_kelp"
+    },
+	{
+      "item": "minecraft:light_blue_dye"
+    }
+  ],
+  "result":
+  {
+    "item": "swem:grain_feeder_light_blue",
+    "count": 1
+  }
+}

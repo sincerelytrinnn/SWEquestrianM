@@ -3,9 +3,7 @@
   "ingredient": {
     "item": "swem:wet_compost"
   },
-  "result": {
-    "item": "swem:compost",
-    "count": 4
+  "result": "swem:compost"
   },
   "experience": 1.5,
   "cookingtime": 180

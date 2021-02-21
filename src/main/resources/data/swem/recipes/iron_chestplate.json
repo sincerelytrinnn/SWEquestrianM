@@ -1,23 +1,30 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "# #",
-        "SNS",
-        "S#S"
-    ],
-    "key": {
-        "#": {
-            "item": "swem:iron_plate"
-        },
-        "S": {
-            "item": "swem:iron_rivet"
-        },
-        "N": {
-            "item": "swem:leather_chestplate"
-        }
+  "type": "minecraft:crafting_shaped",
+  "group": "chestplate",
+  "pattern":
+  [
+    "y y",
+    "xzx",
+	"xyx"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:iron_rivet"
     },
-    "result": {
-        "item": "swem:iron_chestplate",
-        "count": 1
+	"y":
+    {
+      "item": "swem:iron_plate"
+    },
+	"z":
+    {
+      "item": "swem:leather_chestplate"
     }
+  },
+  "result":
+  {
+    "item": "swem:iron_chestplate",
+    "count": 1
+  }
 }

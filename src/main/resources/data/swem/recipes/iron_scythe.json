@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "scythe",
+  "pattern":
+  [
+    "xxy",
+    " z ",
+	" y "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:iron_plate"
+    },
+	"y":
+    {
+      "item": "swem:iron_rivet"
+    },
+	"z":
+    {
+      "item": "swem:leather_scythe"
+    }
+  },
+  "result":
+  {
+    "item": "swem:iron_scythe",
+    "count": 1
+  }
+}

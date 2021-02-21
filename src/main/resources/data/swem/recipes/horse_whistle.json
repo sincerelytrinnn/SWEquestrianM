@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    " w ",
+    "xyz"
+  ],
+  "key":
+  {
+	"w":
+    {
+      "item": "minecraft:ender_pearl"
+    },
+	"x":
+    {
+      "item": "swem:amethyst"
+    },
+	"y":
+    {
+      "item": "minecraft:bone"
+    },
+	"z":
+    {
+      "item": "swem:star_worm"
+    }
+  },
+  "result":
+  {
+    "item": "swem:whistle",
+    "count": 1
+  }
+}

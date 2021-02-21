@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "slow_feeder",
+  "pattern":
+  [
+    "xxx",
+	"xzx",
+	"yyy"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:stick"
+    },
+	"y":
+    {
+      "item": "minecraft:dried_kelp"
+    },
+	"z":
+    {
+      "item": "minecraft:black_dye"
+    }
+  },
+  "result":
+  {
+    "item": "swem:slow_feeder_black",
+    "count": 1
+  }
+}

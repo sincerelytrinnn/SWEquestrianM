@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    " x ",
+    " x ",
+	" y "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:stick"
+    },
+	"y":
+    {
+      "item": "minecraft:stone_slab"
+    }
+  },
+  "result":
+  {
+    "item": "swem:western_pole",
+    "count": 1
+  }
+}

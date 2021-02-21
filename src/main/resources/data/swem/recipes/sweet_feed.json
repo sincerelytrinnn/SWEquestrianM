@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:egg"
+    },
+	{
+      "item": "minecraft:iron_nugget"
+    },
+	{
+      "item": "minecraft:sugar"
+    },
+	{
+      "item": "swem:oat_bushel"
+    }
+  ],
+  "result":
+  {
+    "item": "swem:sweet_feed",
+    "count": 1
+  }
+}

@@ -1,26 +1,34 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "# #",
-        "SDS",
-        "K K"
-    ],
-    "key": {
-        "#": {
-            "item": "swem:iron_rivet"
-        },
-        "S": {
-            "item": "minecraft:string"
-        },
-        "D": {
-            "item": "swem:glow_riding_boots"
-        },
-        "K": {
-            "item": "swem:iron_plate"
-        }
+  "type": "minecraft:crafting_shaped",
+  "group": "riding_boots",
+  "pattern":
+  [
+    "w w",
+	"yzy",
+	"x x"
+  ],
+  "key":
+  {
+	"w":
+    {
+      "item": "swem:iron_rivet"
     },
-    "result": {
-        "item": "swem:iron_riding_boots",
-        "count": 1
+	"x":
+    {
+      "item": "swem:iron_plate"
+    },
+	"y":
+    {
+      "item": "minecraft:string"
+    },
+	"z":
+    {
+      "item": "swem:glow_riding_boots"
     }
+  },
+  "result":
+  {
+    "item": "swem:iron_riding_boots",
+    "count": 1
+  }
 }

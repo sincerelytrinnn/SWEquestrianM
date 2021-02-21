@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "xyx",
+    " z ",
+    " z "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:iron_ingot"
+    },
+	"y":
+    {
+      "item": "minecraft:iron_hoe"
+    },
+	"z":
+    {
+      "item": "minecraft:stick"
+    }
+  },
+  "result":
+  {
+    "item": "swem:pitchfork",
+    "count": 1
+  }
+}

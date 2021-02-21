@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    " w ",
+    "zyz",
+	" x "
+  ],
+  "key":
+  {
+	"w":
+    {
+      "item": "minecraft:leather"
+    },
+	"x":
+    {
+      "item": "minecraft:iron_bar"
+    },
+	"y":
+    {
+      "item": "swem:amethyst"
+    },
+	"z":
+    {
+      "item": "minecraft:ender_pearl"
+    }
+  },
+  "result":
+  {
+    "item": "swem:tracking_chip",
+    "count": 1
+  }
+}

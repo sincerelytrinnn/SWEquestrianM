@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wheel_barrow",
+  "pattern":
+  [
+    "wzw",
+    "wxw",
+    " y "
+  ],
+  "key":
+  {
+	"w":
+    {
+      "item": "minecraft:stick"
+    },
+	"x":
+    {
+      "item": "minecraft:cauldron"
+    },
+	"y":
+    {
+      "item": "minecraft:stone"
+    },
+	"z":
+    {
+      "item": "minecraft:yellow_dye"
+    }
+  },
+  "result":
+  {
+    "item": "swem:wheel_barrow_yellow",
+    "count": 1
+  }
+}

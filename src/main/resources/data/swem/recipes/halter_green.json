@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "halter",
+  "pattern":
+  [
+    "x x",
+    " x ",
+	"y x"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:green_carpet"
+    },
+	"y":
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result":
+  {
+    "item": "swem:halter_green",
+    "count": 1
+  }
+}

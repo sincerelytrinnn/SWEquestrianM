@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "english_blanket",
+  "pattern":
+  [
+    "xyx",
+    "xx "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:yellow_carpet"
+    },
+	"y":
+    {
+      "item": "minecraft:leather"
+    }
+  },
+  "result":
+  {
+    "item": "swem:english_blanket_yellow",
+    "count": 1
+  }
+}

@@ -1,17 +1,21 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "gg ",
-        "gg ",
-        "   "
-    ],
-    "key": {
-        "g": {
-            "item": "minecraft:gold_ingot"
-        }
-    },
-    "result": {
-        "item": "swem:gold_plate",
-        "count": 2
+  "type": "minecraft:crafting_shaped",
+  "group": "plate",
+  "pattern":
+  [
+    "xx ",
+    "xx "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:gold_ingot"
     }
+  },
+  "result":
+  {
+    "item": "swem:gold_plate",
+    "count": 2
+  }
 }

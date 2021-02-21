@@ -1,20 +1,25 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "   ",
-        " # ",
-        " L "
-    ],
-    "key": {
-        "#": {
-            "item": "minecraft:stone_hoe"
-        },
-        "L": {
-            "item": "minecraft:leather"
-        }
+  "type": "minecraft:crafting_shaped",
+  "group": "scythe",
+  "pattern":
+  [
+    "y  ",
+    "x  "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:leather"
     },
-    "result": {
-        "item": "swem:leather_scythe",
-        "count": 1
+	"y":
+    {
+      "item": "minecraft:stone_hoe"
     }
+  },
+  "result":
+  {
+    "item": "swem:leather_scythe",
+    "count": 1
+  }
 }

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "western_hitching_post",
+  "pattern":
+  [
+    " x ",
+    " y "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:iron_nugget"
+    },
+	"y":
+    {
+      "item": "minecraft:acacia_log"
+    }
+  },
+  "result":
+  {
+    "item": "swem:acacia_western_hitching_post",
+    "count": 1
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "uvu",
+    "wxy",
+	"uzu"
+  ],
+  "key":
+  {
+	"u":
+    {
+      "item": "minecraft:apple"
+    },
+	"v":
+    {
+      "item": "minecraft:bone"
+    },
+	"w":
+    {
+      "item": "minecraft:spider_eye"
+    },
+	"x":
+    {
+      "item": "minecraft:redstone"
+    },
+	"y":
+    {
+      "item": "minecraft:rotten_flesh"
+    },
+	"z":
+    {
+      "item": "minecraft:gun_powder"
+    }
+  },
+  "result":
+  {
+    "item": "swem:fly_spray",
+    "count": 1
+  }
+}

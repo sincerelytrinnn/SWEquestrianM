@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "english_saddle",
+  "pattern":
+  [
+    " zx",
+    "xxx",
+    "yx "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:leather"
+    },
+	"y":
+    {
+      "item": "minecraft:tripwire_hook"
+    },
+	"z":
+    {
+      "item": "minecraft:black_dye"
+    }
+  },
+  "result":
+  {
+    "item": "swem:english_saddle_black",
+    "count": 1
+  }
+}

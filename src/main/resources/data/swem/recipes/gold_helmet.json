@@ -1,20 +1,29 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "#S#",
-        "S S",
-        "   "
-    ],
-    "key": {
-        "#": {
-            "item": "swem:gold_rivet"
-        },
-        "S": {
-            "item": "swem:gold_plate"
-        }
+  "type": "minecraft:crafting_shaped",
+  "group": "helmet",
+  "pattern":
+  [
+    "xyx",
+    "yzy"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:gold_rivet"
     },
-    "result": {
-        "item": "swem:gold_helmet",
-        "count": 1
+	"y":
+    {
+      "item": "swem:gold_plate"
+    },
+	"z":
+    {
+      "item": "swem:iron_helmet"
     }
+  },
+  "result":
+  {
+    "item": "swem:gold_helmet",
+    "count": 1
+  }
 }

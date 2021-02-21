@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "xx ",
+    "xx "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:dried_kelp"
+    }
+  },
+  "result":
+  {
+    "item": "swem:tarp",
+    "count": 1
+  }
+}

@@ -1,23 +1,30 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "# #",
-        " S ",
-        "F F"
-    ],
-    "key": {
-        "#": {
-            "item": "swem:iron_plate"
-        },
-        "S": {
-            "item": "swem:leather_longsword"
-        },
-        "F": {
-            "item": "swem:iron_rivet"
-        }
+  "type": "minecraft:crafting_shaped",
+  "group": "longsword",
+  "pattern":
+  [
+    "x x",
+    " z ",
+	"y y"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:iron_plate"
     },
-    "result": {
-        "item": "swem:iron_longsword",
-        "count": 1
+	"y":
+    {
+      "item": "swem:iron_rivet"
+    },
+	"z":
+    {
+      "item": "swem:leather_longsword"
     }
+  },
+  "result":
+  {
+    "item": "swem:iron_longsword",
+    "count": 1
+  }
 }

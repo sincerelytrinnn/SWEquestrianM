@@ -1,26 +1,30 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "# #",
-        "SIX",
-        "# #"
-    ],
-    "key": {
-        "#": {
-            "item": "swem:diamond_rivet"
-        },
-        "S": {
-            "item": "swem:gold_plate"
-        },
-        "I": {
-            "item": "swem:gold_helmet"
-        },
-        "X": {
-            "item": "swem:diamond_plate"
-        }
+  "type": "minecraft:crafting_shaped",
+  "group": "leggings",
+  "pattern":
+  [
+    "x x",
+    "yzy",
+	"x x"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:diamond_rivet"
     },
-    "result": {
-        "item": "swem:diamond_helmet",
-        "count": 1
+	"y":
+    {
+      "item": "swem:diamond_plate"
+    },
+	"z":
+    {
+      "item": "swem:gold_leggings"
     }
+  },
+  "result":
+  {
+    "item": "swem:diamond_leggings",
+    "count": 1
+  }
 }

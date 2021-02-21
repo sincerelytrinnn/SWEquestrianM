@@ -1,20 +1,29 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "#S#",
-        "S S",
-        "   "
-    ],
-    "key": {
-        "#": {
-            "item": "swem:diamond_rivet"
-        },
-        "S": {
-            "item": "swem:diamond_plate"
-        }
+  "type": "minecraft:crafting_shaped",
+  "group": "helmet",
+  "pattern":
+  [
+    "xyx",
+    "yzy"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:diamond_rivet"
     },
-    "result": {
-        "item": "swem:diamond_helmet",
-        "count": 1
+	"y":
+    {
+      "item": "swem:diamond_plate"
+    },
+	"z":
+    {
+      "item": "swem:gold_helmet"
     }
+  },
+  "result":
+  {
+    "item": "swem:diamond_helmet",
+    "count": 1
+  }
 }
