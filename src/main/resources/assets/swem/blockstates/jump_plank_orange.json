@@ -1,0 +1,82 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "side": "left",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "swem:block/plank_outer_orange",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "side": "left",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "swem:block/plank_outer_orange",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "side": "left",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "swem:block/plank_outer_orange"
+      }
+    },
+    {
+      "when": {
+        "side": "left",
+        "facing": "west"
+      },
+      "apply": {
+        "model": "swem:block/plank_outer_orange",
+        "y": 90
+      }
+    },
+
+    {
+      "when": {
+        "side": "middle",
+        "facing": "north|south"
+      },
+      "apply": {
+        "model": "swem:block/plank_middle_orange"
+      }
+    },
+    {
+      "when": {
+        "side": "middle",
+        "facing": "east|west"
+      },
+      "apply": {
+        "model": "swem:block/plank_middle_orange",
+        "y": 90
+      }
+    },
+
+    {
+      "when": {
+        "side": "right",
+        "facing": "north|south"
+      },
+      "apply": {
+        "model": "swem:block/plank_middle_orange"
+      }
+    },
+    {
+      "when": {
+        "side": "right",
+        "facing": "east|west"
+      },
+      "apply": {
+        "model": "swem:block/plank_middle_orange"
+      }
+    }
+  ]
+}

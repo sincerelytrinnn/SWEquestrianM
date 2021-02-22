@@ -1,0 +1,71 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "side": "left",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "swem:block/rolltop_outer_white"
+      }
+    },
+    {
+      "when": {
+        "side": "left",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "swem:block/rolltop_outer_flipped_white"
+      }
+    },
+    {
+      "when": {
+        "side": "left",
+        "facing": "east|west"
+      },
+      "apply": {
+        "model": "swem:block/rolltop_outer_white",
+        "y": 90
+      }
+    },
+
+    {
+      "when": {
+        "side": "middle",
+        "facing": "north|south"
+      },
+      "apply": {
+        "model": "swem:block/rolltop_middle_white"
+      }
+    },
+    {
+      "when": {
+        "side": "middle",
+        "facing": "east|west"
+      },
+      "apply": {
+        "model": "swem:block/rolltop_middle_white",
+        "y": 90
+      }
+    },
+
+    {
+      "when": {
+        "side": "right",
+        "facing": "north|south"
+      },
+      "apply": {
+        "model": "swem:block/rolltop_middle_white"
+      }
+    },
+    {
+      "when": {
+        "side": "right",
+        "facing": "east|west"
+      },
+      "apply": {
+        "model": "swem:block/rolltop_middle_white"
+      }
+    }
+  ]
+}
