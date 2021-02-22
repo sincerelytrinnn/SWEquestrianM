@@ -33,7 +33,7 @@ public class DropDownButton<T> extends Button {
 
 	public void setApplicableLayers(List<T> layers) {
 		this.applicableLayers = layers;
-		if (!this.applicableLayers.contains(currentLayer)) {
+		if (!this.applicableLayers.contains(currentLayer) && this.applicableLayers.size() > 0) {
 			setSelected(this.applicableLayers.get(this.applicableLayers.indexOf(JumpLayer.NONE)));
 		}
 	}
@@ -45,6 +45,10 @@ public class DropDownButton<T> extends Button {
 	public void setSelected(T layer) {
 		this.currentLayer = layer;
 		this.id = this.applicableLayers.indexOf(layer);
+	}
+
+	public T getCurrentLayer() {
+		return this.currentLayer;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.gui;
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.blocks.jumps.JumpLayer;
 import com.alaharranhonor.swem.blocks.jumps.StandardLayer;
 import com.alaharranhonor.swem.gui.widgets.*;
 import com.alaharranhonor.swem.tileentity.JumpTE;
@@ -12,6 +13,7 @@ import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.item.DyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -35,6 +37,8 @@ public class JumpScreen extends Screen {
 	public AddLayerButton addLayerButton;
 
 	public DestroyButton destroyButton;
+
+	protected final List<ColorChangerButton> colorButtons = Lists.newArrayList();
 
 
 	public JumpScreen(ITextComponent titleIn, JumpTE jumpController) {
@@ -69,25 +73,41 @@ public class JumpScreen extends Screen {
 			if (i + 1 == this.jumpController.getLayerAmount() + 1) {
 				continue;
 			}
-			DropDownButton btn = new DropDownButton(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 113, 20, new StringTextComponent("Option"), this);
+
 			if (i + 1 <= this.jumpController.getLayerAmount()) {
+				DropDownButton<JumpLayer> btn = new DropDownButton<>(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 113, 20, new StringTextComponent("Option"), this);
 				btn.setApplicableLayers(jumpController.getApplicableLayers(i + 1));
 				if (jumpController.getLayer(i + 1) != null) {
 					btn.setSelected(jumpController.getLayer(i + 1));
 				}
 				btn.setLayer(i + 1);
+				this.addButton(btn);
+
+
+				ColorChangerButton colorButton = new ColorChangerButton(this.guiLeft + (62 + 113 + 8), this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 90, 20, new StringTextComponent("Color"), this);
+				colorButton.setLayer(i + 1);
+
+				this.addColorButton(colorButton);
+
+
+
 			}
-			if (i + 1 == this.jumpController.getLayerAmount() + 1) {
-				continue;
-			}
+
 			if (i + 1 == this.jumpController.getLayerAmount() + 2) {
+				DropDownButton<StandardLayer> btn = new DropDownButton<>(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 113, 20, new StringTextComponent("Option"), this);
+
 				//btn.setApplicableLayers(Arrays.asList(StandardLayer.values()));
 				btn.setSelected(jumpController.getCurrentStandard());
+				this.addButton(btn);
 			}
-			this.addButton(btn);
+
 		}
 	}
 
+	public void addColorButton(ColorChangerButton btn) {
+		this.colorButtons.add(btn);
+		this.addListener(btn);
+	}
 	public List<Widget> getButtons() {
 		return this.buttons;
 	}
@@ -117,6 +137,9 @@ public class JumpScreen extends Screen {
 		this.font.func_243248_b(matrixStack, new StringTextComponent("Standards:"), this.guiLeft + 7, this.guiTop + this.ySize - offSet - (23*2), 4210752);
 
 		super.render(matrixStack, mouseX, mouseY, partialTicks); // Only purpose is calling render on widgets.
+		for(int k = 0; k < this.colorButtons.size(); ++k) {
+			this.colorButtons.get(k).render(matrixStack, mouseX, mouseY, partialTicks);
+		}
 		this.deleteLayerButton.render(matrixStack, mouseX, mouseY, partialTicks);
 		this.addLayerButton.render(matrixStack, mouseX, mouseY, partialTicks);
 		this.destroyButton.render(matrixStack, mouseX, mouseY, partialTicks);
