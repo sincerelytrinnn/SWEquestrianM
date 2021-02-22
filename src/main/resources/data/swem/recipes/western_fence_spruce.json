@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "western_fence",
+  "pattern":
+  [
+    "xyx",
+	"x x",
+	"xzx"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:spruce_planks"
+    },
+	"y":
+    {
+      "item": "minecraft:spruce_slab"
+    },
+	"z":
+    {
+      "item": "minecraft:stick"
+    }
+  },
+  "result":
+  {
+    "item": "swem:spruce_western_fence",
+    "count": 8
+  }
+}

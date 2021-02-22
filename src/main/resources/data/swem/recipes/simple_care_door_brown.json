@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "simple_care_door"
+  "pattern":
+  [
+    "zx ",
+	"wxy",
+	" x "
+  ],
+  "key":
+  {
+	"w":
+    {
+      "item": "minecraft:iron_ingot"
+    },
+	"x":
+    {
+      "item": "minecraft:dried_kelp"
+    },
+	"y":
+    {
+      "item": "minecraft:iron_nugget"
+    },
+	"z":
+    {
+      "item": "minecraft:brown_dye"
+    }
+  },
+  "result":
+  {
+    "item": "swem:simple_care_door_brown",
+    "count": 2
+  }
+}

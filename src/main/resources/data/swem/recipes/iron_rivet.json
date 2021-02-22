@@ -1,17 +1,21 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "i  ",
-        " i ",
-        "   "
-    ],
-    "key": {
-        "i": {
-            "item": "minecraft:iron_ingot"
-        }
-    },
-    "result": {
-        "item": "swem:iron_rivet",
-        "count": 8
+  "type": "minecraft:crafting_shaped",
+  "group": "rivet",
+  "pattern":
+  [
+    "x  ",
+    " x "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:iron_ingot"
     }
+  },
+  "result":
+  {
+    "item": "swem:iron_rivet",
+    "count": 8
+  }
 }

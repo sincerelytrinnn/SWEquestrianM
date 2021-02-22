@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "riding_boots",
+  "pattern":
+  [
+    "x x",
+	"yzy",
+	"x x"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:amethyst"
+    },
+	"y":
+    {
+      "item": "minecraft:string"
+    },
+	"z":
+    {
+      "item": "swem:diamond_riding_boots"
+    }
+  },
+  "result":
+  {
+    "item": "swem:amethyst_riding_boots",
+    "count": 1
+  }
+}

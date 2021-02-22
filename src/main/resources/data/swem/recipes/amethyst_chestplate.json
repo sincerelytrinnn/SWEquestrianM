@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "chestplate",
+  "pattern":
+  [
+    "x x",
+    "xyx",
+	"xxx"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:amethyst"
+    },
+	"y":
+    {
+      "item": "swem:diamond_chestplate"
+    }
+  },
+  "result":
+  {
+    "item": "swem:amethyst_chestplate",
+    "count": 1
+  }
+}

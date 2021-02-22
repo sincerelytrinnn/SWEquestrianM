@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "revert_rivet",
+  "pattern":
+  [
+    "xx ",
+	"xx "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:leather_rivet"
+    }
+  },
+  "result":
+  {
+    "item": "minecraft:leather",
+    "count": 1
+  }
+}

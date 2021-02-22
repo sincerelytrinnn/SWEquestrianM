@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "shield",
+  "pattern":
+  [
+    "yx "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:leather"
+    },
+	"y":
+    {
+      "item": "minecraft:shield"
+    }
+  },
+  "result":
+  {
+    "item": "swem:amethyst_shield_leather",
+    "count": 1
+  }
+}

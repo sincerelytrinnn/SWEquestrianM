@@ -1,18 +1,23 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "##",
-    "SS"
+  "pattern":
+  [
+    "xx ",
+    "yy "
   ],
-  "key": {
-    "#": {
+  "key":
+  {
+	"x":
+    {
       "item": "minecraft:heavy_weighted_pressure_plate"
     },
-    "S": {
-      "item": "minecraft:iron_ingot"
+	"y":
+    {
+      "item": "minecraft:iron_bars"
     }
   },
-  "result": {
+  "result":
+  {
     "item": "swem:bleacher",
     "count": 16
   }

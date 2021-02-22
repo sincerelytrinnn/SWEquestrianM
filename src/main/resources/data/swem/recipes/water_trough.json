@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "xyx",
+	"xxx"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:dried_kelp"
+    },
+	"y":
+    {
+      "item": "minecraft:cauldron"
+    }
+  },
+  "result":
+  {
+    "item": "swem:water_trough",
+    "count": 4
+  }
+}

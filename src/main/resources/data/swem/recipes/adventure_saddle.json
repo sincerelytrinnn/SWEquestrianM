@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "xxx",
+    "xxx",
+    "yx "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:leather"
+    },
+	"y":
+    {
+      "item": "minecraft:tripwire_hook"
+    }
+  },
+  "result":
+  {
+    "item": "swem:adventure_saddle",
+    "count": 1
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "stall_door_care",
+  "pattern":
+  [
+    "xxx",
+	"yyy",
+	"yyy"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:iron_bars"
+    },
+	"y":
+    {
+      "item": "minecraft:oak_planks"
+    }
+  },
+  "result":
+  {
+    "item": "swem:oak_stall_care",
+    "count": 2
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "x  "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:bleacher"
+    }
+  },
+  "result":
+  {
+    "item": "minecraft:iron_ingot",
+    "count": 8
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "simple_horse_door"
+  "pattern":
+  [
+    "wxy",
+	"zx "
+  ],
+  "key":
+  {
+	"w":
+    {
+      "item": "minecraft:iron_ingot"
+    },
+	"x":
+    {
+      "item": "minecraft:dried_kelp"
+    },
+	"y":
+    {
+      "item": "minecraft:iron_nugget"
+    },
+	"z":
+    {
+      "item": "minecraft:purple_dye"
+    }
+  },
+  "result":
+  {
+    "item": "swem:simple_horse_door_purple",
+    "count": 2
+  }
+}

@@ -4,32 +4,34 @@
     {
       "item": "minecraft:egg"
     },
-    {
+	{
       "item": "minecraft:white_wool"
     },
-    {
+	{
       "item": "minecraft:orange_wool"
     },
-    {
+	{
       "item": "minecraft:pink_wool"
     },
-    {
+	{
       "item": "minecraft:yellow_wool"
     },
-    {
+	{
       "item": "minecraft:magenta_wool"
     },
-    {
+	{
       "item": "minecraft:brown_wool"
     },
-    {
+	{
       "item": "minecraft:red_wool"
     },
-    {
+	{
       "item": "minecraft:light_gray_wool"
     }
   ],
-  "result": {
-    "item": "swem:warmer_egg"
+  "result":
+  {
+    "item": "swem:warmer_egg",
+    "count": 1
   }
 }

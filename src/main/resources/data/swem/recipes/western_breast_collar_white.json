@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "western_breast_collar",
+  "pattern":
+  [
+    "y y",
+	" x ",
+	" y " 
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:white_wool"
+    },
+	"y":
+    {
+      "item": "minecraft:leather"
+    }
+  },
+  "result":
+  {
+    "item": "swem:western_breast_collar_white",
+    "count": 1
+  }
+}

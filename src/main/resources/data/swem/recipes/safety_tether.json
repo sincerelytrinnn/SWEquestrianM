@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    " xy",
+    " x ",
+    "yxz"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:tether"
+    },
+	"y":
+    {
+      "item": "minecraft:tripwire_hook"
+    },
+	"z":
+    {
+      "item": "swem:star_worm_goop"
+    },
+  },
+  "result":
+  {
+    "item": "swem:safety_tether",
+    "count": 1
+  }
+}

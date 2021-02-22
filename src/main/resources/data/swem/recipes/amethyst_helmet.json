@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "helmet",
+  "pattern":
+  [
+    "xxx",
+    "xyx"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:amethyst"
+    },
+	"y":
+    {
+      "item": "swem:diamond_helmet"
+    }
+  },
+  "result":
+  {
+    "item": "swem:amethyst_helmet",
+    "count": 1
+  }
+}

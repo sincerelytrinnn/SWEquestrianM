@@ -1,23 +1,30 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "#S ",
-        " B ",
-        "#S "
-    ],
-    "key": {
-        "#": {
-            "item": "swem:iron_rivet"
-        },
-        "S": {
-            "item": "swem:iron_plate"
-        },
-        "B": {
-            "item": "swem:leather_bow"
-        }
+  "type": "minecraft:crafting_shaped",
+  "group": "bow",
+  "pattern":
+  [
+    "xy ",
+	" z ",
+	"xy "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:iron_rivet"
     },
-    "result": {
-        "item": "swem:iron_bow",
-        "count": 1
+	"y":
+    {
+      "item": "swem:iron_plate"
+    },
+	"z":
+    {
+      "item": "swem:leather_bow"
     }
+  },
+  "result":
+  {
+    "item": "swem:iron_bow",
+    "count": 1
+  }
 }

@@ -1,20 +1,25 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "#S#",
-        "S S",
-        "   "
-    ],
-    "key": {
-        "#": {
-            "item": "swem:leather_rivet"
-        },
-        "S": {
-            "item": "swem:leather_plate"
-        }
+  "type": "minecraft:crafting_shaped",
+  "group": "helmet",
+  "pattern":
+  [
+    "xyx",
+    "y y"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:leather_rivet"
     },
-    "result": {
-        "item": "swem:leather_helmet",
-        "count": 1
+	"y":
+    {
+      "item": "swem:leather_plate"
     }
+  },
+  "result":
+  {
+    "item": "swem:leather_helmet",
+    "count": 1
+  }
 }

@@ -1,17 +1,23 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "#S"
+  "pattern":
+  [
+    "xy "
   ],
-  "key": {
-    "#": {
+  "key":
+  {
+	"x":
+    {
       "item": "swem:rainbow_sweet_feed"
     },
-    "S": {
+	"y":
+    {
       "item": "minecraft:wheat"
     }
   },
-  "result": {
-    "item": "swem:rainbow_heavy_feed"
+  "result":
+  {
+    "item": "swem:rainbow_heavy_feed",
+    "count": 1
   }
 }

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "western_blanket",
+  "pattern":
+  [
+    "xyx",
+    "xxx"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:lime_carpet"
+    },
+	"y":
+    {
+      "item": "minecraft:leather"
+    }
+  },
+  "result":
+  {
+    "item": "swem:western_blanket_lime",
+    "count": 1
+  }
+}

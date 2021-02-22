@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "www",
+    "xxx",
+	"yyy"
+  ],
+  "key":
+  {
+	"w":
+    {
+      "item": "minecraft:iron_ingot"
+    },
+	"x":
+    {
+      "item": "minecraft:stone"
+    },
+	"y":
+    {
+      "item": "minecraft:stone_slab"
+    }
+  },
+  "result":
+  {
+    "item": "swem:horse_armor_rack",
+    "count": 1
+  }
+}

@@ -1,19 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "   ",
-    " # ",
-    " S "
+  "group": "riding_boots",
+  "pattern":
+  [
+    "x  ",
+	"y  "
   ],
-  "key": {
-    "#": {
+  "key":
+  {
+	"x":
+    {
       "item": "minecraft:leather_boots"
     },
-    "S": {
+	"y":
+    {
       "item": "minecraft:dried_kelp"
     }
   },
-  "result": {
+  "result":
+  {
     "item": "swem:leather_riding_boots",
     "count": 1
   }

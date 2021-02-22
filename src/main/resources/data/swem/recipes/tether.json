@@ -1,16 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " # ",
-    " # ",
-    " # "
+  "pattern":
+  [
+    " x ",
+    " x ",
+    " x "
   ],
-  "key": {
-    "#": {
+  "key":
+  {
+	"x":
+    {
       "tag": "minecraft:carpets"
     }
   },
-  "result": {
+  "result":
+  {
     "item": "swem:tether",
     "count": 4
   }

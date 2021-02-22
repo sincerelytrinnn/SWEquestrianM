@@ -1,23 +1,34 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "# #",
-        "SNS",
-        "# #"
-    ],
-    "key": {
-        "#": {
-            "item": "swem:gold_rivet"
-        },
-        "S": {
-            "item": "minecraft:string"
-        },
-        "N": {
-            "item": "swem:iron_riding_boots"
-        }
+  "type": "minecraft:crafting_shaped",
+  "group": "riding_boots",
+  "pattern":
+  [
+    "w w",
+	"yzy",
+	"x x"
+  ],
+  "key":
+  {
+	"w":
+    {
+      "item": "swem:gold_rivet"
     },
-    "result": {
-        "item": "swem:gold_riding_boots",
-        "count": 1
+	"x":
+    {
+      "item": "swem:gold_plate"
+    },
+	"y":
+    {
+      "item": "minecraft:string"
+    },
+	"z":
+    {
+      "item": "swem:iron_riding_boots"
     }
+  },
+  "result":
+  {
+    "item": "swem:gold_riding_boots",
+    "count": 1
+  }
 }

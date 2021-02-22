@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "xyx",
+    "yyy",
+    "xyx"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:iron_ingot"
+    },
+	"y":
+    {
+      "item": "minecraft:iron_bars"
+    }
+  },
+  "result":
+  {
+    "item": "swem:metal_grate",
+    "count": 8
+  }
+}

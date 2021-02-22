@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "xxy",
+	"y  "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:iron_bars"
+    },
+	"y":
+    {
+      "tag": "minecraft:slabs"
+    }
+  },
+  "result":
+  {
+    "item": "swem:pasture_feeder",
+    "count": 1
+  }
+}

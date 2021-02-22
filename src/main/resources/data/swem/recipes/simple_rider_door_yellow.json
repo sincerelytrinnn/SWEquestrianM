@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "simple_rider_door",
+  "pattern":
+  [
+    "z  ",
+	"wxy"
+  ],
+  "key":
+  {
+	"w":
+    {
+      "item": "minecraft:iron_ingot"
+    },
+	"x":
+    {
+      "item": "minecraft:dried_kelp"
+    },
+	"y":
+    {
+      "item": "minecraft:iron_nugget"
+    },
+	"z":
+    {
+      "item": "minecraft:yellow_dye"
+    }
+  },
+  "result":
+  {
+    "item": "swem:simple_rider_door_yellow",
+    "count": 2
+  }
+}

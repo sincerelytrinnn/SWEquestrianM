@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "leggings",
+  "pattern":
+  [
+    "xyx",
+    "x x"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:amethyst"
+    },
+	"y":
+    {
+      "item": "swem:diamond_leggings"
+    }
+  },
+  "result":
+  {
+    "item": "swem:amethyst_pants",
+    "count": 1
+  }
+}

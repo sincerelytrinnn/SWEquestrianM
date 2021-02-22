@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bow",
+  "pattern":
+  [
+    "x x",
+	" y ",
+	"x x"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:amethyst"
+    },
+	"y":
+    {
+      "item": "swem:diamond_bow"
+    }
+  },
+  "result":
+  {
+    "item": "swem:amethyst_bow",
+    "count": 1
+  }
+}

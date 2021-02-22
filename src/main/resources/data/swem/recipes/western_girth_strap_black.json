@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "western_girth_strap",
+  "pattern":
+  [
+    "xy ",
+    " z ",
+    " yx"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "minecraft:iron_nugget"
+    },
+	"y":
+    {
+      "item": "minecraft:black_carpet"
+    },
+	"z":
+    {
+      "item": "minecraft:leather"
+    }
+  },
+  "result":
+  {
+    "item": "swem:western_girth_strap_black",
+    "count": 1
+  }
+}

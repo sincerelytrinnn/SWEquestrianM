@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "scythe",
+  "pattern":
+  [
+    "xx ",
+    " y ",
+	" x "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:amethyst"
+    },
+	"y":
+    {
+      "item": "swem:diamond_scythe"
+    }
+  },
+  "result":
+  {
+    "item": "swem:amethyst_scythe",
+    "count": 1
+  }
+}

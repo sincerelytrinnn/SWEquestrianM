@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "rubber_mat",
+  "pattern":
+  [
+    " x ",
+    " y ",
+	" z "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:light_gray_carpet"
+    },
+	"y":
+    {
+      "item": "minecraft:dried_kelp"
+    },
+	"z":
+    {
+      "item": "minecraft:cobblestone"
+    }
+  },
+  "result":
+  {
+    "item": "swem:light_rubber_mat",
+    "count": 4
+  }
+}

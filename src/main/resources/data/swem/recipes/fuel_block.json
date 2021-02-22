@@ -1,19 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "###",
-    "#D#",
-    "###"
+  "pattern":
+  [
+    "xxx",
+    "xyx",
+	"xxx"
   ],
-  "key": {
-    "#": {
+  "key":
+  {
+	"x":
+    {
       "item": "minecraft:flint"
     },
-    "D": {
+	"y":
+    {
       "item": "minecraft:dirt"
     }
   },
-  "result": {
+  "result":
+  {
     "item": "swem:fuel_block",
     "count": 1
   }

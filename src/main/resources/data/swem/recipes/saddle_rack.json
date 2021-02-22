@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    " z ",
+    " x ",
+	" y "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:stone"
+    },
+	"y":
+    {
+      "item": "minecraft:stone_slab"
+    },
+	"z":
+    {
+      "item": "minecraft:stick"
+    }
+  },
+  "result":
+  {
+    "item": "swem:one_saddle_rack",
+    "count": 1
+  }
+}

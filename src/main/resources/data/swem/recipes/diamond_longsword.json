@@ -1,23 +1,30 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "# #",
-        " S ",
-        " B "
-    ],
-    "key": {
-        "#": {
-            "item": "swem:diamond_plate"
-        },
-        "S": {
-            "item": "swem:gold_longsword"
-        },
-        "B": {
-            "item": "swem:diamond_rivet"
-        }
+  "type": "minecraft:crafting_shaped",
+  "group": "longsword",
+  "pattern":
+  [
+    "x x",
+    " z ",
+	"y y"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "swem:diamond_plate"
     },
-    "result": {
-        "item": "swem:diamond_longsword",
-        "count": 1
+	"y":
+    {
+      "item": "swem:diamond_rivet"
+    },
+	"z":
+    {
+      "item": "swem:gold_longsword"
     }
+  },
+  "result":
+  {
+    "item": "swem:diamond_longsword",
+    "count": 1
+  }
 }

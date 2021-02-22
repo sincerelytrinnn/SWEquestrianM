@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    " x ",
+    "yyy"
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:leather"
+    },
+	"y":
+    {
+      "tag": "minecraft:buttons"
+    }
+  },
+  "result":
+  {
+    "item": "swem:bells",
+    "count": 1
+  }
+}

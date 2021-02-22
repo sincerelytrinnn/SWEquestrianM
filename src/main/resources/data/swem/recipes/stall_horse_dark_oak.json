@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "stall_door_horse",
+  "pattern":
+  [
+    "xx ",
+    "yy ",
+    "yy "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:iron_bars"
+    },
+	"y":
+    {
+      "item": "minecraft:dark_oak_planks"
+    }
+  },
+  "result":
+  {
+    "item": "swem:dark_oak_stall_horse",
+    "count": 2
+  }
+}

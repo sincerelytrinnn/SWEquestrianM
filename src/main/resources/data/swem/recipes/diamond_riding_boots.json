@@ -1,23 +1,34 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "# #",
-        "SWS",
-        "# #"
-    ],
-    "key": {
-        "#": {
-            "item": "swem:diamond_plate"
-        },
-        "S": {
-            "item": "minecraft:string"
-        },
-        "W": {
-            "item": "swem:gold_riding_boots"
-        }
+  "type": "minecraft:crafting_shaped",
+  "group": "riding_boots",
+  "pattern":
+  [
+    "w w",
+	"yzy",
+	"x x"
+  ],
+  "key":
+  {
+	"w":
+    {
+      "item": "swem:diamond_rivet"
     },
-    "result": {
-        "item": "swem:diamond_riding_boots",
-        "count": 1
+	"x":
+    {
+      "item": "swem:diamond_plate"
+    },
+	"y":
+    {
+      "item": "minecraft:string"
+    },
+	"z":
+    {
+      "item": "swem:gold_riding_boots"
     }
+  },
+  "result":
+  {
+    "item": "swem:diamond_riding_boots",
+    "count": 1
+  }
 }
