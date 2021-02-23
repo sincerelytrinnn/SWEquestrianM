@@ -76,7 +76,7 @@ public class JumpTE extends TileEntity {
 				passer.setControllerPos(this.getPos());
 
 			}
-			this.world.setBlockState(layerPositions.get(i).get(6), i == layerAmount ? standard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()) : i == 1 ? standard.getBottomState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()) : standard.getMiddleState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()), 3);
+			this.world.setBlockState(layerPositions.get(i).get(6), i == 1 ? standard.getBottomState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()) : i == layerAmount ? standard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()) : standard.getMiddleState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()), 3);
 			this.world.removeTileEntity(layerPositions.get(i).get(6));
 			JumpPasserTE passer = SWEMTileEntities.JUMP_PASSER_TILE_ENTITY.get().create();
 			passer.setPos(layerPositions.get(i).get(6));
@@ -298,6 +298,8 @@ public class JumpTE extends TileEntity {
 					passer.setPos(newPos);
 					this.world.addTileEntity(passer);
 					passer.setControllerPos(this.getPos());
+
+
 
 					this.world.setBlockState(positions.get(i), this.currentStandard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, facing), 3);
 					SWEMPacketHandler.INSTANCE.sendToServer(new ChangeStandardPacket(positions.get(i), this.getPos(), this.currentStandard, facing, "top"));
