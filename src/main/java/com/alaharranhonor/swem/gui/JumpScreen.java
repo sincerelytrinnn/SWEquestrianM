@@ -133,7 +133,7 @@ public class JumpScreen extends Screen {
 			this.font.func_243248_b(matrixStack, new StringTextComponent("Layer " + (k + 1) + ":"), this.guiLeft + 7, this.guiTop + (this.ySize - offSet), 4210752);
 		}
 
-		this.font.func_243248_b(matrixStack,new StringTextComponent("Flag:"), this.guiLeft + 7, this.guiTop + this.ySize - offSet - 23, 4210752);
+		//this.font.func_243248_b(matrixStack,new StringTextComponent("Flag:"), this.guiLeft + 7, this.guiTop + this.ySize - offSet - 23, 4210752);
 		this.font.func_243248_b(matrixStack, new StringTextComponent("Standards:"), this.guiLeft + 7, this.guiTop + this.ySize - offSet - (23*2), 4210752);
 
 		super.render(matrixStack, mouseX, mouseY, partialTicks); // Only purpose is calling render on widgets.
