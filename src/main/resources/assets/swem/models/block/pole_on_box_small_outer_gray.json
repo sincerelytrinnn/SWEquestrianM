@@ -107,8 +107,8 @@
             },
             "translucent": {
                 "textures": {
-                    "0": "swem:blocks/pole_on_box_small_outer",
-                    "particle": "swem:blocks/pole_on_box_small_outer"
+                    "0": "swem:blocks/pole_on_box_small_outer_gray",
+                    "particle": "swem:blocks/pole_on_box_small_outer_gray"
                 },
                 "elements": [
                     {
