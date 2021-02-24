@@ -114,6 +114,7 @@ public class JumpScreen extends Screen {
 
 	public void removeAllButtons() {
 		this.buttons.clear();
+		this.colorButtons.clear();
 		this.initButtons();
 	}
 
