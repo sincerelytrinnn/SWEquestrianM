@@ -1,0 +1,82 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "side": "left",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "swem:block/pole_on_box_large_outer_cyan"
+      }
+    },
+    {
+      "when": {
+        "side": "left",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "swem:block/pole_on_box_large_outer_cyan",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "side": "left",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "swem:block/pole_on_box_large_outer_cyan",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "side": "left",
+        "facing": "west"
+      },
+      "apply": {
+        "model": "swem:block/pole_on_box_large_outer_cyan",
+        "y": 270
+      }
+    },
+
+    {
+      "when": {
+        "side": "middle",
+        "facing": "north|south"
+      },
+      "apply": {
+        "model": "swem:block/pole_on_box_large_middle_cyan"
+      }
+    },
+    {
+      "when": {
+        "side": "middle",
+        "facing": "east|west"
+      },
+      "apply": {
+        "model": "swem:block/pole_on_box_large_middle_cyan",
+        "y": 90
+      }
+    },
+
+    {
+      "when": {
+        "side": "right",
+        "facing": "north|south"
+      },
+      "apply": {
+        "model": "swem:block/pole_on_box_large_middle_cyan"
+      }
+    },
+    {
+      "when": {
+        "side": "right",
+        "facing": "east|west"
+      },
+      "apply": {
+        "model": "swem:block/pole_on_box_large_middle_cyan"
+      }
+    }
+  ]
+}

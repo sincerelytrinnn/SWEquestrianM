@@ -20,14 +20,16 @@ public class ChangeLayerBlockPacket {
 	private BlockPos posToPlace;
 	private BlockPos controllerPos;
 	private JumpLayer layer;
+	private int layerColor;
 	private Direction facing;
 	private String type;
 	private boolean failed;
 
-	public ChangeLayerBlockPacket(BlockPos posToPlace, BlockPos controllerPos, JumpLayer layer, Direction facing, String type) {
+	public ChangeLayerBlockPacket(BlockPos posToPlace, BlockPos controllerPos, JumpLayer layer, int layerColor, Direction facing, String type) {
 		this.posToPlace = posToPlace;
 		this.controllerPos = controllerPos;
 		this.layer = layer;
+		this.layerColor = layerColor;
 		this.facing = facing;
 		this.type = type;
 		this.failed = false;
@@ -42,9 +44,10 @@ public class ChangeLayerBlockPacket {
 			BlockPos pos = ((PacketBuffer) buf).readBlockPos();
 			BlockPos controllerPos = ((PacketBuffer) buf).readBlockPos();
 			JumpLayer layer = JumpLayer.valueOf(((PacketBuffer) buf).readString());
+			int layerColor = ((PacketBuffer) buf).readVarInt();
 			Direction facing = Direction.valueOf(((PacketBuffer) buf).readString());
 			String type = ((PacketBuffer) buf).readString();
-			return new ChangeLayerBlockPacket(pos, controllerPos, layer, facing, type);
+			return new ChangeLayerBlockPacket(pos, controllerPos, layer, layerColor, facing, type);
 		} catch (IndexOutOfBoundsException e) {
 			SWEM.LOGGER.error("ChangeLayerBlockPacket: Unexpected end of packet.\nMessage: " + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()), e);
 			return new ChangeLayerBlockPacket(true);
@@ -55,6 +58,7 @@ public class ChangeLayerBlockPacket {
 		buffer.writeBlockPos(msg.posToPlace);
 		buffer.writeBlockPos(msg.controllerPos);
 		buffer.writeString(msg.layer.name());
+		buffer.writeVarInt(msg.layerColor);
 		buffer.writeString(msg.facing.name());
 		buffer.writeString(msg.type);
 	}
@@ -70,11 +74,11 @@ public class ChangeLayerBlockPacket {
 
 			if (world.isBlockLoaded(msg.posToPlace)) {
 				if (msg.type.equals("left")) {
-					world.setBlockState(msg.posToPlace, msg.layer.getEndState().with(JumpBlock.HORIZONTAL_FACING, msg.facing), 3);
+					world.setBlockState(msg.posToPlace, msg.layer.getEndState(msg.layerColor).with(JumpBlock.HORIZONTAL_FACING, msg.facing), 3);
 				} else if (msg.type.equals("middle")) {
-					world.setBlockState(msg.posToPlace, msg.layer.getMiddleState().with(JumpBlock.HORIZONTAL_FACING, msg.facing), 3);
+					world.setBlockState(msg.posToPlace, msg.layer.getMiddleState(msg.layerColor).with(JumpBlock.HORIZONTAL_FACING, msg.facing), 3);
 				} else {
-					world.setBlockState(msg.posToPlace, msg.layer.getBetweenState().with(JumpBlock.HORIZONTAL_FACING, msg.facing), 3);
+					world.setBlockState(msg.posToPlace, msg.layer.getBetweenState(msg.layerColor).with(JumpBlock.HORIZONTAL_FACING, msg.facing), 3);
 				}
 				JumpPasserTE passer = (JumpPasserTE) world.getTileEntity(msg.posToPlace);
 				passer.setControllerPos(msg.controllerPos);

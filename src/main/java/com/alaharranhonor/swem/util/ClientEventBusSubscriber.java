@@ -104,23 +104,14 @@ public class ClientEventBusSubscriber {
         // Jump blocks.
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_STANDARD_SCHOOLING.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_BRUSH_BOX.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_RAIL.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_LOG.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_CAVALETTI.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_POLE_ON_BOX.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_STAIR_DROP.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_HEDGE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_FLOWER_BOX.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_COOP.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_ROLL_TOP.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_WALL.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_WALL_MINI.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_GROUND_POLE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_PANELS.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_CROSS_RAILS.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_SWEDISH_RAILS.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_PLANK.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_PLANK_FANCY.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_RED_FLAG.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_WHITE_FLAG.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_RED_WHITE_FLAG.get(), RenderType.getTranslucent());
@@ -140,6 +131,18 @@ public class ClientEventBusSubscriber {
         RenderTypeLookup.setRenderLayer(SWEMBlocks.SPRUCE_STALL_CARE.get(), RenderType.getCutout());
 
         for (DyeColor color : DyeColor.values()) {
+            RenderTypeLookup.setRenderLayer(SWEMBlocks.ROLL_TOPS.get(color.getId()).get(), RenderType.getTranslucent());
+            RenderTypeLookup.setRenderLayer(SWEMBlocks.RAILS.get(color.getId()).get(), RenderType.getTranslucent());
+            RenderTypeLookup.setRenderLayer(SWEMBlocks.GROUND_POLES.get(color.getId()).get(), RenderType.getTranslucent());
+            RenderTypeLookup.setRenderLayer(SWEMBlocks.POLE_ON_BOXES_SMALL.get(color.getId()).get(), RenderType.getTranslucent());
+            RenderTypeLookup.setRenderLayer(SWEMBlocks.POLE_ON_BOXES_LARGE.get(color.getId()).get(), RenderType.getTranslucent());
+            RenderTypeLookup.setRenderLayer(SWEMBlocks.FANCY_PLANKS.get(color.getId()).get(), RenderType.getTranslucent());
+            RenderTypeLookup.setRenderLayer(SWEMBlocks.PLANKS.get(color.getId()).get(), RenderType.getTranslucent());
+            RenderTypeLookup.setRenderLayer(SWEMBlocks.PANELS_WAVE.get(color.getId()).get(), RenderType.getTranslucent());
+            RenderTypeLookup.setRenderLayer(SWEMBlocks.PANELS_STRIPE.get(color.getId()).get(), RenderType.getTranslucent());
+            RenderTypeLookup.setRenderLayer(SWEMBlocks.PANELS_ARROW.get(color.getId()).get(), RenderType.getTranslucent());
+            RenderTypeLookup.setRenderLayer(SWEMBlocks.FLOWER_BOXES.get(color.getId()).get(), RenderType.getTranslucent());
+            RenderTypeLookup.setRenderLayer(SWEMBlocks.CAVALETTIS.get(color.getId()).get(), RenderType.getTranslucent());
             RenderTypeLookup.setRenderLayer(SWEMBlocks.WHEEL_BARROWS.get(color.getId()).get(), RenderType.getCutout());
             RenderTypeLookup.setRenderLayer(SWEMBlocks.SEPARATORS.get(color.getId()).get(), RenderType.getCutout());
             RenderTypeLookup.setRenderLayer(SWEMBlocks.PASTURE_GATES_HORSE.get(color.getId()).get(), RenderType.getCutout());
