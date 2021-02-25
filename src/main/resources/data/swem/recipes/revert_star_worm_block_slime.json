@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "swem:star_worm_block_slime"
+    }
+  ],
+  "result":
+  {
+    "item": "minecraft:slimeball",
+    "count": 9
+  }
+}

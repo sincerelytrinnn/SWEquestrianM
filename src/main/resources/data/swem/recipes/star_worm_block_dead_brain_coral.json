@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "swem:star_worm_goop"
+    },
+    {
+      "item": "minecraft:dead_brain_block"
+    }
+  ],
+  "result": {
+    "item": "swem:star_worm_block_dead_brain_coral"
+  }
+}
