@@ -63,11 +63,17 @@ public class DropDownButton<T> extends Button {
 			T object = this.applicableLayers.get(id);
 
 			if (isLayer(object)) {
-				this.screen.jumpController.placeLayer(layer, (JumpLayer) object);
+				JumpLayer jumpLayer = (JumpLayer) object;
+				this.screen.jumpController.placeLayer(layer, jumpLayer);
 				this.screen.getButtons().forEach((widget) -> {
 					DropDownButton btn = (DropDownButton) widget;
 					btn.setApplicableLayers(this.screen.jumpController.getApplicableLayers(btn.layer));
 				});
+				if (jumpLayer.hasColorVariants()) {
+					this.screen.getColorButtons().get(this.layer - 1).active = true;
+				} else {
+					this.screen.getColorButtons().get(this.layer - 1).active = false;
+				}
 			} else if (isStandard(object)) {
 				//this.screen.jumpController.placeStandards((StandardLayer) object);
 
