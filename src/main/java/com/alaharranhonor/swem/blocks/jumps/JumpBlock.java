@@ -13,6 +13,7 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
@@ -28,13 +29,15 @@ public class JumpBlock extends HorizontalBlock {
 	}
 
 	@Override
-	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		if (state.get(HORIZONTAL_FACING).getAxis() == Direction.Axis.X) {
 			return VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d);
 		} else {
 			return VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d);
 		}
 	}
+
+
 
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
@@ -50,10 +53,5 @@ public class JumpBlock extends HorizontalBlock {
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		return SWEMTileEntities.JUMP_PASSER_TILE_ENTITY.get().create();
-	}
-
-	@Override
-	public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
-		return super.isReplaceable(state, useContext);
 	}
 }
