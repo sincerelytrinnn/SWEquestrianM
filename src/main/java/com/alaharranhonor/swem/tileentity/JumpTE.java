@@ -13,10 +13,13 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.DyeColor;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -129,6 +132,10 @@ public class JumpTE extends TileEntity {
 		return this.currentStandard;
 	}
 
+	public void setCurrentStandard(StandardLayer standard) {
+		this.currentStandard = standard;
+	}
+
 	public List<JumpLayer> getApplicableLayers(int layerNumber) {
 		List<JumpLayer> layers = new ArrayList<>();
 
@@ -170,7 +177,7 @@ public class JumpTE extends TileEntity {
 						}
 					}
 
-					case BRUSH_BOX:
+					//case BRUSH_BOX:
 					case FLOWER_BOX:
 					case COOP:
 					case ROLL_TOP:
@@ -363,7 +370,7 @@ public class JumpTE extends TileEntity {
 
 		compound.putInt("layerAmount", layerAmount);
 
-		compound.putString("standard", this.currentStandard.name());
+		compound.putString("standard", this.currentStandard != null ? this.currentStandard.name() : StandardLayer.SCHOOLING.name());
 
 
 		return super.write(compound);
@@ -401,6 +408,18 @@ public class JumpTE extends TileEntity {
 		}
 
 		this.currentStandard = StandardLayer.valueOf(nbt.getString("standard"));
+
 		super.read(state, nbt);
 	}
+
+	@Override
+	public CompoundNBT getUpdateTag() {
+		return this.write(new CompoundNBT());
+	}
+
+	@Override
+	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+		this.read(state, tag);
+	}
+
 }
