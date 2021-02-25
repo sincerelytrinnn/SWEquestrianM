@@ -86,6 +86,9 @@ public class JumpScreen extends Screen {
 
 				ColorChangerButton colorButton = new ColorChangerButton(this.guiLeft + (62 + 113 + 8), this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 90, 20, new StringTextComponent("Color"), this);
 				colorButton.setLayer(i + 1);
+				if (jumpController.getLayer( i + 1) != null) {
+					colorButton.active = jumpController.getLayer(i + 1).hasColorVariants();
+				}
 
 				this.addColorButton(colorButton);
 
@@ -98,6 +101,7 @@ public class JumpScreen extends Screen {
 
 				//btn.setApplicableLayers(Arrays.asList(StandardLayer.values()));
 				btn.setSelected(jumpController.getCurrentStandard());
+				btn.active = false;
 				this.addButton(btn);
 			}
 
@@ -110,6 +114,10 @@ public class JumpScreen extends Screen {
 	}
 	public List<Widget> getButtons() {
 		return this.buttons;
+	}
+
+	public List<ColorChangerButton> getColorButtons() {
+		return this.colorButtons;
 	}
 
 	public void removeAllButtons() {
