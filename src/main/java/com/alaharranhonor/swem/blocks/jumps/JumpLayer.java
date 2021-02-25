@@ -26,7 +26,7 @@ public enum JumpLayer {
 	HEDGE(SWEMBlocks.JUMP_HEDGE.get().getDefaultState().with(JumpBlock.JUMP_PIECE, TripleBlockSide.LEFT),SWEMBlocks.JUMP_HEDGE.get().getDefaultState().with(JumpBlock.JUMP_PIECE, TripleBlockSide.MIDDLE), 1, 1, 2, false, new ArrayList<>()),
 	WALL(SWEMBlocks.JUMP_WALL.get().getDefaultState().with(JumpBlock.JUMP_PIECE, TripleBlockSide.LEFT),SWEMBlocks.JUMP_WALL.get().getDefaultState().with(JumpBlock.JUMP_PIECE, TripleBlockSide.MIDDLE), 1, 1, 2, false, new ArrayList<>()),
 
-	BRUSH_BOX(SWEMBlocks.JUMP_BRUSH_BOX.get().getDefaultState().with(JumpBlock.JUMP_PIECE, TripleBlockSide.LEFT),SWEMBlocks.JUMP_BRUSH_BOX.get().getDefaultState().with(JumpBlock.JUMP_PIECE, TripleBlockSide.MIDDLE), 1, 1, 1, false, new ArrayList<>()),
+	//BRUSH_BOX(SWEMBlocks.JUMP_BRUSH_BOX.get().getDefaultState().with(JumpBlock.JUMP_PIECE, TripleBlockSide.LEFT),SWEMBlocks.JUMP_BRUSH_BOX.get().getDefaultState().with(JumpBlock.JUMP_PIECE, TripleBlockSide.MIDDLE), 1, 1, 1, false, new ArrayList<>()),
 	FLOWER_BOX(SWEMBlocks.FLOWER_BOXES.get(0).get().getDefaultState().with(JumpBlock.JUMP_PIECE, TripleBlockSide.LEFT), SWEMBlocks.FLOWER_BOXES.get(0).get().getDefaultState().with(JumpBlock.JUMP_PIECE, TripleBlockSide.MIDDLE), 1, 1, 1, true, SWEMBlocks.FLOWER_BOXES),
 	COOP(SWEMBlocks.JUMP_COOP.get().getDefaultState().with(JumpBlock.JUMP_PIECE, TripleBlockSide.LEFT),SWEMBlocks.JUMP_COOP.get().getDefaultState().with(JumpBlock.JUMP_PIECE, TripleBlockSide.MIDDLE), 1, 1, 1, false, new ArrayList<>()),
 	ROLL_TOP(SWEMBlocks.ROLL_TOPS.get(0).get().getDefaultState().with(JumpBlock.JUMP_PIECE, TripleBlockSide.LEFT), SWEMBlocks.ROLL_TOPS.get(0).get().getDefaultState().with(JumpBlock.JUMP_PIECE, TripleBlockSide.MIDDLE), 1, 1, 1, true, SWEMBlocks.ROLL_TOPS),
