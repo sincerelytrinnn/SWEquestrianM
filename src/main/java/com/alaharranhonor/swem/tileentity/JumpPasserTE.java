@@ -1,17 +1,10 @@
 package com.alaharranhonor.swem.tileentity;
 
-import com.alaharranhonor.swem.network.SWEMPacketHandler;
-import com.alaharranhonor.swem.network.UpdatePasserController;
 import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.network.PacketDistributor;
-
-import javax.annotation.Nullable;
 
 public class JumpPasserTE extends TileEntity {
 
