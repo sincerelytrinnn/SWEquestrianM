@@ -1,0 +1,60 @@
+{
+        "credit": "Made with Blockbench",
+        "texture_size": [32, 32],
+        "textures": {
+            "0": "swem:blocks/rail_magenta",
+            "particle": "swem:blocks/rail_magenta"
+        },
+        "groups": [
+            {
+                "name": "group",
+                "origin": [8, 20, 16],
+                "children": [0]
+            }
+        ],
+        "loader": "forge:multi-layer",
+        "layers": {
+            "solid": {
+                "textures": {
+                    "0": "swem:blocks/rail_magenta",
+                    "particle": "swem:blocks/rail_magenta"
+                },
+                "elements": [
+                    {
+                        "from": [0, 0, 3],
+                        "to": [16, 2, 5],
+                        "rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 12]},
+                        "faces": {
+                            "north": {"uv": [0, 1, 8, 2], "texture": "#0"},
+                            "east": {"uv": [2, 2, 3, 3], "texture": "#0"},
+                            "south": {"uv": [0, 0, 8, 1], "texture": "#0"},
+                            "west": {"uv": [2, 3, 3, 4], "texture": "#0"},
+                            "up": {"uv": [1, 10, 0, 2], "rotation": 90, "texture": "#0"},
+                            "down": {"uv": [2, 2, 1, 10], "rotation": 270, "texture": "#0"}
+                        }
+                    }
+                ]
+            },
+            "translucent": {
+                "textures": {
+                    "0": "swem:blocks/rail_magenta",
+                    "particle": "swem:blocks/rail_magenta"
+                },
+                "elements": [
+                    {
+                        "from": [0, 0, 3],
+                        "to": [16, 2, 5],
+                        "rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 12]},
+                        "faces": {
+                            "north": {"uv": [0, 1, 8, 2], "texture": "#0"},
+                            "east": {"uv": [2, 2, 3, 3], "texture": "#0"},
+                            "south": {"uv": [0, 0, 8, 1], "texture": "#0"},
+                            "west": {"uv": [2, 3, 3, 4], "texture": "#0"},
+                            "up": {"uv": [1, 10, 0, 2], "rotation": 90, "texture": "#0"},
+                            "down": {"uv": [2, 2, 1, 10], "rotation": 270, "texture": "#0"}
+                        }
+                    }
+                ]
+            }
+        }
+    }

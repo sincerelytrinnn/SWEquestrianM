@@ -33,7 +33,7 @@ public class DropDownButton<T> extends Button {
 
 	public void setApplicableLayers(List<T> layers) {
 		this.applicableLayers = layers;
-		if (!this.applicableLayers.contains(currentLayer)) {
+		if (!this.applicableLayers.contains(currentLayer) && this.applicableLayers.size() > 0) {
 			setSelected(this.applicableLayers.get(this.applicableLayers.indexOf(JumpLayer.NONE)));
 		}
 	}
@@ -45,6 +45,10 @@ public class DropDownButton<T> extends Button {
 	public void setSelected(T layer) {
 		this.currentLayer = layer;
 		this.id = this.applicableLayers.indexOf(layer);
+	}
+
+	public T getCurrentLayer() {
+		return this.currentLayer;
 	}
 
 	@Override
@@ -59,11 +63,17 @@ public class DropDownButton<T> extends Button {
 			T object = this.applicableLayers.get(id);
 
 			if (isLayer(object)) {
-				this.screen.jumpController.placeLayer(layer, (JumpLayer) object);
+				JumpLayer jumpLayer = (JumpLayer) object;
+				this.screen.jumpController.placeLayer(layer, jumpLayer);
 				this.screen.getButtons().forEach((widget) -> {
 					DropDownButton btn = (DropDownButton) widget;
 					btn.setApplicableLayers(this.screen.jumpController.getApplicableLayers(btn.layer));
 				});
+				if (jumpLayer.hasColorVariants()) {
+					this.screen.getColorButtons().get(this.layer - 1).active = true;
+				} else {
+					this.screen.getColorButtons().get(this.layer - 1).active = false;
+				}
 			} else if (isStandard(object)) {
 				//this.screen.jumpController.placeStandards((StandardLayer) object);
 
