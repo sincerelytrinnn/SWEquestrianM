@@ -86,6 +86,14 @@ public class SWEMBlocks {
 			() -> new HitchingPostBase(HitchingPostBase.HitchingPostType.ENGLISH, Block.Properties.create(Material.WOOD)));
 	public static final RegistryObject<Block> PASTURE_HITCHING_POST = BLOCKS.register("pasture_hitching_post",
 			() -> new HitchingPostBase(HitchingPostBase.HitchingPostType.PASTURE, Block.Properties.create(Material.WOOD)));
+
+	public static final RegistryObject<Block> ENGLISH_HITCHING_POST_MINI = BLOCKS.register("english_hitching_post_mini",
+			() -> new HitchingPostBaseMini(HitchingPostBaseMini.HitchingPostType.ENGLISH, Block.Properties.create(Material.WOOD)));
+	public static final RegistryObject<Block> WESTERN_HITCHING_POST_MINI = BLOCKS.register("western_hitching_post_mini",
+			() -> new HitchingPostBaseMini(HitchingPostBaseMini.HitchingPostType.ENGLISH, Block.Properties.create(Material.WOOD)));
+	public static final RegistryObject<Block> PASTURE_HITCHING_POST_MINI = BLOCKS.register("pasture_hitching_post_mini",
+			() -> new HitchingPostBaseMini(HitchingPostBaseMini.HitchingPostType.ENGLISH, Block.Properties.create(Material.WOOD)));
+
 	public static final RegistryObject<Block> HORSE_POO = BLOCKS.register("pile_of_horse_poo", () -> new HorsePoopBlock(Block.Properties.create(Material.ORGANIC)));
 	public static final RegistryObject<Block> WESTERN_POLE = BLOCKS.register("western_pole", () -> new WesternPoleBlock(Block.Properties.create(Material.WOOD)));
 	public static final RegistryObject<Block> INVISIBLE_GLOW_BLOCK = BLOCKS.register("invisible_glow_block", () -> new InvisibleGlowBlock(Block.Properties.create(Material.IRON)));
@@ -228,6 +236,14 @@ public class SWEMBlocks {
 			() -> new BlockItemBase(PASTURE_HITCHING_POST.get()));
 	public static final RegistryObject<Item> WESTERN_POLE_ITEM = SWEMItems.ITEMS.register("western_pole",
 			() -> new BlockItemBase(WESTERN_POLE.get()));
+
+	public static final RegistryObject<Item> ENGLISH_HITCHING_POST_MINI_ITEM = SWEMItems.ITEMS.register("english_hitching_post_mini",
+			() -> new BlockItemBase(ENGLISH_HITCHING_POST_MINI.get()));
+	public static final RegistryObject<Item> WESTERN_HITCHING_POST_MINI_ITEM = SWEMItems.ITEMS.register("western_hitching_post_mini",
+			() -> new BlockItemBase(WESTERN_HITCHING_POST_MINI.get()));
+	public static final RegistryObject<Item> PASTURE_HITCHING_POST_MINI_ITEM = SWEMItems.ITEMS.register("pasture_hitching_post_mini",
+			() -> new BlockItemBase(PASTURE_HITCHING_POST_MINI.get()));
+
 	public static final RegistryObject<Item> WESTERN_FENCE_ITEM = SWEMItems.ITEMS.register("western_fence", () -> new BlockItemBase(WESTERN_FENCE.get()));
 	public static final RegistryObject<Item> PASTURE_FENCE_ITEM = SWEMItems.ITEMS.register("pasture_fence", () -> new BlockItemBase(PASTURE_FENCE.get()));
 	public static final RegistryObject<Item> HALF_BARREL_ITEM = SWEMItems.ITEMS.register("half_barrel", () -> new BlockItemBase(HALF_BARREL.get()));

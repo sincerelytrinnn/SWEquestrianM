@@ -611,5 +611,8 @@
   "swem.horse.status.gallop_cooldown": "Gallop is on cooldown. Wait ",
   "swem.horse.status.no_saddle_bag": "Your horse doesn't have a saddle bag/bedroll equipped.",
   "swem.horse.status.too_thirsty_to_canter": "The horse is too thirsty to canter. Find some water.",
-  "swem.potion.cantazarite_potion.effect": "Right click a horse to turn it into a SWEM horse."
+  "swem.potion.cantazarite_potion.effect": "Right click a horse to turn it into a SWEM horse.",
+  "block.swem.english_hitching_post_mini": "English Hitching Post Mini",
+  "block.swem.western_hitching_post_mini": "Western Hitching Post Mini",
+  "block.swem.pasture_hitching_post_mini": "Pasture Hitching Post Mini"
 }
