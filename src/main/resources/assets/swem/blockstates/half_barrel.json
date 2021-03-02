@@ -1,36 +1,16 @@
 {
-  "multipart": [
-    {
-      "when": {
-        "level": 0
-      },
-      "apply": {
-        "model": "swem:block/half_barrel"
-      }
+  "variants": {
+    "level=0": {
+      "model": "swem:block/half_barrel"
     },
-    {
-      "when": {
-        "level": 1
-      },
-      "apply": {
-        "model": "swem:block/half_barrel_level1"
-      }
+    "level=1": {
+      "model": "swem:block/half_barrel_level1"
     },
-    {
-      "when": {
-        "level": 2
-      },
-      "apply": {
-        "model": "swem:block/half_barrel_level2"
-      }
+    "level=2": {
+      "model": "swem:block/half_barrel_level2"
     },
-    {
-      "when": {
-        "level": 3
-      },
-      "apply": {
-        "model": "swem:block/half_barrel_level3"
-      }
+    "level=3": {
+      "model": "swem:block/half_barrel_level3"
     }
-  ]
+  }
 }

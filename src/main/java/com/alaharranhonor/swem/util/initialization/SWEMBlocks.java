@@ -99,7 +99,7 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> INVISIBLE_GLOW_BLOCK = BLOCKS.register("invisible_glow_block", () -> new InvisibleGlowBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> WESTERN_FENCE = BLOCKS.register("western_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> PASTURE_FENCE = BLOCKS.register("pasture_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
-	public static final RegistryObject<Block> HALF_BARREL = BLOCKS.register("half_barrel", () -> new HalfBarrelBlock(Block.Properties.create(Material.IRON)));
+	public static final RegistryObject<Block> HALF_BARREL = BLOCKS.register("half_barrel", () -> new HalfBarrelBlock(Block.Properties.create(Material.IRON).notSolid()));
 	public static final RegistryObject<Block> TACK_BOX = BLOCKS.register("tack_box", () -> new TackBoxBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<HorseDoorBlock> ACACIA_STALL_HORSE = BLOCKS.register("acacia_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
 	public static final RegistryObject<HorseDoorBlock> BIRCH_STALL_HORSE = BLOCKS.register("birch_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
@@ -127,7 +127,7 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> TEARING_MAGMA = BLOCKS.register("tearing_magma", () -> new TearingMagma(AbstractBlock.Properties.create(Material.ROCK, MaterialColor.NETHERRACK).setRequiresTool().notSolid().tickRandomly()));
 	public static final RegistryObject<Block> GLOW_STRING = BLOCKS.register("glow_string", () -> new GlowTripwireBlock((TripWireHookBlock)TRIPWIRE_HOOK, AbstractBlock.Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement()));
 
-	// Jump blocks
+    // Jump blocks
 	public static final RegistryObject<Block> JUMP_STANDARD_SCHOOLING = BLOCKS.register("jump_standard_schooling", () -> new JumpStandardBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
 	public static final RegistryObject<Block> JUMP_STANDARD_RADIAL = BLOCKS.register("jump_standard_radial", () -> new JumpStandardBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
 	public static final RegistryObject<Block> JUMP_STANDARD_VERTICAL_SLAT = BLOCKS.register("jump_standard_vertical_slat", () -> new JumpStandardBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
@@ -251,14 +251,12 @@ public class SWEMBlocks {
 			() -> new BlockItemBase(PASTURE_HITCHING_POST.get()));
 	public static final RegistryObject<Item> WESTERN_POLE_ITEM = SWEMItems.ITEMS.register("western_pole",
 			() -> new BlockItemBase(WESTERN_POLE.get()));
-
 	public static final RegistryObject<Item> ENGLISH_HITCHING_POST_MINI_ITEM = SWEMItems.ITEMS.register("english_hitching_post_mini",
 			() -> new BlockItemBase(ENGLISH_HITCHING_POST_MINI.get()));
 	public static final RegistryObject<Item> WESTERN_HITCHING_POST_MINI_ITEM = SWEMItems.ITEMS.register("western_hitching_post_mini",
 			() -> new BlockItemBase(WESTERN_HITCHING_POST_MINI.get()));
 	public static final RegistryObject<Item> PASTURE_HITCHING_POST_MINI_ITEM = SWEMItems.ITEMS.register("pasture_hitching_post_mini",
 			() -> new BlockItemBase(PASTURE_HITCHING_POST_MINI.get()));
-
 	public static final RegistryObject<Item> WESTERN_FENCE_ITEM = SWEMItems.ITEMS.register("western_fence", () -> new BlockItemBase(WESTERN_FENCE.get()));
 	public static final RegistryObject<Item> PASTURE_FENCE_ITEM = SWEMItems.ITEMS.register("pasture_fence", () -> new BlockItemBase(PASTURE_FENCE.get()));
 	public static final RegistryObject<Item> HALF_BARREL_ITEM = SWEMItems.ITEMS.register("half_barrel", () -> new BlockItemBase(HALF_BARREL.get()));
@@ -285,4 +283,5 @@ public class SWEMBlocks {
 	public static final RegistryObject<Item> WET_COMPOST_ITEM = SWEMItems.ITEMS.register("wet_compost", () -> new BlockItemBase(WET_COMPOST.get()));
 	public static final RegistryObject<Item> COMPOST_ITEM = SWEMItems.ITEMS.register("compost", () -> new BonemealBlockItem(COMPOST.get()));
 	public static final RegistryObject<Item> CANTAZARITE_ANVIL_ITEM = SWEMItems.ITEMS.register("cantazarite_anvil", () -> new BlockItemBase(CANTAZARITE_ANVIL.get()));
+
 }
