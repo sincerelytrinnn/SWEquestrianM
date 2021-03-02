@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "level=0": {
+      "model": "swem:block/half_barrel_gray"
+    },
+    "level=1": {
+      "model": "swem:block/half_barrel_gray_level1"
+    },
+    "level=2": {
+      "model": "swem:block/half_barrel_gray_level2"
+    },
+    "level=3": {
+      "model": "swem:block/half_barrel_gray_level3"
+    }
+  }
+}

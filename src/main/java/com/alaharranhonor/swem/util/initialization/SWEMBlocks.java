@@ -98,8 +98,8 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> WESTERN_POLE = BLOCKS.register("western_pole", () -> new WesternPoleBlock(Block.Properties.create(Material.WOOD)));
 	public static final RegistryObject<Block> INVISIBLE_GLOW_BLOCK = BLOCKS.register("invisible_glow_block", () -> new InvisibleGlowBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> WESTERN_FENCE = BLOCKS.register("western_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
-	public static final RegistryObject<Block> PASTURE_FENCE = BLOCKS.register("pasture_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> HALF_BARREL = BLOCKS.register("half_barrel", () -> new HalfBarrelBlock(Block.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<Block> PASTURE_FENCE = BLOCKS.register("pasture_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> TACK_BOX = BLOCKS.register("tack_box", () -> new TackBoxBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<HorseDoorBlock> ACACIA_STALL_HORSE = BLOCKS.register("acacia_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
 	public static final RegistryObject<HorseDoorBlock> BIRCH_STALL_HORSE = BLOCKS.register("birch_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
@@ -174,6 +174,7 @@ public class SWEMBlocks {
 	public static final List<RegistryObject<GrainFeederBlock>> GRAIN_FEEDERS = new ArrayList<>();
 	public static final List<RegistryObject<HorseDoorBlock>> PASTURE_GATES_HORSE = new ArrayList<>();
 	public static final List<RegistryObject<CareDoorBlock>> PASTURE_GATES_CARE = new ArrayList<>();
+	public static final List<RegistryObject<HalfBarrelBlock>> HALF_BARRELS = new ArrayList<>();
 
 	static {
 		for (DyeColor color : DyeColor.values()) {
@@ -207,6 +208,8 @@ public class SWEMBlocks {
 			PASTURE_GATES_HORSE.add(register("pasture_"+color.getTranslationKey() + "_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
 					block -> () -> new BlockItemBase(block.get())));
 			PASTURE_GATES_CARE.add(register("pasture_"+color.getTranslationKey() + "_care", () -> new CareDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
+					block -> () -> new BlockItemBase(block.get())));
+			HALF_BARRELS.add(register("half_barrel_"+color.getTranslationKey(), () -> new HalfBarrelBlock(Block.Properties.create(Material.IRON).notSolid()),
 					block -> () -> new BlockItemBase(block.get())));
 		}
 	}
