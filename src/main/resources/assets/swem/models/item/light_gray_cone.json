@@ -1,0 +1,8 @@
+{
+  "loader": "forge:separate-perspective",
+  "gui_light": "front",
+  "base": {"parent":"swem:item/light_gray_cone_inv"},
+  "perspectives": {
+    "head": {"parent": "swem:block/light_gray_cone"}
+  }
+}

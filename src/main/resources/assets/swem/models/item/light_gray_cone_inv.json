@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "swem:items/grey_cone"
+    "layer0": "swem:items/light_gray_cone"
   }
 }
