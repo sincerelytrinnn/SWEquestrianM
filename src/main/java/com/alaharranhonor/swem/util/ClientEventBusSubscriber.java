@@ -1,14 +1,12 @@
 package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.armor.*;
-import com.alaharranhonor.swem.blocks.CareDoorBlock;
-import com.alaharranhonor.swem.blocks.HorseDoorBlock;
-import com.alaharranhonor.swem.blocks.NonParallelBlock;
-import com.alaharranhonor.swem.blocks.WheelBarrowBlock;
+import com.alaharranhonor.swem.blocks.*;
 import com.alaharranhonor.swem.entity.render.*;
 import com.alaharranhonor.swem.gui.*;
 import com.alaharranhonor.swem.items.SWEMSpawnEggItem;
 import com.alaharranhonor.swem.util.initialization.*;
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
@@ -21,7 +19,9 @@ import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.Color;
 import net.minecraft.world.FoliageColors;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeColors;
+import net.minecraft.world.biome.Biomes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -33,6 +33,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import com.alaharranhonor.swem.SWEM;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.lwjgl.glfw.GLFW;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
@@ -167,9 +168,14 @@ public class ClientEventBusSubscriber {
     @SubscribeEvent
     public static void onRegisterBlockColors(ColorHandlerEvent.Block event) {
         BlockColors colors = event.getBlockColors();
-        colors.register((state, reader, pos, color) -> {
-            return reader != null && pos != null ? BiomeColors.getWaterColor(reader, pos) : -1;
-        }, SWEMBlocks.HALF_BARREL.get());
+
+
+        for (RegistryObject<HalfBarrelBlock> barrelRegistry : SWEMBlocks.HALF_BARRELS) {
+            HalfBarrelBlock barrel = barrelRegistry.get();
+            colors.register((state, reader, pos, color) -> {
+                return reader != null && pos != null ? BiomeColors.getWaterColor(reader, pos) : -1; // Figure out how to get the PLAINS biome only.
+            }, barrel);
+        }
 
         colors.register((state, reader, pos, color) -> {
             return reader != null && pos != null ? BiomeColors.getFoliageColor(reader, pos) : FoliageColors.getDefault();

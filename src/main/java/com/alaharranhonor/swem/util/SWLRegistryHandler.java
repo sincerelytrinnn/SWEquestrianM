@@ -10,6 +10,9 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SWLRegistryHandler {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SWEM.MOD_ID);
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SWEM.MOD_ID);
@@ -234,7 +237,7 @@ public class SWLRegistryHandler {
 
 	public static final RegistryObject<Item> STAR_WORM = ITEMS.register("star_worm", () -> new Item(new Item.Properties().group(SWEM.SWLMTAB)));
 	public static final RegistryObject<Item> STAR_WORM_GOOP = ITEMS.register("star_worm_goop", () -> new Item(new Item.Properties().group(SWEM.SWLMTAB)));
-	public static final RegistryObject<Item> PESTLE_MORTAR = ITEMS.register("pestle_mortar", () -> new PestleMortarItem(new Item.Properties().maxStackSize(1).maxDamage(128).group(SWEM.SWLMTAB)));
+	public static final RegistryObject<Item> PESTLE_MORTAR = ITEMS.register("pestle_mortar", () -> new PestleMortarItem(new Item.Properties().maxStackSize(1).group(SWEM.SWLMTAB)));
 
 	public static final RegistryObject<Item> STAR_WORM_COBBLE_ITEM = ITEMS.register("star_worm_cobble", () -> new BlockItem(STAR_WORM_COBBLE.get(), new Item.Properties().group(SWEM.SWLMTAB)));
 
@@ -439,6 +442,8 @@ public class SWLRegistryHandler {
 	public static final RegistryObject<Item> STAR_WORM_BLOCK_RED_WOOL_ITEM = ITEMS.register("star_worm_block_red_wool", () -> new BlockItem(STAR_WORM_BLOCK_RED_WOOL.get(), new Item.Properties().group(SWEM.SWLMTAB)));
 	public static final RegistryObject<Item> STAR_WORM_BLOCK_WHITE_WOOL_ITEM = ITEMS.register("star_worm_block_white_wool", () -> new BlockItem(STAR_WORM_BLOCK_WHITE_WOOL.get(), new Item.Properties().group(SWEM.SWLMTAB)));
 	public static final RegistryObject<Item> STAR_WORM_BLOCK_YELLOW_WOOL_ITEM = ITEMS.register("star_worm_block_yellow_wool", () -> new BlockItem(STAR_WORM_BLOCK_YELLOW_WOOL.get(), new Item.Properties().group(SWEM.SWLMTAB)));
+
+
 
 }
 
