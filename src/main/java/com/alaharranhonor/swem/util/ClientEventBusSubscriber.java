@@ -173,7 +173,7 @@ public class ClientEventBusSubscriber {
         for (RegistryObject<HalfBarrelBlock> barrelRegistry : SWEMBlocks.HALF_BARRELS) {
             HalfBarrelBlock barrel = barrelRegistry.get();
             colors.register((state, reader, pos, color) -> {
-                return reader != null && pos != null ? BiomeColors.getWaterColor(reader, pos) : -1; // Figure out how to get the PLAINS biome only.
+                return reader != null && pos != null ? BiomeRegistry.PLAINS.getWaterColor() : -1; // Figure out how to get the PLAINS biome only.
             }, barrel);
         }
 
