@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "swem:medium_rubber_mat"
+          "name": "swem:separator_brown"
         }
       ],
       "conditions": [
