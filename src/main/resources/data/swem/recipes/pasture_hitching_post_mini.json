@@ -4,23 +4,22 @@
   "pattern":
   [
     " x ",
-    " y ",
     " y "
   ],
   "key":
   {
-	"x":
+    "x":
     {
-      "item": "minecraft:jungle_planks"
+      "tag": "minecraft:planks"
     },
-	"y":
+    "y":
     {
-      "item": "minecraft:jungle_log"
+      "tag": "minecraft:logs_that_burn"
     }
   },
   "result":
   {
-    "item": "swem:jungle_pasture_hitching_post",
+    "item": "swem:pasture_hitching_post_mini",
     "count": 1
   }
 }

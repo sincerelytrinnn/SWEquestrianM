@@ -4,23 +4,22 @@
   "pattern":
   [
     " x ",
-    " y ",
     " y "
   ],
   "key":
   {
-	"x":
+    "x":
     {
       "item": "minecraft:iron_ingot"
     },
-	"y":
+    "y":
     {
-      "item": "minecraft:oak_log"
+      "tag": "minecraft:logs_that_burn"
     }
   },
   "result":
   {
-    "item": "swem:oak_english_hitching_post",
+    "item": "swem:english_hitching_post_mini",
     "count": 1
   }
 }
