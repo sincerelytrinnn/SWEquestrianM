@@ -6,7 +6,12 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "swem:grey_cone"
+          "name": "swem:tack_box_yellow"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
         }
       ]
     }

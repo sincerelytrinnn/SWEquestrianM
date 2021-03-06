@@ -8,6 +8,11 @@
           "type": "minecraft:item",
           "name": "swem:dark_rubber_mat"
         }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
       ]
     }
   ]
