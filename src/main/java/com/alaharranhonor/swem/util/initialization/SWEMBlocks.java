@@ -126,7 +126,6 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> CANTAZARITE_ANVIL = BLOCKS.register("cantazarite_anvil", () -> new CantazariteAnvilBlock(Block.Properties.from(Blocks.ANVIL).notSolid()));
 	public static final RegistryObject<Block> TEARING_MAGMA = BLOCKS.register("tearing_magma", () -> new TearingMagma(AbstractBlock.Properties.create(Material.ROCK, MaterialColor.NETHERRACK).setRequiresTool().notSolid().tickRandomly()));
 	public static final RegistryObject<Block> GLOW_STRING = BLOCKS.register("glow_string", () -> new GlowTripwireBlock((TripWireHookBlock)TRIPWIRE_HOOK, AbstractBlock.Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement()));
-	public static final RegistryObject<Block> LOCKER = BLOCKS.register("locker", () -> new LockerBlock(Block.Properties.create(Material.IRON)));
 
     // Jump blocks
 	public static final RegistryObject<Block> JUMP_STANDARD_SCHOOLING = BLOCKS.register("jump_standard_schooling", () -> new JumpStandardBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
@@ -176,6 +175,7 @@ public class SWEMBlocks {
 	public static final List<RegistryObject<HorseDoorBlock>> PASTURE_GATES_HORSE = new ArrayList<>();
 	public static final List<RegistryObject<CareDoorBlock>> PASTURE_GATES_CARE = new ArrayList<>();
 	public static final List<RegistryObject<HalfBarrelBlock>> HALF_BARRELS = new ArrayList<>();
+	public static final List<RegistryObject<LockerBlock>> LOCKERS = new ArrayList<>();
 
 	static {
 		for (DyeColor color : DyeColor.values()) {
@@ -211,6 +211,8 @@ public class SWEMBlocks {
 			PASTURE_GATES_CARE.add(register("pasture_"+color.toString() + "_care", () -> new CareDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
 					block -> () -> new BlockItemBase(block.get())));
 			HALF_BARRELS.add(register("half_barrel_"+color.getTranslationKey(), () -> new HalfBarrelBlock(Block.Properties.create(Material.IRON).notSolid()),
+					block -> () -> new BlockItemBase(block.get())));
+			LOCKERS.add(register("locker_"+color.getTranslationKey(), () -> new LockerBlock(Block.Properties.create(Material.IRON)),
 					block -> () -> new BlockItemBase(block.get())));
 		}
 	}
@@ -288,6 +290,5 @@ public class SWEMBlocks {
 	public static final RegistryObject<Item> COMPOST_ITEM = SWEMItems.ITEMS.register("compost", () -> new BonemealBlockItem(COMPOST.get()));
 	public static final RegistryObject<Item> CANTAZARITE_ANVIL_ITEM = SWEMItems.ITEMS.register("cantazarite_anvil", () -> new BlockItemBase(CANTAZARITE_ANVIL.get()));
 	public static final RegistryObject<Item> CHARCOAL_BLOCK_ITEM = SWEMItems.ITEMS.register("charcoal_block", () -> new BlockItemBase(CHARCOAL_BLOCK.get()));
-	public static final RegistryObject<Item> LOCKER_ITEM = SWEMItems.ITEMS.register("locker", () -> new BlockItemBase(LOCKER.get()));
 
 }
