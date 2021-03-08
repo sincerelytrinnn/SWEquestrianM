@@ -21,10 +21,7 @@ import net.minecraft.util.text.Color;
 import net.minecraft.world.FoliageColors;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeColors;
-<<<<<<< Updated upstream
-=======
 import net.minecraft.world.biome.BiomeRegistry;
->>>>>>> Stashed changes
 import net.minecraft.world.biome.Biomes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
@@ -172,7 +169,6 @@ public class ClientEventBusSubscriber {
     @SubscribeEvent
     public static void onRegisterBlockColors(ColorHandlerEvent.Block event) {
         BlockColors colors = event.getBlockColors();
-
         for (RegistryObject<HalfBarrelBlock> barrelRegistry : SWEMBlocks.HALF_BARRELS) {
             HalfBarrelBlock barrel = barrelRegistry.get();
             colors.register((state, reader, pos, color) -> {
