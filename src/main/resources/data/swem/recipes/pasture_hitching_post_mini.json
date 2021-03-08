@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pasture_hitching_post",
+  "pattern":
+  [
+    " x ",
+    " y "
+  ],
+  "key":
+  {
+    "x":
+    {
+      "tag": "minecraft:planks"
+    },
+    "y":
+    {
+      "tag": "minecraft:logs_that_burn"
+    }
+  },
+  "result":
+  {
+    "item": "swem:pasture_hitching_post_mini",
+    "count": 1
+  }
+}

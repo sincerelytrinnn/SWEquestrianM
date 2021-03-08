@@ -8,6 +8,11 @@
           "type": "minecraft:item",
           "name": "swem:one_saddle_rack"
         }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
       ]
     }
   ]

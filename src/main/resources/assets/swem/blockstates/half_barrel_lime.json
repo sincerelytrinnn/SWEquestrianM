@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "level=0": {
+      "model": "swem:block/half_barrel_lime"
+    },
+    "level=1": {
+      "model": "swem:block/half_barrel_lime_level1"
+    },
+    "level=2": {
+      "model": "swem:block/half_barrel_lime_level2"
+    },
+    "level=3": {
+      "model": "swem:block/half_barrel_lime_level3"
+    }
+  }
+}

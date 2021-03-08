@@ -13,6 +13,7 @@ import com.alaharranhonor.swem.util.SWLRegistryHandler;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMEntities;
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
+import net.minecraft.block.CauldronBlock;
 import net.minecraft.block.NetherPortalBlock;
 import net.minecraft.block.PortalInfo;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
@@ -82,6 +83,7 @@ public class SWEM
                 });
 
         LOGGER.debug("Registered BlockItems!");
+
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -100,7 +102,7 @@ public class SWEM
     public static final ItemGroup SWLMTAB = new ItemGroup("SWLMTab") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(SWEMItems.SWEM_WORM.get());
+            return new ItemStack(SWLRegistryHandler.STAR_WORM.get());
         }
     };
 

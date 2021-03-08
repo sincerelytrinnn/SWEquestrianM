@@ -32,20 +32,7 @@ import java.util.stream.Stream;
 
 public class HalfBarrelBlock extends Block {
 	public static final IntegerProperty LEVEL = BlockStateProperties.LEVEL_0_3;
-
 	private static final VoxelShape SHAPE = Stream.of(
-			Block.makeCuboidShape(4.893398282201788, 1, 0.5, 11.106601717798213, 12, 1.5),
-			Block.makeCuboidShape(4.893398282201788, 1, 0.5, 11.106601717798213, 12, 1.5),
-			Block.makeCuboidShape(4.893398282201788, 1, 14.5, 11.106601717798213, 12, 15.5),
-			Block.makeCuboidShape(4.893398282201788, 1, 14.5, 11.106601717798213, 12, 15.5),
-			Block.makeCuboidShape(0.5, 1, 4.893398282201788, 1.5, 12, 11.106601717798213),
-			Block.makeCuboidShape(0.5, 1, 4.893398282201788, 1.5, 12, 11.106601717798213),
-			Block.makeCuboidShape(14.5, 1, 4.893398282201788, 15.5, 12, 11.106601717798213),
-			Block.makeCuboidShape(14.5, 1, 4.893398282201788, 15.5, 12, 11.106601717798213),
-			Block.makeCuboidShape(4.686291501015241, 0, 0, 11.31370849898476, 1, 16),
-			Block.makeCuboidShape(4.686291501015241, 0, 0, 11.31370849898476, 1, 16),
-			Block.makeCuboidShape(0, 0, 4.686291501015241, 16, 1, 11.31370849898476),
-			Block.makeCuboidShape(0, 0, 4.686291501015241, 16, 1, 11.31370849898476),
 			Block.makeCuboidShape(4.686291501015241, 11, 0, 11.31370849898476, 12, 1),
 			Block.makeCuboidShape(4.686291501015241, 11, 0, 11.31370849898476, 12, 1),
 			Block.makeCuboidShape(4.686291501015241, 11, 15, 11.31370849898476, 12, 16),
@@ -53,7 +40,19 @@ public class HalfBarrelBlock extends Block {
 			Block.makeCuboidShape(0, 11, 4.686291501015241, 1, 12, 11.31370849898476),
 			Block.makeCuboidShape(0, 11, 4.686291501015241, 1, 12, 11.31370849898476),
 			Block.makeCuboidShape(15, 11, 4.686291501015241, 16, 12, 11.31370849898476),
-			Block.makeCuboidShape(15, 11, 4.686291501015241, 16, 12, 11.31370849898476)
+			Block.makeCuboidShape(15, 11, 4.686291501015241, 16, 12, 11.31370849898476),
+			Block.makeCuboidShape(4.893398282201788, 1, 0.5, 11.106601717798213, 12, 1.5),
+			Block.makeCuboidShape(4.893398282201788, 1, 0.5, 11.106601717798213, 12, 1.5),
+			Block.makeCuboidShape(4.893398282201788, 1, 14.5, 11.106601717798213, 12, 15.5),
+			Block.makeCuboidShape(4.893398282201788, 1, 14.5, 11.106601717798213, 12, 15.5),
+			Block.makeCuboidShape(0.5, 1, 4.893398282201788, 1.5, 12, 11.106601717798213),
+			Block.makeCuboidShape(0.5, 1, 4.893398282201788, 1.5, 12, 11.106601717798213),
+			Block.makeCuboidShape(14.5, 1, 4.893398282201788, 15.5, 12, 11.106601717798213),
+			Block.makeCuboidShape(14.5, 1, 4.893398282201788, 15.5, 12, 11.106601717798213),
+			Block.makeCuboidShape(4.686291501015241, 0, 0, 11.31370849898476, 1, 16),
+			Block.makeCuboidShape(4.686291501015241, 0, 0, 11.31370849898476, 1, 16),
+			Block.makeCuboidShape(0, 0, 4.686291501015241, 16, 1, 11.31370849898476),
+			Block.makeCuboidShape(0, 0, 4.686291501015241, 16, 1, 11.31370849898476)
 	).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get();
 
 	public HalfBarrelBlock(Properties properties) {
@@ -65,6 +64,7 @@ public class HalfBarrelBlock extends Block {
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
 	}
+
 
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
