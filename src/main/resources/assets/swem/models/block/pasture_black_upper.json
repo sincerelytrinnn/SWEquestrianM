@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/door_top",
+  "textures": {
+    "top": "swem:blocks/pasture_horse_black_upper"
+  }
+}
