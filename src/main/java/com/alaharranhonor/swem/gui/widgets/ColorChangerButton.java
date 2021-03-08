@@ -1,6 +1,9 @@
 package com.alaharranhonor.swem.gui.widgets;
 
 import com.alaharranhonor.swem.gui.JumpScreen;
+import com.alaharranhonor.swem.network.ChangeLayerBlockPacket;
+import com.alaharranhonor.swem.network.JumpControllerUpdatePacket;
+import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -27,7 +30,10 @@ public class ColorChangerButton extends Button {
 
 	@Override
 	public void onPress() {
+		SWEMPacketHandler.INSTANCE.sendToServer(new JumpControllerUpdatePacket(this.screen.jumpController.getPos(), 3, layer));
 		this.screen.jumpController.changeColorVariant(this.layer);
+
+		SWEMPacketHandler.INSTANCE.sendToServer(new ChangeLayerBlockPacket(this.screen.jumpController.getPos(), this.screen.jumpController.getLayer(this.layer), layer));
 		this.screen.jumpController.placeLayer(this.layer, this.screen.jumpController.getLayer(this.layer));
 		super.onPress();
 	}

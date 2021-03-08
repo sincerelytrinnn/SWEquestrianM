@@ -3,6 +3,8 @@ package com.alaharranhonor.swem.gui.widgets;
 import com.alaharranhonor.swem.blocks.jumps.JumpLayer;
 import com.alaharranhonor.swem.blocks.jumps.StandardLayer;
 import com.alaharranhonor.swem.gui.JumpScreen;
+import com.alaharranhonor.swem.network.ChangeLayerBlockPacket;
+import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -64,6 +66,7 @@ public class DropDownButton<T> extends Button {
 
 			if (isLayer(object)) {
 				JumpLayer jumpLayer = (JumpLayer) object;
+				SWEMPacketHandler.INSTANCE.sendToServer(new ChangeLayerBlockPacket(this.screen.jumpController.getPos(), jumpLayer, layer));
 				this.screen.jumpController.placeLayer(layer, jumpLayer);
 				this.screen.getButtons().forEach((widget) -> {
 					DropDownButton btn = (DropDownButton) widget;

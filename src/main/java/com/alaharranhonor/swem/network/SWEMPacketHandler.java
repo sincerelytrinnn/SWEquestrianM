@@ -26,5 +26,6 @@ public class SWEMPacketHandler {
 		INSTANCE.registerMessage(9, HorseFlyingMessage.class, HorseFlyingMessage::encode, HorseFlyingMessage::decode, HorseFlyingMessage::handle);
 		INSTANCE.registerMessage(10, ChangeLayerBlockPacket.class, ChangeLayerBlockPacket::encode, ChangeLayerBlockPacket::decode, ChangeLayerBlockPacket::handle);
 		INSTANCE.registerMessage(11, ChangeStandardPacket.class, ChangeStandardPacket::encode, ChangeStandardPacket::decode, ChangeStandardPacket::handle);
+		INSTANCE.registerMessage(12, JumpControllerUpdatePacket.class, JumpControllerUpdatePacket::encode, JumpControllerUpdatePacket::decode, JumpControllerUpdatePacket::handle);
 	}
 }

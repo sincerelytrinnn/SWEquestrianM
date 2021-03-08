@@ -4,6 +4,7 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.blocks.jumps.JumpBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpLayer;
 import com.alaharranhonor.swem.tileentity.JumpPasserTE;
+import com.alaharranhonor.swem.tileentity.JumpTE;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import net.minecraft.block.Blocks;
@@ -17,21 +18,15 @@ import java.util.function.Supplier;
 
 public class ChangeLayerBlockPacket {
 
-	private BlockPos posToPlace;
 	private BlockPos controllerPos;
 	private JumpLayer layer;
-	private int layerColor;
-	private Direction facing;
-	private String type;
+	private int layerNumber;
 	private boolean failed;
 
-	public ChangeLayerBlockPacket(BlockPos posToPlace, BlockPos controllerPos, JumpLayer layer, int layerColor, Direction facing, String type) {
-		this.posToPlace = posToPlace;
+	public ChangeLayerBlockPacket(BlockPos controllerPos, JumpLayer layer, int layerNumber) {
 		this.controllerPos = controllerPos;
 		this.layer = layer;
-		this.layerColor = layerColor;
-		this.facing = facing;
-		this.type = type;
+		this.layerNumber = layerNumber;
 		this.failed = false;
 	}
 
@@ -41,13 +36,10 @@ public class ChangeLayerBlockPacket {
 
 	public static ChangeLayerBlockPacket decode(ByteBuf buf) {
 		try {
-			BlockPos pos = ((PacketBuffer) buf).readBlockPos();
 			BlockPos controllerPos = ((PacketBuffer) buf).readBlockPos();
-			JumpLayer layer = JumpLayer.valueOf(((PacketBuffer) buf).readString());
-			int layerColor = ((PacketBuffer) buf).readVarInt();
-			Direction facing = Direction.valueOf(((PacketBuffer) buf).readString());
-			String type = ((PacketBuffer) buf).readString();
-			return new ChangeLayerBlockPacket(pos, controllerPos, layer, layerColor, facing, type);
+			JumpLayer layer = JumpLayer.valueOf(((PacketBuffer) buf).readString(32767));
+			int layerNumber = ((PacketBuffer) buf).readVarInt();
+			return new ChangeLayerBlockPacket(controllerPos, layer, layerNumber);
 		} catch (IndexOutOfBoundsException e) {
 			SWEM.LOGGER.error("ChangeLayerBlockPacket: Unexpected end of packet.\nMessage: " + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()), e);
 			return new ChangeLayerBlockPacket(true);
@@ -55,33 +47,18 @@ public class ChangeLayerBlockPacket {
 	}
 
 	public static void encode(ChangeLayerBlockPacket msg, PacketBuffer buffer) {
-		buffer.writeBlockPos(msg.posToPlace);
 		buffer.writeBlockPos(msg.controllerPos);
 		buffer.writeString(msg.layer.name());
-		buffer.writeVarInt(msg.layerColor);
-		buffer.writeString(msg.facing.name());
-		buffer.writeString(msg.type);
+		buffer.writeVarInt(msg.layerNumber);
 	}
 
 	public static void handle(ChangeLayerBlockPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			ServerWorld world = ctx.get().getSender().getServerWorld();
 
-			if (msg.layer == JumpLayer.AIR) {
-				world.setBlockState(msg.posToPlace, Blocks.AIR.getDefaultState(), 3);
-				return;
-			}
-
-			if (world.isBlockLoaded(msg.posToPlace)) {
-				if (msg.type.equals("left")) {
-					world.setBlockState(msg.posToPlace, msg.layer.getEndState(msg.layerColor).with(JumpBlock.HORIZONTAL_FACING, msg.facing), 3);
-				} else if (msg.type.equals("middle")) {
-					world.setBlockState(msg.posToPlace, msg.layer.getMiddleState(msg.layerColor).with(JumpBlock.HORIZONTAL_FACING, msg.facing), 3);
-				} else {
-					world.setBlockState(msg.posToPlace, msg.layer.getBetweenState(msg.layerColor).with(JumpBlock.HORIZONTAL_FACING, msg.facing), 3);
-				}
-				JumpPasserTE passer = (JumpPasserTE) world.getTileEntity(msg.posToPlace);
-				passer.setControllerPos(msg.controllerPos);
+			if (world.isBlockPresent(msg.controllerPos)) {
+				JumpTE controller = (JumpTE) world.getTileEntity(msg.controllerPos);
+				controller.placeLayer(msg.layerNumber, msg.layer);
 			}
 		});
 		ctx.get().setPacketHandled(true);

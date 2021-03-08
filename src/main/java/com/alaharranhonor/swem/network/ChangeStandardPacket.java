@@ -43,9 +43,9 @@ public class ChangeStandardPacket {
 		try {
 			BlockPos pos = ((PacketBuffer) buf).readBlockPos();
 			BlockPos controllerPos = ((PacketBuffer) buf).readBlockPos();
-			StandardLayer layer = StandardLayer.valueOf(((PacketBuffer) buf).readString());
-			Direction facing = Direction.valueOf(((PacketBuffer) buf).readString());
-			String type = ((PacketBuffer) buf).readString();
+			StandardLayer layer = StandardLayer.valueOf(((PacketBuffer) buf).readString(32767));
+			Direction facing = Direction.valueOf(((PacketBuffer) buf).readString(32767));
+			String type = ((PacketBuffer) buf).readString(32767);
 			return new ChangeStandardPacket(pos, controllerPos, layer, facing, type);
 		} catch (IndexOutOfBoundsException e) {
 			SWEM.LOGGER.error("ChangeStandardPacket: Unexpected end of packet.\nMessage: " + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()), e);

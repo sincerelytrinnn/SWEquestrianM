@@ -1,6 +1,8 @@
 package com.alaharranhonor.swem.gui.widgets;
 
 import com.alaharranhonor.swem.gui.JumpScreen;
+import com.alaharranhonor.swem.network.JumpControllerUpdatePacket;
+import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.ITextComponent;
@@ -22,6 +24,7 @@ public class DeleteLayerButton extends Button {
 			DeleteLayerButton btn = (DeleteLayerButton) p_onPress_1_;
 			int oldLayerAmount = btn.screen.jumpController.getLayerAmount();
 			btn.screen.jumpController.deleteLayer(oldLayerAmount);
+			SWEMPacketHandler.INSTANCE.sendToServer(new JumpControllerUpdatePacket(btn.screen.jumpController.getPos(), 2, oldLayerAmount));
 			btn.screen.removeAllButtons();
 			if (btn.screen.jumpController.getLayerAmount() == 1) {
 				btn.active = false;

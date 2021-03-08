@@ -179,35 +179,35 @@ public class SWEMBlocks {
 	static {
 		for (DyeColor color : DyeColor.values()) {
 			// Jumps
-			ROLL_TOPS.add(registerNoItem("jump_roll_top_" + color.getTranslationKey(), JumpBlock::new));
-			RAILS.add(registerNoItem("jump_rail_" + color.getTranslationKey(), JumpBlock::new));
-			GROUND_POLES.add(registerNoItem("jump_ground_pole_" + color.getTranslationKey(), JumpBlock::new));
-			POLE_ON_BOXES_SMALL.add(registerNoItem("jump_pole_on_box_small_" + color.getTranslationKey(), JumpBlock::new));
-			POLE_ON_BOXES_LARGE.add(registerNoItem("jump_pole_on_box_large_" + color.getTranslationKey(), JumpBlock::new));
-			FANCY_PLANKS.add(registerNoItem("jump_plank_fancy_" + color.getTranslationKey(), JumpBlock::new));
-			PLANKS.add(registerNoItem("jump_plank_" + color.getTranslationKey(), JumpBlock::new));
-			PANELS_WAVE.add(registerNoItem("jump_panel_wave_" + color.getTranslationKey(), JumpBlock::new));
-			PANELS_STRIPE.add(registerNoItem("jump_panel_stripe_" + color.getTranslationKey(), JumpBlock::new));
-			PANELS_ARROW.add(registerNoItem("jump_panel_arrow_" + color.getTranslationKey(), JumpBlock::new));
-			FLOWER_BOXES.add(registerNoItem("jump_flower_box_" + color.getTranslationKey(), JumpBlock::new));
-			CAVALETTIS.add(registerNoItem("jump_cavaletti_" + color.getTranslationKey(), JumpBlock::new));
+			ROLL_TOPS.add(registerNoItem("jump_roll_top_" + color.toString(), JumpBlock::new));
+			RAILS.add(registerNoItem("jump_rail_" + color.toString(), JumpBlock::new));
+			GROUND_POLES.add(registerNoItem("jump_ground_pole_" + color.toString(), JumpBlock::new));
+			POLE_ON_BOXES_SMALL.add(registerNoItem("jump_pole_on_box_small_" + color.toString(), JumpBlock::new));
+			POLE_ON_BOXES_LARGE.add(registerNoItem("jump_pole_on_box_large_" + color.toString(), JumpBlock::new));
+			FANCY_PLANKS.add(registerNoItem("jump_plank_fancy_" + color.toString(), JumpBlock::new));
+			PLANKS.add(registerNoItem("jump_plank_" + color.toString(), JumpBlock::new));
+			PANELS_WAVE.add(registerNoItem("jump_panel_wave_" + color.toString(), JumpBlock::new));
+			PANELS_STRIPE.add(registerNoItem("jump_panel_stripe_" + color.toString(), JumpBlock::new));
+			PANELS_ARROW.add(registerNoItem("jump_panel_arrow_" + color.toString(), JumpBlock::new));
+			FLOWER_BOXES.add(registerNoItem("jump_flower_box_" + color.toString(), JumpBlock::new));
+			CAVALETTIS.add(registerNoItem("jump_cavaletti_" + color.toString(), JumpBlock::new));
 
 
 
 
-			RIDER_DOORS.add(register("simple_rider_door_" + color.getTranslationKey(), () -> new RiderDoorBlock(Block.Properties.create(Material.WOOD).notSolid()), block -> () -> new BlockItemBase(block.get())));
-			CONES.add(register(color.getTranslationKey()+"_cone", ConeBase::new, block -> () -> new ConeBlockItem(block.get())));
-			WHEEL_BARROWS.add(register("wheel_barrow_"+color.getTranslationKey(), () -> new WheelBarrowBlock(Block.Properties.create(Material.IRON).notSolid(), color),
+			RIDER_DOORS.add(register("simple_rider_door_" + color.toString(), () -> new RiderDoorBlock(Block.Properties.create(Material.WOOD).notSolid()), block -> () -> new BlockItemBase(block.get())));
+			CONES.add(register(color.toString()+"_cone", ConeBase::new, block -> () -> new ConeBlockItem(block.get())));
+			WHEEL_BARROWS.add(register("wheel_barrow_"+color.toString(), () -> new WheelBarrowBlock(Block.Properties.create(Material.IRON).notSolid(), color),
 					 block -> () -> new BlockItemBase(block.get())));
-			SLOW_FEEDERS.add(register("slow_feeder_"+color.getTranslationKey(), () -> new SlowFeederBlock(Block.Properties.create(Material.IRON), color),
+			SLOW_FEEDERS.add(register("slow_feeder_"+color.toString(), () -> new SlowFeederBlock(Block.Properties.create(Material.IRON), color),
 					block -> () -> new BlockItemBase(block.get())));
-			SEPARATORS.add(register("separator_"+color.getTranslationKey(), () -> new NonParallelBlock(Block.Properties.create(Material.IRON), color),
+			SEPARATORS.add(register("separator_"+color.toString(), () -> new NonParallelBlock(Block.Properties.create(Material.IRON), color),
 					block -> () -> new BlockItemBase(block.get())));
-			GRAIN_FEEDERS.add(register("grain_feeder_"+color.getTranslationKey(), () -> new GrainFeederBlock(Block.Properties.create(Material.IRON), color),
+			GRAIN_FEEDERS.add(register("grain_feeder_"+color.toString(), () -> new GrainFeederBlock(Block.Properties.create(Material.IRON), color),
 					block -> () -> new BlockItemBase(block.get())));
-			PASTURE_GATES_HORSE.add(register("pasture_"+color.getTranslationKey() + "_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
+			PASTURE_GATES_HORSE.add(register("pasture_"+color.toString() + "_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
 					block -> () -> new BlockItemBase(block.get())));
-			PASTURE_GATES_CARE.add(register("pasture_"+color.getTranslationKey() + "_care", () -> new CareDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
+			PASTURE_GATES_CARE.add(register("pasture_"+color.toString() + "_care", () -> new CareDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
 					block -> () -> new BlockItemBase(block.get())));
 			HALF_BARRELS.add(register("half_barrel_"+color.getTranslationKey(), () -> new HalfBarrelBlock(Block.Properties.create(Material.IRON).notSolid()),
 					block -> () -> new BlockItemBase(block.get())));

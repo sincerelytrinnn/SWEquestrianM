@@ -1,13 +1,13 @@
 package com.alaharranhonor.swem.tools;
 
+import com.alaharranhonor.swem.blocks.jumps.JumpLayer;
 import com.alaharranhonor.swem.blocks.jumps.JumpStandardBlock;
 import com.alaharranhonor.swem.blocks.jumps.StandardLayer;
-import com.alaharranhonor.swem.gui.JumpScreen;
 import com.alaharranhonor.swem.items.ItemBase;
+import com.alaharranhonor.swem.proxy.ClientProxy;
 import com.alaharranhonor.swem.tileentity.JumpPasserTE;
 import com.alaharranhonor.swem.tileentity.JumpTE;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
@@ -16,7 +16,10 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,23 +32,20 @@ public class MeasurementTool extends ItemBase {
 		TileEntity te = context.getWorld().getTileEntity(context.getPos());
 		if (te != null) {
 			if (te instanceof JumpPasserTE) {
-				JumpPasserTE jumpPasser = (JumpPasserTE) te;
-
 				if (context.getWorld().isRemote) {
-					JumpTE controller = (JumpTE) context.getWorld().getTileEntity(jumpPasser.getControllerPos());
-					Minecraft.getInstance().displayGuiScreen(new JumpScreen(new TranslationTextComponent("screen.swem.jump_builder"), controller));
+					JumpPasserTE jumpPasser = (JumpPasserTE) te;
+					if (jumpPasser.getControllerPos() != null ) {
+						JumpTE controller = (JumpTE) context.getWorld().getTileEntity(jumpPasser.getControllerPos());
+						DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientProxy.openJumpBuilder(controller));
+					}
 				}
 
-				return ActionResultType.CONSUME;
 			}
 			if (te instanceof JumpTE) {
 				JumpTE jumpController = (JumpTE) te;
-				if (context.getWorld().isRemote) {
-					Minecraft.getInstance().displayGuiScreen(new JumpScreen(new TranslationTextComponent("screen.swem.jump_builder"), jumpController));
-				}
-
-				return ActionResultType.CONSUME;
+				DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientProxy.openJumpBuilder(jumpController));
 			}
+			return ActionResultType.CONSUME;
 		}
 
 
@@ -60,7 +60,7 @@ public class MeasurementTool extends ItemBase {
 			if (direction == -1) {
 				nbt.remove("pos1");
 				stack.setTag(nbt);
-				return ActionResultType.FAIL;
+				return ActionResultType.CONSUME;
 			}
 
 
@@ -77,20 +77,22 @@ public class MeasurementTool extends ItemBase {
 			Map<Integer, ArrayList<BlockPos>> layers = this.rearrangeLayers(lowestYValue, blockPositions);
 
 
-			Direction facing = context.getPlacementHorizontalFacing();
+			Direction facing = context.getPlacementHorizontalFacing().getAxis() == Direction.Axis.Z ? Direction.SOUTH : Direction.EAST;
+
 			System.out.println(facing);
 			context.getWorld().setBlockState(layers.get(1).get(0), SWEMBlocks.JUMP_STANDARD_SCHOOLING.get().getDefaultState().with(JumpStandardBlock.HORIZONTAL_FACING, facing));
 
 			JumpTE jumpController = (JumpTE) context.getWorld().getTileEntity(layers.get(1).get(0));
-
-
 			jumpController.setLayerAmount(layerAmount);
 			jumpController.assignJumpBlocks(layers);
 			jumpController.initStandards(StandardLayer.SCHOOLING);
+			jumpController.placeLayer(1, JumpLayer.NONE);
 
-			if (context.getWorld().isRemote) {
-				Minecraft.getInstance().displayGuiScreen(new JumpScreen(new TranslationTextComponent("screen.swem.jump_builder"), jumpController));
-			}
+
+
+
+			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientProxy.openJumpBuilder(jumpController));
+
 
 
 			stack.setTag(nbt);
@@ -139,4 +141,14 @@ public class MeasurementTool extends ItemBase {
 
 	}
 
+	@Override
+	public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
+		if (nbt != null) {
+			if (nbt.contains("pos1")) {
+				nbt.remove("pos1");
+			}
+		}
+
+		super.readShareTag(stack, nbt);
+	}
 }

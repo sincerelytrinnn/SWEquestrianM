@@ -827,7 +827,8 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	}
 
 	public SWEMCoatColors getCoatColor() {
-		return SWEMCoatColors.getById(this.getHorseVariant() & 255);
+		return SWEMCoatColors.PAINT;
+		//return SWEMCoatColors.getById(this.getHorseVariant() & 255);
 	}
 
 	private int getHorseVariant() {

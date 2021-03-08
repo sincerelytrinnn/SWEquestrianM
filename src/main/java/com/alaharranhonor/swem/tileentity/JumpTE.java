@@ -7,7 +7,6 @@ import com.alaharranhonor.swem.blocks.jumps.StandardLayer;
 import com.alaharranhonor.swem.network.ChangeLayerBlockPacket;
 import com.alaharranhonor.swem.network.ChangeStandardPacket;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -46,18 +45,17 @@ public class JumpTE extends TileEntity {
 		this.layerPositions = blocks;
 	}
 
-	public void placeStandards(StandardLayer standard) {
+	public void placeStandards(int layerNumber, StandardLayer standard) {
 		this.currentStandard = standard;
-		for (int i = 1; i <= layerAmount; i++) {
-			if (standard != StandardLayer.NONE) {
-				this.world.setBlockState(layerPositions.get(i).get(0), i == layerAmount ? standard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING)) : i == 1 ? standard.getBottomState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()) : standard.getMiddleState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING)), 3);
-				this.world.setBlockState(layerPositions.get(i).get(6), i == layerAmount ? standard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()) : i == 1 ? standard.getBottomState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()) : standard.getMiddleState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()), 3);
-			} else {
-				this.world.setBlockState(layerPositions.get(i).get(0), standard.getBottomState(), 3);
-				this.world.setBlockState(layerPositions.get(i).get(6), standard.getBottomState(), 3);
-			}
 
+		if (standard != StandardLayer.NONE) {
+			this.world.setBlockState(layerPositions.get(layerNumber).get(0), layerNumber == layerAmount ? standard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING)) : layerNumber == 1 ? standard.getBottomState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()) : standard.getMiddleState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING)), 3);
+			this.world.setBlockState(layerPositions.get(layerNumber).get(6), layerNumber == layerAmount ? standard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()) : layerNumber == 1 ? standard.getBottomState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()) : standard.getMiddleState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()), 3);
+		} else {
+			this.world.setBlockState(layerPositions.get(layerNumber).get(0), standard.getBottomState(), 3);
+			this.world.setBlockState(layerPositions.get(layerNumber).get(6), standard.getBottomState(), 3);
 		}
+
 		JumpTE newTe = this;
 		newTe.validate();
 		this.world.addTileEntity(newTe);
@@ -88,19 +86,23 @@ public class JumpTE extends TileEntity {
 	public void placeLayer(int number, JumpLayer layer) {
 		layerTypes.put(number, layer);
 		if (!layerColors.containsKey(number)) {
-			layerColors.put(number, 0);
+			this.resetColor(number);
 		}
-		for (int i = 1; i < 6; i++) {
-			BlockState placeState = i % 3 == 0 ?
-					layer.getMiddleState(this.layerColors.get(number)).with(JumpBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING))
-					: i % 2 == 0 ? layer.getBetweenState(this.layerColors.get(number)).with(JumpBlock.HORIZONTAL_FACING, i == 2 ? this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING) : this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).getOpposite())
-					: layer.getEndState(this.layerColors.get(number)).with(JumpBlock.HORIZONTAL_FACING, i == 1 ? this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING) : this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).getOpposite());
+		if (this.world != null) {
+			for (int i = 1; i < 6; i++) {
+				BlockState placeState = i % 3 == 0 ?
+						layer.getMiddleState(this.layerColors.get(number)).with(JumpBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING))
+						: i % 2 == 0 ? layer.getBetweenState(this.layerColors.get(number)).with(JumpBlock.HORIZONTAL_FACING, i == 2 ? this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING) : this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).getOpposite())
+						: layer.getEndState(this.layerColors.get(number)).with(JumpBlock.HORIZONTAL_FACING, i == 1 ? this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING) : this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).getOpposite());
 
-			Direction facing = i == 1 ? this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING) : this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).getOpposite();
-			this.world.setBlockState(layerPositions.get(number).get(i), placeState, 3);
-			SWEMPacketHandler.INSTANCE.sendToServer(new ChangeLayerBlockPacket(layerPositions.get(number).get(i), this.getPos(), layer, this.layerColors.get(number), facing, i % 3 == 0 ? "middle" : i % 2 == 0 ? "right" : "left"));
-			JumpPasserTE passer = (JumpPasserTE) this.getWorld().getTileEntity(layerPositions.get(number).get(i));
-			passer.setControllerPos(this.getPos());
+				//Direction facing = i == 1 ? this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING) : this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).getOpposite();
+				this.world.setBlockState(layerPositions.get(number).get(i), placeState, 1 | 2);
+				JumpPasserTE passer = SWEMTileEntities.JUMP_PASSER_TILE_ENTITY.get().create();
+				passer.setPos(this.layerPositions.get(number).get(i));
+				passer.setControllerPos(this.getPos());
+				this.world.addTileEntity(passer);
+			}
+
 		}
 
 	}
@@ -115,6 +117,10 @@ public class JumpTE extends TileEntity {
 			nextColor = 0;
 		}
 		layerColors.put(layerNumber, nextColor);
+	}
+
+	private void resetColor(int layerNumber) {
+		layerColors.put(layerNumber, 0);
 	}
 
 	public DyeColor getColorVariant(int layerNumber) {
@@ -174,7 +180,7 @@ public class JumpTE extends TileEntity {
 						}
 					}
 
-					//case BRUSH_BOX:
+					case BRUSH_BOX:
 					case FLOWER_BOX:
 					case COOP:
 					case ROLL_TOP:
@@ -267,7 +273,6 @@ public class JumpTE extends TileEntity {
 		if (layerNumber < 2 ) return;
 		for (int i = 0; i < 7; i++) {
 			this.world.setBlockState(this.layerPositions.get(layerNumber).get(i), Blocks.AIR.getDefaultState(), 3);
-			SWEMPacketHandler.INSTANCE.sendToServer(new ChangeLayerBlockPacket(layerPositions.get(layerNumber).get(i), this.getPos(), JumpLayer.AIR, 0, Direction.NORTH, "middle"));
 		}
 
 		if (layerTypes.containsKey(layerNumber)) {
@@ -288,43 +293,38 @@ public class JumpTE extends TileEntity {
 		ArrayList<BlockPos> positions = this.layerPositions.getOrDefault(layerNumber, new ArrayList<>());
 
 		for (int i = 0; i < 7; i++) {
-			BlockPos newPos = this.layerPositions.get(layerNumber - 1).get(i);
-			positions.add(newPos.add(0, 1, 0));
+
+			BlockPos newPos = this.layerPositions.get(layerNumber - 1).get(i).add(0, 1, 0);
+			positions.add(newPos);
+
 			if (i == 0 || i == 6) {
 				// Standards
 				Direction facing = i == 0 ? this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING) : this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY();
-				// Replace the lower standards to a middle piece.
+
+				// Replace the lower standards to a middle piece. If the 2nd layer is added, keep the bottom as the bottom piece.
 				if (layerNumber - 1 != 1) {
-					this.world.setBlockState(newPos, this.currentStandard.getMiddleState().with(JumpStandardBlock.HORIZONTAL_FACING, facing), 3);
-					SWEMPacketHandler.INSTANCE.sendToServer(new ChangeStandardPacket(newPos, this.getPos(), this.currentStandard, facing, "middle"));
 					this.world.removeTileEntity(newPos);
+					this.world.setBlockState(this.layerPositions.get(layerNumber - 1).get(i), this.currentStandard.getMiddleState().with(JumpStandardBlock.HORIZONTAL_FACING, facing), 1 | 2 );
 					JumpPasserTE passer = SWEMTileEntities.JUMP_PASSER_TILE_ENTITY.get().create();
 					passer.setPos(newPos);
 					this.world.addTileEntity(passer);
 					passer.setControllerPos(this.getPos());
 
-
-
-					this.world.setBlockState(positions.get(i), this.currentStandard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, facing), 3);
-					SWEMPacketHandler.INSTANCE.sendToServer(new ChangeStandardPacket(positions.get(i), this.getPos(), this.currentStandard, facing, "top"));
-					this.world.removeTileEntity(positions.get(i));
-					JumpPasserTE passer1 = SWEMTileEntities.JUMP_PASSER_TILE_ENTITY.get().create();
-					passer1.setPos(positions.get(i));
-					this.world.addTileEntity(passer1);
-					passer1.setControllerPos(this.getPos());
 				}
+				// Set the state at the new pos, to the top piece.
+				this.world.removeTileEntity(newPos);
+				this.world.setBlockState(newPos, this.currentStandard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, facing), 1 | 2 );
+				JumpPasserTE passer1 = SWEMTileEntities.JUMP_PASSER_TILE_ENTITY.get().create();
+				passer1.setPos(newPos);
+				this.world.addTileEntity(passer1);
+				passer1.setControllerPos(this.getPos());
 
-			} else {
-				this.world.setBlockState(positions.get(i), JumpLayer.NONE.getMiddleState(0), 3);
-				SWEMPacketHandler.INSTANCE.sendToServer(new ChangeLayerBlockPacket(positions.get(i), this.getPos(), JumpLayer.NONE, 0, Direction.NORTH, "middle"));
-				JumpPasserTE passer = (JumpPasserTE) this.world.getTileEntity(positions.get(i));
-				passer.setControllerPos(this.getPos());
+
 			}
-
-
 		}
 
 		layerPositions.put(layerNumber, positions);
+		this.placeLayer(layerNumber, JumpLayer.NONE);
 		this.layerAmount++;
 	}
 
@@ -334,7 +334,6 @@ public class JumpTE extends TileEntity {
 		for (ArrayList<BlockPos> positions : this.layerPositions.values()) {
 			for (BlockPos pos : positions) {
 				this.world.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
-				SWEMPacketHandler.INSTANCE.sendToServer(new ChangeLayerBlockPacket(pos, this.getPos(), JumpLayer.AIR, 0, Direction.NORTH, "middle"));
 			}
 		}
 
@@ -365,6 +364,14 @@ public class JumpTE extends TileEntity {
 
 		compound.put("layerTypes", layerTypes);
 
+		CompoundNBT layerColors = new CompoundNBT();
+		this.layerColors.forEach((layerNumber, colorId) -> {
+			layerColors.putInt(Integer.toString(layerNumber), colorId);
+		});
+
+		compound.put("layerColors", layerColors);
+
+
 		compound.putInt("layerAmount", layerAmount);
 
 		compound.putString("standard", this.currentStandard != null ? this.currentStandard.name() : StandardLayer.SCHOOLING.name());
@@ -380,10 +387,10 @@ public class JumpTE extends TileEntity {
 
 		if (nbt.contains("layerPositions")) {
 			Map<Integer, ArrayList<BlockPos>> layerPos = new HashMap<>();
-			CompoundNBT positions = (CompoundNBT) nbt.get("layerPositions");
+			CompoundNBT positions = nbt.getCompound("layerPositions");
 
 			for (int i = 1; i <= layerAmount; i++) {
-				CompoundNBT layer = (CompoundNBT) positions.get(Integer.toString(i));
+				CompoundNBT layer = positions.getCompound(Integer.toString(i));
 				ArrayList<BlockPos> blockPositions = new ArrayList<>();
 				for (int j = 0; j < 7; j++) {
 					int[] posCords = layer.getIntArray(Integer.toString(j));
@@ -394,8 +401,15 @@ public class JumpTE extends TileEntity {
 			this.assignJumpBlocks(layerPos);
 		}
 
+		if (nbt.contains("layerColors")) {
+			CompoundNBT layerColors = nbt.getCompound("layerColors");
+			for (int i = 1; i <= layerAmount; i++) {
+				this.layerColors.put(i, layerColors.getInt(Integer.toString(i)));
+			}
+		}
+
 		if (nbt.contains("layerTypes")) {
-			CompoundNBT layerTypes = (CompoundNBT) nbt.get("layerTypes");
+			CompoundNBT layerTypes = nbt.getCompound("layerTypes");
 			for (int i = 1; i <= layerAmount; i++) {
 				String jumpName = layerTypes.getString(Integer.toString(i));
 				if (!jumpName.isEmpty()) {
