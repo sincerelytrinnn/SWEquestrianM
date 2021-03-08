@@ -60,6 +60,11 @@ public class LockerContainer extends Container {
 		}
 	}
 
+	@Override
+	public boolean canInteractWith(PlayerEntity playerIn) {
+		return isWithinUsableDistance(canInteractWithCallable, playerIn, SWEMBlocks.LOCKER.get());
+	}
+
 	private static LockerTE getTileEntity(final PlayerInventory inventory, final PacketBuffer data) {
 		Objects.requireNonNull(inventory, "Inventory cannot be null");
 		Objects.requireNonNull(data, "Packet Data cannot be null");
@@ -94,10 +99,5 @@ public class LockerContainer extends Container {
 		}
 
 		return itemstack;
-	}
-
-	@Override
-	public boolean canInteractWith(PlayerEntity playerIn) {
-		return canInteractWithCallable.applyOrElse((p_216960_2_, p_216960_3_) -> playerIn.getDistanceSq((double)p_216960_3_.getX() + 0.5D, (double)p_216960_3_.getY() + 0.5D, (double)p_216960_3_.getZ() + 0.5D) <= 64.0D, true);
 	}
 }
