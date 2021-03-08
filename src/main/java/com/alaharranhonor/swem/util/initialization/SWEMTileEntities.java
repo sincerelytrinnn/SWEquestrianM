@@ -31,6 +31,7 @@ public class SWEMTileEntities {
 	public static final RegistryObject<TileEntityType<CantazariteAnvilTE>> CANTAZARITE_ANVIL_TILE_ENTITY = TILE_ENTITY_TYPES.register("cantazarite_anvil", () -> TileEntityType.Builder.create(CantazariteAnvilTE::new, SWEMBlocks.CANTAZARITE_ANVIL.get()).build(null));
 	public static final RegistryObject<TileEntityType<JumpTE>> JUMP_TILE_ENTITY = TILE_ENTITY_TYPES.register("jump_tile_entity", () -> TileEntityType.Builder.create(JumpTE::new, SWEMBlocks.JUMP_STANDARD_SCHOOLING.get(), SWEMBlocks.JUMP_STANDARD_RADIAL.get(), SWEMBlocks.JUMP_STANDARD_VERTICAL_SLAT.get(), SWEMBlocks.JUMP_STANDARD_NONE.get()).build(null));
 	public static final RegistryObject<TileEntityType<JumpPasserTE>> JUMP_PASSER_TILE_ENTITY = TILE_ENTITY_TYPES.register("jump_passer_tile_entity", () -> TileEntityType.Builder.create(JumpPasserTE::new, getAllJumpBlocks()).build(null));
+	public static final RegistryObject<TileEntityType<LockerTE>> LOCKER_TILE_ENTITY = TILE_ENTITY_TYPES.register("locker", () -> TileEntityType.Builder.create(LockerTE::new, SWEMBlocks.LOCKER.get()).build(null));
 
 
 

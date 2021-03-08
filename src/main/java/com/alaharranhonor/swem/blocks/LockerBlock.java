@@ -1,19 +1,14 @@
 package com.alaharranhonor.swem.blocks;
 
-import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.network.SWEMPacketHandler;
-import com.alaharranhonor.swem.network.SyncEntityIdToClient;
-import com.alaharranhonor.swem.tileentity.TackBoxTE;
+import com.alaharranhonor.swem.tileentity.LockerTE;
 import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
 import net.minecraft.block.*;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.container.ChestContainer;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -23,22 +18,19 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
-import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
 
-public class TackBoxBlock extends HorizontalBlock {
-	public TackBoxBlock(Properties properties) {
+public class LockerBlock extends HorizontalBlock {
+	public LockerBlock(AbstractBlock.Properties properties) {
 		super(properties);
 		this.setDefaultState(
 				this.stateContainer.getBaseState()
 						.with(HORIZONTAL_FACING, Direction.NORTH)
-						.with(SWEMBlockStateProperties.D_SIDE, SWEMBlockStateProperties.DoubleBlockSide.LEFT)
 		);
 	}
 
@@ -69,38 +61,60 @@ public class TackBoxBlock extends HorizontalBlock {
 	@Nullable
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return SWEMTileEntities.TACK_BOX_TILE_ENTITY.get().create();
+		return SWEMTileEntities.LOCKER_TILE_ENTITY.get().create();
 	}
 
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if (!worldIn.isRemote) {
 			TileEntity tile = worldIn.getTileEntity(pos);
-			if (tile instanceof TackBoxTE) {
-				UUID uuid = tile.getTileData().getUniqueId("horseUUID");
-				int entityID = ((ServerWorld)worldIn).getEntityByUuid(uuid).getEntityId();
-				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new SyncEntityIdToClient(entityID, tile.getPos().getX(), tile.getPos().getY(), tile.getPos().getZ()));
-				NetworkHooks.openGui((ServerPlayerEntity) player, (TackBoxTE) tile, (buffer) -> {
+			if (tile instanceof LockerTE) {
+
+				boolean leftHit = this.determineHitVec(hit.getHitVec(), state, pos);
+
+				LockerTE locker = (LockerTE) tile;
+				locker.setLeftSideOpened(leftHit);
+
+				NetworkHooks.openGui((ServerPlayerEntity) player, (LockerTE) tile, (buffer) -> {
 					buffer.writeBlockPos(pos);
+					buffer.writeBoolean(leftHit);
 				});
 
+				return ActionResultType.CONSUME;
 			}
 		}
 		return ActionResultType.FAIL;
+	}
+
+
+	private boolean determineHitVec(Vector3d hitVec, BlockState state, BlockPos pos) {
+
+		switch (state.get(HORIZONTAL_FACING)) {
+			case EAST: {
+				return !(hitVec.z > pos.getZ() + 0.5);
+			}
+			case WEST: {
+				return !(hitVec.z < pos.getZ() + 0.5);
+			}
+			case NORTH: {
+				return !(hitVec.x > pos.getX() + 0.5);
+			}
+			case SOUTH: {
+				return !(hitVec.x < pos.getX() + 0.5);
+			}
+			default: {
+				return true;
+			}
+		}
 	}
 
 	@Override
 	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.getBlock() != newState.getBlock()) {
 			TileEntity te = worldIn.getTileEntity(pos);
-			if (te instanceof TackBoxTE) {
-				InventoryHelper.dropItems(worldIn, pos, ((TackBoxTE)te).getItems());
+			if (te instanceof LockerTE) {
+				InventoryHelper.dropItems(worldIn, pos, ((LockerTE)te).getItems());
 
-			}
-			if (state.get(SWEMBlockStateProperties.D_SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
-					worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateY().rotateY()), Blocks.AIR.getDefaultState());
-			} else {
-				worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateYCCW().rotateYCCW()), Blocks.AIR.getDefaultState());
 			}
 		}
 	}
@@ -110,56 +124,15 @@ public class TackBoxBlock extends HorizontalBlock {
 		return VoxelShapes.create(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
 	}
 
-	/**
-	 * Called by ItemBlocks after a block is set in the world, to allow post-place logic
-	 *
-	 * @param worldIn
-	 * @param pos
-	 * @param state
-	 * @param placer
-	 * @param stack
-	 */
-	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		if (!worldIn.isRemote) {
-			if (stack.hasTag()) {
-				UUID id = stack.getTag().getUniqueId("horseUUID");
-				TileEntity tile = worldIn.getTileEntity(pos);
-				if (tile instanceof TackBoxTE) {
-					tile.getTileData().putUniqueId("horseUUID", id);
-				}
-			}
-		}
-
-		Direction newFacing = placer.getHorizontalFacing().rotateY();
-
-		worldIn.setBlockState(pos.offset(newFacing), state.with(SWEMBlockStateProperties.D_SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT));
-
-		if (!worldIn.isRemote) {
-			if (stack.hasTag()) {
-				UUID id = stack.getTag().getUniqueId("horseUUID");
-				TileEntity tile = worldIn.getTileEntity(pos.offset(newFacing));
-				if (tile instanceof TackBoxTE) {
-					tile.getTileData().putUniqueId("horseUUID", id);
-				}
-			}
-		}
-
-	}
-
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing().rotateYCCW());
+		return this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
 	}
 
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HORIZONTAL_FACING, SWEMBlockStateProperties.D_SIDE);
+		builder.add(HORIZONTAL_FACING);
 	}
 
-	@Override
-	public BlockRenderType getRenderType(BlockState state) {
-		return BlockRenderType.ENTITYBLOCK_ANIMATED;
-	}
 }

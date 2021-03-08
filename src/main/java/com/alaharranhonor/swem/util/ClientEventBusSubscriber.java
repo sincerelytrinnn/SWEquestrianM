@@ -58,6 +58,7 @@ public class ClientEventBusSubscriber {
         ScreenManager.registerFactory(SWEMContainers.CANTAZARITE_ANVIL_CONTAINER.get(), CantazariteAnvilScreen::new);
         ScreenManager.registerFactory(SWEMContainers.SADDLE_BAG_CONTAINER.get(), SaddlebagScreen::new);
         ScreenManager.registerFactory(SWEMContainers.BED_ROLL_CONTAINER.get(), BedrollScreen::new);
+        ScreenManager.registerFactory(SWEMContainers.LOCKER_CONTAINER.get(), LockerScreen::new);
 
         ItemModelsProperties.registerProperty(SWEMItems.AMETHYST_BOW.get(), new ResourceLocation("pull"), (p_239429_0_, p_239429_1_, p_239429_2_) -> {
             if (p_239429_2_ == null) {

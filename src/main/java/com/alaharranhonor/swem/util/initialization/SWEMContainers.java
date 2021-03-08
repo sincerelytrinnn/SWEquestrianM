@@ -36,4 +36,8 @@ public class SWEMContainers {
 	public static final RegistryObject<ContainerType<BedrollContainer>> BED_ROLL_CONTAINER = CONTAINER_TYPES.register("bedroll",
 			() -> IForgeContainerType.create(BedrollContainer::new)
 	);
+
+	public static final RegistryObject<ContainerType<LockerContainer>> LOCKER_CONTAINER = CONTAINER_TYPES.register("locker",
+			() -> IForgeContainerType.create(LockerContainer::new)
+	);
 }
