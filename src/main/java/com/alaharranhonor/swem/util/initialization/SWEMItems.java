@@ -107,6 +107,7 @@ public class SWEMItems {
 	public static final RegistryObject<SWEMHorseArmorItem> AMETHYST_HORSE_ARMOR = ITEMS.register("amethyst_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.AMETHYST, 5, "amethyst", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<SaddlebagItem> SADDLEBAG = ITEMS.register("saddlebag", () -> new SaddlebagItem("saddlebags"));
 	public static final RegistryObject<MeasurementTool> MEASUREMENT_TAPE = ITEMS.register("measurement_tape", MeasurementTool::new);
+	public static final RegistryObject<PoopItem> POOP = ITEMS.register("poop", PoopItem::new);
 
 
 
