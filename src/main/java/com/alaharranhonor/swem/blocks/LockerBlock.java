@@ -121,7 +121,24 @@ public class LockerBlock extends HorizontalBlock {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return VoxelShapes.create(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
+		switch (state.get(HORIZONTAL_FACING)) {
+			case NORTH: {
+				return VoxelShapes.create(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.5d);
+			}
+			case EAST: {
+				return VoxelShapes.create(0.5d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
+			}
+			case SOUTH: {
+				return VoxelShapes.create(0.01d, 0.01d, 0.5d, 0.99d, 0.99d, 0.99d);
+			}
+			case WEST: {
+				return VoxelShapes.create(0.01d, 0.01d, 0.01d, 0.5d, 0.99d, 0.99d);
+			}
+			default: {
+				return VoxelShapes.create(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
+			}
+		}
+
 	}
 
 	@Nullable
