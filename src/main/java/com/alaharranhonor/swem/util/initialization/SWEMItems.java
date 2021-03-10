@@ -108,6 +108,7 @@ public class SWEMItems {
 	public static final RegistryObject<SaddlebagItem> SADDLEBAG = ITEMS.register("saddlebag", () -> new SaddlebagItem("saddlebags"));
 	public static final RegistryObject<MeasurementTool> MEASUREMENT_TAPE = ITEMS.register("measurement_tape", MeasurementTool::new);
 	public static final RegistryObject<PoopItem> POOP = ITEMS.register("poop", PoopItem::new);
+	public static final RegistryObject<TrackerItem> TRACKER = ITEMS.register("tracker", TrackerItem::new);
 
 
 
