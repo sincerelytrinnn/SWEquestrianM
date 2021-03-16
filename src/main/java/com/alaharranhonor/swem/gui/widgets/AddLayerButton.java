@@ -20,8 +20,8 @@ public class AddLayerButton extends Button {
 		public void onPress(Button p_onPress_1_) {
 			AddLayerButton btn = (AddLayerButton) p_onPress_1_;
 			int newLayerAmount = btn.screen.jumpController.getLayerAmount() + 1;
-			SWEMPacketHandler.INSTANCE.sendToServer(new JumpControllerUpdatePacket(btn.screen.jumpController.getPos(), 1, newLayerAmount));
 			btn.screen.jumpController.addLayer(newLayerAmount);
+			SWEMPacketHandler.INSTANCE.sendToServer(new JumpControllerUpdatePacket(btn.screen.jumpController.getPos(), 1, newLayerAmount));
 			btn.screen.removeAllButtons();
 			if (btn.screen.jumpController.getLayerAmount() == 5) {
 				btn.active = false;

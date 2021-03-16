@@ -4,10 +4,13 @@ import com.alaharranhonor.swem.blocks.jumps.JumpLayer;
 import com.alaharranhonor.swem.blocks.jumps.JumpStandardBlock;
 import com.alaharranhonor.swem.blocks.jumps.StandardLayer;
 import com.alaharranhonor.swem.items.ItemBase;
+import com.alaharranhonor.swem.network.OpenGuiPacket;
+import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.proxy.ClientProxy;
 import com.alaharranhonor.swem.tileentity.JumpPasserTE;
 import com.alaharranhonor.swem.tileentity.JumpTE;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
@@ -18,6 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -32,18 +36,21 @@ public class MeasurementTool extends ItemBase {
 		TileEntity te = context.getWorld().getTileEntity(context.getPos());
 		if (te != null) {
 			if (te instanceof JumpPasserTE) {
-				if (context.getWorld().isRemote) {
+				if (!context.getWorld().isRemote) {
 					JumpPasserTE jumpPasser = (JumpPasserTE) te;
 					if (jumpPasser.getControllerPos() != null ) {
 						JumpTE controller = (JumpTE) context.getWorld().getTileEntity(jumpPasser.getControllerPos());
-						DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientProxy.openJumpBuilder(controller));
+						SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) context.getPlayer()), new OpenGuiPacket(controller.getPos()));
+
 					}
 				}
 
 			}
 			if (te instanceof JumpTE) {
-				JumpTE jumpController = (JumpTE) te;
-				DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientProxy.openJumpBuilder(jumpController));
+				if (!context.getWorld().isRemote) {
+					JumpTE jumpController = (JumpTE) te;
+					SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) context.getPlayer()), new OpenGuiPacket(jumpController.getPos()));
+				}
 			}
 			return ActionResultType.CONSUME;
 		}
@@ -91,11 +98,13 @@ public class MeasurementTool extends ItemBase {
 
 
 
-			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientProxy.openJumpBuilder(jumpController));
+			if (!context.getWorld().isRemote) {
+				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) context.getPlayer()), new OpenGuiPacket(jumpController.getPos()));
+			}
 
 
 
-			stack.setTag(nbt);
+			stack.setTag(new CompoundNBT());
 
 			return ActionResultType.CONSUME;
 		} else {

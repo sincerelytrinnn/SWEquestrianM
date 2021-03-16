@@ -27,5 +27,6 @@ public class SWEMPacketHandler {
 		INSTANCE.registerMessage(10, ChangeLayerBlockPacket.class, ChangeLayerBlockPacket::encode, ChangeLayerBlockPacket::decode, ChangeLayerBlockPacket::handle);
 		INSTANCE.registerMessage(11, ChangeStandardPacket.class, ChangeStandardPacket::encode, ChangeStandardPacket::decode, ChangeStandardPacket::handle);
 		INSTANCE.registerMessage(12, JumpControllerUpdatePacket.class, JumpControllerUpdatePacket::encode, JumpControllerUpdatePacket::decode, JumpControllerUpdatePacket::handle);
+		INSTANCE.registerMessage(13, OpenGuiPacket.class, OpenGuiPacket::encode, OpenGuiPacket::decode, OpenGuiPacket::handle);
 	}
 }
