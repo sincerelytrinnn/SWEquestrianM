@@ -3,14 +3,16 @@ package com.alaharranhonor.swem.tools;
 import com.alaharranhonor.swem.blocks.jumps.JumpLayer;
 import com.alaharranhonor.swem.blocks.jumps.JumpStandardBlock;
 import com.alaharranhonor.swem.blocks.jumps.StandardLayer;
+import com.alaharranhonor.swem.container.JumpContainer;
 import com.alaharranhonor.swem.items.ItemBase;
-import com.alaharranhonor.swem.network.OpenGuiPacket;
-import com.alaharranhonor.swem.network.SWEMPacketHandler;
-import com.alaharranhonor.swem.proxy.ClientProxy;
 import com.alaharranhonor.swem.tileentity.JumpPasserTE;
 import com.alaharranhonor.swem.tileentity.JumpTE;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
@@ -18,10 +20,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -33,24 +34,53 @@ public class MeasurementTool extends ItemBase {
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
 
+		if (context.getWorld().isRemote) return ActionResultType.PASS;
+
 		TileEntity te = context.getWorld().getTileEntity(context.getPos());
 		if (te != null) {
 			if (te instanceof JumpPasserTE) {
-				if (!context.getWorld().isRemote) {
-					JumpPasserTE jumpPasser = (JumpPasserTE) te;
-					if (jumpPasser.getControllerPos() != null ) {
-						JumpTE controller = (JumpTE) context.getWorld().getTileEntity(jumpPasser.getControllerPos());
-						SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) context.getPlayer()), new OpenGuiPacket(controller.getPos()));
+				JumpPasserTE jumpPasser = (JumpPasserTE) te;
+				if (jumpPasser.getControllerPos() != null ) {
+					JumpTE controller = (JumpTE) context.getWorld().getTileEntity(jumpPasser.getControllerPos());
+					INamedContainerProvider provider = new INamedContainerProvider() {
+						@Override
+						public ITextComponent getDisplayName() {
+							return new TranslationTextComponent("screen.swem.jump_builder");
+						}
 
-					}
+						@Nullable
+						@Override
+						public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
+							return new JumpContainer(p_createMenu_1_, p_createMenu_2_, controller);
+						}
+					};
+					NetworkHooks.openGui((ServerPlayerEntity) context.getPlayer(), provider, buffer ->
+							buffer
+									.writeBlockPos(controller.getPos())
+					);
+					//SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) context.getPlayer()), new OpenGuiPacket(controller.getPos(), controller.getLayerAmount(), controller.getCurrentStandard()));
+
 				}
-
 			}
 			if (te instanceof JumpTE) {
-				if (!context.getWorld().isRemote) {
-					JumpTE jumpController = (JumpTE) te;
-					SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) context.getPlayer()), new OpenGuiPacket(jumpController.getPos()));
-				}
+				JumpTE jumpController = (JumpTE) te;
+				INamedContainerProvider provider = new INamedContainerProvider() {
+					@Override
+					public ITextComponent getDisplayName() {
+						return new TranslationTextComponent("screen.swem.jump_builder");
+					}
+
+					@Nullable
+					@Override
+					public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
+						return new JumpContainer(p_createMenu_1_, p_createMenu_2_, jumpController);
+					}
+				};
+				NetworkHooks.openGui((ServerPlayerEntity) context.getPlayer(), provider, buffer ->
+						buffer
+								.writeBlockPos(jumpController.getPos())
+				);
+				//SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) context.getPlayer()), new OpenGuiPacket(jumpController.getPos(), jumpController.getLayerAmount(), jumpController.getCurrentStandard()));
 			}
 			return ActionResultType.CONSUME;
 		}
@@ -84,7 +114,9 @@ public class MeasurementTool extends ItemBase {
 			Map<Integer, ArrayList<BlockPos>> layers = this.rearrangeLayers(lowestYValue, blockPositions);
 
 
-			Direction facing = context.getPlacementHorizontalFacing().getAxis() == Direction.Axis.Z ? Direction.SOUTH : Direction.EAST;
+			// Should default to either the player facing north/east
+
+			Direction facing = context.getPlacementHorizontalFacing().getAxis() == Direction.Axis.Z ? Direction.SOUTH : Direction.WEST;
 
 			System.out.println(facing);
 			context.getWorld().setBlockState(layers.get(1).get(0), SWEMBlocks.JUMP_STANDARD_SCHOOLING.get().getDefaultState().with(JumpStandardBlock.HORIZONTAL_FACING, facing));
@@ -97,10 +129,24 @@ public class MeasurementTool extends ItemBase {
 
 
 
+			INamedContainerProvider provider = new INamedContainerProvider() {
+				@Override
+				public ITextComponent getDisplayName() {
+					return new TranslationTextComponent("screen.swem.jump_builder");
+				}
 
-			if (!context.getWorld().isRemote) {
-				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) context.getPlayer()), new OpenGuiPacket(jumpController.getPos()));
-			}
+				@Nullable
+				@Override
+				public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
+					return new JumpContainer(p_createMenu_1_, p_createMenu_2_, jumpController);
+				}
+			};
+			NetworkHooks.openGui((ServerPlayerEntity) context.getPlayer(), provider, buffer ->
+					buffer
+							.writeBlockPos(jumpController.getPos())
+			);
+
+			//SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) context.getPlayer()), new OpenGuiPacket(jumpController.getPos(), jumpController.getLayerAmount(), jumpController.getCurrentStandard()));
 
 
 

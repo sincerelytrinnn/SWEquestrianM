@@ -1,17 +1,12 @@
 package com.alaharranhonor.swem.network.jumps;
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.blocks.jumps.JumpLayer;
 import com.alaharranhonor.swem.container.JumpContainer;
-import com.alaharranhonor.swem.network.ChangeLayerBlockPacket;
-import com.alaharranhonor.swem.tileentity.JumpTE;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;

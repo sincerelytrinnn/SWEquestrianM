@@ -40,4 +40,8 @@ public class SWEMContainers {
 	public static final RegistryObject<ContainerType<LockerContainer>> LOCKER_CONTAINER = CONTAINER_TYPES.register("locker",
 			() -> IForgeContainerType.create(LockerContainer::new)
 	);
+
+	public static final RegistryObject<ContainerType<JumpContainer>> JUMP_CONTAINER = CONTAINER_TYPES.register("jump_container",
+			() -> IForgeContainerType.create(JumpContainer::new)
+	);
 }

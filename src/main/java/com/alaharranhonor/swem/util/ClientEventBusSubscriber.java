@@ -7,7 +7,10 @@ import com.alaharranhonor.swem.gui.*;
 import com.alaharranhonor.swem.items.SWEMSpawnEggItem;
 import com.alaharranhonor.swem.util.initialization.*;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.particle.HeartParticle;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
@@ -16,6 +19,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemModelsProperties;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.Color;
 import net.minecraft.world.FoliageColors;
@@ -25,6 +29,7 @@ import net.minecraft.world.biome.BiomeRegistry;
 import net.minecraft.world.biome.Biomes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
@@ -59,6 +64,7 @@ public class ClientEventBusSubscriber {
         ScreenManager.registerFactory(SWEMContainers.SADDLE_BAG_CONTAINER.get(), SaddlebagScreen::new);
         ScreenManager.registerFactory(SWEMContainers.BED_ROLL_CONTAINER.get(), BedrollScreen::new);
         ScreenManager.registerFactory(SWEMContainers.LOCKER_CONTAINER.get(), LockerScreen::new);
+        ScreenManager.registerFactory(SWEMContainers.JUMP_CONTAINER.get(), JumpScreen::new);
 
         ItemModelsProperties.registerProperty(SWEMItems.AMETHYST_BOW.get(), new ResourceLocation("pull"), (p_239429_0_, p_239429_1_, p_239429_2_) -> {
             if (p_239429_2_ == null) {
@@ -187,6 +193,8 @@ public class ClientEventBusSubscriber {
     public static void onRegisterEntities(RegistryEvent.Register<EntityType<?>> event) {
         SWEMSpawnEggItem.initSpawnEggs();
     }
+
+
 
     @SubscribeEvent
     public static void onRegisterItems(RegistryEvent.Register<Item> event) {
