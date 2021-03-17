@@ -88,12 +88,12 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		HealthLeveling healthLeveling = this.horseEntity.progressionManager.getHealthLeveling();
 
 		// Top Text
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Tack"), 15, 6, 4210752);
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent("Stats"), 65, 6,4210752);
+		this.font.drawText(matrixStack, new TranslationTextComponent("Tack"), 15, 6, 4210752);
+		this.font.drawText(matrixStack, new TranslationTextComponent("Stats"), 65, 6,4210752);
 
 		// Owner name.
 		// this.horseEntity.getOwnerDisplayName().getString() produces NullPointerException
-		this.font.func_243248_b(matrixStack, new StringTextComponent(SWEMUtil.checkTextOverflow("NULLPOINTEREXCEPTION", 22)), 65.2f, 36.0f, 4210752);
+		this.font.drawText(matrixStack, new StringTextComponent(SWEMUtil.checkTextOverflow("NULLPOINTEREXCEPTION", 22)), 65.2f, 36.0f, 4210752);
 		// Jump TEXT
 		TranslationTextComponent jumpInfo;
 		if (jumpLeveling.getLevel() != jumpLeveling.getMaxLevel()) {
@@ -101,7 +101,7 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		} else {
 			jumpInfo = new TranslationTextComponent(String.format("%s", jumpLeveling.getLevelName()));
 		}
-		this.font.func_243248_b(matrixStack, jumpInfo, 65.0f, 49.0f, 4210752);
+		this.font.drawText(matrixStack, jumpInfo, 65.0f, 49.0f, 4210752);
 
 		// Speed TEXT
 		TranslationTextComponent speedInfo;
@@ -110,10 +110,10 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		} else {
 			speedInfo = new TranslationTextComponent(String.format("%s", speedLeveling.getLevelName()));
 		}
-		this.font.func_243248_b(matrixStack, speedInfo, 65.0f, 64.0f, 4210752);
+		this.font.drawText(matrixStack, speedInfo, 65.0f, 64.0f, 4210752);
 
 		// Health TEXT
-		this.font.func_243248_b(matrixStack, new TranslationTextComponent(String.format("%s: %.1f/%.0f", healthLeveling.getLevelName(), this.horseEntity.getHealth(), this.horseEntity.getMaxHealth())), 65.0f, 78.0f, 4210752);
+		this.font.drawText(matrixStack, new TranslationTextComponent(String.format("%s: %.1f/%.0f", healthLeveling.getLevelName(), this.horseEntity.getHealth(), this.horseEntity.getMaxHealth())), 65.0f, 78.0f, 4210752);
 
 		// Affinity TEXT
 		TranslationTextComponent affinityInfo;
@@ -122,7 +122,7 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		} else {
 			affinityInfo = new TranslationTextComponent(String.format("%s", affinityLeveling.getLevelName()));
 		}
-		this.font.func_243248_b(matrixStack, affinityInfo, 65.0f, 92.0f, 4210752);
+		this.font.drawText(matrixStack, affinityInfo, 65.0f, 92.0f, 4210752);
 
 
 		// Overlay, for Tracker.

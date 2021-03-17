@@ -1338,7 +1338,8 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 
 	// Item interaction with horse.
-	public ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {
+	@Override
+	public ActionResultType getEntityInteractionResult(PlayerEntity p_230254_1_, Hand p_230254_2_) {
 		ItemStack itemstack = p_230254_1_.getHeldItem(p_230254_2_);
 		if (!this.isChild()) {
 			if (this.isTame() && p_230254_1_.isSecondaryUseActive()) {
@@ -1347,7 +1348,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 			}
 
 			if (this.isBeingRidden()) {
-				return super.func_230254_b_(p_230254_1_, p_230254_2_);
+				return super.getEntityInteractionResult(p_230254_1_, p_230254_2_);
 			}
 		}
 
@@ -1411,7 +1412,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		}
 
 		if (this.isChild()) {
-			return super.func_230254_b_(p_230254_1_, p_230254_2_);
+			return super.getEntityInteractionResult(p_230254_1_, p_230254_2_);
 		} else {
 			this.mountTo(p_230254_1_);
 			return ActionResultType.func_233537_a_(this.world.isRemote);

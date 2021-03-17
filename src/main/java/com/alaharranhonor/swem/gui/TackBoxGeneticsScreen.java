@@ -49,7 +49,7 @@ public class TackBoxGeneticsScreen extends Screen {
 		int i = (this.width - 247) / 2;
 		int j = (this.height - 207) / 2;
 		this.blit(matrixStack, i, j, 0, 0, 247, 207);
-		this.font.func_243248_b(matrixStack, this.title, (float) this.guiLeft + 13, (float)this.guiTop + 30, 4210752);
+		this.font.drawText(matrixStack, this.title, (float) this.guiLeft + 13, (float)this.guiTop + 30, 4210752);
 	}
 
 	@Override

@@ -49,7 +49,7 @@ public class WormieBoiEntity extends SheepEntity implements IAnimatable {
 
 	@Nullable
 	@Override
-	public SheepEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_)
+	public SheepEntity createChild(ServerWorld p_241840_1_, AgeableEntity p_241840_2_)
 	{
 
 		return SWEMEntities.WORMIE_BOI_ENTITY.get().create(this.world);

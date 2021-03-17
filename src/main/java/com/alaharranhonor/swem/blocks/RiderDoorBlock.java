@@ -117,8 +117,8 @@ public class RiderDoorBlock extends Block{
 		BlockPos blockpos5 = blockpos1.offset(direction2);
 		BlockState blockstate3 = iblockreader.getBlockState(blockpos5);
 		int i = (blockstate.hasOpaqueCollisionShape(iblockreader, blockpos2) ? -1 : 0) + (blockstate1.hasOpaqueCollisionShape(iblockreader, blockpos3) ? -1 : 0) + (blockstate2.hasOpaqueCollisionShape(iblockreader, blockpos4) ? 1 : 0) + (blockstate3.hasOpaqueCollisionShape(iblockreader, blockpos5) ? 1 : 0);
-		boolean flag = blockstate.isIn(this) && blockstate.get(HALF) == DoubleBlockHalf.LOWER;
-		boolean flag1 = blockstate2.isIn(this) && blockstate2.get(HALF) == DoubleBlockHalf.LOWER;
+		boolean flag = blockstate.matchesBlock(this) && blockstate.get(HALF) == DoubleBlockHalf.LOWER;
+		boolean flag1 = blockstate2.matchesBlock(this) && blockstate2.get(HALF) == DoubleBlockHalf.LOWER;
 		if ((!flag || flag1) && i <= 0) {
 			if ((!flag1 || flag) && i >= 0) {
 				int j = direction.getXOffset();
@@ -141,7 +141,7 @@ public class RiderDoorBlock extends Block{
 	}
 
 	public void openDoor(World worldIn, BlockState state, BlockPos pos, boolean open) {
-		if (state.isIn(this) && state.get(OPEN) != open) {
+		if (state.matchesBlock(this) && state.get(OPEN) != open) {
 			worldIn.setBlockState(pos, state.with(OPEN, Boolean.valueOf(open)), 10);
 			this.playSound(worldIn, pos, open);
 		}

@@ -160,6 +160,6 @@ public class RopeKnotEntity extends HangingEntity {
 
 	@OnlyIn(Dist.CLIENT)
 	public Vector3d getLeashPosition(float partialTicks) {
-		return this.func_242282_l(partialTicks).add(0.0D, 0.2D, 0.0D);
+		return this.getLeashHandPosition(partialTicks).add(0.0D, 0.2D, 0.0D);
 	}
 }

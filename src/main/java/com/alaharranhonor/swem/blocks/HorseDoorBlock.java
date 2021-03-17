@@ -234,8 +234,8 @@ public class HorseDoorBlock extends Block{
 		BlockPos blockpos5 = blockpos1.offset(direction2);
 		BlockState blockstate3 = iblockreader.getBlockState(blockpos5);
 		int i = (blockstate.hasOpaqueCollisionShape(iblockreader, blockpos2) ? -1 : 0) + (blockstate1.hasOpaqueCollisionShape(iblockreader, blockpos3) ? -1 : 0) + (blockstate2.hasOpaqueCollisionShape(iblockreader, blockpos4) ? 1 : 0) + (blockstate3.hasOpaqueCollisionShape(iblockreader, blockpos5) ? 1 : 0);
-		boolean flag = blockstate.isIn(this) && blockstate.get(HALF) == DoubleBlockHalf.LOWER;
-		boolean flag1 = blockstate2.isIn(this) && blockstate2.get(HALF) == DoubleBlockHalf.LOWER;
+		boolean flag = blockstate.matchesBlock(this) && blockstate.get(HALF) == DoubleBlockHalf.LOWER;
+		boolean flag1 = blockstate2.matchesBlock(this) && blockstate2.get(HALF) == DoubleBlockHalf.LOWER;
 		if ((!flag || flag1) && i <= 0) {
 			if ((!flag1 || flag) && i >= 0) {
 				int j = direction.getXOffset();
@@ -281,7 +281,7 @@ public class HorseDoorBlock extends Block{
 			}
 			boolean shouldOpen = openPositions.stream().allMatch((pos1) -> worldIn.getBlockState(pos1) == Blocks.AIR.getDefaultState());
 			if (shouldOpen) {
-				state = state.func_235896_a_(OPEN);
+				state = state.cycleValue(OPEN);
 				boolean open = state.get(OPEN);
 				ArrayList<BlockState> states = new ArrayList<>();
 				ArrayList<BlockPos> positions = this.getAllDoorParts(state, pos, worldIn, open);
@@ -389,7 +389,7 @@ public class HorseDoorBlock extends Block{
 	};
 
 	public void openDoor(World worldIn, BlockState state, BlockPos pos, boolean open) {
-		if (state.isIn(this)) {
+		if (state.matchesBlock(this)) {
 			if (state.get(HINGE).toString().equals(state.get(SIDE).toString())) {
 				// Open normally
 				worldIn.setBlockState(pos, state.with(OPEN, open), 10);
@@ -576,7 +576,7 @@ public class HorseDoorBlock extends Block{
 
 
 	public BlockState mirror(BlockState state, Mirror mirrorIn) {
-		return mirrorIn == Mirror.NONE ? state : state.rotate(mirrorIn.toRotation(state.get(FACING))).func_235896_a_(HINGE);
+		return mirrorIn == Mirror.NONE ? state : state.rotate(mirrorIn.toRotation(state.get(FACING))).cycleValue(HINGE);
 	}
 
 	

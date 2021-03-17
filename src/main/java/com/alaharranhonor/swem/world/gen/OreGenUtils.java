@@ -14,6 +14,6 @@ public class OreGenUtils {
 				.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, bstate, 5))
 				.withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(5, 0, 20))
 						.square())
-				.func_242731_b(8);
+				.count(8);
 	}
 }

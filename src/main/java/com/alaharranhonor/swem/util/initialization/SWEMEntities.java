@@ -32,7 +32,7 @@ public class SWEMEntities {
 						.disableSerialization()
 						.size(0.5F, 0.5F)
 						.trackingRange(10)
-						.func_233608_b_(Integer.MAX_VALUE)
+						.updateInterval(Integer.MAX_VALUE)
 						.build(new ResourceLocation(SWEM.MOD_ID, "rope_knot").toString())
 );
 

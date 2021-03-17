@@ -152,11 +152,11 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 		int offSet = 16;
 		for (int k = 0; k < this.layerAmount; k++) {
 			offSet += 23;
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Layer " + (k + 1) + ":"), this.guiLeft + 7, this.guiTop + (this.ySize - offSet), 4210752);
+			this.font.drawText(matrixStack, new StringTextComponent("Layer " + (k + 1) + ":"), this.guiLeft + 7, this.guiTop + (this.ySize - offSet), 4210752);
 		}
 
-		//this.font.func_243248_b(matrixStack,new StringTextComponent("Flag:"), this.guiLeft + 7, this.guiTop + this.ySize - offSet - 23, 4210752);
-		//this.font.func_243248_b(matrixStack, new StringTextComponent("Standards:"), this.guiLeft + 7, this.guiTop + this.ySize - offSet - (23*2), 4210752);
+		//this.font.drawText(matrixStack,new StringTextComponent("Flag:"), this.guiLeft + 7, this.guiTop + this.ySize - offSet - 23, 4210752);
+		//this.font.drawText(matrixStack, new StringTextComponent("Standards:"), this.guiLeft + 7, this.guiTop + this.ySize - offSet - (23*2), 4210752);
 
 		for (int k = 0; k < this.buttons.size(); ++k) {
 			this.buttons.get(k).render(matrixStack, mouseX, mouseY, partialTicks);
@@ -168,7 +168,7 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 		this.addLayerButton.render(matrixStack, mouseX, mouseY, partialTicks);
 		this.destroyButton.render(matrixStack, mouseX, mouseY, partialTicks);
 
-		this.font.func_243248_b(matrixStack, this.title, (float) this.guiLeft + 6, (float)this.guiTop + 6, 4210752);
+		this.font.drawText(matrixStack, this.title, (float) this.guiLeft + 6, (float)this.guiTop + 6, 4210752);
 	}
 
 	@Override

@@ -116,7 +116,7 @@ public class HalfBarrelBlock extends Block {
 			if (!(f < 0.15F)) {
 				BlockState blockstate = worldIn.getBlockState(pos);
 				if (blockstate.get(LEVEL) < 3) {
-					worldIn.setBlockState(pos, blockstate.func_235896_a_(LEVEL), 2);
+					worldIn.setBlockState(pos, blockstate.cycleValue(LEVEL), 2);
 				}
 
 			}
