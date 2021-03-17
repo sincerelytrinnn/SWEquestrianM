@@ -1,0 +1,482 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "side": "left",
+        "level": "0"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_0"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "side": "right",
+        "level": "0"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_0",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "side": "left",
+        "level": "1"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_1"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "side": "right",
+        "level": "1"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_1",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "side": "left",
+        "level": "2"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_2"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "side": "right",
+        "level": "2"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_2",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "side": "left",
+        "level": "3"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_3"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "side": "right",
+        "level": "3"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_3",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "side": "right",
+        "level": "0|1|2|3"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_bottom",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "side": "left",
+        "level": "0|1|2|3"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_bottom"
+      }
+    },
+
+
+
+
+
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "side": "left",
+        "level": "0"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_0",
+        "y":90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "side": "right",
+        "level": "0"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_0",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "side": "left",
+        "level": "1"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_1",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "side": "right",
+        "level": "1"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_1",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "side": "left",
+        "level": "2"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_2",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "side": "right",
+        "level": "2"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_2",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "side": "left",
+        "level": "3"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_3",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "side": "right",
+        "level": "3"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_3",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "side": "right",
+        "level": "0|1|2|3"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_bottom",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "side": "left",
+        "level": "0|1|2|3"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_bottom",
+        "y": 90
+      }
+    },
+
+
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "side": "left",
+        "level": "0"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_0",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "side": "right",
+        "level": "0"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_0"
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "side": "left",
+        "level": "1"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_1",
+        "y":  180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "side": "right",
+        "level": "1"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_1"
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "side": "left",
+        "level": "2"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_2",
+        "y":  180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "side": "right",
+        "level": "2"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_2"
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "side": "left",
+        "level": "3"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_3",
+        "y":  180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "side": "right",
+        "level": "3"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_3"
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "side": "right",
+        "level": "0|1|2|3"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_bottom"
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "side": "left",
+        "level": "0|1|2|3"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_bottom",
+        "y":  180
+      }
+    },
+
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "side": "left",
+        "level": "0"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_0",
+        "y":270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "side": "right",
+        "level": "0"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_0",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "side": "left",
+        "level": "1"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_1",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "side": "right",
+        "level": "1"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_1",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "side": "left",
+        "level": "2"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_2",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "side": "right",
+        "level": "2"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_2",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "side": "left",
+        "level": "3"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_3",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "side": "right",
+        "level": "3"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_upper_3",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "side": "right",
+        "level": "0|1|2|3"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_bottom",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "side": "left",
+        "level": "0|1|2|3"
+      },
+      "apply": {
+        "model": "swem:block/paddock_feeder_bottom",
+        "y": 270
+      }
+    }
+  ]
+}

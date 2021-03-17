@@ -1,6 +1,8 @@
 package com.alaharranhonor.swem.entities;
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.config.ConfigHolder;
+import com.alaharranhonor.swem.config.ServerConfig;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.container.SaddlebagContainer;
 import com.alaharranhonor.swem.entities.goals.*;
@@ -559,7 +561,12 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 	@Override
 	public boolean hasHalter() {
-		return this.horseChest.getStackInSlot(0).getItem() instanceof HalterItem;
+		if (ConfigHolder.SERVER.halterDependency.get()) {
+			return this.horseChest.getStackInSlot(0).getItem() instanceof HalterItem;
+		} else {
+			return true;
+		}
+
 	}
 
 	@Override
@@ -827,7 +834,8 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	}
 
 	public SWEMCoatColors getCoatColor() {
-		return SWEMCoatColors.getById(this.getHorseVariant() & 255);
+		return SWEMCoatColors.PAINT;
+		//return SWEMCoatColors.getById(this.getHorseVariant() & 255);
 	}
 
 	private int getHorseVariant() {
@@ -968,7 +976,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 				}
 
 				// Kick off rider, if no girth strap is equipped.
-				if (this.isSWEMSaddled() && !this.hasGirthStrap() && this.isBeingRidden()) {
+				if (this.isSWEMSaddled() && (!this.hasGirthStrap() || !ConfigHolder.SERVER.riderNeedsGirthStrap.get()) && this.isBeingRidden()) {
 					if (this.ticksExisted % 20 == 0) {
 						int rand = this.getRNG().nextInt(5);
 						if (rand == 0) {
@@ -1705,16 +1713,16 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	}
 
 	public boolean canEquipSaddle() {
-		return this.hasBlanket();
+		return this.hasBlanket() || !ConfigHolder.SERVER.blanketBeforeSaddle.get();
 	}
 
 	public boolean canEquipGirthStrap() {
-		return this.isSWEMSaddled();
+		return this.isSWEMSaddled() || !ConfigHolder.SERVER.saddleBeforeGirthStrap.get();
 	}
 
 	@Override
 	public boolean canBeSteered() {
-		if (this.hasBridle()) {
+		if (this.hasBridle() || !ConfigHolder.SERVER.needBridleToSteer.get()) {
 			if (this.isFlying()) {
 				return false;
 			}

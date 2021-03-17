@@ -1,6 +1,8 @@
 package com.alaharranhonor.swem.gui.widgets;
 
 import com.alaharranhonor.swem.gui.JumpScreen;
+import com.alaharranhonor.swem.network.SWEMPacketHandler;
+import com.alaharranhonor.swem.network.jumps.CAddLayerPacket;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.ITextComponent;
 
@@ -17,12 +19,7 @@ public class AddLayerButton extends Button {
 		@Override
 		public void onPress(Button p_onPress_1_) {
 			AddLayerButton btn = (AddLayerButton) p_onPress_1_;
-			btn.screen.jumpController.addLayer(btn.screen.jumpController.getLayerAmount() + 1);
-			btn.screen.removeAllButtons();
-			if (btn.screen.jumpController.getLayerAmount() == 5) {
-				btn.active = false;
-			}
-			btn.screen.deleteLayerButton.active = true;
+			SWEMPacketHandler.INSTANCE.sendToServer(new CAddLayerPacket(btn.screen.controllerPos, btn.screen.layerAmount + 1));
 		}
 	}
 }

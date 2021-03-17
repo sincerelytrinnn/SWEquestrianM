@@ -1,7 +1,10 @@
 package com.alaharranhonor.swem.gui.widgets;
 
 import com.alaharranhonor.swem.gui.JumpScreen;
+import com.alaharranhonor.swem.network.SWEMPacketHandler;
+import com.alaharranhonor.swem.network.jumps.CChangeColorPacket;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.item.DyeColor;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
@@ -27,15 +30,16 @@ public class ColorChangerButton extends Button {
 
 	@Override
 	public void onPress() {
-		this.screen.jumpController.changeColorVariant(this.layer);
-		this.screen.jumpController.placeLayer(this.layer, this.screen.jumpController.getLayer(this.layer));
+		if (this.active) {
+			SWEMPacketHandler.INSTANCE.sendToServer(new CChangeColorPacket(this.screen.controllerPos, layer));
+		}
+
 		super.onPress();
 	}
 
 	@Override
 	public ITextComponent getMessage() {
-
-		return new StringTextComponent(this.screen.jumpController.getColorVariant(this.layer).name());
+		return new StringTextComponent(DyeColor.byId(this.screen.layerColors.get(this.layer)).name());
 	}
 
 	public static class Press implements ColorChangerButton.IPressable {

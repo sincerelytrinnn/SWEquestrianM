@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.network;
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.network.jumps.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
@@ -24,7 +25,11 @@ public class SWEMPacketHandler {
 		INSTANCE.registerMessage(7, HorseHungerChange.class, HorseHungerChange::encode, HorseHungerChange::decode, HorseHungerChange::handle);
 		INSTANCE.registerMessage(8, RenameItemPacket.class, RenameItemPacket::encode, RenameItemPacket::decode, RenameItemPacket::handle);
 		INSTANCE.registerMessage(9, HorseFlyingMessage.class, HorseFlyingMessage::encode, HorseFlyingMessage::decode, HorseFlyingMessage::handle);
-		INSTANCE.registerMessage(10, ChangeLayerBlockPacket.class, ChangeLayerBlockPacket::encode, ChangeLayerBlockPacket::decode, ChangeLayerBlockPacket::handle);
-		INSTANCE.registerMessage(11, ChangeStandardPacket.class, ChangeStandardPacket::encode, ChangeStandardPacket::decode, ChangeStandardPacket::handle);
+		INSTANCE.registerMessage(13, CAddLayerPacket.class, CAddLayerPacket::encode, CAddLayerPacket::decode, CAddLayerPacket::handle);
+		INSTANCE.registerMessage(14, CChangeColorPacket.class, CChangeColorPacket::encode, CChangeColorPacket::decode, CChangeColorPacket::handle);
+		INSTANCE.registerMessage(15, CChangeLayerPacket.class, CChangeLayerPacket::encode, CChangeLayerPacket::decode, CChangeLayerPacket::handle);
+		INSTANCE.registerMessage(16, CDestroyPacket.class, CDestroyPacket::encode, CDestroyPacket::decode, CDestroyPacket::handle);
+		INSTANCE.registerMessage(17, CRemoveLayerPacket.class, CRemoveLayerPacket::encode, CRemoveLayerPacket::decode, CRemoveLayerPacket::handle);
+		INSTANCE.registerMessage(18, SDataSendPacket.class, SDataSendPacket::encode, SDataSendPacket::decode, SDataSendPacket::handle);
 	}
 }

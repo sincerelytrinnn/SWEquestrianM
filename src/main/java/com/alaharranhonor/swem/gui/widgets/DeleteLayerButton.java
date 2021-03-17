@@ -1,7 +1,8 @@
 package com.alaharranhonor.swem.gui.widgets;
 
 import com.alaharranhonor.swem.gui.JumpScreen;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.alaharranhonor.swem.network.SWEMPacketHandler;
+import com.alaharranhonor.swem.network.jumps.CRemoveLayerPacket;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.ITextComponent;
 
@@ -12,7 +13,7 @@ public class DeleteLayerButton extends Button {
 		super(x, y, width, height, title, new DeletePressable());
 		this.screen = screen;
 
-		if (screen.jumpController.getLayerAmount() == 1) this.active = false;
+		if (screen.getContainer().layerAmount == 1) this.active = false;
 	}
 
 	private static class DeletePressable implements DeleteLayerButton.IPressable {
@@ -20,13 +21,8 @@ public class DeleteLayerButton extends Button {
 		@Override
 		public void onPress(Button p_onPress_1_) {
 			DeleteLayerButton btn = (DeleteLayerButton) p_onPress_1_;
-			int oldLayerAmount = btn.screen.jumpController.getLayerAmount();
-			btn.screen.jumpController.deleteLayer(oldLayerAmount);
-			btn.screen.removeAllButtons();
-			if (btn.screen.jumpController.getLayerAmount() == 1) {
-				btn.active = false;
-			}
-			btn.screen.addLayerButton.active = true;
+			int layerToRemove = btn.screen.layerAmount;
+			SWEMPacketHandler.INSTANCE.sendToServer(new CRemoveLayerPacket(btn.screen.controllerPos, layerToRemove));
 		}
 	}
 }
