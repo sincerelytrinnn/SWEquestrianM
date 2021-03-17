@@ -4,17 +4,17 @@ import com.alaharranhonor.swem.blocks.jumps.JumpBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpLayer;
 import com.alaharranhonor.swem.blocks.jumps.JumpStandardBlock;
 import com.alaharranhonor.swem.blocks.jumps.StandardLayer;
-import com.alaharranhonor.swem.network.ChangeLayerBlockPacket;
-import com.alaharranhonor.swem.network.ChangeStandardPacket;
-import com.alaharranhonor.swem.network.SWEMPacketHandler;
+import com.alaharranhonor.swem.network.*;
 import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.DyeColor;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,12 +23,12 @@ import java.util.Map;
 
 public class JumpTE extends TileEntity {
 
-	private int layerAmount;
+	public int layerAmount;
 	private Map<Integer, ArrayList<BlockPos>> layerPositions = new HashMap<>();
-	private Map<Integer, JumpLayer> layerTypes = new HashMap<>();
-	private Map<Integer, Integer> layerColors = new HashMap<>();
+	public Map<Integer, JumpLayer> layerTypes = new HashMap<>();
+	public Map<Integer, Integer> layerColors = new HashMap<>();
 
-	private StandardLayer currentStandard;
+	public StandardLayer currentStandard;
 
 	public JumpTE() {
 		super(SWEMTileEntities.JUMP_TILE_ENTITY.get());
@@ -104,7 +104,19 @@ public class JumpTE extends TileEntity {
 			}
 
 		}
+	}
 
+	public void changeLayer(int layerNumber) {
+		List<JumpLayer> applicableLayers = this.getApplicableLayers(layerNumber);
+		if (applicableLayers.contains(this.layerTypes.get(layerNumber))) {
+			int indexToPick = applicableLayers.indexOf(this.layerTypes.get(layerNumber)) + 1;
+			if (indexToPick >= applicableLayers.size()) {
+				indexToPick = 0;
+			}
+			this.placeLayer(layerNumber, applicableLayers.get(indexToPick));
+		} else {
+			this.placeLayer(layerNumber, applicableLayers.get(0));
+		}
 	}
 
 	public void changeColorVariant(int layerNumber) {
@@ -117,6 +129,8 @@ public class JumpTE extends TileEntity {
 			nextColor = 0;
 		}
 		layerColors.put(layerNumber, nextColor);
+
+		this.placeLayer(layerNumber, this.getLayer(layerNumber));
 	}
 
 	private void resetColor(int layerNumber) {
@@ -421,16 +435,6 @@ public class JumpTE extends TileEntity {
 		this.currentStandard = StandardLayer.valueOf(nbt.getString("standard"));
 
 		super.read(state, nbt);
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag() {
-		return this.write(new CompoundNBT());
-	}
-
-	@Override
-	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-		this.read(state, tag);
 	}
 
 }
