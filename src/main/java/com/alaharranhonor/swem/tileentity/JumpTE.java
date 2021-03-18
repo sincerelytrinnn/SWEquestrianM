@@ -97,10 +97,11 @@ public class JumpTE extends TileEntity {
 
 				//Direction facing = i == 1 ? this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING) : this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).getOpposite();
 				this.world.setBlockState(layerPositions.get(number).get(i), placeState, 1 | 2);
-				JumpPasserTE passer = SWEMTileEntities.JUMP_PASSER_TILE_ENTITY.get().create();
-				passer.setPos(this.layerPositions.get(number).get(i));
-				passer.setControllerPos(this.getPos());
-				this.world.addTileEntity(passer);
+				JumpPasserTE passer = (JumpPasserTE) this.world.getTileEntity(layerPositions.get(number).get(i));
+				if (passer != null) {
+					passer.setControllerPos(this.getPos());
+					passer.markDirty();
+				}
 			}
 
 		}

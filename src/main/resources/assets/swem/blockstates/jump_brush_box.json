@@ -16,7 +16,7 @@
       },
       "apply": {
         "model": "swem:block/brush_box_outer",
-        "y": 90
+        "y": 270
       }
     },
     {
@@ -36,7 +36,7 @@
       },
       "apply": {
         "model": "swem:block/brush_box_outer",
-        "y": 270
+        "y": 90
       }
     },
 

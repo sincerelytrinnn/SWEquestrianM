@@ -41,15 +41,4 @@ public class JumpPasserTE extends TileEntity {
 		super.read(state, nbt);
 	}
 
-	@Override
-	public CompoundNBT getUpdateTag() {
-		return this.write(new CompoundNBT());
-	}
-
-	@Override
-	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-		this.read(state, tag);
-	}
-
-
 }

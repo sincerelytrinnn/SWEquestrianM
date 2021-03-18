@@ -75,7 +75,8 @@
         "facing": "east|west"
       },
       "apply": {
-        "model": "swem:block/pole_on_box_large_middle_orange"
+        "model": "swem:block/pole_on_box_large_middle_orange",
+        "y": 90
       }
     }
   ]

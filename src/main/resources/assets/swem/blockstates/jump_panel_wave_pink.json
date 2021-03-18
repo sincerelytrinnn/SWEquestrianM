@@ -75,7 +75,8 @@
         "facing": "east|west"
       },
       "apply": {
-        "model": "swem:block/panel_wave_middle_pink"
+        "model": "swem:block/panel_wave_middle_pink",
+        "y": 90
       }
     }
   ]

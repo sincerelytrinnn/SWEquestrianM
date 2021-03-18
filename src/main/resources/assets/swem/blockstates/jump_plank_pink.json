@@ -75,7 +75,8 @@
         "facing": "east|west"
       },
       "apply": {
-        "model": "swem:block/plank_middle_pink"
+        "model": "swem:block/plank_middle_pink",
+        "y": 90
       }
     }
   ]
