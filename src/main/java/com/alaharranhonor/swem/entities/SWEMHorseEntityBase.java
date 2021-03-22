@@ -107,6 +107,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	public static final Ingredient FOOD_ITEMS = Ingredient.fromItems(Items.APPLE, Items.CARROT, SWEMItems.OAT_BUSHEL.get(), SWEMItems.TIMOTHY_BUSHEL.get(), SWEMItems.ALFALFA_BUSHEL.get(), SWEMBlocks.QUALITY_BALE_ITEM.get(), SWEMItems.SUGAR_CUBE.get());
 	public static final Ingredient NEGATIVE_FOOD_ITEMS = Ingredient.fromItems(Items.WHEAT, Items.HAY_BLOCK);
 	private static final DataParameter<Boolean> FLYING = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Boolean> JUMPING = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private PathNavigator oldNavigator;
 	private EatGrassGoal eatGrassGoal;
 	private PoopGoal poopGoal;
@@ -372,7 +373,19 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		this.dataManager.register(HORSE_VARIANT, 12);
 
 		this.dataManager.register(FLYING, false);
+		this.dataManager.register(JUMPING, false);
 
+	}
+
+	@Override
+	public void setHorseJumping(boolean jumping) {
+		super.setHorseJumping(jumping);
+		this.dataManager.set(JUMPING, jumping);
+	}
+
+	@Override
+	public boolean isHorseJumping() {
+		return this.dataManager.get(JUMPING);
 	}
 
 	public boolean func_230264_L__() {
