@@ -164,9 +164,15 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 		for (int k = 0; k < this.colorButtons.size(); ++k) {
 			this.colorButtons.get(k).render(matrixStack, mouseX, mouseY, partialTicks);
 		}
-		this.deleteLayerButton.render(matrixStack, mouseX, mouseY, partialTicks);
-		this.addLayerButton.render(matrixStack, mouseX, mouseY, partialTicks);
-		this.destroyButton.render(matrixStack, mouseX, mouseY, partialTicks);
+		if (this.deleteLayerButton != null) {
+			this.deleteLayerButton.render(matrixStack, mouseX, mouseY, partialTicks);
+		}
+		if (this.addLayerButton != null) {
+			this.addLayerButton.render(matrixStack, mouseX, mouseY, partialTicks);
+		}
+		if (this.destroyButton != null) {
+			this.destroyButton.render(matrixStack, mouseX, mouseY, partialTicks);
+		}
 
 		this.font.drawText(matrixStack, this.title, (float) this.guiLeft + 6, (float)this.guiTop + 6, 4210752);
 	}
