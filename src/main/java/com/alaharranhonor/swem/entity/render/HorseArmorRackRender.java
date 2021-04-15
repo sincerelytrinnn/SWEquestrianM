@@ -53,26 +53,35 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
 		while (group.hasNext())
 		{
 			GeoBone bone = (GeoBone) group.next();
-			if (bone.getName().equals("cloth")) {
 
-			}
 
-			if (bone.getName().equals("iron"))
+			if (bone.getName().equals("iron")) {
+				GeoBone head = bone.childBones.get(2);
+				float headY = head.getPositionY();
+				bone.setPositionY(-10);
+				head.setPositionY(-10);
+
+			} else if (bone.getName().equals("gold"))
 			{
+				GeoBone feet = bone.childBones.get(0);
+				GeoBone head = bone.childBones.get(1);
+				float headY = head.getPositionY();
 
-			}
+				bone.setPositionY(-10);
+				head.setPositionY(-10);
+				feet.setPositionY(12);
 
-			if (bone.getName().equals("gold"))
-			{
 
-			}
+			} else if (bone.getName().equals("diamond")) {
 
-			if (bone.getName().equals("diamond")) {
+				GeoBone neck = bone.childBones.get(0);
+				float neckY = neck.getPositionY();
 
-			}
+				bone.setPositionY(-10);
+				neck.setPositionY(neckY);
 
-			if (bone.getName().equals("amethyst")) {
-
+			} else {
+				bone.setPositionY(-10);
 			}
 
 			stack.push();
