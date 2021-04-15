@@ -1,10 +1,12 @@
 package com.alaharranhonor.swem.blocks;
 
+import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.items.tack.HorseSaddleItem;
 import com.alaharranhonor.swem.tileentity.HorseArmorRackTE;
 import com.alaharranhonor.swem.tileentity.OneSaddleRackTE;
 import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
 import net.minecraft.block.*;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
@@ -16,6 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -24,6 +27,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 
@@ -43,24 +47,25 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		/*if (!worldIn.isRemote && handIn == Hand.MAIN_HAND) {
+		if (!worldIn.isRemote && handIn == Hand.MAIN_HAND) {
 			BlockPos position = pos;
 			if (state.get(SIDE) == SWEMBlockStateProperties.DoubleBlockSide.RIGHT)
-				position = pos.rotateCCW
-			TileEntity tile = worldIn.getTileEntity(hit.getPos());
-			if (tile instanceof OneSaddleRackTE) {
-				OneSaddleRackTE rack = (OneSaddleRackTE) tile;
-				if (player.getHeldItem(handIn).getItem() instanceof HorseSaddleItem) {
-					ItemStack saddle = player.getHeldItem(handIn);
+				position = pos.offset(state.get(HORIZONTAL_FACING).rotateY());
+
+			TileEntity tile = worldIn.getTileEntity(position);
+			if (tile instanceof HorseArmorRackTE) {
+				HorseArmorRackTE rack = (HorseArmorRackTE) tile;
+				if (player.getHeldItem(handIn).getItem() instanceof SWEMHorseArmorItem) {
+					ItemStack armor = player.getHeldItem(handIn);
 					if (rack.itemHandler.getStackInSlot(0) == ItemStack.EMPTY) {
-						ItemStack saddleCopy;
+						ItemStack armorCopy;
 						if (player.isCreative()) {
-							saddleCopy = saddle.copy();
+							armorCopy = armor.copy();
 						} else {
-							saddleCopy = saddle.split(1);
+							armorCopy = armor.split(1);
 						}
 
-						rack.itemHandler.setStackInSlot(0, saddleCopy);
+						rack.itemHandler.setStackInSlot(0, armorCopy);
 						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
 						return ActionResultType.func_233537_a_(worldIn.isRemote);
 					}
@@ -77,8 +82,18 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 
 				}
 			}
-		}*/
+		}
 		return ActionResultType.PASS;
+	}
+
+	@Override
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+
+		// Rotate counter clockwise, because the Direction has been inverted in #getStateForPlacement
+		worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateYCCW()), state.with(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT));
+
+
 	}
 
 	@Override
@@ -112,7 +127,7 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
+		return this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing().getOpposite());
 	}
 
 	@Override
