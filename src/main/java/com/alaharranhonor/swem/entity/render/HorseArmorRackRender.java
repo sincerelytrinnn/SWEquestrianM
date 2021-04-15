@@ -10,6 +10,8 @@ import com.alaharranhonor.swem.tileentity.HorseArmorRackTE;
 import com.alaharranhonor.swem.tileentity.OneSaddleRackTE;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
@@ -24,6 +26,7 @@ import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
@@ -72,8 +75,58 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
 
 			}
 
+			stack.push();
+			double[] translations = this.calculateTranslations(tile.getBlockState());
+			stack.translate(translations[0], translations[1], translations[2]);
+			stack.rotate(this.calculateRotation(tile.getBlockState()));
 			this.renderRecursively(bone, stack, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+			stack.pop();
 		}
 
+	}
+
+	private Quaternion calculateRotation(BlockState state) {
+		switch (state.get(HorizontalBlock.HORIZONTAL_FACING)) {
+			case SOUTH: {
+				return new Quaternion(0, -180.0f, 0, true);
+			}
+			case WEST: {
+				return new Quaternion(0, 90.0f, 0, true);
+			}
+			case EAST: {
+				return new Quaternion(0, -90.0f, 0, true);
+			}
+			default: {
+				return new Quaternion(0, 0, 0, true);
+			}
+		}
+	}
+
+	private double[] calculateTranslations(BlockState state) {
+		double[] translations = new double[3];
+
+		switch (state.get(HorizontalBlock.HORIZONTAL_FACING)) {
+			case NORTH: {
+				translations = new double[] {0, 0, 0.5};
+				break;
+			}
+			case SOUTH: {
+				translations = new double[] {1.0, 0, 0.5};
+				break;
+			}
+			case EAST: {
+				translations = new double[] {0.5, 0, 0};
+				break;
+			}
+			case WEST: {
+				translations = new double[] {0.5, 0, 1.0};
+				break;
+			}
+			default: {
+				Arrays.fill(translations, 0);
+			}
+
+		}
+		return translations;
 	}
 }
