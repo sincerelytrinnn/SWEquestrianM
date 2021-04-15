@@ -128,6 +128,7 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> GLOW_STRING = BLOCKS.register("glow_string", () -> new GlowTripwireBlock((TripWireHookBlock)TRIPWIRE_HOOK, AbstractBlock.Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement()));
 	public static final RegistryObject<Block> LOCKER = BLOCKS.register("locker", () -> new LockerBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> PADDOCK_FEEDER = BLOCKS.register("paddock_feeder", () -> new PaddockFeederBlock(Block.Properties.create(Material.WOOD)));
+	public static final RegistryObject<Block> HORSE_ARMOR_RACK = BLOCKS.register("horse_armor_rack", () -> new HorseArmorRackBlock(Block.Properties.create(Material.IRON).notSolid()));
 
     // Jump blocks
 	public static final RegistryObject<Block> JUMP_STANDARD_SCHOOLING = BLOCKS.register("jump_standard_schooling", () -> new JumpStandardBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
@@ -291,5 +292,6 @@ public class SWEMBlocks {
 	public static final RegistryObject<Item> CHARCOAL_BLOCK_ITEM = SWEMItems.ITEMS.register("charcoal_block", () -> new BlockItemBase(CHARCOAL_BLOCK.get()));
 	public static final RegistryObject<Item> LOCKER_ITEM = SWEMItems.ITEMS.register("locker", () -> new BlockItemBase(LOCKER.get()));
 	public static final RegistryObject<Item> PADDOCK_FEEDER_ITEM = SWEMItems.ITEMS.register("paddock_feeder", () -> new BlockItemBase(PADDOCK_FEEDER.get()));
+	public static final RegistryObject<Item> HORSE_ARMOR_RACK_ITEM = SWEMItems.ITEMS.register("horse_armor_rack", () -> new BlockItemBase(HORSE_ARMOR_RACK.get()));
 
 }
