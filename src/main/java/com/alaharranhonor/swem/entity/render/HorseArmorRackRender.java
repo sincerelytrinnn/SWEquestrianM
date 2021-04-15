@@ -55,20 +55,20 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
 			GeoBone bone = (GeoBone) group.next();
 
 
+			// Childbones are inverted in order, from what shown in BlockBench.
+
 			if (bone.getName().equals("iron")) {
-				GeoBone head = bone.childBones.get(2);
-				float headY = head.getPositionY();
+				GeoBone head = bone.childBones.get(0);
 				bone.setPositionY(-10);
-				head.setPositionY(-10);
+				head.setPositionY(-11);
 
 			} else if (bone.getName().equals("gold"))
 			{
 				GeoBone feet = bone.childBones.get(0);
 				GeoBone head = bone.childBones.get(1);
-				float headY = head.getPositionY();
 
 				bone.setPositionY(-10);
-				head.setPositionY(-10);
+				head.setPositionY(-11);
 				feet.setPositionY(12);
 
 
@@ -78,7 +78,8 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
 				float neckY = neck.getPositionY();
 
 				bone.setPositionY(-10);
-				neck.setPositionY(neckY);
+				neck.setRotationZ(0);
+				neck.setPositionY(-7);
 
 			} else {
 				bone.setPositionY(-10);
