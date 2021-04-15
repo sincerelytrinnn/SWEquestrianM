@@ -99,6 +99,17 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 	}
 
 	@Override
+	public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
+		if (state.get(SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
+			worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateY()), Blocks.AIR.getDefaultState(), 3);
+		} else {
+			worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateYCCW()), Blocks.AIR.getDefaultState(), 3);
+		}
+
+		super.onBlockHarvested(worldIn, pos, state, player);
+	}
+
+	@Override
 	public void harvestBlock(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity te, ItemStack stack) {
 		if (te instanceof HorseArmorRackTE && !player.abilities.isCreativeMode) {
 			((HorseArmorRackTE)te).dropItems();
