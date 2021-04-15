@@ -71,9 +71,11 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 					}
 				} else {
 					if (rack.itemHandler.getStackInSlot(0) != ItemStack.EMPTY) {
-						ItemEntity itementity = new ItemEntity(worldIn, rack.getPos().getX(), rack.getPos().getY(), rack.getPos().getZ(), rack.itemHandler.getStackInSlot(0));
-						itementity.setMotion(RANDOM.nextGaussian() * (double)0.05F, RANDOM.nextGaussian() * (double)0.05F + (double)0.2F, RANDOM.nextGaussian() * (double)0.05F);
-						worldIn.addEntity(itementity);
+						if (!player.abilities.isCreativeMode) {
+							ItemEntity itementity = new ItemEntity(worldIn, rack.getPos().getX(), rack.getPos().getY(), rack.getPos().getZ(), rack.itemHandler.getStackInSlot(0));
+							itementity.setMotion(RANDOM.nextGaussian() * (double)0.05F, RANDOM.nextGaussian() * (double)0.05F + (double)0.2F, RANDOM.nextGaussian() * (double)0.05F);
+							worldIn.addEntity(itementity);
+						}
 
 						rack.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
 						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
