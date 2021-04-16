@@ -1,22 +1,19 @@
 package com.alaharranhonor.swem.blocks;
 
-import com.alaharranhonor.swem.items.RopeItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.LeadItem;
 import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.IBooleanFunction;
@@ -71,7 +68,7 @@ public class HitchingPostBaseMini extends Block {
             ItemStack itemstack = player.getHeldItem(handIn);
             return itemstack.getItem() == Items.LEAD ? ActionResultType.SUCCESS : ActionResultType.PASS;
         } else {
-            return RopeItem.bindPlayerMobs(player, worldIn, pos);
+            return LeadItem.bindPlayerMobs(player, worldIn, pos);
         }
     }
 

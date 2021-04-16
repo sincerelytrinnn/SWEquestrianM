@@ -1230,28 +1230,6 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		return super.isInvulnerableTo(source);
 	}
 
-	@Override
-	public void recreateLeash() {
-		if (this.leashNBTTag != null && this.world instanceof ServerWorld) {
-			if (this.leashNBTTag.hasUniqueId("UUID")) {
-				UUID uuid = this.leashNBTTag.getUniqueId("UUID");
-				Entity entity = ((ServerWorld)this.world).getEntityByUuid(uuid);
-				if (entity != null) {
-					this.setLeashHolder(entity, true);
-					return;
-				}
-			} else if (this.leashNBTTag.contains("X", 99) && this.leashNBTTag.contains("Y", 99) && this.leashNBTTag.contains("Z", 99)) {
-				BlockPos blockpos = new BlockPos(this.leashNBTTag.getInt("X"), this.leashNBTTag.getInt("Y"), this.leashNBTTag.getInt("Z"));
-				this.setLeashHolder(RopeKnotEntity.create(this.world, blockpos), true);
-				return;
-			}
-
-			if (this.ticksExisted > 100) {
-				this.entityDropItem(Items.LEAD);
-				this.leashNBTTag = null;
-			}
-		}
-	}
 
 	public void levelUpJump() {
 		double currentSpeed = this.getAttribute(Attributes.HORSE_JUMP_STRENGTH).getValue();
