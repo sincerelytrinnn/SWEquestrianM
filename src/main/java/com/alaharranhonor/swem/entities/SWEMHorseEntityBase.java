@@ -177,7 +177,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		this.poopGoal = new PoopGoal(this);
 		this.peeGoal = new PeeGoal(this);
 		this.goalSelector.addGoal(0, new FollowWhistleGoal(this, 1.0d));
-		this.goalSelector.addGoal(0, new SwimGoal(this));
+		//this.goalSelector.addGoal(0, new SwimGoal(this));
 		this.goalSelector.addGoal(1, new LookForWaterGoal(this, 1.0d));
 		this.goalSelector.addGoal(1, new LookForFoodGoal(this, 1.0d));
 		this.goalSelector.addGoal(1, new PanicGoal(this, 1.2D));
@@ -1013,6 +1013,11 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 		}
 		super.tick();
+		if (this.isInWater() && !this.eyesInWater && !this.isBeingRidden()) {
+			if (this.getMotion().getY() > 0) {
+				this.setMotion(this.getMotion().getX(), -.15, this.getMotion().getZ()); // Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until eyesInWater returns true.
+			}
+		}
 
 		if (!this.world.isRemote) {
 			int airHeight = this.checkHeightInAir();
@@ -1201,7 +1206,8 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 			boolean flag = this.world.getBlockState(this.getPosition().add(this.getHorizontalFacing().getDirectionVec())).isSolid();
 
-			if (this.eyesInWater && !flag) {
+			// Handles the swimming. Travel is only called when player is riding the entity.
+			if (this.eyesInWater && !flag) { // Check if the eyes is in water level, and we don't have a solid block the way we are facing. If not, then apply a inverse force, to float the horse.
 				this.setMotion(this.getMotion().mul(1, -0.1, 1));
 			}
 		} else {
