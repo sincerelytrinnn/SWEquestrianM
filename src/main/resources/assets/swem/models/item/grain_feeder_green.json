@@ -1,0 +1,6 @@
+{
+        "parent": "minecraft:item/generated",
+        "textures": {
+          "layer0": "swem:items/grain_feeder_green"
+        }
+      
