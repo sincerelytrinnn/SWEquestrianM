@@ -177,6 +177,9 @@ public class SWEMBlocks {
 	public static final List<RegistryObject<GrainFeederBlock>> GRAIN_FEEDERS = new ArrayList<>();
 	public static final List<RegistryObject<HorseDoorBlock>> PASTURE_GATES_HORSE = new ArrayList<>();
 	public static final List<RegistryObject<CareDoorBlock>> PASTURE_GATES_CARE = new ArrayList<>();
+	public static final List<RegistryObject<HalfCareDoorBlock>> WEB_GUARDS_CARE = new ArrayList<>();
+	public static final List<RegistryObject<HalfHorseDoorBlock>> WEB_GUARDS_HORSE = new ArrayList<>();
+	public static final List<RegistryObject<HalfDoorBlock>> WEB_GUARDS_RIDER = new ArrayList<>();
 	public static final List<RegistryObject<HalfBarrelBlock>> HALF_BARRELS = new ArrayList<>();
 
 	static {
@@ -211,6 +214,12 @@ public class SWEMBlocks {
 			PASTURE_GATES_HORSE.add(register("pasture_"+color.toString() + "_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
 					block -> () -> new BlockItemBase(block.get())));
 			PASTURE_GATES_CARE.add(register("pasture_"+color.toString() + "_care", () -> new CareDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
+					block -> () -> new BlockItemBase(block.get())));
+			WEB_GUARDS_CARE.add(register("web_guard_"+color.toString() + "_care", () -> new HalfCareDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
+					block -> () -> new BlockItemBase(block.get())));
+			WEB_GUARDS_HORSE.add(register("web_guard_"+color.toString() + "_horse", () -> new HalfHorseDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
+					block -> () -> new BlockItemBase(block.get())));
+			WEB_GUARDS_RIDER.add(register("web_guard_"+color.toString() + "_rider", () -> new HalfDoorBlock(Block.Properties.create(Material.IRON).notSolid()),
 					block -> () -> new BlockItemBase(block.get())));
 			HALF_BARRELS.add(register("half_barrel_"+color.getTranslationKey(), () -> new HalfBarrelBlock(Block.Properties.create(Material.IRON).notSolid()),
 					block -> () -> new BlockItemBase(block.get())));
