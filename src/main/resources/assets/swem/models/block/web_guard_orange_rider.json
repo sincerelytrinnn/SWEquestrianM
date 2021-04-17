@@ -1,0 +1,6 @@
+{
+        "parent": "minecraft:block/door_bottom",
+        "textures":{
+          "bottom":"swem:blocks/web_guard_rider_orange"
+        }
+      }
