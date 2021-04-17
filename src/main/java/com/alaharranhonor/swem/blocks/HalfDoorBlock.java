@@ -151,7 +151,7 @@ public class HalfDoorBlock extends Block {
 	}
 
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		return state == Blocks.AIR.getDefaultState();
+		return true;
 	}
 
 	@Override
