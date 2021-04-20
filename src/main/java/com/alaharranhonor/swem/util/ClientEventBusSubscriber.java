@@ -158,7 +158,6 @@ public class ClientEventBusSubscriber {
             RenderTypeLookup.setRenderLayer(SWEMBlocks.WEB_GUARDS_CARE.get(color.getId()).get(), RenderType.getCutout());
             RenderTypeLookup.setRenderLayer(SWEMBlocks.WEB_GUARDS_HORSE.get(color.getId()).get(), RenderType.getCutout());
             RenderTypeLookup.setRenderLayer(SWEMBlocks.WEB_GUARDS_RIDER.get(color.getId()).get(), RenderType.getCutout());
-            RenderTypeLookup.setRenderLayer(SWEMBlocks.RIDER_DOORS.get(color.getId()).get(), RenderType.getCutout());
         }
     }
 

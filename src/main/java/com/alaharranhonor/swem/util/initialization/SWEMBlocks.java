@@ -170,7 +170,6 @@ public class SWEMBlocks {
 	public static final List<RegistryObject<JumpBlock>> FLOWER_BOXES = new ArrayList<>();
 	public static final List<RegistryObject<JumpBlock>> CAVALETTIS = new ArrayList<>();
 	public static final List<RegistryObject<ConeBase>> CONES = new ArrayList<>();
-	public static final List<RegistryObject<RiderDoorBlock>> RIDER_DOORS = new ArrayList<>();
 	public static final List<RegistryObject<WheelBarrowBlock>> WHEEL_BARROWS = new ArrayList<>();
 	public static final List<RegistryObject<SlowFeederBlock>> SLOW_FEEDERS = new ArrayList<>();
 	public static final List<RegistryObject<NonParallelBlock>> SEPARATORS = new ArrayList<>();
@@ -201,7 +200,6 @@ public class SWEMBlocks {
 
 
 
-			RIDER_DOORS.add(register("simple_rider_door_" + color.toString(), () -> new RiderDoorBlock(Block.Properties.create(Material.WOOD).notSolid()), block -> () -> new BlockItemBase(block.get())));
 			CONES.add(register(color.toString()+"_cone", ConeBase::new, block -> () -> new ConeBlockItem(block.get())));
 			WHEEL_BARROWS.add(register("wheel_barrow_"+color.toString(), () -> new WheelBarrowBlock(Block.Properties.create(Material.IRON).notSolid(), color),
 					 block -> () -> new BlockItemBase(block.get())));
