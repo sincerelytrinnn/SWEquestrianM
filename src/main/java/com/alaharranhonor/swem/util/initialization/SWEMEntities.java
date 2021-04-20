@@ -2,7 +2,6 @@ package com.alaharranhonor.swem.util.initialization;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.PoopEntity;
-import com.alaharranhonor.swem.entities.RopeKnotEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.entities.WormieBoiEntity;
 import net.minecraft.entity.EntityClassification;
@@ -26,15 +25,6 @@ public class SWEMEntities {
 					.size(1.73f, 1.99f) // Hitbox Size
 					.build(new ResourceLocation(SWEM.MOD_ID, "swem_horse").toString())
 	);
-	public static final RegistryObject<EntityType<RopeKnotEntity>> ROPE_KNOT_ENTITY =
-		ENTITY_TYPES.register("rope_knot",
-				() -> EntityType.Builder.<RopeKnotEntity>create(RopeKnotEntity::new,EntityClassification.MISC)
-						.disableSerialization()
-						.size(0.5F, 0.5F)
-						.trackingRange(10)
-						.updateInterval(Integer.MAX_VALUE)
-						.build(new ResourceLocation(SWEM.MOD_ID, "rope_knot").toString())
-);
 
 	public static final RegistryObject<EntityType<WormieBoiEntity>> WORMIE_BOI_ENTITY = ENTITY_TYPES.register("wormieboi",
 			() -> EntityType.Builder.create(WormieBoiEntity::new, EntityClassification.CREATURE)

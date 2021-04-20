@@ -51,7 +51,7 @@ public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity> {
 
     public SWEMHorseRender(EntityRendererManager renderManagerIn) {
         super(renderManagerIn, new SWEMHorseModel());
-        //this.addLayer(new HorseArmorLayer(this));
+        this.addLayer(new HorseArmorLayer(this));
         this.addLayer(new SaddlebagLayer(this));
         this.addLayer(new BlanketLayer(this));
         this.addLayer(new GirthStrapLayer(this));

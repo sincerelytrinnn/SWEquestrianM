@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.vector.Quaternion;
+import software.bernie.geckolib3.GeckoLib;
 import software.bernie.geckolib3.geo.render.built.GeoBone;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
@@ -44,45 +45,46 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 			while (group.hasNext()) {
 				GeoBone bone = (GeoBone) group.next();
 				if (bone.getName().equals("cloth")) {
+
 					GeoBone horseStomach = horseModel.getBone("body").get();
 					SWEM.LOGGER.debug(String.format("Stomach: Rot X: %s - Rot Y: %s - Rot Z: %s | Piv X: %s - Piv Y: %s - Piv Z: %s", horseStomach.getRotationX(), horseStomach.getRotationY(), horseStomach.getRotationZ(), horseStomach.getPivotX(), horseStomach.getPivotY(), horseStomach.getPivotZ()));
-					bone.setPivotZ(horseStomach.getPivotZ());
-					bone.setPivotX(horseStomach.getPivotX());
-					bone.setPivotY(horseStomach.getPivotY());
+					bone.setPivotZ(0);
+					bone.setPivotX(0);
+					bone.setPivotY(12);
 					bone.setRotationZ(horseStomach.getRotationZ());
 					bone.setRotationX(horseStomach.getRotationX());
+
+					bone.setPositionY(horseStomach.getPositionY());
 				}
 
 				if (bone.getName().equals("iron")) {
-					GeoBone horseHead = horseModel.getBone("head").get();
-					GeoBone horseBack = horseModel.getBone("back").get();
-					GeoBone horseFront = horseModel.getBone("base2").get();
+					//GeoBone horseHead = horseModel.getBone("head").get();
+					GeoBone horseBack = horseModel.getBone("back").get().childBones.get(0);
+					//GeoBone horseFront = horseModel.getBone("base").get();
 
-					GeoBone front = bone.childBones.get(0);
-					front.setPivotZ(horseFront.getPivotZ());
-					front.setPivotX(horseFront.getPivotX());
-					front.setPivotY(horseFront.getPivotY());
-					front.setRotationZ(horseFront.getRotationZ());
-					front.setRotationX(horseFront.getRotationX());
+
 
 					GeoBone back = bone.childBones.get(1);
-					back.setPivotZ(horseBack.getPivotZ());
-					back.setPivotX(horseBack.getPivotX());
-					back.setPivotY(horseBack.getPivotY());
-					back.setRotationZ(horseBack.getRotationZ());
-					back.setRotationX(horseBack.getRotationX());
+					//back.setPivotZ(11);
+					//back.setPivotX(-11);
+					//back.setPivotY(0);
+					//back.setPivotZ(0);
+					//back.setPivotX(0);
+					//back.setPivotY(0);
 
-					GeoBone head = bone.childBones.get(2);
-					head.setPivotZ(horseHead.getPivotZ());
-					head.setPivotX(horseHead.getPivotX());
-					head.setPivotY(horseHead.getPivotY());
-					head.setRotationZ(horseHead.getRotationZ());
-					head.setRotationY(horseHead.getRotationY());
-					head.setRotationX(horseHead.getRotationX());
-					head.setPositionX(horseHead.getPositionX());
-					head.setPositionY(horseHead.getPositionY());
-					head.setPositionZ(horseHead.getPositionZ());
+					//back.setRotationZ(horseBack.getRotationZ());
+
+					//back.setPositionZ(horseBack.getPositionZ());
+					//back.setPositionX(horseBack.getPositionZ() + 1);
+					//back.setPositionY(horseModel.getBone("body").get().getPositionY());
+
+
 				}
+
+				// Gold has feet and head2
+				// Diamond has neck and butt
+				// Amethyst has breast, front and back-side
+
 				matrixStackIn.push();
 				matrixStackIn.rotate(new Quaternion(0.0F, 90.0F, 0.0F, true));
 				this.entityRenderer.renderRecursively(bone, matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);

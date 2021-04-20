@@ -64,6 +64,7 @@ public class MeasurementTool extends ItemBase {
 			}
 			if (te instanceof JumpTE) {
 				JumpTE jumpController = (JumpTE) te;
+				if (jumpController.layerAmount == 0) return ActionResultType.PASS;
 				INamedContainerProvider provider = new INamedContainerProvider() {
 					@Override
 					public ITextComponent getDisplayName() {

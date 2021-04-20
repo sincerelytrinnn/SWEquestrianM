@@ -107,6 +107,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	public static final Ingredient FOOD_ITEMS = Ingredient.fromItems(Items.APPLE, Items.CARROT, SWEMItems.OAT_BUSHEL.get(), SWEMItems.TIMOTHY_BUSHEL.get(), SWEMItems.ALFALFA_BUSHEL.get(), SWEMBlocks.QUALITY_BALE_ITEM.get(), SWEMItems.SUGAR_CUBE.get());
 	public static final Ingredient NEGATIVE_FOOD_ITEMS = Ingredient.fromItems(Items.WHEAT, Items.HAY_BLOCK);
 	private static final DataParameter<Boolean> FLYING = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Boolean> JUMPING = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private PathNavigator oldNavigator;
 	private EatGrassGoal eatGrassGoal;
 	private PoopGoal poopGoal;
@@ -176,7 +177,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		this.poopGoal = new PoopGoal(this);
 		this.peeGoal = new PeeGoal(this);
 		this.goalSelector.addGoal(0, new FollowWhistleGoal(this, 1.0d));
-		this.goalSelector.addGoal(0, new SwimGoal(this));
+		//this.goalSelector.addGoal(0, new SwimGoal(this));
 		this.goalSelector.addGoal(1, new LookForWaterGoal(this, 1.0d));
 		this.goalSelector.addGoal(1, new LookForFoodGoal(this, 1.0d));
 		this.goalSelector.addGoal(1, new PanicGoal(this, 1.2D));
@@ -372,7 +373,19 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		this.dataManager.register(HORSE_VARIANT, 12);
 
 		this.dataManager.register(FLYING, false);
+		this.dataManager.register(JUMPING, false);
 
+	}
+
+	@Override
+	public void setHorseJumping(boolean jumping) {
+		super.setHorseJumping(jumping);
+		this.dataManager.set(JUMPING, jumping);
+	}
+
+	@Override
+	public boolean isHorseJumping() {
+		return this.dataManager.get(JUMPING);
 	}
 
 	public boolean func_230264_L__() {
@@ -1000,6 +1013,11 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 		}
 		super.tick();
+		if (this.isInWater() && !this.eyesInWater && !this.isBeingRidden()) {
+			if (this.getMotion().getY() > 0) {
+				this.setMotion(this.getMotion().getX(), -.15, this.getMotion().getZ()); // Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until eyesInWater returns true.
+			}
+		}
 
 		if (!this.world.isRemote) {
 			int airHeight = this.checkHeightInAir();
@@ -1188,7 +1206,8 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 			boolean flag = this.world.getBlockState(this.getPosition().add(this.getHorizontalFacing().getDirectionVec())).isSolid();
 
-			if (this.eyesInWater && !flag) {
+			// Handles the swimming. Travel is only called when player is riding the entity.
+			if (this.eyesInWater && !flag) { // Check if the eyes is in water level, and we don't have a solid block the way we are facing. If not, then apply a inverse force, to float the horse.
 				this.setMotion(this.getMotion().mul(1, -0.1, 1));
 			}
 		} else {
@@ -1211,28 +1230,6 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		return super.isInvulnerableTo(source);
 	}
 
-	@Override
-	public void recreateLeash() {
-		if (this.leashNBTTag != null && this.world instanceof ServerWorld) {
-			if (this.leashNBTTag.hasUniqueId("UUID")) {
-				UUID uuid = this.leashNBTTag.getUniqueId("UUID");
-				Entity entity = ((ServerWorld)this.world).getEntityByUuid(uuid);
-				if (entity != null) {
-					this.setLeashHolder(entity, true);
-					return;
-				}
-			} else if (this.leashNBTTag.contains("X", 99) && this.leashNBTTag.contains("Y", 99) && this.leashNBTTag.contains("Z", 99)) {
-				BlockPos blockpos = new BlockPos(this.leashNBTTag.getInt("X"), this.leashNBTTag.getInt("Y"), this.leashNBTTag.getInt("Z"));
-				this.setLeashHolder(RopeKnotEntity.create(this.world, blockpos), true);
-				return;
-			}
-
-			if (this.ticksExisted > 100) {
-				this.entityDropItem(Items.LEAD);
-				this.leashNBTTag = null;
-			}
-		}
-	}
 
 	public void levelUpJump() {
 		double currentSpeed = this.getAttribute(Attributes.HORSE_JUMP_STRENGTH).getValue();

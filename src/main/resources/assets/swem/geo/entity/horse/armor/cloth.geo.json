@@ -13,6 +13,11 @@
 			"bones": [
 				{
 					"name": "cloth",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "body",
+					"parent": "cloth",
 					"pivot": [0, 0, 0],
 					"cubes": [
 						{"origin": [-5, 13, -7], "size": [8, 17, 1], "inflate": 0.125, "uv": [17, 17]},

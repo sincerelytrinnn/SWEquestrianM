@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.blocks;
 
-import com.alaharranhonor.swem.items.RopeItem;
 import net.minecraft.block.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -8,7 +7,6 @@ import net.minecraft.item.*;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BedPart;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -70,7 +68,7 @@ public class HitchingPostBase extends Block {
 			ItemStack itemstack = player.getHeldItem(handIn);
 			return itemstack.getItem() == Items.LEAD ? ActionResultType.SUCCESS : ActionResultType.PASS;
 		} else {
-			return RopeItem.bindPlayerMobs(player, worldIn, state.get(PART) == PostPart.LOWER ? pos.up() : pos);
+			return LeadItem.bindPlayerMobs(player, worldIn, state.get(PART) == PostPart.LOWER ? pos.up() : pos);
 		}
 	}
 

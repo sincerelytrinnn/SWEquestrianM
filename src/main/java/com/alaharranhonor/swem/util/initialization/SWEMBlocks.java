@@ -128,6 +128,7 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> GLOW_STRING = BLOCKS.register("glow_string", () -> new GlowTripwireBlock((TripWireHookBlock)TRIPWIRE_HOOK, AbstractBlock.Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement()));
 	public static final RegistryObject<Block> LOCKER = BLOCKS.register("locker", () -> new LockerBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> PADDOCK_FEEDER = BLOCKS.register("paddock_feeder", () -> new PaddockFeederBlock(Block.Properties.create(Material.WOOD)));
+	public static final RegistryObject<Block> HORSE_ARMOR_RACK = BLOCKS.register("horse_armor_rack", () -> new HorseArmorRackBlock(Block.Properties.create(Material.IRON).notSolid()));
 
     // Jump blocks
 	public static final RegistryObject<Block> JUMP_STANDARD_SCHOOLING = BLOCKS.register("jump_standard_schooling", () -> new JumpStandardBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
@@ -169,13 +170,15 @@ public class SWEMBlocks {
 	public static final List<RegistryObject<JumpBlock>> FLOWER_BOXES = new ArrayList<>();
 	public static final List<RegistryObject<JumpBlock>> CAVALETTIS = new ArrayList<>();
 	public static final List<RegistryObject<ConeBase>> CONES = new ArrayList<>();
-	public static final List<RegistryObject<RiderDoorBlock>> RIDER_DOORS = new ArrayList<>();
 	public static final List<RegistryObject<WheelBarrowBlock>> WHEEL_BARROWS = new ArrayList<>();
 	public static final List<RegistryObject<SlowFeederBlock>> SLOW_FEEDERS = new ArrayList<>();
 	public static final List<RegistryObject<NonParallelBlock>> SEPARATORS = new ArrayList<>();
 	public static final List<RegistryObject<GrainFeederBlock>> GRAIN_FEEDERS = new ArrayList<>();
 	public static final List<RegistryObject<HorseDoorBlock>> PASTURE_GATES_HORSE = new ArrayList<>();
 	public static final List<RegistryObject<CareDoorBlock>> PASTURE_GATES_CARE = new ArrayList<>();
+	public static final List<RegistryObject<HalfCareDoorBlock>> WEB_GUARDS_CARE = new ArrayList<>();
+	public static final List<RegistryObject<HalfHorseDoorBlock>> WEB_GUARDS_HORSE = new ArrayList<>();
+	public static final List<RegistryObject<HalfDoorBlock>> WEB_GUARDS_RIDER = new ArrayList<>();
 	public static final List<RegistryObject<HalfBarrelBlock>> HALF_BARRELS = new ArrayList<>();
 
 	static {
@@ -197,7 +200,6 @@ public class SWEMBlocks {
 
 
 
-			RIDER_DOORS.add(register("simple_rider_door_" + color.toString(), () -> new RiderDoorBlock(Block.Properties.create(Material.WOOD).notSolid()), block -> () -> new BlockItemBase(block.get())));
 			CONES.add(register(color.toString()+"_cone", ConeBase::new, block -> () -> new ConeBlockItem(block.get())));
 			WHEEL_BARROWS.add(register("wheel_barrow_"+color.toString(), () -> new WheelBarrowBlock(Block.Properties.create(Material.IRON).notSolid(), color),
 					 block -> () -> new BlockItemBase(block.get())));
@@ -210,6 +212,12 @@ public class SWEMBlocks {
 			PASTURE_GATES_HORSE.add(register("pasture_"+color.toString() + "_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
 					block -> () -> new BlockItemBase(block.get())));
 			PASTURE_GATES_CARE.add(register("pasture_"+color.toString() + "_care", () -> new CareDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
+					block -> () -> new BlockItemBase(block.get())));
+			WEB_GUARDS_CARE.add(register("web_guard_"+color.toString() + "_care", () -> new HalfCareDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
+					block -> () -> new BlockItemBase(block.get())));
+			WEB_GUARDS_HORSE.add(register("web_guard_"+color.toString() + "_horse", () -> new HalfHorseDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
+					block -> () -> new BlockItemBase(block.get())));
+			WEB_GUARDS_RIDER.add(register("web_guard_"+color.toString() + "_rider", () -> new HalfDoorBlock(Block.Properties.create(Material.IRON).notSolid()),
 					block -> () -> new BlockItemBase(block.get())));
 			HALF_BARRELS.add(register("half_barrel_"+color.getTranslationKey(), () -> new HalfBarrelBlock(Block.Properties.create(Material.IRON).notSolid()),
 					block -> () -> new BlockItemBase(block.get())));
@@ -291,5 +299,6 @@ public class SWEMBlocks {
 	public static final RegistryObject<Item> CHARCOAL_BLOCK_ITEM = SWEMItems.ITEMS.register("charcoal_block", () -> new BlockItemBase(CHARCOAL_BLOCK.get()));
 	public static final RegistryObject<Item> LOCKER_ITEM = SWEMItems.ITEMS.register("locker", () -> new BlockItemBase(LOCKER.get()));
 	public static final RegistryObject<Item> PADDOCK_FEEDER_ITEM = SWEMItems.ITEMS.register("paddock_feeder", () -> new BlockItemBase(PADDOCK_FEEDER.get()));
+	public static final RegistryObject<Item> HORSE_ARMOR_RACK_ITEM = SWEMItems.ITEMS.register("horse_armor_rack", () -> new BlockItemBase(HORSE_ARMOR_RACK.get()));
 
 }
