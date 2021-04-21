@@ -1,13 +1,10 @@
 package com.alaharranhonor.swem.mixin;
 
 import com.alaharranhonor.swem.util.SWEMUtil;
-import com.alaharranhonor.swem.util.SWLRegistryHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CauldronBlock;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.properties.BlockStateProperties;

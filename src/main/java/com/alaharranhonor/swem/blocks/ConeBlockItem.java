@@ -1,7 +1,6 @@
 package com.alaharranhonor.swem.blocks;
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.util.RegistryHandler;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.BlockItem;

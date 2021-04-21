@@ -2,7 +2,6 @@ package com.alaharranhonor.swem.gui;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.BedrollContainer;
-import com.alaharranhonor.swem.container.SaddlebagContainer;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.IHasContainer;

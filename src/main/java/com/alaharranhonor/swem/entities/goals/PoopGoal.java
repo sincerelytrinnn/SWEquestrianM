@@ -1,17 +1,10 @@
 package com.alaharranhonor.swem.entities.goals;
 
-import com.alaharranhonor.swem.blocks.HorsePoopBlock;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.PoopEntity;
-import com.alaharranhonor.swem.util.RegistryHandler;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMEntities;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.goal.EatGrassGoal;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.item.ArmorStandItem;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 

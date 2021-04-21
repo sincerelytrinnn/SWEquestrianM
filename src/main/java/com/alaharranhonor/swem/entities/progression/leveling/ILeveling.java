@@ -1,7 +1,6 @@
 package com.alaharranhonor.swem.entities.progression.leveling;
 
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.EntityDataManager;
 
 public interface ILeveling {
 	int level = 0;

@@ -1,10 +1,6 @@
 package com.alaharranhonor.swem.config;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.world.gen.feature.FeatureSpread;
-import net.minecraft.world.gen.feature.FeatureSpreadConfig;
 import net.minecraftforge.common.ForgeConfigSpec;
-import com.alaharranhonor.swem.SWEM;
 
 public final class ServerConfig {
 

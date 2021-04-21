@@ -13,7 +13,6 @@ import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.RegistryObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

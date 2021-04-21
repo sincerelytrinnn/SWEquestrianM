@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.blocks;
 
-import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.items.PoopItem;
 import com.alaharranhonor.swem.tileentity.WheelBarrowTE;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;

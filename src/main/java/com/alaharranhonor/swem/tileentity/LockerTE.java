@@ -1,9 +1,7 @@
 package com.alaharranhonor.swem.tileentity;
 
 import com.alaharranhonor.swem.blocks.LockerBlock;
-import com.alaharranhonor.swem.blocks.TackBoxBlock;
 import com.alaharranhonor.swem.container.LockerContainer;
-import com.alaharranhonor.swem.container.TackBoxContainer;
 import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -14,9 +12,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.LockableLootTileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;

@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.world.gen;
 
-import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.SWLRegistryHandler;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import net.minecraft.world.biome.Biome;

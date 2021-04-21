@@ -2,7 +2,6 @@ package com.alaharranhonor.swem.entities;
 
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.entity.*;
-import net.minecraft.entity.item.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;

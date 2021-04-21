@@ -1,21 +1,16 @@
 package com.alaharranhonor.swem.entities.goals;
 
-import com.alaharranhonor.swem.blocks.HorsePoopBlock;
 import com.alaharranhonor.swem.blocks.Shavings;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import net.minecraft.block.*;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.item.ArmorStandItem;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class PeeGoal extends Goal {
 

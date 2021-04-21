@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.tools;
 
-import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.crafting.Ingredient;

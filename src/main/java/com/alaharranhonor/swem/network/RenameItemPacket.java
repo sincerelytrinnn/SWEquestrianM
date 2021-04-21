@@ -2,14 +2,9 @@ package com.alaharranhonor.swem.network;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.CantazariteAnvilContainer;
-import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.client.CRenameItemPacket;
 import net.minecraft.util.SharedConstants;
 import net.minecraftforge.fml.network.NetworkEvent;
 

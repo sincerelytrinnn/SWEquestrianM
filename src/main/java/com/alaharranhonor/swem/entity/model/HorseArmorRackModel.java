@@ -3,7 +3,6 @@ package com.alaharranhonor.swem.entity.model;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.blocks.SWEMBlockStateProperties;
 import com.alaharranhonor.swem.tileentity.HorseArmorRackTE;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 

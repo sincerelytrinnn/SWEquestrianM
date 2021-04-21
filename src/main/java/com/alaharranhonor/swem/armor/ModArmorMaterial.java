@@ -1,7 +1,6 @@
 package com.alaharranhonor.swem.armor;
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;

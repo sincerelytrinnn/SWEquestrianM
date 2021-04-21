@@ -1,13 +1,8 @@
 package com.alaharranhonor.swem.entity.render;
 
-import com.alaharranhonor.swem.blocks.OneSaddleRack;
 import com.alaharranhonor.swem.entity.model.*;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
-import com.alaharranhonor.swem.items.tack.AdventureSaddleItem;
-import com.alaharranhonor.swem.items.tack.EnglishSaddleItem;
-import com.alaharranhonor.swem.items.tack.WesternSaddleItem;
 import com.alaharranhonor.swem.tileentity.HorseArmorRackTE;
-import com.alaharranhonor.swem.tileentity.OneSaddleRackTE;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.block.BlockState;
@@ -17,10 +12,8 @@ import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.entity.item.minecart.MinecartEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.vector.Quaternion;
 import software.bernie.geckolib3.geo.render.built.GeoBone;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
