@@ -44,8 +44,8 @@ public final class ServerConfig {
 		this.serverAmethystBottomHeight = builder.comment("Amethyst ore minimum height").translation("swem.config.serverAmethystBottomHeight").defineInRange("AmethystBottomHeight", 0, 0, 2147483647);
 		this.serverAmethystMaxHeight = builder.comment("Amethyst ore maximum height").translation("swem.config.serverAmethystMaxHeight").defineInRange("AmethystMaxHeight", 15, 1, 2147483647);
 
-		this.serverCantazariteVeinSize = builder.comment("Cantazarite ore vein size").translation("swem.config.serverCantazariteVeinSize").defineInRange("CantazariteVeinSize", 8, 1, 2147483647);
-		this.serverCantazariteVeinCount = builder.comment("Cantazarite ore vein count per chunk").translation("swem.config.serverCantazariteVeinCount").defineInRange("CantazariteVeinCount", 8, 1, 2147483647);
+		this.serverCantazariteVeinSize = builder.comment("Cantazarite ore vein size").translation("swem.config.serverCantazariteVeinSize").defineInRange("CantazariteVeinSize", 4, 1, 2147483647);
+		this.serverCantazariteVeinCount = builder.comment("Cantazarite ore vein count per chunk").translation("swem.config.serverCantazariteVeinCount").defineInRange("CantazariteVeinCount", 6, 1, 2147483647);
 		this.serverCantazariteBottomHeight = builder.comment("Cantazarite ore minimum height").translation("swem.config.serverCantazariteBottomHeight").defineInRange("CantazariteBottomHeight", 0, 0, 2147483647);
 		this.serverCantazariteMaxHeight = builder.comment("Cantazarite ore maximum height").translation("swem.config.serverCantazariteMaxHeight").defineInRange("CantazariteMaxHeight", 30, 1, 2147483647);
 		builder.pop();
