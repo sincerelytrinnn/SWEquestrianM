@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "lead",
+  "pattern":
+  [
+    "xx ",
+    "xy ",
+    "  x"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "minecraft:string"
+    },
+    "y":
+    {
+      "item": "swem:star_worm_goop"
+    }
+  },
+  "result":
+  {
+    "item": "minecraft:lead",
+    "count": 2
+  }
+}
