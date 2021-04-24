@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "horse_armor",
+  "pattern":
+  [
+    "xxx",
+    "xyx",
+    "xxx"
+  ],
+  "key":
+  {
+    "x": {
+      "item": "swem:amethyst"
+    },
+    "y": {
+      "item": "swem:diamond_horse_armor"
+    }
+  },
+  "result":
+  {
+    "item": "swem:amethyst_horse_armor",
+    "count": 1
+  }
+}
