@@ -55,6 +55,8 @@ public class SWEMHorseInventoryContainer extends Container {
 			public int getSlotStackLimit() {
 				return 1;
 			}
+
+
 		});
 
 		// Blanket slot 2
@@ -108,6 +110,28 @@ public class SWEMHorseInventoryContainer extends Container {
 			 */
 			public int getSlotStackLimit() {
 				return 1;
+			}
+
+			@Override
+			public void onSlotChanged() {
+				ItemStack stack = this.getStack();
+				if (stack == ItemStack.EMPTY) {
+					ItemStack breastCollar = horseInventory.getStackInSlot(3);
+					ItemStack girthStrap = horseInventory.getStackInSlot(5);
+
+					if (breastCollar != ItemStack.EMPTY) {
+						ItemEntity stackToSpawn = new ItemEntity(horse.getEntityWorld(), horse.getPosX(), horse.getPosY(), horse.getPosZ(), breastCollar);
+						horse.getEntityWorld().addEntity(stackToSpawn);
+						horseInventory.setInventorySlotContents(3, ItemStack.EMPTY);
+
+					}
+
+					if (girthStrap != ItemStack.EMPTY) {
+						ItemEntity stackToSpawn = new ItemEntity(horse.getEntityWorld(), horse.getPosX(), horse.getPosY(), horse.getPosZ(), girthStrap);
+						horse.getEntityWorld().addEntity(stackToSpawn);
+						horseInventory.setInventorySlotContents(5, ItemStack.EMPTY);
+					}
+				}
 			}
 		});
 
@@ -368,6 +392,8 @@ public class SWEMHorseInventoryContainer extends Container {
 		super.onContainerClosed(playerIn);
 		this.horseInventory.closeInventory(playerIn);
 	}
+
+
 
 
 }
