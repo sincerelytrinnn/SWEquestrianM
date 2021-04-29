@@ -22,6 +22,17 @@ public class SWEMPaintings {
 	public static final RegistryObject<PaintingType> LUCY_IN_LAKE = PAINTINGS.register("lucy_in_lake_oak", () -> new PaintingType(32, 16));
 	public static final RegistryObject<PaintingType> LUCY_CHARGING = PAINTINGS.register("lucy_charging_oak", () -> new PaintingType(16, 32));
 	public static final RegistryObject<PaintingType> LUCY_AND_JESSIE = PAINTINGS.register("lucy_and_jessie_oak", () -> new PaintingType(64, 64));
+	public static final RegistryObject<PaintingType> CHARLIE_DARK_OAK = PAINTINGS.register("charlie_dark_oak", () -> new PaintingType(32, 32)); // here
+	public static final RegistryObject<PaintingType> GINGER_SPRUCE = PAINTINGS.register("ginger_spruce", () -> new PaintingType(32, 32));
+	public static final RegistryObject<PaintingType> JIGGS_ARMORED_SPRUCE = PAINTINGS.register("jiggs_armored_spruce", () -> new PaintingType(32, 32));
+	public static final RegistryObject<PaintingType> LADY_IN_BLANKET_BIRCH = PAINTINGS.register("lady_in_blanket_birch", () -> new PaintingType(16, 32));
+	public static final RegistryObject<PaintingType> PHOENIX_WESTERN_DARK_OAK = PAINTINGS.register("phoenix_western_dark_oak", () -> new PaintingType(16, 32));
+	public static final RegistryObject<PaintingType> SMOKEY_ACACIA = PAINTINGS.register("smokey_acacia", () -> new PaintingType(64, 48)); // Wrong format
+	public static final RegistryObject<PaintingType> SPIRIT_SPRUCE = PAINTINGS.register("spirit_spruce", () -> new PaintingType(64, 48)); // Wrong format
+	public static final RegistryObject<PaintingType> TROUBADOUR_AND_BELLA_DARK_OAK = PAINTINGS.register("troubadour_and_bella_dark_oak", () -> new PaintingType(64, 48));
+	public static final RegistryObject<PaintingType> ZIPPY_CANTER_DARK_OAK = PAINTINGS.register("zippy_canter_dark_oak", () -> new PaintingType(32, 32));
+	public static final RegistryObject<PaintingType> ZIPPY_JUMP_DARK_OAK = PAINTINGS.register("zippy_jump_dark_oak", () -> new PaintingType(64, 48));
+	public static final RegistryObject<PaintingType> ZIPPY_WINNER_DARK_OAK = PAINTINGS.register("zippy_winner_dark_oak", () -> new PaintingType(16, 32));
 
 
 
