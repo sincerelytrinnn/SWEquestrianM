@@ -1193,8 +1193,8 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 			boolean flag = this.world.getBlockState(this.getPosition().add(this.getHorizontalFacing().getDirectionVec())).isSolid();
 
 			// Handles the swimming. Travel is only called when player is riding the entity.
-			if (this.eyesInWater && !flag) { // Check if the eyes is in water level, and we don't have a solid block the way we are facing. If not, then apply a inverse force, to float the horse.
-				this.setMotion(this.getMotion().mul(1, -0.1, 1));
+			if (this.eyesInWater && !flag && this.getMotion().getY() < 0) { // Check if the eyes is in water level, and we don't have a solid block the way we are facing. If not, then apply a inverse force, to float the horse.
+				this.setMotion(this.getMotion().mul(1, -1.9, 1));
 			}
 		} else {
 			super.travel(travelVector);
