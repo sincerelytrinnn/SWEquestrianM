@@ -63,8 +63,9 @@ public class ForgeBusEventSubscriber {
 
 		if (entity instanceof SWEMHorseEntityBase) {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+			SWEMHorseEntityBase.HorseSpeed oldSpeed = horse.currentSpeed;
 			horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
-			horse.getDataManager().set(SWEMHorseEntityBase.SPEED_LEVEL, SWEMHorseEntityBase.HorseSpeed.WALK.getSpeedLevel());
+			horse.updateSelectedSpeed(oldSpeed);
 		}
 	}
 
