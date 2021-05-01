@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.entities;
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.util.initialization.SWEMEntities;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
@@ -39,6 +40,11 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 	{
 
 		SWEMHorseEntityBase horse = (SWEMHorseEntityBase) event.getAnimatable();
+
+		if (horse.isInWater()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("Swim"));
+			return PlayState.CONTINUE;
+		}
 
 		if (horse.isHorseJumping()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump"));
