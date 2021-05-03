@@ -4,7 +4,7 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.container.SaddlebagContainer;
-import com.alaharranhonor.swem.entities.goals.*;
+import com.alaharranhonor.swem.entities.ai.*;
 import com.alaharranhonor.swem.entities.needs.HungerNeed;
 import com.alaharranhonor.swem.entities.needs.NeedManager;
 import com.alaharranhonor.swem.entities.needs.ThirstNeed;
@@ -833,8 +833,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	}
 
 	public SWEMCoatColors getCoatColor() {
-		return SWEMCoatColors.GRAY;
-		//return SWEMCoatColors.getById(this.getHorseVariant() & 255);
+		return SWEMCoatColors.getById(this.getHorseVariant() & 255);
 	}
 
 	private int getHorseVariant() {
@@ -1130,6 +1129,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 				f1 = 0.0F;
 			}
 
+			 // Check if RNG is higher roll, than disobeying debuff, if so, then do the jump.
 			if (this.jumpPower > 0.0F && !this.isHorseJumping() && this.onGround && !this.isFlying()) {
 				double d0 = this.getHorseJumpStrength() * (double) this.jumpPower * (double) this.getJumpFactor();
 				double d1;
@@ -1139,40 +1139,47 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 					d1 = d0;
 				}
 
-				Vector3d vector3d = this.getMotion();
-				this.setMotion(vector3d.x, d1, vector3d.z);
+				if (d1 > 0) {
+					if (this.getDisobedienceFactor() > this.progressionManager.getAffinityLeveling().getDebuff()) {
+						Vector3d vector3d = this.getMotion();
+						this.setMotion(vector3d.x, d1, vector3d.z);
 
 
 
-				// Check jumpheight, and add XP accordingly.
-				float jumpHeight = (float) (-0.1817584952 * ((float)Math.pow(d1, 3.0F)) + 3.689713992 * ((float)Math.pow(d1, 2.0F)) + 2.128599134 * d1 - 0.343930367);
-				float xpToAdd = 0.0f;
-				if (jumpHeight >= 4.0f) {
-					xpToAdd = 40.0f;
-				} else if (jumpHeight >= 3.0f) {
-					xpToAdd = 30.0f;
-				} else if (jumpHeight >= 2.0f) {
-					xpToAdd = 25.0f;
-				} else if (jumpHeight >= 1.0f) {
-					xpToAdd = 20.0f;
+						// Check jumpheight, and add XP accordingly.
+						float jumpHeight = (float) (-0.1817584952 * ((float)Math.pow(d1, 3.0F)) + 3.689713992 * ((float)Math.pow(d1, 2.0F)) + 2.128599134 * d1 - 0.343930367);
+						float xpToAdd = 0.0f;
+						if (jumpHeight >= 4.0f) {
+							xpToAdd = 40.0f;
+						} else if (jumpHeight >= 3.0f) {
+							xpToAdd = 30.0f;
+						} else if (jumpHeight >= 2.0f) {
+							xpToAdd = 25.0f;
+						} else if (jumpHeight >= 1.0f) {
+							xpToAdd = 20.0f;
+						}
+
+						SWEMPacketHandler.INSTANCE.sendToServer(new AddJumpXPMessage(xpToAdd, this.getEntityId()));
+
+
+						this.setHorseJumping(true);
+						this.isAirBorne = true;
+						net.minecraftforge.common.ForgeHooks.onLivingJump(this);
+						if (f1 > 0.0F) {
+							float f2 = MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F));
+							float f3 = MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F));
+							this.setMotion(this.getMotion().add((double) (-0.4F * f2 * this.jumpPower), 0.0D, (double) (0.4F * f3 * this.jumpPower)));
+						}
+
+
+
+						this.jumpPower = 0.0F;
+					} else {
+						this.makeMad();
+					}
 				}
-
-				SWEMPacketHandler.INSTANCE.sendToServer(new AddJumpXPMessage(xpToAdd, this.getEntityId()));
-
-
-				this.setHorseJumping(true);
-				this.isAirBorne = true;
-				net.minecraftforge.common.ForgeHooks.onLivingJump(this);
-				if (f1 > 0.0F) {
-					float f2 = MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F));
-					float f3 = MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F));
-					this.setMotion(this.getMotion().add((double) (-0.4F * f2 * this.jumpPower), 0.0D, (double) (0.4F * f3 * this.jumpPower)));
-				}
-
-
-
-				this.jumpPower = 0.0F;
 			}
+
 
 			this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
 			if (this.canPassengerSteer() && !isFlying() && !isLanding) {
@@ -1200,6 +1207,10 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 			super.travel(travelVector);
 		}
 
+	}
+
+	private float getDisobedienceFactor() {
+		return this.getRNG().nextFloat();
 	}
 
 	@Override
