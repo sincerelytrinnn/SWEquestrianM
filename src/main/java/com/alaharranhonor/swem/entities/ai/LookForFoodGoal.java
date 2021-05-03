@@ -1,4 +1,4 @@
-package com.alaharranhonor.swem.entities.goals;
+package com.alaharranhonor.swem.entities.ai;
 
 import com.alaharranhonor.swem.blocks.SlowFeederBlock;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
