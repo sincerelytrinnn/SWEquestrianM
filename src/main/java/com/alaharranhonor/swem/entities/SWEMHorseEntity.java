@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import software.bernie.geckolib3.GeckoLib;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -17,6 +18,8 @@ import software.bernie.geckolib3.core.event.SoundKeyframeEvent;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.resource.GeckoLibCache;
+
 import javax.annotation.Nullable;
 
 public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable {
@@ -40,6 +43,24 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 	{
 
 		SWEMHorseEntityBase horse = (SWEMHorseEntityBase) event.getAnimatable();
+		/*if (horse.isRearing()) { //
+
+			String animationName = event.getController().getCurrentAnimation().animationName;
+			if (animationName.equals("Rear") || animationName.equals("Buck")) // Exit early if the animation is already playing.
+				return PlayState.CONTINUE;
+
+			float animationValue = horse.getRNG().nextFloat();
+			GeckoLibCache.getInstance().parser.setValue("anim_speed", 3);
+			if (animationValue < 0.5) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Rear"));
+			} else {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("buck"));
+			}
+			return PlayState.CONTINUE;
+		}*/
+
+		GeckoLibCache.getInstance().parser.setValue("anim_speed", 1);
+
 
 		if (horse.isInWater()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("Swim"));
