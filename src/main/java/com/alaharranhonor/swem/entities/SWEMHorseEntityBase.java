@@ -229,6 +229,11 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 			this.SWEMHorsePoopTimer = Math.max(0, this.SWEMHorsePoopTimer - 1);
 			this.SWEMHorseGrassTimer = Math.max(0, this.SWEMHorseGrassTimer - 1);
 			this.SWEMHorsePeeTimer = Math.max(0, this.SWEMHorsePeeTimer - 1);
+
+			if (this.onGround && this.isHorseJumping()) {
+				this.jumpPower = 0.0F;
+				this.setHorseJumping(false);
+			}
 		}
 		if (!this.world.isRemote) {
 			if ((int)(this.world.getDayTime() % 24000L) == 10000) {
@@ -948,6 +953,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	public void tick() {
 		if (!this.world.isRemote) {
 			if (this.ticksExisted % 5 == 0 && !isFlying()) {
+
 				if (this.canBeSteered() && this.isBeingRidden() && this.currentSpeed != HorseSpeed.WALK && this.currentSpeed != HorseSpeed.TROT) {
 					int x = this.getPosition().getX();
 					int z = this.getPosition().getZ();
@@ -1111,7 +1117,6 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 			LivingEntity livingentity = (LivingEntity) this.getControllingPassenger();
 
 			this.rotationYaw = livingentity.rotationYaw;
-			SWEM.LOGGER.debug(this.rotationYaw);
 			this.prevRotationYaw = this.rotationYaw;
 			this.rotationPitch = livingentity.rotationPitch * 0.5F;
 			this.setRotation(this.rotationYaw, this.rotationPitch);
@@ -1140,43 +1145,43 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 				}
 
 				if (d1 > 0) {
-					if (this.getDisobedienceFactor() > this.progressionManager.getAffinityLeveling().getDebuff()) {
-						Vector3d vector3d = this.getMotion();
-						this.setMotion(vector3d.x, d1, vector3d.z);
+					//if (this.getDisobedienceFactor() > this.progressionManager.getAffinityLeveling().getDebuff()) {
+					Vector3d vector3d = this.getMotion();
+					this.setMotion(vector3d.x, d1, vector3d.z);
 
 
 
-						// Check jumpheight, and add XP accordingly.
-						float jumpHeight = (float) (-0.1817584952 * ((float)Math.pow(d1, 3.0F)) + 3.689713992 * ((float)Math.pow(d1, 2.0F)) + 2.128599134 * d1 - 0.343930367);
-						float xpToAdd = 0.0f;
-						if (jumpHeight >= 4.0f) {
-							xpToAdd = 40.0f;
-						} else if (jumpHeight >= 3.0f) {
-							xpToAdd = 30.0f;
-						} else if (jumpHeight >= 2.0f) {
-							xpToAdd = 25.0f;
-						} else if (jumpHeight >= 1.0f) {
-							xpToAdd = 20.0f;
-						}
-
-						SWEMPacketHandler.INSTANCE.sendToServer(new AddJumpXPMessage(xpToAdd, this.getEntityId()));
-
-
-						this.setHorseJumping(true);
-						this.isAirBorne = true;
-						net.minecraftforge.common.ForgeHooks.onLivingJump(this);
-						if (f1 > 0.0F) {
-							float f2 = MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F));
-							float f3 = MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F));
-							this.setMotion(this.getMotion().add((double) (-0.4F * f2 * this.jumpPower), 0.0D, (double) (0.4F * f3 * this.jumpPower)));
-						}
-
-
-
-						this.jumpPower = 0.0F;
-					} else {
-						this.makeMad();
+					// Check jumpheight, and add XP accordingly.
+					float jumpHeight = (float) (-0.1817584952 * ((float)Math.pow(d1, 3.0F)) + 3.689713992 * ((float)Math.pow(d1, 2.0F)) + 2.128599134 * d1 - 0.343930367);
+					float xpToAdd = 0.0f;
+					if (jumpHeight >= 4.0f) {
+						xpToAdd = 40.0f;
+					} else if (jumpHeight >= 3.0f) {
+						xpToAdd = 30.0f;
+					} else if (jumpHeight >= 2.0f) {
+						xpToAdd = 25.0f;
+					} else if (jumpHeight >= 1.0f) {
+						xpToAdd = 20.0f;
 					}
+
+					SWEMPacketHandler.INSTANCE.sendToServer(new AddJumpXPMessage(xpToAdd, this.getEntityId()));
+
+
+					this.setHorseJumping(true);
+					this.isAirBorne = true;
+					net.minecraftforge.common.ForgeHooks.onLivingJump(this);
+					if (f1 > 0.0F) {
+						float f2 = MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F));
+						float f3 = MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F));
+						this.setMotion(this.getMotion().add((double) (-0.4F * f2 * this.jumpPower), 0.0D, (double) (0.4F * f3 * this.jumpPower)));
+					}
+
+
+
+					this.jumpPower = 0.0F;
+					//} else {
+					//	this.makeMad();
+					//}
 				}
 			}
 
