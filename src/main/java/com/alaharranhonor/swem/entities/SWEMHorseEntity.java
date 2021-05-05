@@ -46,6 +46,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 		// Rearing happens on all jumps, because minecraft internally uses the Rear animation for jump animation while pushing the enitity
 		// into the sky. So find another check, maybe for like isAngry or some of the sort, to play rear animation instead, of isRearing.
+		// This is called from AbstractHorseEntity#handleStartJump()
 
 		/*if (horse.isRearing()) { //
 
