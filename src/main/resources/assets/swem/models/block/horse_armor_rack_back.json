@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
 	"textures": {
-		"2": "block/horse_armor_rack_back",
-		"particle": "block/horse_armor_rack_front"
+		"2": "swem:blocks/horse_armor_rack_back",
+		"particle": "swem:blocks/horse_armor_rack_back"
 	},
 	"groups": [
 		{
@@ -16,8 +16,8 @@
 	"layers": {
 		"solid": {
 			"textures": {
-				"2": "block/horse_armor_rack_back",
-				"particle": "block/horse_armor_rack_front"
+				"2": "swem:blocks/horse_armor_rack_back",
+				"particle": "swem:blocks/horse_armor_rack_back"
 			},
 			"elements": [
 				{
@@ -206,8 +206,8 @@
 		},
 		"translucent": {
 			"textures": {
-				"2": "block/horse_armor_rack_back",
-				"particle": "block/horse_armor_rack_front"
+				"2": "swem:blocks/horse_armor_rack_back",
+				"particle": "swem:blocks/horse_armor_rack_back"
 			},
 			"elements": [
 				{
