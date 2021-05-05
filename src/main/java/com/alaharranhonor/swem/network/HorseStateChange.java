@@ -106,6 +106,9 @@ public class HorseStateChange {
 					});
 					break;
 				}
+				case 7: {
+					horse.setHorseJumping(true);
+				}
 			}
 
 		});
