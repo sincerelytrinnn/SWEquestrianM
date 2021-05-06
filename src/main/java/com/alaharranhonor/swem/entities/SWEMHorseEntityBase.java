@@ -700,6 +700,8 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		this.needs.write(compound);
 
 		compound.putBoolean("flying", this.isFlying());
+
+		compound.putInt("HorseVariant", this.getHorseVariant());
 	}
 
 	public ItemStack func_213803_dV() {
@@ -778,6 +780,8 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		this.func_230275_fc_();
 
 		//this.setFlying(compound.getBoolean("flying"));
+
+		this.setHorseVariant(compound.getInt("HorseVariant"));
 	}
 
 	private void writeSaddlebagInventory(CompoundNBT compound) {
@@ -833,7 +837,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	}
 
 	private void setHorseVariant(int id) {
-		this.dataManager.set(HORSE_VARIANT, id % SWEMCoatColors.values().length);
+		this.dataManager.set(HORSE_VARIANT, id);
 	}
 
 
