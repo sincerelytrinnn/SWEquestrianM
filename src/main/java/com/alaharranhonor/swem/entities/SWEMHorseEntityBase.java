@@ -870,7 +870,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 			}
 			case WHITE: {
 				if (randomNum <= 10)
-					this.setHorseVariant(14);
+					this.setHorseVariant(15);
 				else if (randomNum <= 25)
 					this.setHorseVariant(1);
 				else
