@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.entities;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.config.ConfigHolder;
+import com.alaharranhonor.swem.config.ServerConfig;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.container.SaddlebagContainer;
 import com.alaharranhonor.swem.entities.ai.*;
@@ -31,6 +32,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.monster.piglin.PiglinEntity;
 import net.minecraft.entity.passive.horse.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -831,7 +833,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	}
 
 	private void setHorseVariant(int id) {
-		this.dataManager.set(HORSE_VARIANT, id);
+		this.dataManager.set(HORSE_VARIANT, id % SWEMCoatColors.values().length);
 	}
 
 
@@ -1354,6 +1356,17 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		}
 
 		if (!itemstack.isEmpty() && itemstack.getItem() != Items.SADDLE) {
+			if (itemstack.getItem() == Items.LAPIS_LAZULI) {
+				if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
+					this.setHorseVariant((this.getHorseVariant() + 1) % (SWEMCoatColors.values().length - 2));
+					ItemStack heldItemCopy = itemstack.copy();
+					if (!p_230254_1_.abilities.isCreativeMode)
+						heldItemCopy.shrink(1);
+					p_230254_1_.setHeldItem(p_230254_2_, heldItemCopy);
+					return ActionResultType.SUCCESS;
+				}
+			}
+
 			if (NEGATIVE_FOOD_ITEMS.test(itemstack)) {
 				// Emit negative particle effects.
 				return ActionResultType.FAIL;
