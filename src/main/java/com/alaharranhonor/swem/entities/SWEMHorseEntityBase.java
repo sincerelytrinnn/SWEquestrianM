@@ -374,7 +374,6 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	public void setHorseJumping(boolean jumping) {
 		super.setHorseJumping(jumping);
 		if (!this.world.isRemote)
-			SWEM.LOGGER.debug("Jumping has been set by server to="+jumping);
 			this.dataManager.set(JUMPING, jumping);
 	}
 

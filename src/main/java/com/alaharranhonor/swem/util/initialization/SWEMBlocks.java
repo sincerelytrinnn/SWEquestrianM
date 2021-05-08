@@ -99,7 +99,6 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> WESTERN_POLE = BLOCKS.register("western_pole", () -> new WesternPoleBlock(Block.Properties.create(Material.WOOD)));
 	public static final RegistryObject<Block> INVISIBLE_GLOW_BLOCK = BLOCKS.register("invisible_glow_block", () -> new InvisibleGlowBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> WESTERN_FENCE = BLOCKS.register("western_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
-	public static final RegistryObject<Block> HALF_BARREL = BLOCKS.register("half_barrel", () -> new HalfBarrelBlock(Block.Properties.create(Material.IRON).notSolid()));
 	public static final RegistryObject<Block> PASTURE_FENCE = BLOCKS.register("pasture_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> TACK_BOX = BLOCKS.register("tack_box", () -> new TackBoxBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<HorseDoorBlock> ACACIA_STALL_HORSE = BLOCKS.register("acacia_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid(), DyeColor.BLACK));
@@ -273,7 +272,6 @@ public class SWEMBlocks {
 			() -> new BlockItemBase(PASTURE_HITCHING_POST_MINI.get()));
 	public static final RegistryObject<Item> WESTERN_FENCE_ITEM = SWEMItems.ITEMS.register("western_fence", () -> new BlockItemBase(WESTERN_FENCE.get()));
 	public static final RegistryObject<Item> PASTURE_FENCE_ITEM = SWEMItems.ITEMS.register("pasture_fence", () -> new BlockItemBase(PASTURE_FENCE.get()));
-	public static final RegistryObject<Item> HALF_BARREL_ITEM = SWEMItems.ITEMS.register("half_barrel", () -> new BlockItemBase(HALF_BARREL.get()));
 	public static final RegistryObject<Item> TACK_BOX_ITEM = SWEMItems.ITEMS.register("tack_box", () -> new TackBoxBlockItem(TACK_BOX.get()));
 	public static final RegistryObject<Item> ACACIA_STALL_HORSE_ITEM = SWEMItems.ITEMS.register("acacia_stall_horse", () -> new BlockItemBase(ACACIA_STALL_HORSE.get()));
 	public static final RegistryObject<Item> BIRCH_STALL_HORSE_ITEM = SWEMItems.ITEMS.register("birch_stall_horse", () -> new BlockItemBase(BIRCH_STALL_HORSE.get()));

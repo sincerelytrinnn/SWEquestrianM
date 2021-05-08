@@ -42,11 +42,11 @@ public class BarrelBlock extends Block {
 		if (itemstack.getItem() == Items.SHEARS) {
 			itemstack.damageItem(1, player, (entity) -> entity.sendBreakAnimation(handIn));
 			worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
-			ItemEntity entity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(SWEMBlocks.HALF_BARREL_ITEM.get()));
-			ItemEntity entity1 = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(SWEMBlocks.HALF_BARREL_ITEM.get()));
+			//ItemEntity entity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(SWEMBlocks.HALF_BARREL_ITEM.get()));
+			//ItemEntity entity1 = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(SWEMBlocks.HALF_BARREL_ITEM.get()));
 
-			worldIn.addEntity(entity);
-			worldIn.addEntity(entity1);
+			//worldIn.addEntity(entity);
+			//worldIn.addEntity(entity1);
 			return ActionResultType.SUCCESS;
 		} else {
 			return ActionResultType.PASS;
