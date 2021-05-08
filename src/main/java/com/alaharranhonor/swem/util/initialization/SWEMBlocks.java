@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.util.initialization;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.blocks.*;
+import com.alaharranhonor.swem.blocks.BarrelBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpStandardBlock;
 import net.minecraft.block.*;
@@ -129,6 +130,7 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> LOCKER = BLOCKS.register("locker", () -> new LockerBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> PADDOCK_FEEDER = BLOCKS.register("paddock_feeder", () -> new PaddockFeederBlock(Block.Properties.create(Material.WOOD)));
 	public static final RegistryObject<Block> HORSE_ARMOR_RACK = BLOCKS.register("horse_armor_rack", () -> new HorseArmorRackBlock(Block.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<Block> WESTERN_BARREL = register("western_barrel", () -> new BarrelBlock(Block.Properties.create(Material.IRON).notSolid()));
 
     // Jump blocks
 	public static final RegistryObject<Block> JUMP_STANDARD_SCHOOLING = BLOCKS.register("jump_standard_schooling", () -> new JumpStandardBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
