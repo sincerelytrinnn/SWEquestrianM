@@ -2,6 +2,8 @@ package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.AmethystRidingBoots;
+import com.alaharranhonor.swem.commands.DevCommand;
+import com.alaharranhonor.swem.commands.YeetCommand;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.network.HorseFlyingMessage;
 import com.alaharranhonor.swem.network.HorseStateChange;
@@ -72,6 +74,7 @@ public class ForgeBusEventSubscriber {
 	@SubscribeEvent
 	public static void registerCommands(RegisterCommandsEvent event) {
 		//event.getDispatcher().register(YeetCommand.register());
+		event.getDispatcher().register(DevCommand.register());
 	}
 
 	@SubscribeEvent
