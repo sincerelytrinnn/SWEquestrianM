@@ -209,15 +209,15 @@ public class SWEMBlocks {
 					block -> () -> new BlockItemBase(block.get())));
 			GRAIN_FEEDERS.add(register("grain_feeder_"+color.toString(), () -> new GrainFeederBlock(Block.Properties.create(Material.IRON), color),
 					block -> () -> new BlockItemBase(block.get())));
-			PASTURE_GATES_HORSE.add(register("pasture_"+color.toString() + "_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
+			PASTURE_GATES_HORSE.add(register("pasture_"+color.toString() + "_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.IRON).notSolid().hardnessAndResistance(1.0f), color),
 					block -> () -> new BlockItemBase(block.get())));
-			PASTURE_GATES_CARE.add(register("pasture_"+color.toString() + "_care", () -> new CareDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
+			PASTURE_GATES_CARE.add(register("pasture_"+color.toString() + "_care", () -> new CareDoorBlock(Block.Properties.create(Material.IRON).notSolid().hardnessAndResistance(1.0f), color),
 					block -> () -> new BlockItemBase(block.get())));
-			WEB_GUARDS_CARE.add(register("web_guard_"+color.toString() + "_care", () -> new HalfCareDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
+			WEB_GUARDS_CARE.add(register("web_guard_"+color.toString() + "_care", () -> new HalfCareDoorBlock(Block.Properties.create(Material.IRON).notSolid().hardnessAndResistance(1.0f), color),
 					block -> () -> new BlockItemBase(block.get())));
-			WEB_GUARDS_HORSE.add(register("web_guard_"+color.toString() + "_horse", () -> new HalfHorseDoorBlock(Block.Properties.create(Material.IRON).notSolid(), color),
+			WEB_GUARDS_HORSE.add(register("web_guard_"+color.toString() + "_horse", () -> new HalfHorseDoorBlock(Block.Properties.create(Material.IRON).notSolid().hardnessAndResistance(1.0f), color),
 					block -> () -> new BlockItemBase(block.get())));
-			WEB_GUARDS_RIDER.add(register("web_guard_"+color.toString() + "_rider", () -> new HalfDoorBlock(Block.Properties.create(Material.IRON).notSolid()),
+			WEB_GUARDS_RIDER.add(register("web_guard_"+color.toString() + "_rider", () -> new HalfDoorBlock(Block.Properties.create(Material.IRON).notSolid().hardnessAndResistance(1.0f)),
 					block -> () -> new BlockItemBase(block.get())));
 			HALF_BARRELS.add(register("half_barrel_"+color.getTranslationKey(), () -> new HalfBarrelBlock(Block.Properties.create(Material.IRON).notSolid()),
 					block -> () -> new BlockItemBase(block.get())));
