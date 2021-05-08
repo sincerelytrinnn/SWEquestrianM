@@ -24,6 +24,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Timer;
+import java.util.UUID;
 
 
 @OnlyIn(Dist.CLIENT)
@@ -89,8 +90,15 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		this.font.drawText(matrixStack, new TranslationTextComponent("Stats"), 65, 6,4210752);
 
 		// Owner name.
-		String ownerName = this.horseEntity.world.getPlayerByUuid(this.horseEntity.getOwnerUniqueId()).getName().getString(); // produces NullPointerException
-		this.font.drawText(matrixStack, new StringTextComponent(SWEMUtil.checkTextOverflow(ownerName, 22)), 65.2f, 36.0f, 4210752);
+		UUID ownerUUID = this.horseEntity.getOwnerUniqueId();
+		if (ownerUUID != null) {
+			String ownerName = this.horseEntity.world.getPlayerByUuid(ownerUUID).getName().getString(); // produces NullPointerException
+			this.font.drawText(matrixStack, new StringTextComponent(SWEMUtil.checkTextOverflow(ownerName, 22)), 65.2f, 36.0f, 4210752);
+		} else {
+			this.font.drawText(matrixStack, new StringTextComponent(SWEMUtil.checkTextOverflow("Player not found.", 22)), 65.2f, 36.0f, 4210752);
+
+		}
+
 		// Jump TEXT
 		TranslationTextComponent jumpInfo;
 		if (jumpLeveling.getLevel() != jumpLeveling.getMaxLevel()) {
