@@ -154,6 +154,8 @@ public class HalfCareDoorBlock extends Block {
 			});
 		}
 
+		spawnDrops(state, worldIn, pos);
+
 		super.onBlockHarvested(worldIn, pos, state, player);
 	}
 

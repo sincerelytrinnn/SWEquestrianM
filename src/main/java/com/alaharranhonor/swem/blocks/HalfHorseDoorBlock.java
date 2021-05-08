@@ -143,6 +143,8 @@ public class HalfHorseDoorBlock extends Block {
 			});
 		}
 
+		spawnDrops(state, worldIn, pos);
+
 		super.onBlockHarvested(worldIn, pos, state, player);
 	}
 
