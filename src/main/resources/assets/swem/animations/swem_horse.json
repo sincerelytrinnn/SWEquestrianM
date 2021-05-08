@@ -22973,14 +22973,14 @@
 					},
 					"position": {
 						"0.0": {
-							"vector": [0, -29, 0]
+							"vector": [0, 0, 0]
 						},
 						"0.8": {
-							"vector": [0, -29.6, 0],
+							"vector": [0, -0.6, 0],
 							"easing": "easeOutSine"
 						},
 						"1.6": {
-							"vector": [0, -29, 0]
+							"vector": [0, 0, 0]
 						}
 					}
 				},
