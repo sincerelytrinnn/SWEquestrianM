@@ -73,7 +73,7 @@ public class CantazariteAnvilTE extends TileEntity implements INamedContainerPro
 
 	@Override
 	public ITextComponent getDisplayName() {
-		return new TranslationTextComponent("swem.container.anvil");
+		return new TranslationTextComponent("swem.container.cantazarite_anvil");
 	}
 
 	@Nullable
