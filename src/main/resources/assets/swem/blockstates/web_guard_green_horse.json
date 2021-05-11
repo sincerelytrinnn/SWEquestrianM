@@ -8,7 +8,7 @@
               "open": "false"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom",
+              "model": "swem:block/web_guard_green_bottom_right",
               "y": 90
             }
           },
@@ -20,7 +20,7 @@
               "open": "false"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom_right",
+              "model": "swem:block/web_guard_green_bottom",
               "y": 90
             }
           },
@@ -32,7 +32,7 @@
               "open": "true"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom",
+              "model": "swem:block/web_guard_green_bottom_right",
               "y": 180
             }
           },
@@ -44,7 +44,7 @@
               "open": "true"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom_right",
+              "model": "swem:block/web_guard_green_bottom",
               "y": 180
             }
           },
@@ -56,7 +56,7 @@
               "open": "true"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom"
+              "model": "swem:block/web_guard_green_bottom_right"
             }
           },
           {
@@ -67,7 +67,7 @@
               "open": "true"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom_right"
+              "model": "swem:block/web_guard_green_bottom"
             }
           },
       
@@ -76,17 +76,6 @@
               "facing": "east",
               "hinge": "left|right",
               "side": "left",
-              "open": "false"
-            },
-            "apply": {
-              "model": "swem:block/web_guard_green_bottom"
-            }
-          },
-          {
-            "when": {
-              "facing": "east",
-              "hinge": "left|right",
-              "side": "right",
               "open": "false"
             },
             "apply": {
@@ -96,12 +85,23 @@
           {
             "when": {
               "facing": "east",
+              "hinge": "left|right",
+              "side": "right",
+              "open": "false"
+            },
+            "apply": {
+              "model": "swem:block/web_guard_green_bottom"
+            }
+          },
+          {
+            "when": {
+              "facing": "east",
               "hinge": "left",
               "side": "left",
               "open": "true"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom",
+              "model": "swem:block/web_guard_green_bottom_right",
               "y": 90
             }
           },
@@ -113,7 +113,7 @@
               "open": "true"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom_right",
+              "model": "swem:block/web_guard_green_bottom",
               "y": 90
             }
           },
@@ -125,7 +125,7 @@
               "open": "true"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom",
+              "model": "swem:block/web_guard_green_bottom_right",
               "y": 270
             }
           },
@@ -137,7 +137,7 @@
               "open": "true"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom_right",
+              "model": "swem:block/web_guard_green_bottom",
               "y": 270
             }
           },
@@ -150,7 +150,7 @@
               "open": "false"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom",
+              "model": "swem:block/web_guard_green_bottom_right",
               "y": 270
             }
           },
@@ -162,7 +162,7 @@
               "open": "false"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom_right",
+              "model": "swem:block/web_guard_green_bottom",
               "y": 270
             }
           },
@@ -171,17 +171,6 @@
               "facing": "north",
               "hinge": "left",
               "side": "left",
-              "open": "true"
-            },
-            "apply": {
-              "model": "swem:block/web_guard_green_bottom"
-            }
-          },
-          {
-            "when": {
-              "facing": "north",
-              "hinge": "left",
-              "side": "right",
               "open": "true"
             },
             "apply": {
@@ -191,12 +180,23 @@
           {
             "when": {
               "facing": "north",
+              "hinge": "left",
+              "side": "right",
+              "open": "true"
+            },
+            "apply": {
+              "model": "swem:block/web_guard_green_bottom"
+            }
+          },
+          {
+            "when": {
+              "facing": "north",
               "hinge": "right",
               "side": "left",
               "open": "true"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom",
+              "model": "swem:block/web_guard_green_bottom_right",
               "y": 180
             }
           },
@@ -208,7 +208,7 @@
               "open": "true"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom_right",
+              "model": "swem:block/web_guard_green_bottom",
               "y": 180
             }
           },
@@ -222,7 +222,7 @@
               "open": "false"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom",
+              "model": "swem:block/web_guard_green_bottom_right",
               "y": 180
             }
           },
@@ -234,7 +234,7 @@
               "open": "false"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom_right",
+              "model": "swem:block/web_guard_green_bottom",
               "y": 180
             }
           },
@@ -246,7 +246,7 @@
               "open": "true"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom",
+              "model": "swem:block/web_guard_green_bottom_right",
               "y": 270
             }
           },
@@ -258,7 +258,7 @@
               "open": "true"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom_right",
+              "model": "swem:block/web_guard_green_bottom",
               "y": 270
             }
           },
@@ -270,7 +270,7 @@
               "open": "true"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom",
+              "model": "swem:block/web_guard_green_bottom_right",
               "y": 90
             }
           },
@@ -282,7 +282,7 @@
               "open": "true"
             },
             "apply": {
-              "model": "swem:block/web_guard_green_bottom_right",
+              "model": "swem:block/web_guard_green_bottom",
               "y": 90
             }
           }
