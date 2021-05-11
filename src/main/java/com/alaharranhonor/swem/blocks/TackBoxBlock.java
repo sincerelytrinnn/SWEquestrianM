@@ -98,9 +98,9 @@ public class TackBoxBlock extends HorizontalBlock {
 
 			}
 			if (state.get(SWEMBlockStateProperties.D_SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
-					worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateY().rotateY()), Blocks.AIR.getDefaultState());
+					worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateYCCW()), Blocks.AIR.getDefaultState());
 			} else {
-				worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateYCCW().rotateYCCW()), Blocks.AIR.getDefaultState());
+				worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateY()), Blocks.AIR.getDefaultState());
 			}
 		}
 	}
