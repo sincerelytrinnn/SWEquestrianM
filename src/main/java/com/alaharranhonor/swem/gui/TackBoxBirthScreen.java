@@ -62,19 +62,7 @@ public class TackBoxBirthScreen extends Screen {
 		if (this.container.horse != null) {
 			SWEMHorseEntityBase horse = this.container.horse;
 
-			UUID ownerUUID = horse.getOwnerUniqueId();
-			if (ownerUUID != null) {
-				PlayerEntity player = horse.world.getPlayerByUuid(ownerUUID);
-				if (player != null) {
-					String ownerName = player.getGameProfile().getName();
-					this.font.drawText(matrixStack, new StringTextComponent(String.format("Owner: %s", SWEMUtil.checkTextOverflow(ownerName, 24)) ), this.guiLeft + 17, this.guiTop + 57, 4210752);
-				} else {
-					this.font.drawText(matrixStack, new StringTextComponent(String.format("Owner: %s", SWEMUtil.checkTextOverflow("Player not found", 24)) ), this.guiLeft + 17, this.guiTop + 57, 4210752);
-				}
-			} else {
-				this.font.drawText(matrixStack, new StringTextComponent(String.format("Owner: %s", SWEMUtil.checkTextOverflow("Owner UUID not found", 24)) ), this.guiLeft + 17, this.guiTop + 57, 4210752);
-			}
-
+			this.font.drawText(matrixStack, new StringTextComponent(String.format("Owner: %s", SWEMUtil.checkTextOverflow(horse.getOwnerName(), 24)) ), this.guiLeft + 17, this.guiTop + 57, 4210752);
 			this.font.drawText(matrixStack, new StringTextComponent(String.format("Name: %s", SWEMUtil.checkTextOverflow(horse.getName().getString(), 24)) ), this.guiLeft + 17, this.guiTop + 67, 4210752);
 			this.font.drawText(matrixStack, new StringTextComponent(String.format("Show Name: %s", SWEMUtil.checkTextOverflow("Phase 2", 24))), this.guiLeft + 17, this.guiTop + 77, 4210752);
 

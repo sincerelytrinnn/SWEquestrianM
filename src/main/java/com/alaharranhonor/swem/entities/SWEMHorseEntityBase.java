@@ -96,6 +96,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	public static final Ingredient NEGATIVE_FOOD_ITEMS = Ingredient.fromItems(Items.WHEAT, Items.HAY_BLOCK);
 	private static final DataParameter<Boolean> FLYING = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Boolean> JUMPING = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<String> OWNER_NAME = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.STRING);
 	private PathNavigator oldNavigator;
 	private EatGrassGoal eatGrassGoal;
 	private PoopGoal poopGoal;
@@ -211,7 +212,9 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	}
 
 
-
+	public String getOwnerName() {
+		return this.dataManager.get(OWNER_NAME);
+	}
 
 	@Override
 	protected void updateAITasks()
@@ -368,7 +371,16 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 		this.dataManager.register(FLYING, false);
 		this.dataManager.register(JUMPING, false);
+		this.dataManager.register(OWNER_NAME, "");
 
+	}
+
+	@Override
+	public void setOwnerUniqueId(@Nullable UUID uniqueId) {
+		super.setOwnerUniqueId(uniqueId);
+		if (uniqueId != null) {
+			this.dataManager.set(OWNER_NAME, this.world.getPlayerByUuid(uniqueId).getGameProfile().getName());
+		}
 	}
 
 	@Override
