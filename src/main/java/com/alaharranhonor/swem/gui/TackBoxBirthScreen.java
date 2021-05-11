@@ -9,12 +9,15 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+
+import java.util.UUID;
 
 public class TackBoxBirthScreen extends Screen {
 	private static final ResourceLocation TACKBOX_BIRTH_TEXTURE = new ResourceLocation(SWEM.MOD_ID, "textures/gui/container/tackbox_birth.png");
@@ -59,8 +62,18 @@ public class TackBoxBirthScreen extends Screen {
 		if (this.container.horse != null) {
 			SWEMHorseEntityBase horse = this.container.horse;
 
-			String ownerName = horse.world.getPlayerByUuid(horse.getOwnerUniqueId()).getName().getString();
-			this.font.drawText(matrixStack, new StringTextComponent(String.format("Owner: %s", SWEMUtil.checkTextOverflow(ownerName, 24)) ), this.guiLeft + 17, this.guiTop + 57, 4210752);
+			UUID ownerUUID = horse.getOwnerUniqueId();
+			if (ownerUUID != null) {
+				PlayerEntity player = horse.world.getPlayerByUuid(ownerUUID);
+				if (player != null) {
+					String ownerName = player.getGameProfile().getName();
+					this.font.drawText(matrixStack, new StringTextComponent(String.format("Owner: %s", SWEMUtil.checkTextOverflow(ownerName, 24)) ), this.guiLeft + 17, this.guiTop + 57, 4210752);
+				} else {
+					this.font.drawText(matrixStack, new StringTextComponent(String.format("Owner: %s", SWEMUtil.checkTextOverflow("Player not found", 24)) ), this.guiLeft + 17, this.guiTop + 57, 4210752);
+				}
+			} else {
+				this.font.drawText(matrixStack, new StringTextComponent(String.format("Owner: %s", SWEMUtil.checkTextOverflow("Owner UUID not found", 24)) ), this.guiLeft + 17, this.guiTop + 57, 4210752);
+			}
 
 			this.font.drawText(matrixStack, new StringTextComponent(String.format("Name: %s", SWEMUtil.checkTextOverflow(horse.getName().getString(), 24)) ), this.guiLeft + 17, this.guiTop + 67, 4210752);
 			this.font.drawText(matrixStack, new StringTextComponent(String.format("Show Name: %s", SWEMUtil.checkTextOverflow("Phase 2", 24))), this.guiLeft + 17, this.guiTop + 77, 4210752);
