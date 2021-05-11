@@ -19,7 +19,7 @@ public class TackBoxModel extends AnimatedGeoModel<TackBoxTE> {
 
 	@Override
 	public ResourceLocation getTextureLocation(TackBoxTE tackBoxTE) {
-		return new ResourceLocation(SWEM.MOD_ID, "textures/tile/tackbox.png");
+		return new ResourceLocation(SWEM.MOD_ID, "textures/tile/tackbox_white.png");
 	}
 
 	@Override
