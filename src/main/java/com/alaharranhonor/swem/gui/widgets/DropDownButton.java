@@ -9,7 +9,7 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
-public class DropDownButton<T> extends Button {
+public class DropDownButton<T> extends CycableButton {
 
 	private JumpScreen screen;
 	private T currentLayer;
@@ -40,7 +40,6 @@ public class DropDownButton<T> extends Button {
 
 	@Override
 	public void onPress() {
-		SWEMPacketHandler.INSTANCE.sendToServer(new CChangeLayerPacket(this.screen.controllerPos, layer));
 		super.onPress();
 	}
 
@@ -66,9 +65,15 @@ public class DropDownButton<T> extends Button {
 	public static class Press implements DropDownButton.IPressable {
 
 		@Override
-		public void onPress(Button p_onPress_1_) {
-			DropDownButton button = (DropDownButton) p_onPress_1_;
+		public void onPress(CycableButton press) {
+			DropDownButton button = (DropDownButton) press;
+			SWEMPacketHandler.INSTANCE.sendToServer(new CChangeLayerPacket(button.screen.controllerPos, button.layer, false));
+		}
 
+		@Override
+		public void onRightPress(CycableButton press) {
+			DropDownButton button = (DropDownButton) press;
+			SWEMPacketHandler.INSTANCE.sendToServer(new CChangeLayerPacket(button.screen.controllerPos, button.layer, true));
 		}
 	}
 }
