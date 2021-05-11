@@ -92,11 +92,15 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		// Owner name.
 		UUID ownerUUID = this.horseEntity.getOwnerUniqueId();
 		if (ownerUUID != null) {
-			String ownerName = this.horseEntity.world.getPlayerByUuid(ownerUUID).getName().getString(); // produces NullPointerException
-			this.font.drawText(matrixStack, new StringTextComponent(SWEMUtil.checkTextOverflow(ownerName, 22)), 65.2f, 36.0f, 4210752);
+			PlayerEntity owner = this.horseEntity.world.getPlayerByUuid(ownerUUID);
+			if (owner != null) {
+				String ownerName = owner.getGameProfile().getName();// maybe produces NullPointerException
+				this.font.drawText(matrixStack, new StringTextComponent(SWEMUtil.checkTextOverflow(ownerName, 22)), 65.2f, 36.0f, 4210752);
+			} else {
+				this.font.drawText(matrixStack, new StringTextComponent(SWEMUtil.checkTextOverflow("Player name null.", 22)), 65.2f, 36.0f, 4210752);
+			}
 		} else {
-			this.font.drawText(matrixStack, new StringTextComponent(SWEMUtil.checkTextOverflow("Player not found.", 22)), 65.2f, 36.0f, 4210752);
-
+			this.font.drawText(matrixStack, new StringTextComponent(SWEMUtil.checkTextOverflow("Player UUID null.", 22)), 65.2f, 36.0f, 4210752);
 		}
 
 		// Jump TEXT
