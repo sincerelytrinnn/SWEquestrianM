@@ -216,6 +216,10 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		return this.dataManager.get(OWNER_NAME);
 	}
 
+	public void setOwnerName(String ownerName) {
+		this.dataManager.set(OWNER_NAME, ownerName);
+	}
+
 	@Override
 	protected void updateAITasks()
 	{
@@ -379,7 +383,10 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	public void setOwnerUniqueId(@Nullable UUID uniqueId) {
 		super.setOwnerUniqueId(uniqueId);
 		if (uniqueId != null) {
-			this.dataManager.set(OWNER_NAME, this.world.getPlayerByUuid(uniqueId).getGameProfile().getName());
+			PlayerEntity player = this.world.getPlayerByUuid(uniqueId);
+			if (player != null) {
+				this.dataManager.set(OWNER_NAME, player.getGameProfile().getName());
+			}
 		}
 	}
 
@@ -714,6 +721,8 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		compound.putBoolean("flying", this.isFlying());
 
 		compound.putInt("HorseVariant", this.getHorseVariant());
+
+		compound.putString("ownerName", this.getOwnerName());
 	}
 
 	public ItemStack func_213803_dV() {
@@ -794,6 +803,8 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		//this.setFlying(compound.getBoolean("flying"));
 
 		this.setHorseVariant(compound.getInt("HorseVariant"));
+
+		this.setOwnerName(compound.getString("ownerName"));
 	}
 
 	private void writeSaddlebagInventory(CompoundNBT compound) {
