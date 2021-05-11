@@ -235,6 +235,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 			if (this.onGround && this.isHorseJumping()) {
 				this.jumpPower = 0.0F;
 				this.setHorseJumping(false);
+				SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(8, this.getEntityId()));
 			}
 		}
 		if (!this.world.isRemote) {
@@ -1107,7 +1108,13 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 				}
 			}
 
+		} else if (this.isInLava() && !this.eyesInWater && !this.isBeingRidden()) {
+			if (this.getMotion().getY() > 0) {
+				this.setMotion(this.getMotion().getX(), -.15, this.getMotion().getZ()); // Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until eyesInWater returns true.
+			}
 		}
+
+
 	}
 
 	private void tickAmethystArmor() {
