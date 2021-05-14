@@ -18,10 +18,22 @@
 				{
 					"name": "body",
 					"parent": "cloth",
-					"pivot": [0, 0, 13],
+					"pivot": [0, 0, 13]
+				},
+				{
+					"name": "right",
+					"parent": "body",
+					"pivot": [0, 0, 0],
 					"cubes": [
-						{"origin": [-5, 13, -7], "size": [8, 17, 1], "inflate": 0.125, "uv": [18, 26]},
 						{"origin": [-5, 13, 6], "size": [8, 17, 1], "inflate": 0.125, "uv": [0, 26]}
+					]
+				},
+				{
+					"name": "left",
+					"parent": "body",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-5, 13, -7], "size": [8, 17, 1], "inflate": 0.125, "uv": [18, 26]}
 					]
 				},
 				{
