@@ -246,12 +246,6 @@ public class SWEMBlocks {
 			() -> new BlockItemBase(AMETHYST_ORE.get()));
 	public static final RegistryObject<Item> QUALITY_BALE_ITEM = SWEMItems.ITEMS.register("quality_bale",
 			() -> new BlockItemBase(QUALITY_BALE.get()));
-	public static final RegistryObject<Item> TIMOTHY_SEEDS = SWEMItems.ITEMS.register("timothy_seeds",
-			() -> new BlockItemBase(TIMOTHY_GRASS.get()));
-	public static final RegistryObject<Item> ALFALFA_SEEDS = SWEMItems.ITEMS.register("alfalfa_seeds",
-			() -> new BlockItemBase(ALFALFA_PLANT.get()));
-	public static final RegistryObject<Item> OAT_SEEDS = SWEMItems.ITEMS.register("oat_seeds",
-			() -> new BlockItemBase(OAT_PLANT.get()));
 	public static final RegistryObject<Item> DARK_SHAVINGS_ITEM = SWEMItems.ITEMS.register("dark_shavings",
 			() -> new ShavingsItem(DARK_SHAVINGS.get()));
 	public static final RegistryObject<Item> LIGHT_SHAVINGS_ITEM = SWEMItems.ITEMS.register("light_shavings",

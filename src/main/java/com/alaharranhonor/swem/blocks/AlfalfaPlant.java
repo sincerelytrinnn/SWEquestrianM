@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.blocks;
 
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropsBlock;
@@ -28,7 +29,7 @@ public class AlfalfaPlant extends CropsBlock {
 
     @Override
     protected IItemProvider getSeedsItem() {
-        return SWEMBlocks.ALFALFA_SEEDS.get();
+        return SWEMItems.ALFALFA_SEEDS.get();
     }
 
     @Override

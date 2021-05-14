@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.util.initialization;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.*;
+import com.alaharranhonor.swem.blocks.BlockItemBase;
 import com.alaharranhonor.swem.entity.coats.SWEMCoatColors;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.potions.CantazaritePotionItem;
@@ -78,6 +79,12 @@ public class SWEMItems {
 	public static final RegistryObject<Item> TIMOTHY_BUSHEL = ITEMS.register("timothy_bushel", ItemBase::new);
 	public static final RegistryObject<Item> OAT_BUSHEL = ITEMS.register("oat_bushel", ItemBase::new);
 	public static final RegistryObject<Item> ALFALFA_BUSHEL = ITEMS.register("alfalfa_bushel", ItemBase::new);
+	public static final RegistryObject<Item> TIMOTHY_SEEDS = ITEMS.register("timothy_seeds",
+			() -> new BlockItemBase(SWEMBlocks.TIMOTHY_GRASS.get()));
+	public static final RegistryObject<Item> ALFALFA_SEEDS = ITEMS.register("alfalfa_seeds",
+			() -> new BlockItemBase(SWEMBlocks.ALFALFA_PLANT.get()));
+	public static final RegistryObject<Item> OAT_SEEDS = ITEMS.register("oat_seeds",
+			() -> new BlockItemBase(SWEMBlocks.OAT_PLANT.get()));
 	public static final RegistryObject<FenceToolItem> FENCE_TOOL = ITEMS.register("fence_tool", FenceToolItem::new);
 	public static final RegistryObject<WhistleItem> WHISTLE = ITEMS.register("whistle", WhistleItem::new);
 	public static final RegistryObject<PotionItem> CANTAZARITE_POTION = ITEMS.register("cantazarite_potion", () -> new CantazaritePotionItem(new Item.Properties().maxStackSize(1).group(SWEM.TAB)));

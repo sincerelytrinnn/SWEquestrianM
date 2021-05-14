@@ -10,6 +10,7 @@ import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
@@ -27,6 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nullable;
+import java.util.UUID;
 
 public class OneSaddleRack extends HorizontalBlock {
 
@@ -57,7 +59,9 @@ public class OneSaddleRack extends HorizontalBlock {
 						} else {
 							saddleCopy = saddle.split(1);
 						}
-
+						CompoundNBT tag = saddleCopy.getOrCreateTag();
+						tag.putUniqueId("UUID", UUID.randomUUID());
+						saddleCopy.setTag(tag);
 						rack.itemHandler.setStackInSlot(0, saddleCopy);
 						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
 						return ActionResultType.func_233537_a_(worldIn.isRemote);
