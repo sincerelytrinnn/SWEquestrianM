@@ -12,6 +12,7 @@ import com.alaharranhonor.swem.util.SWLRegistryHandler;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMEntities;
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
+import net.minecraft.block.ComposterBlock;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.item.*;
 import net.minecraftforge.common.MinecraftForge;
@@ -87,6 +88,16 @@ public class SWEM
             GlobalEntityTypeAttributes.put(SWEMEntities.HORSE_POOP_ENTITY.get(), PoopEntity.registerAttributes().create());
             BrewingRecipeRegistry.addRecipe(new BrewingRecipes.CantazariteBrewingRecipe());
             BrewingRecipeRegistry.addRecipe(new BrewingRecipes.RainbowChicPotion());
+
+            ComposterBlock.CHANCES.put(SWEMItems.ALFALFA_SEEDS.get(), 0.3F);
+            ComposterBlock.CHANCES.put(SWEMItems.ALFALFA_BUSHEL.get(), 0.65F);
+            ComposterBlock.CHANCES.put(SWEMItems.OAT_SEEDS.get(), 0.3F);
+            ComposterBlock.CHANCES.put(SWEMItems.OAT_BUSHEL.get(), 0.65F);
+            ComposterBlock.CHANCES.put(SWEMItems.TIMOTHY_SEEDS.get(), 0.3F);
+            ComposterBlock.CHANCES.put(SWEMItems.TIMOTHY_BUSHEL.get(), 0.65F);
+            ComposterBlock.CHANCES.put(SWEMBlocks.QUALITY_BALE_ITEM.get(), 0.85F);
+            ComposterBlock.CHANCES.put(SWEMBlocks.WET_COMPOST_ITEM.get(), 0.85F);
+            ComposterBlock.CHANCES.put(SWEMBlocks.COMPOST_ITEM.get(), 0.85F);
         });
 
         SWEMPacketHandler.init();
