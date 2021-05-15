@@ -39,6 +39,7 @@ public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity> {
         this.addLayer(new HalterLayer(this));
         this.addLayer(new EnglishBridleLayer(this));
         this.addLayer(new WesternBridleLayer(this));
+        this.addLayer(new AdventureBridleLayer(this));
         this.addLayer(new LegWrapsLayer(this));
         this.addLayer(new WesternSaddleLayer(this));
         this.addLayer(new EnglishSaddleLayer(this));
