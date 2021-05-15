@@ -5,8 +5,11 @@ import com.alaharranhonor.swem.blocks.*;
 import com.alaharranhonor.swem.entity.render.*;
 import com.alaharranhonor.swem.gui.*;
 import com.alaharranhonor.swem.items.SWEMSpawnEggItem;
+import com.alaharranhonor.swem.particle.BadParticle;
 import com.alaharranhonor.swem.util.initialization.*;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
@@ -15,6 +18,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemModelsProperties;
+import net.minecraft.particles.ParticleType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.Color;
 import net.minecraft.world.FoliageColors;
@@ -22,6 +26,7 @@ import net.minecraft.world.biome.BiomeColors;
 import net.minecraft.world.biome.BiomeRegistry;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
@@ -46,6 +51,12 @@ public class ClientEventBusSubscriber {
         registerRenderers(event);
         setRenderLayers();
         registerKeybinds();
+    }
+
+    @SubscribeEvent
+    public static void onParticleFactoryRegister(ParticleFactoryRegisterEvent event) {
+        Minecraft.getInstance().particles.registerFactory(SWEMParticles.BAD.get(), BadParticle.Factory::new);
+
     }
 
     public static void initLate() {
