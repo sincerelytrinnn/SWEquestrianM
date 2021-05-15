@@ -1414,8 +1414,9 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 					// Add some affinity points and spawn particles.
 					if (!this.world.isRemote) {
 						this.progressionManager.getAffinityLeveling().addXP(5.0F);
+						this.getNeeds().getHunger().addPoints(itemstack);
 
-						((ServerWorld) this.world).spawnParticle(SWEMParticles.BAD.get(), this.getPosX(), this.getPosY(), this.getPosZ(), 3, 0.0d, 1.5d, 0.0d, 0.2d);
+						((ServerWorld) this.world).spawnParticle(SWEMParticles.YAY.get(), this.getPosX(), this.getPosY() + 1.5, this.getPosZ(), 3, 0.3D, 0.3D, 0.3D, 0.4D);
 					}
 
 				}
