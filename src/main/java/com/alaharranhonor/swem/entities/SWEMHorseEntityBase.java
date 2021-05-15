@@ -2,7 +2,6 @@ package com.alaharranhonor.swem.entities;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.config.ConfigHolder;
-import com.alaharranhonor.swem.config.ServerConfig;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.container.SaddlebagContainer;
 import com.alaharranhonor.swem.entities.ai.*;
@@ -21,6 +20,7 @@ import com.alaharranhonor.swem.network.*;
 import com.alaharranhonor.swem.util.SWEMUtil;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
+import com.alaharranhonor.swem.util.initialization.SWEMParticles;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
@@ -32,7 +32,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.monster.piglin.PiglinEntity;
 import net.minecraft.entity.passive.horse.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -1410,6 +1409,17 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 					// Emit negative particle effects.
 					return ActionResultType.FAIL;
 				}
+
+				if (itemstack.getItem() == SWEMItems.SUGAR_CUBE.get()) {
+					// Add some affinity points and spawn particles.
+					if (!this.world.isRemote) {
+						this.progressionManager.getAffinityLeveling().addXP(5.0F);
+
+						((ServerWorld) this.world).spawnParticle(SWEMParticles.BAD.get(), this.getPosX(), this.getPosY(), this.getPosZ(), 3, 0.0d, 1.5d, 0.0d, 0.2d);
+					}
+
+				}
+
 				SWEMPacketHandler.INSTANCE.sendToServer(new HorseHungerChange(this.getEntityId(), itemstack));
 				return ActionResultType.func_233537_a_(this.world.isRemote);
 			}
@@ -1465,6 +1475,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			return ActionResultType.func_233537_a_(this.world.isRemote);
 		}
 	}
+
+
 
 	@Override
 	public ActionResultType applyPlayerInteraction(PlayerEntity player, Vector3d vec, Hand hand) {
