@@ -5,7 +5,7 @@ import com.alaharranhonor.swem.blocks.*;
 import com.alaharranhonor.swem.entity.render.*;
 import com.alaharranhonor.swem.gui.*;
 import com.alaharranhonor.swem.items.SWEMSpawnEggItem;
-import com.alaharranhonor.swem.particle.BadParticle;
+import com.alaharranhonor.swem.particle.*;
 import com.alaharranhonor.swem.util.initialization.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
@@ -56,6 +56,10 @@ public class ClientEventBusSubscriber {
     @SubscribeEvent
     public static void onParticleFactoryRegister(ParticleFactoryRegisterEvent event) {
         Minecraft.getInstance().particles.registerFactory(SWEMParticles.BAD.get(), BadParticle.Factory::new);
+        Minecraft.getInstance().particles.registerFactory(SWEMParticles.ECH.get(), EchParticle.Factory::new);
+        Minecraft.getInstance().particles.registerFactory(SWEMParticles.MEH.get(), MehParticle.Factory::new);
+        Minecraft.getInstance().particles.registerFactory(SWEMParticles.YAY.get(), YayParticle.Factory::new);
+        Minecraft.getInstance().particles.registerFactory(SWEMParticles.WOOT.get(), WootParticle.Factory::new);
 
     }
 
