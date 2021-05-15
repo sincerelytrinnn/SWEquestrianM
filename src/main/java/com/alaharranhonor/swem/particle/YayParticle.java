@@ -5,9 +5,9 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.util.math.MathHelper;
 
-public class BadParticle extends SpriteTexturedParticle {
+public class YayParticle extends SpriteTexturedParticle {
 
-	private BadParticle(ClientWorld world, double x, double y, double z) {
+	private YayParticle(ClientWorld world, double x, double y, double z) {
 		super(world, x, y, z, 0.0D, 0.0D, 0.0D);
 		this.motionX *= (double)0.01F;
 		this.motionY *= (double)0.01F;
@@ -62,7 +62,7 @@ public class BadParticle extends SpriteTexturedParticle {
 		}
 
 		public Particle makeParticle(BasicParticleType typeIn, ClientWorld worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-			BadParticle badParticle = new BadParticle(worldIn, x, y, z);
+			YayParticle badParticle = new YayParticle(worldIn, x, y, z);
 			badParticle.selectSpriteRandomly(this.spriteSet);
 			return badParticle;
 		}
