@@ -1419,8 +1419,9 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 					}
 
 				}
-
-				SWEMPacketHandler.INSTANCE.sendToServer(new HorseHungerChange(this.getEntityId(), itemstack));
+				if (!this.world.isRemote) {
+					this.getNeeds().getHunger().addPoints(itemstack);
+				}
 				return ActionResultType.func_233537_a_(this.world.isRemote);
 			}
 
