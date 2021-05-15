@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.util.initialization;
 
 import com.alaharranhonor.swem.SWEM;
 import net.minecraft.client.particle.HeartParticle;
+import net.minecraft.client.particle.SpellParticle;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.particles.ParticleTypes;
@@ -18,6 +19,8 @@ public class SWEMParticles {
 		PARTICLES.register(modBus);
 	}
 
+	// Current particle just picks a random sprite, from the sprite list.
+	// if we want particles,that animate/transition, take a look ath the SpellParticle.
 	public static final RegistryObject<BasicParticleType> BAD = PARTICLES.register("bad", () -> new BasicParticleType(false));
 
 }
