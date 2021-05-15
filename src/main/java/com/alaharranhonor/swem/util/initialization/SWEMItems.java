@@ -150,6 +150,7 @@ public class SWEMItems {
 	public static final RegistryObject<AdventureSaddleItem> ADVENTURE_SADDLE_GLOW = ITEMS.register("adventure_saddle_glow", () -> new AdventureSaddleItem("adventure_saddle_glow", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 
 	// BLANKETS
+	public static final RegistryObject<AdventureBlanketItem> ADVENTURE_BLANKET = ITEMS.register("adventure_blanket", () -> new AdventureBlanketItem("adventure_blanket", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<EnglishBlanketItem> ENGLISH_BLANKET_BLACK = ITEMS.register("english_blanket_black", () -> new EnglishBlanketItem("english_blanket_black", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<EnglishBlanketItem> ENGLISH_BLANKET_BLUE = ITEMS.register("english_blanket_blue", () -> new EnglishBlanketItem("english_blanket_blue", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<EnglishBlanketItem> ENGLISH_BLANKET_BROWN = ITEMS.register("english_blanket_brown", () -> new EnglishBlanketItem("english_blanket_brown", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
@@ -184,6 +185,7 @@ public class SWEMItems {
 	public static final RegistryObject<WesternBlanketItem> WESTERN_BLANKET_YELLOW = ITEMS.register("western_blanket_yellow", () -> new WesternBlanketItem("western_blanket_yellow", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 
 	// BRIDLE
+	public static final RegistryObject<AdventureBridleItem> ADVENTURE_BRIDLE = ITEMS.register("adventure_bridle", () -> new AdventureBridleItem("adventure_bridle", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<EnglishBridleItem> ENGLISH_BRIDLE_BLACK = ITEMS.register("english_bridle_black", () -> new EnglishBridleItem("english_bridle_black", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<EnglishBridleItem> ENGLISH_BRIDLE_BROWN = ITEMS.register("english_bridle_brown", () -> new EnglishBridleItem("english_bridle_brown", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<WesternBridleItem> WESTERN_BRIDLE_BLACK = ITEMS.register("western_bridle_black", () -> new WesternBridleItem("western_bridle_black", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
@@ -222,6 +224,7 @@ public class SWEMItems {
 	public static final RegistryObject<HalterItem> HALTER_YELLOW = ITEMS.register("halter_yellow", () -> new HalterItem("halter_yellow", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 
 	// GIRTH STRAP
+	public static final RegistryObject<AdventureGirthStrapItem> ADVENTURE_GIRTH_STRAP = ITEMS.register("adventure_girth_strap", () -> new AdventureGirthStrapItem("adventure_girth_strap", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<WesternGirthStrapItem> WESTERN_GIRTH_STRAP_WHITE = ITEMS.register("western_girth_strap_white", () -> new WesternGirthStrapItem("western_girth_strap_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<WesternGirthStrapItem> WESTERN_GIRTH_STRAP_BLACK = ITEMS.register("western_girth_strap_black", () -> new WesternGirthStrapItem("western_girth_strap_black", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<WesternGirthStrapItem> WESTERN_GIRTH_STRAP_BROWN = ITEMS.register("western_girth_strap_brown", () -> new WesternGirthStrapItem("western_girth_strap_brown", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
@@ -242,6 +245,7 @@ public class SWEMItems {
 	public static final RegistryObject<EnglishGirthStrap> ENGLISH_GIRTH_STRAP_BROWN = ITEMS.register("english_girth_strap_brown", () -> new EnglishGirthStrap("english_girth_strap_brown", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 
 	// LEG WRAPS
+	public static final RegistryObject<AdventureLegWrapsItem> ADVENTURE_LEG_WRAPS = ITEMS.register("adventure_leg_wraps", () -> new AdventureLegWrapsItem("adventure_leg_wraps", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<WesternLegWraps> WESTERN_LEG_WRAPS_WHITE = ITEMS.register("western_leg_wraps_white", () -> new WesternLegWraps("western_leg_wraps_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<WesternLegWraps> WESTERN_LEG_WRAPS_BLACK = ITEMS.register("western_leg_wraps_black", () -> new WesternLegWraps("western_leg_wraps_black", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<WesternLegWraps> WESTERN_LEG_WRAPS_BROWN = ITEMS.register("western_leg_wraps_brown", () -> new WesternLegWraps("western_leg_wraps_brown", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
@@ -276,6 +280,7 @@ public class SWEMItems {
 	public static final RegistryObject<EnglishLegWraps> ENGLISH_LEG_WRAPS_YELLOW = ITEMS.register("english_leg_wraps_yellow", () -> new EnglishLegWraps("english_leg_wraps_yellow", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 
 	// BREAST COLLAR
+	public static final RegistryObject<AdventureBreastCollarItem> ADVENTURE_BREAST_COLLAR = ITEMS.register("adventure_breast_collar", () -> new AdventureBreastCollarItem("adventure_breast_collar", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<WesternBreastCollarItem> WESTERN_BREAST_COLLAR_WHITE = ITEMS.register("western_breast_collar_white", () -> new WesternBreastCollarItem("western_breast_collar_white", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<WesternBreastCollarItem> WESTERN_BREAST_COLLAR_BLACK = ITEMS.register("western_breast_collar_black", () -> new WesternBreastCollarItem("western_breast_collar_black", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<WesternBreastCollarItem> WESTERN_BREAST_COLLAR_BROWN = ITEMS.register("western_breast_collar_brown", () -> new WesternBreastCollarItem("western_breast_collar_brown", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
