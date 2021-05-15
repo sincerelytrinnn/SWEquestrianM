@@ -222,7 +222,7 @@ public class SWEMHorseInventoryContainer extends Container {
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 			 */
 			public boolean isItemValid(ItemStack stack) {
-				return horse.isSWEMArmor(stack);
+				return horse.isSWEMArmor(stack) && horse.canEquipArmor();
 			}
 
 			/**

@@ -83,7 +83,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
-public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable, IEntityAdditionalSpawnData {
+public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable, IEntityAdditionalSpawnData {
 
 
 
@@ -1766,6 +1766,11 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 	public boolean canEquipGirthStrap() {
 		return this.isSWEMSaddled() || !ConfigHolder.SERVER.saddleBeforeGirthStrap.get();
+	}
+
+	@Override
+	public boolean canEquipArmor() {
+		return hasAdventureSaddle() && getHalter().getItem() instanceof AdventureBridleItem && getBreastCollar().getItem() instanceof AdventureBreastCollarItem && getGirthStrap().getItem() instanceof AdventureGirthStrapItem && getLegWraps().getItem() instanceof AdventureLegWrapsItem && getBlanket().getItem() instanceof AdventureBlanketItem;
 	}
 
 	@Override
