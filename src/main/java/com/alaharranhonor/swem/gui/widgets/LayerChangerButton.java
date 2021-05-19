@@ -5,17 +5,16 @@ import com.alaharranhonor.swem.blocks.jumps.StandardLayer;
 import com.alaharranhonor.swem.gui.JumpScreen;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.network.jumps.CChangeLayerPacket;
-import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
-public class DropDownButton<T> extends CycableButton {
+public class LayerChangerButton<T> extends CycableButton {
 
 	private JumpScreen screen;
 	private T currentLayer;
 	private int id = -1;
 	private int layer = -1;
-	public DropDownButton(int x, int y, int width, int height, ITextComponent title, JumpScreen screen) {
+	public LayerChangerButton(int x, int y, int width, int height, ITextComponent title, JumpScreen screen) {
 		super(x, y, width, height, title, new Press());
 		this.screen = screen;
 
@@ -62,17 +61,17 @@ public class DropDownButton<T> extends CycableButton {
 		return new StringTextComponent(this.screen.layerTypes.get(this.layer).name());
 	}
 
-	public static class Press implements DropDownButton.IPressable {
+	public static class Press implements LayerChangerButton.IPressable {
 
 		@Override
 		public void onPress(CycableButton press) {
-			DropDownButton button = (DropDownButton) press;
+			LayerChangerButton button = (LayerChangerButton) press;
 			SWEMPacketHandler.INSTANCE.sendToServer(new CChangeLayerPacket(button.screen.controllerPos, button.layer, false));
 		}
 
 		@Override
 		public void onRightPress(CycableButton press) {
-			DropDownButton button = (DropDownButton) press;
+			LayerChangerButton button = (LayerChangerButton) press;
 			SWEMPacketHandler.INSTANCE.sendToServer(new CChangeLayerPacket(button.screen.controllerPos, button.layer, true));
 		}
 	}

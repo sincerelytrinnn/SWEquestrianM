@@ -74,7 +74,7 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 			}
 
 			if (i + 1 <= this.layerAmount) {
-				DropDownButton<JumpLayer> btn = new DropDownButton<>(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 113, 20, new StringTextComponent("Option"), this);
+				LayerChangerButton<JumpLayer> btn = new LayerChangerButton<>(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 113, 20, new StringTextComponent("Option"), this);
 				btn.setLayer(i + 1);
 				btn.setSelected(this.layerTypes.get(i + 1));
 				this.addButton(btn);
@@ -92,10 +92,9 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 			}
 
 			if (i + 1 == this.layerAmount + 2) {
-				DropDownButton<StandardLayer> btn = new DropDownButton<>(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 113, 20, new StringTextComponent("Option"), this);
+				StandardChangerButton btn = new StandardChangerButton(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 113, 20, new StringTextComponent("Option"), this);
 				btn.setSelected(currentStandard);
-				btn.active = false;
-				//this.addButton(btn);
+				this.addButton(btn);
 			}
 
 		}
@@ -151,7 +150,7 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 		}
 
 		//this.font.drawText(matrixStack,new StringTextComponent("Flag:"), this.guiLeft + 7, this.guiTop + this.ySize - offSet - 23, 4210752);
-		//this.font.drawText(matrixStack, new StringTextComponent("Standards:"), this.guiLeft + 7, this.guiTop + this.ySize - offSet - (23*2), 4210752);
+		this.font.drawText(matrixStack, new StringTextComponent("Standards:"), this.guiLeft + 7, this.guiTop + this.ySize - offSet - (23*2), 4210752);
 
 		for (int k = 0; k < this.buttons.size(); ++k) {
 			this.buttons.get(k).render(matrixStack, mouseX, mouseY, partialTicks);
