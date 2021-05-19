@@ -1,0 +1,50 @@
+{
+  "variants": {
+    "side=left,facing=north": {
+      "model": "swem:block/standard_vertical_slat_lower"
+    },
+    "side=left,facing=south": {
+      "model": "swem:block/standard_vertical_slat_lower",
+      "y": 180
+    },
+    "side=left,facing=east": {
+      "model": "swem:block/standard_vertical_slat_lower",
+      "y": 90
+    },
+    "side=left,facing=west": {
+      "model": "swem:block/standard_vertical_slat_lower",
+      "y": 270
+    },
+    "side=middle,facing=north": {
+      "model": "swem:block/standard_vertical_slat_middle"
+    },
+    "side=middle,facing=south": {
+      "model": "swem:block/standard_vertical_slat_middle",
+      "y":  180
+    },
+    "side=middle,facing=east": {
+      "model": "swem:block/standard_vertical_slat_middle",
+      "y": 90
+    },
+    "side=middle,facing=west": {
+      "model": "swem:block/standard_vertical_slat_middle",
+      "y":  270
+    },
+    "side=right,facing=north": {
+      "model": "swem:block/standard_vertical_slat_upper"
+
+    },
+    "side=right,facing=south": {
+      "model": "swem:block/standard_vertical_slat_upper",
+      "y":  180
+    },
+    "side=right,facing=east": {
+      "model": "swem:block/standard_vertical_slat_upper",
+      "y": 90
+    },
+    "side=right,facing=west": {
+      "model": "swem:block/standard_vertical_slat_upper",
+      "y":  270
+    }
+  }
+}
