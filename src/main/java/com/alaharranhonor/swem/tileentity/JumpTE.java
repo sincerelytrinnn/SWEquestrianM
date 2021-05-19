@@ -94,7 +94,7 @@ public class JumpTE extends TileEntity {
 		}
 	}
 
-	public void changeLayerForward (int layerNumber) {
+	public void changeLayerForward(int layerNumber) {
 		List<JumpLayer> applicableLayers = this.getApplicableLayers(layerNumber);
 		if (applicableLayers.contains(this.layerTypes.get(layerNumber))) {
 			int indexToPick = applicableLayers.indexOf(this.layerTypes.get(layerNumber)) + 1;
@@ -107,7 +107,7 @@ public class JumpTE extends TileEntity {
 		}
 	}
 
-	public void changeLayerBackwards (int layerNumber) {
+	public void changeLayerBackwards(int layerNumber) {
 		List<JumpLayer> applicableLayers = this.getApplicableLayers(layerNumber);
 		if (applicableLayers.contains(this.layerTypes.get(layerNumber))) {
 			int indexToPick = applicableLayers.indexOf(this.layerTypes.get(layerNumber)) - 1;
@@ -118,6 +118,22 @@ public class JumpTE extends TileEntity {
 		} else {
 			this.placeLayer(layerNumber, applicableLayers.get(0));
 		}
+	}
+
+	public void changeStandardForward() {
+		int enumId = this.currentStandard.ordinal();
+		if (++enumId > StandardLayer.values().length - 1) {
+			enumId = 0;
+		}
+		this.initStandards(StandardLayer.values()[enumId]);
+	}
+
+	public void changeStandardBackwards() {
+		int enumId = this.currentStandard.ordinal();
+		if (--enumId < 0) {
+			enumId = StandardLayer.values().length - 1;
+		}
+		this.initStandards(StandardLayer.values()[enumId]);
 	}
 
 	public void incrementColorVariant(int layerNumber) {
