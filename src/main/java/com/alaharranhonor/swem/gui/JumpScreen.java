@@ -68,13 +68,15 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 	}
 
 	public void initButtons() {
-		for (int i = 0; i < this.layerAmount + 2; i++) {
-			if (i + 1 == this.layerAmount + 1) {
-				continue;
-			}
+		for (int i = 0; i <= this.layerAmount; i++) {
 
-			if (i + 1 <= this.layerAmount) {
-				LayerChangerButton<JumpLayer> btn = new LayerChangerButton<>(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 113, 20, new StringTextComponent("Option"), this);
+			if (i == this.layerAmount) {
+				StandardChangerButton btn = new StandardChangerButton(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 113, 20, new StringTextComponent("Option"), this);
+				btn.setSelected(currentStandard);
+				this.addButton(btn);
+
+			} else {
+				LayerChangerButton btn = new LayerChangerButton(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 113, 20, new StringTextComponent("Option"), this);
 				btn.setLayer(i + 1);
 				btn.setSelected(this.layerTypes.get(i + 1));
 				this.addButton(btn);
@@ -86,15 +88,6 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 					colorButton.active = false;
 				}
 				this.addColorButton(colorButton);
-
-
-
-			}
-
-			if (i + 1 == this.layerAmount + 2) {
-				StandardChangerButton btn = new StandardChangerButton(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 113, 20, new StringTextComponent("Option"), this);
-				btn.setSelected(currentStandard);
-				this.addButton(btn);
 			}
 
 		}
@@ -150,7 +143,7 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 		}
 
 		//this.font.drawText(matrixStack,new StringTextComponent("Flag:"), this.guiLeft + 7, this.guiTop + this.ySize - offSet - 23, 4210752);
-		this.font.drawText(matrixStack, new StringTextComponent("Standards:"), this.guiLeft + 7, this.guiTop + this.ySize - offSet - (23*2), 4210752);
+		this.font.drawText(matrixStack, new StringTextComponent("Standards:"), this.guiLeft + 7, this.guiTop + this.ySize - offSet - 23, 4210752);
 
 		for (int k = 0; k < this.buttons.size(); ++k) {
 			this.buttons.get(k).render(matrixStack, mouseX, mouseY, partialTicks);

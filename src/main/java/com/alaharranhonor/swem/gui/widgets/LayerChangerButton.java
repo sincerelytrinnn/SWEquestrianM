@@ -8,10 +8,10 @@ import com.alaharranhonor.swem.network.jumps.CChangeLayerPacket;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
-public class LayerChangerButton<T> extends CycableButton {
+public class LayerChangerButton extends CycableButton {
 
 	private JumpScreen screen;
-	private T currentLayer;
+	private JumpLayer currentLayer;
 	private int id = -1;
 	private int layer = -1;
 	public LayerChangerButton(int x, int y, int width, int height, ITextComponent title, JumpScreen screen) {
@@ -29,11 +29,11 @@ public class LayerChangerButton<T> extends CycableButton {
 		this.layer = layer;
 	}
 
-	public void setSelected(T layer) {
+	public void setSelected(JumpLayer layer) {
 		this.currentLayer = layer;
 	}
 
-	public T getCurrentLayer() {
+	public JumpLayer getCurrentLayer() {
 		return this.currentLayer;
 	}
 
@@ -42,16 +42,11 @@ public class LayerChangerButton<T> extends CycableButton {
 		super.onPress();
 	}
 
-	public <Q> boolean isLayer(Q type) {
-		return type instanceof JumpLayer;
-	}
-
-	public <Q> boolean isStandard(Q type) {
-		return type instanceof StandardLayer;
-	}
 
 	@Override
 	public ITextComponent getMessage() {
+		//return new StringTextComponent("LAYER");
+
 		if (this.layer == -1) {
 			return new StringTextComponent("Option");
 		}
