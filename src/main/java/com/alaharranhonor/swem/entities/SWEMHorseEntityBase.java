@@ -1124,7 +1124,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 						boolean isFull = blockstate2.getBlock() == Blocks.LAVA && blockstate2.get(FlowingFluidBlock.LEVEL) == 0; //TODO: Forge, modded waters?
 						if (blockstate2.getMaterial() == Material.LAVA && isFull && blockstate.isValidPosition(world, blockpos) && world.placedBlockCollides(blockstate, blockpos, ISelectionContext.dummy()) && !net.minecraftforge.event.ForgeEventFactory.onBlockPlace(this, net.minecraftforge.common.util.BlockSnapshot.create(world.getDimensionKey(), world, blockpos), net.minecraft.util.Direction.UP)) {
 							world.setBlockState(blockpos, blockstate);
-							world.getPendingBlockTicks().scheduleTick(blockpos, SWEMBlocks.TEARING_MAGMA.get(), 60);
+							world.getPendingBlockTicks().scheduleTick(blockpos, SWEMBlocks.TEARING_MAGMA.get(), 20);
 						}
 					}
 				}
@@ -1258,7 +1258,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	public boolean isInvulnerableTo(DamageSource source) {
 		if (source == DamageSource.DROWN) return true;
 		if (source == DamageSource.FALL) return true;
-		if (source == DamageSource.IN_FIRE || source == DamageSource.ON_FIRE || source == DamageSource.LAVA) {
+		if (DamageSource.IN_FIRE.equals(source) || DamageSource.ON_FIRE.equals(source) || DamageSource.LAVA.equals(source) || DamageSource.HOT_FLOOR.equals(source)) {
 			ItemStack stack = this.getSWEMArmor();
 			if (!stack.isEmpty() && ((SWEMHorseArmorItem) stack.getItem()).tier.getId() >= 3) {
 				return true;
