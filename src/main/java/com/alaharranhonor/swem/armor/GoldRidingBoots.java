@@ -45,7 +45,7 @@ public class GoldRidingBoots extends IronRidingBoots {
 
 			BlockPos pos = player.getPosition();
 
-			for(BlockPos blockpos : BlockPos.getAllInBoxMutable(pos.add((double)(-f), -1.0D, (double)(-f)), pos.add((double)f, -1.0D, (double)f))) {
+			for(BlockPos blockpos : BlockPos.getAllInBoxMutable(pos.add(-f, -1.0D, -f), pos.add(f, -1.0D, f))) {
 				if (blockpos.withinDistance(player.getPositionVec(), (double)f)) {
 					blockpos$mutable.setPos(blockpos.getX(), blockpos.getY() + 1, blockpos.getZ());
 					BlockState blockstate1 = world.getBlockState(blockpos$mutable);
@@ -54,7 +54,7 @@ public class GoldRidingBoots extends IronRidingBoots {
 						boolean isFull = blockstate2.getBlock() == Blocks.WATER && blockstate2.get(FlowingFluidBlock.LEVEL) == 0; //TODO: Forge, modded waters?
 						if (blockstate2.getMaterial() == Material.WATER && isFull && blockstate.isValidPosition(world, blockpos) && world.placedBlockCollides(blockstate, blockpos, ISelectionContext.dummy()) && !net.minecraftforge.event.ForgeEventFactory.onBlockPlace(player, net.minecraftforge.common.util.BlockSnapshot.create(world.getDimensionKey(), world, blockpos), net.minecraft.util.Direction.UP)) {
 							world.setBlockState(blockpos, blockstate);
-							world.getPendingBlockTicks().scheduleTick(blockpos, Blocks.FROSTED_ICE, 60);
+							world.getPendingBlockTicks().scheduleTick(blockpos, Blocks.FROSTED_ICE, 20);
 						}
 					}
 				}
