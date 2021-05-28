@@ -17,7 +17,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
 
-version = '1.16.5-0.22.6.1-Alpha'
+version = '1.16.5-0.22.6.2-Alpha'
 group = 'com.alaharranhonor.swem' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'swem'
 
