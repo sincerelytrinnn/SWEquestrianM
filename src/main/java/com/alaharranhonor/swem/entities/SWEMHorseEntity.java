@@ -64,8 +64,6 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			return PlayState.CONTINUE;
 		}*/
 
-		GeckoLibCache.getInstance().parser.setValue("anim_speed", 1);
-
 
 		if (horse.isInWater()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("Swim"));
