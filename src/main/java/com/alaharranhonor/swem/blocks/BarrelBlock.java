@@ -1,8 +1,6 @@
 package com.alaharranhonor.swem.blocks;
 
-import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;

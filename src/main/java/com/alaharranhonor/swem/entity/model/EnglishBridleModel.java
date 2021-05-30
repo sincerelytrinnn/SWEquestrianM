@@ -5,8 +5,6 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import software.bernie.geckolib3.model.provider.GeoModelProvider;
-import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
 public class EnglishBridleModel<T extends SWEMHorseEntityBase> extends EntityModel<T> {
 	private final ModelRenderer englishbridle;

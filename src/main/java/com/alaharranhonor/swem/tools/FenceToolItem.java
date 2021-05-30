@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.tools;
 
-import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.blocks.FenceBaseBlock;
 import com.alaharranhonor.swem.blocks.SWEMBlockStateProperties;
 import com.alaharranhonor.swem.items.ItemBase;
@@ -8,8 +7,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResultType;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.BlockEvent;
 
 public class FenceToolItem extends ItemBase {
 	/**

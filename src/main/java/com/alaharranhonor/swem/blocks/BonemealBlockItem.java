@@ -1,10 +1,12 @@
 package com.alaharranhonor.swem.blocks;
 
 import net.minecraft.block.*;
+import net.minecraft.item.BoneMealItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.RegistryKey;
@@ -81,7 +83,7 @@ public class BonemealBlockItem extends BlockItemBase {
 	}
 
 	public static boolean growSeagrass(ItemStack stack, World worldIn, BlockPos pos, @Nullable Direction side) {
-		if (worldIn.getBlockState(pos).isIn(Blocks.WATER) && worldIn.getFluidState(pos).getLevel() == 8) {
+		if (worldIn.getBlockState(pos).matchesBlock(Blocks.WATER) && worldIn.getFluidState(pos).getLevel() == 8) {
 			if (!(worldIn instanceof ServerWorld)) {
 				return true;
 			} else {
@@ -114,9 +116,9 @@ public class BonemealBlockItem extends BlockItemBase {
 
 					if (blockstate.isValidPosition(worldIn, blockpos)) {
 						BlockState blockstate1 = worldIn.getBlockState(blockpos);
-						if (blockstate1.isIn(Blocks.WATER) && worldIn.getFluidState(blockpos).getLevel() == 8) {
+						if (blockstate1.matchesBlock(Blocks.WATER) && worldIn.getFluidState(blockpos).getLevel() == 8) {
 							worldIn.setBlockState(blockpos, blockstate, 3);
-						} else if (blockstate1.isIn(Blocks.SEAGRASS) && random.nextInt(10) == 0) {
+						} else if (blockstate1.matchesBlock(Blocks.SEAGRASS) && random.nextInt(10) == 0) {
 							((IGrowable)Blocks.SEAGRASS).grow((ServerWorld)worldIn, random, blockpos, blockstate1);
 						}
 					}
@@ -140,7 +142,7 @@ public class BonemealBlockItem extends BlockItemBase {
 		if (!blockstate.isAir(worldIn, posIn)) {
 			double d0 = 0.5D;
 			double d1;
-			if (blockstate.isIn(Blocks.WATER)) {
+			if (blockstate.matchesBlock(Blocks.WATER)) {
 				data *= 3;
 				d1 = 1.0D;
 				d0 = 3.0D;

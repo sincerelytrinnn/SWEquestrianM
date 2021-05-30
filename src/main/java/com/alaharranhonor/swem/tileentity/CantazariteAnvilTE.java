@@ -1,8 +1,6 @@
 package com.alaharranhonor.swem.tileentity;
 
 import com.alaharranhonor.swem.container.CantazariteAnvilContainer;
-import com.alaharranhonor.swem.container.TackBoxContainer;
-import com.alaharranhonor.swem.items.tack.HorseSaddleItem;
 import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

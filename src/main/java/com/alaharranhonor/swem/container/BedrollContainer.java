@@ -1,14 +1,8 @@
 package com.alaharranhonor.swem.container;
 
 import com.alaharranhonor.swem.blocks.FuelBlockItemBase;
-import com.alaharranhonor.swem.blocks.HitchingPostBase;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.items.HoseItem;
-import com.alaharranhonor.swem.items.tack.HalterItem;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMContainers;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
@@ -16,8 +10,6 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.*;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.tags.ItemTags;
-import net.minecraftforge.common.Tags;
 
 public class BedrollContainer extends Container {
 	private final IInventory horseInventory;

@@ -1,14 +1,10 @@
 package com.alaharranhonor.swem.blocks;
 
-import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.network.SyncEntityIdToClient;
 import com.alaharranhonor.swem.tileentity.TackBoxTE;
 import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -16,7 +12,6 @@ import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -41,6 +36,7 @@ public class TackBoxBlock extends HorizontalBlock {
 		this.setDefaultState(
 				this.stateContainer.getBaseState()
 						.with(HORIZONTAL_FACING, Direction.NORTH)
+						.with(SWEMBlockStateProperties.D_SIDE, SWEMBlockStateProperties.DoubleBlockSide.LEFT)
 		);
 	}
 
@@ -97,6 +93,12 @@ public class TackBoxBlock extends HorizontalBlock {
 			TileEntity te = worldIn.getTileEntity(pos);
 			if (te instanceof TackBoxTE) {
 				InventoryHelper.dropItems(worldIn, pos, ((TackBoxTE)te).getItems());
+
+			}
+			if (state.get(SWEMBlockStateProperties.D_SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
+					worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateY().rotateY()), Blocks.AIR.getDefaultState());
+			} else {
+				worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateYCCW().rotateYCCW()), Blocks.AIR.getDefaultState());
 			}
 		}
 	}
@@ -127,6 +129,20 @@ public class TackBoxBlock extends HorizontalBlock {
 			}
 		}
 
+		Direction newFacing = placer.getHorizontalFacing().rotateY();
+
+		worldIn.setBlockState(pos.offset(newFacing), state.with(SWEMBlockStateProperties.D_SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT));
+
+		if (!worldIn.isRemote) {
+			if (stack.hasTag()) {
+				UUID id = stack.getTag().getUniqueId("horseUUID");
+				TileEntity tile = worldIn.getTileEntity(pos.offset(newFacing));
+				if (tile instanceof TackBoxTE) {
+					tile.getTileData().putUniqueId("horseUUID", id);
+				}
+			}
+		}
+
 	}
 
 	@Nullable
@@ -137,7 +153,7 @@ public class TackBoxBlock extends HorizontalBlock {
 
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HORIZONTAL_FACING);
+		builder.add(HORIZONTAL_FACING, SWEMBlockStateProperties.D_SIDE);
 	}
 
 	@Override

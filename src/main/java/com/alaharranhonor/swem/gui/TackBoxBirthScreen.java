@@ -9,7 +9,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
@@ -55,34 +54,34 @@ public class TackBoxBirthScreen extends Screen {
 		this.blit(matrixStack, i, j, 0, 0, 247, 207);
 
 		// Title
-		this.font.func_243248_b(matrixStack, this.title, (float) this.guiLeft + 13, (float)this.guiTop + 30, 4210752);
+		this.font.drawText(matrixStack, this.title, (float) this.guiLeft + 13, (float)this.guiTop + 30, 4210752);
 
 		if (this.container.horse != null) {
 			SWEMHorseEntityBase horse = this.container.horse;
 
-			this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Owner: %s", SWEMUtil.checkTextOverflow(horse.getOwnerDisplayName().getString(), 24)) ), this.guiLeft + 17, this.guiTop + 57, 4210752);
+			this.font.drawText(matrixStack, new StringTextComponent(String.format("Owner: %s", SWEMUtil.checkTextOverflow(horse.getOwnerDisplayName().getString(), 24)) ), this.guiLeft + 17, this.guiTop + 57, 4210752);
 			// horse.getDisplayName().getString()
-			this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Name: %s", SWEMUtil.checkTextOverflow("SWEMHBE#getOwnerDisplayName", 24)) ), this.guiLeft + 17, this.guiTop + 67, 4210752);
-			this.font.func_243248_b(matrixStack, new StringTextComponent(String.format("Show Name: %s", SWEMUtil.checkTextOverflow(horse.getDisplayName().getString(), 24))), this.guiLeft + 17, this.guiTop + 77, 4210752);
+			this.font.drawText(matrixStack, new StringTextComponent(String.format("Name: %s", SWEMUtil.checkTextOverflow("SWEMHBE#getOwnerDisplayName", 24)) ), this.guiLeft + 17, this.guiTop + 67, 4210752);
+			this.font.drawText(matrixStack, new StringTextComponent(String.format("Show Name: %s", SWEMUtil.checkTextOverflow(horse.getDisplayName().getString(), 24))), this.guiLeft + 17, this.guiTop + 77, 4210752);
 
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Dam: Phase 2"), this.guiLeft + 17, this.guiTop + 99, 4210752);
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Sire: Phase 2"), this.guiLeft + 17, this.guiTop + 109, 4210752);
+			this.font.drawText(matrixStack, new StringTextComponent("Dam: Phase 2"), this.guiLeft + 17, this.guiTop + 99, 4210752);
+			this.font.drawText(matrixStack, new StringTextComponent("Sire: Phase 2"), this.guiLeft + 17, this.guiTop + 109, 4210752);
 
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Sex: Phase 2"), this.guiLeft + 17, this.guiTop + 123, 4210752);
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Birthdate: Phase 2"), this.guiLeft + 90, this.guiTop + 123, 4210752);
+			this.font.drawText(matrixStack, new StringTextComponent("Sex: Phase 2"), this.guiLeft + 17, this.guiTop + 123, 4210752);
+			this.font.drawText(matrixStack, new StringTextComponent("Birthdate: Phase 2"), this.guiLeft + 90, this.guiTop + 123, 4210752);
 
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Breed: Phase 2"), this.guiLeft + 17, this.guiTop + 137, 4210752);
+			this.font.drawText(matrixStack, new StringTextComponent("Breed: Phase 2"), this.guiLeft + 17, this.guiTop + 137, 4210752);
 
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Temperament: Phase 2"), this.guiLeft + 17, this.guiTop + 151, 4210752);
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Stamina: Phase 2"), this.guiLeft + 17, this.guiTop + 161, 4210752);
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Confirmation: Phase 2"), this.guiLeft + 133, this.guiTop + 151, 4210752);
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Immunity: Phase 2"), this.guiLeft + 133, this.guiTop + 161, 4210752);
+			this.font.drawText(matrixStack, new StringTextComponent("Temperament: Phase 2"), this.guiLeft + 17, this.guiTop + 151, 4210752);
+			this.font.drawText(matrixStack, new StringTextComponent("Stamina: Phase 2"), this.guiLeft + 17, this.guiTop + 161, 4210752);
+			this.font.drawText(matrixStack, new StringTextComponent("Confirmation: Phase 2"), this.guiLeft + 133, this.guiTop + 151, 4210752);
+			this.font.drawText(matrixStack, new StringTextComponent("Immunity: Phase 2"), this.guiLeft + 133, this.guiTop + 161, 4210752);
 
 
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Discipline Affinity:"), this.guiLeft + 17, this.guiTop + 173, 4210752);
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Eng: Phase 2"), this.guiLeft + 24, this.guiTop + 183, 4210752);
-			this.font.func_243248_b(matrixStack, new StringTextComponent("West: Phase 2"), this.guiLeft + 97, this.guiTop + 183, 4210752);
-			this.font.func_243248_b(matrixStack, new StringTextComponent("Adv: Phase 2"), this.guiLeft + 180, this.guiTop + 183, 4210752);
+			this.font.drawText(matrixStack, new StringTextComponent("Discipline Affinity:"), this.guiLeft + 17, this.guiTop + 173, 4210752);
+			this.font.drawText(matrixStack, new StringTextComponent("Eng: Phase 2"), this.guiLeft + 24, this.guiTop + 183, 4210752);
+			this.font.drawText(matrixStack, new StringTextComponent("West: Phase 2"), this.guiLeft + 97, this.guiTop + 183, 4210752);
+			this.font.drawText(matrixStack, new StringTextComponent("Adv: Phase 2"), this.guiLeft + 180, this.guiTop + 183, 4210752);
 
 		}
 

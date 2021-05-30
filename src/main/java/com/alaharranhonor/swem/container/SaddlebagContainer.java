@@ -1,18 +1,14 @@
 package com.alaharranhonor.swem.container;
 
-import com.alaharranhonor.swem.blocks.HalfBarrelBlock;
 import com.alaharranhonor.swem.blocks.HitchingPostBase;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.items.HoseItem;
-import com.alaharranhonor.swem.items.tack.BridleItem;
 import com.alaharranhonor.swem.items.tack.HalterItem;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMContainers;
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
-import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.CraftingTableBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
@@ -20,13 +16,9 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.*;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.ForgeItemTagsProvider;
 
-import java.util.ArrayList;
 
 public class SaddlebagContainer extends Container {
 	private final IInventory horseInventory;

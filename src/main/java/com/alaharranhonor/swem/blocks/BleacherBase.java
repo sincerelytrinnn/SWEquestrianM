@@ -1,12 +1,9 @@
 package com.alaharranhonor.swem.blocks;
 
-import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
-import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.Direction;

@@ -1,7 +1,7 @@
 package com.alaharranhonor.swem.entities;
 
+import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.entity.*;
-import net.minecraft.entity.item.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
@@ -52,6 +52,7 @@ public class PoopEntity extends LivingEntity implements IAnimatable {
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		if (source.getTrueSource() instanceof PlayerEntity && ((PlayerEntity)source.getImmediateSource()).abilities.allowEdit) {
+			this.entityDropItem(new ItemStack(SWEMItems.POOP.get()));
 			this.remove();
 		}
 		return super.attackEntityFrom(source, amount);

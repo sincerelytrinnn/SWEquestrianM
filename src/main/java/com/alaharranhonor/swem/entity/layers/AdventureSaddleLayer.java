@@ -2,11 +2,8 @@ package com.alaharranhonor.swem.entity.layers;
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.entity.model.AdventureSaddleModel;
-import com.alaharranhonor.swem.entity.model.EnglishSaddleModel;
 import com.alaharranhonor.swem.items.tack.AdventureSaddleItem;
-import com.alaharranhonor.swem.items.tack.EnglishSaddleItem;
 import com.alaharranhonor.swem.items.tack.HorseSaddleItem;
-import com.alaharranhonor.swem.items.tack.WesternSaddleItem;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -14,7 +11,6 @@ import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.vector.Quaternion;
 import software.bernie.geckolib3.geo.render.built.GeoBone;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
@@ -49,16 +45,12 @@ public class AdventureSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 					GeoBone horseBody = horseModel.getBone("body").get();
 					GeoBone horseBack = horseModel.getBone("middle").get();
 
-					bone.setRotationY(horseBody.getRotationY());
 					bone.setRotationX(horseBody.getRotationZ());
-					bone.setRotationZ(horseBody.getRotationX());
 
-					bone.setPositionX(horseBody.getPositionZ());
 					bone.setPositionY(horseBody.getPositionY());
-					bone.setPositionZ(horseBody.getPositionX());
 
 					bone.setPivotZ(0);
-					bone.setPivotY(0);
+					bone.setPivotY(-10);
 					bone.setPivotX(0);
 
 

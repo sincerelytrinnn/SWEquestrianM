@@ -18,7 +18,7 @@ public final class ConfigHelper {
 		// Vein Size
 		((OreFeatureConfig)((DecoratedFeatureConfig)((DecoratedFeatureConfig) SWEMOreGen.AMETHYST_ORE.config).feature.get().config).feature.get().config).size = ConfigHolder.SERVER.serverAmethystVeinSize.get();
 		// Vein Count
-		((FeatureSpreadConfig)((DecoratedFeatureConfig) SWEMOreGen.AMETHYST_ORE.config).decorator.config).func_242799_a().base = ConfigHolder.SERVER.serverAmethystVeinCount.get();
+		((FeatureSpreadConfig)((DecoratedFeatureConfig) SWEMOreGen.AMETHYST_ORE.config).decorator.config).getSpread().base = ConfigHolder.SERVER.serverAmethystVeinCount.get();
 		// Minimum Height the ore can spawn
 		((TopSolidRangeConfig)((DecoratedPlacementConfig)((DecoratedFeatureConfig)((DecoratedFeatureConfig) SWEMOreGen.AMETHYST_ORE.config).feature.get().config).decorator.config).inner.config).bottomOffset = ConfigHolder.SERVER.serverAmethystBottomHeight.get();
 		// Maximum Height the ore can spawn.
@@ -28,7 +28,7 @@ public final class ConfigHelper {
 		// Vein Size
 		((OreFeatureConfig)((DecoratedFeatureConfig)((DecoratedFeatureConfig) SWEMOreGen.CANTAZARITE_ORE.config).feature.get().config).feature.get().config).size = ConfigHolder.SERVER.serverCantazariteVeinSize.get();
 		// Vein Count
-		((FeatureSpreadConfig)((DecoratedFeatureConfig) SWEMOreGen.CANTAZARITE_ORE.config).decorator.config).func_242799_a().base = ConfigHolder.SERVER.serverCantazariteVeinCount.get();
+		((FeatureSpreadConfig)((DecoratedFeatureConfig) SWEMOreGen.CANTAZARITE_ORE.config).decorator.config).getSpread().base = ConfigHolder.SERVER.serverCantazariteVeinCount.get();
 		// Minimum Height the ore can spawn
 		((TopSolidRangeConfig)((DecoratedPlacementConfig)((DecoratedFeatureConfig)((DecoratedFeatureConfig) SWEMOreGen.CANTAZARITE_ORE.config).feature.get().config).decorator.config).inner.config).bottomOffset = ConfigHolder.SERVER.serverCantazariteBottomHeight.get();
 		// Maximum Height the ore can spawn.
@@ -37,7 +37,7 @@ public final class ConfigHelper {
 		// Vein Size
 		((OreFeatureConfig)((DecoratedFeatureConfig)((DecoratedFeatureConfig) SWEMOreGen.SWLM_COBBLE_ORE.config).feature.get().config).feature.get().config).size = ConfigHolder.SERVER.serverSWLMCobbleVeinSize.get();
 		// Vein Count
-		((FeatureSpreadConfig)((DecoratedFeatureConfig) SWEMOreGen.SWLM_COBBLE_ORE.config).decorator.config).func_242799_a().base = ConfigHolder.SERVER.serverSWLMCobbleVeinCount.get();
+		((FeatureSpreadConfig)((DecoratedFeatureConfig) SWEMOreGen.SWLM_COBBLE_ORE.config).decorator.config).getSpread().base = ConfigHolder.SERVER.serverSWLMCobbleVeinCount.get();
 		// Minimum Height the ore can spawn
 		((TopSolidRangeConfig)((DecoratedPlacementConfig)((DecoratedFeatureConfig)((DecoratedFeatureConfig) SWEMOreGen.SWLM_COBBLE_ORE.config).feature.get().config).decorator.config).inner.config).bottomOffset = ConfigHolder.SERVER.serverSWLMCobbleBottomHeight.get();
 		// Maximum Height the ore can spawn.

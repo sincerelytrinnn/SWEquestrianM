@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.enchantments;
 
-import com.alaharranhonor.swem.util.RegistryHandler;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentType;

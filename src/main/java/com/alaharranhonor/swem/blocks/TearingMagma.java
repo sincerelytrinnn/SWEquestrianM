@@ -55,7 +55,7 @@ public class TearingMagma extends Block {
 			for(Direction direction : Direction.values()) {
 				blockpos$mutable.setAndMove(pos, direction);
 				BlockState blockstate = worldIn.getBlockState(blockpos$mutable);
-				if (blockstate.isIn(this) && !this.slightlyMelt(blockstate, worldIn, blockpos$mutable)) {
+				if (blockstate.matchesBlock(this) && !this.slightlyMelt(blockstate, worldIn, blockpos$mutable)) {
 					worldIn.getPendingBlockTicks().scheduleTick(blockpos$mutable, this, MathHelper.nextInt(rand, 20, 40));
 				}
 			}
@@ -90,7 +90,7 @@ public class TearingMagma extends Block {
 
 		for(Direction direction : Direction.values()) {
 			blockpos$mutable.setAndMove(pos, direction);
-			if (worldIn.getBlockState(blockpos$mutable).isIn(this)) {
+			if (worldIn.getBlockState(blockpos$mutable).matchesBlock(this)) {
 				++i;
 				if (i >= neighborsRequired) {
 					return false;

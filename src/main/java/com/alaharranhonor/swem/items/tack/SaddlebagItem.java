@@ -3,21 +3,17 @@ package com.alaharranhonor.swem.items.tack;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.ISWEMEquipable;
 import com.alaharranhonor.swem.items.ItemBase;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.StringTextComponent;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-import javax.annotation.Nullable;
 
 public class SaddlebagItem extends ItemBase implements IAnimatable {
 

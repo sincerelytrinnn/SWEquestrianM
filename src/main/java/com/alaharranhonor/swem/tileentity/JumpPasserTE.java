@@ -24,8 +24,9 @@ public class JumpPasserTE extends TileEntity {
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
-
-		compound.putIntArray("controller", new int[] {controllerPos.getX(), controllerPos.getY(), controllerPos.getZ()});
+		if (this.controllerPos != null) {
+			compound.putIntArray("controller", new int[] {controllerPos.getX(), controllerPos.getY(), controllerPos.getZ()});
+		}
 		return super.write(compound);
 	}
 
@@ -33,20 +34,10 @@ public class JumpPasserTE extends TileEntity {
 	public void read(BlockState state, CompoundNBT nbt) {
 		if (nbt.contains("controller")) {
 			int[] pos = nbt.getIntArray("controller");
-			this.setControllerPos(new BlockPos(pos[0], pos[1], pos[2])); // World is null when reading data. Hence the NullPointerException
+			this.setControllerPos(new BlockPos(pos[0], pos[1], pos[2]));
 
 		}
 		super.read(state, nbt);
 	}
 
-	@Override
-	public CompoundNBT getUpdateTag() {
-		return this.write(new CompoundNBT());
-	}
-
-	@Override
-	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-		int[] pos = tag.getIntArray("controller");
-		this.setControllerPos(new BlockPos(pos[0], pos[1], pos[2]));
-	}
 }

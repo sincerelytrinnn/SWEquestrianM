@@ -75,7 +75,8 @@
         "facing": "east|west"
       },
       "apply": {
-        "model": "swem:block/panel_arrow_middle_light_gray"
+        "model": "swem:block/panel_arrow_middle_light_gray",
+        "y": 90
       }
     }
   ]

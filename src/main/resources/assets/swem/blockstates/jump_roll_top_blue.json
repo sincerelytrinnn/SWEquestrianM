@@ -21,13 +21,23 @@
     {
       "when": {
         "side": "left",
-        "facing": "east|west"
+        "facing": "east"
       },
       "apply": {
         "model": "swem:block/rolltop_outer_blue",
         "y": 90
       }
+    },{
+      "when": {
+        "side": "left",
+        "facing": "west"
+      },
+      "apply": {
+        "model": "swem:block/rolltop_outer_flipped_blue",
+        "y": 90
+      }
     },
+
 
     {
       "when": {
@@ -64,7 +74,8 @@
         "facing": "east|west"
       },
       "apply": {
-        "model": "swem:block/rolltop_middle_blue"
+        "model": "swem:block/rolltop_middle_blue",
+        "y": 90
       }
     }
   ]

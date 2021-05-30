@@ -1,6 +1,6 @@
 package com.alaharranhonor.swem.blocks;
 
-import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.items.PoopItem;
 import com.alaharranhonor.swem.tileentity.WheelBarrowTE;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
@@ -49,24 +49,21 @@ public class WheelBarrowBlock extends HorizontalBlock {
 		if (!worldIn.isRemote && handIn == Hand.MAIN_HAND) {
 			TileEntity tile = worldIn.getTileEntity(pos);
 			WheelBarrowTE te = (WheelBarrowTE) tile;
-			if (player.getHeldItem(handIn).getItem() instanceof ShavingsItem.SoiledShavingsItem && te.itemHandler.getStackInSlot(0).getCount() < 8) {
-				ItemStack layer = player.getHeldItem(handIn);
+			if ((player.getHeldItem(handIn).getItem() instanceof ShavingsItem.SoiledShavingsItem || player.getHeldItem(handIn).getItem() instanceof PoopItem) && te.itemHandler.getStackInSlot(0).getCount() < 8) {
 
-				ItemStack layerCopy;
-				if (player.isCreative()) {
-					layerCopy = layer.copy();
-				} else {
-					layerCopy = layer.split(1);
-				}
+				if (!player.isCreative())
+					player.getHeldItem(handIn).split(1);
+
+				ItemStack layer = new ItemStack(SWEMBlocks.SOILED_SHAVINGS_ITEM.get(), 1);
 
 
 				PacketDistributor.TRACKING_CHUNK.with(() -> te.getWorld().getChunkAt(te.getPos())).send(te.getUpdatePacket());
 
 
 				if (te.itemHandler.getStackInSlot(0) == ItemStack.EMPTY) {
-					te.itemHandler.setStackInSlot(0, layerCopy);
+					te.itemHandler.setStackInSlot(0, layer);
 				} else {
-					te.itemHandler.insertItem(0, layerCopy, false);
+					te.itemHandler.insertItem(0, layer, false);
 				}
 				worldIn.setBlockState(pos, state.with(LEVEL, (int) Math.floor(te.itemHandler.getStackInSlot(0).getCount() / 2) ), 3);
 				if (te.itemHandler.getStackInSlot(0).getCount() == 8)

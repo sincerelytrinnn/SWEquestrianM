@@ -1,11 +1,9 @@
 package com.alaharranhonor.swem.entity.render;
 
 import com.alaharranhonor.swem.blocks.BridleRackBlock;
-import com.alaharranhonor.swem.blocks.OneSaddleRack;
 import com.alaharranhonor.swem.entity.model.*;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.tileentity.BridleRackTE;
-import com.alaharranhonor.swem.tileentity.OneSaddleRackTE;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;

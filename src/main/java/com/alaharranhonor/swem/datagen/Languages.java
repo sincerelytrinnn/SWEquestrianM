@@ -1,11 +1,8 @@
 package com.alaharranhonor.swem.datagen;
 
-import com.google.common.base.Charsets;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 
 public class Languages extends LanguageProvider {
 

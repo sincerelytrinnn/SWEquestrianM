@@ -9,15 +9,12 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.vector.Quaternion;
 import software.bernie.geckolib3.geo.render.built.GeoBone;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
 import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
-import software.bernie.geckolib3.util.GeoUtils;
 
 import java.util.Iterator;
 
@@ -48,16 +45,12 @@ public class WesternSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 					GeoBone horseBody = horseModel.getBone("body").get();
 					GeoBone horseBack = horseModel.getBone("middle").get();
 
-					bone.setRotationY(horseBody.getRotationY());
 					bone.setRotationX(horseBody.getRotationZ());
-					bone.setRotationZ(horseBody.getRotationX());
 
-					bone.setPositionX(horseBody.getPositionZ());
 					bone.setPositionY(horseBody.getPositionY());
-					bone.setPositionZ(horseBody.getPositionX());
 
 					bone.setPivotZ(0);
-					bone.setPivotY(0);
+					bone.setPivotY(-10);
 					bone.setPivotX(0);
 
 

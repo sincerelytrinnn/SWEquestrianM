@@ -1,13 +1,18 @@
 package com.alaharranhonor.swem.tools;
 
+import com.alaharranhonor.swem.blocks.jumps.JumpLayer;
 import com.alaharranhonor.swem.blocks.jumps.JumpStandardBlock;
 import com.alaharranhonor.swem.blocks.jumps.StandardLayer;
-import com.alaharranhonor.swem.gui.JumpScreen;
+import com.alaharranhonor.swem.container.JumpContainer;
 import com.alaharranhonor.swem.items.ItemBase;
 import com.alaharranhonor.swem.tileentity.JumpPasserTE;
 import com.alaharranhonor.swem.tileentity.JumpTE;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
@@ -15,8 +20,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.fml.network.NetworkHooks;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,26 +34,56 @@ public class MeasurementTool extends ItemBase {
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
 
+		if (context.getWorld().isRemote) return ActionResultType.PASS;
+
 		TileEntity te = context.getWorld().getTileEntity(context.getPos());
 		if (te != null) {
 			if (te instanceof JumpPasserTE) {
 				JumpPasserTE jumpPasser = (JumpPasserTE) te;
-
-				if (context.getWorld().isRemote) {
+				if (jumpPasser.getControllerPos() != null ) {
 					JumpTE controller = (JumpTE) context.getWorld().getTileEntity(jumpPasser.getControllerPos());
-					Minecraft.getInstance().displayGuiScreen(new JumpScreen(new TranslationTextComponent("screen.swem.jump_builder"), controller));
-				}
+					INamedContainerProvider provider = new INamedContainerProvider() {
+						@Override
+						public ITextComponent getDisplayName() {
+							return new TranslationTextComponent("screen.swem.jump_builder");
+						}
 
-				return ActionResultType.CONSUME;
+						@Nullable
+						@Override
+						public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
+							return new JumpContainer(p_createMenu_1_, p_createMenu_2_, controller);
+						}
+					};
+					NetworkHooks.openGui((ServerPlayerEntity) context.getPlayer(), provider, buffer ->
+							buffer
+									.writeBlockPos(controller.getPos())
+					);
+					//SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) context.getPlayer()), new OpenGuiPacket(controller.getPos(), controller.getLayerAmount(), controller.getCurrentStandard()));
+
+				}
 			}
 			if (te instanceof JumpTE) {
 				JumpTE jumpController = (JumpTE) te;
-				if (context.getWorld().isRemote) {
-					Minecraft.getInstance().displayGuiScreen(new JumpScreen(new TranslationTextComponent("screen.swem.jump_builder"), jumpController));
-				}
+				if (jumpController.layerAmount == 0) return ActionResultType.PASS;
+				INamedContainerProvider provider = new INamedContainerProvider() {
+					@Override
+					public ITextComponent getDisplayName() {
+						return new TranslationTextComponent("screen.swem.jump_builder");
+					}
 
-				return ActionResultType.CONSUME;
+					@Nullable
+					@Override
+					public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
+						return new JumpContainer(p_createMenu_1_, p_createMenu_2_, jumpController);
+					}
+				};
+				NetworkHooks.openGui((ServerPlayerEntity) context.getPlayer(), provider, buffer ->
+						buffer
+								.writeBlockPos(jumpController.getPos())
+				);
+				//SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) context.getPlayer()), new OpenGuiPacket(jumpController.getPos(), jumpController.getLayerAmount(), jumpController.getCurrentStandard()));
 			}
+			return ActionResultType.CONSUME;
 		}
 
 
@@ -60,7 +98,7 @@ public class MeasurementTool extends ItemBase {
 			if (direction == -1) {
 				nbt.remove("pos1");
 				stack.setTag(nbt);
-				return ActionResultType.FAIL;
+				return ActionResultType.CONSUME;
 			}
 
 
@@ -77,23 +115,43 @@ public class MeasurementTool extends ItemBase {
 			Map<Integer, ArrayList<BlockPos>> layers = this.rearrangeLayers(lowestYValue, blockPositions);
 
 
-			Direction facing = context.getPlacementHorizontalFacing();
+			// Should default to either the player facing north/east
+
+			Direction facing = context.getPlacementHorizontalFacing().getAxis() == Direction.Axis.Z ? Direction.SOUTH : Direction.WEST;
+
 			System.out.println(facing);
 			context.getWorld().setBlockState(layers.get(1).get(0), SWEMBlocks.JUMP_STANDARD_SCHOOLING.get().getDefaultState().with(JumpStandardBlock.HORIZONTAL_FACING, facing));
 
 			JumpTE jumpController = (JumpTE) context.getWorld().getTileEntity(layers.get(1).get(0));
-
-
 			jumpController.setLayerAmount(layerAmount);
 			jumpController.assignJumpBlocks(layers);
 			jumpController.initStandards(StandardLayer.SCHOOLING);
-
-			if (context.getWorld().isRemote) {
-				Minecraft.getInstance().displayGuiScreen(new JumpScreen(new TranslationTextComponent("screen.swem.jump_builder"), jumpController));
-			}
+			jumpController.placeLayer(1, JumpLayer.NONE);
 
 
-			stack.setTag(nbt);
+
+			INamedContainerProvider provider = new INamedContainerProvider() {
+				@Override
+				public ITextComponent getDisplayName() {
+					return new TranslationTextComponent("screen.swem.jump_builder");
+				}
+
+				@Nullable
+				@Override
+				public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
+					return new JumpContainer(p_createMenu_1_, p_createMenu_2_, jumpController);
+				}
+			};
+			NetworkHooks.openGui((ServerPlayerEntity) context.getPlayer(), provider, buffer ->
+					buffer
+							.writeBlockPos(jumpController.getPos())
+			);
+
+			//SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) context.getPlayer()), new OpenGuiPacket(jumpController.getPos(), jumpController.getLayerAmount(), jumpController.getCurrentStandard()));
+
+
+
+			stack.setTag(new CompoundNBT());
 
 			return ActionResultType.CONSUME;
 		} else {
@@ -139,4 +197,14 @@ public class MeasurementTool extends ItemBase {
 
 	}
 
+	@Override
+	public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
+		if (nbt != null) {
+			if (nbt.contains("pos1")) {
+				nbt.remove("pos1");
+			}
+		}
+
+		super.readShareTag(stack, nbt);
+	}
 }

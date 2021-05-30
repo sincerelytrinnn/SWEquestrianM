@@ -7,12 +7,9 @@ import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.potions.CantazaritePotionItem;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.tools.*;
-import com.alaharranhonor.swem.util.ArmorItemRegistration;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.Color;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -107,6 +104,8 @@ public class SWEMItems {
 	public static final RegistryObject<SWEMHorseArmorItem> AMETHYST_HORSE_ARMOR = ITEMS.register("amethyst_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.AMETHYST, 5, "amethyst", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<SaddlebagItem> SADDLEBAG = ITEMS.register("saddlebag", () -> new SaddlebagItem("saddlebags"));
 	public static final RegistryObject<MeasurementTool> MEASUREMENT_TAPE = ITEMS.register("measurement_tape", MeasurementTool::new);
+	public static final RegistryObject<PoopItem> POOP = ITEMS.register("poop", PoopItem::new);
+	public static final RegistryObject<TrackerItem> TRACKER = ITEMS.register("tracker", TrackerItem::new);
 
 
 

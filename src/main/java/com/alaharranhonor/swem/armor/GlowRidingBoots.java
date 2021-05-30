@@ -1,17 +1,10 @@
 package com.alaharranhonor.swem.armor;
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.enchantments.UpstepEnchantment;
-import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import net.minecraft.block.Blocks;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -22,7 +15,6 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.function.Supplier;
 
 public class GlowRidingBoots extends LeatherRidingBoots {
 	public GlowRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {

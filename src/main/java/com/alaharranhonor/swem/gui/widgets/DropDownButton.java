@@ -3,17 +3,15 @@ package com.alaharranhonor.swem.gui.widgets;
 import com.alaharranhonor.swem.blocks.jumps.JumpLayer;
 import com.alaharranhonor.swem.blocks.jumps.StandardLayer;
 import com.alaharranhonor.swem.gui.JumpScreen;
+import com.alaharranhonor.swem.network.SWEMPacketHandler;
+import com.alaharranhonor.swem.network.jumps.CChangeLayerPacket;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class DropDownButton<T> extends Button {
 
 	private JumpScreen screen;
-	private List<T> applicableLayers = new ArrayList<>();
 	private T currentLayer;
 	private int id = -1;
 	private int layer = -1;
@@ -27,16 +25,6 @@ public class DropDownButton<T> extends Button {
 		return screen;
 	}
 
-	public List<T> getApplicableLayers() {
-		return applicableLayers;
-	}
-
-	public void setApplicableLayers(List<T> layers) {
-		this.applicableLayers = layers;
-		if (!this.applicableLayers.contains(currentLayer) && this.applicableLayers.size() > 0) {
-			setSelected(this.applicableLayers.get(this.applicableLayers.indexOf(JumpLayer.NONE)));
-		}
-	}
 
 	public void setLayer(int layer) {
 		this.layer = layer;
@@ -44,7 +32,6 @@ public class DropDownButton<T> extends Button {
 
 	public void setSelected(T layer) {
 		this.currentLayer = layer;
-		this.id = this.applicableLayers.indexOf(layer);
 	}
 
 	public T getCurrentLayer() {
@@ -53,34 +40,7 @@ public class DropDownButton<T> extends Button {
 
 	@Override
 	public void onPress() {
-		if (!this.applicableLayers.isEmpty()) {
-			if (id + 1 > applicableLayers.size() - 1) {
-				id = 0;
-			} else {
-				id++;
-			}
-
-			T object = this.applicableLayers.get(id);
-
-			if (isLayer(object)) {
-				JumpLayer jumpLayer = (JumpLayer) object;
-				this.screen.jumpController.placeLayer(layer, jumpLayer);
-				this.screen.getButtons().forEach((widget) -> {
-					DropDownButton btn = (DropDownButton) widget;
-					btn.setApplicableLayers(this.screen.jumpController.getApplicableLayers(btn.layer));
-				});
-				if (jumpLayer.hasColorVariants()) {
-					this.screen.getColorButtons().get(this.layer - 1).active = true;
-				} else {
-					this.screen.getColorButtons().get(this.layer - 1).active = false;
-				}
-			} else if (isStandard(object)) {
-				//this.screen.jumpController.placeStandards((StandardLayer) object);
-
-			}
-			this.setSelected(object);
-
-		}
+		SWEMPacketHandler.INSTANCE.sendToServer(new CChangeLayerPacket(this.screen.controllerPos, layer));
 		super.onPress();
 	}
 
@@ -94,11 +54,13 @@ public class DropDownButton<T> extends Button {
 
 	@Override
 	public ITextComponent getMessage() {
-		if (id == -1 || this.applicableLayers.isEmpty() && currentLayer == null) {
+		if (this.layer == -1) {
 			return new StringTextComponent("Option");
 		}
-
-		return new StringTextComponent(((Enum) currentLayer).name());
+		if (this.screen.layerTypes.get(this.layer) == null) {
+			return new StringTextComponent("Option");
+		}
+		return new StringTextComponent(this.screen.layerTypes.get(this.layer).name());
 	}
 
 	public static class Press implements DropDownButton.IPressable {

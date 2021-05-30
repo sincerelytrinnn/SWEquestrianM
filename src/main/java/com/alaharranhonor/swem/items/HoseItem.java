@@ -1,14 +1,11 @@
 package com.alaharranhonor.swem.items;
 
-import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.event.EventFactory;
-import com.alaharranhonor.swem.tools.SWEMItemTier;
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.FlowingFluid;
@@ -16,7 +13,6 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;

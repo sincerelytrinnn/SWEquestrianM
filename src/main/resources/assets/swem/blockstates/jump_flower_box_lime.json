@@ -75,7 +75,8 @@
         "facing": "east|west"
       },
       "apply": {
-        "model": "swem:block/flower_box_middle_lime"
+        "model": "swem:block/flower_box_middle_lime",
+        "y": 90
       }
     }
   ]

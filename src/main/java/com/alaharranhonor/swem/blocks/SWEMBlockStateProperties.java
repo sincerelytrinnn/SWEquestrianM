@@ -4,12 +4,10 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.util.IStringSerializable;
 
 public class SWEMBlockStateProperties extends BlockStateProperties {
 	public static final EnumProperty<HitchingPostBase.PostPart> POST_PART = EnumProperty.create("post_part", HitchingPostBase.PostPart.class);
-	public static final BooleanProperty FULL_FENCE = BooleanProperty.create("full_fence");
 	public static final BooleanProperty HALF_FENCE = BooleanProperty.create("half_fence");
 
 	public static final IntegerProperty LEVEL_0_2 = IntegerProperty.create("level", 0, 2);
@@ -20,6 +18,7 @@ public class SWEMBlockStateProperties extends BlockStateProperties {
 	public static final EnumProperty<TwoWay> TWO_WAY = EnumProperty.create("two_way", TwoWay.class);
 	public static final BooleanProperty CONNECTED_LEFT = BooleanProperty.create("con_left");
 	public static final BooleanProperty CONNECTED_RIGHT = BooleanProperty.create("con_right");
+	public static final IntegerProperty LEVEL_0_12 = IntegerProperty.create("level", 0, 12);
 
 	public enum DoubleBlockSide implements IStringSerializable {
 		LEFT,

@@ -1,9 +1,11 @@
 package com.alaharranhonor.swem.blocks;
 
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.item.DyeColor;
+import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -11,6 +13,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
 public class WaterThroughBlock extends NonParallelBlock {
+	public static final IntegerProperty LEVEL = SWEMBlockStateProperties.LEVEL_0_12;
 	public WaterThroughBlock(Properties properties, DyeColor colour) {
 		super(properties, colour);
 	}
@@ -24,4 +27,8 @@ public class WaterThroughBlock extends NonParallelBlock {
 		return VoxelShapes.create(0.01, 0.01, 0.01, 0.99, 0.99, 0.99);
 	}
 
+	@Override
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+		super.fillStateContainer(builder);
+	}
 }
