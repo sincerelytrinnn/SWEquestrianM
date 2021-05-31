@@ -4,7 +4,7 @@
       "model": "swem:block/whitewash_slab"
     },
     "type=double": {
-      "model": "swem:block/whitewash_planks"
+      "model": "swem:block/whitewash_plank"
     },
     "type=top": {
       "model": "swem:block/whitewash_slab_top"
