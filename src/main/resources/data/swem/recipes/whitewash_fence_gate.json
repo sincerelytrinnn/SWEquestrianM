@@ -5,7 +5,7 @@
       "item": "minecraft:white_dye"
     },
     {
-      "item": "minecraft:oak_fence_gate"
+      "tag": "minecraft:fence_gates"
     }
   ],
   "result": {
