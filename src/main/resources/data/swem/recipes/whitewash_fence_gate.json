@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:white_dye"
+    },
+    {
+      "item": "minecraft:oak_fence_gate"
+    }
+  ],
+  "result": {
+    "item": "swem:whitewash_fence_gate"
+  }
+}

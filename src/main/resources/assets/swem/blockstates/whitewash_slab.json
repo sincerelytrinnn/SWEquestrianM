@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "swem:block/whitewash_slab"
+    },
+    "type=double": {
+      "model": "swem:block/whitewash_planks"
+    },
+    "type=top": {
+      "model": "swem:block/whitewash_slab_top"
+    }
+  }
+}

@@ -11,6 +11,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -129,6 +130,14 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> LOCKER = BLOCKS.register("locker", () -> new LockerBlock(Block.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> PADDOCK_FEEDER = BLOCKS.register("paddock_feeder", () -> new PaddockFeederBlock(Block.Properties.create(Material.WOOD)));
 	public static final RegistryObject<Block> HORSE_ARMOR_RACK = BLOCKS.register("horse_armor_rack", () -> new HorseArmorRackBlock(Block.Properties.create(Material.IRON).notSolid()));
+
+	public static final RegistryObject<Block> WHITEWASH_PLANK = BLOCKS.register("whitewash_plank", () -> new Block(AbstractBlock.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> WHITEWASH_SLAB = BLOCKS.register("whitewash_slab", () -> new SlabBlock(AbstractBlock.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> WHITEWASH_STAIRS = BLOCKS.register("whitewash_stairs", () -> new StairsBlock(Blocks.OAK_WOOD.getDefaultState(), AbstractBlock.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> WHITEWASH_BUTTON = BLOCKS.register("whitewash_button", () -> new WoodButtonBlock(AbstractBlock.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> WHITEWASH_FENCE = BLOCKS.register("whitewash_fence", () -> new FenceBlock(AbstractBlock.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> WHITEWASH_FENCE_GATE = BLOCKS.register("whitewash_fence_gate", () -> new FenceGateBlock(AbstractBlock.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> WHITEWASH_DOOR = BLOCKS.register("whitewash_door", () -> new DoorBlock(AbstractBlock.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 3.0F).harvestTool(ToolType.AXE)));
 
     // Jump blocks
 	public static final RegistryObject<Block> JUMP_STANDARD_SCHOOLING = BLOCKS.register("jump_standard_schooling", () -> new JumpStandardBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
@@ -300,5 +309,13 @@ public class SWEMBlocks {
 	public static final RegistryObject<Item> LOCKER_ITEM = SWEMItems.ITEMS.register("locker", () -> new BlockItemBase(LOCKER.get()));
 	public static final RegistryObject<Item> PADDOCK_FEEDER_ITEM = SWEMItems.ITEMS.register("paddock_feeder", () -> new BlockItemBase(PADDOCK_FEEDER.get()));
 	public static final RegistryObject<Item> HORSE_ARMOR_RACK_ITEM = SWEMItems.ITEMS.register("horse_armor_rack", () -> new BlockItemBase(HORSE_ARMOR_RACK.get()));
+
+	public static final RegistryObject<Item> WHITEWASH_PLANK_ITEM = SWEMItems.ITEMS.register("whitewash_plank", () -> new BlockItemBase(WHITEWASH_PLANK.get()));
+	public static final RegistryObject<Item> WHITEWASH_SLAB_ITEM = SWEMItems.ITEMS.register("whitewash_slab", () -> new BlockItemBase(WHITEWASH_SLAB.get()));
+	public static final RegistryObject<Item> WHITEWASH_STAIRS_ITEM = SWEMItems.ITEMS.register("whitewash_stairs", () -> new BlockItemBase(WHITEWASH_STAIRS.get()));
+	public static final RegistryObject<Item> WHITEWASH_BUTTON_ITEM = SWEMItems.ITEMS.register("whitewash_button", () -> new BlockItemBase(WHITEWASH_BUTTON.get()));
+	public static final RegistryObject<Item> WHITEWASH_FENCE_ITEM = SWEMItems.ITEMS.register("whitewash_fence", () -> new BlockItemBase(WHITEWASH_FENCE.get()));
+	public static final RegistryObject<Item> WHITEWASH_FENCE_GATE_ITEM = SWEMItems.ITEMS.register("whitewash_fence_gate", () -> new BlockItemBase(WHITEWASH_FENCE_GATE.get()));
+	public static final RegistryObject<Item> WHITEWASH_DOOR_ITEM = SWEMItems.ITEMS.register("whitewash_door", () -> new BlockItemBase(WHITEWASH_DOOR.get()));
 
 }
