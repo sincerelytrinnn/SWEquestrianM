@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.blocks;
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.network.SyncEntityIdToClient;
 import com.alaharranhonor.swem.tileentity.TackBoxTE;
@@ -73,15 +74,16 @@ public class TackBoxBlock extends HorizontalBlock {
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if (!worldIn.isRemote) {
-			TileEntity tile = worldIn.getTileEntity(pos);
+			BlockPos offsetPos = state.get(SWEMBlockStateProperties.D_SIDE) == SWEMBlockStateProperties.DoubleBlockSide.RIGHT ? pos.offset(state.get(HORIZONTAL_FACING).rotateY()).toMutable() : pos;
+			TileEntity tile = worldIn.getTileEntity(offsetPos);
+
 			if (tile instanceof TackBoxTE) {
 				UUID uuid = tile.getTileData().getUniqueId("horseUUID");
 				int entityID = ((ServerWorld)worldIn).getEntityByUuid(uuid).getEntityId();
 				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new SyncEntityIdToClient(entityID, tile.getPos().getX(), tile.getPos().getY(), tile.getPos().getZ()));
 				NetworkHooks.openGui((ServerPlayerEntity) player, (TackBoxTE) tile, (buffer) -> {
-					buffer.writeBlockPos(pos);
+					buffer.writeBlockPos(tile.getPos());
 				});
-
 			}
 		}
 		return ActionResultType.FAIL;
@@ -96,9 +98,9 @@ public class TackBoxBlock extends HorizontalBlock {
 
 			}
 			if (state.get(SWEMBlockStateProperties.D_SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
-					worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateY().rotateY()), Blocks.AIR.getDefaultState());
+					worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateYCCW()), Blocks.AIR.getDefaultState());
 			} else {
-				worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateYCCW().rotateYCCW()), Blocks.AIR.getDefaultState());
+				worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateY()), Blocks.AIR.getDefaultState());
 			}
 		}
 	}
@@ -129,14 +131,13 @@ public class TackBoxBlock extends HorizontalBlock {
 			}
 		}
 
-		Direction newFacing = placer.getHorizontalFacing().rotateY();
 
-		worldIn.setBlockState(pos.offset(newFacing), state.with(SWEMBlockStateProperties.D_SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT));
+		worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateYCCW()), state.with(SWEMBlockStateProperties.D_SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT));
 
 		if (!worldIn.isRemote) {
 			if (stack.hasTag()) {
 				UUID id = stack.getTag().getUniqueId("horseUUID");
-				TileEntity tile = worldIn.getTileEntity(pos.offset(newFacing));
+				TileEntity tile = worldIn.getTileEntity(pos.offset(state.get(HORIZONTAL_FACING).rotateY()));
 				if (tile instanceof TackBoxTE) {
 					tile.getTileData().putUniqueId("horseUUID", id);
 				}
@@ -148,7 +149,7 @@ public class TackBoxBlock extends HorizontalBlock {
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing().rotateYCCW());
+		return this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing().getOpposite());
 	}
 
 	@Override

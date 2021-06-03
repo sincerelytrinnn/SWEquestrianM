@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.entity.render;
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.WormieBoiEntity;
 import com.alaharranhonor.swem.entity.model.WormieBoiModel;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -14,7 +15,7 @@ public class WormieBoiRender extends GeoEntityRenderer<WormieBoiEntity> {
 
 	@Override
 	public ResourceLocation getEntityTexture(WormieBoiEntity entity) {
-		return super.getEntityTexture(entity);
+		return new ResourceLocation(SWEM.MOD_ID, "textures/entity/wormieboi.png");
 	}
 
 	@Override

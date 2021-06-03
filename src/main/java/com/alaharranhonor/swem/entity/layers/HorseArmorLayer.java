@@ -40,10 +40,12 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 			Iterator group = geoModel.getModel(geoModel.getModelLocation(armorItem)).topLevelBones.iterator();
 			while (group.hasNext()) {
 				GeoBone bone = (GeoBone) group.next();
+
+				float boneX = bone.getPositionX();
+				bone.setPositionX(boneX++);
 				if (bone.getName().equals("cloth")) {
 
 					GeoBone horseStomach = horseModel.getBone("body").get();
-					SWEM.LOGGER.debug(String.format("Stomach: Rot X: %s - Rot Y: %s - Rot Z: %s | Piv X: %s - Piv Y: %s - Piv Z: %s", horseStomach.getRotationX(), horseStomach.getRotationY(), horseStomach.getRotationZ(), horseStomach.getPivotX(), horseStomach.getPivotY(), horseStomach.getPivotZ()));
 					bone.setPivotZ(0);
 					bone.setPivotX(0);
 					bone.setPivotY(12);
@@ -54,13 +56,21 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 				}
 
 				if (bone.getName().equals("iron")) {
+
 					//GeoBone horseHead = horseModel.getBone("head").get();
-					GeoBone horseBack = horseModel.getBone("back").get().childBones.get(0);
-					//GeoBone horseFront = horseModel.getBone("base").get();
+					GeoBone horseBack = horseModel.getBone("back").get().childBones.get(3);
+					GeoBone horseFront = horseModel.getBone("base2").get();
 
+					SWEM.LOGGER.debug(horseFront.name);
 
-
+					GeoBone head = bone.childBones.get(0);
 					GeoBone back = bone.childBones.get(1);
+					GeoBone base = bone.childBones.get(2);
+
+					back.setPositionY(horseBack.getPositionY() + 1);
+
+					base.setPositionY(horseFront.getPositionY() + 1);
+
 					//back.setPivotZ(11);
 					//back.setPivotX(-11);
 					//back.setPivotY(0);

@@ -28,8 +28,9 @@ public class SWEMPacketHandler {
 		INSTANCE.registerMessage(13, CAddLayerPacket.class, CAddLayerPacket::encode, CAddLayerPacket::decode, CAddLayerPacket::handle);
 		INSTANCE.registerMessage(14, CChangeColorPacket.class, CChangeColorPacket::encode, CChangeColorPacket::decode, CChangeColorPacket::handle);
 		INSTANCE.registerMessage(15, CChangeLayerPacket.class, CChangeLayerPacket::encode, CChangeLayerPacket::decode, CChangeLayerPacket::handle);
-		INSTANCE.registerMessage(16, CDestroyPacket.class, CDestroyPacket::encode, CDestroyPacket::decode, CDestroyPacket::handle);
-		INSTANCE.registerMessage(17, CRemoveLayerPacket.class, CRemoveLayerPacket::encode, CRemoveLayerPacket::decode, CRemoveLayerPacket::handle);
-		INSTANCE.registerMessage(18, SDataSendPacket.class, SDataSendPacket::encode, SDataSendPacket::decode, SDataSendPacket::handle);
+		INSTANCE.registerMessage(16, CChangeStandardPacket.class, CChangeStandardPacket::encode, CChangeStandardPacket::decode, CChangeStandardPacket::handle);
+		INSTANCE.registerMessage(17, CDestroyPacket.class, CDestroyPacket::encode, CDestroyPacket::decode, CDestroyPacket::handle);
+		INSTANCE.registerMessage(18, CRemoveLayerPacket.class, CRemoveLayerPacket::encode, CRemoveLayerPacket::decode, CRemoveLayerPacket::handle);
+		INSTANCE.registerMessage(19, SDataSendPacket.class, SDataSendPacket::encode, SDataSendPacket::decode, SDataSendPacket::handle);
 	}
 }

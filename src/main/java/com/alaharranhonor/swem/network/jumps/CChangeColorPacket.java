@@ -14,11 +14,13 @@ import java.util.function.Supplier;
 public class CChangeColorPacket {
 	private BlockPos controllerPos;
 	private int layerToChange;
+	private boolean rightClick;
 	private boolean failed;
 
-	public CChangeColorPacket(BlockPos controllerPos, int layerToChange) {
+	public CChangeColorPacket(BlockPos controllerPos, int layerToChange, boolean rightClick) {
 		this.controllerPos = controllerPos;
 		this.layerToChange = layerToChange;
+		this.rightClick = rightClick;
 		this.failed = false;
 	}
 
@@ -30,7 +32,8 @@ public class CChangeColorPacket {
 		try {
 			BlockPos controllerPos = ((PacketBuffer) buf).readBlockPos();
 			int layerToChange = ((PacketBuffer) buf).readVarInt();
-			return new CChangeColorPacket(controllerPos, layerToChange);
+			boolean rightClick = buf.readBoolean();
+			return new CChangeColorPacket(controllerPos, layerToChange, rightClick);
 		} catch (IndexOutOfBoundsException e) {
 			SWEM.LOGGER.error("CChangeColorPacket: Unexpected end of packet.\nMessage: " + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()), e);
 			return new CChangeColorPacket(true);
@@ -40,6 +43,7 @@ public class CChangeColorPacket {
 	public static void encode(CChangeColorPacket msg, PacketBuffer buffer) {
 		buffer.writeBlockPos(msg.controllerPos);
 		buffer.writeVarInt(msg.layerToChange);
+		buffer.writeBoolean(msg.rightClick);
 	}
 
 	public static void handle(CChangeColorPacket msg, Supplier<NetworkEvent.Context> ctx) {
@@ -47,7 +51,11 @@ public class CChangeColorPacket {
 			Container container = ctx.get().getSender().openContainer;
 			if (container instanceof JumpContainer) {
 				JumpContainer jumpContainer = (JumpContainer) container;
-				jumpContainer.controller.changeColorVariant(msg.layerToChange);
+				if (msg.rightClick) {
+					jumpContainer.controller.decrementColorVariant(msg.layerToChange);
+				} else {
+					jumpContainer.controller.incrementColorVariant(msg.layerToChange);
+				}
 			}
 		});
 		ctx.get().setPacketHandled(true);

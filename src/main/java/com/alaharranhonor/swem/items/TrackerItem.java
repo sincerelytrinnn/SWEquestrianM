@@ -54,7 +54,7 @@ public class TrackerItem extends ItemBase {
 				UUID uuid = tracked.getUniqueId(Integer.toString(i));
 				Entity entity = world.getEntityByUuid(uuid);
 				if (entity instanceof SWEMHorseEntityBase) {
-					builder.append(entity.getName()).append(" x: ").append(entity.getPosition().getX()).append(" - y: ").append(entity.getPosition().getY()).append(" - z: ").append(entity.getPosition().getZ()).append("\n");
+					builder.append(entity.getName().getString()).append(" x: ").append(entity.getPosition().getX()).append(" - y: ").append(entity.getPosition().getY()).append(" - z: ").append(entity.getPosition().getZ()).append("\n");
 				}
 			}
 

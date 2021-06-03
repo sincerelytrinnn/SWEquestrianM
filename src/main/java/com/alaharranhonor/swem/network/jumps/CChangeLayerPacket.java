@@ -14,11 +14,13 @@ import java.util.function.Supplier;
 public class CChangeLayerPacket {
 	private BlockPos controllerPos;
 	private int layerToChange;
+	private boolean rightClick;
 	private boolean failed;
 
-	public CChangeLayerPacket(BlockPos controllerPos, int layerToChange) {
+	public CChangeLayerPacket(BlockPos controllerPos, int layerToChange, boolean rightClick) {
 		this.controllerPos = controllerPos;
 		this.layerToChange = layerToChange;
+		this.rightClick = rightClick;
 		this.failed = false;
 	}
 
@@ -30,7 +32,8 @@ public class CChangeLayerPacket {
 		try {
 			BlockPos controllerPos = ((PacketBuffer) buf).readBlockPos();
 			int layerToChange = ((PacketBuffer) buf).readVarInt();
-			return new CChangeLayerPacket(controllerPos, layerToChange);
+			boolean rightClick = buf.readBoolean();
+			return new CChangeLayerPacket(controllerPos, layerToChange, rightClick);
 		} catch (IndexOutOfBoundsException e) {
 			SWEM.LOGGER.error("CChangeLayerPacket: Unexpected end of packet.\nMessage: " + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()), e);
 			return new CChangeLayerPacket(true);
@@ -40,6 +43,7 @@ public class CChangeLayerPacket {
 	public static void encode(CChangeLayerPacket msg, PacketBuffer buffer) {
 		buffer.writeBlockPos(msg.controllerPos);
 		buffer.writeVarInt(msg.layerToChange);
+		buffer.writeBoolean(msg.rightClick);
 	}
 
 	public static void handle(CChangeLayerPacket msg, Supplier<NetworkEvent.Context> ctx) {
@@ -47,7 +51,11 @@ public class CChangeLayerPacket {
 			Container container = ctx.get().getSender().openContainer;
 			if (container instanceof JumpContainer) {
 				JumpContainer jumpContainer = (JumpContainer) container;
-				jumpContainer.controller.changeLayer(msg.layerToChange);
+				if (msg.rightClick) {
+					jumpContainer.controller.changeLayerBackwards(msg.layerToChange);
+				} else {
+					jumpContainer.controller.changeLayerForward(msg.layerToChange);
+				}
 			}
 
 		});

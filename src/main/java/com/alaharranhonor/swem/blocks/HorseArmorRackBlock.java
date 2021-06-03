@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.blocks;
 
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
+import com.alaharranhonor.swem.items.tack.AdventureSaddleItem;
 import com.alaharranhonor.swem.tileentity.HorseArmorRackTE;
 import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
 import net.minecraft.block.*;
@@ -65,8 +66,35 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
 						return ActionResultType.func_233537_a_(worldIn.isRemote);
 					}
+				} else if (player.getHeldItem(handIn).getItem() instanceof AdventureSaddleItem) {
+					ItemStack saddle = player.getHeldItem(handIn);
+					if (rack.itemHandler.getStackInSlot(1) == ItemStack.EMPTY) {
+						ItemStack saddleCopy;
+						if (player.isCreative()) {
+							saddleCopy = saddle.copy();
+						} else {
+							saddleCopy = saddle.split(1);
+						}
+
+						rack.itemHandler.setStackInSlot(1, saddleCopy);
+						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
+						return ActionResultType.func_233537_a_(worldIn.isRemote);
+					}
 				} else {
-					if (rack.itemHandler.getStackInSlot(0) != ItemStack.EMPTY) {
+					if (rack.itemHandler.getStackInSlot(1) != ItemStack.EMPTY) {
+
+						if (!player.abilities.isCreativeMode) {
+							ItemEntity itementity = new ItemEntity(worldIn, rack.getPos().getX(), rack.getPos().getY(), rack.getPos().getZ(), rack.itemHandler.getStackInSlot(1));
+							itementity.setMotion(RANDOM.nextGaussian() * (double)0.05F, RANDOM.nextGaussian() * (double)0.05F + (double)0.2F, RANDOM.nextGaussian() * (double)0.05F);
+							worldIn.addEntity(itementity);
+						}
+
+						rack.itemHandler.setStackInSlot(1, ItemStack.EMPTY);
+						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
+						return ActionResultType.func_233537_a_(worldIn.isRemote);
+
+					} else if (rack.itemHandler.getStackInSlot(0) != ItemStack.EMPTY && rack.itemHandler.getStackInSlot(1) == ItemStack.EMPTY) {
+
 						if (!player.abilities.isCreativeMode) {
 							ItemEntity itementity = new ItemEntity(worldIn, rack.getPos().getX(), rack.getPos().getY(), rack.getPos().getZ(), rack.itemHandler.getStackInSlot(0));
 							itementity.setMotion(RANDOM.nextGaussian() * (double)0.05F, RANDOM.nextGaussian() * (double)0.05F + (double)0.2F, RANDOM.nextGaussian() * (double)0.05F);

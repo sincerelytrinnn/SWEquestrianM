@@ -1,9 +1,6 @@
 package com.alaharranhonor.swem.tileentity;
 
-import com.alaharranhonor.swem.blocks.jumps.JumpBlock;
-import com.alaharranhonor.swem.blocks.jumps.JumpLayer;
-import com.alaharranhonor.swem.blocks.jumps.JumpStandardBlock;
-import com.alaharranhonor.swem.blocks.jumps.StandardLayer;
+import com.alaharranhonor.swem.blocks.jumps.*;
 import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -62,21 +59,14 @@ public class JumpTE extends TileEntity {
 	public void initStandards(StandardLayer standard) {
 		this.currentStandard = standard;
 		for (int i = 1; i <= layerAmount; i++) {
-			if (i != 1) {
-				this.world.setBlockState(layerPositions.get(i).get(0), i == layerAmount ? standard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING)) : standard.getMiddleState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING)), 3);
-				this.world.removeTileEntity(layerPositions.get(i).get(0));
-				JumpPasserTE passer = SWEMTileEntities.JUMP_PASSER_TILE_ENTITY.get().create();
-				passer.setPos(layerPositions.get(i).get(0));
-				this.world.addTileEntity(passer);
-				passer.setControllerPos(this.getPos());
 
-			}
-			this.world.setBlockState(layerPositions.get(i).get(6), i == 1 ? standard.getBottomState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()) : i == layerAmount ? standard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()) : standard.getMiddleState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()), 3);
-			this.world.removeTileEntity(layerPositions.get(i).get(6));
-			JumpPasserTE passer = SWEMTileEntities.JUMP_PASSER_TILE_ENTITY.get().create();
-			passer.setPos(layerPositions.get(i).get(6));
-			this.world.addTileEntity(passer);
-			passer.setControllerPos(this.getPos());
+			this.world.setBlockState(layerPositions.get(i).get(0), i == 1 ? standard.getBottomState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpControllerBlock.HORIZONTAL_FACING)) : i == layerAmount ? standard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpControllerBlock.HORIZONTAL_FACING)) : standard.getMiddleState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpControllerBlock.HORIZONTAL_FACING)), 3);
+			((JumpPasserTE) this.world.getTileEntity(layerPositions.get(i).get(0))).setControllerPos(this.getPos());
+
+
+			this.world.setBlockState(layerPositions.get(i).get(6), i == 1 ? standard.getBottomState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpControllerBlock.HORIZONTAL_FACING).rotateY().rotateY()) : i == layerAmount ? standard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpControllerBlock.HORIZONTAL_FACING).rotateY().rotateY()) : standard.getMiddleState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpControllerBlock.HORIZONTAL_FACING).rotateY().rotateY()), 3);
+			((JumpPasserTE) this.world.getTileEntity(layerPositions.get(i).get(6))).setControllerPos(this.getPos());
+
 		}
 	}
 
@@ -104,7 +94,7 @@ public class JumpTE extends TileEntity {
 		}
 	}
 
-	public void changeLayer(int layerNumber) {
+	public void changeLayerForward(int layerNumber) {
 		List<JumpLayer> applicableLayers = this.getApplicableLayers(layerNumber);
 		if (applicableLayers.contains(this.layerTypes.get(layerNumber))) {
 			int indexToPick = applicableLayers.indexOf(this.layerTypes.get(layerNumber)) + 1;
@@ -117,7 +107,36 @@ public class JumpTE extends TileEntity {
 		}
 	}
 
-	public void changeColorVariant(int layerNumber) {
+	public void changeLayerBackwards(int layerNumber) {
+		List<JumpLayer> applicableLayers = this.getApplicableLayers(layerNumber);
+		if (applicableLayers.contains(this.layerTypes.get(layerNumber))) {
+			int indexToPick = applicableLayers.indexOf(this.layerTypes.get(layerNumber)) - 1;
+			if (indexToPick < 0) {
+				indexToPick = applicableLayers.size() - 1;
+			}
+			this.placeLayer(layerNumber, applicableLayers.get(indexToPick));
+		} else {
+			this.placeLayer(layerNumber, applicableLayers.get(0));
+		}
+	}
+
+	public void changeStandardForward() {
+		int enumId = this.currentStandard.ordinal();
+		if (++enumId > StandardLayer.values().length - 1) {
+			enumId = 0;
+		}
+		this.initStandards(StandardLayer.values()[enumId]);
+	}
+
+	public void changeStandardBackwards() {
+		int enumId = this.currentStandard.ordinal();
+		if (--enumId < 0) {
+			enumId = StandardLayer.values().length - 1;
+		}
+		this.initStandards(StandardLayer.values()[enumId]);
+	}
+
+	public void incrementColorVariant(int layerNumber) {
 		if (!layerColors.containsKey(layerNumber)) {
 			layerColors.put(layerNumber, 0);
 		}
@@ -127,6 +146,20 @@ public class JumpTE extends TileEntity {
 			nextColor = 0;
 		}
 		layerColors.put(layerNumber, nextColor);
+
+		this.placeLayer(layerNumber, this.getLayer(layerNumber));
+	}
+
+	public void decrementColorVariant(int layerNumber) {
+		if (!layerColors.containsKey(layerNumber)) {
+			layerColors.put(layerNumber, 0);
+		}
+
+		int prevColor = layerColors.get(layerNumber) - 1;
+		if (prevColor < 0) {
+			prevColor = DyeColor.values().length - 1;
+		}
+		layerColors.put(layerNumber, prevColor);
 
 		this.placeLayer(layerNumber, this.getLayer(layerNumber));
 	}
@@ -311,25 +344,17 @@ public class JumpTE extends TileEntity {
 
 			if (i == 0 || i == 6) {
 				// Standards
-				Direction facing = i == 0 ? this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING) : this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY();
+				Direction facing = i == 0 ? this.getBlockState().get(JumpControllerBlock.HORIZONTAL_FACING) : this.getBlockState().get(JumpControllerBlock.HORIZONTAL_FACING).rotateY().rotateY();
 
 				// Replace the lower standards to a middle piece. If the 2nd layer is added, keep the bottom as the bottom piece.
 				if (layerNumber - 1 != 1) {
-					this.world.removeTileEntity(newPos);
 					this.world.setBlockState(this.layerPositions.get(layerNumber - 1).get(i), this.currentStandard.getMiddleState().with(JumpStandardBlock.HORIZONTAL_FACING, facing), 1 | 2 );
-					JumpPasserTE passer = SWEMTileEntities.JUMP_PASSER_TILE_ENTITY.get().create();
-					passer.setPos(newPos);
-					this.world.addTileEntity(passer);
-					passer.setControllerPos(this.getPos());
+					((JumpPasserTE) this.world.getTileEntity(this.layerPositions.get(layerNumber - 1).get(i))).setControllerPos(this.getPos());
 
 				}
 				// Set the state at the new pos, to the top piece.
-				this.world.removeTileEntity(newPos);
 				this.world.setBlockState(newPos, this.currentStandard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, facing), 1 | 2 );
-				JumpPasserTE passer1 = SWEMTileEntities.JUMP_PASSER_TILE_ENTITY.get().create();
-				passer1.setPos(newPos);
-				this.world.addTileEntity(passer1);
-				passer1.setControllerPos(this.getPos());
+				((JumpPasserTE) this.world.getTileEntity(newPos)).setControllerPos(this.getPos());
 
 
 			}
@@ -343,6 +368,7 @@ public class JumpTE extends TileEntity {
 	@Override
 	public void remove() {
 
+		this.world.setBlockState(this.layerPositions.get(1).get(0).offset(Direction.UP, 5), Blocks.AIR.getDefaultState(), 3);
 		for (ArrayList<BlockPos> positions : this.layerPositions.values()) {
 			for (BlockPos pos : positions) {
 				this.world.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);

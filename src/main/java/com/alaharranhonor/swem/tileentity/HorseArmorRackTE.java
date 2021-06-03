@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.tileentity;
 
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
+import com.alaharranhonor.swem.items.tack.AdventureSaddleItem;
 import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
@@ -45,15 +46,21 @@ public class HorseArmorRackTE extends TileEntity implements IAnimatable {
 	public CompoundNBT getUpdateTag() {
 		CompoundNBT nbt = new CompoundNBT();
 		CompoundNBT armor = new CompoundNBT();
+		CompoundNBT saddle = new CompoundNBT();
 		this.itemHandler.getStackInSlot(0).write(armor);
+		this.itemHandler.getStackInSlot(1).write(saddle);
 		nbt.put("armor", armor);
+		nbt.put("saddle", saddle);
 		return this.write(nbt);
 	}
 
 	@Override
 	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
 		if (tag.contains("armor")) {
-			this.itemHandler.setStackInSlot(0, ItemStack.read((CompoundNBT) tag.get("armor")));
+			this.itemHandler.setStackInSlot(0, ItemStack.read(tag.getCompound("armor")));
+		}
+		if (tag.contains("saddle")) {
+			this.itemHandler.setStackInSlot(1, ItemStack.read(tag.getCompound("saddle")));
 		}
 	}
 
@@ -61,14 +68,24 @@ public class HorseArmorRackTE extends TileEntity implements IAnimatable {
 	@Override
 	public SUpdateTileEntityPacket getUpdatePacket() {
 		CompoundNBT nbt = new CompoundNBT();
-		this.itemHandler.getStackInSlot(0).write(nbt);
-
+		CompoundNBT armor = new CompoundNBT();
+		CompoundNBT saddle = new CompoundNBT();
+		this.itemHandler.getStackInSlot(0).write(armor);
+		this.itemHandler.getStackInSlot(1).write(saddle);
+		nbt.put("armor", armor);
+		nbt.put("saddle", saddle);
 		return new SUpdateTileEntityPacket(this.getPos(), 0, nbt);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		this.itemHandler.setStackInSlot(0, ItemStack.read(pkt.getNbtCompound()));
+		CompoundNBT tag = pkt.getNbtCompound();
+		if (tag.contains("armor")) {
+			this.itemHandler.setStackInSlot(0, ItemStack.read(tag.getCompound("armor")));
+		}
+		if (tag.contains("saddle")) {
+			this.itemHandler.setStackInSlot(1, ItemStack.read(tag.getCompound("saddle")));
+		}
 	}
 
 	@Override
@@ -88,7 +105,7 @@ public class HorseArmorRackTE extends TileEntity implements IAnimatable {
 	}
 
 	private ItemStackHandler createHandler() {
-		return new ItemStackHandler(1) {
+		return new ItemStackHandler(2) {
 			@Override
 			protected void onContentsChanged(int slot) {
 				markDirty();
@@ -96,7 +113,11 @@ public class HorseArmorRackTE extends TileEntity implements IAnimatable {
 
 			@Override
 			public boolean isItemValid(int slot, ItemStack stack) {
-				return stack.getItem() instanceof SWEMHorseArmorItem;
+				if (slot == 0) {
+					return stack.getItem() instanceof SWEMHorseArmorItem;
+				} else {
+					return stack.getItem() instanceof AdventureSaddleItem;
+				}
 			}
 
 			@Override

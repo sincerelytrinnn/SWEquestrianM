@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.tools;
 
+import com.alaharranhonor.swem.blocks.jumps.JumpControllerBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpLayer;
 import com.alaharranhonor.swem.blocks.jumps.JumpStandardBlock;
 import com.alaharranhonor.swem.blocks.jumps.StandardLayer;
@@ -119,10 +120,9 @@ public class MeasurementTool extends ItemBase {
 
 			Direction facing = context.getPlacementHorizontalFacing().getAxis() == Direction.Axis.Z ? Direction.SOUTH : Direction.WEST;
 
-			System.out.println(facing);
-			context.getWorld().setBlockState(layers.get(1).get(0), SWEMBlocks.JUMP_STANDARD_SCHOOLING.get().getDefaultState().with(JumpStandardBlock.HORIZONTAL_FACING, facing));
+			context.getWorld().setBlockState(layers.get(1).get(0).offset(Direction.UP, 5), SWEMBlocks.JUMP_CONTROLLER.get().getDefaultState().with(JumpControllerBlock.HORIZONTAL_FACING, facing));
 
-			JumpTE jumpController = (JumpTE) context.getWorld().getTileEntity(layers.get(1).get(0));
+			JumpTE jumpController = (JumpTE) context.getWorld().getTileEntity(layers.get(1).get(0).offset(Direction.UP, 5));
 			jumpController.setLayerAmount(layerAmount);
 			jumpController.assignJumpBlocks(layers);
 			jumpController.initStandards(StandardLayer.SCHOOLING);

@@ -2,7 +2,6 @@ package com.alaharranhonor.swem.container;
 
 import com.alaharranhonor.swem.blocks.HitchingPostBase;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.items.HoseItem;
 import com.alaharranhonor.swem.items.tack.HalterItem;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMContainers;
@@ -53,7 +52,7 @@ public class SaddlebagContainer extends Container {
 		this.addSlot(new Slot(horseInventory, 1, 26, startSaddlebagInvY) {
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				return stack.getItem() instanceof HoseItem;
+				return false;//stack.getItem() instanceof HoseItem;
 			}
 
 			@Override
@@ -137,7 +136,7 @@ public class SaddlebagContainer extends Container {
 		this.addSlot(new Slot(horseInventory, 8, 152, startSaddlebagInvY) {
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				return stack.getItem().getTranslationKey().equals(SWEMBlocks.HALF_BARREL_ITEM.get().getTranslationKey());
+				return false;//stack.getItem().getTranslationKey().equals(SWEMBlocks.HALF_BARREL_ITEM.get().getTranslationKey());
 			}
 
 			@Override

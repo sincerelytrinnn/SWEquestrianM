@@ -22,6 +22,7 @@ public class RegistryHandler {
         SWEMBlocks.init(modBus);
         SWEMEntities.init(modBus);
         SWEMContainers.init(modBus);
+        SWEMParticles.init(modBus);
         SWEMTileEntities.init(modBus);
         SWEMPaintings.init(modBus);
     }

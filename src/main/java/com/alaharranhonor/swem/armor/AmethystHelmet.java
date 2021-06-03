@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.armor;
 
 import com.alaharranhonor.swem.items.SWEMArmorItem;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
@@ -12,6 +13,11 @@ import net.minecraft.world.World;
 public class AmethystHelmet extends SWEMArmorItem {
 	public AmethystHelmet(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builder) {
 		super(path, materialIn, slot, builder);
+	}
+
+	@Override
+	public boolean makesPiglinsNeutral(ItemStack stack, LivingEntity wearer) {
+		return true;
 	}
 
 	@Override

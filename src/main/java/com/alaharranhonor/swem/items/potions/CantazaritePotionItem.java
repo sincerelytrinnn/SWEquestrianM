@@ -11,6 +11,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PotionItem;
+import net.minecraft.item.UseAction;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
@@ -39,12 +41,22 @@ public class CantazaritePotionItem extends PotionItem {
 				BlockPos targetPos = target.getPosition();
 				target.remove();
 				SWEMHorseEntity horse1 = (SWEMHorseEntity) SWEMEntities.SWEM_HORSE_ENTITY.get().spawn((ServerWorld) playerIn.world, null, playerIn, targetPos, SpawnReason.MOB_SUMMONED, true, false);
-				//horse1.calculatePotionCoat(vanillaCoat);
+				horse1.calculatePotionCoat(vanillaCoat);
 			}
 			stack.shrink(1);
 			return ActionResultType.func_233537_a_(playerIn.world.isRemote);
 		}
 		return ActionResultType.PASS;
+	}
+
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+		return ActionResult.resultPass(playerIn.getHeldItem(handIn));
+	}
+
+	@Override
+	public UseAction getUseAction(ItemStack stack) {
+		return UseAction.NONE;
 	}
 
 	@Override

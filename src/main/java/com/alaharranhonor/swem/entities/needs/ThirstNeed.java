@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.entities.needs;
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;

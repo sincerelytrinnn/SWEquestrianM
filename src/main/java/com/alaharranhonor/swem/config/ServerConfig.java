@@ -32,6 +32,7 @@ public final class ServerConfig {
 	public final ForgeConfigSpec.BooleanValue blanketBeforeSaddle;
 	public final ForgeConfigSpec.BooleanValue saddleBeforeGirthStrap;
 	public final ForgeConfigSpec.BooleanValue riderNeedsGirthStrap;
+	public final ForgeConfigSpec.BooleanValue lapisCycleCoats;
 
 	ServerConfig(ForgeConfigSpec.Builder builder) {
 
@@ -44,8 +45,8 @@ public final class ServerConfig {
 		this.serverAmethystBottomHeight = builder.comment("Amethyst ore minimum height").translation("swem.config.serverAmethystBottomHeight").defineInRange("AmethystBottomHeight", 0, 0, 2147483647);
 		this.serverAmethystMaxHeight = builder.comment("Amethyst ore maximum height").translation("swem.config.serverAmethystMaxHeight").defineInRange("AmethystMaxHeight", 15, 1, 2147483647);
 
-		this.serverCantazariteVeinSize = builder.comment("Cantazarite ore vein size").translation("swem.config.serverCantazariteVeinSize").defineInRange("CantazariteVeinSize", 8, 1, 2147483647);
-		this.serverCantazariteVeinCount = builder.comment("Cantazarite ore vein count per chunk").translation("swem.config.serverCantazariteVeinCount").defineInRange("CantazariteVeinCount", 8, 1, 2147483647);
+		this.serverCantazariteVeinSize = builder.comment("Cantazarite ore vein size").translation("swem.config.serverCantazariteVeinSize").defineInRange("CantazariteVeinSize", 4, 1, 2147483647);
+		this.serverCantazariteVeinCount = builder.comment("Cantazarite ore vein count per chunk").translation("swem.config.serverCantazariteVeinCount").defineInRange("CantazariteVeinCount", 6, 1, 2147483647);
 		this.serverCantazariteBottomHeight = builder.comment("Cantazarite ore minimum height").translation("swem.config.serverCantazariteBottomHeight").defineInRange("CantazariteBottomHeight", 0, 0, 2147483647);
 		this.serverCantazariteMaxHeight = builder.comment("Cantazarite ore maximum height").translation("swem.config.serverCantazariteMaxHeight").defineInRange("CantazariteMaxHeight", 30, 1, 2147483647);
 		builder.pop();
@@ -63,6 +64,8 @@ public final class ServerConfig {
 		this.serverTickWaterNeed = builder.comment("Enable Water need ticking on swem horses?").translation("swem.config.enableWaterTick").define("waterTick", true);
 		this.serverTickPoopNeed = builder.comment("Enable Poop ticking on swem horses?").translation("swem.config.enablePoopTick").define("poopTick", true);
 		this.serverTickPeeNeed = builder.comment("Enable Pee ticking on swem horses?").translation("swem.config.enablePeeTick").define("peeTick", true);
+		builder.comment("Set the option below to true, if you just want a piece of lapis lazuli to cycle the coats.");
+		this.lapisCycleCoats = builder.comment("Enable Lapis Lazuli coat cycling?").translation("swem.config.enableLapisCycle").define("lapisCycle", false);
 
 			builder.push("Tack Dependencies");
 			this.halterDependency = builder.comment("Enable/Disable the halter, being needed for any other tack.").translation("swem.config.halterDep").define("HalterDependency", true);

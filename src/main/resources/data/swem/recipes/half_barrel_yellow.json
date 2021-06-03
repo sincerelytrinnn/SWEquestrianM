@@ -1,20 +1,17 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "group": "half_barrel",
-  "ingredients": [
-    {
-      "item": "minecraft:barrel"
-    },
-    {
-      "item": "minecraft:shears"
-    },
-    {
-      "item": "minecraft:yellow_dye"
+      "type": "minecraft:crafting_shapeless",
+      "group": "half_barrel",
+      "ingredients": [
+        {
+          "item": "swem:half_barrel_white"
+        },
+      {
+          "item": "minecraft:yellow_dye"
+        }
+      ],
+      "result":
+      {
+        "item": "swem:half_barrel_yellow",
+        "count": 1
+      }
     }
-  ],
-  "result":
-  {
-    "item": "swem:half_barrel_yellow",
-    "count": 2
-  }
-}

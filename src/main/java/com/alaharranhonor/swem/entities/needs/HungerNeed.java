@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.entities.needs;
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
@@ -133,7 +134,12 @@ public class HungerNeed {
 	}
 
 	public HungerState getNextState() {
-		return this.state.values()[this.state.getId() + 1];
+		SWEM.LOGGER.debug(this.state.getId());
+		int hungerId = this.state.getId() + 1;
+		if (hungerId > 4) {
+			hungerId = 4;
+		}
+		return HungerState.values()[hungerId];
 	}
 
 	public void setState(HungerState state) {
@@ -211,8 +217,8 @@ public class HungerNeed {
 				break;
 			}
 			default: {
-				this.setState(HungerState.STARVING);
-				this.horse.getDataManager().set(HungerState.ID, id);
+				this.setState(HungerState.FULLY_FED);
+				this.horse.getDataManager().set(HungerState.ID, 4);
 			}
 		}
 	}
@@ -227,7 +233,7 @@ public class HungerNeed {
 
 		STARVING(-1, -1),
 		MALNOURISHED(72000, 15),
-		HUNGRY(144000, 45),
+		HUNGRY(144000, 40),
 		FED(168000, 15),
 		FULLY_FED(180000, -1);
 

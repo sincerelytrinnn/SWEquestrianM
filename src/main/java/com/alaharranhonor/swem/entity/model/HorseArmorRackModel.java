@@ -19,9 +19,9 @@ public class HorseArmorRackModel extends AnimatedGeoModel<HorseArmorRackTE> {
 	@Override
 	public ResourceLocation getTextureLocation(HorseArmorRackTE horseArmorRackTE) {
 		if (horseArmorRackTE.getBlockState().get(SWEMBlockStateProperties.D_SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
-			return new ResourceLocation(SWEM.MOD_ID, "textures/tile/horse_armor_rack_front.png");
+			return new ResourceLocation(SWEM.MOD_ID, "textures/blocks/horse_armor_rack_front.png");
 		}
-		return new ResourceLocation(SWEM.MOD_ID, "textures/tile/horse_armor_rack_back.png");
+		return new ResourceLocation(SWEM.MOD_ID, "textures/blocks/horse_armor_rack_back.png");
 	}
 
 	@Override
