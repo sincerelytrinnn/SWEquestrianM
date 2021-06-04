@@ -3,7 +3,11 @@ package com.alaharranhonor.swem.commands;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
+import com.mojang.brigadier.arguments.ArgumentType;
+import com.mojang.brigadier.arguments.FloatArgumentType;
+import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
@@ -77,6 +81,20 @@ public class DevCommand {
 									ctx.getSource().sendFeedback(new StringTextComponent("[§bSWEM§f] Your horse has been maxed out sir! (With the accent)"), false);
 									return 1;
 								})
+						)
+						.then(Commands.literal("sethealth")
+							.executes(ctx -> {
+								Entity riding = ctx.getSource().asPlayer().getRidingEntity();
+								if (riding instanceof  SWEMHorseEntityBase) {
+									SWEMHorseEntityBase horse = (SWEMHorseEntityBase) riding;
+
+									horse.setHealth(10.0f);
+
+									ctx.getSource().sendFeedback(new StringTextComponent("[SWEM] You're horse's health has been set to 10"), false);
+									return 1;
+								}
+								return 0;
+							})
 						);
 	}
 }
