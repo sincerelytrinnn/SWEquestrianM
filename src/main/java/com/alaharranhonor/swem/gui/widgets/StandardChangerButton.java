@@ -37,7 +37,7 @@ public class StandardChangerButton extends CycableButton {
 	@Override
 	public ITextComponent getMessage() {
 
-		return new StringTextComponent("STANDARD");
+		//return new StringTextComponent("STANDARD");
 		if (this.getCurrentLayer() == null) {
 			return new StringTextComponent("Option");
 		}
