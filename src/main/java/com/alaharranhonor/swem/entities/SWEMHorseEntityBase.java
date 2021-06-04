@@ -71,6 +71,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -341,6 +342,16 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		}
 	}
 
+	@Override
+	protected float getWaterSlowDown() {
+		return 0.9F;
+	}
+
+	public void heal(float healAmount, float xp) {
+		this.heal(healAmount);
+		this.progressionManager.getHealthLeveling().addXP(xp);
+	}
+
 	protected void registerData() {
 		super.registerData();
 		//this.dataManager.register(HORSE_VARIANT, 0);
@@ -458,6 +469,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		}
 
 	}
+
+
 
 	@Override
 	public void makeMad() {
