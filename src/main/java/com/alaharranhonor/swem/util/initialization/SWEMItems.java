@@ -116,7 +116,7 @@ public class SWEMItems {
 	public static final RegistryObject<MedicalHorseItem> BANDAGE = ITEMS.register("bandage", () -> new MedicalHorseItem(new Item.Properties().group(SWEM.TAB), 2.0f, 15.0f));
 	public static final RegistryObject<MedicalHorseItem> SALVE = ITEMS.register("salve", () -> new MedicalHorseItem(new Item.Properties().group(SWEM.TAB), 4.0f, 30.0f));
 	public static final RegistryObject<MedicalHorseItem> MEDICATED_BANDAGE = ITEMS.register("medicated_bandage", () -> new MedicalHorseItem(new Item.Properties().group(SWEM.TAB), 6.0f, 45.0f));
-	public static final RegistryObject<MedicalHorseItem> GLISTENING_MELON = ITEMS.register("glistening_melon", () -> new MedicalHorseItem(new Item.Properties().group(SWEM.TAB), 8.0f, 60.0f));
+	public static final RegistryObject<MedicalHorseItem> GLISTENING_MELON = ITEMS.register("glistening_melon", () -> new MedicalHorseItem(new Item.Properties().group(SWEM.TAB), 10.0f, 75.0f));
 
 
 
