@@ -9,6 +9,7 @@ import com.alaharranhonor.swem.items.ItemBase;
 import com.alaharranhonor.swem.tileentity.JumpPasserTE;
 import com.alaharranhonor.swem.tileentity.JumpTE;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -197,14 +198,9 @@ public class MeasurementTool extends ItemBase {
 
 	}
 
+
 	@Override
 	public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
-		if (nbt != null) {
-			if (nbt.contains("pos1")) {
-				nbt.remove("pos1");
-			}
-		}
-
-		super.readShareTag(stack, nbt);
+		stack.setTag(new CompoundNBT());
 	}
 }
