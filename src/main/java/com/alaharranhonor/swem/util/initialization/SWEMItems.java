@@ -113,6 +113,9 @@ public class SWEMItems {
 	public static final RegistryObject<MeasurementTool> MEASUREMENT_TAPE = ITEMS.register("measurement_tape", MeasurementTool::new);
 	public static final RegistryObject<PoopItem> POOP = ITEMS.register("poop", PoopItem::new);
 	public static final RegistryObject<TrackerItem> TRACKER = ITEMS.register("tracker", TrackerItem::new);
+	public static final RegistryObject<MedicalHorseItem> BANDAGE = ITEMS.register("bandage", () -> new MedicalHorseItem(new Item.Properties().group(SWEM.TAB), 2.0f, 15.0f));
+	public static final RegistryObject<MedicalHorseItem> SALVE = ITEMS.register("salve", () -> new MedicalHorseItem(new Item.Properties().group(SWEM.TAB), 4.0f, 30.0f));
+	public static final RegistryObject<MedicalHorseItem> MEDICATED_BANDAGE = ITEMS.register("medicated_bandage", () -> new MedicalHorseItem(new Item.Properties().group(SWEM.TAB), 6.0f, 45.0f));
 
 
 
