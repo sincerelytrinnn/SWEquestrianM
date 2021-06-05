@@ -189,7 +189,7 @@ public class SWEMItems {
 	public static final RegistryObject<WesternBlanketItem> WESTERN_BLANKET_YELLOW = ITEMS.register("western_blanket_yellow", () -> new WesternBlanketItem("western_blanket_yellow", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 
 	// BRIDLE
-	public static final RegistryObject<AdventureBridleItem> ADVENTURE_BRIDLE = ITEMS.register("adventure_bridle", () -> new AdventureBridleItem("adventure_bridle", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
+	public static final RegistryObject<AdventureBridleItem> ADVENTURE_BRIDLE = ITEMS.register("adventure_bridle", () -> new AdventureBridleItem("adventure_bridle", "adventure", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<EnglishBridleItem> ENGLISH_BRIDLE_BLACK = ITEMS.register("english_bridle_black", () -> new EnglishBridleItem("english_bridle_black", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<EnglishBridleItem> ENGLISH_BRIDLE_BROWN = ITEMS.register("english_bridle_brown", () -> new EnglishBridleItem("english_bridle_brown", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
 	public static final RegistryObject<WesternBridleItem> WESTERN_BRIDLE_BLACK = ITEMS.register("western_bridle_black", () -> new WesternBridleItem("western_bridle_black", new Item.Properties().group(SWEM.TAB).maxStackSize(1)));
