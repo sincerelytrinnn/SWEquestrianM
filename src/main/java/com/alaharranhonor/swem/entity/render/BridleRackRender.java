@@ -43,8 +43,8 @@ public class BridleRackRender extends GeoBlockRenderer<BridleRackTE> {
 
 		stack.rotate(new Quaternion(0, 180 - direction.getHorizontalAngle(), 180, true));
 
-		if (itemStack.getItem() instanceof WesternBridleItem) {
-			WesternBridleItem item = (WesternBridleItem) itemStack.getItem();
+		if (itemStack.getItem() instanceof WesternBridleItem || itemStack.getItem() instanceof AdventureBridleItem) {
+			BridleItem item = (BridleItem) itemStack.getItem();
 			BridleRackWesternModel model = new BridleRackWesternModel<>();
 
 			IVertexBuilder builder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(item.getBridleRackTexture()));
