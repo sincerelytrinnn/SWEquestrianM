@@ -14,7 +14,7 @@ public class AmethystArmorModel extends AnimatedGeoModel<SWEMArmorItem> {
 		if (Minecraft.getInstance().player.getSkinType().equals("default")) {
 			return new ResourceLocation(SWEM.MOD_ID, "geo/armor/amethyst_armor_set.geo.json");
 		} else {
-			return new ResourceLocation(SWEM.MOD_ID, "geo/armor/amethyst:armor_set_slim.geo.json");
+			return new ResourceLocation(SWEM.MOD_ID, "geo/armor/amethyst_armor_set_slim.geo.json");
 		}
 	}
 
