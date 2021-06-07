@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "yxy",
+    "yxy"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "minecraft:stick"
+    },
+    "y":
+    {
+      "item": "swem:whitewash_plank"
+    }
+  },
+  "result":
+  {
+    "item": "swem:whitewash_fence",
+    "count": 3
+  }
+}

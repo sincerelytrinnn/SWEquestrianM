@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.tools;
 
+import com.alaharranhonor.swem.blocks.jumps.JumpControllerBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpLayer;
 import com.alaharranhonor.swem.blocks.jumps.JumpStandardBlock;
 import com.alaharranhonor.swem.blocks.jumps.StandardLayer;
@@ -8,6 +9,7 @@ import com.alaharranhonor.swem.items.ItemBase;
 import com.alaharranhonor.swem.tileentity.JumpPasserTE;
 import com.alaharranhonor.swem.tileentity.JumpTE;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -119,10 +121,9 @@ public class MeasurementTool extends ItemBase {
 
 			Direction facing = context.getPlacementHorizontalFacing().getAxis() == Direction.Axis.Z ? Direction.SOUTH : Direction.WEST;
 
-			System.out.println(facing);
-			context.getWorld().setBlockState(layers.get(1).get(0), SWEMBlocks.JUMP_STANDARD_SCHOOLING.get().getDefaultState().with(JumpStandardBlock.HORIZONTAL_FACING, facing));
+			context.getWorld().setBlockState(layers.get(1).get(0).offset(Direction.UP, 5), SWEMBlocks.JUMP_CONTROLLER.get().getDefaultState().with(JumpControllerBlock.HORIZONTAL_FACING, facing));
 
-			JumpTE jumpController = (JumpTE) context.getWorld().getTileEntity(layers.get(1).get(0));
+			JumpTE jumpController = (JumpTE) context.getWorld().getTileEntity(layers.get(1).get(0).offset(Direction.UP, 5));
 			jumpController.setLayerAmount(layerAmount);
 			jumpController.assignJumpBlocks(layers);
 			jumpController.initStandards(StandardLayer.SCHOOLING);
@@ -197,14 +198,9 @@ public class MeasurementTool extends ItemBase {
 
 	}
 
+
 	@Override
 	public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
-		if (nbt != null) {
-			if (nbt.contains("pos1")) {
-				nbt.remove("pos1");
-			}
-		}
-
-		super.readShareTag(stack, nbt);
+		stack.setTag(new CompoundNBT());
 	}
 }

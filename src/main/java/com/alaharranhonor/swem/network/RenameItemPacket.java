@@ -27,7 +27,7 @@ public class RenameItemPacket {
 
 	public static RenameItemPacket decode(ByteBuf buf) {
 		try {
-			String name = ((PacketBuffer) buf).readString();
+			String name = ((PacketBuffer) buf).readString(32767);
 			return new RenameItemPacket(name);
 		} catch (IndexOutOfBoundsException e) {
 			SWEM.LOGGER.error("RenameItemPacket: Unexpected end of packet.\nMessage: " + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()), e);

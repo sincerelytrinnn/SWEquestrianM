@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.armor;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -39,6 +40,9 @@ public class GlowRidingBoots extends LeatherRidingBoots {
 				World world = player.getEntityWorld();
 				CompoundNBT stackData = stack.getOrCreateTag();
 				BlockPos glowBlockPos = player.getPosition().up();
+				if (!world.getBlockState(glowBlockPos).isAir(world, glowBlockPos)) {
+					return;
+				}
 
 				if (!stackData.contains("glowBlockPos")) {
 					CompoundNBT glowBlockData = new CompoundNBT();

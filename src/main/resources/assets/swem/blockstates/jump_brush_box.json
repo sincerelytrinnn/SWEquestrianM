@@ -6,7 +6,8 @@
         "facing": "north"
       },
       "apply": {
-        "model": "swem:block/brush_box_outer"
+        "model": "swem:block/brush_box_outer",
+        "y": 180
       }
     },
     {
@@ -25,8 +26,7 @@
         "facing": "south"
       },
       "apply": {
-        "model": "swem:block/brush_box_outer",
-        "y": 180
+        "model": "swem:block/brush_box_outer"
       }
     },
     {

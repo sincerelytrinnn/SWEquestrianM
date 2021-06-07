@@ -27,6 +27,11 @@ public class JumpStandardBlock extends HorizontalBlock {
 	}
 
 	@Override
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(HORIZONTAL_FACING, STANDARD_PIECE);
+	}
+
+	@Override
 	public boolean hasTileEntity(BlockState state) {
 		return true;
 	}
@@ -34,11 +39,6 @@ public class JumpStandardBlock extends HorizontalBlock {
 	@Nullable
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return SWEMTileEntities.JUMP_TILE_ENTITY.get().create();
-	}
-
-	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HORIZONTAL_FACING, STANDARD_PIECE);
+		return SWEMTileEntities.JUMP_PASSER_TILE_ENTITY.get().create();
 	}
 }

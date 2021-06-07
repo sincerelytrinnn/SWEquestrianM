@@ -21,6 +21,13 @@ public class BridleItem extends HalterItem {
 		}
 	}
 
+	public BridleItem(String textureName, String bridleRackTextureName, Properties properties) {
+		super(new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/bridle/" + textureName + ".png"), properties);
+		this.modelTexture = new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/bridle/" + textureName + "_model.png");
+		this.bridleRackTexture = new ResourceLocation(SWEM.MOD_ID, "textures/tile/bridle_rack/bridle_rack_" + bridleRackTextureName + ".png");
+
+	}
+
 	public ResourceLocation getModelTexture() {
 		return this.modelTexture;
 	}

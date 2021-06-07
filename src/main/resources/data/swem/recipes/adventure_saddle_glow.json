@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "horse_armor",
+  "pattern":
+  [
+    "  ",
+    "xyx",
+    "  "
+  ],
+  "key":
+  {
+    "x": {
+      "item": "swem:star_worm"
+    },
+    "y": {
+      "item": "swem:adventure_saddle"
+    }
+  },
+  "result":
+  {
+    "item": "swem:adventure_saddle_glow",
+    "count": 1
+  }
+}

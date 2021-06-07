@@ -4,7 +4,7 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.container.SaddlebagContainer;
-import com.alaharranhonor.swem.entities.goals.*;
+import com.alaharranhonor.swem.entities.ai.*;
 import com.alaharranhonor.swem.entities.needs.HungerNeed;
 import com.alaharranhonor.swem.entities.needs.NeedManager;
 import com.alaharranhonor.swem.entities.needs.ThirstNeed;
@@ -20,6 +20,7 @@ import com.alaharranhonor.swem.network.*;
 import com.alaharranhonor.swem.util.SWEMUtil;
 import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
 import com.alaharranhonor.swem.util.initialization.SWEMItems;
+import com.alaharranhonor.swem.util.initialization.SWEMParticles;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
@@ -70,6 +71,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -81,7 +83,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
-public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable, IEntityAdditionalSpawnData {
+public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable, IEntityAdditionalSpawnData {
 
 
 
@@ -94,6 +96,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	public static final Ingredient NEGATIVE_FOOD_ITEMS = Ingredient.fromItems(Items.WHEAT, Items.HAY_BLOCK);
 	private static final DataParameter<Boolean> FLYING = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Boolean> JUMPING = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<String> OWNER_NAME = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.STRING);
 	private PathNavigator oldNavigator;
 	private EatGrassGoal eatGrassGoal;
 	private PoopGoal poopGoal;
@@ -209,7 +212,13 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	}
 
 
+	public String getOwnerName() {
+		return this.dataManager.get(OWNER_NAME);
+	}
 
+	public void setOwnerName(String ownerName) {
+		this.dataManager.set(OWNER_NAME, ownerName);
+	}
 
 	@Override
 	protected void updateAITasks()
@@ -229,6 +238,12 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 			this.SWEMHorsePoopTimer = Math.max(0, this.SWEMHorsePoopTimer - 1);
 			this.SWEMHorseGrassTimer = Math.max(0, this.SWEMHorseGrassTimer - 1);
 			this.SWEMHorsePeeTimer = Math.max(0, this.SWEMHorsePeeTimer - 1);
+
+			if (this.onGround && this.isHorseJumping()) {
+				this.jumpPower = 0.0F;
+				this.setHorseJumping(false);
+				SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(8, this.getEntityId()));
+			}
 		}
 		if (!this.world.isRemote) {
 			if ((int)(this.world.getDayTime() % 24000L) == 10000) {
@@ -327,6 +342,16 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		}
 	}
 
+	@Override
+	protected float getWaterSlowDown() {
+		return 0.9F;
+	}
+
+	public void heal(float healAmount, float xp) {
+		this.heal(healAmount);
+		this.progressionManager.getHealthLeveling().addXP(xp);
+	}
+
 	protected void registerData() {
 		super.registerData();
 		//this.dataManager.register(HORSE_VARIANT, 0);
@@ -360,13 +385,26 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 		this.dataManager.register(FLYING, false);
 		this.dataManager.register(JUMPING, false);
+		this.dataManager.register(OWNER_NAME, "");
 
+	}
+
+	@Override
+	public void setOwnerUniqueId(@Nullable UUID uniqueId) {
+		super.setOwnerUniqueId(uniqueId);
+		if (uniqueId != null) {
+			PlayerEntity player = this.world.getPlayerByUuid(uniqueId);
+			if (player != null) {
+				this.dataManager.set(OWNER_NAME, player.getGameProfile().getName());
+			}
+		}
 	}
 
 	@Override
 	public void setHorseJumping(boolean jumping) {
 		super.setHorseJumping(jumping);
-		this.dataManager.set(JUMPING, jumping);
+		if (!this.world.isRemote)
+			this.dataManager.set(JUMPING, jumping);
 	}
 
 	@Override
@@ -431,6 +469,8 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		}
 
 	}
+
+
 
 	@Override
 	public void makeMad() {
@@ -691,6 +731,10 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		this.needs.write(compound);
 
 		compound.putBoolean("flying", this.isFlying());
+
+		compound.putInt("HorseVariant", this.getHorseVariant());
+
+		compound.putString("ownerName", this.getOwnerName());
 	}
 
 	public ItemStack func_213803_dV() {
@@ -769,6 +813,10 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		this.func_230275_fc_();
 
 		//this.setFlying(compound.getBoolean("flying"));
+
+		this.setHorseVariant(compound.getInt("HorseVariant"));
+
+		this.setOwnerName(compound.getString("ownerName"));
 	}
 
 	private void writeSaddlebagInventory(CompoundNBT compound) {
@@ -833,8 +881,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	}
 
 	public SWEMCoatColors getCoatColor() {
-		return SWEMCoatColors.PAINT;
-		//return SWEMCoatColors.getById(this.getHorseVariant() & 255);
+		return SWEMCoatColors.getById(this.getHorseVariant() & 255);
 	}
 
 	private int getHorseVariant() {
@@ -864,7 +911,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 			}
 			case WHITE: {
 				if (randomNum <= 10)
-					this.setHorseVariant(14);
+					this.setHorseVariant(15);
 				else if (randomNum <= 25)
 					this.setHorseVariant(1);
 				else
@@ -949,6 +996,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 	public void tick() {
 		if (!this.world.isRemote) {
 			if (this.ticksExisted % 5 == 0 && !isFlying()) {
+
 				if (this.canBeSteered() && this.isBeingRidden() && this.currentSpeed != HorseSpeed.WALK && this.currentSpeed != HorseSpeed.TROT) {
 					int x = this.getPosition().getX();
 					int z = this.getPosition().getZ();
@@ -1054,8 +1102,8 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 			BlockPos pos = this.getPosition();
 
-			for(BlockPos blockpos : BlockPos.getAllInBoxMutable(pos.add((double)(-f), -1.0D, (double)(-f)), pos.add((double)f, -1.0D, (double)f))) {
-				if (blockpos.withinDistance(this.getPositionVec(), (double)f)) {
+			for(BlockPos blockpos : BlockPos.getAllInBoxMutable(pos.add(-f, -1.0D, -f), pos.add(f, -1.0D, f))) {
+				if (blockpos.withinDistance(this.getPositionVec(), f)) {
 					blockpos$mutable.setPos(blockpos.getX(), blockpos.getY() + 1, blockpos.getZ());
 					BlockState blockstate1 = world.getBlockState(blockpos$mutable);
 					if (blockstate1.isAir(world, blockpos$mutable)) {
@@ -1063,7 +1111,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 						boolean isFull = blockstate2.getBlock() == Blocks.WATER && blockstate2.get(FlowingFluidBlock.LEVEL) == 0; //TODO: Forge, modded waters?
 						if (blockstate2.getMaterial() == Material.WATER && isFull && blockstate.isValidPosition(world, blockpos) && world.placedBlockCollides(blockstate, blockpos, ISelectionContext.dummy()) && !net.minecraftforge.event.ForgeEventFactory.onBlockPlace(this, net.minecraftforge.common.util.BlockSnapshot.create(world.getDimensionKey(), world, blockpos), net.minecraft.util.Direction.UP)) {
 							world.setBlockState(blockpos, blockstate);
-							world.getPendingBlockTicks().scheduleTick(blockpos, Blocks.FROSTED_ICE, 60);
+							world.getPendingBlockTicks().scheduleTick(blockpos, Blocks.FROSTED_ICE, 20);
 						}
 					}
 				}
@@ -1089,13 +1137,19 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 						boolean isFull = blockstate2.getBlock() == Blocks.LAVA && blockstate2.get(FlowingFluidBlock.LEVEL) == 0; //TODO: Forge, modded waters?
 						if (blockstate2.getMaterial() == Material.LAVA && isFull && blockstate.isValidPosition(world, blockpos) && world.placedBlockCollides(blockstate, blockpos, ISelectionContext.dummy()) && !net.minecraftforge.event.ForgeEventFactory.onBlockPlace(this, net.minecraftforge.common.util.BlockSnapshot.create(world.getDimensionKey(), world, blockpos), net.minecraft.util.Direction.UP)) {
 							world.setBlockState(blockpos, blockstate);
-							world.getPendingBlockTicks().scheduleTick(blockpos, SWEMBlocks.TEARING_MAGMA.get(), 60);
+							world.getPendingBlockTicks().scheduleTick(blockpos, SWEMBlocks.TEARING_MAGMA.get(), 20);
 						}
 					}
 				}
 			}
 
+		} else if (this.isInLava() && !this.eyesInWater && !this.isBeingRidden()) {
+			if (this.getMotion().getY() > 0) {
+				this.setMotion(this.getMotion().getX(), -.15, this.getMotion().getZ()); // Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until eyesInWater returns true.
+			}
 		}
+
+
 	}
 
 	private void tickAmethystArmor() {
@@ -1112,7 +1166,6 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 			LivingEntity livingentity = (LivingEntity) this.getControllingPassenger();
 
 			this.rotationYaw = livingentity.rotationYaw;
-			SWEM.LOGGER.debug(this.rotationYaw);
 			this.prevRotationYaw = this.rotationYaw;
 			this.rotationPitch = livingentity.rotationPitch * 0.5F;
 			this.setRotation(this.rotationYaw, this.rotationPitch);
@@ -1130,6 +1183,7 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 				f1 = 0.0F;
 			}
 
+			 // Check if RNG is higher roll, than disobeying debuff, if so, then do the jump.
 			if (this.jumpPower > 0.0F && !this.isHorseJumping() && this.onGround && !this.isFlying()) {
 				double d0 = this.getHorseJumpStrength() * (double) this.jumpPower * (double) this.getJumpFactor();
 				double d1;
@@ -1139,6 +1193,10 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 					d1 = d0;
 				}
 
+
+				this.setHorseJumping(true);
+				SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(7, this.getEntityId()));
+				//if (this.getDisobedienceFactor() > this.progressionManager.getAffinityLeveling().getDebuff()) {
 				Vector3d vector3d = this.getMotion();
 				this.setMotion(vector3d.x, d1, vector3d.z);
 
@@ -1160,7 +1218,6 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 				SWEMPacketHandler.INSTANCE.sendToServer(new AddJumpXPMessage(xpToAdd, this.getEntityId()));
 
 
-				this.setHorseJumping(true);
 				this.isAirBorne = true;
 				net.minecraftforge.common.ForgeHooks.onLivingJump(this);
 				if (f1 > 0.0F) {
@@ -1172,7 +1229,11 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 
 				this.jumpPower = 0.0F;
+				//} else {
+				//	this.makeMad();
+				//}
 			}
+
 
 			this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
 			if (this.canPassengerSteer() && !isFlying() && !isLanding) {
@@ -1193,8 +1254,8 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 			boolean flag = this.world.getBlockState(this.getPosition().add(this.getHorizontalFacing().getDirectionVec())).isSolid();
 
 			// Handles the swimming. Travel is only called when player is riding the entity.
-			if (this.eyesInWater && !flag) { // Check if the eyes is in water level, and we don't have a solid block the way we are facing. If not, then apply a inverse force, to float the horse.
-				this.setMotion(this.getMotion().mul(1, -0.1, 1));
+			if (this.eyesInWater && !flag && this.getMotion().getY() < 0) { // Check if the eyes is in water level, and we don't have a solid block the way we are facing. If not, then apply a inverse force, to float the horse.
+				this.setMotion(this.getMotion().mul(1, -1.9, 1));
 			}
 		} else {
 			super.travel(travelVector);
@@ -1202,11 +1263,15 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 	}
 
+	private float getDisobedienceFactor() {
+		return this.getRNG().nextFloat();
+	}
+
 	@Override
 	public boolean isInvulnerableTo(DamageSource source) {
 		if (source == DamageSource.DROWN) return true;
 		if (source == DamageSource.FALL) return true;
-		if (source == DamageSource.IN_FIRE || source == DamageSource.ON_FIRE || source == DamageSource.LAVA) {
+		if (DamageSource.IN_FIRE.equals(source) || DamageSource.ON_FIRE.equals(source) || DamageSource.LAVA.equals(source) || DamageSource.HOT_FLOOR.equals(source)) {
 			ItemStack stack = this.getSWEMArmor();
 			if (!stack.isEmpty() && ((SWEMHorseArmorItem) stack.getItem()).tier.getId() >= 3) {
 				return true;
@@ -1336,6 +1401,17 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 		}
 
 		if (!itemstack.isEmpty() && itemstack.getItem() != Items.SADDLE) {
+			if (itemstack.getItem() == Items.LAPIS_LAZULI) {
+				if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
+					this.setHorseVariant((this.getHorseVariant() + 1) % (SWEMCoatColors.values().length - 2));
+					ItemStack heldItemCopy = itemstack.copy();
+					if (!p_230254_1_.abilities.isCreativeMode)
+						heldItemCopy.shrink(1);
+					p_230254_1_.setHeldItem(p_230254_2_, heldItemCopy);
+					return ActionResultType.SUCCESS;
+				}
+			}
+
 			if (NEGATIVE_FOOD_ITEMS.test(itemstack)) {
 				// Emit negative particle effects.
 				return ActionResultType.FAIL;
@@ -1346,7 +1422,20 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 					// Emit negative particle effects.
 					return ActionResultType.FAIL;
 				}
-				SWEMPacketHandler.INSTANCE.sendToServer(new HorseHungerChange(this.getEntityId(), itemstack));
+
+				if (itemstack.getItem() == SWEMItems.SUGAR_CUBE.get()) {
+					// Add some affinity points and spawn particles.
+					if (!this.world.isRemote) {
+						this.progressionManager.getAffinityLeveling().addXP(5.0F);
+						this.getNeeds().getHunger().addPoints(itemstack);
+
+						((ServerWorld) this.world).spawnParticle(SWEMParticles.YAY.get(), this.getPosX(), this.getPosY() + 1.5, this.getPosZ(), 3, 0.3D, 0.3D, 0.3D, 0.4D);
+					}
+
+				}
+				if (!this.world.isRemote) {
+					this.getNeeds().getHunger().addPoints(itemstack);
+				}
 				return ActionResultType.func_233537_a_(this.world.isRemote);
 			}
 
@@ -1401,6 +1490,8 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 			return ActionResultType.func_233537_a_(this.world.isRemote);
 		}
 	}
+
+
 
 	@Override
 	public ActionResultType applyPlayerInteraction(PlayerEntity player, Vector3d vec, Hand hand) {
@@ -1702,6 +1793,11 @@ public class 	SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEq
 
 	public boolean canEquipGirthStrap() {
 		return this.isSWEMSaddled() || !ConfigHolder.SERVER.saddleBeforeGirthStrap.get();
+	}
+
+	@Override
+	public boolean canEquipArmor() {
+		return hasAdventureSaddle() && getHalter().getItem() instanceof AdventureBridleItem && getBreastCollar().getItem() instanceof AdventureBreastCollarItem && getGirthStrap().getItem() instanceof AdventureGirthStrapItem && getLegWraps().getItem() instanceof AdventureLegWrapsItem && getBlanket().getItem() instanceof AdventureBlanketItem;
 	}
 
 	@Override

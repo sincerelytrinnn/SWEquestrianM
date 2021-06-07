@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "blaze_rod",
+  "pattern":
+  [
+    "xzx",
+    "xyx",
+    "xkx"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "minecraft:redstone"
+    },
+    "y":
+    {
+      "item": "minecraft:stick"
+    },
+    "z":
+    {
+      "item": "swem:cantazarite"
+    },
+    "k":
+    {
+      "item": "minecraft:ender_pearl"
+    }
+  },
+  "result":
+  {
+    "item": "minecraft:blaze_rod",
+    "count": 1
+  }
+}

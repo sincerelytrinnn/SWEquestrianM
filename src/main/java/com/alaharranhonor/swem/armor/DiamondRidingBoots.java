@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.armor;
 
+import com.alaharranhonor.swem.SWEM;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
@@ -7,6 +8,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 
 public class DiamondRidingBoots extends GoldRidingBoots {
@@ -44,5 +49,14 @@ public class DiamondRidingBoots extends GoldRidingBoots {
 			}
 		}
 		super.onArmorTick(stack, world, player);
+	}
+
+	@Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+	public static class AmethystRidingBootsEquipped {
+
+		@SubscribeEvent
+		public static void onFall(LivingFallEvent event) {
+			event.setCanceled(true);
+		}
 	}
 }

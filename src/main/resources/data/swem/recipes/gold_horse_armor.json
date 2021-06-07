@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "horse_armor",
+  "pattern":
+  [
+    "x x",
+    "xyx",
+    "x x"
+  ],
+  "key":
+  {
+    "x": {
+      "item": "swem:gold_rivet"
+    },
+    "y": {
+      "item": "swem:iron_horse_armor"
+    }
+  },
+  "result":
+  {
+    "item": "swem:gold_horse_armor",
+    "count": 1
+  }
+}

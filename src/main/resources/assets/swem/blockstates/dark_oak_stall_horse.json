@@ -253,7 +253,7 @@
       "model": "swem:block/dark_oak_stall_horse_top_hinge"
     },
     "facing=east,half=upper,hinge=left,open=true,side=right": {
-      "model": "swem:block/dark_oak_stall_horse_top_hinge",
+      "model": "swem:block/dark_oak_stall_horse_top_hinge_right",
       "y": 90
     },
 

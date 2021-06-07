@@ -15,6 +15,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
@@ -68,7 +69,7 @@ public class CantazariteAnvilBlock extends HorizontalBlock {
 	}
 
 	@Override
-	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		double xStart = state.get(HORIZONTAL_FACING).getAxis() == Direction.Axis.Z ? 0.125D : 0.3125D;
 		double zStart = state.get(HORIZONTAL_FACING).getAxis() == Direction.Axis.X ? 0.125D : 0.3125D;
 		return VoxelShapes.create(xStart, 0.0d, zStart, 1.0D - xStart, 0.5d, 1.0D - zStart);

@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.entities;
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.util.initialization.SWEMEntities;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
@@ -7,6 +8,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import software.bernie.geckolib3.GeckoLib;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -16,6 +18,8 @@ import software.bernie.geckolib3.core.event.SoundKeyframeEvent;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.resource.GeckoLibCache;
+
 import javax.annotation.Nullable;
 
 public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable {
@@ -40,6 +44,32 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 		SWEMHorseEntityBase horse = (SWEMHorseEntityBase) event.getAnimatable();
 
+		// Rearing happens on all jumps, because minecraft internally uses the Rear animation for jump animation while pushing the enitity
+		// into the sky. So find another check, maybe for like isAngry or some of the sort, to play rear animation instead, of isRearing.
+		// This is called from AbstractHorseEntity#handleStartJump()
+
+		/*if (horse.isRearing()) { //
+
+			String animationName = event.getController().getCurrentAnimation().animationName;
+			if (animationName.equals("Rear") || animationName.equals("Buck")) // Exit early if the animation is already playing.
+				return PlayState.CONTINUE;
+
+			float animationValue = horse.getRNG().nextFloat();
+			GeckoLibCache.getInstance().parser.setValue("anim_speed", 3);
+			if (animationValue < 0.5) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Rear"));
+			} else {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("buck"));
+			}
+			return PlayState.CONTINUE;
+		}*/
+
+
+		if (horse.isInWater()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("Swim"));
+			return PlayState.CONTINUE;
+		}
+
 		if (horse.isHorseJumping()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump"));
 			return PlayState.CONTINUE;
@@ -56,7 +86,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			} else if (horse.getDataManager().get(SPEED_LEVEL) == 2) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Canter"));
 			} else if (horse.getDataManager().get(SPEED_LEVEL) == 3) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("GallopFINAL"));
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Gallop"));
 			}
 		}
 		return PlayState.CONTINUE;

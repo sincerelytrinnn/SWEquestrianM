@@ -14,6 +14,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -23,6 +24,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Timer;
+import java.util.UUID;
 
 
 @OnlyIn(Dist.CLIENT)
@@ -88,8 +90,8 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		this.font.drawText(matrixStack, new TranslationTextComponent("Stats"), 65, 6,4210752);
 
 		// Owner name.
-		// this.horseEntity.getOwnerDisplayName().getString() produces NullPointerException
-		this.font.drawText(matrixStack, new StringTextComponent(SWEMUtil.checkTextOverflow("NULLPOINTEREXCEPTION", 22)), 65.2f, 36.0f, 4210752);
+		this.font.drawText(matrixStack, new StringTextComponent(SWEMUtil.checkTextOverflow(this.horseEntity.getOwnerName(), 22)), 65.2f, 36.0f, 4210752);
+
 		// Jump TEXT
 		TranslationTextComponent jumpInfo;
 		if (jumpLeveling.getLevel() != jumpLeveling.getMaxLevel()) {

@@ -159,6 +159,8 @@ public class CareDoorBlock extends Block {
 				worldIn.setBlockState(blockPos, Blocks.AIR.getDefaultState(), 35);
 			});
 		}
+		if (!player.abilities.isCreativeMode)
+			spawnDrops(state, worldIn, pos);
 
 		super.onBlockHarvested(worldIn, pos, state, player);
 	}

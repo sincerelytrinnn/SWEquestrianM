@@ -1,3 +1,4 @@
+/*
 package com.alaharranhonor.swem.items;
 
 import com.alaharranhonor.swem.event.EventFactory;
@@ -25,19 +26,23 @@ import javax.annotation.Nullable;
 public class HoseItem extends Item {
 	private final Fluid containedBlock;
 
-	/**
+	*/
+/**
 	 * @param supplier A fluid supplier such as {@link net.minecraftforge.fml.RegistryObject<Fluid>}
-	 */
+	 *//*
+
 	public HoseItem(java.util.function.Supplier<? extends Fluid> supplier, Item.Properties builder) {
 		super(builder);
 		this.containedBlock = null;
 		this.fluidSupplier = supplier;
 	}
 
-	/**
+	*/
+/**
 	 * Called to trigger the item's "innate" right click behavior. To handle when this item is used on a Block, see
 	 * {@link #onItemUse}.
-	 */
+	 *//*
+
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
 		ItemStack itemstack = playerIn.getHeldItem(handIn);
 		RayTraceResult raytraceresult = rayTrace(worldIn, playerIn, this.containedBlock == Fluids.EMPTY ? RayTraceContext.FluidMode.SOURCE_ONLY : RayTraceContext.FluidMode.NONE);
@@ -173,3 +178,4 @@ public class HoseItem extends Item {
 		return blockstate.getBlock() instanceof ILiquidContainer && ((ILiquidContainer)blockstate.getBlock()).canContainFluid(worldIn, posIn, blockstate, this.containedBlock);
 	}
 }
+*/

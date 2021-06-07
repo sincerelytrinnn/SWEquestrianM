@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top",
+  "textures": {
+    "top": "swem:blocks/whitewash_door_top",
+    "bottom": "swem:blocks/whitewash_door_bottom"
+  }
+}

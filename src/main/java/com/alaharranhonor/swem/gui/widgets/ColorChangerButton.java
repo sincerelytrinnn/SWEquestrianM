@@ -9,7 +9,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
 
-public class ColorChangerButton extends Button {
+public class ColorChangerButton extends CycableButton {
 
 	private JumpScreen screen;
 	private int layer = -1;
@@ -29,15 +29,6 @@ public class ColorChangerButton extends Button {
 	}
 
 	@Override
-	public void onPress() {
-		if (this.active) {
-			SWEMPacketHandler.INSTANCE.sendToServer(new CChangeColorPacket(this.screen.controllerPos, layer));
-		}
-
-		super.onPress();
-	}
-
-	@Override
 	public ITextComponent getMessage() {
 		return new StringTextComponent(DyeColor.byId(this.screen.layerColors.get(this.layer)).name());
 	}
@@ -45,8 +36,15 @@ public class ColorChangerButton extends Button {
 	public static class Press implements ColorChangerButton.IPressable {
 
 		@Override
-		public void onPress(Button p_onPress_1_) {
-			ColorChangerButton button = (ColorChangerButton) p_onPress_1_;
+		public void onPress(CycableButton press) {
+			ColorChangerButton button = (ColorChangerButton) press;
+			SWEMPacketHandler.INSTANCE.sendToServer(new CChangeColorPacket(button.screen.controllerPos, button.layer, false));
+		}
+
+		@Override
+		public void onRightPress(CycableButton press) {
+			ColorChangerButton button = (ColorChangerButton) press;
+			SWEMPacketHandler.INSTANCE.sendToServer(new CChangeColorPacket(button.screen.controllerPos, button.layer, true));
 		}
 	}
 }
