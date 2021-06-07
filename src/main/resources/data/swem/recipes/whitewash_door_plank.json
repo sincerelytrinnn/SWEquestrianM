@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "xx ",
+    "xx ",
+    "xx "
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "swem:whitewash_plank"
+    }
+  },
+  "result":
+  {
+    "item": "swem:whitewash_door",
+    "count": 3
+  }
+}
