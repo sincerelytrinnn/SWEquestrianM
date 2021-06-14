@@ -97,6 +97,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	private static final DataParameter<Boolean> FLYING = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Boolean> JUMPING = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<String> OWNER_NAME = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.STRING);
+	private static final EntitySize JUMPING_SIZE = EntitySize.flexible(1.5f, 1.5f);
 	private PathNavigator oldNavigator;
 	private EatGrassGoal eatGrassGoal;
 	private PoopGoal poopGoal;
@@ -129,6 +130,9 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	private NeedManager needs;
 	private boolean isLaunching;
 	private boolean isLanding;
+
+	// Animation variable.
+	public double jumpHeight;
 
 	public SWEMHorseEntityBase(EntityType<? extends AbstractHorseEntity> type, World worldIn)
 	{
@@ -403,6 +407,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	@Override
 	public void setHorseJumping(boolean jumping) {
 		super.setHorseJumping(jumping);
+		if (!jumping)
+			this.jumpHeight = 0;
 		if (!this.world.isRemote)
 			this.dataManager.set(JUMPING, jumping);
 	}
@@ -1158,6 +1164,15 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 
 	@Override
+	public EntitySize getSize(Pose poseIn) {
+		if (this.isHorseJumping()) {
+			return JUMPING_SIZE;
+		} else {
+			return super.getSize(poseIn);
+		}
+	}
+
+	@Override
 	public void travel(Vector3d travelVector) {
 		if (this.isFlying()) {
 			this.onGround = true;
@@ -1194,11 +1209,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 				}
 
 
-				this.setHorseJumping(true);
 				SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(7, this.getEntityId()));
 				//if (this.getDisobedienceFactor() > this.progressionManager.getAffinityLeveling().getDebuff()) {
 				Vector3d vector3d = this.getMotion();
 				this.setMotion(vector3d.x, d1, vector3d.z);
+				this.setHorseJumping(true);
 
 
 
@@ -1214,6 +1229,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 				} else if (jumpHeight >= 1.0f) {
 					xpToAdd = 20.0f;
 				}
+
+				this.jumpHeight = jumpHeight;
+
+
 
 				SWEMPacketHandler.INSTANCE.sendToServer(new AddJumpXPMessage(xpToAdd, this.getEntityId()));
 
