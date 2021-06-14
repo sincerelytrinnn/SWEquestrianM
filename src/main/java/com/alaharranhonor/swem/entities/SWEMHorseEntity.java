@@ -70,17 +70,28 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			return PlayState.CONTINUE;
 		}
 
-		if (horse.isHorseJumping()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump"));
-			return PlayState.CONTINUE;
+		if (horse.isHorseJumping() && horse.jumpHeight != 0) {
+			System.out.println(horse.jumpHeight);
+			if (horse.jumpHeight > 4.0F) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump"));
+				return PlayState.CONTINUE;
+			} else if (jumpHeight > 3.0F) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump"));
+				return PlayState.CONTINUE;
+			} else if (jumpHeight > 2.0F) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_2_TIMING"));
+				return PlayState.CONTINUE;
+			} else {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_1_TIMING"));
+				return PlayState.CONTINUE;
+			}
 		}
 
 		if (!event.isMoving()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("stand_idle"));
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_idle"));
 		} else {
-
 			if (horse.getDataManager().get(SPEED_LEVEL) == 0) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("walk"));
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Walk"));
 			} else if (horse.getDataManager().get(SPEED_LEVEL) == 1) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Trot"));
 			} else if (horse.getDataManager().get(SPEED_LEVEL) == 2) {
