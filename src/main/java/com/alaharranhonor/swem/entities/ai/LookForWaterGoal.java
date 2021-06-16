@@ -29,11 +29,7 @@ public class LookForWaterGoal extends Goal {
 	 */
 	@Override
 	public boolean shouldExecute() {
-		if (this.horse.getNeeds().getThirst().getState().getId() < 3) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.horse.getNeeds().getThirst().getState().getId() < 3;
 
 	}
 
@@ -60,11 +56,7 @@ public class LookForWaterGoal extends Goal {
 	 */
 	@Override
 	public boolean shouldContinueExecuting() {
-		if (this.horse.getNeeds().getThirst().getState().getId() < 3) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.horse.getNeeds().getThirst().getState().getId() < 3;
 	}
 
 	/**

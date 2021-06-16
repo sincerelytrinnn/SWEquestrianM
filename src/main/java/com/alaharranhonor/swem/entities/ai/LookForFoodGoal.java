@@ -37,11 +37,7 @@ public class LookForFoodGoal extends Goal {
 	 */
 	@Override
 	public boolean shouldExecute() {
-		if (this.horse.getNeeds().getHunger().getState().getId() < 3) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.horse.getNeeds().getHunger().getState().getId() < 3;
 
 	}
 
@@ -69,11 +65,7 @@ public class LookForFoodGoal extends Goal {
 	 */
 	@Override
 	public boolean shouldContinueExecuting() {
-		if (this.horse.getNeeds().getHunger().getState().getId() < 3) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.horse.getNeeds().getHunger().getState().getId() < 3;
 	}
 
 	/**
