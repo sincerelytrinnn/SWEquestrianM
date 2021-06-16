@@ -37304,7 +37304,7 @@
 				}
 			}
 		},
-		"Jump_1_TIMING": {
+		"Jump_1": {
 			"loop": true,
 			"animation_length": 0.95833,
 			"bones": {
@@ -38903,7 +38903,7 @@
 				}
 			}
 		},
-		"Jump_2_TIMING": {
+		"Jump_2": {
 			"loop": true,
 			"animation_length": 1.14667,
 			"bones": {
@@ -39560,7 +39560,7 @@
 				}
 			}
 		},
-		"Jump lvl 3": {
+		"Jump_3": {
 			"loop": true,
 			"animation_length": 2.125,
 			"bones": {
