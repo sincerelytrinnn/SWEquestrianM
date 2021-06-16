@@ -109,8 +109,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	private LazyOptional<InvWrapper> bedrollItemHandler;
 	private Inventory saddlebagInventory;
 	private Inventory bedrollInventory;
-	public static DataParameter<Boolean> whistleBound = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
-
 	private static final DataParameter<Integer> GALLOP_TIMER = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
 	private static final DataParameter<Integer> GALLOP_COOLDOWN_TIMER = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
 	private static final DataParameter<Boolean> GALLOP_ON_COOLDOWN = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
@@ -160,7 +158,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	protected void registerGoals() {
 		// TODO: ADD AI TO FOLLOW WHISTLE POSITION AS TOP PRIORITY
 		super.registerGoals();
-		this.goalSelector.addGoal(0, new FollowWhistleGoal(this, 1.0d));
 		//this.goalSelector.addGoal(0, new SwimGoal(this));
 		this.goalSelector.addGoal(1, new LookForWaterGoal(this, 1.0d));
 		this.goalSelector.addGoal(1, new LookForFoodGoal(this, 1.0d));
@@ -342,7 +339,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.dataManager.register(HungerNeed.HungerState.ID, 4);
 		this.dataManager.register(ThirstNeed.ThirstState.ID, 4);
 
-		this.dataManager.register(whistleBound, false);
 
 		this.dataManager.register(GALLOP_ON_COOLDOWN, false);
 		this.dataManager.register(GALLOP_COOLDOWN_TIMER, 0);
@@ -697,7 +693,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.writeSaddlebagInventory(compound);
 		this.writeBedrollInventory(compound);
 
-		compound.putBoolean("whistleBound", this.getWhistleBound());
 
 		this.progressionManager.write(compound);
 
@@ -777,7 +772,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.readSaddlebagInventory(compound);
 		this.readBedrollInventory(compound);
 
-		this.setWhistleBound(compound.getBoolean("whistleBound"));
 
 		this.progressionManager.read(compound);
 
@@ -1438,11 +1432,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			}
 
 			ActionResultType actionresulttype = itemstack.interactWithEntity(p_230254_1_, this, p_230254_2_);
+			System.out.println("Item interaction hit");
 			if (actionresulttype.isSuccessOrConsume()) {
 				if (itemstack.getItem() instanceof HorseSaddleItem && actionresulttype.isSuccessOrConsume()) {
 					this.setSWEMSaddled();
-				}
-				if (itemstack.getItem() instanceof WhistleItem && actionresulttype.isSuccessOrConsume()) {
 				}
 				return actionresulttype;
 			}
@@ -1842,14 +1835,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return jumpHeight;
 	}
 
-	public boolean getWhistleBound() {
-		return this.dataManager.get(whistleBound);
-	}
-
-
-	public void setWhistleBound(boolean bound) {
-		this.dataManager.set(whistleBound, bound);
-	}
 
 	public LivingEntity getWhistleCaller() {
 		return this.whistleCaller;

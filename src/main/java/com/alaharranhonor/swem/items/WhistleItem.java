@@ -2,10 +2,12 @@ package com.alaharranhonor.swem.items;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.util.initialization.SWEMParticles;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -34,26 +36,23 @@ public class WhistleItem extends Item {
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
 		if (worldIn.isRemote) return ActionResult.resultPass(playerIn.getHeldItem(handIn));
 
-		if (!playerIn.getHeldItem(handIn).hasTag()) {
-			playerIn.getHeldItem(handIn).getOrCreateTag();
-		}
-		if (!playerIn.getHeldItem(handIn).getTag().contains("boundHorse")) return ActionResult.resultFail(playerIn.getHeldItem(handIn));
-		UUID horseUUID = playerIn.getHeldItem(handIn).getTag().getUniqueId("boundHorse");
-		SWEMHorseEntityBase horse = ((SWEMHorseEntityBase)((ServerWorld) playerIn.getEntityWorld()).getEntityByUuid(horseUUID));
-		if (horse != null) {
-			if (horse.getPosition().withinDistance(playerIn.getPosition(), 100.0f)) {
-				// Try and whistle the horse.
-				horse.playSound(SoundEvents.ENTITY_HORSE_ANGRY, 0.15f, 1.0f);
-				float disobeyChance = horse.progressionManager.getAffinityLeveling().getDebuff();
-				float roll = horse.getRNG().nextFloat();
-				if (roll > disobeyChance) {
-					horse.setWhistleCaller(playerIn);
+		ItemStack stack = playerIn.getHeldItem(handIn);
+		CompoundNBT tag = stack.getOrCreateTag();
 
-					return ActionResult.func_233538_a_(playerIn.getHeldItem(handIn), worldIn.isRemote);
+		if (tag.contains("boundHorse")) {
+			UUID horseUUID = tag.getUniqueId("boundHorse");
+			SWEMHorseEntityBase horse = ((SWEMHorseEntityBase) ((ServerWorld) worldIn).getEntityByUuid(horseUUID));
+			if (horse != null) {
+				if (horse.getPosition().withinDistance(playerIn.getPosition(), 100.0f)) {
+					horse.getNavigator().clearPath();
+					horse.getNavigator().tryMoveToEntityLiving(playerIn, 1.0f);
+					((ServerWorld) worldIn).spawnParticle(SWEMParticles.YAY.get(), horse.getPosX(), horse.getPosY(), horse.getPosZ(), 20, 0, 0, 0, 1.0d);
+					return ActionResult.resultConsume(stack);
 				}
 			}
 		}
-		return ActionResult.resultFail(playerIn.getHeldItem(handIn));
+
+		return ActionResult.resultFail(stack);
 	}
 
 	/**
@@ -67,22 +66,19 @@ public class WhistleItem extends Item {
 	@Override
 	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (playerIn.getEntityWorld().isRemote) return ActionResultType.PASS;
-		if (!stack.hasTag()) {
-			stack.getOrCreateTag();
-		}
+
+		CompoundNBT tag = stack.getOrCreateTag();
+
 		if (target instanceof SWEMHorseEntityBase) {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
-			SWEM.LOGGER.info(horse.getWhistleBound());
-			SWEM.LOGGER.info(stack.getTag());
-			if (!horse.getWhistleBound()) {
-				if (stack.getTag().contains("boundHorse")) {
-					((SWEMHorseEntityBase)((ServerWorld) playerIn.getEntityWorld()).getEntityByUuid(stack.getTag().getUniqueId("boundHorse"))).setWhistleBound(false);
-				}
-				horse.setWhistleBound(true);
-				stack.getTag().putUniqueId("boundHorse", horse.getUniqueID());
-				return ActionResultType.func_233537_a_(playerIn.getEntityWorld().isRemote);
+			System.out.println(horse.getOwnerUniqueId());
+			System.out.println(playerIn.getUniqueID());
+			if (horse.getOwnerUniqueId().equals(playerIn.getUniqueID())) {
+				tag.putUniqueId("boundHorse", horse.getUniqueID());
+				return ActionResultType.CONSUME;
 			}
 		}
+
 		return ActionResultType.FAIL;
 	}
 
