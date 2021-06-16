@@ -9,7 +9,12 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 public class PendantItem extends Item {
+
+	ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
 
 	public PendantItem() {
 		super(new Item.Properties());
@@ -23,10 +28,24 @@ public class PendantItem extends Item {
 				BlockPos posToPlay2 = entityIn.getPosition().offset(entityIn.getHorizontalFacing().getOpposite(), 2);
 				BlockPos posToPlay3 = entityIn.getPosition().offset(entityIn.getHorizontalFacing().getOpposite(), 1);
 				SoundType soundType = worldIn.getBlockState(entityIn.getPosition().down()).getSoundType(worldIn, entityIn.getPosition().down(), entityIn);
-				worldIn.playSound((PlayerEntity) entityIn, posToPlay1, soundType.getStepSound(), SoundCategory.PLAYERS, 0.20f, soundType.getPitch());
 
-				worldIn.playSound((PlayerEntity) entityIn, posToPlay2, soundType.getStepSound(), SoundCategory.PLAYERS, 0.20f, soundType.getPitch());
-				worldIn.playSound((PlayerEntity) entityIn, posToPlay3, soundType.getStepSound(), SoundCategory.PLAYERS, 0.20f, soundType.getPitch());
+				executor.schedule(new Runnable() {
+					public void run() {
+						worldIn.playSound((PlayerEntity) entityIn, posToPlay1, soundType.getStepSound(), SoundCategory.PLAYERS, 0.20f, soundType.getPitch());
+					}
+				}, 1, TimeUnit.SECONDS);
+
+				executor.schedule(new Runnable() {
+					public void run() {
+						worldIn.playSound((PlayerEntity) entityIn, posToPlay2, soundType.getStepSound(), SoundCategory.PLAYERS, 0.20f, soundType.getPitch());
+					}
+				}, 2, TimeUnit.SECONDS);
+
+				executor.schedule(new Runnable() {
+					public void run() {
+						worldIn.playSound((PlayerEntity) entityIn, posToPlay3, soundType.getStepSound(), SoundCategory.PLAYERS, 0.20f, soundType.getPitch());
+					}
+				}, 3, TimeUnit.SECONDS);
 			}
 		}
 
