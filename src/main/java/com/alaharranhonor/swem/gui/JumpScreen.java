@@ -54,43 +54,38 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 		this.guiLeft = (this.width - this.xSize) / 2;
 		this.guiTop = (this.height - this.ySize) / 2;
 
-		initButtons();
-
+		// Init the static buttons, but add the listeners inside the initButtons method, since we are clearing the listener children, to avoid standard changing on layer buttons.
 		this.deleteLayerButton = new DeleteLayerButton(this.guiLeft + 100, this.guiTop + 12, 50, 20, new TranslationTextComponent("button.swem.delete_layer"), this);
-		this.addListener(deleteLayerButton);
-
 		this.addLayerButton = new AddLayerButton(this.guiLeft + 155, this.guiTop + 12, 50, 20, new TranslationTextComponent("button.swem.add_layer"), this);
-		this.addListener(addLayerButton);
-
 		this.destroyButton = new DestroyButton(this.guiLeft + 14, this.guiTop + 148, 50, 20, new TranslationTextComponent("button.swem.destroy"), this);
-		this.addListener(destroyButton);
+
+		initButtons();
 
 	}
 
 	public void initButtons() {
-		for (int i = 0; i <= this.layerAmount; i++) {
-
-			if (i == this.layerAmount) {
-				StandardChangerButton btn = new StandardChangerButton(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 113, 20, new StringTextComponent("Option"), this);
-				btn.setSelected(currentStandard);
-				this.addButton(btn);
-
-			} else {
-				LayerChangerButton btn = new LayerChangerButton(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 113, 20, new StringTextComponent("Option"), this);
-				btn.setLayer(i + 1);
-				btn.setSelected(this.layerTypes.get(i + 1));
-				this.addButton(btn);
+		for (int i = 0; i < this.layerAmount; i++) {
+			LayerChangerButton btn = new LayerChangerButton(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 113, 20, new StringTextComponent("Option"), this);
+			btn.setLayer(i + 1);
+			btn.setSelected(this.layerTypes.get(i + 1));
+			this.addButton(btn);
 
 
-				ColorChangerButton colorButton = new ColorChangerButton(this.guiLeft + (62 + 113 + 8), this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 90, 20, new StringTextComponent("Color"), this);
-				colorButton.setLayer(i + 1);
-				if (!this.layerTypes.get(i + 1).hasColorVariants()) {
-					colorButton.active = false;
-				}
-				this.addColorButton(colorButton);
+			ColorChangerButton colorButton = new ColorChangerButton(this.guiLeft + (62 + 113 + 8), this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 90, 20, new StringTextComponent("Color"), this);
+			colorButton.setLayer(i + 1);
+			if (!this.layerTypes.get(i + 1).hasColorVariants()) {
+				colorButton.active = false;
 			}
-
+			this.addColorButton(colorButton);
 		}
+
+		StandardChangerButton standardButton = new StandardChangerButton(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * this.layerAmount - 1) + 23 * 2)), 113, 20, new StringTextComponent("Option"), this);
+		standardButton.setSelected(currentStandard);
+		this.addButton(standardButton);
+
+		this.addListener(this.deleteLayerButton);
+		this.addListener(this.addLayerButton);
+		this.addListener(this.destroyButton);
 	}
 
 	public void addColorButton(ColorChangerButton btn) {
@@ -107,6 +102,7 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 
 	public void removeAllButtons() {
 		this.buttons.clear();
+		this.children.clear();
 		this.colorButtons.clear();
 		this.initButtons();
 	}
