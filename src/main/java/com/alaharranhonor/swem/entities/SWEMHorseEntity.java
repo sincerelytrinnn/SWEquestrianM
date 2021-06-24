@@ -64,6 +64,10 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			return PlayState.CONTINUE;
 		}*/
 
+		if (horse.isRearing()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("Rear"));
+			return PlayState.CONTINUE;
+		}
 
 		if (horse.isInWater()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("Swim"));
