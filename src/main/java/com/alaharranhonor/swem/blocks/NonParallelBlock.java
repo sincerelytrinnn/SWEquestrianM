@@ -45,12 +45,20 @@ public class NonParallelBlock extends HorizontalBlock {
 
 		BlockPos blockpos1 = context.getPos().offset(context.getPlacementHorizontalFacing().rotateY());
 		BlockPos blockpos2 = context.getPos().offset(context.getPlacementHorizontalFacing().rotateYCCW());
+		BlockPos blockpos3 = context.getPos().offset(context.getPlacementHorizontalFacing());
+		BlockPos blockpos4 = context.getPos().offset(context.getPlacementHorizontalFacing().getOpposite());
 
 
 		BlockState blockstate1 = iblockreader.getBlockState(blockpos1);
 		BlockState blockstate2 = iblockreader.getBlockState(blockpos2);
+		BlockState blockstate3 = iblockreader.getBlockState(blockpos3);
+		BlockState blockstate4 = iblockreader.getBlockState(blockpos4);
 
 		BlockState standard = this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
+
+
+
+
 		if (blockstate1.getBlock() == this && blockstate2.getBlock() == this) {
 
 			return blockstate1.get(HORIZONTAL_FACING).getAxis() == context.getPlacementHorizontalFacing().getAxis() && blockstate2.get(HORIZONTAL_FACING).getAxis() == context.getPlacementHorizontalFacing().getAxis() ? standard.with(PART, SWEMBlockStateProperties.TwoWay.MIDDLE) : standard;
@@ -92,6 +100,13 @@ public class NonParallelBlock extends HorizontalBlock {
 				break;
 			}
 			case SINGLE: {
+				if (facing == stateIn.get(HORIZONTAL_FACING)) {
+					System.out.println(facingState.get(PART));
+					return stateIn.with(HORIZONTAL_FACING, facingState.get(HORIZONTAL_FACING)).with(PART, SWEMBlockStateProperties.TwoWay.LEFT);
+				} else if (facing == stateIn.get(HORIZONTAL_FACING).getOpposite()) {
+					return stateIn.with(HORIZONTAL_FACING, facingState.get(HORIZONTAL_FACING)).with(PART, SWEMBlockStateProperties.TwoWay.RIGHT);
+				}
+
 				if (facing == stateIn.get(HORIZONTAL_FACING).rotateY()) {
 					if (facingState.getBlock() == this && stateIn.get(HORIZONTAL_FACING).getAxis() == facingState.get(HORIZONTAL_FACING).getAxis()) {
 						return stateIn.with(PART, SWEMBlockStateProperties.TwoWay.LEFT);
