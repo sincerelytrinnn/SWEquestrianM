@@ -169,7 +169,7 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
 		if (!(saddle.getItem() == Items.AIR || saddle == ItemStack.EMPTY)) {
 			SWEM.LOGGER.debug("Saddle not empty/air");
 			AdventureSaddleItem saddleItem = (AdventureSaddleItem)saddle.getItem();
-			IVertexBuilder ivertexbuilder = ItemRenderer.getArmorVertexBuilder(bufferIn, RenderType.getArmorCutoutNoCull(saddleItem.getTexture()), false, saddle.hasEffect());
+			IVertexBuilder ivertexbuilder = ItemRenderer.getArmorVertexBuilder(bufferIn, RenderType.getArmorCutoutNoCull(saddleItem.getSaddleRackTexture()), false, saddle.hasEffect());
 			GeoModel geoModel = saddleModel.getModel(saddleModel.getModelLocation(saddleItem));
 			Iterator group = geoModel.topLevelBones.iterator();
 			while (group.hasNext()) {

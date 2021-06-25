@@ -7,6 +7,7 @@ import com.alaharranhonor.swem.entity.model.OneSaddleRackModel;
 import com.alaharranhonor.swem.entity.model.WesternSaddleModel;
 import com.alaharranhonor.swem.items.tack.AdventureSaddleItem;
 import com.alaharranhonor.swem.items.tack.EnglishSaddleItem;
+import com.alaharranhonor.swem.items.tack.HorseSaddleItem;
 import com.alaharranhonor.swem.items.tack.WesternSaddleItem;
 import com.alaharranhonor.swem.tileentity.OneSaddleRackTE;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -60,13 +61,13 @@ public class OneSaddleRackRender extends GeoBlockRenderer<OneSaddleRackTE> {
 
 		stack.rotate(new Quaternion(0, 0 - direction.getHorizontalAngle(), 0, true));
 
+		IVertexBuilder builder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(((HorseSaddleItem) itemStack.getItem()).getSaddleRackTexture()));
 		if (itemStack.getItem() instanceof WesternSaddleItem) {
 
 
 
 			WesternSaddleItem item = (WesternSaddleItem) itemStack.getItem();
 			WesternSaddleModel model = new WesternSaddleModel();
-			IVertexBuilder builder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(item.getTexture()));
 
 			Color renderColor = this.getRenderColor(tile, partialTicks, stack, bufferIn, (IVertexBuilder)null, packedLightIn);
 			Iterator group = model.getModel(model.getModelLocation(item)).topLevelBones.iterator();
@@ -80,7 +81,6 @@ public class OneSaddleRackRender extends GeoBlockRenderer<OneSaddleRackTE> {
 
 			EnglishSaddleItem item = (EnglishSaddleItem) itemStack.getItem();
 			EnglishSaddleModel model = new EnglishSaddleModel();
-			IVertexBuilder builder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(item.getTexture()));
 
 			Color renderColor = this.getRenderColor(tile, partialTicks, stack, bufferIn, (IVertexBuilder)null, packedLightIn);
 			Iterator group = model.getModel(model.getModelLocation(item)).topLevelBones.iterator();
@@ -93,7 +93,6 @@ public class OneSaddleRackRender extends GeoBlockRenderer<OneSaddleRackTE> {
 		} else if (itemStack.getItem() instanceof AdventureSaddleItem) {
 			AdventureSaddleItem item = (AdventureSaddleItem) itemStack.getItem();
 			AdventureSaddleModel model = new AdventureSaddleModel();
-			IVertexBuilder builder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(item.getTexture()));
 
 			Color renderColor = this.getRenderColor(tile, partialTicks, stack, bufferIn, (IVertexBuilder)null, packedLightIn);
 			Iterator group = model.getModel(model.getModelLocation(item)).topLevelBones.iterator();

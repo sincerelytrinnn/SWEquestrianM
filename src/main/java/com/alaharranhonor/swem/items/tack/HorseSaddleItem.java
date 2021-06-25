@@ -20,12 +20,14 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 public class HorseSaddleItem extends Item implements IAnimatable {
 
 	private ResourceLocation texture;
+	private ResourceLocation saddleRackTexture;
 	private final AnimationFactory factory = new AnimationFactory(this);
 
 
 	public HorseSaddleItem(String textureName, Properties properties) {
 		super(properties);
 		this.texture = new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/saddle/" + textureName + ".png");
+		this.saddleRackTexture = new ResourceLocation(SWEM.MOD_ID, "textures/tile/saddle_rack/" + textureName + ".png");
 	}
 
 	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
@@ -50,6 +52,9 @@ public class HorseSaddleItem extends Item implements IAnimatable {
 	}
 
 	public ResourceLocation getTexture() {
+		return this.texture;
+	}
+	public ResourceLocation getSaddleRackTexture() {
 		return this.texture;
 	}
 
