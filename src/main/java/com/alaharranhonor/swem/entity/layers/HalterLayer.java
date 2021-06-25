@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.entity.layers;
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.items.tack.HalterItem;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -7,17 +8,19 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
 import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 
 public class HalterLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
-	private IGeoRenderer<SWEMHorseEntity> entity;
+	private IGeoRenderer<SWEMHorseEntity> entityRenderer;
 
 	public HalterLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
 		super(entityRendererIn);
-		this.entity = entityRendererIn;
+		this.entityRenderer = entityRendererIn;
 	}
 
 	@Override
@@ -26,9 +29,15 @@ public class HalterLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 		if (!stack.isEmpty()) {
 			HalterItem halter = (HalterItem)stack.getItem();
 
-			IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(halter.getArmorTexture()));
-			this.entity.render(this.entity.getGeoModelProvider().getModel(this.getEntityModel().getModelLocation(entitylivingbaseIn)), entitylivingbaseIn, partialTicks, this.entity.getRenderType(entitylivingbaseIn, partialTicks, matrixStackIn, bufferIn, ivertexbuilder, packedLightIn, halter.getArmorTexture()),matrixStackIn, bufferIn, ivertexbuilder, packedLightIn, LivingRenderer.getPackedOverlay(entitylivingbaseIn, 0.0f), 1.0f, 1.0f, 1.0f, 1.0f);
-
+			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json")),
+					entitylivingbaseIn,
+					partialTicks,
+					RenderType.getEntityCutout(halter.getArmorTexture()),
+					matrixStackIn,
+					bufferIn,
+					bufferIn.getBuffer(RenderType.getEntityCutout(halter.getArmorTexture())),
+					packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
+			);
 		}
 	}
 }
