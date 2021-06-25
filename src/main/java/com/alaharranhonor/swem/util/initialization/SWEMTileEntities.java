@@ -35,19 +35,20 @@ public class SWEMTileEntities {
 
 	private static Block[] getAllJumpBlocks() {
 
-		Stream<RegistryObject<JumpBlock>> blocks = Stream.of(SWEMBlocks.JUMP_NUMBERS,
-			SWEMBlocks.JUMP_RED_FLAG,
-			SWEMBlocks.JUMP_WHITE_FLAG,
-			SWEMBlocks.JUMP_RED_WHITE_FLAG,
+		Stream<RegistryObject<JumpBlock>> blocks = Stream.of(//SWEMBlocks.JUMP_NUMBERS,
+			//SWEMBlocks.JUMP_RED_FLAG,
+			//SWEMBlocks.JUMP_WHITE_FLAG,
+			//SWEMBlocks.JUMP_RED_WHITE_FLAG,
 			SWEMBlocks.JUMP_WALL,
 			SWEMBlocks.JUMP_WALL_MINI,
-			SWEMBlocks.JUMP_SWEDISH_RAILS,
-			SWEMBlocks.JUMP_CROSS_RAILS,
+			//SWEMBlocks.JUMP_SWEDISH_RAILS,
+			//SWEMBlocks.JUMP_CROSS_RAILS,
 			SWEMBlocks.JUMP_COOP,
 			SWEMBlocks.JUMP_BRUSH_BOX,
 			SWEMBlocks.JUMP_HEDGE,
 			SWEMBlocks.JUMP_STAIR_DROP,
-			SWEMBlocks.JUMP_LOG
+			SWEMBlocks.JUMP_LOG,
+			SWEMBlocks.JUMP_NONE
 		);
 
 		blocks = Stream.concat(blocks, SWEMBlocks.PLANKS.stream());
