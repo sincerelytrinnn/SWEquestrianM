@@ -5,6 +5,7 @@ import com.alaharranhonor.swem.blocks.*;
 import com.alaharranhonor.swem.blocks.BarrelBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpControllerBlock;
+import com.alaharranhonor.swem.blocks.jumps.JumpLayer;
 import com.alaharranhonor.swem.blocks.jumps.JumpStandardBlock;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -13,6 +14,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
@@ -140,25 +142,25 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> JUMP_STANDARD_VERTICAL_SLAT = BLOCKS.register("jump_standard_vertical_slat", () -> new JumpStandardBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
 	public static final RegistryObject<Block> JUMP_STANDARD_NONE = BLOCKS.register("jump_standard_none", () -> new JumpStandardBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
 
-	public static final RegistryObject<JumpBlock> JUMP_NONE = BLOCKS.register("jump_none", JumpBlock::new);
-	public static final RegistryObject<JumpBlock> JUMP_LOG = BLOCKS.register("jump_log", JumpBlock::new);
-	public static final RegistryObject<JumpBlock> JUMP_STAIR_DROP = BLOCKS.register("jump_stair_drop", JumpBlock::new);
+	public static final RegistryObject<JumpBlock> JUMP_NONE = BLOCKS.register("jump_none", () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d)));
+	public static final RegistryObject<JumpBlock> JUMP_LOG = BLOCKS.register("jump_log", () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d)));
+	public static final RegistryObject<JumpBlock> JUMP_STAIR_DROP = BLOCKS.register("jump_stair_drop", () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d)));
 
-	public static final RegistryObject<JumpBlock> JUMP_HEDGE = BLOCKS.register("jump_hedge", JumpBlock::new);
-	public static final RegistryObject<JumpBlock> JUMP_WALL = BLOCKS.register("jump_wall", JumpBlock::new);
+	public static final RegistryObject<JumpBlock> JUMP_HEDGE = BLOCKS.register("jump_hedge", () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d)));
+	public static final RegistryObject<JumpBlock> JUMP_WALL = BLOCKS.register("jump_wall", () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d)));
 
-	public static final RegistryObject<JumpBlock> JUMP_BRUSH_BOX = BLOCKS.register("jump_brush_box", JumpBlock::new);
-	public static final RegistryObject<JumpBlock> JUMP_COOP = BLOCKS.register("jump_coop", JumpBlock::new);
-	public static final RegistryObject<JumpBlock> JUMP_WALL_MINI = BLOCKS.register("jump_wall_mini", JumpBlock::new);
-	public static final RegistryObject<JumpBlock> JUMP_CROSS_RAILS = BLOCKS.register("jump_cross_rails", JumpBlock::new);
+	public static final RegistryObject<JumpBlock> JUMP_BRUSH_BOX = BLOCKS.register("jump_brush_box", () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d)));
+	public static final RegistryObject<JumpBlock> JUMP_COOP = BLOCKS.register("jump_coop", () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d)));
+	public static final RegistryObject<JumpBlock> JUMP_WALL_MINI = BLOCKS.register("jump_wall_mini", () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d)));
+	//public static final RegistryObject<JumpBlock> JUMP_CROSS_RAILS = BLOCKS.register("jump_cross_rails", () -> new JumpBlock(CROSS_RAILS));
 
-	public static final RegistryObject<JumpBlock> JUMP_SWEDISH_RAILS = BLOCKS.register("jump_swedish_rails", JumpBlock::new);
+	//public static final RegistryObject<JumpBlock> JUMP_SWEDISH_RAILS = BLOCKS.register("jump_swedish_rails", () -> new JumpBlock(SWEDISH_RAILS));
 
-	public static final RegistryObject<JumpBlock> JUMP_RED_FLAG = BLOCKS.register("jump_red_flag", JumpBlock::new);
-	public static final RegistryObject<JumpBlock> JUMP_WHITE_FLAG = BLOCKS.register("jump_white_flag", JumpBlock::new);
-	public static final RegistryObject<JumpBlock> JUMP_RED_WHITE_FLAG = BLOCKS.register("jump_red_white_flag", JumpBlock::new);
+	//public static final RegistryObject<JumpBlock> JUMP_RED_FLAG = BLOCKS.register("jump_red_flag", () -> new JumpBlock());
+	//public static final RegistryObject<JumpBlock> JUMP_WHITE_FLAG = BLOCKS.register("jump_white_flag", () -> new JumpBlock());
+	//public static final RegistryObject<JumpBlock> JUMP_RED_WHITE_FLAG = BLOCKS.register("jump_red_white_flag", () -> new JumpBlock());
 
-	public static final RegistryObject<JumpBlock> JUMP_NUMBERS = BLOCKS.register("jump_numbers", JumpBlock::new);
+	//public static final RegistryObject<JumpBlock> JUMP_NUMBERS = BLOCKS.register("jump_numbers", () -> new JumpBlock());
 
 
 	public static final List<RegistryObject<JumpBlock>> ROLL_TOPS = new ArrayList<>();
@@ -188,18 +190,18 @@ public class SWEMBlocks {
 	static {
 		for (DyeColor color : DyeColor.values()) {
 			// Jumps
-			ROLL_TOPS.add(registerNoItem("jump_roll_top_" + color.toString(), JumpBlock::new));
-			RAILS.add(registerNoItem("jump_rail_" + color.toString(), JumpBlock::new));
-			GROUND_POLES.add(registerNoItem("jump_ground_pole_" + color.toString(), JumpBlock::new));
-			POLE_ON_BOXES_SMALL.add(registerNoItem("jump_pole_on_box_small_" + color.toString(), JumpBlock::new));
-			POLE_ON_BOXES_LARGE.add(registerNoItem("jump_pole_on_box_large_" + color.toString(), JumpBlock::new));
-			FANCY_PLANKS.add(registerNoItem("jump_plank_fancy_" + color.toString(), JumpBlock::new));
-			PLANKS.add(registerNoItem("jump_plank_" + color.toString(), JumpBlock::new));
-			PANELS_WAVE.add(registerNoItem("jump_panel_wave_" + color.toString(), JumpBlock::new));
-			PANELS_STRIPE.add(registerNoItem("jump_panel_stripe_" + color.toString(), JumpBlock::new));
-			PANELS_ARROW.add(registerNoItem("jump_panel_arrow_" + color.toString(), JumpBlock::new));
-			FLOWER_BOXES.add(registerNoItem("jump_flower_box_" + color.toString(), JumpBlock::new));
-			CAVALETTIS.add(registerNoItem("jump_cavaletti_" + color.toString(), JumpBlock::new));
+			ROLL_TOPS.add(registerNoItem("jump_roll_top_" + color.toString(), () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
+			RAILS.add(registerNoItem("jump_rail_" + color.toString(), () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
+			GROUND_POLES.add(registerNoItem("jump_ground_pole_" + color.toString(), () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
+			POLE_ON_BOXES_SMALL.add(registerNoItem("jump_pole_on_box_small_" + color.toString(), () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
+			POLE_ON_BOXES_LARGE.add(registerNoItem("jump_pole_on_box_large_" + color.toString(), () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
+			FANCY_PLANKS.add(registerNoItem("jump_plank_fancy_" + color.toString(), () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
+			PLANKS.add(registerNoItem("jump_plank_" + color.toString(), () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
+			PANELS_WAVE.add(registerNoItem("jump_panel_wave_" + color.toString(), () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
+			PANELS_STRIPE.add(registerNoItem("jump_panel_stripe_" + color.toString(), () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
+			PANELS_ARROW.add(registerNoItem("jump_panel_arrow_" + color.toString(), () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
+			FLOWER_BOXES.add(registerNoItem("jump_flower_box_" + color.toString(), () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
+			CAVALETTIS.add(registerNoItem("jump_cavaletti_" + color.toString(), () -> new JumpBlock(VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
 
 
 

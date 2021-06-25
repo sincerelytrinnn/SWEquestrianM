@@ -22,17 +22,21 @@ import javax.annotation.Nullable;
 public class JumpBlock extends HorizontalBlock {
 
 	public static final EnumProperty<SWEMBlockStateProperties.TripleBlockSide> JUMP_PIECE = SWEMBlockStateProperties.T_SIDE;
+	private VoxelShape ew;
+	private VoxelShape ns;
 
-	public JumpBlock() {
+	public JumpBlock(VoxelShape ew, VoxelShape ns) {
 		super(AbstractBlock.Properties.create(Material.IRON).notSolid());
+		this.ew = ew;
+		this.ns = ns;
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		if (state.get(HORIZONTAL_FACING).getAxis() == Direction.Axis.X) {
-			return VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d);
+			return this.ew;
 		} else {
-			return VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d);
+			return this.ns;
 		}
 	}
 
