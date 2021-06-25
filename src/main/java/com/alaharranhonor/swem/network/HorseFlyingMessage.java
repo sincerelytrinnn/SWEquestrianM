@@ -4,6 +4,7 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
+import net.minecraft.entity.passive.horse.HorseEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.vector.Vector3d;
@@ -45,6 +46,7 @@ public class HorseFlyingMessage {
 			ServerPlayerEntity player = ctx.get().getSender();
 			if (player.isPassenger() && player.getRidingEntity() instanceof SWEMHorseEntityBase) {
 				SWEMHorseEntityBase horse = (SWEMHorseEntityBase) player.getRidingEntity();
+				horse.setRotation(player.rotationYaw, player.rotationPitch * 0.5f);
 				switch (msg.action) {
 
 					case 0: {
