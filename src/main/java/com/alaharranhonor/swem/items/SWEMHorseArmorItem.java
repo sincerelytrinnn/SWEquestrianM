@@ -23,11 +23,14 @@ public class SWEMHorseArmorItem extends HorseArmorItem implements IAnimatable {
 
 	public final HorseArmorTier tier;
 
+	private final ResourceLocation rackTexture;
+
 
 	public SWEMHorseArmorItem(HorseArmorTier tier, int armorValue, String texture, Properties builder) {
-		super(armorValue, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + texture + ".png"), builder);
+		super(armorValue, new ResourceLocation(SWEM.MOD_ID, "textures/finished/" + texture + ".png"), builder);
 		this.type = texture;
 		this.tier = tier;
+		this.rackTexture = new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + texture + ".png");
 	}
 
 	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
@@ -46,6 +49,9 @@ public class SWEMHorseArmorItem extends HorseArmorItem implements IAnimatable {
 		return ActionResultType.PASS;
 	}
 
+	public ResourceLocation getRackTexture() {
+		return this.rackTexture;
+	}
 
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 		System.out.println(event.getAnimatable().getClass().toString());
