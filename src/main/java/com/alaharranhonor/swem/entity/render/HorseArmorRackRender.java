@@ -45,7 +45,7 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
 		if (!(armor.getItem() == Items.AIR || armor == ItemStack.EMPTY)) {
 			SWEM.LOGGER.debug("Armor not empty/air");
 			SWEMHorseArmorItem armorItem = (SWEMHorseArmorItem)armor.getItem();
-			IVertexBuilder ivertexbuilder = ItemRenderer.getArmorVertexBuilder(bufferIn, RenderType.getArmorCutoutNoCull(armorItem.getArmorTexture()), false, armor.hasEffect());
+			IVertexBuilder ivertexbuilder = ItemRenderer.getArmorVertexBuilder(bufferIn, RenderType.getArmorCutoutNoCull(armorItem.getRackTexture()), false, armor.hasEffect());
 			GeoModel geoModel = armorModelGeo.getModel(armorModelGeo.getModelLocation(armorItem));
 			Iterator group = geoModel.topLevelBones.iterator();
 
