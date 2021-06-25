@@ -37,10 +37,10 @@ public class AdventureSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 				this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json")),
 						entitylivingbaseIn,
 						partialTicks,
-						RenderType.getEntityCutout(new ResourceLocation(SWEM.MOD_ID, "textures/finished/adventure_saddle.png")),
+						RenderType.getEntityCutout(saddleItem.getTexture()),
 						matrixStackIn,
 						bufferIn,
-						bufferIn.getBuffer(RenderType.getEntityCutout(new ResourceLocation(SWEM.MOD_ID, "textures/finished/adventure_saddle.png"))),
+						bufferIn.getBuffer(RenderType.getEntityCutout(saddleItem.getTexture())),
 						packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
 				);
 			}
