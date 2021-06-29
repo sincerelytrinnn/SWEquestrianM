@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.entity.layers;
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -56,8 +57,7 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 						matrixStackIn,
 						bufferIn,
 						bufferIn.getBuffer(RenderType.getEntityCutout(new ResourceLocation(SWEM.MOD_ID, "textures/finished/amethyst_wings.png"))),
-						packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
-				);
+						packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, ((float) ConfigHolder.CLIENT.wingsTransparency.get()) * 0.5f);
 			}
 
 

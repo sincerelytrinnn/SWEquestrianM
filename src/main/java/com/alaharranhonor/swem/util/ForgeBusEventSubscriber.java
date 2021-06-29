@@ -4,6 +4,7 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.AmethystRidingBoots;
 import com.alaharranhonor.swem.commands.DevCommand;
 import com.alaharranhonor.swem.commands.YeetCommand;
+import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.network.HorseFlyingMessage;
 import com.alaharranhonor.swem.network.HorseStateChange;
@@ -115,6 +116,15 @@ public class ForgeBusEventSubscriber {
 
 					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(6, horse.getEntityId()));
 				}
+			}
+
+			if (keyBindings[4].isPressed()) {
+				int value = ConfigHolder.CLIENT.wingsTransparency.get();
+				value--;
+				if (value < 0) {
+					value = 2;
+				}
+				ConfigHolder.CLIENT.wingsTransparency.set(value);
 			}
 
 			if (Minecraft.getInstance().gameSettings.keyBindForward.isKeyDown()) {
