@@ -9,6 +9,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.SlimeRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -53,10 +54,10 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 				this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json")),
 						entitylivingbaseIn,
 						partialTicks,
-						RenderType.getEntityCutout(new ResourceLocation(SWEM.MOD_ID, "textures/finished/amethyst_wings.png")),
+						RenderType.getEntityTranslucent(new ResourceLocation(SWEM.MOD_ID, "textures/finished/amethyst_wings.png")),
 						matrixStackIn,
 						bufferIn,
-						bufferIn.getBuffer(RenderType.getEntityCutout(new ResourceLocation(SWEM.MOD_ID, "textures/finished/amethyst_wings.png"))),
+						bufferIn.getBuffer(RenderType.getEntityTranslucent(new ResourceLocation(SWEM.MOD_ID, "textures/finished/amethyst_wings.png"))),
 						packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, ((float) ConfigHolder.CLIENT.wingsTransparency.get()) * 0.5f);
 			}
 
