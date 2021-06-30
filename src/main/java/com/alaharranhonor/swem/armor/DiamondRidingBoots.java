@@ -14,6 +14,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 
+import net.minecraft.item.Item.Properties;
+
 public class DiamondRidingBoots extends GoldRidingBoots {
 
 	private int tickDurability = 0;

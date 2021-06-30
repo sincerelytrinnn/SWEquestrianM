@@ -10,6 +10,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 
+import net.minecraft.item.Item.Properties;
+
 public class IronRidingBoots extends GlowRidingBoots {
 	public IronRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
 		super(path, materialIn, slot, builderIn);

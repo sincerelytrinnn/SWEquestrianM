@@ -31,6 +31,8 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class TackBoxBlock extends HorizontalBlock {
 	public TackBoxBlock(Properties properties) {
 		super(properties);

@@ -32,6 +32,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.entity.passive.horse.*;
 import net.minecraft.entity.player.PlayerEntity;
@@ -81,8 +82,12 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
+import net.minecraft.entity.Entity.IMoveCallback;
 
 public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable, IEntityAdditionalSpawnData {
 
@@ -140,16 +145,16 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	}
 
 	@Override
-	protected void func_230273_eI_() {
+	protected void randomizeAttributes() {
 		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getAlteredMaxHealth());
 		this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getAlteredMovementSpeed());
 		this.getAttribute(Attributes.HORSE_JUMP_STRENGTH).setBaseValue(this.getAlteredJumpStrength());
 	}
 
-	// func_233666_p_ -> registerAttributes()
+	// createMobAttributes -> registerAttributes()
 	public static AttributeModifierMap.MutableAttribute setCustomAttributes()
 	{
-		return MobEntity.func_233666_p_()
+		return MobEntity.createMobAttributes()
 				.createMutableAttribute(Attributes.MAX_HEALTH)
 				.createMutableAttribute(Attributes.HORSE_JUMP_STRENGTH)
 				.createMutableAttribute(Attributes.MOVEMENT_SPEED);
@@ -383,11 +388,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return this.dataManager.get(JUMPING);
 	}
 
-	public boolean func_230264_L__() {
+	public boolean isSaddleable() {
 		return this.isAlive() && !this.isChild() && this.isTame();
 	}
 
-	public void func_230266_a_(@Nullable SoundCategory p_230266_1_, ItemStack stackIn) {
+	public void equipSaddle(@Nullable SoundCategory p_230266_1_, ItemStack stackIn) {
 		ItemStack stack = stackIn.copy();
 		if (stack.getItem() instanceof HorseSaddleItem) {
 			this.horseChest.setInventorySlotContents(2, stack);
@@ -441,8 +446,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	}
 
-
-
 	@Override
 	public void makeMad() {
 		super.makeMad();
@@ -462,8 +465,18 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	public void positionRider(Entity entity, IMoveCallback callback) {
 		if (this.isPassenger(entity)) {
 			double d0 = this.getPosY() + this.getMountedYOffset() + entity.getYOffset();
+			if (entity instanceof AnimalEntity) {
+				entity.setRotation(this.rotationYaw, this.rotationPitch);
+				callback.accept(entity, this.getPosX() + (this.getHorizontalFacing().getDirectionVec().getX() * 3), d0, this.getPosZ() + (this.getHorizontalFacing().getDirectionVec().getZ() * 3));
+			}
+
 			callback.accept(entity, this.getPosX(), d0, this.getPosZ());
 		}
+	}
+
+	@Override
+	protected boolean canFitPassenger(Entity passenger) {
+		return this.getPassengers().size() < 2;
 	}
 
 	public boolean isFlying() {
@@ -610,7 +623,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		}
 
 		this.horseChest.addListener(this::onHorseInventoryChanged);
-		this.func_230275_fc_();
+		this.updateContainerEquipment();
 		this.itemHandler = net.minecraftforge.common.util.LazyOptional.of(() -> new net.minecraftforge.items.wrapper.InvWrapper(this.horseChest));
 	}
 
@@ -707,11 +720,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		compound.putString("ownerName", this.getOwnerName());
 	}
 
-	public ItemStack func_213803_dV() {
+	public ItemStack getArmor() {
 		return this.getItemStackFromSlot(EquipmentSlotType.CHEST);
 	}
 
-	private void func_213805_k(ItemStack p_213805_1_) {
+	private void setArmor(ItemStack p_213805_1_) {
 		this.setItemStackToSlot(EquipmentSlotType.CHEST, p_213805_1_);
 		this.setDropChance(EquipmentSlotType.CHEST, 0.0F);
 	}
@@ -721,7 +734,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	 */
 	public void readAdditional(CompoundNBT compound) {
 		super.readAdditional(compound);
-//		this.func_234242_w_(compound.getInt("Variant"));
+//		this.setTypeVariant(compound.getInt("Variant"));
 		if (compound.contains("BridleItem", 10)) {
 			ItemStack itemstack = ItemStack.read(compound.getCompound("BridleItem"));
 			if (!itemstack.isEmpty() && this.isHalter(itemstack)) {
@@ -779,7 +792,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 		this.needs.read(compound);
 
-		this.func_230275_fc_();
+		this.updateContainerEquipment();
 
 		//this.setFlying(compound.getBoolean("flying"));
 
@@ -845,8 +858,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	}
 
 
-	private void func_234238_a_(CoatColors p_234238_1_, CoatTypes p_234238_2_) {
-//		this.func_234242_w_(p_234238_1_.getId() & 255 | p_234238_2_.getId() << 8 & '\uff00');
+	private void setVariantAndMarkings(CoatColors p_234238_1_, CoatTypes p_234238_2_) {
+//		this.setTypeVariant(p_234238_1_.getId() & 255 | p_234238_2_.getId() << 8 & '\uff00');
 	}
 
 	public SWEMCoatColors getCoatColor() {
@@ -938,14 +951,14 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	}
 
 	@Override
-	protected void func_230275_fc_() {
+	protected void updateContainerEquipment() {
 		if (!this.world.isRemote) {
 			this.setHorseWatchableBoolean(4, !this.horseChest.getStackInSlot(2).isEmpty());
 		}
 	}
 
-	private void func_213804_l(ItemStack p_213804_1_) {
-		this.func_213805_k(p_213804_1_);
+	private void setArmorEquipment(ItemStack p_213804_1_) {
+		this.setArmor(p_213804_1_);
 		if (!this.world.isRemote) {
 			this.getAttribute(Attributes.ARMOR).removeModifier(ARMOR_MODIFIER_UUID);
 			if (this.isSWEMArmor(p_213804_1_)) {
@@ -1141,7 +1154,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			this.onGround = true;
 		}
 		if (this.isBeingRidden() && this.canBeSteered() && this.isHorseSaddled()) {
-			LivingEntity livingentity = (LivingEntity) this.getControllingPassenger();
+			PlayerEntity livingentity = (PlayerEntity) this.getControllingPassenger();
 
 			this.rotationYaw = livingentity.rotationYaw;
 			this.prevRotationYaw = this.rotationYaw;
@@ -1230,7 +1243,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 				this.setHorseJumping(false);
 			}
 
-			this.func_233629_a_(this, false);
+			this.calculateEntityAnimation(this, false);
 
 
 			boolean flag = this.world.getBlockState(this.getPosition().add(this.getHorizontalFacing().getDirectionVec())).isSolid();
@@ -1243,6 +1256,15 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			super.travel(travelVector);
 		}
 
+	}
+
+
+
+	@Nullable
+	@Override
+	public Entity getControllingPassenger() {
+		List<Entity> playerEntities = this.getPassengers().stream().filter((entity) -> entity instanceof PlayerEntity).collect(Collectors.toList());
+		return this.getPassengers().isEmpty() ? null : playerEntities.isEmpty() ? null : playerEntities.get(0);
 	}
 
 	private float getDisobedienceFactor() {
@@ -1281,10 +1303,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	 */
 	public void onHorseInventoryChanged(IInventory invBasic) {
 		this.setSWEMSaddled();
-		ItemStack itemstack = this.func_213803_dV();
+		ItemStack itemstack = this.getArmor();
 		super.onInventoryChanged(invBasic);
 
-		ItemStack itemstack1 = this.func_213803_dV();
+		ItemStack itemstack1 = this.getArmor();
 		if (this.ticksExisted > 20 && this.isSWEMArmor(itemstack1) && itemstack != itemstack1) {
 			this.playSound(SoundEvents.ENTITY_HORSE_ARMOR, 0.5F, 1.0F);
 		}
@@ -1296,10 +1318,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	public void onInventoryChanged(IInventory invBasic) {
 		this.setSWEMSaddled();
-		ItemStack itemstack = this.func_213803_dV();
+		ItemStack itemstack = this.getArmor();
 		super.onInventoryChanged(invBasic);
 
-		ItemStack itemstack1 = this.func_213803_dV();
+		ItemStack itemstack1 = this.getArmor();
 		if (this.ticksExisted > 20 && this.isSWEMArmor(itemstack1) && itemstack != itemstack1) {
 			this.playSound(SoundEvents.ENTITY_HORSE_ARMOR, 0.5F, 1.0F);
 		}
@@ -1329,7 +1351,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	// Get nom-nom sound
 	@Nullable
-	protected SoundEvent func_230274_fe_() {
+	protected SoundEvent getEatingSound() {
 		return SoundEvents.ENTITY_HORSE_EAT;
 	}
 
@@ -1374,7 +1396,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		if (!this.isChild()) {
 			if (this.isTame() && p_230254_1_.isSecondaryUseActive()) {
 				this.openGUI(p_230254_1_);
-				return ActionResultType.func_233537_a_(this.world.isRemote);
+				return ActionResultType.sidedSuccess(this.world.isRemote);
 			}
 
 			if (this.isBeingRidden()) {
@@ -1418,11 +1440,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 				if (!this.world.isRemote) {
 					this.getNeeds().getHunger().addPoints(itemstack);
 				}
-				return ActionResultType.func_233537_a_(this.world.isRemote);
+				return ActionResultType.sidedSuccess(this.world.isRemote);
 			}
 
 //			if (this.isBreedingItem(itemstack)) {
-//				return this.func_241395_b_(p_230254_1_, itemstack);
+//				return this.fedFood(p_230254_1_, itemstack);
 //			}
 
 
@@ -1430,7 +1452,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			if (itemstack.getItem() == Items.WATER_BUCKET) {
 				SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(0, this.getEntityId()));
 				p_230254_1_.setHeldItem(p_230254_2_, ((BucketItem) itemstack.getItem()).emptyBucket(itemstack, p_230254_1_));
-				return ActionResultType.func_233537_a_(this.world.isRemote);
+				return ActionResultType.sidedSuccess(this.world.isRemote);
 			}
 
 			ActionResultType actionresulttype = itemstack.interactWithEntity(p_230254_1_, this, p_230254_2_);
@@ -1444,7 +1466,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 			if (!this.isTame()) {
 				this.makeMad();
-				return ActionResultType.func_233537_a_(this.world.isRemote);
+				return ActionResultType.sidedSuccess(this.world.isRemote);
 			}
 
 			boolean flag = !this.isChild() && !this.isSWEMSaddled() && (itemstack.getItem() instanceof HorseSaddleItem);
@@ -1455,11 +1477,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			if (this.isSWEMArmor(itemstack) || flag) {
 				this.setSWEMSaddled();
 				this.openGUI(p_230254_1_);
-				return ActionResultType.func_233537_a_(this.world.isRemote);
+				return ActionResultType.sidedSuccess(this.world.isRemote);
 			}
 			if (flag1 || flag2 || flag3 || flag4) {
 				this.openGUI(p_230254_1_);
-				return ActionResultType.func_233537_a_(this.world.isRemote);
+				return ActionResultType.sidedSuccess(this.world.isRemote);
 			}
 
 		}
@@ -1468,7 +1490,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			return super.getEntityInteractionResult(p_230254_1_, p_230254_2_);
 		} else {
 			this.mountTo(p_230254_1_);
-			return ActionResultType.func_233537_a_(this.world.isRemote);
+			return ActionResultType.sidedSuccess(this.world.isRemote);
 		}
 	}
 
@@ -1572,16 +1594,16 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	}
 
 	// createChild method
-	public AgeableEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
+	public AgeableEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
 		AbstractHorseEntity abstracthorseentity;
 		HorseEntity horseentity = (HorseEntity)p_241840_2_;
 		abstracthorseentity = EntityType.HORSE.create(p_241840_1_);
 		int i = this.rand.nextInt(9);
 		CoatColors coatcolors;
 		if (i < 4) {
-//				coatcolors = this.func_234239_eK_();
+//				coatcolors = this.getVariant();
 		} else if (i < 8) {
-			coatcolors = horseentity.func_234239_eK_();
+			coatcolors = horseentity.getVariant();
 		} else {
 			coatcolors = Util.getRandomObject(CoatColors.values(), this.rand);
 		}
@@ -1589,20 +1611,20 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		int j = this.rand.nextInt(5);
 		CoatTypes coattypes;
 		if (j < 2) {
-//				coattypes = this.func_234240_eM_();
+//				coattypes = this.getMarkings();
 		} else if (j < 4) {
-			coattypes = horseentity.func_234240_eM_();
+			coattypes = horseentity.getMarkings();
 		} else {
 			coattypes = Util.getRandomObject(CoatTypes.values(), this.rand);
 		}
 
-//			((SWEMHorseEntityBase)abstracthorseentity).func_234238_a_(coatcolors, coattypes);
+//			((SWEMHorseEntityBase)abstracthorseentity).setVariantAndMarkings(coatcolors, coattypes);
 
 		this.setOffspringAttributes(p_241840_2_, abstracthorseentity);
 		return abstracthorseentity;
 	}
 
-	public boolean func_230276_fq_() {
+	public boolean canWearArmor() {
 		return true;
 	}
 
@@ -1617,7 +1639,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			spawnDataIn = new HorseEntity.HorseData(coatcolors);
 		}
 
-		this.func_234238_a_(coatcolors, Util.getRandomObject(CoatTypes.values(), this.rand));
+		this.setVariantAndMarkings(coatcolors, Util.getRandomObject(CoatTypes.values(), this.rand));
 		return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
 	}
 
@@ -1827,8 +1849,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	}
 
 	@Override
-	public boolean func_230277_fr_() {
-		return super.func_230277_fr_();
+	public boolean isWearingArmor() {
+		return super.isWearingArmor();
 	}
 
 	public float getJumpHeight() {

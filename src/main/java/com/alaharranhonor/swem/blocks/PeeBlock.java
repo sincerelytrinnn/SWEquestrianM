@@ -12,6 +12,8 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class PeeBlock extends Block {
 	public PeeBlock(Properties properties) {
 		super(properties);

@@ -14,7 +14,7 @@ public class DestroyButton extends Button {
 		this.screen = screen;
 	}
 
-	private static class DestroyPressable implements DestroyButton.IPressable {
+	private static class DestroyPressable implements Button.IPressable {
 
 		@Override
 		public void onPress(Button p_onPress_1_) {

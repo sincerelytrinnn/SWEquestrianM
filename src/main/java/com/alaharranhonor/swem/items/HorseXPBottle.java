@@ -22,22 +22,22 @@ public class HorseXPBottle extends ItemBase {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
 			if (this.leveler.equals("affinity")) {
 				horse.progressionManager.getAffinityLeveling().addXP(50);
-				return ActionResultType.func_233537_a_(playerIn.getEntityWorld().isRemote);
+				return ActionResultType.sidedSuccess(playerIn.getEntityWorld().isRemote);
 			} else if (this.leveler.equals("speed")) {
 				horse.progressionManager.getSpeedLeveling().addXP(50);
-				return ActionResultType.func_233537_a_(playerIn.getEntityWorld().isRemote);
+				return ActionResultType.sidedSuccess(playerIn.getEntityWorld().isRemote);
 			} else if (this.leveler.equals("jump")) {
 				horse.progressionManager.getJumpLeveling().addXP(50);
-				return ActionResultType.func_233537_a_(playerIn.getEntityWorld().isRemote);
+				return ActionResultType.sidedSuccess(playerIn.getEntityWorld().isRemote);
 			} else if (this.leveler.equals("health")) {
 				horse.progressionManager.getHealthLeveling().addXP(50);
-				return ActionResultType.func_233537_a_(playerIn.getEntityWorld().isRemote);
+				return ActionResultType.sidedSuccess(playerIn.getEntityWorld().isRemote);
 			} else {
 				horse.progressionManager.getAffinityLeveling().addXP(50);
 				horse.progressionManager.getJumpLeveling().addXP(50);
 				horse.progressionManager.getSpeedLeveling().addXP(50);
 				horse.progressionManager.getHealthLeveling().addXP(50);
-				return ActionResultType.func_233537_a_(playerIn.getEntityWorld().isRemote);
+				return ActionResultType.sidedSuccess(playerIn.getEntityWorld().isRemote);
 			}
 		}
 		return ActionResultType.PASS;

@@ -8,6 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 
+import net.minecraft.item.Item.Properties;
+
 public class MedicalHorseItem extends Item {
 	private float heal;
 	private float xp;

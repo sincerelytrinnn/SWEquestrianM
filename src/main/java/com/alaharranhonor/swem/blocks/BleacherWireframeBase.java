@@ -20,6 +20,8 @@ import net.minecraft.world.World;
 import java.util.stream.Stream;
 
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class BleacherWireframeBase extends SlabBlock {
 
 	private VoxelShape BOTTOM_SHAPE_WIREFRAME_BLEACHER = Stream.of(

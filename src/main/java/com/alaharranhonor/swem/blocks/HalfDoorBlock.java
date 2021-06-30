@@ -124,7 +124,7 @@ public class HalfDoorBlock extends Block {
 			worldIn.setBlockState(pos, state.with(OPEN, !state.get(OPEN)), 10);
 			worldIn.playEvent(player, state.get(OPEN) ? this.getOpenSound() : this.getCloseSound(), pos, 0);
 		}
-		return ActionResultType.func_233537_a_(worldIn.isRemote);
+		return ActionResultType.sidedSuccess(worldIn.isRemote);
 	}
 
 	public boolean isOpen(BlockState state) {

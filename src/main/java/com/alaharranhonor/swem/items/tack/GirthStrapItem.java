@@ -14,6 +14,8 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import net.minecraft.item.Item.Properties;
+
 public class GirthStrapItem extends Item {
 
 	private final ResourceLocation texture;
@@ -33,14 +35,14 @@ public class GirthStrapItem extends Item {
 				playerIn.sendStatusMessage(new StringTextComponent("You need to equip a Saddle first."), true);
 				return ActionResultType.FAIL;
 			}
-			if (!iequipable.hasGirthStrap() && iequipable.func_230264_L__() && iequipable.canEquipGirthStrap()) {
+			if (!iequipable.hasGirthStrap() && iequipable.isSaddleable() && iequipable.canEquipGirthStrap()) {
 				if (!playerIn.world.isRemote) {
-					iequipable.func_230266_a_(SoundCategory.NEUTRAL, stack);
+					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack);
 					if (!playerIn.abilities.isCreativeMode)
 						stack.shrink(1);
 				}
 
-				return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+				return ActionResultType.sidedSuccess(playerIn.world.isRemote);
 			}
 		}
 		return ActionResultType.PASS;

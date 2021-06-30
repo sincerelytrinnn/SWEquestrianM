@@ -59,22 +59,22 @@ public class SWEMBlocks {
 		return () -> new BlockItem(block.get(), new Item.Properties().group(itemGroup));
 	}
 
-	public static final RegistryObject<Block> CHARCOAL_BLOCK = BLOCKS.register("charcoal_block", () -> new Block(Block.Properties.from(Blocks.COAL_BLOCK)));
+	public static final RegistryObject<Block> CHARCOAL_BLOCK = BLOCKS.register("charcoal_block", () -> new Block(AbstractBlock.Properties.from(Blocks.COAL_BLOCK)));
 	public static final RegistryObject<Block> FUEL_BLOCK = BLOCKS.register("fuel_block", FuelBlock::new);
 	public static final RegistryObject<Block> DARK_RUBBER_MAT = BLOCKS.register("dark_rubber_mat", RubberMatBase::new);
 	public static final RegistryObject<Block> LIGHT_RUBBER_MAT = BLOCKS.register("light_rubber_mat", RubberMatBase::new);
 	public static final RegistryObject<Block> MEDIUM_RUBBER_MAT = BLOCKS.register("medium_rubber_mat", RubberMatBase::new);
 	public static final RegistryObject<Block> CANTAZARITE_BLOCK = BLOCKS.register("cantazarite_block", OreCraftedBase::new);
-	public static final RegistryObject<OreBlock> CANTAZARITE_ORE = BLOCKS.register("cantazarite_ore", () -> new OreBlock(Block.Properties.create(Material.IRON).setRequiresTool().hardnessAndResistance(2.0f, 6.0f).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1)));
-	public static final RegistryObject<OreBlock> AMETHYST_ORE = BLOCKS.register("amethyst_ore", () -> new OreBlock(Block.Properties.create(Material.IRON).setRequiresTool().hardnessAndResistance(3.0f, 6.0f).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(2)));
+	public static final RegistryObject<OreBlock> CANTAZARITE_ORE = BLOCKS.register("cantazarite_ore", () -> new OreBlock(AbstractBlock.Properties.create(Material.IRON).setRequiresTool().hardnessAndResistance(2.0f, 6.0f).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1)));
+	public static final RegistryObject<OreBlock> AMETHYST_ORE = BLOCKS.register("amethyst_ore", () -> new OreBlock(AbstractBlock.Properties.create(Material.IRON).setRequiresTool().hardnessAndResistance(3.0f, 6.0f).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(2)));
 	public static final RegistryObject<Block> TIMOTHY_GRASS = BLOCKS.register("timothy_grass",
-			() -> new TimothyGrass(Block.Properties.from(Blocks.WHEAT)));
+			() -> new TimothyGrass(AbstractBlock.Properties.from(Blocks.WHEAT)));
 	public static final RegistryObject<Block> ALFALFA_PLANT = BLOCKS.register("alfalfa_plant",
-			() -> new AlfalfaPlant(Block.Properties.from(Blocks.WHEAT)));
+			() -> new AlfalfaPlant(AbstractBlock.Properties.from(Blocks.WHEAT)));
 	public static final RegistryObject<Block> OAT_PLANT = BLOCKS.register("oat_plant",
-			() -> new OatPlant(Block.Properties.from(Blocks.WHEAT)));
+			() -> new OatPlant(AbstractBlock.Properties.from(Blocks.WHEAT)));
 	public static final RegistryObject<Block> QUALITY_BALE = BLOCKS.register("quality_bale",
-			() -> new HayBlockBase(Block.Properties.from(Blocks.HAY_BLOCK)));
+			() -> new HayBlockBase(AbstractBlock.Properties.from(Blocks.HAY_BLOCK)));
 	public static final RegistryObject<Block> DARK_SHAVINGS = BLOCKS.register("dark_shavings",
 			() -> new Shavings(AbstractBlock.Properties.create(new Material.Builder(MaterialColor.SNOW).doesNotBlockMovement().notOpaque().notSolid().pushDestroys().replaceable().build()).tickRandomly().hardnessAndResistance(0.1F).setRequiresTool().sound(SoundType.SNOW)));
 	public static final RegistryObject<Block> LIGHT_SHAVINGS = BLOCKS.register("light_shavings",
@@ -82,58 +82,58 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> SOILED_SHAVINGS = BLOCKS.register("soiled_shavings",
 			() -> new Shavings(AbstractBlock.Properties.create(new Material.Builder(MaterialColor.SNOW).doesNotBlockMovement().notOpaque().notSolid().pushDestroys().replaceable().build()).tickRandomly().hardnessAndResistance(0.1F).setRequiresTool().sound(SoundType.SNOW)));
 	public static final RegistryObject<Block> BLEACHER_SLAB = BLOCKS.register("bleacher",
-			() -> new BleacherBase(Block.Properties.create(Material.IRON)));
+			() -> new BleacherBase(AbstractBlock.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> BLEACHER_WIREFRAME = BLOCKS.register("bleacher_wireframe",
-			() -> new BleacherWireframeBase(Block.Properties.create(Material.IRON)));
+			() -> new BleacherWireframeBase(AbstractBlock.Properties.create(Material.IRON)));
 	public static final RegistryObject<Block> WESTERN_HITCHING_POST = BLOCKS.register("western_hitching_post",
-			() -> new HitchingPostBase(HitchingPostBase.HitchingPostType.WESTERN, Block.Properties.create(Material.WOOD)));
+			() -> new HitchingPostBase(HitchingPostBase.HitchingPostType.WESTERN, AbstractBlock.Properties.create(Material.WOOD)));
 	public static final RegistryObject<Block> ENGLISH_HITCHING_POST = BLOCKS.register("english_hitching_post",
-			() -> new HitchingPostBase(HitchingPostBase.HitchingPostType.ENGLISH, Block.Properties.create(Material.WOOD)));
+			() -> new HitchingPostBase(HitchingPostBase.HitchingPostType.ENGLISH, AbstractBlock.Properties.create(Material.WOOD)));
 	public static final RegistryObject<Block> PASTURE_HITCHING_POST = BLOCKS.register("pasture_hitching_post",
-			() -> new HitchingPostBase(HitchingPostBase.HitchingPostType.PASTURE, Block.Properties.create(Material.WOOD)));
+			() -> new HitchingPostBase(HitchingPostBase.HitchingPostType.PASTURE, AbstractBlock.Properties.create(Material.WOOD)));
 
 	public static final RegistryObject<Block> ENGLISH_HITCHING_POST_MINI = BLOCKS.register("english_hitching_post_mini",
-			() -> new HitchingPostBaseMini(HitchingPostBaseMini.HitchingPostType.ENGLISH, Block.Properties.create(Material.WOOD)));
+			() -> new HitchingPostBaseMini(HitchingPostBaseMini.HitchingPostType.ENGLISH, AbstractBlock.Properties.create(Material.WOOD)));
 	public static final RegistryObject<Block> WESTERN_HITCHING_POST_MINI = BLOCKS.register("western_hitching_post_mini",
-			() -> new HitchingPostBaseMini(HitchingPostBaseMini.HitchingPostType.ENGLISH, Block.Properties.create(Material.WOOD)));
+			() -> new HitchingPostBaseMini(HitchingPostBaseMini.HitchingPostType.ENGLISH, AbstractBlock.Properties.create(Material.WOOD)));
 	public static final RegistryObject<Block> PASTURE_HITCHING_POST_MINI = BLOCKS.register("pasture_hitching_post_mini",
-			() -> new HitchingPostBaseMini(HitchingPostBaseMini.HitchingPostType.ENGLISH, Block.Properties.create(Material.WOOD)));
+			() -> new HitchingPostBaseMini(HitchingPostBaseMini.HitchingPostType.ENGLISH, AbstractBlock.Properties.create(Material.WOOD)));
 
-	public static final RegistryObject<Block> HORSE_POO = BLOCKS.register("pile_of_horse_poo", () -> new HorsePoopBlock(Block.Properties.create(Material.ORGANIC)));
-	public static final RegistryObject<Block> WESTERN_POLE = BLOCKS.register("western_pole", () -> new WesternPoleBlock(Block.Properties.create(Material.WOOD)));
-	public static final RegistryObject<Block> INVISIBLE_GLOW_BLOCK = BLOCKS.register("invisible_glow_block", () -> new InvisibleGlowBlock(Block.Properties.create(Material.IRON)));
-	public static final RegistryObject<Block> WESTERN_FENCE = BLOCKS.register("western_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
-	public static final RegistryObject<Block> PASTURE_FENCE = BLOCKS.register("pasture_fence", () -> new FenceBaseBlock(Block.Properties.create(Material.IRON)));
-	public static final RegistryObject<Block> TACK_BOX = BLOCKS.register("tack_box", () -> new TackBoxBlock(Block.Properties.create(Material.IRON)));
-	public static final RegistryObject<HorseDoorBlock> ACACIA_STALL_HORSE = BLOCKS.register("acacia_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
-	public static final RegistryObject<HorseDoorBlock> BIRCH_STALL_HORSE = BLOCKS.register("birch_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
-	public static final RegistryObject<HorseDoorBlock> DARK_OAK_STALL_HORSE = BLOCKS.register("dark_oak_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
-	public static final RegistryObject<HorseDoorBlock> JUNGLE_STALL_HORSE = BLOCKS.register("jungle_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
-	public static final RegistryObject<HorseDoorBlock> OAK_STALL_HORSE = BLOCKS.register("oak_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
-	public static final RegistryObject<HorseDoorBlock> SPRUCE_STALL_HORSE = BLOCKS.register("spruce_stall_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
-	public static final RegistryObject<CareDoorBlock> ACACIA_STALL_CARE = BLOCKS.register("acacia_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
-	public static final RegistryObject<CareDoorBlock> BIRCH_STALL_CARE = BLOCKS.register("birch_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
-	public static final RegistryObject<CareDoorBlock> DARK_OAK_STALL_CARE = BLOCKS.register("dark_oak_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
-	public static final RegistryObject<CareDoorBlock> JUNGLE_STALL_CARE = BLOCKS.register("jungle_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
-	public static final RegistryObject<CareDoorBlock> OAK_STALL_CARE = BLOCKS.register("oak_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
-	public static final RegistryObject<CareDoorBlock> SPRUCE_STALL_CARE = BLOCKS.register("spruce_stall_care", () -> new CareDoorBlock(Block.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
-	public static final RegistryObject<Block> ONE_SADDLE_RACK = BLOCKS.register("one_saddle_rack", () -> new OneSaddleRack(Block.Properties.create(Material.IRON).notSolid()));
-	public static final RegistryObject<Block> BRIDLE_RACK = BLOCKS.register("bridle_rack", () -> new BridleRackBlock(Block.Properties.create(Material.IRON).notSolid()));
-	public static final RegistryObject<Block> METAL_GRATE = BLOCKS.register("metal_grate", () -> new TrapDoorBlock(Block.Properties.create(Material.WOOD).notSolid()));
-	public static final RegistryObject<Block> LIGHT_FRIENDLY_BARS = BLOCKS.register("light_friendly_bars", () -> new PaneBlock(Block.Properties.create(Material.IRON).notSolid()));
-	public static final RegistryObject<Block> MEDIUM_FRIENDLY_BARS = BLOCKS.register("medium_friendly_bars", () -> new PaneBlock(Block.Properties.create(Material.IRON).notSolid()));
-	public static final RegistryObject<Block> DARK_FRIENDLY_BARS = BLOCKS.register("dark_friendly_bars", () -> new PaneBlock(Block.Properties.create(Material.IRON).notSolid()));
-	public static final RegistryObject<NonParallelBlock> WATER_TROUGH = BLOCKS.register("water_trough", () -> new WaterThroughBlock(Block.Properties.create(Material.IRON), DyeColor.BLACK));
-	public static final RegistryObject<Block> WET_COMPOST = BLOCKS.register("wet_compost", () -> new Block(Block.Properties.create(Material.ORGANIC)));
-	public static final RegistryObject<Block> COMPOST = BLOCKS.register("compost", () -> new Block(Block.Properties.create(Material.ORGANIC)));
-	public static final RegistryObject<Block> HORSE_PEE = BLOCKS.register("horse_pee", () -> new PeeBlock(Block.Properties.create(Material.ORGANIC).notSolid().setAllowsSpawn(Blocks::neverAllowSpawn).setOpaque(Blocks::isntSolid).setSuffocates(Blocks::isntSolid).setBlocksVision(Blocks::isntSolid)));
-	public static final RegistryObject<Block> CANTAZARITE_ANVIL = BLOCKS.register("cantazarite_anvil", () -> new CantazariteAnvilBlock(Block.Properties.from(Blocks.ANVIL).notSolid()));
+	public static final RegistryObject<Block> HORSE_POO = BLOCKS.register("pile_of_horse_poo", () -> new HorsePoopBlock(AbstractBlock.Properties.create(Material.ORGANIC)));
+	public static final RegistryObject<Block> WESTERN_POLE = BLOCKS.register("western_pole", () -> new WesternPoleBlock(AbstractBlock.Properties.create(Material.WOOD)));
+	public static final RegistryObject<Block> INVISIBLE_GLOW_BLOCK = BLOCKS.register("invisible_glow_block", () -> new InvisibleGlowBlock(AbstractBlock.Properties.create(Material.IRON)));
+	public static final RegistryObject<Block> WESTERN_FENCE = BLOCKS.register("western_fence", () -> new FenceBaseBlock(AbstractBlock.Properties.create(Material.IRON)));
+	public static final RegistryObject<Block> PASTURE_FENCE = BLOCKS.register("pasture_fence", () -> new FenceBaseBlock(AbstractBlock.Properties.create(Material.IRON)));
+	public static final RegistryObject<Block> TACK_BOX = BLOCKS.register("tack_box", () -> new TackBoxBlock(AbstractBlock.Properties.create(Material.IRON)));
+	public static final RegistryObject<HorseDoorBlock> ACACIA_STALL_HORSE = BLOCKS.register("acacia_stall_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
+	public static final RegistryObject<HorseDoorBlock> BIRCH_STALL_HORSE = BLOCKS.register("birch_stall_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
+	public static final RegistryObject<HorseDoorBlock> DARK_OAK_STALL_HORSE = BLOCKS.register("dark_oak_stall_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
+	public static final RegistryObject<HorseDoorBlock> JUNGLE_STALL_HORSE = BLOCKS.register("jungle_stall_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
+	public static final RegistryObject<HorseDoorBlock> OAK_STALL_HORSE = BLOCKS.register("oak_stall_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
+	public static final RegistryObject<HorseDoorBlock> SPRUCE_STALL_HORSE = BLOCKS.register("spruce_stall_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
+	public static final RegistryObject<CareDoorBlock> ACACIA_STALL_CARE = BLOCKS.register("acacia_stall_care", () -> new CareDoorBlock(AbstractBlock.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
+	public static final RegistryObject<CareDoorBlock> BIRCH_STALL_CARE = BLOCKS.register("birch_stall_care", () -> new CareDoorBlock(AbstractBlock.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
+	public static final RegistryObject<CareDoorBlock> DARK_OAK_STALL_CARE = BLOCKS.register("dark_oak_stall_care", () -> new CareDoorBlock(AbstractBlock.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
+	public static final RegistryObject<CareDoorBlock> JUNGLE_STALL_CARE = BLOCKS.register("jungle_stall_care", () -> new CareDoorBlock(AbstractBlock.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
+	public static final RegistryObject<CareDoorBlock> OAK_STALL_CARE = BLOCKS.register("oak_stall_care", () -> new CareDoorBlock(AbstractBlock.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
+	public static final RegistryObject<CareDoorBlock> SPRUCE_STALL_CARE = BLOCKS.register("spruce_stall_care", () -> new CareDoorBlock(AbstractBlock.Properties.create(Material.WOOD).notSolid().hardnessAndResistance(1.0f), DyeColor.BLACK));
+	public static final RegistryObject<Block> ONE_SADDLE_RACK = BLOCKS.register("one_saddle_rack", () -> new OneSaddleRack(AbstractBlock.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<Block> BRIDLE_RACK = BLOCKS.register("bridle_rack", () -> new BridleRackBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<Block> METAL_GRATE = BLOCKS.register("metal_grate", () -> new TrapDoorBlock(AbstractBlock.Properties.create(Material.WOOD).notSolid()));
+	public static final RegistryObject<Block> LIGHT_FRIENDLY_BARS = BLOCKS.register("light_friendly_bars", () -> new PaneBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<Block> MEDIUM_FRIENDLY_BARS = BLOCKS.register("medium_friendly_bars", () -> new PaneBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<Block> DARK_FRIENDLY_BARS = BLOCKS.register("dark_friendly_bars", () -> new PaneBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<NonParallelBlock> WATER_TROUGH = BLOCKS.register("water_trough", () -> new WaterThroughBlock(AbstractBlock.Properties.create(Material.IRON), DyeColor.BLACK));
+	public static final RegistryObject<Block> WET_COMPOST = BLOCKS.register("wet_compost", () -> new Block(AbstractBlock.Properties.create(Material.ORGANIC)));
+	public static final RegistryObject<Block> COMPOST = BLOCKS.register("compost", () -> new Block(AbstractBlock.Properties.create(Material.ORGANIC)));
+	public static final RegistryObject<Block> HORSE_PEE = BLOCKS.register("horse_pee", () -> new PeeBlock(AbstractBlock.Properties.create(Material.ORGANIC).notSolid().setAllowsSpawn(Blocks::neverAllowSpawn).setOpaque(Blocks::isntSolid).setSuffocates(Blocks::isntSolid).setBlocksVision(Blocks::isntSolid)));
+	public static final RegistryObject<Block> CANTAZARITE_ANVIL = BLOCKS.register("cantazarite_anvil", () -> new CantazariteAnvilBlock(AbstractBlock.Properties.from(Blocks.ANVIL).notSolid()));
 	public static final RegistryObject<Block> TEARING_MAGMA = BLOCKS.register("tearing_magma", () -> new TearingMagma(AbstractBlock.Properties.create(Material.ROCK, MaterialColor.NETHERRACK).setRequiresTool().notSolid().tickRandomly()));
 	public static final RegistryObject<Block> GLOW_STRING = BLOCKS.register("glow_string", () -> new GlowTripwireBlock((TripWireHookBlock)TRIPWIRE_HOOK, AbstractBlock.Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement()));
-	public static final RegistryObject<Block> LOCKER = BLOCKS.register("locker", () -> new LockerBlock(Block.Properties.create(Material.IRON)));
-	public static final RegistryObject<Block> PADDOCK_FEEDER = BLOCKS.register("paddock_feeder", () -> new PaddockFeederBlock(Block.Properties.create(Material.WOOD)));
-	public static final RegistryObject<Block> HORSE_ARMOR_RACK = BLOCKS.register("horse_armor_rack", () -> new HorseArmorRackBlock(Block.Properties.create(Material.IRON).notSolid()));
-	public static final RegistryObject<Block> WESTERN_BARREL = register("western_barrel", () -> new BarrelBlock(Block.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<Block> LOCKER = BLOCKS.register("locker", () -> new LockerBlock(AbstractBlock.Properties.create(Material.IRON)));
+	public static final RegistryObject<Block> PADDOCK_FEEDER = BLOCKS.register("paddock_feeder", () -> new PaddockFeederBlock(AbstractBlock.Properties.create(Material.WOOD)));
+	public static final RegistryObject<Block> HORSE_ARMOR_RACK = BLOCKS.register("horse_armor_rack", () -> new HorseArmorRackBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
+	public static final RegistryObject<Block> WESTERN_BARREL = register("western_barrel", () -> new BarrelBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
 
     // Jump blocks
 	public static final RegistryObject<Block> JUMP_CONTROLLER = BLOCKS.register("jump_controller", () -> new JumpControllerBlock(AbstractBlock.Properties.create(Material.IRON).notSolid()));
@@ -207,23 +207,23 @@ public class SWEMBlocks {
 
 
 			CONES.add(register(color.toString()+"_cone", ConeBase::new, block -> () -> new ConeBlockItem(block.get())));
-			WHEEL_BARROWS.add(register("wheel_barrow_"+color.toString(), () -> new WheelBarrowBlock(Block.Properties.create(Material.IRON).notSolid(), color),
+			WHEEL_BARROWS.add(register("wheel_barrow_"+color.toString(), () -> new WheelBarrowBlock(AbstractBlock.Properties.create(Material.IRON).notSolid(), color),
 					 block -> () -> new BlockItemBase(block.get())));
-			SLOW_FEEDERS.add(register("slow_feeder_"+color.toString(), () -> new SlowFeederBlock(Block.Properties.create(Material.IRON), color),
+			SLOW_FEEDERS.add(register("slow_feeder_"+color.toString(), () -> new SlowFeederBlock(AbstractBlock.Properties.create(Material.IRON), color),
 					block -> () -> new BlockItemBase(block.get())));
-			SEPARATORS.add(register("separator_"+color.toString(), () -> new NonParallelBlock(Block.Properties.create(Material.IRON), color),
+			SEPARATORS.add(register("separator_"+color.toString(), () -> new NonParallelBlock(AbstractBlock.Properties.create(Material.IRON), color),
 					block -> () -> new BlockItemBase(block.get())));
-			GRAIN_FEEDERS.add(register("grain_feeder_"+color.toString(), () -> new GrainFeederBlock(Block.Properties.create(Material.IRON), color),
+			GRAIN_FEEDERS.add(register("grain_feeder_"+color.toString(), () -> new GrainFeederBlock(AbstractBlock.Properties.create(Material.IRON), color),
 					block -> () -> new BlockItemBase(block.get())));
-			PASTURE_GATES_HORSE.add(register("pasture_"+color.toString() + "_horse", () -> new HorseDoorBlock(Block.Properties.create(Material.IRON).notSolid().hardnessAndResistance(1.0f), color),
+			PASTURE_GATES_HORSE.add(register("pasture_"+color.toString() + "_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.create(Material.IRON).notSolid().hardnessAndResistance(1.0f), color),
 					block -> () -> new BlockItemBase(block.get())));
-			PASTURE_GATES_CARE.add(register("pasture_"+color.toString() + "_care", () -> new CareDoorBlock(Block.Properties.create(Material.IRON).notSolid().hardnessAndResistance(1.0f), color),
+			PASTURE_GATES_CARE.add(register("pasture_"+color.toString() + "_care", () -> new CareDoorBlock(AbstractBlock.Properties.create(Material.IRON).notSolid().hardnessAndResistance(1.0f), color),
 					block -> () -> new BlockItemBase(block.get())));
-			WEB_GUARDS_CARE.add(register("web_guard_"+color.toString() + "_care", () -> new HalfCareDoorBlock(Block.Properties.create(Material.IRON).notSolid().hardnessAndResistance(1.0f), color),
+			WEB_GUARDS_CARE.add(register("web_guard_"+color.toString() + "_care", () -> new HalfCareDoorBlock(AbstractBlock.Properties.create(Material.IRON).notSolid().hardnessAndResistance(1.0f), color),
 					block -> () -> new BlockItemBase(block.get())));
-			WEB_GUARDS_HORSE.add(register("web_guard_"+color.toString() + "_horse", () -> new HalfHorseDoorBlock(Block.Properties.create(Material.IRON).notSolid().hardnessAndResistance(1.0f), color),
+			WEB_GUARDS_HORSE.add(register("web_guard_"+color.toString() + "_horse", () -> new HalfHorseDoorBlock(AbstractBlock.Properties.create(Material.IRON).notSolid().hardnessAndResistance(1.0f), color),
 					block -> () -> new BlockItemBase(block.get())));
-			WEB_GUARDS_RIDER.add(register("web_guard_"+color.toString() + "_rider", () -> new HalfDoorBlock(Block.Properties.create(Material.IRON).notSolid().hardnessAndResistance(1.0f)),
+			WEB_GUARDS_RIDER.add(register("web_guard_"+color.toString() + "_rider", () -> new HalfDoorBlock(AbstractBlock.Properties.create(Material.IRON).notSolid().hardnessAndResistance(1.0f)),
 					block -> () -> new BlockItemBase(block.get())));
 			HALF_BARRELS.add(register("half_barrel_"+color.getTranslationKey(), () -> new HalfBarrelBlock(Block.Properties.create(Material.IRON).notSolid()),
 					block -> () -> new BlockItemBase(block.get())));

@@ -6,6 +6,8 @@ import net.minecraft.util.ResourceLocation;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import net.minecraft.item.Item.Properties;
+
 public class BridleItem extends HalterItem {
 
 	private ResourceLocation modelTexture;

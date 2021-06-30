@@ -13,6 +13,8 @@ import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class JumpStandardBlock extends HorizontalBlock {
 
 	public static final EnumProperty<SWEMBlockStateProperties.TripleBlockSide> STANDARD_PIECE = SWEMBlockStateProperties.T_SIDE;

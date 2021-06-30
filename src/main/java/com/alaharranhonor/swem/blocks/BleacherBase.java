@@ -19,6 +19,8 @@ import net.minecraft.world.World;
 import java.util.stream.Stream;
 
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class BleacherBase extends SlabBlock {
 
 	private VoxelShape BOTTOM_SHAPE_TOP_BLEACHER = Stream.of(

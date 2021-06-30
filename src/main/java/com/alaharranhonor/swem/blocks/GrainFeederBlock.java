@@ -16,6 +16,8 @@ import net.minecraft.world.IWorldReader;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class GrainFeederBlock extends HorizontalBlock {
 
 	public static final BooleanProperty LEFT = SWEMBlockStateProperties.CONNECTED_LEFT;

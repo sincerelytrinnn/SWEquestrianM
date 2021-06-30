@@ -11,6 +11,8 @@ import java.util.List;
 
 import static com.alaharranhonor.swem.blocks.SWEMBlockStateProperties.*;
 
+import com.alaharranhonor.swem.blocks.SWEMBlockStateProperties.TripleBlockSide;
+
 public enum JumpLayer {
 
 	AIR(Blocks.AIR.getDefaultState(), 1,1, 5, false, new ArrayList<>()),

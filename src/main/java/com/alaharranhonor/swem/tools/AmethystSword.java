@@ -6,6 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.util.math.MathHelper;
 
+import net.minecraft.item.Item.Properties;
+
 public class AmethystSword extends SwordItem {
 	public AmethystSword(IItemTier tier, int attackDamageIn, float attackSpeedIn, Properties builderIn) {
 		super(tier, attackDamageIn, attackSpeedIn, builderIn);

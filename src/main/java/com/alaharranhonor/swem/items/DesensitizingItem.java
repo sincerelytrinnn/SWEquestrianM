@@ -24,23 +24,23 @@ public class DesensitizingItem extends ItemBase {
 			switch (this.id) {
 				case 0: {
 					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(1, horse.getEntityId()));
-					return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+					return ActionResultType.sidedSuccess(playerIn.world.isRemote);
 				}
 				case 1: {
 					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(2, horse.getEntityId()));
-					return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+					return ActionResultType.sidedSuccess(playerIn.world.isRemote);
 				}
 				case 2: {
 					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(3, horse.getEntityId()));
-					return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+					return ActionResultType.sidedSuccess(playerIn.world.isRemote);
 				}
 				case 3: {
 					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(4, horse.getEntityId()));
-					return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+					return ActionResultType.sidedSuccess(playerIn.world.isRemote);
 				}
 				case 4: {
 					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(5, horse.getEntityId()));
-					return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+					return ActionResultType.sidedSuccess(playerIn.world.isRemote);
 				}
 			}
 		}

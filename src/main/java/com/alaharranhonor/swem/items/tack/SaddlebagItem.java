@@ -28,14 +28,14 @@ public class SaddlebagItem extends ItemBase implements IAnimatable {
 	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (target instanceof ISWEMEquipable && target.isAlive()) {
 			ISWEMEquipable iequipable = (ISWEMEquipable)target;
-			if (iequipable.func_230264_L__()) {
+			if (iequipable.isSaddleable()) {
 				if (!playerIn.world.isRemote) {
-					iequipable.func_230266_a_(SoundCategory.NEUTRAL, stack);
+					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack);
 					if (!playerIn.abilities.isCreativeMode)
 						stack.shrink(1);
 				}
 
-				return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+				return ActionResultType.sidedSuccess(playerIn.world.isRemote);
 			}
 		}
 		return ActionResultType.PASS;

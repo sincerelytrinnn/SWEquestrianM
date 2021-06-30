@@ -14,7 +14,7 @@ public class AddLayerButton extends Button {
 		this.screen = screen;
 	}
 
-	private static class AddPressable implements AddLayerButton.IPressable {
+	private static class AddPressable implements Button.IPressable {
 
 		@Override
 		public void onPress(Button p_onPress_1_) {

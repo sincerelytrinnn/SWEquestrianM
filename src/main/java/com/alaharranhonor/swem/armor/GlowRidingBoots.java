@@ -17,6 +17,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 
+import net.minecraft.item.Item.Properties;
+
 public class GlowRidingBoots extends LeatherRidingBoots {
 	public GlowRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
 		super(path, materialIn, slot, builderIn);

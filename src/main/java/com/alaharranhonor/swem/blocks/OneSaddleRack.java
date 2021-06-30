@@ -30,6 +30,8 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class OneSaddleRack extends HorizontalBlock {
 
 	public OneSaddleRack(Properties properties) {
@@ -64,7 +66,7 @@ public class OneSaddleRack extends HorizontalBlock {
 						saddleCopy.setTag(tag);
 						rack.itemHandler.setStackInSlot(0, saddleCopy);
 						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
-						return ActionResultType.func_233537_a_(worldIn.isRemote);
+						return ActionResultType.sidedSuccess(worldIn.isRemote);
 					}
 				} else {
 					if (rack.itemHandler.getStackInSlot(0) != ItemStack.EMPTY) {
@@ -76,7 +78,7 @@ public class OneSaddleRack extends HorizontalBlock {
 
 						rack.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
 						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
-						return ActionResultType.func_233537_a_(worldIn.isRemote);
+						return ActionResultType.sidedSuccess(worldIn.isRemote);
 					}
 
 				}

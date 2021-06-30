@@ -25,6 +25,8 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class CantazariteAnvilBlock extends HorizontalBlock {
 
 	public CantazariteAnvilBlock(Properties properties) {

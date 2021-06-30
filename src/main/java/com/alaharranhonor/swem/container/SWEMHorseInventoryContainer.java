@@ -45,7 +45,7 @@ public class SWEMHorseInventoryContainer extends Container {
 			 */
 			@OnlyIn(Dist.CLIENT)
 			public boolean isEnabled() {
-				return horse.func_230276_fq_();
+				return horse.canWearArmor();
 			}
 
 			/**
@@ -74,7 +74,7 @@ public class SWEMHorseInventoryContainer extends Container {
 			  */
 			 @OnlyIn(Dist.CLIENT)
 			 public boolean isEnabled() {
-				 return horse.func_230276_fq_();
+				 return horse.canWearArmor();
 			 }
 
 			 /**
@@ -101,7 +101,7 @@ public class SWEMHorseInventoryContainer extends Container {
 			 */
 			@OnlyIn(Dist.CLIENT)
 			public boolean isEnabled() {
-				return horse.func_230276_fq_();
+				return horse.canWearArmor();
 			}
 
 			/**
@@ -150,7 +150,7 @@ public class SWEMHorseInventoryContainer extends Container {
 			 */
 			@OnlyIn(Dist.CLIENT)
 			public boolean isEnabled() {
-				return horse.func_230276_fq_();
+				return horse.canWearArmor();
 			}
 
 			/**
@@ -177,7 +177,7 @@ public class SWEMHorseInventoryContainer extends Container {
 			 */
 			@OnlyIn(Dist.CLIENT)
 			public boolean isEnabled() {
-				return horse.func_230276_fq_();
+				return horse.canWearArmor();
 			}
 
 			/**
@@ -204,7 +204,7 @@ public class SWEMHorseInventoryContainer extends Container {
 			 */
 			@OnlyIn(Dist.CLIENT)
 			public boolean isEnabled() {
-				return horse.func_230276_fq_();
+				return horse.canWearArmor();
 			}
 
 			/**
@@ -231,7 +231,7 @@ public class SWEMHorseInventoryContainer extends Container {
 			 */
 			@OnlyIn(Dist.CLIENT)
 			public boolean isEnabled() {
-				return horse.func_230276_fq_();
+				return horse.canWearArmor();
 			}
 
 			/**
@@ -259,7 +259,7 @@ public class SWEMHorseInventoryContainer extends Container {
 			 */
 			@OnlyIn(Dist.CLIENT)
 			public boolean isEnabled() {
-				return horse.func_230276_fq_();
+				return horse.canWearArmor();
 			}
 
 			/**

@@ -16,6 +16,8 @@ import net.minecraft.world.IWorld;
 import javax.annotation.Nullable;
 
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class NonParallelBlock extends HorizontalBlock {
 
 	public static final EnumProperty<SWEMBlockStateProperties.TwoWay> PART = SWEMBlockStateProperties.TWO_WAY;

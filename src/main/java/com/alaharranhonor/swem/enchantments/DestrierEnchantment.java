@@ -12,6 +12,8 @@ import net.minecraft.util.DamageSource;
 import java.util.Map;
 import java.util.Random;
 
+import net.minecraft.enchantment.Enchantment.Rarity;
+
 public class DestrierEnchantment extends Enchantment {
 	public DestrierEnchantment(Rarity rarityIn, EnchantmentType typeIn, EquipmentSlotType[] slots) {
 		super(rarityIn, typeIn, slots);

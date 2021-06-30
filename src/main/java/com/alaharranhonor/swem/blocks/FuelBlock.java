@@ -9,9 +9,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.ToolType;
 
+import net.minecraft.block.AbstractBlock;
+
 public class FuelBlock extends Block {
     public FuelBlock() {
-        super(Block.Properties.create(Material.IRON)
+        super(AbstractBlock.Properties.create(Material.IRON)
                 .hardnessAndResistance(2.0f, 6.0f)
                 .sound(SoundType.STONE)
                 .harvestLevel(1)

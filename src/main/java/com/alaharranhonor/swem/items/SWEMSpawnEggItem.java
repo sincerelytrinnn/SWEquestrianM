@@ -16,6 +16,8 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 public class SWEMSpawnEggItem extends SpawnEggItem {
 	protected static final List<SWEMSpawnEggItem> UNADDED_EGGS = new ArrayList<>();
 

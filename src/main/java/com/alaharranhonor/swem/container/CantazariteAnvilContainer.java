@@ -36,36 +36,36 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 		this.trackInt(this.maximumCost);
 	}
 
-	protected boolean func_230302_a_(BlockState p_230302_1_) {
+	protected boolean isValidBlock(BlockState p_230302_1_) {
 		return p_230302_1_.isIn(BlockTags.ANVIL);
 	}
 
-	protected boolean func_230303_b_(PlayerEntity p_230303_1_, boolean p_230303_2_) {
+	protected boolean mayPickup(PlayerEntity p_230303_1_, boolean p_230303_2_) {
 		return (p_230303_1_.abilities.isCreativeMode || p_230303_1_.experienceLevel >= this.maximumCost.get());
 	}
 
-	protected ItemStack func_230301_a_(PlayerEntity p_230301_1_, ItemStack p_230301_2_) {
-		if (!p_230301_1_.abilities.isCreativeMode && !(this.field_234643_d_.getStackInSlot(0).getItem() instanceof SWEMArmorItem)) {
+	protected ItemStack onTake(PlayerEntity p_230301_1_, ItemStack p_230301_2_) {
+		if (!p_230301_1_.abilities.isCreativeMode && !(this.inputSlots.getStackInSlot(0).getItem() instanceof SWEMArmorItem)) {
 			p_230301_1_.addExperienceLevel(-this.maximumCost.get());
 		}
 
-		net.minecraftforge.common.ForgeHooks.onAnvilRepair(p_230301_1_, p_230301_2_, this.field_234643_d_.getStackInSlot(0), this.field_234643_d_.getStackInSlot(1));
+		net.minecraftforge.common.ForgeHooks.onAnvilRepair(p_230301_1_, p_230301_2_, this.inputSlots.getStackInSlot(0), this.inputSlots.getStackInSlot(1));
 
-		this.field_234643_d_.setInventorySlotContents(0, ItemStack.EMPTY);
+		this.inputSlots.setInventorySlotContents(0, ItemStack.EMPTY);
 		if (this.materialCost > 0) {
-			ItemStack itemstack = this.field_234643_d_.getStackInSlot(1);
+			ItemStack itemstack = this.inputSlots.getStackInSlot(1);
 			if (!itemstack.isEmpty() && itemstack.getCount() > this.materialCost) {
 				itemstack.shrink(this.materialCost);
-				this.field_234643_d_.setInventorySlotContents(1, itemstack);
+				this.inputSlots.setInventorySlotContents(1, itemstack);
 			} else {
-				this.field_234643_d_.setInventorySlotContents(1, ItemStack.EMPTY);
+				this.inputSlots.setInventorySlotContents(1, ItemStack.EMPTY);
 			}
 		} else {
-			this.field_234643_d_.setInventorySlotContents(1, ItemStack.EMPTY);
+			this.inputSlots.setInventorySlotContents(1, ItemStack.EMPTY);
 		}
 
 		this.maximumCost.set(0);
-		this.field_234644_e_.consume((p_234633_1_, p_234633_2_) -> {
+		this.access.consume((p_234633_1_, p_234633_2_) -> {
 				p_234633_1_.playEvent(1030, p_234633_2_, 0);
 		});
 
@@ -77,17 +77,17 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 	 * called when the Anvil Input Slot changes, calculates the new result and puts it in the output slot
 	 */
 	public void updateRepairOutput() {
-		ItemStack itemstack = this.field_234643_d_.getStackInSlot(0);
+		ItemStack itemstack = this.inputSlots.getStackInSlot(0);
 		this.maximumCost.set(1);
 		int i = 0;
 		int j = 0;
 		int k = 0;
 		if (itemstack.isEmpty()) {
-			this.field_234642_c_.setInventorySlotContents(0, ItemStack.EMPTY);
+			this.resultSlots.setInventorySlotContents(0, ItemStack.EMPTY);
 			this.maximumCost.set(0);
 		} else {
 			ItemStack itemstack1 = itemstack.copy();
-			ItemStack itemstack2 = this.field_234643_d_.getStackInSlot(1);
+			ItemStack itemstack2 = this.inputSlots.getStackInSlot(1);
 			Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(itemstack1);
 			j = j + itemstack.getRepairCost() + (itemstack2.isEmpty() ? 0 : itemstack2.getRepairCost());
 			this.materialCost = 0;
@@ -98,7 +98,7 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 				if (itemstack1.isDamageable() && itemstack1.getItem().getIsRepairable(itemstack, itemstack2)) {
 					int l2 = Math.min(itemstack1.getDamage(), itemstack1.getMaxDamage() / 4);
 					if (l2 <= 0) {
-						this.field_234642_c_.setInventorySlotContents(0, ItemStack.EMPTY);
+						this.resultSlots.setInventorySlotContents(0, ItemStack.EMPTY);
 						this.maximumCost.set(0);
 						return;
 					}
@@ -114,7 +114,7 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 					this.materialCost = i3;
 				} else {
 					if (!flag && (itemstack1.getItem() != itemstack2.getItem() || !itemstack1.isDamageable())) {
-						this.field_234642_c_.setInventorySlotContents(0, ItemStack.EMPTY);
+						this.resultSlots.setInventorySlotContents(0, ItemStack.EMPTY);
 						this.maximumCost.set(0);
 						return;
 					}
@@ -145,7 +145,7 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 							int j2 = map1.get(enchantment1);
 							j2 = i2 == j2 ? j2 + 1 : Math.max(j2, i2);
 							boolean flag1 = enchantment1.canApply(itemstack);
-							if (this.field_234645_f_.abilities.isCreativeMode || itemstack.getItem() == Items.ENCHANTED_BOOK) {
+							if (this.player.abilities.isCreativeMode || itemstack.getItem() == Items.ENCHANTED_BOOK) {
 								flag1 = true;
 							}
 
@@ -193,7 +193,7 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 					}
 
 					if (flag3 && !flag2) {
-						this.field_234642_c_.setInventorySlotContents(0, ItemStack.EMPTY);
+						this.resultSlots.setInventorySlotContents(0, ItemStack.EMPTY);
 						this.maximumCost.set(0);
 						return;
 					}
@@ -222,7 +222,7 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 				this.maximumCost.set(39);
 			}
 
-			if (this.maximumCost.get() >= 40 && !this.field_234645_f_.abilities.isCreativeMode) {
+			if (this.maximumCost.get() >= 40 && !this.player.abilities.isCreativeMode) {
 				itemstack1 = ItemStack.EMPTY;
 			}
 
@@ -240,7 +240,7 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 				EnchantmentHelper.setEnchantments(map, itemstack1);
 			}
 
-			this.field_234642_c_.setInventorySlotContents(0, itemstack1);
+			this.resultSlots.setInventorySlotContents(0, itemstack1);
 			this.detectAndSendChanges();
 		}
 	}

@@ -27,6 +27,8 @@ import javax.annotation.Nullable;
 
 import static com.alaharranhonor.swem.util.initialization.SWEMBlocks.WET_COMPOST_ITEM;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class WheelBarrowBlock extends HorizontalBlock {
 
 	public static final IntegerProperty LEVEL = IntegerProperty.create("level", 0, 4);

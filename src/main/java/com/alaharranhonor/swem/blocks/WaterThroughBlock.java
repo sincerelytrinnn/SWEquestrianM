@@ -12,6 +12,8 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class WaterThroughBlock extends NonParallelBlock {
 	public static final IntegerProperty LEVEL = SWEMBlockStateProperties.LEVEL_0_12;
 	public WaterThroughBlock(Properties properties, DyeColor colour) {

@@ -21,6 +21,8 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class SlowFeederBlock extends Block {
 
 	public static final BooleanProperty NORTH = SixWayBlock.NORTH;
@@ -70,7 +72,7 @@ public class SlowFeederBlock extends Block {
 			if (item == SWEMBlocks.QUALITY_BALE_ITEM.get() && level_vanilla == 0) {
 				if (level_swem == 0) {
 					this.setHayLevel(worldIn, pos, state, LEVEL, 2);
-					return ActionResultType.func_233537_a_(worldIn.isRemote);
+					return ActionResultType.sidedSuccess(worldIn.isRemote);
 				} else {
 					return ActionResultType.PASS;
 				}
@@ -78,7 +80,7 @@ public class SlowFeederBlock extends Block {
 			} else if (item == Items.HAY_BLOCK && level_swem == 0) {
 				if (level_vanilla == 0) {
 					this.setHayLevel(worldIn, pos, state, LEVEL_VANILLA, 2);
-					return ActionResultType.func_233537_a_(worldIn.isRemote);
+					return ActionResultType.sidedSuccess(worldIn.isRemote);
 				} else {
 					return ActionResultType.PASS;
 				}

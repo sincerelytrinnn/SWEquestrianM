@@ -37,7 +37,7 @@ public class BonemealBlockItem extends BlockItemBase {
 				world.playEvent(2005, blockpos, 0);
 			}
 
-			return ActionResultType.func_233537_a_(world.isRemote);
+			return ActionResultType.sidedSuccess(world.isRemote);
 		} else {
 			BlockState blockstate = world.getBlockState(blockpos);
 			boolean flag = blockstate.isSolidSide(world, blockpos, context.getFace());
@@ -46,7 +46,7 @@ public class BonemealBlockItem extends BlockItemBase {
 					world.playEvent(2005, blockpos1, 0);
 				}
 
-				return ActionResultType.func_233537_a_(world.isRemote);
+				return ActionResultType.sidedSuccess(world.isRemote);
 			} else {
 				return super.onItemUse(context);
 			}
@@ -99,7 +99,7 @@ public class BonemealBlockItem extends BlockItemBase {
 						}
 					}
 
-					Optional<RegistryKey<Biome>> optional = worldIn.func_242406_i(blockpos);
+					Optional<RegistryKey<Biome>> optional = worldIn.getBiomeName(blockpos);
 					if (Objects.equals(optional, Optional.of(Biomes.WARM_OCEAN)) || Objects.equals(optional, Optional.of(Biomes.DEEP_WARM_OCEAN))) {
 						if (i == 0 && side != null && side.getAxis().isHorizontal()) {
 							blockstate = BlockTags.WALL_CORALS.getRandomElement(worldIn.rand).getDefaultState().with(DeadCoralWallFanBlock.FACING, side);

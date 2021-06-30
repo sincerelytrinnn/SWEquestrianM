@@ -14,6 +14,8 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class FenceBaseBlock extends FourWayBlock {
 
 	private final VoxelShape[] renderShapes;

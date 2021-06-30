@@ -14,6 +14,8 @@ import net.minecraft.world.IBlockReader;
 
 import java.util.stream.Stream;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class HorsePoopBlock extends HorizontalBlock {
 	public HorsePoopBlock(Properties properties) {
 		super(properties);

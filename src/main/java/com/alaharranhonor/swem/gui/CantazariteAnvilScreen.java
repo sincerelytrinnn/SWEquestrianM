@@ -20,7 +20,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 
 public class CantazariteAnvilScreen extends AbstractRepairScreen<CantazariteAnvilContainer> {
 	private static final ResourceLocation ANVIL_RESOURCE = new ResourceLocation(SWEM.MOD_ID, "textures/gui/container/cantazarite_anvil.png");
-	private static final ITextComponent field_243333_B = new TranslationTextComponent("swem.container.anvil");
+	private static final ITextComponent TOO_EXPENSIVE_TEXT = new TranslationTextComponent("swem.container.anvil");
 	private TextFieldWidget nameField;
 
 	public CantazariteAnvilScreen(CantazariteAnvilContainer container, PlayerInventory playerInventory, ITextComponent title) {
@@ -83,7 +83,7 @@ public class CantazariteAnvilScreen extends AbstractRepairScreen<CantazariteAnvi
 			int j = 8453920;
 			ITextComponent itextcomponent;
 			if (i >= 40 && !this.minecraft.player.abilities.isCreativeMode) {
-				itextcomponent = field_243333_B;
+				itextcomponent = TOO_EXPENSIVE_TEXT;
 				j = 16736352;
 			} else if (!this.container.getSlot(2).getHasStack()) {
 				itextcomponent = null;

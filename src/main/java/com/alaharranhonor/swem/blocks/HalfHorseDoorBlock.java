@@ -104,7 +104,7 @@ public class HalfHorseDoorBlock extends Block {
 		if (hinge == DoorHingeSide.LEFT) {
 			// Check right
 			ArrayList<Boolean> blockChecks = new ArrayList<>();
-			BlockPos.getAllInBox(blockpos, blockpos.func_241872_a(direction.getAxis(), 1)).forEach(blockPos1 -> {
+			BlockPos.getAllInBox(blockpos, blockpos.relative(direction.getAxis(), 1)).forEach(blockPos1 -> {
 				blockChecks.add(context.getWorld().getBlockState(blockPos1).isReplaceable(context));
 			});
 
@@ -119,7 +119,7 @@ public class HalfHorseDoorBlock extends Block {
 		} else {
 			// Check right.
 			ArrayList<Boolean> blockChecks = new ArrayList<>();
-			BlockPos.getAllInBox(blockpos, blockpos.func_241872_a(direction.getAxis(), -1)).forEach(blockPos1 -> {
+			BlockPos.getAllInBox(blockpos, blockpos.relative(direction.getAxis(), -1)).forEach(blockPos1 -> {
 				blockChecks.add(context.getWorld().getBlockState(blockPos1).isReplaceable(context));
 			});
 
@@ -275,7 +275,7 @@ public class HalfHorseDoorBlock extends Block {
 				return ActionResultType.FAIL;
 			}
 		}
-		return ActionResultType.func_233537_a_(worldIn.isRemote);
+		return ActionResultType.sidedSuccess(worldIn.isRemote);
 	}
 
 	public boolean isOpen(BlockState state) {

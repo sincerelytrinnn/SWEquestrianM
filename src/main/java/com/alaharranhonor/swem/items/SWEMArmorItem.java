@@ -10,6 +10,8 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.item.GeoArmorItem;
 
+import net.minecraft.item.Item.Properties;
+
 public class SWEMArmorItem extends GeoArmorItem implements IAnimatable {
 
 	private AnimationFactory factory = new AnimationFactory(this);

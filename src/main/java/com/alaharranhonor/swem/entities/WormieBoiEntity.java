@@ -32,7 +32,7 @@ public class WormieBoiEntity extends SheepEntity implements IAnimatable {
 
 	public static AttributeModifierMap.MutableAttribute setCustomAttributes()
 	{
-		return MobEntity.func_233666_p_()
+		return MobEntity.createMobAttributes()
 				.createMutableAttribute(Attributes.MAX_HEALTH, 8.0D)
 				.createMutableAttribute(Attributes.MOVEMENT_SPEED, (double) 0.15f);
 	}

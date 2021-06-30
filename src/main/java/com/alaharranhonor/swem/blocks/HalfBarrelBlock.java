@@ -26,6 +26,8 @@ import net.minecraft.world.World;
 
 import java.util.stream.Stream;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class HalfBarrelBlock extends Block {
 	public static final IntegerProperty LEVEL = BlockStateProperties.LEVEL_0_3;
 	private static final VoxelShape SHAPE = Stream.of(
@@ -81,7 +83,7 @@ public class HalfBarrelBlock extends Block {
 					worldIn.playSound((PlayerEntity)null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				}
 
-				return ActionResultType.func_233537_a_(worldIn.isRemote);
+				return ActionResultType.sidedSuccess(worldIn.isRemote);
 
 
 			} else if (item == Items.BUCKET) {

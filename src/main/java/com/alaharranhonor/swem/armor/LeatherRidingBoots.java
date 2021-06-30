@@ -11,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 
+import net.minecraft.item.Item.Properties;
+
 public class LeatherRidingBoots extends SWEMArmorItem {
 	public LeatherRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
 		super(path, materialIn, slot, builderIn);

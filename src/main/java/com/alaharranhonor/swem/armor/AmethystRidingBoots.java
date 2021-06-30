@@ -7,6 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
+import net.minecraft.item.Item.Properties;
+
 public class AmethystRidingBoots extends DiamondRidingBoots {
 	public AmethystRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
 		super(path, materialIn, slot, builderIn);

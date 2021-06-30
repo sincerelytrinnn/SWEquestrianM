@@ -17,6 +17,8 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 
 
+import net.minecraft.item.Item.Properties;
+
 public class HorseSaddleItem extends Item implements IAnimatable {
 
 	private ResourceLocation texture;
@@ -37,14 +39,14 @@ public class HorseSaddleItem extends Item implements IAnimatable {
 				playerIn.sendStatusMessage(new StringTextComponent("You need to equip a Blanket first!"), true);
 				return ActionResultType.FAIL;
 			}
-			if (!iequipable.isHorseSaddled() && iequipable.func_230264_L__() && iequipable.canEquipSaddle()) {
+			if (!iequipable.isHorseSaddled() && iequipable.isSaddleable() && iequipable.canEquipSaddle()) {
 				if (!playerIn.world.isRemote) {
-					iequipable.func_230266_a_(SoundCategory.NEUTRAL, stack);
+					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack);
 					if (!playerIn.abilities.isCreativeMode)
 						stack.shrink(1);
 				}
 
-				return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+				return ActionResultType.sidedSuccess(playerIn.world.isRemote);
 			}
 		}
 

@@ -7,8 +7,10 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import net.minecraft.block.AbstractBlock;
+
 public class HayBlockBase extends RotatedPillarBlock {
-    public HayBlockBase(Block.Properties properties) {
+    public HayBlockBase(AbstractBlock.Properties properties) {
         super(properties);
         this.setDefaultState(this.stateContainer.getBaseState().with(AXIS, Direction.Axis.Y));
     }

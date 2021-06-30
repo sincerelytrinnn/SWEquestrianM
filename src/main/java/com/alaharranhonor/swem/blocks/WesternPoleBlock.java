@@ -20,6 +20,8 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.stream.Stream;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class WesternPoleBlock extends Block {
 
 	public static final EnumProperty<HitchingPostBase.PostPart> PART = SWEMBlockStateProperties.POST_PART;

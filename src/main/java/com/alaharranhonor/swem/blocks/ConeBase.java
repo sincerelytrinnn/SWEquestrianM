@@ -27,7 +27,7 @@ public class ConeBase extends Block{
     }
 
     public ConeBase() {
-        super(Block.Properties.create(Material.IRON)
+        super(AbstractBlock.Properties.create(Material.IRON)
                 .hardnessAndResistance(0f, 0.5f)
                 .sound(SoundType.SCAFFOLDING)
                 .harvestLevel(0)

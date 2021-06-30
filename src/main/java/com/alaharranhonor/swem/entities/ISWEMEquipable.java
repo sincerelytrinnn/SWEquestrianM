@@ -7,9 +7,9 @@ import net.minecraft.util.SoundCategory;
 import javax.annotation.Nullable;
 
 public interface ISWEMEquipable extends IEquipable {
-	boolean func_230264_L__();
+	boolean isSaddleable();
 
-	void func_230266_a_(@Nullable SoundCategory p_230266_1_, ItemStack stack);
+	void equipSaddle(@Nullable SoundCategory p_230266_1_, ItemStack stack);
 
 	boolean isHorseSaddled();
 

@@ -35,7 +35,7 @@ public class HorseTransformItem extends Item {
 				horseEntity.setCoatColour(this.coat);
 			}
 			stack.shrink(1);
-			return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+			return ActionResultType.sidedSuccess(playerIn.world.isRemote);
 		}
 		return ActionResultType.PASS;
 	}

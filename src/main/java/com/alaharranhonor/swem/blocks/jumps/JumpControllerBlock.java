@@ -15,6 +15,8 @@ import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class JumpControllerBlock extends HorizontalBlock {
 	public JumpControllerBlock(Properties properties) {
 		super(properties);

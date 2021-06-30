@@ -14,6 +14,8 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.world.World;
 
 
+import net.minecraft.item.Item.Properties;
+
 public class GoldRidingBoots extends IronRidingBoots {
 	public GoldRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
 		super(path, materialIn, slot, builderIn);

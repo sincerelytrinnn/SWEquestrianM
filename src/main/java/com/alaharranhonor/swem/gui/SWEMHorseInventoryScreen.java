@@ -68,7 +68,7 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		this.blit(matrixStack, i, j, 0, 0, this.xSize, this.ySize);
 
 		// Not sure what this renders, some weird box.
-		//if (this.horseEntity.func_230264_L__()) {
+		//if (this.horseEntity.isSaddleable()) {
 //			this.blit(matrixStack, i + 7, j + 35, 18, this.ySize + 54, 18, 18);
 //		}
 

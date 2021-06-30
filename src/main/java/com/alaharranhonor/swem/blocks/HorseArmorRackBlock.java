@@ -64,7 +64,7 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 
 						rack.itemHandler.setStackInSlot(0, armorCopy);
 						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
-						return ActionResultType.func_233537_a_(worldIn.isRemote);
+						return ActionResultType.sidedSuccess(worldIn.isRemote);
 					}
 				} else if (player.getHeldItem(handIn).getItem() instanceof AdventureSaddleItem) {
 					ItemStack saddle = player.getHeldItem(handIn);
@@ -78,7 +78,7 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 
 						rack.itemHandler.setStackInSlot(1, saddleCopy);
 						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
-						return ActionResultType.func_233537_a_(worldIn.isRemote);
+						return ActionResultType.sidedSuccess(worldIn.isRemote);
 					}
 				} else {
 					if (rack.itemHandler.getStackInSlot(1) != ItemStack.EMPTY) {
@@ -91,7 +91,7 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 
 						rack.itemHandler.setStackInSlot(1, ItemStack.EMPTY);
 						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
-						return ActionResultType.func_233537_a_(worldIn.isRemote);
+						return ActionResultType.sidedSuccess(worldIn.isRemote);
 
 					} else if (rack.itemHandler.getStackInSlot(0) != ItemStack.EMPTY && rack.itemHandler.getStackInSlot(1) == ItemStack.EMPTY) {
 
@@ -103,7 +103,7 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 
 						rack.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
 						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
-						return ActionResultType.func_233537_a_(worldIn.isRemote);
+						return ActionResultType.sidedSuccess(worldIn.isRemote);
 					}
 
 				}

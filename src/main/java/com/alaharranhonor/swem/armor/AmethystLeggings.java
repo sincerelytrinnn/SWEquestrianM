@@ -11,6 +11,8 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import net.minecraft.item.Item.Properties;
+
 public class AmethystLeggings extends SWEMArmorItem {
 	public AmethystLeggings(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builder) {
 		super(path, materialIn, slot, builder);

@@ -18,6 +18,8 @@ import net.minecraft.world.server.ServerWorld;
 import java.util.UUID;
 
 
+import net.minecraft.item.Item.Properties;
+
 public class WhistleItem extends Item {
 
 	public WhistleItem() {

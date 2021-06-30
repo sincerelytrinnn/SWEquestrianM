@@ -11,6 +11,8 @@ import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import net.minecraft.item.Item.Properties;
+
 public class AmethystChestplate extends SWEMArmorItem {
 	public AmethystChestplate(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builder) {
 		super(path, materialIn, slot, builder);
