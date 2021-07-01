@@ -13,7 +13,7 @@ public class PoopRender extends GeoEntityRenderer<PoopEntity> {
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(PoopEntity entity) {
+	public ResourceLocation getTextureLocation(PoopEntity entity) {
 		return new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse_poop.png");
 	}
 

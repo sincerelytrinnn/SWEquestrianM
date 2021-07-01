@@ -32,10 +32,10 @@ public class HalterLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json")),
 					entitylivingbaseIn,
 					partialTicks,
-					RenderType.getEntityCutout(halter.getArmorTexture()),
+					RenderType.entityCutout(halter.getArmorTexture()),
 					matrixStackIn,
 					bufferIn,
-					bufferIn.getBuffer(RenderType.getEntityCutout(halter.getArmorTexture())),
+					bufferIn.getBuffer(RenderType.entityCutout(halter.getArmorTexture())),
 					packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
 			);
 		}

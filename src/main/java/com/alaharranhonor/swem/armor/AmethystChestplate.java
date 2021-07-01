@@ -31,7 +31,7 @@ public class AmethystChestplate extends SWEMArmorItem {
 			if (!(event.getEntity() instanceof PlayerEntity)) return;
 
 			PlayerEntity player = (PlayerEntity) event.getEntity();
-			if (player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() instanceof AmethystChestplate) {
+			if (player.getItemBySlot(EquipmentSlotType.CHEST).getItem() instanceof AmethystChestplate) {
 				event.setStrength(0);
 				event.setRatioX(0);
 				event.setRatioZ(0);

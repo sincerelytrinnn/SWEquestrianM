@@ -39,13 +39,13 @@ public class SWEMHorseArmorItem extends HorseArmorItem implements IAnimatable {
 		if (target instanceof ISWEMEquipable && target.isAlive()) {
 			ISWEMEquipable iequipable = (ISWEMEquipable)target;
 			if (iequipable.isSaddleable() && iequipable.canEquipArmor()) {
-				if (!playerIn.world.isRemote) {
+				if (!playerIn.level.isClientSide) {
 					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack);
-					if (!playerIn.abilities.isCreativeMode)
+					if (!playerIn.abilities.instabuild)
 						stack.shrink(1);
 				}
 
-				return ActionResultType.sidedSuccess(playerIn.world.isRemote);
+				return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
 			}
 		}
 		return ActionResultType.PASS;

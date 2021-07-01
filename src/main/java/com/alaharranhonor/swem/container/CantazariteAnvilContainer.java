@@ -25,48 +25,48 @@ import java.util.Map;
 public class CantazariteAnvilContainer extends AbstractRepairContainer {
 	public int materialCost;
 	private String repairedItemName;
-	private final IntReferenceHolder maximumCost = IntReferenceHolder.single();
+	private final IntReferenceHolder maximumCost = IntReferenceHolder.standalone();
 
 	public CantazariteAnvilContainer(int id, PlayerInventory playerInventory, PacketBuffer data) {
-		this(id, playerInventory, IWorldPosCallable.DUMMY);
+		this(id, playerInventory, IWorldPosCallable.NULL);
 	}
 
 	public CantazariteAnvilContainer(int id, PlayerInventory playerInventory, IWorldPosCallable worldPosCallable) {
 		super(SWEMContainers.CANTAZARITE_ANVIL_CONTAINER.get(), id, playerInventory, worldPosCallable);
-		this.trackInt(this.maximumCost);
+		this.addDataSlot(this.maximumCost);
 	}
 
 	protected boolean isValidBlock(BlockState p_230302_1_) {
-		return p_230302_1_.isIn(BlockTags.ANVIL);
+		return p_230302_1_.is(BlockTags.ANVIL);
 	}
 
 	protected boolean mayPickup(PlayerEntity p_230303_1_, boolean p_230303_2_) {
-		return (p_230303_1_.abilities.isCreativeMode || p_230303_1_.experienceLevel >= this.maximumCost.get());
+		return (p_230303_1_.abilities.instabuild || p_230303_1_.experienceLevel >= this.maximumCost.get());
 	}
 
 	protected ItemStack onTake(PlayerEntity p_230301_1_, ItemStack p_230301_2_) {
-		if (!p_230301_1_.abilities.isCreativeMode && !(this.inputSlots.getStackInSlot(0).getItem() instanceof SWEMArmorItem)) {
-			p_230301_1_.addExperienceLevel(-this.maximumCost.get());
+		if (!p_230301_1_.abilities.instabuild && !(this.inputSlots.getItem(0).getItem() instanceof SWEMArmorItem)) {
+			p_230301_1_.giveExperienceLevels(-this.maximumCost.get());
 		}
 
-		net.minecraftforge.common.ForgeHooks.onAnvilRepair(p_230301_1_, p_230301_2_, this.inputSlots.getStackInSlot(0), this.inputSlots.getStackInSlot(1));
+		net.minecraftforge.common.ForgeHooks.onAnvilRepair(p_230301_1_, p_230301_2_, this.inputSlots.getItem(0), this.inputSlots.getItem(1));
 
-		this.inputSlots.setInventorySlotContents(0, ItemStack.EMPTY);
+		this.inputSlots.setItem(0, ItemStack.EMPTY);
 		if (this.materialCost > 0) {
-			ItemStack itemstack = this.inputSlots.getStackInSlot(1);
+			ItemStack itemstack = this.inputSlots.getItem(1);
 			if (!itemstack.isEmpty() && itemstack.getCount() > this.materialCost) {
 				itemstack.shrink(this.materialCost);
-				this.inputSlots.setInventorySlotContents(1, itemstack);
+				this.inputSlots.setItem(1, itemstack);
 			} else {
-				this.inputSlots.setInventorySlotContents(1, ItemStack.EMPTY);
+				this.inputSlots.setItem(1, ItemStack.EMPTY);
 			}
 		} else {
-			this.inputSlots.setInventorySlotContents(1, ItemStack.EMPTY);
+			this.inputSlots.setItem(1, ItemStack.EMPTY);
 		}
 
 		this.maximumCost.set(0);
-		this.access.consume((p_234633_1_, p_234633_2_) -> {
-				p_234633_1_.playEvent(1030, p_234633_2_, 0);
+		this.access.execute((p_234633_1_, p_234633_2_) -> {
+				p_234633_1_.levelEvent(1030, p_234633_2_, 0);
 		});
 
 
@@ -76,52 +76,52 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 	/**
 	 * called when the Anvil Input Slot changes, calculates the new result and puts it in the output slot
 	 */
-	public void updateRepairOutput() {
-		ItemStack itemstack = this.inputSlots.getStackInSlot(0);
+	public void createResult() {
+		ItemStack itemstack = this.inputSlots.getItem(0);
 		this.maximumCost.set(1);
 		int i = 0;
 		int j = 0;
 		int k = 0;
 		if (itemstack.isEmpty()) {
-			this.resultSlots.setInventorySlotContents(0, ItemStack.EMPTY);
+			this.resultSlots.setItem(0, ItemStack.EMPTY);
 			this.maximumCost.set(0);
 		} else {
 			ItemStack itemstack1 = itemstack.copy();
-			ItemStack itemstack2 = this.inputSlots.getStackInSlot(1);
+			ItemStack itemstack2 = this.inputSlots.getItem(1);
 			Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(itemstack1);
-			j = j + itemstack.getRepairCost() + (itemstack2.isEmpty() ? 0 : itemstack2.getRepairCost());
+			j = j + itemstack.getBaseRepairCost() + (itemstack2.isEmpty() ? 0 : itemstack2.getBaseRepairCost());
 			this.materialCost = 0;
 			boolean flag = false;
 
 			if (!itemstack2.isEmpty()) {
 				flag = itemstack2.getItem() == Items.ENCHANTED_BOOK && !EnchantedBookItem.getEnchantments(itemstack2).isEmpty();
-				if (itemstack1.isDamageable() && itemstack1.getItem().getIsRepairable(itemstack, itemstack2)) {
-					int l2 = Math.min(itemstack1.getDamage(), itemstack1.getMaxDamage() / 4);
+				if (itemstack1.isDamageableItem() && itemstack1.getItem().isValidRepairItem(itemstack, itemstack2)) {
+					int l2 = Math.min(itemstack1.getDamageValue(), itemstack1.getMaxDamage() / 4);
 					if (l2 <= 0) {
-						this.resultSlots.setInventorySlotContents(0, ItemStack.EMPTY);
+						this.resultSlots.setItem(0, ItemStack.EMPTY);
 						this.maximumCost.set(0);
 						return;
 					}
 
 					int i3;
 					for(i3 = 0; l2 > 0 && i3 < itemstack2.getCount(); ++i3) {
-						int j3 = itemstack1.getDamage() - l2;
-						itemstack1.setDamage(j3);
+						int j3 = itemstack1.getDamageValue() - l2;
+						itemstack1.setDamageValue(j3);
 						++i;
-						l2 = Math.min(itemstack1.getDamage(), itemstack1.getMaxDamage() / 4);
+						l2 = Math.min(itemstack1.getDamageValue(), itemstack1.getMaxDamage() / 4);
 					}
 
 					this.materialCost = i3;
 				} else {
-					if (!flag && (itemstack1.getItem() != itemstack2.getItem() || !itemstack1.isDamageable())) {
-						this.resultSlots.setInventorySlotContents(0, ItemStack.EMPTY);
+					if (!flag && (itemstack1.getItem() != itemstack2.getItem() || !itemstack1.isDamageableItem())) {
+						this.resultSlots.setItem(0, ItemStack.EMPTY);
 						this.maximumCost.set(0);
 						return;
 					}
 
-					if (itemstack1.isDamageable() && !flag) {
-						int l = itemstack.getMaxDamage() - itemstack.getDamage();
-						int i1 = itemstack2.getMaxDamage() - itemstack2.getDamage();
+					if (itemstack1.isDamageableItem() && !flag) {
+						int l = itemstack.getMaxDamage() - itemstack.getDamageValue();
+						int i1 = itemstack2.getMaxDamage() - itemstack2.getDamageValue();
 						int j1 = i1 + itemstack1.getMaxDamage() * 12 / 100;
 						int k1 = l + j1;
 						int l1 = itemstack1.getMaxDamage() - k1;
@@ -129,8 +129,8 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 							l1 = 0;
 						}
 
-						if (l1 < itemstack1.getDamage()) {
-							itemstack1.setDamage(l1);
+						if (l1 < itemstack1.getDamageValue()) {
+							itemstack1.setDamageValue(l1);
 							i += 2;
 						}
 					}
@@ -144,8 +144,8 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 							int i2 = map.getOrDefault(enchantment1, 0);
 							int j2 = map1.get(enchantment1);
 							j2 = i2 == j2 ? j2 + 1 : Math.max(j2, i2);
-							boolean flag1 = enchantment1.canApply(itemstack);
-							if (this.player.abilities.isCreativeMode || itemstack.getItem() == Items.ENCHANTED_BOOK) {
+							boolean flag1 = enchantment1.canEnchant(itemstack);
+							if (this.player.abilities.instabuild || itemstack.getItem() == Items.ENCHANTED_BOOK) {
 								flag1 = true;
 							}
 
@@ -193,7 +193,7 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 					}
 
 					if (flag3 && !flag2) {
-						this.resultSlots.setInventorySlotContents(0, ItemStack.EMPTY);
+						this.resultSlots.setItem(0, ItemStack.EMPTY);
 						this.maximumCost.set(0);
 						return;
 					}
@@ -201,15 +201,15 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 			}
 
 			if (StringUtils.isBlank(this.repairedItemName)) {
-				if (itemstack.hasDisplayName()) {
+				if (itemstack.hasCustomHoverName()) {
 					k = 1;
 					i += k;
-					itemstack1.clearCustomName();
+					itemstack1.resetHoverName();
 				}
 			} else if (!this.repairedItemName.equals(itemstack.getDisplayName().getString())) {
 				k = 1;
 				i += k;
-				itemstack1.setDisplayName(new StringTextComponent(this.repairedItemName));
+				itemstack1.setHoverName(new StringTextComponent(this.repairedItemName));
 			}
 			if (flag && !itemstack1.isBookEnchantable(itemstack2)) itemstack1 = ItemStack.EMPTY;
 
@@ -222,14 +222,14 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 				this.maximumCost.set(39);
 			}
 
-			if (this.maximumCost.get() >= 40 && !this.player.abilities.isCreativeMode) {
+			if (this.maximumCost.get() >= 40 && !this.player.abilities.instabuild) {
 				itemstack1 = ItemStack.EMPTY;
 			}
 
 			if (!itemstack1.isEmpty()) {
-				int k2 = itemstack1.getRepairCost();
-				if (!itemstack2.isEmpty() && k2 < itemstack2.getRepairCost()) {
-					k2 = itemstack2.getRepairCost();
+				int k2 = itemstack1.getBaseRepairCost();
+				if (!itemstack2.isEmpty() && k2 < itemstack2.getBaseRepairCost()) {
+					k2 = itemstack2.getBaseRepairCost();
 				}
 
 				if (k != i || k == 0) {
@@ -240,8 +240,8 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 				EnchantmentHelper.setEnchantments(map, itemstack1);
 			}
 
-			this.resultSlots.setInventorySlotContents(0, itemstack1);
-			this.detectAndSendChanges();
+			this.resultSlots.setItem(0, itemstack1);
+			this.broadcastChanges();
 		}
 	}
 
@@ -254,16 +254,16 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 	 */
 	public void updateItemName(String newName) {
 		this.repairedItemName = newName;
-		if (this.getSlot(2).getHasStack()) {
-			ItemStack itemstack = this.getSlot(2).getStack();
+		if (this.getSlot(2).hasItem()) {
+			ItemStack itemstack = this.getSlot(2).getItem();
 			if (StringUtils.isBlank(newName)) {
-				itemstack.clearCustomName();
+				itemstack.resetHoverName();
 			} else {
-				itemstack.setDisplayName(new StringTextComponent(this.repairedItemName));
+				itemstack.setHoverName(new StringTextComponent(this.repairedItemName));
 			}
 		}
 
-		this.updateRepairOutput();
+		this.createResult();
 	}
 
 	/**

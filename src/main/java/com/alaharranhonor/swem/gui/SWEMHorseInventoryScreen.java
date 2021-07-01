@@ -46,30 +46,30 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		super(p_i51084_1_, playerInventoryIn, title);
 		//this(p_i51084_1_, playerInventoryIn, p_i51084_1_.horse);
 		this.passEvents = false;
-		this.xSize = 176;
-		this.ySize = 222;
+		this.imageWidth = 176;
+		this.imageHeight = 222;
 		this.horseEntity = p_i51084_1_.horse;
-		this.playerInventoryTitleY = this.ySize - 94;
-		this.titleX = 65;
-		this.titleY = 22;
+		this.inventoryLabelY = this.imageHeight - 94;
+		this.titleLabelX = 65;
+		this.titleLabelY = 22;
 	}
 
 	@Override
-	public SWEMHorseInventoryContainer getContainer() {
-		return this.container;
+	public SWEMHorseInventoryContainer getMenu() {
+		return this.menu;
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
+	protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.minecraft.getTextureManager().bindTexture(HORSE_GUI_TEXTURES);
-		int i = (this.width - this.xSize) / 2;
-		int j = (this.height - this.ySize) / 2;
-		this.blit(matrixStack, i, j, 0, 0, this.xSize, this.ySize);
+		this.minecraft.getTextureManager().bind(HORSE_GUI_TEXTURES);
+		int i = (this.width - this.imageWidth) / 2;
+		int j = (this.height - this.imageHeight) / 2;
+		this.blit(matrixStack, i, j, 0, 0, this.imageWidth, this.imageHeight);
 
 		// Not sure what this renders, some weird box.
 		//if (this.horseEntity.isSaddleable()) {
-//			this.blit(matrixStack, i + 7, j + 35, 18, this.ySize + 54, 18, 18);
+//			this.blit(matrixStack, i + 7, j + 35, 18, this.imageHeight + 54, 18, 18);
 //		}
 
 		// Render the horse
@@ -77,8 +77,8 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 	}
 	
 	@Override
-	protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
-		super.drawGuiContainerForegroundLayer(matrixStack, x, y);
+	protected void renderLabels(MatrixStack matrixStack, int x, int y) {
+		super.renderLabels(matrixStack, x, y);
 
 		SpeedLeveling speedLeveling = this.horseEntity.progressionManager.getSpeedLeveling();
 		AffinityLeveling affinityLeveling = this.horseEntity.progressionManager.getAffinityLeveling();
@@ -86,11 +86,11 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		HealthLeveling healthLeveling = this.horseEntity.progressionManager.getHealthLeveling();
 
 		// Top Text
-		this.font.drawText(matrixStack, new TranslationTextComponent("Tack"), 15, 6, 4210752);
-		this.font.drawText(matrixStack, new TranslationTextComponent("Stats"), 65, 6,4210752);
+		this.font.draw(matrixStack, new TranslationTextComponent("Tack"), 15, 6, 4210752);
+		this.font.draw(matrixStack, new TranslationTextComponent("Stats"), 65, 6,4210752);
 
 		// Owner name.
-		this.font.drawText(matrixStack, new StringTextComponent(SWEMUtil.checkTextOverflow(this.horseEntity.getOwnerName(), 22)), 65.2f, 36.0f, 4210752);
+		this.font.draw(matrixStack, new StringTextComponent(SWEMUtil.checkTextOverflow(this.horseEntity.getOwnerName(), 22)), 65.2f, 36.0f, 4210752);
 
 		// Jump TEXT
 		TranslationTextComponent jumpInfo;
@@ -99,7 +99,7 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		} else {
 			jumpInfo = new TranslationTextComponent(String.format("%s", jumpLeveling.getLevelName()));
 		}
-		this.font.drawText(matrixStack, jumpInfo, 65.0f, 49.0f, 4210752);
+		this.font.draw(matrixStack, jumpInfo, 65.0f, 49.0f, 4210752);
 
 		// Speed TEXT
 		TranslationTextComponent speedInfo;
@@ -108,10 +108,10 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		} else {
 			speedInfo = new TranslationTextComponent(String.format("%s", speedLeveling.getLevelName()));
 		}
-		this.font.drawText(matrixStack, speedInfo, 65.0f, 64.0f, 4210752);
+		this.font.draw(matrixStack, speedInfo, 65.0f, 64.0f, 4210752);
 
 		// Health TEXT
-		this.font.drawText(matrixStack, new TranslationTextComponent(String.format("%s: %.1f/%.0f", healthLeveling.getLevelName(), this.horseEntity.getHealth(), this.horseEntity.getMaxHealth())), 65.0f, 78.0f, 4210752);
+		this.font.draw(matrixStack, new TranslationTextComponent(String.format("%s: %.1f/%.0f", healthLeveling.getLevelName(), this.horseEntity.getHealth(), this.horseEntity.getMaxHealth())), 65.0f, 78.0f, 4210752);
 
 		// Affinity TEXT
 		TranslationTextComponent affinityInfo;
@@ -120,14 +120,14 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		} else {
 			affinityInfo = new TranslationTextComponent(String.format("%s", affinityLeveling.getLevelName()));
 		}
-		this.font.drawText(matrixStack, affinityInfo, 65.0f, 92.0f, 4210752);
+		this.font.draw(matrixStack, affinityInfo, 65.0f, 92.0f, 4210752);
 
 
 		// Overlay, for Tracker.
 		//fillGradient(matrixStack, 9, 117, 12, 120, 0xFF479238, 0xFF85f96d);
 
 		// Hunger.
-		switch (this.horseEntity.getDataManager().get(HungerNeed.HungerState.ID)) {
+		switch (this.horseEntity.getEntityData().get(HungerNeed.HungerState.ID)) {
 			case 0: {
 				fill(matrixStack, 45, 121, 46, 124, 0xFFc6c6c6);
 				fill(matrixStack, 47, 121, 53, 124, 0xFFc6c6c6);
@@ -154,7 +154,7 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		}
 
 		// Thirst
-		switch (this.horseEntity.getDataManager().get(ThirstNeed.ThirstState.ID)) {
+		switch (this.horseEntity.getEntityData().get(ThirstNeed.ThirstState.ID)) {
 			case 0: {
 				fill(matrixStack, 86, 121, 87, 124, 0xFFc6c6c6);
 				fill(matrixStack, 88, 121, 94, 124, 0xFFc6c6c6);
@@ -187,7 +187,7 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		this.mousePosx = (float)mouseX;
 		this.mousePosY = (float)mouseY;
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
-		this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
+		this.renderTooltip(matrixStack, mouseX, mouseY);
 	}
 
 }

@@ -47,7 +47,7 @@ public class SendHorseSpeedChange {
 	public static void handle(SendHorseSpeedChange msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-			Entity entity = player.world.getEntityByID(msg.entityID);
+			Entity entity = player.level.getEntity(msg.entityID);
 			if (entity instanceof SWEMHorseEntityBase) {
 				SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 				if (msg.action == 1) {

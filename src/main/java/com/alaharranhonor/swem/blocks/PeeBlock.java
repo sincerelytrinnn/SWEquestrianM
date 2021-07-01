@@ -21,14 +21,14 @@ public class PeeBlock extends Block {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return VoxelShapes.create(0, 0, 0, 0, 0, 0);
+		return VoxelShapes.box(0, 0, 0, 0, 0, 0);
 	}
 
 	@Override
-	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
 		if (facing == Direction.DOWN) {
-			if (!facingState.isSolid()) {
-				return Blocks.AIR.getDefaultState();
+			if (!facingState.canOcclude()) {
+				return Blocks.AIR.defaultBlockState();
 			}
 		}
 		return stateIn;

@@ -41,7 +41,7 @@ public class CycableButton extends AbstractButton {
 			if (this.isValidClickButton(button)) {
 				boolean flag = this.clicked(mouseX, mouseY);
 				if (flag) {
-					this.playDownSound(Minecraft.getInstance().getSoundHandler());
+					this.playDownSound(Minecraft.getInstance().getSoundManager());
 					if (button == 0) {
 						this.onClick(mouseX, mouseY);
 					} else if (button == 1) {
@@ -62,8 +62,8 @@ public class CycableButton extends AbstractButton {
 		return button == 0 || button == 1;
 	}
 
-	public void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		super.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+	public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		super.renderButton(matrixStack, mouseX, mouseY, partialTicks);
 		if (this.isHovered()) {
 			this.renderToolTip(matrixStack, mouseX, mouseY);
 		}

@@ -27,9 +27,9 @@ import javax.annotation.Nullable;
 public class LockerBlock extends HorizontalBlock {
 	public LockerBlock(AbstractBlock.Properties properties) {
 		super(properties);
-		this.setDefaultState(
-				this.stateContainer.getBaseState()
-						.with(HORIZONTAL_FACING, Direction.NORTH)
+		this.registerDefaultState(
+				this.stateDefinition.any()
+						.setValue(FACING, Direction.NORTH)
 		);
 	}
 
@@ -54,7 +54,7 @@ public class LockerBlock extends HorizontalBlock {
 	 * This will fall back to ITileEntityProvider.createNewTileEntity(World) if this block is a ITileEntityProvider
 	 *
 	 * @param state The state of the current block
-	 * @param world The world to create the TE in
+	 * @param world The world to box the TE in
 	 * @return A instance of a class extending TileEntity
 	 */
 	@Nullable
@@ -64,12 +64,12 @@ public class LockerBlock extends HorizontalBlock {
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		if (!worldIn.isRemote) {
-			TileEntity tile = worldIn.getTileEntity(pos);
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		if (!worldIn.isClientSide) {
+			TileEntity tile = worldIn.getBlockEntity(pos);
 			if (tile instanceof LockerTE) {
 
-				boolean leftHit = this.determineHitVec(hit.getHitVec(), state, pos);
+				boolean leftHit = this.determineHitVec(hit.getLocation(), state, pos);
 
 				LockerTE locker = (LockerTE) tile;
 				locker.setLeftSideOpened(leftHit);
@@ -88,7 +88,7 @@ public class LockerBlock extends HorizontalBlock {
 
 	private boolean determineHitVec(Vector3d hitVec, BlockState state, BlockPos pos) {
 
-		switch (state.get(HORIZONTAL_FACING)) {
+		switch (state.getValue(FACING)) {
 			case EAST: {
 				return !(hitVec.z > pos.getZ() + 0.5);
 			}
@@ -108,11 +108,11 @@ public class LockerBlock extends HorizontalBlock {
 	}
 
 	@Override
-	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+	public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.getBlock() != newState.getBlock()) {
-			TileEntity te = worldIn.getTileEntity(pos);
+			TileEntity te = worldIn.getBlockEntity(pos);
 			if (te instanceof LockerTE) {
-				InventoryHelper.dropItems(worldIn, pos, ((LockerTE)te).getItems());
+				InventoryHelper.dropContents(worldIn, pos, ((LockerTE)te).getItems());
 
 			}
 		}
@@ -120,21 +120,21 @@ public class LockerBlock extends HorizontalBlock {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		switch (state.get(HORIZONTAL_FACING)) {
+		switch (state.getValue(FACING)) {
 			case NORTH: {
-				return VoxelShapes.create(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.5d);
+				return VoxelShapes.box(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.5d);
 			}
 			case EAST: {
-				return VoxelShapes.create(0.5d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
+				return VoxelShapes.box(0.5d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
 			}
 			case SOUTH: {
-				return VoxelShapes.create(0.01d, 0.01d, 0.5d, 0.99d, 0.99d, 0.99d);
+				return VoxelShapes.box(0.01d, 0.01d, 0.5d, 0.99d, 0.99d, 0.99d);
 			}
 			case WEST: {
-				return VoxelShapes.create(0.01d, 0.01d, 0.01d, 0.5d, 0.99d, 0.99d);
+				return VoxelShapes.box(0.01d, 0.01d, 0.01d, 0.5d, 0.99d, 0.99d);
 			}
 			default: {
-				return VoxelShapes.create(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
+				return VoxelShapes.box(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
 			}
 		}
 
@@ -143,12 +143,12 @@ public class LockerBlock extends HorizontalBlock {
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HORIZONTAL_FACING);
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(FACING);
 	}
 
 }

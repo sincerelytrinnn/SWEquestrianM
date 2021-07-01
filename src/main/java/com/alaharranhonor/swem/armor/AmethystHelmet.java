@@ -24,7 +24,7 @@ public class AmethystHelmet extends SWEMArmorItem {
 
 	@Override
 	public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
-		player.addPotionEffect(new EffectInstance(Effects.WATER_BREATHING, 1, 2));
+		player.addEffect(new EffectInstance(Effects.WATER_BREATHING, 1, 2));
 		super.onArmorTick(stack, world, player);
 	}
 

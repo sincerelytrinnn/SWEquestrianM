@@ -26,14 +26,14 @@ public class JumpBlock extends HorizontalBlock {
 	private VoxelShape ns;
 
 	public JumpBlock(VoxelShape ew, VoxelShape ns) {
-		super(AbstractBlock.Properties.create(Material.IRON).notSolid());
+		super(AbstractBlock.Properties.of(Material.METAL).noOcclusion());
 		this.ew = ew;
 		this.ns = ns;
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		if (state.get(HORIZONTAL_FACING).getAxis() == Direction.Axis.X) {
+		if (state.getValue(FACING).getAxis() == Direction.Axis.X) {
 			return this.ew;
 		} else {
 			return this.ns;
@@ -43,8 +43,8 @@ public class JumpBlock extends HorizontalBlock {
 
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HORIZONTAL_FACING, JUMP_PIECE);
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(FACING, JUMP_PIECE);
 	}
 
 	@Override

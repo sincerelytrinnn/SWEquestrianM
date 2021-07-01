@@ -24,8 +24,8 @@ public class DiamondRidingBoots extends GoldRidingBoots {
 	}
 
 	@Override
-	public void onCreated(ItemStack stack, World worldIn, PlayerEntity playerIn) {
-		super.onCreated(stack, worldIn, playerIn);
+	public void onCraftedBy(ItemStack stack, World worldIn, PlayerEntity playerIn) {
+		super.onCraftedBy(stack, worldIn, playerIn);
 	}
 
 
@@ -39,11 +39,11 @@ public class DiamondRidingBoots extends GoldRidingBoots {
 	 */
 	@Override
 	public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
-		player.addPotionEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 1, 2));
-		if (player.isBurning()) {
+		player.addEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 1, 2));
+		if (player.isOnFire()) {
 			if (this.tickDurability == 20) {
-				stack.damageItem(1, player, (broken) -> {
-					broken.sendBreakAnimation(EquipmentSlotType.FEET);
+				stack.hurtAndBreak(1, player, (broken) -> {
+					broken.broadcastBreakEvent(EquipmentSlotType.FEET);
 				});
 				this.tickDurability = 0;
 			} else {

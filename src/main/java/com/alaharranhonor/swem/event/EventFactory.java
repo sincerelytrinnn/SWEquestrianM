@@ -22,15 +22,15 @@ public class EventFactory {
 
 		if (event.getResult() == Event.Result.ALLOW)
 		{
-			if (player.abilities.isCreativeMode)
+			if (player.abilities.instabuild)
 				return new ActionResult<ItemStack>(ActionResultType.SUCCESS, stack);
 
 			stack.shrink(1);
 			if (stack.isEmpty())
 				return new ActionResult<ItemStack>(ActionResultType.SUCCESS, event.getFilledHose());
 
-			if (!player.inventory.addItemStackToInventory(event.getFilledHose()))
-				player.dropItem(event.getFilledHose(), false);
+			if (!player.inventory.add(event.getFilledHose()))
+				player.drop(event.getFilledHose(), false);
 
 			return new ActionResult<ItemStack>(ActionResultType.SUCCESS, stack);
 		}

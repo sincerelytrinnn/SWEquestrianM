@@ -44,7 +44,7 @@ public class CChangeStandardPacket {
 
 	public static void handle(CChangeStandardPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			Container container = ctx.get().getSender().openContainer;
+			Container container = ctx.get().getSender().containerMenu;
 			if (container instanceof JumpContainer) {
 				JumpContainer jumpContainer = (JumpContainer) container;
 				if (msg.rightClick) {

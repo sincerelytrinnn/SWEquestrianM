@@ -39,20 +39,20 @@ public class BlockStates extends BlockStateProvider {
 		for (RegistryObject<GrainFeederBlock> gf : SWEMBlocks.GRAIN_FEEDERS) {
 			GrainFeederBlock feeder = gf.get();
 
-			//itemModels().withExistingParent("item/" + feeder.getTranslationKey().split("\\.")[2], "item/generated")
-			//		.texture("layer0", new ResourceLocation(SWEM.MOD_ID, "items/" + feeder.getTranslationKey().split("\\.")[2]));
+			//itemModels().withExistingParent("item/" + feeder.getName().split("\\.")[2], "item/generated")
+			//		.texture("layer0", new ResourceLocation(SWEM.MOD_ID, "items/" + feeder.getName().split("\\.")[2]));
 
 			getVariantBuilder(feeder)
 					.forAllStates((state) -> {
-						Direction dir = state.get(GrainFeederBlock.HORIZONTAL_FACING);
-						boolean corner = state.get(GrainFeederBlock.LEFT) || state.get(GrainFeederBlock.RIGHT);
-						ModelFile model = models().getBuilder("grain_feeder_" + (corner ? "corner_" : "") + feeder.getColour().getTranslationKey())
-								.texture("0", new ResourceLocation(SWEM.MOD_ID, "blocks/grain_feeder_" + (corner ? "corner_" : "") + feeder.getColour().getTranslationKey()))
-								.texture("particle", new ResourceLocation(SWEM.MOD_ID, "blocks/grain_feeder_" + (corner ? "corner_" : "") + feeder.getColour().getTranslationKey()))
+						Direction dir = state.getValue(GrainFeederBlock.FACING);
+						boolean corner = state.getValue(GrainFeederBlock.LEFT) || state.getValue(GrainFeederBlock.RIGHT);
+						ModelFile model = models().getBuilder("grain_feeder_" + (corner ? "corner_" : "") + feeder.getColour().getName())
+								.texture("0", new ResourceLocation(SWEM.MOD_ID, "blocks/grain_feeder_" + (corner ? "corner_" : "") + feeder.getColour().getName()))
+								.texture("particle", new ResourceLocation(SWEM.MOD_ID, "blocks/grain_feeder_" + (corner ? "corner_" : "") + feeder.getColour().getName()))
 								.parent(models().getBuilder(models[corner ? 1 : 0]));
 
-						int originalRotation = dir.getAxis() != Direction.Axis.Y ? ((dir.getHorizontalIndex() + 2) % 4) * 90 : 0;
-						if (state.get(GrainFeederBlock.RIGHT)) {
+						int originalRotation = dir.getAxis() != Direction.Axis.Y ? ((dir.get2DDataValue() + 2) % 4) * 90 : 0;
+						if (state.getValue(GrainFeederBlock.RIGHT)) {
 							originalRotation += 90;
 							if (originalRotation == 360) originalRotation = 0;
 						}
@@ -74,20 +74,20 @@ public class BlockStates extends BlockStateProvider {
 		for (RegistryObject<NonParallelBlock> sep : blockArray) {
 			NonParallelBlock sepBlock = sep.get();
 
-			itemModels().withExistingParent("item/" + sepBlock.getTranslationKey().split("\\.")[2], "item/generated")
-					.texture("layer0", new ResourceLocation(SWEM.MOD_ID, "items/" + sepBlock.getTranslationKey().split("\\.")[2]));
+			itemModels().withExistingParent("item/" + sepBlock.getName().getString().split("\\.")[2], "item/generated")
+					.texture("layer0", new ResourceLocation(SWEM.MOD_ID, "items/" + sepBlock.getName().getString().split("\\.")[2]));
 
 			getVariantBuilder(sepBlock)
 					.forAllStates((state) -> {
-						Direction dir = state.get(WheelBarrowBlock.HORIZONTAL_FACING);
-						ModelFile model = models().getBuilder( "separator_" + state.get(NonParallelBlock.PART).getString() + "_" + sepBlock.getColour().getTranslationKey())
-								.texture("0", new ResourceLocation(SWEM.MOD_ID, "blocks/separator_" + state.get(NonParallelBlock.PART).getString() + "_" + sepBlock.getColour().getTranslationKey()))
-								.texture("particle", new ResourceLocation(SWEM.MOD_ID, "blocks/separator_" + state.get(NonParallelBlock.PART).getString() + "_" + sepBlock.getColour().getTranslationKey()))
-								.parent(models().getBuilder(models[state.get(NonParallelBlock.PART).getId()]));
+						Direction dir = state.getValue(WheelBarrowBlock.FACING);
+						ModelFile model = models().getBuilder( "separator_" + state.getValue(NonParallelBlock.PART).getSerializedName() + "_" + sepBlock.getColour().getName())
+								.texture("0", new ResourceLocation(SWEM.MOD_ID, "blocks/separator_" + state.getValue(NonParallelBlock.PART).getSerializedName() + "_" + sepBlock.getColour().getName()))
+								.texture("particle", new ResourceLocation(SWEM.MOD_ID, "blocks/separator_" + state.getValue(NonParallelBlock.PART).getSerializedName() + "_" + sepBlock.getColour().getName()))
+								.parent(models().getBuilder(models[state.getValue(NonParallelBlock.PART).getId()]));
 
 						return ConfiguredModel.builder()
 								.modelFile(model)
-								.rotationY(dir.getAxis() != Direction.Axis.Y ? ((dir.getHorizontalIndex() + 2) % 4) * 90 : 0)
+								.rotationY(dir.getAxis() != Direction.Axis.Y ? ((dir.get2DDataValue() + 2) % 4) * 90 : 0)
 								.build();
 					});
 		}
@@ -106,20 +106,20 @@ public class BlockStates extends BlockStateProvider {
 
 			WheelBarrowBlock wheel = wb.get();
 
-			itemModels().withExistingParent("item/" + wheel.getTranslationKey().split("\\.")[2], "item/generated")
-					.texture("layer0", new ResourceLocation(SWEM.MOD_ID, "items/" + wheel.getTranslationKey().split("\\.")[2]));
+			itemModels().withExistingParent("item/" + wheel.getName().getString().split("\\.")[2], "item/generated")
+					.texture("layer0", new ResourceLocation(SWEM.MOD_ID, "items/" + wheel.getName().getString().split("\\.")[2]));
 
 
 			getVariantBuilder(wheel)
 					.forAllStates((state) -> {
-						Direction dir = state.get(WheelBarrowBlock.HORIZONTAL_FACING);
-						ModelFile model = models().getBuilder(models[state.get(WheelBarrowBlock.LEVEL)] + "_" + wheel.getColour().getTranslationKey())
-								.texture("0", new ResourceLocation(SWEM.MOD_ID, "blocks/wheel_barrow_" + wheel.getColour().getTranslationKey()))
-								.texture("particle", new ResourceLocation(SWEM.MOD_ID, "blocks/wheel_barrow_" + wheel.getColour().getTranslationKey()))
-								.parent(models().getBuilder(models[state.get(WheelBarrowBlock.LEVEL)]));
+						Direction dir = state.getValue(WheelBarrowBlock.FACING);
+						ModelFile model = models().getBuilder(models[state.getValue(WheelBarrowBlock.LEVEL)] + "_" + wheel.getColour().getName())
+								.texture("0", new ResourceLocation(SWEM.MOD_ID, "blocks/wheel_barrow_" + wheel.getColour().getName()))
+								.texture("particle", new ResourceLocation(SWEM.MOD_ID, "blocks/wheel_barrow_" + wheel.getColour().getName()))
+								.parent(models().getBuilder(models[state.getValue(WheelBarrowBlock.LEVEL)]));
 						return ConfiguredModel.builder()
 								.modelFile(model)
-								.rotationY(dir.getAxis() != Direction.Axis.Y ? ((dir.getHorizontalIndex() + 2) % 4) * 90 : 0)
+								.rotationY(dir.getAxis() != Direction.Axis.Y ? ((dir.get2DDataValue() + 2) % 4) * 90 : 0)
 								.build();
 					});
 		}
@@ -135,18 +135,18 @@ public class BlockStates extends BlockStateProvider {
 		for(RegistryObject<SlowFeederBlock> sf : SWEMBlocks.SLOW_FEEDERS) {
 			SlowFeederBlock slow = sf.get();
 
-			itemModels().withExistingParent("item/" + slow.getTranslationKey().split("\\.")[2], "item/generated")
-					.texture("layer0", new ResourceLocation(SWEM.MOD_ID, "items/" + slow.getTranslationKey().split("\\.")[2]));
+			itemModels().withExistingParent("item/" + slow.getName().getString().split("\\.")[2], "item/generated")
+					.texture("layer0", new ResourceLocation(SWEM.MOD_ID, "items/" + slow.getName().getString().split("\\.")[2]));
 
-			ModelFile sfModel = models().getBuilder(models[0]+ "_" + slow.getColour().getTranslationKey())
-					.texture("0", new ResourceLocation(SWEM.MOD_ID, "blocks/" + models[0].split("/")[1] + "_"+slow.getColour().getTranslationKey()))
-					.texture("particle", new ResourceLocation(SWEM.MOD_ID, "blocks/" + models[0].split("/")[1] + "_"+slow.getColour().getTranslationKey()))
+			ModelFile sfModel = models().getBuilder(models[0]+ "_" + slow.getColour().getName())
+					.texture("0", new ResourceLocation(SWEM.MOD_ID, "blocks/" + models[0].split("/")[1] + "_"+slow.getColour().getName()))
+					.texture("particle", new ResourceLocation(SWEM.MOD_ID, "blocks/" + models[0].split("/")[1] + "_"+slow.getColour().getName()))
 					.parent(models().getBuilder(models[0]));
 
 
-			ModelFile sfCornerModel = models().getBuilder(models[1]+ "_" + slow.getColour().getTranslationKey())
-					.texture("0", new ResourceLocation(SWEM.MOD_ID, "blocks/" + models[1].split("/")[1] + "_"+slow.getColour().getTranslationKey()))
-					.texture("particle", new ResourceLocation(SWEM.MOD_ID, "blocks/" + models[1].split("/")[1] + "_"+slow.getColour().getTranslationKey()))
+			ModelFile sfCornerModel = models().getBuilder(models[1]+ "_" + slow.getColour().getName())
+					.texture("0", new ResourceLocation(SWEM.MOD_ID, "blocks/" + models[1].split("/")[1] + "_"+slow.getColour().getName()))
+					.texture("particle", new ResourceLocation(SWEM.MOD_ID, "blocks/" + models[1].split("/")[1] + "_"+slow.getColour().getName()))
 					.parent(models().getBuilder(models[1]));
 
 			MultiPartBlockStateBuilder mp = getMultipartBuilder(slow);

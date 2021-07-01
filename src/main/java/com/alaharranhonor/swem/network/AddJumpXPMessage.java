@@ -48,7 +48,7 @@ public class AddJumpXPMessage {
 	public static void handle(AddJumpXPMessage msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			ServerPlayerEntity player = ctx.get().getSender();
-			Entity entity = player.world.getEntityByID(msg.entityID);
+			Entity entity = player.level.getEntity(msg.entityID);
 			if (entity instanceof SWEMHorseEntityBase) {
 				SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 				horse.progressionManager.getJumpLeveling().addXP(msg.xpToAdd);

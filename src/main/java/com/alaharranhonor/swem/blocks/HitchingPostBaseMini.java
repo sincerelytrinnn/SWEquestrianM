@@ -32,42 +32,42 @@ import net.minecraft.block.AbstractBlock.Properties;
 public class HitchingPostBaseMini extends Block {
 
     private final HitchingPostType type;
-    public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+    public static final DirectionProperty FACING = HorizontalBlock.FACING;
 
 
     public HitchingPostBaseMini(HitchingPostType type, Properties properties) {
         super(properties);
 
         this.type = type;
-        this.setDefaultState(
-                this.stateContainer.getBaseState()
-                        .with(FACING, Direction.NORTH)
+        this.registerDefaultState(
+                this.stateDefinition.any()
+                        .setValue(FACING, Direction.NORTH)
         );
 
     }
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        VoxelShape shape = this.type.getVoxelShape(state.get(FACING));
-        return Block.makeCuboidShape(6, 0, 6, 10, 14, 10);
+        VoxelShape shape = this.type.getVoxelShape(state.getValue(FACING));
+        return Block.box(6, 0, 6, 10, 14, 10);
         }
 
 
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
 
 
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (worldIn.isRemote) {
-            ItemStack itemstack = player.getHeldItem(handIn);
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        if (worldIn.isClientSide) {
+            ItemStack itemstack = player.getItemInHand(handIn);
             return itemstack.getItem() == Items.LEAD ? ActionResultType.SUCCESS : ActionResultType.PASS;
         } else {
             return LeadItem.bindPlayerMobs(player, worldIn, pos);
@@ -84,78 +84,60 @@ public class HitchingPostBaseMini extends Block {
      * @param stack
      */
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-        if (!worldIn.isRemote) {
-            BlockPos blockpos = pos.offset(Direction.UP);
-            state.updateNeighbours(worldIn, pos, 3);
+    public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(worldIn, pos, state, placer, stack);
+        if (!worldIn.isClientSide) {
+            BlockPos blockpos = pos.relative(Direction.UP);
+            state.updateNeighbourShapes(worldIn, pos, 3);
         }
-    }
-
-    /**
-     * Update the provided state given the provided neighbor facing and neighbor state, returning a new state.
-     * For example, fences make their connections to the passed in state if possible, and wet concrete powder immediately
-     * returns its solidified counterpart.
-     * Note that this method should ideally consider only the specific face passed in.
-     *
-     * @param stateIn
-     * @param facing
-     * @param facingState
-     * @param worldIn
-     * @param currentPos
-     * @param facingPos
-     */
-    @Override
-    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-        return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
     }
 
     public enum HitchingPostType {
 
         WESTERN(
                 Stream.of(
-                        Block.makeCuboidShape(6, 0, 6, 10, 13, 10)
-                ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get(),
+                        Block.box(6, 0, 6, 10, 13, 10)
+                ).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get(),
                 Stream.of(
-                        Block.makeCuboidShape(6, 0, 6, 10, 13, 10)
-                ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get(),
+                        Block.box(6, 0, 6, 10, 13, 10)
+                ).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get(),
                 Stream.of(
-                        Block.makeCuboidShape(6, 0, 6, 10, 13, 10)
-                ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get(),
+                        Block.box(6, 0, 6, 10, 13, 10)
+                ).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get(),
                 Stream.of(
-                        Block.makeCuboidShape(6, 0, 6, 10, 13, 10)
-                ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get()
+                        Block.box(6, 0, 6, 10, 13, 10)
+                ).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get()
         ),
 
         ENGLISH(
                 Stream.of(
-                        Block.makeCuboidShape(6, 0, 6, 10, 14, 10)
-                        ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get(),
+                        Block.box(6, 0, 6, 10, 14, 10)
+                        ).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get(),
                 Stream.of(
-                        Block.makeCuboidShape(6, 0, 6, 10, 14, 10)
-                ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get(),
+                        Block.box(6, 0, 6, 10, 14, 10)
+                ).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get(),
                 Stream.of(
-                        Block.makeCuboidShape(6, 0, 6, 10, 14, 10)
-                ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get(),
+                        Block.box(6, 0, 6, 10, 14, 10)
+                ).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get(),
                 Stream.of(
-                        Block.makeCuboidShape(6, 0, 6, 10, 14, 10)
-                ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get()
+                        Block.box(6, 0, 6, 10, 14, 10)
+                ).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get()
 
         ),
 
         PASTURE(
                 Stream.of(
-                        Block.makeCuboidShape(6, 0, 6, 10, 16, 10)
-                ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get(),
+                        Block.box(6, 0, 6, 10, 16, 10)
+                ).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get(),
                 Stream.of(
-                        Block.makeCuboidShape(6, 0, 6, 10, 16, 10)
-                ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get(),
+                        Block.box(6, 0, 6, 10, 16, 10)
+                ).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get(),
                 Stream.of(
-                        Block.makeCuboidShape(6, 0, 6, 10, 16, 10)
-                ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get(),
+                        Block.box(6, 0, 6, 10, 16, 10)
+                ).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get(),
                 Stream.of(
-                        Block.makeCuboidShape(6, 0, 6, 10, 16, 10)
-                ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get()
+                        Block.box(6, 0, 6, 10, 16, 10)
+                ).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get()
         );
 
 

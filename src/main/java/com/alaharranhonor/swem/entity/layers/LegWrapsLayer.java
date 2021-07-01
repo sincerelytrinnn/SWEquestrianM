@@ -31,10 +31,10 @@ public class LegWrapsLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json")),
 					entitylivingbaseIn,
 					partialTicks,
-					RenderType.getEntityCutout(legWraps.getArmorTexture()),
+					RenderType.entityCutout(legWraps.getArmorTexture()),
 					matrixStackIn,
 					bufferIn,
-					bufferIn.getBuffer(RenderType.getEntityCutout(legWraps.getArmorTexture())),
+					bufferIn.getBuffer(RenderType.entityCutout(legWraps.getArmorTexture())),
 					packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
 			);
 		}

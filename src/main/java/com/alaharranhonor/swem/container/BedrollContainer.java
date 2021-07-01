@@ -22,16 +22,16 @@ public class BedrollContainer extends Container {
 
 	public BedrollContainer(final int id, final PlayerInventory playerInventory, final int entityId) {
 		super(SWEMContainers.BED_ROLL_CONTAINER.get(), id);
-		this.horse = (SWEMHorseEntityBase) playerInventory.player.world.getEntityByID(entityId);
+		this.horse = (SWEMHorseEntityBase) playerInventory.player.level.getEntity(entityId);
 		this.horseInventory = horse.getBedrollInventory();
-		horseInventory.openInventory(playerInventory.player);
+		horseInventory.startOpen(playerInventory.player);
 
 
 		int startSaddlebagInvY = 20;
 
 		this.addSlot(new Slot(horseInventory, 0, 53, startSaddlebagInvY) {
 			@Override
-			public boolean isItemValid(ItemStack stack) {
+			public boolean mayPlace(ItemStack stack) {
 				return stack.getItem() instanceof BedItem;
 			}
 
@@ -39,7 +39,7 @@ public class BedrollContainer extends Container {
 
 		this.addSlot(new Slot(horseInventory, 1, 71, startSaddlebagInvY) {
 			@Override
-			public boolean isItemValid(ItemStack stack) {
+			public boolean mayPlace(ItemStack stack) {
 				return stack.getItem() == Items.CAMPFIRE || stack.getItem() == Items.SOUL_CAMPFIRE;
 			}
 
@@ -47,7 +47,7 @@ public class BedrollContainer extends Container {
 
 		this.addSlot(new Slot(horseInventory, 2, 89, startSaddlebagInvY) {
 			@Override
-			public boolean isItemValid(ItemStack stack) {
+			public boolean mayPlace(ItemStack stack) {
 				return stack.getItem() instanceof FuelBlockItemBase;
 			}
 
@@ -55,7 +55,7 @@ public class BedrollContainer extends Container {
 
 		this.addSlot(new Slot(horseInventory, 3, 107, startSaddlebagInvY) {
 			@Override
-			public boolean isItemValid(ItemStack stack) {
+			public boolean mayPlace(ItemStack stack) {
 				return stack.getItem() instanceof FlintAndSteelItem;
 			}
 
@@ -79,8 +79,8 @@ public class BedrollContainer extends Container {
 	/**
 	 * Determines whether supplied player can use this container
 	 */
-	public boolean canInteractWith(PlayerEntity playerIn) {
-		return this.horseInventory.isUsableByPlayer(playerIn) && this.horse.isAlive() && this.horse.getDistance(playerIn) < 8.0F;
+	public boolean stillValid(PlayerEntity playerIn) {
+		return this.horseInventory.stillValid(playerIn) && this.horse.isAlive() && this.horse.distanceTo(playerIn) < 8.0F;
 	}
 
 	/**
@@ -89,47 +89,47 @@ public class BedrollContainer extends Container {
 	 */
 	public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
-		Slot slot = this.inventorySlots.get(index);
-		if (slot != null && slot.getHasStack()) {
-			ItemStack itemstack1 = slot.getStack();
+		Slot slot = this.slots.get(index);
+		if (slot != null && slot.hasItem()) {
+			ItemStack itemstack1 = slot.getItem();
 			itemstack = itemstack1.copy();
-			int i = this.horseInventory.getSizeInventory();
+			int i = this.horseInventory.getContainerSize();
 			if (index < i) {
-				if (!this.mergeItemStack(itemstack1, i, this.inventorySlots.size(), true)) {
+				if (!this.moveItemStackTo(itemstack1, i, this.slots.size(), true)) {
 					return ItemStack.EMPTY;
 				}
 			}
 
 			// Loop over the slots.
 
-			else if (this.getSlot(3).isItemValid(itemstack1) && !this.getSlot(3).getHasStack()) {
-				if (!this.mergeItemStack(itemstack1, 3, 4, false)) {
+			else if (this.getSlot(3).mayPlace(itemstack1) && !this.getSlot(3).hasItem()) {
+				if (!this.moveItemStackTo(itemstack1, 3, 4, false)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (this.getSlot(2).isItemValid(itemstack1) && !this.getSlot(2).getHasStack()) {
-				if (!this.mergeItemStack(itemstack1, 2, 3, false)) {
+			} else if (this.getSlot(2).mayPlace(itemstack1) && !this.getSlot(2).hasItem()) {
+				if (!this.moveItemStackTo(itemstack1, 2, 3, false)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (this.getSlot(1).isItemValid(itemstack1) && !this.getSlot(1).getHasStack()) {
-				if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
+			} else if (this.getSlot(1).mayPlace(itemstack1) && !this.getSlot(1).hasItem()) {
+				if (!this.moveItemStackTo(itemstack1, 1, 2, false)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (this.getSlot(0).isItemValid(itemstack1)) {
-				if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
+			} else if (this.getSlot(0).mayPlace(itemstack1)) {
+				if (!this.moveItemStackTo(itemstack1, 0, 1, false)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (i <= 2 || !this.mergeItemStack(itemstack1, 2, i, false)) {
+			} else if (i <= 2 || !this.moveItemStackTo(itemstack1, 2, i, false)) {
 				int j = i + 27;
 				int k = j + 9;
 				if (index >= j && index < k) {
-					if (!this.mergeItemStack(itemstack1, i, j, false)) {
+					if (!this.moveItemStackTo(itemstack1, i, j, false)) {
 						return ItemStack.EMPTY;
 					}
 				} else if (index >= i && index < j) {
-					if (!this.mergeItemStack(itemstack1, j, k, false)) {
+					if (!this.moveItemStackTo(itemstack1, j, k, false)) {
 						return ItemStack.EMPTY;
 					}
-				} else if (!this.mergeItemStack(itemstack1, j, j, false)) {
+				} else if (!this.moveItemStackTo(itemstack1, j, j, false)) {
 					return ItemStack.EMPTY;
 				}
 
@@ -137,9 +137,9 @@ public class BedrollContainer extends Container {
 			}
 
 			if (itemstack1.isEmpty()) {
-				slot.putStack(ItemStack.EMPTY);
+				slot.set(ItemStack.EMPTY);
 			} else {
-				slot.onSlotChanged();
+				slot.setChanged();
 			}
 		}
 
@@ -149,8 +149,8 @@ public class BedrollContainer extends Container {
 	/**
 	 * Called when the container is closed.
 	 */
-	public void onContainerClosed(PlayerEntity playerIn) {
-		super.onContainerClosed(playerIn);
-		this.horseInventory.closeInventory(playerIn);
+	public void removed(PlayerEntity playerIn) {
+		super.removed(playerIn);
+		this.horseInventory.stopOpen(playerIn);
 	}
 }

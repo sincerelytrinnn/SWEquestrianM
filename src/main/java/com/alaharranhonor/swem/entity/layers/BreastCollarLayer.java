@@ -31,10 +31,10 @@ public class BreastCollarLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json")),
 					entitylivingbaseIn,
 					partialTicks,
-					RenderType.getEntityCutout(breastCollar.getArmorTexture()),
+					RenderType.entityCutout(breastCollar.getArmorTexture()),
 					matrixStackIn,
 					bufferIn,
-					bufferIn.getBuffer(RenderType.getEntityCutout(breastCollar.getArmorTexture())),
+					bufferIn.getBuffer(RenderType.entityCutout(breastCollar.getArmorTexture())),
 					packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
 			);
 		}

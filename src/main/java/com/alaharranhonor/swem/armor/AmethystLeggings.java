@@ -33,12 +33,12 @@ public class AmethystLeggings extends SWEMArmorItem {
 
 			PlayerEntity player = (PlayerEntity) event.getEntity();
 
-			if (!(player.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem() instanceof AmethystLeggings)) return;
+			if (!(player.getItemBySlot(EquipmentSlotType.LEGS).getItem() instanceof AmethystLeggings)) return;
 
 			float playerHealth = player.getHealth();
 			float healthAfterHit = playerHealth - event.getAmount();
 			if (healthAfterHit < 0.5F) {
-				float playerExp = player.experienceTotal;
+				float playerExp = player.totalExperience;
 				float requiredXp = (healthAfterHit * -1) * 40.0F;
 
 				if (playerExp >= requiredXp) {

@@ -37,10 +37,10 @@ public class EnglishSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 				this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json")),
 						entitylivingbaseIn,
 						partialTicks,
-						RenderType.getEntityCutout(saddleItem.getTexture()),
+						RenderType.entityCutout(saddleItem.getTexture()),
 						matrixStackIn,
 						bufferIn,
-						bufferIn.getBuffer(RenderType.getEntityCutout(saddleItem.getTexture())),
+						bufferIn.getBuffer(RenderType.entityCutout(saddleItem.getTexture())),
 						packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
 				);
 			}

@@ -14,8 +14,8 @@ public class AmethystSword extends SwordItem {
 	}
 
 	@Override
-	public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-		target.applyKnockback((float)3 * 0.5F, (double) MathHelper.sin( attacker.rotationYaw * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(attacker.rotationYaw * ((float)Math.PI / 180F))));
-		return super.hitEntity(stack, target, attacker);
+	public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+		target.knockback((float)3 * 0.5F, (double) MathHelper.sin( attacker.yRot * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(attacker.yRot * ((float)Math.PI / 180F))));
+		return super.hurtEnemy(stack, target, attacker);
 	}
 }

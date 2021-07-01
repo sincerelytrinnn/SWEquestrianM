@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
 public class ConeBlockItem extends BlockItem {
 
 	public ConeBlockItem(Block blockIn) {
-		super(blockIn, new Item.Properties().group(SWEM.TAB));
+		super(blockIn, new Item.Properties().tab(SWEM.TAB));
 	}
 
 	@Nullable

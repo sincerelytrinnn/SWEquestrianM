@@ -48,14 +48,14 @@ public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity> {
     }
 
     @Override
-    public EntityRendererManager getRenderManager() {
-        return super.getRenderManager();
+    public EntityRendererManager getDispatcher() {
+        return super.getDispatcher();
     }
 
 
     @Override
-    public ResourceLocation getEntityTexture(SWEMHorseEntity entity) {
-        return TEXTURE;
+    public ResourceLocation getTextureLocation(SWEMHorseEntity entity) {
+        return SWEMHorseModel.VARIANTS.get(entity.getCoatColor());
     }
 
     @Override
@@ -69,36 +69,36 @@ public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity> {
     }
 
     public void renderLeash(SWEMHorseEntity entityLivingIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Entity leashHolder) {
-        matrixStackIn.push();
-        Vector3d vector3d = leashHolder.getLeashPosition(partialTicks);
-        double d0 = (double)(MathHelper.lerp(partialTicks, entityLivingIn.renderYawOffset, entityLivingIn.prevRenderYawOffset) * ((float)Math.PI / 180F)) + (Math.PI / 2D);
-        Vector3d vector3d1 = entityLivingIn.getLeashStartPosition();
+        matrixStackIn.pushPose();
+        Vector3d vector3d = leashHolder.getRopeHoldPosition(partialTicks);
+        double d0 = (double)(MathHelper.lerp(partialTicks, entityLivingIn.yBodyRot, entityLivingIn.yBodyRotO) * ((float)Math.PI / 180F)) + (Math.PI / 2D);
+        Vector3d vector3d1 = entityLivingIn.getLeashOffset();
         double d1 = Math.cos(d0) * vector3d1.z + Math.sin(d0) * vector3d1.x;
         double d2 = Math.sin(d0) * vector3d1.z - Math.cos(d0) * vector3d1.x;
-        double d3 = MathHelper.lerp((double)partialTicks, entityLivingIn.prevPosX, entityLivingIn.getPosX()) + d1;
-        double d4 = MathHelper.lerp((double)partialTicks, entityLivingIn.prevPosY, entityLivingIn.getPosY()) + vector3d1.y;
-        double d5 = MathHelper.lerp((double)partialTicks, entityLivingIn.prevPosZ, entityLivingIn.getPosZ()) + d2;
+        double d3 = MathHelper.lerp((double)partialTicks, entityLivingIn.xo, entityLivingIn.getX()) + d1;
+        double d4 = MathHelper.lerp((double)partialTicks, entityLivingIn.yo, entityLivingIn.getY()) + vector3d1.y;
+        double d5 = MathHelper.lerp((double)partialTicks, entityLivingIn.zo, entityLivingIn.getZ()) + d2;
         matrixStackIn.translate(d1, vector3d1.y, d2);
         float f = (float)(vector3d.x - d3);
         float f1 = (float)(vector3d.y - d4);
         float f2 = (float)(vector3d.z - d5);
         float f3 = 0.025F;
-        IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getLeash());
-        Matrix4f matrix4f = matrixStackIn.getLast().getMatrix();
+        IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.leash());
+        Matrix4f matrix4f = matrixStackIn.last().pose();
         float f4 = MathHelper.fastInvSqrt(f * f + f2 * f2) * 0.025F / 2.0F;
         float f5 = f2 * f4;
         float f6 = f * f4;
         BlockPos blockpos = new BlockPos(entityLivingIn.getEyePosition(partialTicks));
         BlockPos blockpos1 = new BlockPos(leashHolder.getEyePosition(partialTicks));
-        int i = this.getBlockLight(entityLivingIn, blockpos);
-        int j = entityLivingIn.world.getLightFor(LightType.BLOCK, blockpos1);
-        int k = entityLivingIn.world.getLightFor(LightType.SKY, blockpos);
-        int l = entityLivingIn.world.getLightFor(LightType.SKY, blockpos1);
+        int i = this.getBlockLightLevel(entityLivingIn, blockpos);
+        int j = entityLivingIn.level.getBrightness(LightType.BLOCK, blockpos1);
+        int k = entityLivingIn.level.getBrightness(LightType.SKY, blockpos);
+        int l = entityLivingIn.level.getBrightness(LightType.SKY, blockpos1);
 
         // The actually line being rendered, it's colour is decided by the f, f1, f2 inside MobRenderer#addVertexPair
         MobRenderer.renderSide(ivertexbuilder, matrix4f, f, f1, f2, i, j, k, l, 0.025F, 0.025F, f5, f6);
         MobRenderer.renderSide(ivertexbuilder, matrix4f, f, f1, f2, i, j, k, l, 0.025F, 0.0F, f5, f6);
-        matrixStackIn.pop();
+        matrixStackIn.popPose();
     }
 
 }

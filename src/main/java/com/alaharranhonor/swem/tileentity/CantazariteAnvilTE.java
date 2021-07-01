@@ -44,7 +44,7 @@ public class CantazariteAnvilTE extends TileEntity implements INamedContainerPro
 		return new ItemStackHandler(3) {
 			@Override
 			protected void onContentsChanged(int slot) {
-				markDirty();
+				setChanged();
 			}
 
 			@Override
@@ -63,8 +63,8 @@ public class CantazariteAnvilTE extends TileEntity implements INamedContainerPro
 	}
 
 	@Override
-	public void remove() {
-		super.remove();
+	public void setRemoved() {
+		super.setRemoved();
 		if (itemHandler != null) {
 			handler.invalidate();
 		}
@@ -79,6 +79,6 @@ public class CantazariteAnvilTE extends TileEntity implements INamedContainerPro
 	@Nullable
 	@Override
 	public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
-		return new CantazariteAnvilContainer(p_createMenu_1_, p_createMenu_2_, IWorldPosCallable.of(p_createMenu_3_.getEntityWorld(), this.getPos()));
+		return new CantazariteAnvilContainer(p_createMenu_1_, p_createMenu_2_, IWorldPosCallable.create(p_createMenu_3_.getCommandSenderWorld(), this.getBlockPos()));
 	}
 }

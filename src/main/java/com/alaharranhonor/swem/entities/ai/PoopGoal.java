@@ -17,7 +17,7 @@ public class PoopGoal extends Goal {
 
 	public PoopGoal(MobEntity pooperEntity) {
 		this.pooperEntity = pooperEntity;
-		this.entityWorld = pooperEntity.world;
+		this.entityWorld = pooperEntity.level;
 
 	}
 
@@ -27,25 +27,25 @@ public class PoopGoal extends Goal {
 	 * method as well.
 	 */
 	@Override
-	public boolean shouldExecute() {
-		return this.pooperEntity.getRNG().nextInt(10000) == 0 && this.pooperEntity.getPassengers().isEmpty();
+	public boolean canUse() {
+		return this.pooperEntity.getRandom().nextInt(10000) == 0 && this.pooperEntity.getPassengers().isEmpty();
 	}
 
 	/**
 	 * Execute a one shot task or start executing a continuous task
 	 */
 	@Override
-	public void startExecuting() {
+	public void start() {
 		this.poopTimer = 9600;
-		this.entityWorld.setEntityState(this.pooperEntity, (byte)10);
-		this.pooperEntity.getNavigator().clearPath();
+		this.entityWorld.broadcastEntityEvent(this.pooperEntity, (byte)10);
+		this.pooperEntity.getNavigation().stop();
 	}
 
 	/**
 	 * Reset the task's internal state. Called when this task is interrupted by another one
 	 */
 	@Override
-	public void resetTask() {
+	public void stop() {
 		this.poopTimer = 0;
 	}
 
@@ -53,7 +53,7 @@ public class PoopGoal extends Goal {
 	 * Returns whether an in-progress EntityAIBase should continue executing
 	 */
 	@Override
-	public boolean shouldContinueExecuting() {
+	public boolean canContinueToUse() {
 		return this.poopTimer > 0 && this.pooperEntity.getPassengers().isEmpty();
 	}
 
@@ -68,11 +68,11 @@ public class PoopGoal extends Goal {
 	public void tick() {
 		this.poopTimer = Math.max(0, this.poopTimer - 1);
 		if (this.poopTimer == 4 && ConfigHolder.SERVER.serverTickPoopNeed.get()) {
-			BlockPos blockpos = this.pooperEntity.getPosition();
+			BlockPos blockpos = this.pooperEntity.blockPosition();
 			PoopEntity poop = SWEMEntities.HORSE_POOP_ENTITY.get().create(this.entityWorld);
-			BlockPos posToPoop = blockpos.add(0, 1.5d, 0).offset(this.pooperEntity.getHorizontalFacing().getOpposite());
-			poop.setPosition(posToPoop.getX(), posToPoop.getY(), posToPoop.getZ());
-			this.entityWorld.addEntity(poop);
+			BlockPos posToPoop = blockpos.offset(0, 1.5d, 0).relative(this.pooperEntity.getDirection().getOpposite());
+			poop.setPos(posToPoop.getX(), posToPoop.getY(), posToPoop.getZ());
+			this.entityWorld.addFreshEntity(poop);
 		}
 	}
 }

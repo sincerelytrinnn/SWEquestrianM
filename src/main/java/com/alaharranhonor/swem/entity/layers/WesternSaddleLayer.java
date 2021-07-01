@@ -31,10 +31,10 @@ public class WesternSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 				this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json")),
 						entitylivingbaseIn,
 						partialTicks,
-						RenderType.getEntityCutout(saddleItem.getTexture()),
+						RenderType.entityCutout(saddleItem.getTexture()),
 						matrixStackIn,
 						bufferIn,
-						bufferIn.getBuffer(RenderType.getEntityCutout(new ResourceLocation(SWEM.MOD_ID, "textures/finished/western_saddle.png"))),
+						bufferIn.getBuffer(RenderType.entityCutout(new ResourceLocation(SWEM.MOD_ID, "textures/finished/western_saddle.png"))),
 						packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
 						);
 			}

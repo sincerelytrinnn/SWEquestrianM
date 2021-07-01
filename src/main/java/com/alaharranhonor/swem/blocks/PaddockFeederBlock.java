@@ -31,117 +31,117 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 
 public class PaddockFeederBlock extends Block {
-	public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
-	public static final IntegerProperty LEVEL = BlockStateProperties.LEVEL_0_3;
+	public static final IntegerProperty LEVEL = BlockStateProperties.LEVEL_CAULDRON;
 	public static final EnumProperty<SWEMBlockStateProperties.DoubleBlockSide> SIDE = SWEMBlockStateProperties.D_SIDE;
 
 
 	public PaddockFeederBlock(AbstractBlock.Properties builder) {
 		super(builder);
-		this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(HALF, DoubleBlockHalf.LOWER));
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(HALF, DoubleBlockHalf.LOWER));
 	}
 
 
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		Direction direction = state.get(FACING);
-		DoubleBlockHalf half = state.get(HALF);
-		SWEMBlockStateProperties.DoubleBlockSide side = state.get(SIDE);
+		Direction direction = state.getValue(FACING);
+		DoubleBlockHalf half = state.getValue(HALF);
+		SWEMBlockStateProperties.DoubleBlockSide side = state.getValue(SIDE);
 
 		switch (direction) {
 			case NORTH: {
 				if (side == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
-					return Block.makeCuboidShape(0, 0, 1, 14, 16, 15);
+					return Block.box(0, 0, 1, 14, 16, 15);
 				} else {
-					return Block.makeCuboidShape(2, 0, 1, 16, 16, 15);
+					return Block.box(2, 0, 1, 16, 16, 15);
 				}
 			}
 			case EAST: {
 				if (side == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
-					return Block.makeCuboidShape(1, 0, 0, 15, 16, 14);
+					return Block.box(1, 0, 0, 15, 16, 14);
 				} else {
-					return Block.makeCuboidShape(1, 0, 2, 15, 16, 16);
+					return Block.box(1, 0, 2, 15, 16, 16);
 				}
 			}
 			case SOUTH: {
 				if (side == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
-					return Block.makeCuboidShape(2, 0, 1, 16, 16, 15);
+					return Block.box(2, 0, 1, 16, 16, 15);
 				} else {
-					return Block.makeCuboidShape(0, 0, 1, 14, 16, 15);
+					return Block.box(0, 0, 1, 14, 16, 15);
 				}
 			}
 			case WEST: {
 				if (side == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
-					return Block.makeCuboidShape(1, 0, 2, 15, 16, 16);
+					return Block.box(1, 0, 2, 15, 16, 16);
 				} else {
-					return Block.makeCuboidShape(1, 0, 0, 15, 16, 14);
+					return Block.box(1, 0, 0, 15, 16, 14);
 				}
 			}
 		}
 
-		return VoxelShapes.fullCube();
+		return VoxelShapes.block();
 	}
 
 	@Nullable
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		Direction direction = context.getPlacementHorizontalFacing();
+		Direction direction = context.getHorizontalDirection();
 
-		return this.getDefaultState().with(FACING, direction.getOpposite()).with(SIDE, SWEMBlockStateProperties.DoubleBlockSide.LEFT);
+		return this.defaultBlockState().setValue(FACING, direction.getOpposite()).setValue(SIDE, SWEMBlockStateProperties.DoubleBlockSide.LEFT);
 	}
 
 	@Override
-	public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
-		if (!worldIn.isRemote) {
+	public void playerWillDestroy(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
+		if (!worldIn.isClientSide) {
 
 			this.getAllParts(state, pos, worldIn).stream().forEach((blockPos) -> {
-				worldIn.setBlockState(blockPos, Blocks.AIR.getDefaultState(), 35);
+				worldIn.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 35);
 			});
 
 			BlockState state1 = state;
-			if (state.get(HALF) == DoubleBlockHalf.LOWER) {
-				state1 = worldIn.getBlockState(pos.up());
+			if (state.getValue(HALF) == DoubleBlockHalf.LOWER) {
+				state1 = worldIn.getBlockState(pos.above());
 			}
-			int level = state1.get(LEVEL);
+			int level = state1.getValue(LEVEL);
 			if (level > 0) {
 				ItemEntity itemEntity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get(), level));
-				worldIn.addEntity(itemEntity);
+				worldIn.addFreshEntity(itemEntity);
 			}
 		}
 
-		super.onBlockHarvested(worldIn, pos, state, player);
+		super.playerWillDestroy(worldIn, pos, state, player);
 	}
 
 	/**
 	 * Called by ItemBlocks after a block is set in the world, to allow post-place logic
 	 */
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+	public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 
 		// Z-Axis is Norht/South
 		// X-Axis is East/West
-		worldIn.setBlockState(pos.up(), state.with(HALF, DoubleBlockHalf.UPPER), 3);
-		if (placer.getHorizontalFacing().getAxis() == Direction.Axis.Z) {
-			switch (placer.getHorizontalFacing()) {
+		worldIn.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER), 3);
+		if (placer.getDirection().getAxis() == Direction.Axis.Z) {
+			switch (placer.getDirection()) {
 				case NORTH: {
-					worldIn.setBlockState(pos.east(), state.with(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT), 3);
-					worldIn.setBlockState(pos.east().up(), state.with(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT).with(HALF, DoubleBlockHalf.UPPER), 3);
+					worldIn.setBlock(pos.east(), state.setValue(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT), 3);
+					worldIn.setBlock(pos.east().above(), state.setValue(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT).setValue(HALF, DoubleBlockHalf.UPPER), 3);
 					break;
 				}
 				case SOUTH: {
-					worldIn.setBlockState(pos.west(), state.with(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT), 3);
-					worldIn.setBlockState(pos.west().up(), state.with(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT).with(HALF, DoubleBlockHalf.UPPER), 3);
+					worldIn.setBlock(pos.west(), state.setValue(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT), 3);
+					worldIn.setBlock(pos.west().above(), state.setValue(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT).setValue(HALF, DoubleBlockHalf.UPPER), 3);
 					break;
 				}
 			}
-		} else if (placer.getHorizontalFacing().getAxis() == Direction.Axis.X) {
-			switch (placer.getHorizontalFacing()) {
+		} else if (placer.getDirection().getAxis() == Direction.Axis.X) {
+			switch (placer.getDirection()) {
 				case EAST: {
-					worldIn.setBlockState(pos.south(), state.with(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT), 3);
-					worldIn.setBlockState(pos.south().up(), state.with(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT).with(HALF, DoubleBlockHalf.UPPER), 3);
+					worldIn.setBlock(pos.south(), state.setValue(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT), 3);
+					worldIn.setBlock(pos.south().above(), state.setValue(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT).setValue(HALF, DoubleBlockHalf.UPPER), 3);
 					break;
 				}
 				case WEST: {
-					worldIn.setBlockState(pos.north(), state.with(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT), 3);
-					worldIn.setBlockState(pos.north().up(), state.with(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT).with(HALF, DoubleBlockHalf.UPPER), 3);
+					worldIn.setBlock(pos.north(), state.setValue(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT), 3);
+					worldIn.setBlock(pos.north().above(), state.setValue(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT).setValue(HALF, DoubleBlockHalf.UPPER), 3);
 					break;
 				}
 			}
@@ -150,29 +150,29 @@ public class PaddockFeederBlock extends Block {
 	}
 
 
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		ItemStack stack = player.getHeldItem(handIn);
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		ItemStack stack = player.getItemInHand(handIn);
 		if (stack.isEmpty()) {
 			return ActionResultType.PASS;
 		} else {
 			BlockState state1 = state;
 			BlockPos pos1 = pos;
-			if (state.get(HALF) == DoubleBlockHalf.LOWER) {
-				state1 = worldIn.getBlockState(pos.up());
-				pos1 = pos.up();
+			if (state.getValue(HALF) == DoubleBlockHalf.LOWER) {
+				state1 = worldIn.getBlockState(pos.above());
+				pos1 = pos.above();
 			}
 
-			int level = state1.get(LEVEL);
+			int level = state1.getValue(LEVEL);
 			BlockState stateOther;
 			BlockPos posOther;
 
-			Direction facing = state.get(FACING);
+			Direction facing = state.getValue(FACING);
 
-			if (state.get(SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
-				posOther = pos1.offset(facing.rotateYCCW());
+			if (state.getValue(SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
+				posOther = pos1.relative(facing.getCounterClockWise());
 				stateOther = worldIn.getBlockState(posOther);
 			} else {
-				posOther = pos1.offset(facing.rotateY());
+				posOther = pos1.relative(facing.getClockWise());
 				stateOther = worldIn.getBlockState(posOther);
 			}
 
@@ -180,8 +180,8 @@ public class PaddockFeederBlock extends Block {
 			Item item = stack.getItem();
 			if (item == SWEMBlocks.QUALITY_BALE_ITEM.get()) {
 				level++;
-				worldIn.setBlockState(pos1, state1.with(LEVEL, MathHelper.clamp(level, 0, 3)));
-				worldIn.setBlockState(posOther, stateOther.with(LEVEL, MathHelper.clamp(level, 0, 3)));
+				worldIn.setBlock(pos1, state1.setValue(LEVEL, MathHelper.clamp(level, 0, 3)), 3);
+				worldIn.setBlock(posOther, stateOther.setValue(LEVEL, MathHelper.clamp(level, 0, 3)), 3);
 				return ActionResultType.CONSUME;
 			} else {
 				return ActionResultType.FAIL;
@@ -190,33 +190,33 @@ public class PaddockFeederBlock extends Block {
 	}
 
 	public ArrayList<BlockPos> getAllParts(BlockState state, BlockPos pos, World worldIn) {
-		Direction direction = state.get(FACING);
+		Direction direction = state.getValue(FACING);
 		ArrayList<BlockPos> positions = new ArrayList<>();
-		if (state.get(SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
+		if (state.getValue(SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
 			// Check right and above.
-			if (state.get(HALF) == DoubleBlockHalf.LOWER) {
+			if (state.getValue(HALF) == DoubleBlockHalf.LOWER) {
 				positions.add(pos);
-				positions.add(pos.up());
-				positions.add(pos.offset(direction.rotateYCCW()));
-				positions.add(pos.offset(direction.rotateYCCW()).up());
+				positions.add(pos.above());
+				positions.add(pos.relative(direction.getCounterClockWise()));
+				positions.add(pos.relative(direction.getCounterClockWise()).above());
 			} else {
-				positions.add(pos.down());
+				positions.add(pos.below());
 				positions.add(pos);
-				positions.add(pos.offset(direction.rotateYCCW()).down());
-				positions.add(pos.offset(direction.rotateYCCW()));
+				positions.add(pos.relative(direction.getCounterClockWise()).below());
+				positions.add(pos.relative(direction.getCounterClockWise()));
 			}
-		} else if (state.get(SIDE) == SWEMBlockStateProperties.DoubleBlockSide.RIGHT) {
+		} else if (state.getValue(SIDE) == SWEMBlockStateProperties.DoubleBlockSide.RIGHT) {
 			// Check Left and above.
-			if (state.get(HALF) == DoubleBlockHalf.LOWER) {
+			if (state.getValue(HALF) == DoubleBlockHalf.LOWER) {
 				positions.add(pos);
-				positions.add(pos.up());
-				positions.add(pos.offset(direction.rotateY()));
-				positions.add(pos.offset(direction.rotateY()).up());
+				positions.add(pos.above());
+				positions.add(pos.relative(direction.getClockWise()));
+				positions.add(pos.relative(direction.getClockWise()).above());
 			} else {
-				positions.add(pos.down());
+				positions.add(pos.below());
 				positions.add(pos);
-				positions.add(pos.offset(direction.rotateY()).down());
-				positions.add(pos.offset(direction.rotateY()));
+				positions.add(pos.relative(direction.getClockWise()).below());
+				positions.add(pos.relative(direction.getClockWise()));
 			}
 
 		}
@@ -228,10 +228,10 @@ public class PaddockFeederBlock extends Block {
 
 	}
 
-	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
+	public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
 		return this.getAllParts(state, pos, (World) worldIn).stream().allMatch((pos1) ->  {
 			BlockState state1 = worldIn.getBlockState(pos1);
-			return state1 == Blocks.AIR.getDefaultState();
+			return state1 == Blocks.AIR.defaultBlockState();
 		});
 	}
 
@@ -247,15 +247,15 @@ public class PaddockFeederBlock extends Block {
 
 
 	public BlockState rotate(BlockState state, Rotation rot) {
-		return state.with(FACING, rot.rotate(state.get(FACING)));
+		return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
 	}
 
 
 	public BlockState mirror(BlockState state, Mirror mirrorIn) {
-		return mirrorIn == Mirror.NONE ? state : state.rotate(mirrorIn.toRotation(state.get(FACING)));
+		return mirrorIn == Mirror.NONE ? state : state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
 	}
 
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(HALF, FACING, SIDE, LEVEL);
 	}
 }

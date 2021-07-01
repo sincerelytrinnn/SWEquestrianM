@@ -42,7 +42,7 @@ public class UpstepEnchantment extends Enchantment {
 	 * @param stack
 	 */
 	@Override
-	public boolean canApply(ItemStack stack) {
+	public boolean canEnchant(ItemStack stack) {
 		return false;
 	}
 
@@ -54,7 +54,7 @@ public class UpstepEnchantment extends Enchantment {
 	}
 
 	@Override
-	protected boolean canApplyTogether(Enchantment ench)
+	protected boolean checkCompatibility(Enchantment ench)
 	{
 		return !ench.equals(Enchantments.DEPTH_STRIDER);
 	}
@@ -66,11 +66,11 @@ public class UpstepEnchantment extends Enchantment {
 		public static void CheckForPlayersWearingLRB(TickEvent.PlayerTickEvent event)
 		{
 			if (event.phase.equals(TickEvent.Phase.END)) {
-				if (event.player.inventory.armorInventory.get(0).getItem() instanceof LeatherRidingBoots)
+				if (event.player.inventory.armor.get(0).getItem() instanceof LeatherRidingBoots)
 				{
-					event.player.stepHeight = 1.0f;
+					event.player.maxUpStep = 1.0f;
 				} else {
-					event.player.stepHeight = 0.6f;
+					event.player.maxUpStep = 0.6f;
 				}
 			}
 

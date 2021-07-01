@@ -44,10 +44,10 @@ public class SDataSendPacket {
 			Map<Integer, JumpLayer> layers = new HashMap<>();
 			Map<Integer, Integer> colors = new HashMap<>();
 			for (int i = 0; i < layerAmount; i++) {
-				layers.put(i + 1, JumpLayer.valueOf(((PacketBuffer) buf).readString(32767)));
+				layers.put(i + 1, JumpLayer.valueOf(((PacketBuffer) buf).readUtf(32767)));
 				colors.put(i + 1, ((PacketBuffer) buf).readVarInt());
 			}
-			StandardLayer standard = StandardLayer.valueOf(((PacketBuffer) buf).readString(32767));
+			StandardLayer standard = StandardLayer.valueOf(((PacketBuffer) buf).readUtf(32767));
 
 			return new SDataSendPacket(controllerPos, layerAmount, layers, colors, standard);
 		} catch (IndexOutOfBoundsException e) {
@@ -60,15 +60,15 @@ public class SDataSendPacket {
 		buffer.writeBlockPos(msg.controllerPos);
 		buffer.writeVarInt(msg.layerAmount);
 		for (int i = 0; i < msg.layerAmount; i++) {
-			buffer.writeString(msg.layerTypes.get(i + 1).name());
+			buffer.writeUtf(msg.layerTypes.get(i + 1).name());
 			buffer.writeVarInt(msg.layerColors.get(i + 1));
 		}
-		buffer.writeString(msg.currentStandard.name());
+		buffer.writeUtf(msg.currentStandard.name());
 	}
 
 	public static void handle(SDataSendPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			Screen screen = Minecraft.getInstance().currentScreen;
+			Screen screen = Minecraft.getInstance().screen;
 			if (screen instanceof JumpScreen) {
 				JumpScreen jumpScreen = (JumpScreen) screen;
 				jumpScreen.updateData(msg.controllerPos, msg.layerAmount, msg.layerTypes, msg.layerColors, msg.currentStandard);

@@ -26,19 +26,19 @@ public class SWEMOreGen {
 
 	protected static void initOverWorldFeatures() {
 		if (AMETHYST_ORE == null) {
-			AMETHYST_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.AMETHYST_ORE.get().getDefaultState());
+			AMETHYST_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.AMETHYST_ORE.get().defaultBlockState());
 		}
 		if (CANTAZARITE_ORE == null) {
-			CANTAZARITE_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.CANTAZARITE_ORE.get().getDefaultState());
+			CANTAZARITE_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.CANTAZARITE_ORE.get().defaultBlockState());
 		}
 		if (SWLM_COBBLE_ORE == null) {
-			SWLM_COBBLE_ORE = OreGenUtils.buildOverWorldFeature(SWLRegistryHandler.STAR_WORM_COBBLE.get().getDefaultState());
+			SWLM_COBBLE_ORE = OreGenUtils.buildOverWorldFeature(SWLRegistryHandler.STAR_WORM_COBBLE.get().defaultBlockState());
 		}
 	}
 
 	public static void generateOverworldOres(BiomeLoadingEvent event) {
-		event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, AMETHYST_ORE);
-		event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, CANTAZARITE_ORE);
-		event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, SWLM_COBBLE_ORE);
+		event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, AMETHYST_ORE);
+		event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, CANTAZARITE_ORE);
+		event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, SWLM_COBBLE_ORE);
 	}
 }

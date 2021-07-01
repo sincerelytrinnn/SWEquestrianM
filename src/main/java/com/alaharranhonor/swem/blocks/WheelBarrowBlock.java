@@ -37,29 +37,29 @@ public class WheelBarrowBlock extends HorizontalBlock {
 
 	public WheelBarrowBlock(Properties properties, DyeColor colour) {
 		super(properties);
-		this.setDefaultState(
-				this.stateContainer.getBaseState()
-				.with(HORIZONTAL_FACING, Direction.NORTH)
-				.with(LEVEL, 0)
+		this.registerDefaultState(
+				this.stateDefinition.any()
+				.setValue(FACING, Direction.NORTH)
+				.setValue(LEVEL, 0)
 		);
 
 		this.colour = colour;
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		if (!worldIn.isRemote && handIn == Hand.MAIN_HAND) {
-			TileEntity tile = worldIn.getTileEntity(pos);
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
+			TileEntity tile = worldIn.getBlockEntity(pos);
 			WheelBarrowTE te = (WheelBarrowTE) tile;
-			if ((player.getHeldItem(handIn).getItem() instanceof ShavingsItem.SoiledShavingsItem || player.getHeldItem(handIn).getItem() instanceof PoopItem) && te.itemHandler.getStackInSlot(0).getCount() < 8) {
+			if ((player.getItemInHand(handIn).getItem() instanceof ShavingsItem.SoiledShavingsItem || player.getItemInHand(handIn).getItem() instanceof PoopItem) && te.itemHandler.getStackInSlot(0).getCount() < 8) {
 
 				if (!player.isCreative())
-					player.getHeldItem(handIn).split(1);
+					player.getItemInHand(handIn).split(1);
 
 				ItemStack layer = new ItemStack(SWEMBlocks.SOILED_SHAVINGS_ITEM.get(), 1);
 
 
-				PacketDistributor.TRACKING_CHUNK.with(() -> te.getWorld().getChunkAt(te.getPos())).send(te.getUpdatePacket());
+				PacketDistributor.TRACKING_CHUNK.with(() -> te.getLevel().getChunkAt(te.getBlockPos())).send(te.getUpdatePacket());
 
 
 				if (te.itemHandler.getStackInSlot(0) == ItemStack.EMPTY) {
@@ -67,7 +67,7 @@ public class WheelBarrowBlock extends HorizontalBlock {
 				} else {
 					te.itemHandler.insertItem(0, layer, false);
 				}
-				worldIn.setBlockState(pos, state.with(LEVEL, (int) Math.floor(te.itemHandler.getStackInSlot(0).getCount() / 2) ), 3);
+				worldIn.setBlock(pos, state.setValue(LEVEL, (int) Math.floor(te.itemHandler.getStackInSlot(0).getCount() / 2) ), 3);
 				if (te.itemHandler.getStackInSlot(0).getCount() == 8)
 					te.startTicking();
 				
@@ -75,7 +75,7 @@ public class WheelBarrowBlock extends HorizontalBlock {
 			}
 		}
 
-		return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
+		return super.use(state, worldIn, pos, player, handIn, hit);
 	}
 
 	public DyeColor getColour() {
@@ -96,11 +96,11 @@ public class WheelBarrowBlock extends HorizontalBlock {
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing()).with(LEVEL, 0);
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection()).setValue(LEVEL, 0);
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HORIZONTAL_FACING, LEVEL);
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(FACING, LEVEL);
 	}
 }

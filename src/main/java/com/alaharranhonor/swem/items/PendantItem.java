@@ -22,12 +22,12 @@ public class PendantItem extends Item {
 
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if (entityIn.ticksExisted % 200 == 0) {
+		if (entityIn.tickCount % 200 == 0) {
 			if (worldIn.getRandom().nextInt(5) == 4) {
-				BlockPos posToPlay1 = entityIn.getPosition().offset(entityIn.getHorizontalFacing().getOpposite(), 3);
-				BlockPos posToPlay2 = entityIn.getPosition().offset(entityIn.getHorizontalFacing().getOpposite(), 2);
-				BlockPos posToPlay3 = entityIn.getPosition().offset(entityIn.getHorizontalFacing().getOpposite(), 1);
-				SoundType soundType = worldIn.getBlockState(entityIn.getPosition().down()).getSoundType(worldIn, entityIn.getPosition().down(), entityIn);
+				BlockPos posToPlay1 = entityIn.blockPosition().relative(entityIn.getDirection().getOpposite(), 3);
+				BlockPos posToPlay2 = entityIn.blockPosition().relative(entityIn.getDirection().getOpposite(), 2);
+				BlockPos posToPlay3 = entityIn.blockPosition().relative(entityIn.getDirection().getOpposite(), 1);
+				SoundType soundType = worldIn.getBlockState(entityIn.blockPosition().below()).getSoundType(worldIn, entityIn.blockPosition().below(), entityIn);
 
 				executor.schedule(new Runnable() {
 					public void run() {

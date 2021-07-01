@@ -13,14 +13,14 @@ public class PanicStraightGoal extends PanicGoal {
 
 	@Override
 	protected boolean findRandomPosition() {
-		Direction direction = this.creature.getHorizontalFacing();
-		Vector3i vector3i = direction.getDirectionVec();
-		vector3i = vector3i.offset(direction, 5);
-		BlockPos currentPos = this.creature.getPosition();
-		BlockPos pos = currentPos.add(vector3i);
-		this.randPosX = pos.getX();
-		this.randPosY = pos.getY();
-		this.randPosZ = pos.getZ();
+		Direction direction = this.mob.getDirection();
+		Vector3i vector3i = direction.getNormal();
+		vector3i = vector3i.relative(direction, 5);
+		BlockPos currentPos = this.mob.blockPosition();
+		BlockPos pos = currentPos.offset(vector3i);
+		this.posX = pos.getX();
+		this.posY = pos.getY();
+		this.posZ = pos.getZ();
 		return true;
 
 	}

@@ -17,27 +17,27 @@ public class HorseXPBottle extends ItemBase {
 	}
 
 	@Override
-	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (target instanceof SWEMHorseEntityBase) {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
 			if (this.leveler.equals("affinity")) {
 				horse.progressionManager.getAffinityLeveling().addXP(50);
-				return ActionResultType.sidedSuccess(playerIn.getEntityWorld().isRemote);
+				return ActionResultType.sidedSuccess(playerIn.getCommandSenderWorld().isClientSide);
 			} else if (this.leveler.equals("speed")) {
 				horse.progressionManager.getSpeedLeveling().addXP(50);
-				return ActionResultType.sidedSuccess(playerIn.getEntityWorld().isRemote);
+				return ActionResultType.sidedSuccess(playerIn.getCommandSenderWorld().isClientSide);
 			} else if (this.leveler.equals("jump")) {
 				horse.progressionManager.getJumpLeveling().addXP(50);
-				return ActionResultType.sidedSuccess(playerIn.getEntityWorld().isRemote);
+				return ActionResultType.sidedSuccess(playerIn.getCommandSenderWorld().isClientSide);
 			} else if (this.leveler.equals("health")) {
 				horse.progressionManager.getHealthLeveling().addXP(50);
-				return ActionResultType.sidedSuccess(playerIn.getEntityWorld().isRemote);
+				return ActionResultType.sidedSuccess(playerIn.getCommandSenderWorld().isClientSide);
 			} else {
 				horse.progressionManager.getAffinityLeveling().addXP(50);
 				horse.progressionManager.getJumpLeveling().addXP(50);
 				horse.progressionManager.getSpeedLeveling().addXP(50);
 				horse.progressionManager.getHealthLeveling().addXP(50);
-				return ActionResultType.sidedSuccess(playerIn.getEntityWorld().isRemote);
+				return ActionResultType.sidedSuccess(playerIn.getCommandSenderWorld().isClientSide);
 			}
 		}
 		return ActionResultType.PASS;

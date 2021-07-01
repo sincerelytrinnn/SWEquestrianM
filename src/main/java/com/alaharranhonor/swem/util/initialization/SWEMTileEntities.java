@@ -22,15 +22,15 @@ public class SWEMTileEntities {
 		TILE_ENTITY_TYPES.register(modBus);
 	}
 
-	public static final RegistryObject<TileEntityType<TackBoxTE>> TACK_BOX_TILE_ENTITY = TILE_ENTITY_TYPES.register("tack_box", () -> TileEntityType.Builder.create(TackBoxTE::new, SWEMBlocks.TACK_BOX.get()).build(null));
-	public static final RegistryObject<TileEntityType<OneSaddleRackTE>> ONE_SADDLE_RACK_TILE_ENTITY = TILE_ENTITY_TYPES.register("one_saddle_rack", () -> TileEntityType.Builder.create(OneSaddleRackTE::new, SWEMBlocks.ONE_SADDLE_RACK.get()).build(null));
-	public static final RegistryObject<TileEntityType<BridleRackTE>> BRIDLE_RACK_TILE_ENTITY = TILE_ENTITY_TYPES.register("bridle_rack", () -> TileEntityType.Builder.create(BridleRackTE::new, SWEMBlocks.BRIDLE_RACK.get()).build(null));
-	public static final RegistryObject<TileEntityType<WheelBarrowTE>> WHEEL_BARROW_TILE_ENTITY = TILE_ENTITY_TYPES.register("wheel_barrow", () -> TileEntityType.Builder.create(WheelBarrowTE::new, SWEMBlocks.WHEEL_BARROWS.stream().map(RegistryObject::get).collect(Collectors.toList()).toArray(new Block[SWEMBlocks.WHEEL_BARROWS.size()])).build(null));
-	public static final RegistryObject<TileEntityType<CantazariteAnvilTE>> CANTAZARITE_ANVIL_TILE_ENTITY = TILE_ENTITY_TYPES.register("cantazarite_anvil", () -> TileEntityType.Builder.create(CantazariteAnvilTE::new, SWEMBlocks.CANTAZARITE_ANVIL.get()).build(null));
-	public static final RegistryObject<TileEntityType<JumpTE>> JUMP_TILE_ENTITY = TILE_ENTITY_TYPES.register("jump_tile_entity", () -> TileEntityType.Builder.create(JumpTE::new, SWEMBlocks.JUMP_CONTROLLER.get()).build(null));
-	public static final RegistryObject<TileEntityType<JumpPasserTE>> JUMP_PASSER_TILE_ENTITY = TILE_ENTITY_TYPES.register("jump_passer_tile_entity", () -> TileEntityType.Builder.create(JumpPasserTE::new, getAllJumpBlocks()).build(null));
-	public static final RegistryObject<TileEntityType<LockerTE>> LOCKER_TILE_ENTITY = TILE_ENTITY_TYPES.register("locker", () -> TileEntityType.Builder.create(LockerTE::new, SWEMBlocks.LOCKER.get()).build(null));
-	public static final RegistryObject<TileEntityType<HorseArmorRackTE>> HORSE_ARMOR_RACK_TILE_ENTITY = TILE_ENTITY_TYPES.register("horse_armor_rack", () -> TileEntityType.Builder.create(HorseArmorRackTE::new, SWEMBlocks.HORSE_ARMOR_RACK.get()).build(null));
+	public static final RegistryObject<TileEntityType<TackBoxTE>> TACK_BOX_TILE_ENTITY = TILE_ENTITY_TYPES.register("tack_box", () -> TileEntityType.Builder.of(TackBoxTE::new, SWEMBlocks.TACK_BOX.get()).build(null));
+	public static final RegistryObject<TileEntityType<OneSaddleRackTE>> ONE_SADDLE_RACK_TILE_ENTITY = TILE_ENTITY_TYPES.register("one_saddle_rack", () -> TileEntityType.Builder.of(OneSaddleRackTE::new, SWEMBlocks.ONE_SADDLE_RACK.get()).build(null));
+	public static final RegistryObject<TileEntityType<BridleRackTE>> BRIDLE_RACK_TILE_ENTITY = TILE_ENTITY_TYPES.register("bridle_rack", () -> TileEntityType.Builder.of(BridleRackTE::new, SWEMBlocks.BRIDLE_RACK.get()).build(null));
+	public static final RegistryObject<TileEntityType<WheelBarrowTE>> WHEEL_BARROW_TILE_ENTITY = TILE_ENTITY_TYPES.register("wheel_barrow", () -> TileEntityType.Builder.of(WheelBarrowTE::new, SWEMBlocks.WHEEL_BARROWS.stream().map(RegistryObject::get).collect(Collectors.toList()).toArray(new Block[SWEMBlocks.WHEEL_BARROWS.size()])).build(null));
+	public static final RegistryObject<TileEntityType<CantazariteAnvilTE>> CANTAZARITE_ANVIL_TILE_ENTITY = TILE_ENTITY_TYPES.register("cantazarite_anvil", () -> TileEntityType.Builder.of(CantazariteAnvilTE::new, SWEMBlocks.CANTAZARITE_ANVIL.get()).build(null));
+	public static final RegistryObject<TileEntityType<JumpTE>> JUMP_TILE_ENTITY = TILE_ENTITY_TYPES.register("jump_tile_entity", () -> TileEntityType.Builder.of(JumpTE::new, SWEMBlocks.JUMP_CONTROLLER.get()).build(null));
+	public static final RegistryObject<TileEntityType<JumpPasserTE>> JUMP_PASSER_TILE_ENTITY = TILE_ENTITY_TYPES.register("jump_passer_tile_entity", () -> TileEntityType.Builder.of(JumpPasserTE::new, getAllJumpBlocks()).build(null));
+	public static final RegistryObject<TileEntityType<LockerTE>> LOCKER_TILE_ENTITY = TILE_ENTITY_TYPES.register("locker", () -> TileEntityType.Builder.of(LockerTE::new, SWEMBlocks.LOCKER.get()).build(null));
+	public static final RegistryObject<TileEntityType<HorseArmorRackTE>> HORSE_ARMOR_RACK_TILE_ENTITY = TILE_ENTITY_TYPES.register("horse_armor_rack", () -> TileEntityType.Builder.of(HorseArmorRackTE::new, SWEMBlocks.HORSE_ARMOR_RACK.get()).build(null));
 
 
 	private static Block[] getAllJumpBlocks() {

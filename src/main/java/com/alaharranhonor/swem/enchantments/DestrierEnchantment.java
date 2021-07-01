@@ -43,17 +43,17 @@ public class DestrierEnchantment extends Enchantment {
 	 * @param level
 	 */
 	@Override
-	public void onUserHurt(LivingEntity user, Entity attacker, int level) {
-		Random random = user.getRNG();
-		Map.Entry<EquipmentSlotType, ItemStack> entry = EnchantmentHelper.getRandomItemWithEnchantment(this, user);
+	public void doPostHurt(LivingEntity user, Entity attacker, int level) {
+		Random random = user.getRandom();
+		Map.Entry<EquipmentSlotType, ItemStack> entry = EnchantmentHelper.getRandomItemWith(this, user);
 		if (shouldHit(random)) {
 			if (attacker != null) {
-				attacker.attackEntityFrom(DamageSource.causeThornsDamage(user), (float)getDamage( random));
+				attacker.hurt(DamageSource.thorns(user), (float)getDamage( random));
 			}
 
 			if (entry != null) {
-				entry.getValue().damageItem(2, user, (livingEntity) -> {
-					livingEntity.sendBreakAnimation(entry.getKey());
+				entry.getValue().hurtAndBreak(2, user, (livingEntity) -> {
+					livingEntity.broadcastBreakEvent(entry.getKey());
 				});
 			}
 		}
@@ -66,10 +66,10 @@ public class DestrierEnchantment extends Enchantment {
 	 * @param source
 	 */
 	@Override
-	public int calcModifierDamage(int level, DamageSource source) {
+	public int getDamageProtection(int level, DamageSource source) {
 		int actualLevel = 2;
 		int actualDamagerModifier = actualLevel;
-		if (source.canHarmInCreative())
+		if (source.isBypassInvul())
 		{
 			return 0;
 

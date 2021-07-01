@@ -26,11 +26,11 @@ public class WaterThroughBlock extends NonParallelBlock {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return VoxelShapes.create(0.01, 0.01, 0.01, 0.99, 0.99, 0.99);
+		return VoxelShapes.box(0.01, 0.01, 0.01, 0.99, 0.99, 0.99);
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		super.fillStateContainer(builder);
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+		super.createBlockStateDefinition(builder);
 	}
 }

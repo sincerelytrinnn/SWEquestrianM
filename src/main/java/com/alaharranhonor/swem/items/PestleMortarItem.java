@@ -17,7 +17,7 @@ public class PestleMortarItem extends Item {
 	}
 
 	@Override
-	public boolean hasContainerItem() {
+	public boolean hasCraftingRemainingItem() {
 		return true;
 	}
 }

@@ -25,17 +25,17 @@ public class SaddlebagItem extends ItemBase implements IAnimatable {
 		this.texture = new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/saddlebags/" + texturePath + ".png");
 	}
 
-	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (target instanceof ISWEMEquipable && target.isAlive()) {
 			ISWEMEquipable iequipable = (ISWEMEquipable)target;
 			if (iequipable.isSaddleable()) {
-				if (!playerIn.world.isRemote) {
+				if (!playerIn.level.isClientSide) {
 					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack);
-					if (!playerIn.abilities.isCreativeMode)
+					if (!playerIn.abilities.instabuild)
 						stack.shrink(1);
 				}
 
-				return ActionResultType.sidedSuccess(playerIn.world.isRemote);
+				return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
 			}
 		}
 		return ActionResultType.PASS;

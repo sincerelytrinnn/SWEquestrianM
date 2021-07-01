@@ -55,7 +55,7 @@ public class HorseStateChange {
 
 	public static void handle(HorseStateChange msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) ctx.get().getSender().world.getEntityByID(msg.entityID);
+			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) ctx.get().getSender().level.getEntity(msg.entityID);
 			switch (msg.action) {
 
 				case 0: {
@@ -83,11 +83,11 @@ public class HorseStateChange {
 					break;
 				}
 				case 6: {
-					if (ctx.get().getSender().getRidingEntity() == null) return;
-					if (!(ctx.get().getSender().getRidingEntity() instanceof SWEMHorseEntityBase)) return;
-					SWEMHorseEntityBase ridingHorse = (SWEMHorseEntityBase) ctx.get().getSender().getRidingEntity();
+					if (ctx.get().getSender().getVehicle() == null) return;
+					if (!(ctx.get().getSender().getVehicle() instanceof SWEMHorseEntityBase)) return;
+					SWEMHorseEntityBase ridingHorse = (SWEMHorseEntityBase) ctx.get().getSender().getVehicle();
 
-					if (ridingHorse.getEntityId() != msg.entityID) return;
+					if (ridingHorse.getId() != msg.entityID) return;
 
 					NetworkHooks.openGui(ctx.get().getSender(), new INamedContainerProvider() {
 						@Override
@@ -107,11 +107,11 @@ public class HorseStateChange {
 					break;
 				}
 				case 7: {
-					horse.setHorseJumping(true);
+					horse.setIsJumping(true);
 					break;
 				}
 				case 8: {
-					horse.setHorseJumping(false);
+					horse.setIsJumping(false);
 				}
 			}
 

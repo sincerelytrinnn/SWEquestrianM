@@ -21,41 +21,41 @@ public abstract class ArmorBaseModel extends BipedModel {
 
 	public ArmorBaseModel(int textureWidth, int textureHeight, ResourceLocation texture){
 		super(1F);
-		this.textureWidth = textureWidth;
-		this.textureHeight = textureHeight;
+		this.texWidth = textureWidth;
+		this.texHeight = textureHeight;
 		this.texture = texture.toString();
 
 		armorHead = new ModelRenderer(this);
-		armorHead.setRotationPoint(0.0F, 0.0F, 0.0F);
-		bipedHead.addChild(armorHead);
+		armorHead.setPos(0.0F, 0.0F, 0.0F);
+		head.addChild(armorHead);
 
 		armorBody = new ModelRenderer(this);
-		armorBody.setRotationPoint(0.0F, 0.0F, 0.0F);
-		bipedBody.addChild(armorBody);
+		armorBody.setPos(0.0F, 0.0F, 0.0F);
+		body.addChild(armorBody);
 		armorRightArm = new ModelRenderer(this);
-		armorRightArm.setRotationPoint(0.0F, 0.0F, 0.0F);
-		bipedRightArm.addChild(armorRightArm);
+		armorRightArm.setPos(0.0F, 0.0F, 0.0F);
+		rightArm.addChild(armorRightArm);
 
 		armorLeftArm = new ModelRenderer(this);
-		armorLeftArm.setRotationPoint(0.0F, 0.0F, 0.0F);
-		bipedLeftArm.addChild(armorLeftArm);
+		armorLeftArm.setPos(0.0F, 0.0F, 0.0F);
+		leftArm.addChild(armorLeftArm);
 
 		armorRightLeg = new ModelRenderer(this);
-		armorRightLeg.setRotationPoint(0.0F, 0.0F, 0.0F);
-		bipedRightLeg.addChild(armorRightLeg);
+		armorRightLeg.setPos(0.0F, 0.0F, 0.0F);
+		rightLeg.addChild(armorRightLeg);
 
 		armorLeftLeg = new ModelRenderer(this);
-		armorLeftLeg.setRotationPoint(0.0F, 0.0F, 0.0F);
-		bipedLeftLeg.addChild(armorLeftLeg);
+		armorLeftLeg.setPos(0.0F, 0.0F, 0.0F);
+		leftLeg.addChild(armorLeftLeg);
 
 
 		armorRightBoot = new ModelRenderer(this);
-		armorRightBoot.setRotationPoint(0.0F, 0.0F, 0.0F);
-		bipedRightLeg.addChild(armorRightBoot);
+		armorRightBoot.setPos(0.0F, 0.0F, 0.0F);
+		rightLeg.addChild(armorRightBoot);
 
 		armorLeftBoot = new ModelRenderer(this);
-		armorLeftBoot.setRotationPoint(0.0F, 0.0F, 0.0F);
-		bipedLeftLeg.addChild(armorLeftBoot);
+		armorLeftBoot.setPos(0.0F, 0.0F, 0.0F);
+		leftLeg.addChild(armorLeftBoot);
 
 		setupArmorParts();
 	}
@@ -71,31 +71,31 @@ public abstract class ArmorBaseModel extends BipedModel {
 	 * It's just required to hide armor parts depending on the equipment slot
 	 */
 	public BipedModel applySlot(EquipmentSlotType slot){
-		armorHead.showModel = false;
-		armorBody.showModel = false;
-		armorRightArm.showModel = false;
-		armorLeftArm.showModel = false;
-		armorRightLeg.showModel = false;
-		armorLeftLeg.showModel = false;
-		armorRightBoot.showModel = false;
-		armorLeftBoot.showModel = false;
+		armorHead.visible = false;
+		armorBody.visible = false;
+		armorRightArm.visible = false;
+		armorLeftArm.visible = false;
+		armorRightLeg.visible = false;
+		armorLeftLeg.visible = false;
+		armorRightBoot.visible = false;
+		armorLeftBoot.visible = false;
 
 		switch(slot){
 			case HEAD:
-				armorHead.showModel = true;
+				armorHead.visible = true;
 				break;
 			case CHEST:
-				armorBody.showModel = true;
-				armorRightArm.showModel = true;
-				armorLeftArm.showModel = true;
+				armorBody.visible = true;
+				armorRightArm.visible = true;
+				armorLeftArm.visible = true;
 				break;
 			case LEGS:
-				armorRightLeg.showModel = true;
-				armorLeftLeg.showModel = true;
+				armorRightLeg.visible = true;
+				armorLeftLeg.visible = true;
 				break;
 			case FEET:
-				armorRightBoot.showModel = true;
-				armorLeftBoot.showModel = true;
+				armorRightBoot.visible = true;
+				armorLeftBoot.visible = true;
 				break;
 			default:
 				break;
@@ -105,28 +105,29 @@ public abstract class ArmorBaseModel extends BipedModel {
 	}
 
 	public final ArmorBaseModel applyEntityStats(BipedModel defaultArmor){
-		this.isChild = defaultArmor.isChild;
-		this.isSneak = defaultArmor.isSneak;
-		this.isSitting = defaultArmor.isSitting;
+		this.young = defaultArmor.young;
+		this.crouching = defaultArmor.crouching;
+		this.riding = defaultArmor.riding;
 		this.rightArmPose = defaultArmor.rightArmPose;
 		this.leftArmPose = defaultArmor.leftArmPose;
 
 		return this;
 	}
 
-	@Override
-	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		copyModelAngles(this.bipedHead, this.armorHead);
-		copyModelAngles(this.bipedBody, this.armorBody);
-		copyModelAngles(this.bipedRightArm, this.armorRightArm);
-		copyModelAngles(this.bipedLeftArm, this.armorLeftArm);
-		copyModelAngles(this.bipedRightLeg, this.armorRightLeg);
-		copyModelAngles(this.bipedLeftLeg, this.armorLeftLeg);
-		copyModelAngles(this.bipedRightLeg, this.armorRightBoot);
-		copyModelAngles(this.bipedLeftLeg, this.armorLeftBoot);
 
-		matrixStack.push();
-		if(isSneak) matrixStack.translate(0, 0.2, 0);
+	@Override
+	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		copyModelAngles(this.head, this.armorHead);
+		copyModelAngles(this.body, this.armorBody);
+		copyModelAngles(this.rightArm, this.armorRightArm);
+		copyModelAngles(this.leftArm, this.armorLeftArm);
+		copyModelAngles(this.rightLeg, this.armorRightLeg);
+		copyModelAngles(this.leftLeg, this.armorLeftLeg);
+		copyModelAngles(this.rightLeg, this.armorRightBoot);
+		copyModelAngles(this.leftLeg, this.armorLeftBoot);
+
+		matrixStack.pushPose();
+		if(crouching) matrixStack.translate(0, 0.2, 0);
 		this.armorHead.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 		this.armorBody.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 		this.armorRightArm.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
@@ -136,18 +137,18 @@ public abstract class ArmorBaseModel extends BipedModel {
 		this.armorRightBoot.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 		this.armorLeftBoot.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 
-		matrixStack.pop();
+		matrixStack.popPose();
 	}
 
 	public final void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-		modelRenderer.rotateAngleX = x;
-		modelRenderer.rotateAngleY = y;
-		modelRenderer.rotateAngleZ = z;
+		modelRenderer.xRot = x;
+		modelRenderer.yRot = y;
+		modelRenderer.zRot = z;
 	}
 
 	private final void copyModelAngles(ModelRenderer in, ModelRenderer out){
-		out.rotateAngleX = in.rotateAngleX;
-		out.rotateAngleY = in.rotateAngleY;
-		out.rotateAngleZ = in.rotateAngleZ;
+		out.xRot = in.xRot;
+		out.yRot = in.yRot;
+		out.zRot = in.zRot;
 	}
 }

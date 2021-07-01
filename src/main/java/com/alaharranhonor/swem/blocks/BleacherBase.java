@@ -24,58 +24,58 @@ import net.minecraft.block.AbstractBlock.Properties;
 public class BleacherBase extends SlabBlock {
 
 	private VoxelShape BOTTOM_SHAPE_TOP_BLEACHER = Stream.of(
-			Block.makeCuboidShape(14, 0, 14, 16, 7, 16),
-			Block.makeCuboidShape(0, 0, 14, 2, 7, 16),
-			Block.makeCuboidShape(14, 0, 0, 16, 7, 2),
-			Block.makeCuboidShape(0, 0, 0, 2, 7, 2),
+			Block.box(14, 0, 14, 16, 7, 16),
+			Block.box(0, 0, 14, 2, 7, 16),
+			Block.box(14, 0, 0, 16, 7, 2),
+			Block.box(0, 0, 0, 2, 7, 2),
 			// The 4 pillars ^^^
-			Block.makeCuboidShape(0, 7, 0, 16, 8, 16),
+			Block.box(0, 7, 0, 16, 8, 16),
 			// Top plate ^^
-			Block.makeCuboidShape(0.0625, 0, 0.0625, 13.9375, 7, 0.9375),
-			Block.makeCuboidShape(0.0625, 0, 15.0625, 13.9375, 7, 15.9375),
-			Block.makeCuboidShape(0.0625, 0, 2.0625, 0.9375, 7, 15.9375),
-			Block.makeCuboidShape(15.0625, 0, 2.0625, 15.9375, 7, 15.9375)
-	).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get();
+			Block.box(0.0625, 0, 0.0625, 13.9375, 7, 0.9375),
+			Block.box(0.0625, 0, 15.0625, 13.9375, 7, 15.9375),
+			Block.box(0.0625, 0, 2.0625, 0.9375, 7, 15.9375),
+			Block.box(15.0625, 0, 2.0625, 15.9375, 7, 15.9375)
+	).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get();
 	private VoxelShape TOP_SHAPE_TOP_BLEACHER = Stream.of(
-			Block.makeCuboidShape(14, 8, 14, 16, 15, 16),
-			Block.makeCuboidShape(0, 8, 14, 2, 15, 16),
-			Block.makeCuboidShape(14, 8, 0, 16, 15, 2),
-			Block.makeCuboidShape(0, 8, 0, 2, 15, 2),
+			Block.box(14, 8, 14, 16, 15, 16),
+			Block.box(0, 8, 14, 2, 15, 16),
+			Block.box(14, 8, 0, 16, 15, 2),
+			Block.box(0, 8, 0, 2, 15, 2),
 			// The 4 pillars ^^^
-			Block.makeCuboidShape(0, 15, 0, 16, 16, 16),
+			Block.box(0, 15, 0, 16, 16, 16),
 			// Top plate ^^
-			Block.makeCuboidShape(0.0625, 8, 0.0625, 13.9375, 15, 0.9375),
-			Block.makeCuboidShape(0.0625, 8, 15.0625, 13.9375, 15, 15.9375),
-			Block.makeCuboidShape(0.0625, 8, 2.0625, 0.9375, 15, 15.9375),
-			Block.makeCuboidShape(15.0625, 8, 2.0625, 15.9375, 15, 15.9375)
-	).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get();
+			Block.box(0.0625, 8, 0.0625, 13.9375, 15, 0.9375),
+			Block.box(0.0625, 8, 15.0625, 13.9375, 15, 15.9375),
+			Block.box(0.0625, 8, 2.0625, 0.9375, 15, 15.9375),
+			Block.box(15.0625, 8, 2.0625, 15.9375, 15, 15.9375)
+	).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get();
 
 	private VoxelShape FULL_BLOCK_BLEACHER = Stream.of(
-			Block.makeCuboidShape(14, 8, 14, 16, 15, 16),
-			Block.makeCuboidShape(0, 8, 14, 2, 15, 16),
-			Block.makeCuboidShape(14, 8, 0, 16, 15, 2),
-			Block.makeCuboidShape(0, 8, 0, 2, 15, 2),
+			Block.box(14, 8, 14, 16, 15, 16),
+			Block.box(0, 8, 14, 2, 15, 16),
+			Block.box(14, 8, 0, 16, 15, 2),
+			Block.box(0, 8, 0, 2, 15, 2),
 			// Pillars
 
-			Block.makeCuboidShape(0, 15, 0, 16, 16, 16),
+			Block.box(0, 15, 0, 16, 16, 16),
 			// Top plate
 
-			Block.makeCuboidShape(0.0625, 0, 0.0625, 13.9375, 16, 0.9375),
-			Block.makeCuboidShape(0.0625, 0, 15.0625, 13.9375, 16, 15.9375),
-			Block.makeCuboidShape(0.0625, 0, 2.0625, 0.9375, 16, 15.9375),
-			Block.makeCuboidShape(15.0625, 0, 2.0625, 15.9375, 16, 15.9375),
+			Block.box(0.0625, 0, 0.0625, 13.9375, 16, 0.9375),
+			Block.box(0.0625, 0, 15.0625, 13.9375, 16, 15.9375),
+			Block.box(0.0625, 0, 2.0625, 0.9375, 16, 15.9375),
+			Block.box(15.0625, 0, 2.0625, 15.9375, 16, 15.9375),
 			// Sides
 			// Top bleacher
 
 
-			Block.makeCuboidShape(14, 0, 14, 16, 8, 16),
-			Block.makeCuboidShape(0, 0, 14, 2, 8, 16),
-			Block.makeCuboidShape(14, 0, 0, 16, 8, 2),
-			Block.makeCuboidShape(0, 0, 0, 2, 8, 2)
+			Block.box(14, 0, 14, 16, 8, 16),
+			Block.box(0, 0, 14, 2, 8, 16),
+			Block.box(14, 0, 0, 16, 8, 2),
+			Block.box(0, 0, 0, 2, 8, 2)
 			// Pillars
 			// Bottom wireframe bleacher
 
-	).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get();
+	).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get();
 
 
 	public BleacherBase(Properties properties) {
@@ -84,7 +84,7 @@ public class BleacherBase extends SlabBlock {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		SlabType slab_type = state.get(TYPE);
+		SlabType slab_type = state.getValue(TYPE);
 		switch (slab_type) {
 			case TOP:
 				return TOP_SHAPE_TOP_BLEACHER;
@@ -111,11 +111,11 @@ public class BleacherBase extends SlabBlock {
 	 * @param facingPos
 	 */
 	@Override
-	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
 		World world = (World) worldIn;
-		if (facing == Direction.UP && stateIn.get(TYPE) == SlabType.DOUBLE && world.getBlockState(currentPos.up()).getBlock() == SWEMBlocks.BLEACHER_SLAB.get()) {
+		if (facing == Direction.UP && stateIn.getValue(TYPE) == SlabType.DOUBLE && world.getBlockState(currentPos.above()).getBlock() == SWEMBlocks.BLEACHER_SLAB.get()) {
 			Block wireframe = SWEMBlocks.BLEACHER_WIREFRAME.get();
-			return wireframe.getDefaultState().with(BlockStateProperties.SLAB_TYPE, SlabType.DOUBLE);
+			return wireframe.defaultBlockState().setValue(BlockStateProperties.SLAB_TYPE, SlabType.DOUBLE);
 		}
 		return stateIn;
 	}

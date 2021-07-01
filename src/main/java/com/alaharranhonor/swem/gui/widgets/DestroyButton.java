@@ -20,7 +20,7 @@ public class DestroyButton extends Button {
 		public void onPress(Button p_onPress_1_) {
 			DestroyButton btn = (DestroyButton) p_onPress_1_;
 			SWEMPacketHandler.INSTANCE.sendToServer(new CDestroyPacket(btn.screen.controllerPos));
-			btn.screen.closeScreen();
+			btn.screen.onClose();
 		}
 	}
 }

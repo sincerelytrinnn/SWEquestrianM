@@ -12,7 +12,7 @@ public class BrewingRecipes {
 		@Override
 		public boolean isInput(ItemStack input) {
 			// TODO: Make the input check, work, for only water potions.
-			return PotionUtils.getPotionFromItem(input) == Potions.WATER;
+			return PotionUtils.getPotion(input) == Potions.WATER;
 		}
 
 		@Override
@@ -34,7 +34,7 @@ public class BrewingRecipes {
 		@Override
 		public boolean isInput(ItemStack input) {
 			// TODO: Make the input check, work, for only water potions.
-			return PotionUtils.getPotionFromItem(input) == Potions.WATER;
+			return PotionUtils.getPotion(input) == Potions.WATER;
 		}
 
 		@Override

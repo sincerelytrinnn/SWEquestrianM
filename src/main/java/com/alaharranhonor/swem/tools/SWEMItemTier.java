@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 public enum SWEMItemTier implements IItemTier {
 
     AMETHYST(4, 10000, 8, 20.0F, 0, () ->{
-        return Ingredient.fromItems(SWEMItems.AMETHYST_LONGSWORD.get());
+        return Ingredient.of(SWEMItems.AMETHYST_LONGSWORD.get());
     });
 
     private final int harvestLevel;
@@ -29,32 +29,32 @@ public enum SWEMItemTier implements IItemTier {
     }
 
     @Override
-    public int getMaxUses() {
+    public int getUses() {
         return maxUses;
     }
 
     @Override
-    public float getEfficiency() {
+    public float getSpeed() {
         return efficiency;
     }
 
     @Override
-    public float getAttackDamage() {
+    public float getAttackDamageBonus() {
         return attackDamage;
     }
 
     @Override
-    public int getHarvestLevel() {
+    public int getLevel() {
         return harvestLevel;
     }
 
     @Override
-    public int getEnchantability() {
+    public int getEnchantmentValue() {
         return enchantibility;
     }
 
     @Override
-    public Ingredient getRepairMaterial() {
+    public Ingredient getRepairIngredient() {
         return repairMaterial.get();
     }
 }

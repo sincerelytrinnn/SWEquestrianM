@@ -51,39 +51,39 @@ public class TackBoxBirthScreen extends Screen {
 		this.renderBackground(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.minecraft.getTextureManager().bindTexture(TACKBOX_BIRTH_TEXTURE);
+		this.minecraft.getTextureManager().bind(TACKBOX_BIRTH_TEXTURE);
 		int i = (this.width - 247) / 2;
 		int j = (this.height - 207) / 2;
 		this.blit(matrixStack, i, j, 0, 0, 247, 207);
 
 		// Title
-		this.font.drawText(matrixStack, this.title, (float) this.guiLeft + 13, (float)this.guiTop + 30, 4210752);
+		this.font.draw(matrixStack, this.title, (float) this.guiLeft + 13, (float)this.guiTop + 30, 4210752);
 
 		if (this.container.horse != null) {
 			SWEMHorseEntityBase horse = this.container.horse;
 
-			this.font.drawText(matrixStack, new StringTextComponent(String.format("Owner: %s", SWEMUtil.checkTextOverflow(horse.getOwnerName(), 24)) ), this.guiLeft + 17, this.guiTop + 57, 4210752);
-			this.font.drawText(matrixStack, new StringTextComponent(String.format("Name: %s", SWEMUtil.checkTextOverflow(horse.getName().getString(), 24)) ), this.guiLeft + 17, this.guiTop + 67, 4210752);
-			this.font.drawText(matrixStack, new StringTextComponent(String.format("Show Name: %s", SWEMUtil.checkTextOverflow("Phase 2", 24))), this.guiLeft + 17, this.guiTop + 77, 4210752);
+			this.font.draw(matrixStack, new StringTextComponent(String.format("Owner: %s", SWEMUtil.checkTextOverflow(horse.getOwnerName(), 24)) ), this.guiLeft + 17, this.guiTop + 57, 4210752);
+			this.font.draw(matrixStack, new StringTextComponent(String.format("Name: %s", SWEMUtil.checkTextOverflow(horse.getName().getString(), 24)) ), this.guiLeft + 17, this.guiTop + 67, 4210752);
+			this.font.draw(matrixStack, new StringTextComponent(String.format("Show Name: %s", SWEMUtil.checkTextOverflow("Phase 2", 24))), this.guiLeft + 17, this.guiTop + 77, 4210752);
 
-			this.font.drawText(matrixStack, new StringTextComponent("Dam: Phase 2"), this.guiLeft + 17, this.guiTop + 99, 4210752);
-			this.font.drawText(matrixStack, new StringTextComponent("Sire: Phase 2"), this.guiLeft + 17, this.guiTop + 109, 4210752);
+			this.font.draw(matrixStack, new StringTextComponent("Dam: Phase 2"), this.guiLeft + 17, this.guiTop + 99, 4210752);
+			this.font.draw(matrixStack, new StringTextComponent("Sire: Phase 2"), this.guiLeft + 17, this.guiTop + 109, 4210752);
 
-			this.font.drawText(matrixStack, new StringTextComponent("Sex: Phase 2"), this.guiLeft + 17, this.guiTop + 123, 4210752);
-			this.font.drawText(matrixStack, new StringTextComponent("Birthdate: Phase 2"), this.guiLeft + 90, this.guiTop + 123, 4210752);
+			this.font.draw(matrixStack, new StringTextComponent("Sex: Phase 2"), this.guiLeft + 17, this.guiTop + 123, 4210752);
+			this.font.draw(matrixStack, new StringTextComponent("Birthdate: Phase 2"), this.guiLeft + 90, this.guiTop + 123, 4210752);
 
-			this.font.drawText(matrixStack, new StringTextComponent("Breed: Phase 2"), this.guiLeft + 17, this.guiTop + 137, 4210752);
+			this.font.draw(matrixStack, new StringTextComponent("Breed: Phase 2"), this.guiLeft + 17, this.guiTop + 137, 4210752);
 
-			this.font.drawText(matrixStack, new StringTextComponent("Temperament: Phase 2"), this.guiLeft + 17, this.guiTop + 151, 4210752);
-			this.font.drawText(matrixStack, new StringTextComponent("Stamina: Phase 2"), this.guiLeft + 17, this.guiTop + 161, 4210752);
-			this.font.drawText(matrixStack, new StringTextComponent("Confirmation: Phase 2"), this.guiLeft + 133, this.guiTop + 151, 4210752);
-			this.font.drawText(matrixStack, new StringTextComponent("Immunity: Phase 2"), this.guiLeft + 133, this.guiTop + 161, 4210752);
+			this.font.draw(matrixStack, new StringTextComponent("Temperament: Phase 2"), this.guiLeft + 17, this.guiTop + 151, 4210752);
+			this.font.draw(matrixStack, new StringTextComponent("Stamina: Phase 2"), this.guiLeft + 17, this.guiTop + 161, 4210752);
+			this.font.draw(matrixStack, new StringTextComponent("Confirmation: Phase 2"), this.guiLeft + 133, this.guiTop + 151, 4210752);
+			this.font.draw(matrixStack, new StringTextComponent("Immunity: Phase 2"), this.guiLeft + 133, this.guiTop + 161, 4210752);
 
 
-			this.font.drawText(matrixStack, new StringTextComponent("Discipline Affinity:"), this.guiLeft + 17, this.guiTop + 173, 4210752);
-			this.font.drawText(matrixStack, new StringTextComponent("Eng: Phase 2"), this.guiLeft + 24, this.guiTop + 183, 4210752);
-			this.font.drawText(matrixStack, new StringTextComponent("West: Phase 2"), this.guiLeft + 97, this.guiTop + 183, 4210752);
-			this.font.drawText(matrixStack, new StringTextComponent("Adv: Phase 2"), this.guiLeft + 180, this.guiTop + 183, 4210752);
+			this.font.draw(matrixStack, new StringTextComponent("Discipline Affinity:"), this.guiLeft + 17, this.guiTop + 173, 4210752);
+			this.font.draw(matrixStack, new StringTextComponent("Eng: Phase 2"), this.guiLeft + 24, this.guiTop + 183, 4210752);
+			this.font.draw(matrixStack, new StringTextComponent("West: Phase 2"), this.guiLeft + 97, this.guiTop + 183, 4210752);
+			this.font.draw(matrixStack, new StringTextComponent("Adv: Phase 2"), this.guiLeft + 180, this.guiTop + 183, 4210752);
 
 		}
 
@@ -93,22 +93,22 @@ public class TackBoxBirthScreen extends Screen {
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		if (mouseY >= this.guiTop && mouseY <= this.guiTop + 22) {
 			if (mouseX >= this.guiLeft + 3 && mouseX <= this.guiLeft + 27) {
-				this.getMinecraft().getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
-				minecraft.displayGuiScreen(new TackBoxDefaultScreen(this.container, this.inv, this.text));
+				this.getMinecraft().getSoundManager().play(SimpleSound.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+				minecraft.setScreen(new TackBoxDefaultScreen(this.container, this.inv, this.text));
 				return true;
 			}
 			if (mouseX >= this.guiLeft + 34 && mouseX <= this.guiLeft + 56) {
-				this.getMinecraft().getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+				this.getMinecraft().getSoundManager().play(SimpleSound.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0f));
 				return true;
 			}
 			if (mouseX >= this.guiLeft + 65 && mouseX <= this.guiLeft + 87) {
-				this.getMinecraft().getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
-				minecraft.displayGuiScreen(new TackBoxGeneticsScreen(this.container, this.inv, this.text, new TranslationTextComponent("container.swem.tack_box_genetics")));
+				this.getMinecraft().getSoundManager().play(SimpleSound.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+				minecraft.setScreen(new TackBoxGeneticsScreen(this.container, this.inv, this.text, new TranslationTextComponent("container.swem.tack_box_genetics")));
 				return true;
 			}
 			if (mouseX >= this.guiLeft + 96 && mouseX <= this.guiLeft + 118) {
-				this.getMinecraft().getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
-				minecraft.displayGuiScreen(new TackBoxProgressionScreen(this.container, this.inv, this.text, new TranslationTextComponent("container.swem.tack_box_progression")));
+				this.getMinecraft().getSoundManager().play(SimpleSound.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+				minecraft.setScreen(new TackBoxProgressionScreen(this.container, this.inv, this.text, new TranslationTextComponent("container.swem.tack_box_progression")));
 				return true;
 			}
 		}

@@ -29,24 +29,24 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 
 public class HalfDoorBlock extends Block {
-	public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+	public static final DirectionProperty FACING = HorizontalBlock.FACING;
 	public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 	public static final EnumProperty<DoorHingeSide> HINGE = BlockStateProperties.DOOR_HINGE;
-	protected static final VoxelShape SOUTH_AABB = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 3.0D);
-	protected static final VoxelShape NORTH_AABB = Block.makeCuboidShape(0.0D, 0.0D, 13.0D, 16.0D, 16.0D, 16.0D);
-	protected static final VoxelShape WEST_AABB = Block.makeCuboidShape(13.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
-	protected static final VoxelShape EAST_AABB = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 3.0D, 16.0D, 16.0D);
+	protected static final VoxelShape SOUTH_AABB = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 3.0D);
+	protected static final VoxelShape NORTH_AABB = Block.box(0.0D, 0.0D, 13.0D, 16.0D, 16.0D, 16.0D);
+	protected static final VoxelShape WEST_AABB = Block.box(13.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
+	protected static final VoxelShape EAST_AABB = Block.box(0.0D, 0.0D, 0.0D, 3.0D, 16.0D, 16.0D);
 
 
 	public HalfDoorBlock(AbstractBlock.Properties builder) {
 		super(builder);
-		this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(OPEN, Boolean.valueOf(false)).with(HINGE, DoorHingeSide.LEFT));
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(OPEN, Boolean.valueOf(false)).setValue(HINGE, DoorHingeSide.LEFT));
 	}
 
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		Direction direction = state.get(FACING);
-		boolean flag = !state.get(OPEN);
-		boolean flag1 = state.get(HINGE) == DoorHingeSide.RIGHT;
+		Direction direction = state.getValue(FACING);
+		boolean flag = !state.getValue(OPEN);
+		boolean flag1 = state.getValue(HINGE) == DoorHingeSide.RIGHT;
 		switch(direction) {
 			case EAST:
 			default:
@@ -65,48 +65,48 @@ public class HalfDoorBlock extends Block {
 	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
 		switch(type) {
 			case LAND:
-				return state.get(OPEN);
+				return state.getValue(OPEN);
 			case WATER:
 				return false;
 			case AIR:
-				return state.get(OPEN);
+				return state.getValue(OPEN);
 			default:
 				return false;
 		}
 	}
 
 	private int getCloseSound() {
-		return this.material == Material.IRON ? 1011 : 1012;
+		return this.material == Material.METAL ? 1011 : 1012;
 	}
 
 	private int getOpenSound() {
-		return this.material == Material.IRON ? 1005 : 1006;
+		return this.material == Material.METAL ? 1005 : 1006;
 	}
 
 	@Nullable
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing()).with(HINGE, this.getHingeSide(context));
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection()).setValue(HINGE, this.getHingeSide(context));
 	}
 
 
 	private DoorHingeSide getHingeSide(BlockItemUseContext context) {
-		IBlockReader iblockreader = context.getWorld();
-		BlockPos blockpos = context.getPos();
-		Direction direction = context.getPlacementHorizontalFacing();
-		Direction direction1 = direction.rotateYCCW();
-		BlockPos blockpos2 = blockpos.offset(direction1);
+		IBlockReader iblockreader = context.getLevel();
+		BlockPos blockpos = context.getClickedPos();
+		Direction direction = context.getHorizontalDirection();
+		Direction direction1 = direction.getCounterClockWise();
+		BlockPos blockpos2 = blockpos.relative(direction1);
 		BlockState blockstate = iblockreader.getBlockState(blockpos2);
-		Direction direction2 = direction.rotateY();
-		BlockPos blockpos4 = blockpos.offset(direction2);
+		Direction direction2 = direction.getClockWise();
+		BlockPos blockpos4 = blockpos.relative(direction2);
 		BlockState blockstate2 = iblockreader.getBlockState(blockpos4);
-		int i = (blockstate.hasOpaqueCollisionShape(iblockreader, blockpos2) ? -1 : 0) + (blockstate2.hasOpaqueCollisionShape(iblockreader, blockpos4) ? 1 : 0);
-		boolean flag = blockstate.matchesBlock(this);
-		boolean flag1 = blockstate2.matchesBlock(this);
+		int i = (blockstate.isCollisionShapeFullBlock(iblockreader, blockpos2) ? -1 : 0) + (blockstate2.isCollisionShapeFullBlock(iblockreader, blockpos4) ? 1 : 0);
+		boolean flag = blockstate.is(this);
+		boolean flag1 = blockstate2.is(this);
 		if ((!flag || flag1) && i <= 0) {
 			if ((!flag1 || flag) && i >= 0) {
-				int j = direction.getXOffset();
-				int k = direction.getZOffset();
-				Vector3d vector3d = context.getHitVec();
+				int j = direction.getStepX();
+				int k = direction.getStepZ();
+				Vector3d vector3d = context.getClickLocation();
 				double d0 = vector3d.x - (double)blockpos.getX();
 				double d1 = vector3d.z - (double)blockpos.getZ();
 				return (j >= 0 || !(d1 < 0.5D)) && (j <= 0 || !(d1 > 0.5D)) && (k >= 0 || !(d0 > 0.5D)) && (k <= 0 || !(d0 < 0.5D)) ? DoorHingeSide.LEFT : DoorHingeSide.RIGHT;
@@ -118,24 +118,24 @@ public class HalfDoorBlock extends Block {
 		}
 	}
 
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 
-		if (!worldIn.isRemote) {
-			worldIn.setBlockState(pos, state.with(OPEN, !state.get(OPEN)), 10);
-			worldIn.playEvent(player, state.get(OPEN) ? this.getOpenSound() : this.getCloseSound(), pos, 0);
+		if (!worldIn.isClientSide) {
+			worldIn.setBlock(pos, state.setValue(OPEN, !state.getValue(OPEN)), 10);
+			worldIn.levelEvent(player, state.getValue(OPEN) ? this.getOpenSound() : this.getCloseSound(), pos, 0);
 		}
-		return ActionResultType.sidedSuccess(worldIn.isRemote);
+		return ActionResultType.sidedSuccess(worldIn.isClientSide);
 	}
 
 	public boolean isOpen(BlockState state) {
-		return state.get(OPEN);
+		return state.getValue(OPEN);
 	}
 
 
 	public void openDoor(World worldIn, BlockState state, BlockPos pos, boolean open) {
-		if (state.matchesBlock(this)) {
+		if (state.is(this)) {
 			// Open normally
-			worldIn.setBlockState(pos, state.with(OPEN, open), 10);
+			worldIn.setBlock(pos, state.setValue(OPEN, open), 10);
 		}
 	}
 
@@ -153,7 +153,7 @@ public class HalfDoorBlock extends Block {
 	}
 
 	private void playSound(World worldIn, BlockPos pos, boolean isOpening) {
-		worldIn.playEvent((PlayerEntity)null, isOpening ? this.getOpenSound() : this.getCloseSound(), pos, 0);
+		worldIn.levelEvent((PlayerEntity)null, isOpening ? this.getOpenSound() : this.getCloseSound(), pos, 0);
 	}
 
 
@@ -163,21 +163,21 @@ public class HalfDoorBlock extends Block {
 
 
 	public BlockState rotate(BlockState state, Rotation rot) {
-		return state.with(FACING, rot.rotate(state.get(FACING)));
+		return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
 	}
 
 
 	public BlockState mirror(BlockState state, Mirror mirrorIn) {
-		return mirrorIn == Mirror.NONE ? state : state.rotate(mirrorIn.toRotation(state.get(FACING))).cycleValue(HINGE);
+		return mirrorIn == Mirror.NONE ? state : state.rotate(mirrorIn.getRotation(state.getValue(FACING))).cycle(HINGE);
 	}
 
 
 	@OnlyIn(Dist.CLIENT)
 	public long getPositionRandom(BlockState state, BlockPos pos) {
-		return MathHelper.getCoordinateRandom(pos.getX(), pos.getY(), pos.getZ());
+		return MathHelper.getSeed(pos.getX(), pos.getY(), pos.getZ());
 	}
 
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(FACING, OPEN, HINGE);
 	}
 

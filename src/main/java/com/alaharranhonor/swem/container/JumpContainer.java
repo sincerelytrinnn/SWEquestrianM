@@ -36,21 +36,21 @@ public class JumpContainer extends Container {
 	public JumpContainer(int id, final PlayerInventory playerInventory, final JumpTE controller) {
 		super(SWEMContainers.JUMP_CONTAINER.get(), id);
 		this.controller = controller;
-		if (!playerInventory.player.world.isRemote) {
+		if (!playerInventory.player.level.isClientSide) {
 			this.player = (ServerPlayerEntity) playerInventory.player;
 		}
 	}
 
 	@Override
-	public boolean canInteractWith(PlayerEntity playerIn) {
+	public boolean stillValid(PlayerEntity playerIn) {
 		return true;
 	}
 
 	private static JumpTE getTileEntity(final PlayerInventory inventory, final PacketBuffer data) {
-		if (inventory.player.world.isRemote) return null;
+		if (inventory.player.level.isClientSide) return null;
 		Objects.requireNonNull(inventory, "Inventory cannot be null");
 		Objects.requireNonNull(data, "Packet Data cannot be null");
-		TileEntity tileAtPos = inventory.player.world.getTileEntity(data.readBlockPos());
+		TileEntity tileAtPos = inventory.player.level.getBlockEntity(data.readBlockPos());
 		if (tileAtPos instanceof JumpTE) {
 			return (JumpTE) tileAtPos;
 		}
@@ -58,31 +58,31 @@ public class JumpContainer extends Container {
 	}
 
 	@Override
-	public void detectAndSendChanges() {
+	public void broadcastChanges() {
 		if (player == null) return;
-		if (player.world.isRemote) return;
+		if (player.level.isClientSide) return;
 
 		if (layerAmount != controller.getLayerAmount()) {
-			SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> this.player), new SDataSendPacket(controller.getPos(), controller.layerAmount, controller.layerTypes, controller.layerColors, controller.currentStandard));
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> this.player), new SDataSendPacket(controller.getBlockPos(), controller.layerAmount, controller.layerTypes, controller.layerColors, controller.currentStandard));
 			layerAmount = controller.layerAmount;
 		}
 
 		for (Map.Entry<Integer, JumpLayer> entry : controller.layerTypes.entrySet()) {
 			if (!layerTypes.entrySet().contains(entry)) {
-				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> this.player), new SDataSendPacket(controller.getPos(), controller.layerAmount, controller.layerTypes, controller.layerColors, controller.currentStandard));
+				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> this.player), new SDataSendPacket(controller.getBlockPos(), controller.layerAmount, controller.layerTypes, controller.layerColors, controller.currentStandard));
 				layerTypes.put(entry.getKey(), entry.getValue());
 			}
 		}
 
 		for (Map.Entry<Integer, Integer> entry : controller.layerColors.entrySet()) {
 			if (!layerColors.entrySet().contains(entry)) {
-				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> this.player), new SDataSendPacket(controller.getPos(), controller.layerAmount, controller.layerTypes, controller.layerColors, controller.currentStandard));
+				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> this.player), new SDataSendPacket(controller.getBlockPos(), controller.layerAmount, controller.layerTypes, controller.layerColors, controller.currentStandard));
 				layerColors.put(entry.getKey(), entry.getValue());
 			}
 		}
 
 		if (currentStandard != controller.getCurrentStandard()) {
-			SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> this.player), new SDataSendPacket(controller.getPos(), controller.layerAmount, controller.layerTypes, controller.layerColors, controller.currentStandard));
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> this.player), new SDataSendPacket(controller.getBlockPos(), controller.layerAmount, controller.layerTypes, controller.layerColors, controller.currentStandard));
 			currentStandard = controller.getCurrentStandard();
 		}
 	}

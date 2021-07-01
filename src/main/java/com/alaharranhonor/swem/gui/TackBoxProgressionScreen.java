@@ -44,33 +44,33 @@ public class TackBoxProgressionScreen extends Screen {
 		this.renderBackground(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.minecraft.getTextureManager().bindTexture(TACKBOX_PROGRESSION_TEXTURE);
+		this.minecraft.getTextureManager().bind(TACKBOX_PROGRESSION_TEXTURE);
 		int i = (this.width - 247) / 2;
 		int j = (this.height - 207) / 2;
 		this.blit(matrixStack, i, j, 0, 0, 247, 207);
-		this.font.drawText(matrixStack, this.title, (float) this.guiLeft + 13, (float)this.guiTop + 30, 4210752);
+		this.font.draw(matrixStack, this.title, (float) this.guiLeft + 13, (float)this.guiTop + 30, 4210752);
 	}
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		if (mouseY >= this.guiTop && mouseY <= this.guiTop + 22) {
 			if (mouseX >= this.guiLeft + 3 && mouseX <= this.guiLeft + 27) {
-				this.getMinecraft().getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
-				minecraft.displayGuiScreen(new TackBoxDefaultScreen(this.container, this.inv, this.text));
+				this.getMinecraft().getSoundManager().play(SimpleSound.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+				minecraft.setScreen(new TackBoxDefaultScreen(this.container, this.inv, this.text));
 				return true;
 			}
 			if (mouseX >= this.guiLeft + 34 && mouseX <= this.guiLeft + 56) {
-				this.getMinecraft().getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
-				minecraft.displayGuiScreen(new TackBoxBirthScreen(this.container, this.inv, this.text, new TranslationTextComponent("container.swem.tack_box_certificate")));
+				this.getMinecraft().getSoundManager().play(SimpleSound.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+				minecraft.setScreen(new TackBoxBirthScreen(this.container, this.inv, this.text, new TranslationTextComponent("container.swem.tack_box_certificate")));
 				return true;
 			}
 			if (mouseX >= this.guiLeft + 65 && mouseX <= this.guiLeft + 87) {
-				this.getMinecraft().getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
-				minecraft.displayGuiScreen(new TackBoxGeneticsScreen(this.container, this.inv, this.text, new TranslationTextComponent("container.swem.tack_box_genetics")));
+				this.getMinecraft().getSoundManager().play(SimpleSound.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+				minecraft.setScreen(new TackBoxGeneticsScreen(this.container, this.inv, this.text, new TranslationTextComponent("container.swem.tack_box_genetics")));
 				return true;
 			}
 			if (mouseX >= this.guiLeft + 96 && mouseX <= this.guiLeft + 118) {
-				this.getMinecraft().getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+				this.getMinecraft().getSoundManager().play(SimpleSound.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0f));
 				return true;
 			}
 		}

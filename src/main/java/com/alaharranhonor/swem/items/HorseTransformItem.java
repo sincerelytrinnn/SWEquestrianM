@@ -26,16 +26,16 @@ public class HorseTransformItem extends Item {
 	}
 
 	@Override
-	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (target instanceof SWEMHorseEntityBase) {
 			SWEMHorseEntityBase horseEntity = (SWEMHorseEntityBase) target;
 
-			if (!playerIn.world.isRemote) {
-				BlockPos targetPos = target.getPosition();
+			if (!playerIn.level.isClientSide) {
+				BlockPos targetPos = target.blockPosition();
 				horseEntity.setCoatColour(this.coat);
 			}
 			stack.shrink(1);
-			return ActionResultType.sidedSuccess(playerIn.world.isRemote);
+			return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
 		}
 		return ActionResultType.PASS;
 	}

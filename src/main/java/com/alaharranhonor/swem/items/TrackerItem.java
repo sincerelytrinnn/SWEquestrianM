@@ -20,18 +20,18 @@ public class TrackerItem extends ItemBase {
 
 
 	@Override
-	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (target instanceof SWEMHorseEntityBase) {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
 
-			if (horse.isChild() || !horse.isTame()) return ActionResultType.FAIL;
+			if (horse.isBaby() || !horse.isTamed()) return ActionResultType.FAIL;
 
 			CompoundNBT nbt = stack.getOrCreateTag();
-			CompoundNBT tracked = stack.getOrCreateChildTag("tracked");
+			CompoundNBT tracked = stack.getOrCreateTagElement("tracked");
 
-			tracked.putUniqueId(Integer.toString(tracked.size()), horse.getUniqueID());
+			tracked.putUUID(Integer.toString(tracked.size()), horse.getUUID());
 
-			playerIn.sendStatusMessage(new StringTextComponent("Horse is now being tracked"), true);
+			playerIn.displayClientMessage(new StringTextComponent("Horse is now being tracked"), true);
 
 			nbt.put("tracked", tracked);
 			return ActionResultType.CONSUME;
@@ -40,29 +40,29 @@ public class TrackerItem extends ItemBase {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		if (!worldIn.isRemote) {
-			ItemStack stack = playerIn.getHeldItem(handIn);
+	public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+		if (!worldIn.isClientSide) {
+			ItemStack stack = playerIn.getItemInHand(handIn);
 
-			CompoundNBT tracked = stack.getOrCreateChildTag("tracked");
+			CompoundNBT tracked = stack.getOrCreateTagElement("tracked");
 
 			StringBuilder builder = new StringBuilder();
 
 			ServerWorld world = (ServerWorld) worldIn;
 
 			for (int i = 0; i < tracked.size(); i++) {
-				UUID uuid = tracked.getUniqueId(Integer.toString(i));
-				Entity entity = world.getEntityByUuid(uuid);
+				UUID uuid = tracked.getUUID(Integer.toString(i));
+				Entity entity = world.getEntity(uuid);
 				if (entity instanceof SWEMHorseEntityBase) {
-					builder.append(entity.getName().getString()).append(" x: ").append(entity.getPosition().getX()).append(" - y: ").append(entity.getPosition().getY()).append(" - z: ").append(entity.getPosition().getZ()).append("\n");
+					builder.append(entity.getName().getString()).append(" x: ").append(entity.blockPosition().getX()).append(" - y: ").append(entity.blockPosition().getY()).append(" - z: ").append(entity.blockPosition().getZ()).append("\n");
 				}
 			}
 
-			playerIn.sendMessage(new StringTextComponent(builder.toString()), Util.DUMMY_UUID);
-			return ActionResult.resultConsume(stack);
+			playerIn.sendMessage(new StringTextComponent(builder.toString()), Util.NIL_UUID);
+			return ActionResult.consume(stack);
 		}
 
-		return super.onItemRightClick(worldIn, playerIn, handIn);
+		return super.use(worldIn, playerIn, handIn);
 
 	}
 }

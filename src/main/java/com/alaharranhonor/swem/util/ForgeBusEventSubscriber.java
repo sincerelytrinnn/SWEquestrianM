@@ -83,42 +83,42 @@ public class ForgeBusEventSubscriber {
 		KeyBinding[] keyBindings = ClientEventBusSubscriber.keyBindings;
 		if (KEY_PRESS_COUNTER == 1) {
 
-			if (keyBindings[0].isPressed()) {
+			if (keyBindings[0].consumeClick()) {
 				// Increment Speed.
 				ClientPlayerEntity player = Minecraft.getInstance().player;
-				Entity entity = player.getRidingEntity();
+				Entity entity = player.getVehicle();
 				if (entity instanceof SWEMHorseEntityBase) {
 					SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-					SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(1, horse.getEntityId()));
+					SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(1, horse.getId()));
 				}
 			}
 
-			if (keyBindings[1].isPressed()) {
+			if (keyBindings[1].consumeClick()) {
 				// Decrement speed
 				ClientPlayerEntity player = Minecraft.getInstance().player;
-				Entity entity = player.getRidingEntity();
+				Entity entity = player.getVehicle();
 				if (entity instanceof SWEMHorseEntityBase) {
 					SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-					SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(0, horse.getEntityId()));
+					SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(0, horse.getId()));
 				}
 			}
 
-			if (keyBindings[2].isPressed()) {
+			if (keyBindings[2].consumeClick()) {
 				ClientPlayerEntity player = Minecraft.getInstance().player;
-				Entity entity = player.getRidingEntity();
+				Entity entity = player.getVehicle();
 				if (entity instanceof SWEMHorseEntityBase) {
 					SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-					ItemStack saddleBagStack = horse.getHorseInventory().getStackInSlot(7);
+					ItemStack saddleBagStack = horse.getHorseInventory().getItem(7);
 					if (saddleBagStack.isEmpty()) {
-						player.sendStatusMessage(new TranslationTextComponent("swem.horse.status.no_saddle_bag"), true);
+						player.displayClientMessage(new TranslationTextComponent("swem.horse.status.no_saddle_bag"), true);
 						return;
 					}
 
-					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(6, horse.getEntityId()));
+					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(6, horse.getId()));
 				}
 			}
 
-			if (keyBindings[4].isPressed()) {
+			if (keyBindings[4].consumeClick()) {
 				int value = ConfigHolder.CLIENT.wingsTransparency.get();
 				value--;
 				if (value < 0) {
@@ -127,47 +127,47 @@ public class ForgeBusEventSubscriber {
 				ConfigHolder.CLIENT.wingsTransparency.set(value);
 			}
 
-			if (Minecraft.getInstance().gameSettings.keyBindForward.isKeyDown()) {
+			if (Minecraft.getInstance().options.keyUp.isDown()) {
 				SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(3));
 			}
 
-			if (Minecraft.getInstance().gameSettings.keyBindRight.isKeyDown()) {
-				Entity entity = Minecraft.getInstance().player.getRidingEntity();
+			if (Minecraft.getInstance().options.keyRight.isDown()) {
+				Entity entity = Minecraft.getInstance().player.getVehicle();
 				if (entity != null) {
 					if (entity instanceof SWEMHorseEntityBase) {
 						SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 						if (horse.isFlying()) {
 							SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(6));
-							horse.setRotation((horse.rotationYaw + 5) % 360.0F, horse.rotationPitch);
+							horse.setRot((horse.yRot + 5) % 360.0F, horse.xRot);
 						}
 
 					}
 				}
 			}
 
-			if (Minecraft.getInstance().gameSettings.keyBindLeft.isKeyDown()) {
-				Entity entity = Minecraft.getInstance().player.getRidingEntity();
+			if (Minecraft.getInstance().options.keyLeft.isDown()) {
+				Entity entity = Minecraft.getInstance().player.getVehicle();
 				if (entity != null) {
 					if (entity instanceof SWEMHorseEntityBase) {
 						SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 						if (horse.isFlying()) {
 							SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(5));
-							horse.setRotation((horse.rotationYaw - 5) % 360.0F, horse.rotationPitch);
+							horse.setRot((horse.yRot - 5) % 360.0F, horse.xRot);
 						}
 
 					}
 				}
 			}
 
-			if (Minecraft.getInstance().gameSettings.keyBindJump.isPressed()) {
+			if (Minecraft.getInstance().options.keyJump.consumeClick()) {
 				SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(1));
 			}
 
-			if (Minecraft.getInstance().gameSettings.keyBindDrop.isKeyDown()) {
+			if (Minecraft.getInstance().options.keyDrop.isDown()) {
 				SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(4));
 			}
 
-			if (keyBindings[3].isPressed()) {
+			if (keyBindings[3].consumeClick()) {
 				SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(2));
 			}
 
@@ -198,19 +198,19 @@ public class ForgeBusEventSubscriber {
 		if (event.getType() != RenderGameOverlayEvent.ElementType.JUMPBAR) return;
 
 		MatrixStack stack = event.getMatrixStack();
-		Minecraft.getInstance().getTextureManager().bindTexture(GUI_ICONS_LOCATION);
+		Minecraft.getInstance().getTextureManager().bind(GUI_ICONS_LOCATION);
 		ClientPlayerEntity player = Minecraft.getInstance().player;
 
-		if (!player.isRidingHorse()) return;
-		Entity entity = player.getRidingEntity();
+		if (!player.isRidingJumpable()) return;
+		Entity entity = player.getVehicle();
 		if (!(entity instanceof SWEMHorseEntityBase)) return;
 
 		event.setCanceled(true);
 		SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 
-		int xPosition = event.getWindow().getScaledWidth() / 2 - 100;
+		int xPosition = event.getWindow().getGuiScaledHeight() / 2 - 100;
 
-		float f = player.getHorseJumpPower();
+		float f = player.getJumpRidingScale();
 		int i = 201;
 		int j = (int)(f * 200.0F);
 		int level = horse.progressionManager.getJumpLeveling().getLevel();
@@ -218,10 +218,10 @@ public class ForgeBusEventSubscriber {
 
 		int amountToDraw = (int)(j * modifier);
 
-		int k = event.getWindow().getScaledHeight() - 32 + 3;
-		Minecraft.getInstance().ingameGUI.blit(stack, xPosition, k, 0, (5 * level), i, 5, 201, 30);
+		int k = event.getWindow().getGuiScaledHeight() - 32 + 3;
+		Minecraft.getInstance().gui.blit(stack, xPosition, k, 0, (5 * level), i, 5, 201, 30);
 		if (j > 0) {
-			Minecraft.getInstance().ingameGUI.blit(stack, xPosition + 1, k, 201 - ((level + 1) * 40), 25, amountToDraw, 5, 201, 30);
+			Minecraft.getInstance().gui.blit(stack, xPosition + 1, k, 201 - ((level + 1) * 40), 25, amountToDraw, 5, 201, 30);
 		}
 
 	}
@@ -231,9 +231,9 @@ public class ForgeBusEventSubscriber {
 		if (!(event.getEntity() instanceof PlayerEntity)) return;
 		if (event.getSource() != DamageSource.FALL) return;
 		PlayerEntity player = (PlayerEntity) event.getEntity();
-		if (player.isSneaking()) return;
+		if (player.isShiftKeyDown()) return;
 
-		ItemStack stack = player.getItemStackFromSlot(EquipmentSlotType.FEET);
+		ItemStack stack = player.getItemBySlot(EquipmentSlotType.FEET);
 		if (stack.getItem() instanceof AmethystRidingBoots) {
 			event.setAmount(-1);
 		}

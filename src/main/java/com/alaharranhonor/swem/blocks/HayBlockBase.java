@@ -12,10 +12,10 @@ import net.minecraft.block.AbstractBlock;
 public class HayBlockBase extends RotatedPillarBlock {
     public HayBlockBase(AbstractBlock.Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(AXIS, Direction.Axis.Y));
+        this.registerDefaultState(this.stateDefinition.any().setValue(AXIS, Direction.Axis.Y));
     }
 
     public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
-        entityIn.onLivingFall(fallDistance, 0.2F);
+        entityIn.causeFallDamage(fallDistance, 0.2F);
     }
 }

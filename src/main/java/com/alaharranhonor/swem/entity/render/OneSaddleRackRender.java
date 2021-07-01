@@ -41,9 +41,9 @@ public class OneSaddleRackRender extends GeoBlockRenderer<OneSaddleRackTE> {
 			return;
 		}
 
-		stack.push();
+		stack.pushPose();
 
-		Direction direction = tile.getBlockState().get(OneSaddleRack.HORIZONTAL_FACING);
+		Direction direction = tile.getBlockState().getValue(OneSaddleRack.FACING);
 		switch (direction) {
 			case WEST:
 				stack.translate(0.4375, 0.125, 0.5);
@@ -59,9 +59,9 @@ public class OneSaddleRackRender extends GeoBlockRenderer<OneSaddleRackTE> {
 				break;
 		}
 
-		stack.rotate(new Quaternion(0, 0 - direction.getHorizontalAngle(), 0, true));
+		stack.mulPose(new Quaternion(0, 0 - direction.toYRot(), 0, true));
 
-		IVertexBuilder builder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(((HorseSaddleItem) itemStack.getItem()).getSaddleRackTexture()));
+		IVertexBuilder builder = bufferIn.getBuffer(RenderType.entityCutoutNoCull(((HorseSaddleItem) itemStack.getItem()).getSaddleRackTexture()));
 		if (itemStack.getItem() instanceof WesternSaddleItem) {
 
 
@@ -103,7 +103,7 @@ public class OneSaddleRackRender extends GeoBlockRenderer<OneSaddleRackTE> {
 			}
 		}
 
-		stack.pop();
+		stack.popPose();
 
 
 	}

@@ -30,43 +30,43 @@ public class DevCommand {
 				Commands.literal("dev")
 						.then(Commands.literal("tackup")
 								.executes(ctx ->  {
-									ServerPlayerEntity player = ctx.getSource().asPlayer();
+									ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
 
-									Entity riding = player.getRidingEntity();
+									Entity riding = player.getVehicle();
 									if (riding instanceof SWEMHorseEntityBase) {
 										SWEMHorseEntityBase horse = (SWEMHorseEntityBase) riding;
 										Inventory inv = horse.getHorseInventory();
-										inv.setInventorySlotContents(0, new ItemStack(SWEMItems.WESTERN_BRIDLE_ORANGE.get()));
-										inv.setInventorySlotContents(1, new ItemStack(SWEMItems.WESTERN_BLANKET_ORANGE.get()));
-										inv.setInventorySlotContents(2, new ItemStack(SWEMItems.WESTERN_SADDLE_ORANGE.get()));
-										inv.setInventorySlotContents(5, new ItemStack(SWEMItems.WESTERN_GIRTH_STRAP_ORANGE.get()));
+										inv.setItem(0, new ItemStack(SWEMItems.WESTERN_BRIDLE_ORANGE.get()));
+										inv.setItem(1, new ItemStack(SWEMItems.WESTERN_BLANKET_ORANGE.get()));
+										inv.setItem(2, new ItemStack(SWEMItems.WESTERN_SADDLE_ORANGE.get()));
+										inv.setItem(5, new ItemStack(SWEMItems.WESTERN_GIRTH_STRAP_ORANGE.get()));
 									}
 
-									ctx.getSource().sendFeedback(new StringTextComponent("[§bSWEM§f] Your horse has been tacked up sir! (With the accent)"), false);
+									ctx.getSource().sendSuccess(new StringTextComponent("[§bSWEM§f] Your horse has been tacked up sir! (With the accent)"), false);
 									return 1;
 								})
 						)
 						.then(Commands.literal("tame")
 								.executes(ctx ->  {
-									ServerPlayerEntity player = ctx.getSource().asPlayer();
-									List<SWEMHorseEntityBase> list = player.world.getEntitiesWithinAABB(SWEMHorseEntityBase.class, new AxisAlignedBB(player.getPosX() - 7.0D, player.getPosY() - 7.0D, player.getPosZ() - 7.0D, player.getPosX() + 7.0D, player.getPosY() + 7.0D, player.getPosZ() + 7.0D));
+									ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
+									List<SWEMHorseEntityBase> list = player.level.getEntitiesOfClass(SWEMHorseEntityBase.class, new AxisAlignedBB(player.position().x - 7.0D, player.position().y - 7.0D, player.position().z- 7.0D, player.blockPosition().getX() + 7.0D, player.blockPosition().getY() + 7.0D, player.blockPosition().getZ() + 7.0D));
 
 									for(SWEMHorseEntityBase horse : list) {
 										if (horse != null) {
-											if (!horse.isTame())
-												horse.setTamedBy(player);
+											if (!horse.isTamed())
+												horse.tameWithName(player);
 										}
 									}
 
-									ctx.getSource().sendFeedback(new StringTextComponent("[§bSWEM§f] Your horse has been tamed for you sir! (With the accent)"), false);
+									ctx.getSource().sendSuccess(new StringTextComponent("[§bSWEM§f] Your horse has been tamed for you sir! (With the accent)"), false);
 									return 1;
 								})
 						)
 						.then(Commands.literal("maxlevel")
 								.executes(ctx ->  {
-									ServerPlayerEntity player = ctx.getSource().asPlayer();
+									ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
 
-									Entity riding = player.getRidingEntity();
+									Entity riding = player.getVehicle();
 									if (riding instanceof SWEMHorseEntityBase) {
 										SWEMHorseEntityBase horse = (SWEMHorseEntityBase) riding;
 
@@ -78,19 +78,19 @@ public class DevCommand {
 										}
 									}
 
-									ctx.getSource().sendFeedback(new StringTextComponent("[§bSWEM§f] Your horse has been maxed out sir! (With the accent)"), false);
+									ctx.getSource().sendSuccess(new StringTextComponent("[§bSWEM§f] Your horse has been maxed out sir! (With the accent)"), false);
 									return 1;
 								})
 						)
 						.then(Commands.literal("sethealth")
 							.executes(ctx -> {
-								Entity riding = ctx.getSource().asPlayer().getRidingEntity();
+								Entity riding = ctx.getSource().getPlayerOrException().getVehicle();
 								if (riding instanceof  SWEMHorseEntityBase) {
 									SWEMHorseEntityBase horse = (SWEMHorseEntityBase) riding;
 
 									horse.setHealth(10.0f);
 
-									ctx.getSource().sendFeedback(new StringTextComponent("[SWEM] You're horse's health has been set to 10"), false);
+									ctx.getSource().sendSuccess(new StringTextComponent("[SWEM] You're horse's health has been set to 10"), false);
 									return 1;
 								}
 								return 0;

@@ -27,7 +27,7 @@ public class RenameItemPacket {
 
 	public static RenameItemPacket decode(ByteBuf buf) {
 		try {
-			String name = ((PacketBuffer) buf).readString(32767);
+			String name = ((PacketBuffer) buf).readUtf(32767);
 			return new RenameItemPacket(name);
 		} catch (IndexOutOfBoundsException e) {
 			SWEM.LOGGER.error("RenameItemPacket: Unexpected end of packet.\nMessage: " + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()), e);
@@ -36,15 +36,15 @@ public class RenameItemPacket {
 	}
 
 	public static void encode(RenameItemPacket msg, PacketBuffer buffer) {
-		buffer.writeString(msg.name);
+		buffer.writeUtf(msg.name);
 	}
 
 	public static void handle(RenameItemPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 
-			if (ctx.get().getSender().openContainer instanceof CantazariteAnvilContainer) {
-				CantazariteAnvilContainer container = (CantazariteAnvilContainer)ctx.get().getSender().openContainer;
-				String s = SharedConstants.filterAllowedCharacters(msg.name);
+			if (ctx.get().getSender().containerMenu instanceof CantazariteAnvilContainer) {
+				CantazariteAnvilContainer container = (CantazariteAnvilContainer)ctx.get().getSender().containerMenu;
+				String s = SharedConstants.filterText(msg.name);
 				if (s.length() <= 35) {
 					container.updateItemName(s);
 				}

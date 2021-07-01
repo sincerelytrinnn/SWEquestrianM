@@ -14,12 +14,12 @@ import java.util.stream.Stream;
 public class ConeBase extends Block{
 
     private static final VoxelShape voxelShape = Stream.of(
-            Block.makeCuboidShape(6, 13, 6, 10, 19, 10),
-            Block.makeCuboidShape(5, 7, 5, 11, 13, 11),
-            Block.makeCuboidShape(4, 1, 4, 12, 7, 12),
-            Block.makeCuboidShape(2, 0, 2, 14, 1, 14),
-            Block.makeCuboidShape(7, 19, 7, 9, 24, 9)
-    ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get();
+            Block.box(6, 13, 6, 10, 19, 10),
+            Block.box(5, 7, 5, 11, 13, 11),
+            Block.box(4, 1, 4, 12, 7, 12),
+            Block.box(2, 0, 2, 14, 1, 14),
+            Block.box(7, 19, 7, 9, 24, 9)
+    ).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get();
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
@@ -27,15 +27,15 @@ public class ConeBase extends Block{
     }
 
     public ConeBase() {
-        super(AbstractBlock.Properties.create(Material.IRON)
-                .hardnessAndResistance(0f, 0.5f)
+        super(AbstractBlock.Properties.of(Material.METAL)
+                .strength(0f, 0.5f)
                 .sound(SoundType.SCAFFOLDING)
                 .harvestLevel(0)
         );
     }
 
     @Override
-    public float getAmbientOcclusionLightValue(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public float getShadeBrightness(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return 0.6f;
     }
 }

@@ -28,15 +28,15 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 	public SWEMHorseEntity(EntityType<? extends SWEMHorseEntityBase> type, World worldIn) {
 		super(type, worldIn);
-		this.ignoreFrustumCheck = true;
+		this.noCulling = true;
 	}
 
 	// createChild method
 	@Nullable
 	@Override
-	public AgeableEntity createChild(ServerWorld p_241840_1_, AgeableEntity p_241840_2_)
+	public AgeableEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_)
 	{
-		return SWEMEntities.SWEM_HORSE_ENTITY.get().create(this.world);
+		return SWEMEntities.SWEM_HORSE_ENTITY.get().create(this.level);
 	}
 
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
@@ -64,7 +64,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			return PlayState.CONTINUE;
 		}*/
 
-		if (horse.isRearing()) {
+		if (horse.isStanding()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("Rear"));
 			return PlayState.CONTINUE;
 		}
@@ -74,7 +74,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			return PlayState.CONTINUE;
 		}
 
-		if (horse.isHorseJumping() && horse.jumpHeight != 0) {
+		if (horse.isJumping() && horse.jumpHeight != 0) {
 			System.out.println(horse.jumpHeight);
 			if (horse.jumpHeight > 4.0F) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump"));
@@ -94,13 +94,13 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		if (!event.isMoving()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_idle"));
 		} else {
-			if (horse.getDataManager().get(SPEED_LEVEL) == 0) {
+			if (horse.getEntityData().get(SPEED_LEVEL) == 0) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Walk"));
-			} else if (horse.getDataManager().get(SPEED_LEVEL) == 1) {
+			} else if (horse.getEntityData().get(SPEED_LEVEL) == 1) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Trot"));
-			} else if (horse.getDataManager().get(SPEED_LEVEL) == 2) {
+			} else if (horse.getEntityData().get(SPEED_LEVEL) == 2) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Canter"));
-			} else if (horse.getDataManager().get(SPEED_LEVEL) == 3) {
+			} else if (horse.getEntityData().get(SPEED_LEVEL) == 3) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Gallop"));
 			}
 		}

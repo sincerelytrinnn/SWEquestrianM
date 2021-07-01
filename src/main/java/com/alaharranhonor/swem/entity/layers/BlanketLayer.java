@@ -32,10 +32,10 @@ public class BlanketLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json")),
 					entitylivingbaseIn,
 					partialTicks,
-					RenderType.getEntityCutout(blanket.getArmorTexture()),
+					RenderType.entityCutout(blanket.getArmorTexture()),
 					matrixStackIn,
 					bufferIn,
-					bufferIn.getBuffer(RenderType.getEntityCutout(blanket.getArmorTexture())),
+					bufferIn.getBuffer(RenderType.entityCutout(blanket.getArmorTexture())),
 					packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
 			);
 		}

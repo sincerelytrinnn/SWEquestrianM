@@ -15,17 +15,17 @@ public class AmethystRidingBoots extends DiamondRidingBoots {
 	}
 
 	@Override
-	public void onCreated(ItemStack stack, World worldIn, PlayerEntity playerIn) {
-		super.onCreated(stack, worldIn, playerIn);
+	public void onCraftedBy(ItemStack stack, World worldIn, PlayerEntity playerIn) {
+		super.onCraftedBy(stack, worldIn, playerIn);
 	}
 
 	@Override
 	public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
 		super.onArmorTick(stack, world, player);
-		if (player.isSneaking()) return;
-		Vector3d motion = player.getMotion();
+		if (player.isCrouching()) return;
+		Vector3d motion = player.getDeltaMovement();
 		if (!player.isOnGround() && motion.y < 0.0D) {
-			player.setMotion(motion.mul(1.0D, 0.7D, 1.0D));
+			player.setDeltaMovement(motion.multiply(1.0D, 0.7D, 1.0D));
 		}
 	}
 }

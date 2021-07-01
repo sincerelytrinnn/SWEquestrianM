@@ -36,10 +36,10 @@ public class OneSaddleRack extends HorizontalBlock {
 
 	public OneSaddleRack(Properties properties) {
 		super(properties);
-		this.setDefaultState(
-			this.stateContainer.getBaseState()
-				.with(HORIZONTAL_FACING, Direction.NORTH)
-				.with(BlockStateProperties.HANGING, false)
+		this.registerDefaultState(
+			this.stateDefinition.any()
+				.setValue(FACING, Direction.NORTH)
+				.setValue(BlockStateProperties.HANGING, false)
 		);
 
 	}
@@ -47,13 +47,13 @@ public class OneSaddleRack extends HorizontalBlock {
 
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		if (!worldIn.isRemote && handIn == Hand.MAIN_HAND) {
-			TileEntity tile = worldIn.getTileEntity(hit.getPos());
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
+			TileEntity tile = worldIn.getBlockEntity(hit.getBlockPos());
 			if (tile instanceof OneSaddleRackTE) {
 				OneSaddleRackTE rack = (OneSaddleRackTE) tile;
-				if (player.getHeldItem(handIn).getItem() instanceof HorseSaddleItem) {
-					ItemStack saddle = player.getHeldItem(handIn);
+				if (player.getItemInHand(handIn).getItem() instanceof HorseSaddleItem) {
+					ItemStack saddle = player.getItemInHand(handIn);
 					if (rack.itemHandler.getStackInSlot(0) == ItemStack.EMPTY) {
 						ItemStack saddleCopy;
 						if (player.isCreative()) {
@@ -62,23 +62,23 @@ public class OneSaddleRack extends HorizontalBlock {
 							saddleCopy = saddle.split(1);
 						}
 						CompoundNBT tag = saddleCopy.getOrCreateTag();
-						tag.putUniqueId("UUID", UUID.randomUUID());
+						tag.putUUID("UUID", UUID.randomUUID());
 						saddleCopy.setTag(tag);
 						rack.itemHandler.setStackInSlot(0, saddleCopy);
-						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
-						return ActionResultType.sidedSuccess(worldIn.isRemote);
+						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getLevel().getChunkAt(rack.getBlockPos())).send(rack.getUpdatePacket());
+						return ActionResultType.sidedSuccess(worldIn.isClientSide);
 					}
 				} else {
 					if (rack.itemHandler.getStackInSlot(0) != ItemStack.EMPTY) {
-						if (!player.abilities.isCreativeMode) {
-							ItemEntity itementity = new ItemEntity(worldIn, rack.getPos().getX(), rack.getPos().getY(), rack.getPos().getZ(), rack.itemHandler.getStackInSlot(0));
-							itementity.setMotion(RANDOM.nextGaussian() * (double) 0.05F, RANDOM.nextGaussian() * (double) 0.05F + (double) 0.2F, RANDOM.nextGaussian() * (double) 0.05F);
-							worldIn.addEntity(itementity);
+						if (!player.abilities.instabuild) {
+							ItemEntity itementity = new ItemEntity(worldIn, rack.getBlockPos().getX(), rack.getBlockPos().getY(), rack.getBlockPos().getZ(), rack.itemHandler.getStackInSlot(0));
+							itementity.setDeltaMovement(RANDOM.nextGaussian() * (double) 0.05F, RANDOM.nextGaussian() * (double) 0.05F + (double) 0.2F, RANDOM.nextGaussian() * (double) 0.05F);
+							worldIn.addFreshEntity(itementity);
 						}
 
 						rack.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
-						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
-						return ActionResultType.sidedSuccess(worldIn.isRemote);
+						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getLevel().getChunkAt(rack.getBlockPos())).send(rack.getUpdatePacket());
+						return ActionResultType.sidedSuccess(worldIn.isClientSide);
 					}
 
 				}
@@ -88,8 +88,8 @@ public class OneSaddleRack extends HorizontalBlock {
 	}
 
 	@Override
-	public void harvestBlock(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity te, ItemStack stack) {
-		if (te instanceof OneSaddleRackTE && !player.abilities.isCreativeMode) {
+	public void playerDestroy(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity te, ItemStack stack) {
+		if (te instanceof OneSaddleRackTE && !player.abilities.instabuild) {
 			((OneSaddleRackTE)te).dropItems();
 		}
 	}
@@ -107,31 +107,31 @@ public class OneSaddleRack extends HorizontalBlock {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return VoxelShapes.create(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
+		return VoxelShapes.box(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
 	}
 
 	@Override
-	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		if (worldIn.getBlockState(pos.down()).isSolid()) {
+	public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
+		if (worldIn.getBlockState(pos.below()).canOcclude()) {
 			return true;
-		} else return worldIn.getBlockState(pos.offset(state.get(HORIZONTAL_FACING))).isSolid();
+		} else return worldIn.getBlockState(pos.relative(state.getValue(FACING))).canOcclude();
 	}
 
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		boolean wallMount = context.getWorld().getBlockState(context.getPos().offset(context.getPlacementHorizontalFacing())).isSolid() && !context.getWorld().getBlockState(context.getPos().down()).isSolid();
+		boolean wallMount = context.getLevel().getBlockState(context.getClickedPos().relative(context.getHorizontalDirection())).canOcclude() && !context.getLevel().getBlockState(context.getClickedPos().below()).canOcclude();
 
-		return this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing()).with(BlockStateProperties.HANGING, wallMount);
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection()).setValue(BlockStateProperties.HANGING, wallMount);
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HORIZONTAL_FACING, SWEMBlockStateProperties.HANGING);
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(FACING, SWEMBlockStateProperties.HANGING);
 	}
 
 	@Override
-	public BlockRenderType getRenderType(BlockState state) {
+	public BlockRenderType getRenderShape(BlockState state) {
 		return BlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
 }

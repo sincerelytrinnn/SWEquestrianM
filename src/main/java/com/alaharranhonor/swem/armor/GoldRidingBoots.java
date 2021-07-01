@@ -22,8 +22,8 @@ public class GoldRidingBoots extends IronRidingBoots {
 	}
 
 	@Override
-	public void onCreated(ItemStack stack, World worldIn, PlayerEntity playerIn) {
-		super.onCreated(stack, worldIn, playerIn);
+	public void onCraftedBy(ItemStack stack, World worldIn, PlayerEntity playerIn) {
+		super.onCraftedBy(stack, worldIn, playerIn);
 	}
 
 	@Override
@@ -41,22 +41,22 @@ public class GoldRidingBoots extends IronRidingBoots {
 	@Override
 	public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
 		if (player.isOnGround()) {
-			BlockState blockstate = Blocks.FROSTED_ICE.getDefaultState();
+			BlockState blockstate = Blocks.FROSTED_ICE.defaultBlockState();
 			float f = (float)Math.min(16, 3);
 			BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
 
-			BlockPos pos = player.getPosition();
+			BlockPos pos = player.blockPosition();
 
-			for(BlockPos blockpos : BlockPos.getAllInBoxMutable(pos.add(-f, -1.0D, -f), pos.add(f, -1.0D, f))) {
-				if (blockpos.withinDistance(player.getPositionVec(), (double)f)) {
-					blockpos$mutable.setPos(blockpos.getX(), blockpos.getY() + 1, blockpos.getZ());
+			for(BlockPos blockpos : BlockPos.betweenClosed(pos.offset(-f, -1.0D, -f), pos.offset(f, -1.0D, f))) {
+				if (blockpos.closerThan(player.position(), (double)f)) {
+					blockpos$mutable.set(blockpos.getX(), blockpos.getY() + 1, blockpos.getZ());
 					BlockState blockstate1 = world.getBlockState(blockpos$mutable);
 					if (blockstate1.isAir(world, blockpos$mutable)) {
 						BlockState blockstate2 = world.getBlockState(blockpos);
-						boolean isFull = blockstate2.getBlock() == Blocks.WATER && blockstate2.get(FlowingFluidBlock.LEVEL) == 0; //TODO: Forge, modded waters?
-						if (blockstate2.getMaterial() == Material.WATER && isFull && blockstate.isValidPosition(world, blockpos) && world.placedBlockCollides(blockstate, blockpos, ISelectionContext.dummy()) && !net.minecraftforge.event.ForgeEventFactory.onBlockPlace(player, net.minecraftforge.common.util.BlockSnapshot.create(world.getDimensionKey(), world, blockpos), net.minecraft.util.Direction.UP)) {
-							world.setBlockState(blockpos, blockstate);
-							world.getPendingBlockTicks().scheduleTick(blockpos, Blocks.FROSTED_ICE, 20);
+						boolean isFull = blockstate2.getBlock() == Blocks.WATER && blockstate2.getValue(FlowingFluidBlock.LEVEL) == 0; //TODO: Forge, modded waters?
+						if (blockstate2.getMaterial() == Material.WATER && isFull && blockstate.canSurvive(world, blockpos) && world.isUnobstructed(blockstate, blockpos, ISelectionContext.empty()) && !net.minecraftforge.event.ForgeEventFactory.onBlockPlace(player, net.minecraftforge.common.util.BlockSnapshot.create(world.dimension(), world, blockpos), net.minecraft.util.Direction.UP)) {
+							world.setBlock(blockpos, blockstate, 3);
+							world.getBlockTicks().scheduleTick(blockpos, Blocks.FROSTED_ICE, 20);
 						}
 					}
 				}

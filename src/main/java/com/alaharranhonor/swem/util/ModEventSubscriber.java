@@ -20,13 +20,13 @@ public class ModEventSubscriber {
 		if (config.getModId().equals(SWEM.MOD_ID)) {
 			if (config.getSpec() == ConfigHolder.SERVER_SPEC) {
 				if (SWEMOreGen.AMETHYST_ORE == null) {
-					SWEMOreGen.AMETHYST_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.AMETHYST_ORE.get().getDefaultState());
+					SWEMOreGen.AMETHYST_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.AMETHYST_ORE.get().defaultBlockState());
 				}
 				if (SWEMOreGen.CANTAZARITE_ORE == null) {
-					SWEMOreGen.CANTAZARITE_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.CANTAZARITE_ORE.get().getDefaultState());
+					SWEMOreGen.CANTAZARITE_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.CANTAZARITE_ORE.get().defaultBlockState());
 				}
 				if (SWEMOreGen.SWLM_COBBLE_ORE == null) {
-					SWEMOreGen.SWLM_COBBLE_ORE = OreGenUtils.buildOverWorldFeature(SWLRegistryHandler.STAR_WORM_COBBLE.get().getDefaultState());
+					SWEMOreGen.SWLM_COBBLE_ORE = OreGenUtils.buildOverWorldFeature(SWLRegistryHandler.STAR_WORM_COBBLE.get().defaultBlockState());
 				}
 				ConfigHelper.bakeServer(config);
 			}

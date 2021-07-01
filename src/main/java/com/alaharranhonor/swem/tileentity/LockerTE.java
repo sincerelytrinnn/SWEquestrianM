@@ -71,14 +71,14 @@ public class LockerTE extends LockableLootTileEntity implements INamedContainerP
 	}
 
 	@Override
-	public int getSizeInventory() {
+	public int getContainerSize() {
 		return 54;
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT compound) {
-		super.write(compound);
-		if (!this.checkLootAndWrite(compound)) {
+	public CompoundNBT save(CompoundNBT compound) {
+		super.save(compound);
+		if (!this.trySaveLootTable(compound)) {
 			ItemStackHelper.saveAllItems(compound, this.lockerContents);
 		}
 		return compound;
@@ -87,27 +87,27 @@ public class LockerTE extends LockableLootTileEntity implements INamedContainerP
 
 
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
-		super.read(state, nbt);
-		this.lockerContents = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
-		if (!this.checkLootAndRead(nbt)) {
+	public void load(BlockState state, CompoundNBT nbt) {
+		super.load(state, nbt);
+		this.lockerContents = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+		if (!this.tryLoadLootTable(nbt)) {
 			ItemStackHelper.loadAllItems(nbt, this.lockerContents);
 		}
 
 	}
 
 	@Override
-	public boolean receiveClientEvent(int id, int type) {
+	public boolean triggerEvent(int id, int type) {
 		if (id == 1) {
 			this.numPlayersUsing = type;
 			return true;
 		} else {
-			return super.receiveClientEvent(id, type);
+			return super.triggerEvent(id, type);
 		}
 	}
 
 	@Override
-	public void openInventory(PlayerEntity player) {
+	public void startOpen(PlayerEntity player) {
 		if (!player.isSpectator()) {
 			if (this.numPlayersUsing < 0) {
 				this.numPlayersUsing = 0;
@@ -119,7 +119,7 @@ public class LockerTE extends LockableLootTileEntity implements INamedContainerP
 	}
 
 	@Override
-	public void closeInventory(PlayerEntity player) {
+	public void stopOpen(PlayerEntity player) {
 		if (!player.isSpectator()) {
 			--this.numPlayersUsing;
 			this.onOpenOrClose();
@@ -129,8 +129,8 @@ public class LockerTE extends LockableLootTileEntity implements INamedContainerP
 	protected void onOpenOrClose() {
 		Block block = this.getBlockState().getBlock();
 		if (block instanceof LockerBlock) {
-			this.world.addBlockEvent(this.pos, block, 1, this.numPlayersUsing);
-			this.world.notifyNeighborsOfStateChange(this.pos, block);
+			this.level.blockEvent(this.getBlockPos(), block, 1, this.numPlayersUsing);
+			this.level.updateNeighborsAt(this.getBlockPos(), block);
 		}
 	}
 
@@ -141,8 +141,8 @@ public class LockerTE extends LockableLootTileEntity implements INamedContainerP
 	}
 
 	@Override
-	public void updateContainingBlockInfo() {
-		super.updateContainingBlockInfo();
+	public void clearCache() {
+		super.clearCache();
 		if (this.itemHandler != null) {
 			this.itemHandler.invalidate();
 			this.itemHandler = null;
@@ -159,8 +159,8 @@ public class LockerTE extends LockableLootTileEntity implements INamedContainerP
 	}
 
 	@Override
-	public void remove() {
-		super.remove();
+	public void setRemoved() {
+		super.setRemoved();
 		if (itemHandler != null) {
 			itemHandler.invalidate();
 		}

@@ -34,41 +34,41 @@ public class CantazaritePotionItem extends PotionItem {
 		super(builder);
 	}
 
-	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (target instanceof HorseEntity) {
 			HorseEntity horseEntity = (HorseEntity) target;
 			CoatColors vanillaCoat = horseEntity.getVariant();
 
-			if (!playerIn.world.isRemote) {
-				BlockPos targetPos = target.getPosition();
+			if (!playerIn.level.isClientSide) {
+				BlockPos targetPos = target.blockPosition();
 				target.remove();
-				SWEMHorseEntity horse1 = (SWEMHorseEntity) SWEMEntities.SWEM_HORSE_ENTITY.get().spawn((ServerWorld) playerIn.world, null, playerIn, targetPos, SpawnReason.MOB_SUMMONED, true, false);
+				SWEMHorseEntity horse1 = (SWEMHorseEntity) SWEMEntities.SWEM_HORSE_ENTITY.get().spawn((ServerWorld) playerIn.level, null, playerIn, targetPos, SpawnReason.MOB_SUMMONED, true, false);
 				horse1.calculatePotionCoat(vanillaCoat);
 			}
 			stack.shrink(1);
-			return ActionResultType.sidedSuccess(playerIn.world.isRemote);
+			return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
 		}
 		return ActionResultType.PASS;
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		return ActionResult.resultPass(playerIn.getHeldItem(handIn));
+	public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+		return ActionResult.pass(playerIn.getItemInHand(handIn));
 	}
 
 	@Override
-	public UseAction getUseAction(ItemStack stack) {
+	public UseAction getUseAnimation(ItemStack stack) {
 		return UseAction.NONE;
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
 		tooltip.add(new TranslationTextComponent("swem.potion.cantazarite_potion.effect"));
 	}
 
 	@Override
-	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-		if (this.isInGroup(group)) {
+	public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+		if (this.allowdedIn(group)) {
 			items.add(new ItemStack(this));
 		}
 	}
