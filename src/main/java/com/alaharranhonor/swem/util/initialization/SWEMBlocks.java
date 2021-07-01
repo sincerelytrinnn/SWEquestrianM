@@ -135,13 +135,13 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> HORSE_ARMOR_RACK = BLOCKS.register("horse_armor_rack", () -> new HorseArmorRackBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
 	public static final RegistryObject<Block> WESTERN_BARREL = register("western_barrel", () -> new BarrelBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
 
-	public static final RegistryObject<Block> WHITEWASH_PLANK = BLOCKS.register("whitewash_plank", () -> new Block(AbstractBlock.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 3.0F).harvestTool(ToolType.AXE)));
-	public static final RegistryObject<Block> WHITEWASH_SLAB = BLOCKS.register("whitewash_slab", () -> new SlabBlock(AbstractBlock.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 3.0F).harvestTool(ToolType.AXE)));
-	public static final RegistryObject<Block> WHITEWASH_STAIRS = BLOCKS.register("whitewash_stairs", () -> new StairsBlock(Blocks.OAK_WOOD.getDefaultState(), AbstractBlock.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 3.0F).harvestTool(ToolType.AXE)));
-	public static final RegistryObject<Block> WHITEWASH_BUTTON = BLOCKS.register("whitewash_button", () -> new WoodButtonBlock(AbstractBlock.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 3.0F).harvestTool(ToolType.AXE)));
-	public static final RegistryObject<Block> WHITEWASH_FENCE = BLOCKS.register("whitewash_fence", () -> new FenceBlock(AbstractBlock.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 3.0F).harvestTool(ToolType.AXE)));
-	public static final RegistryObject<Block> WHITEWASH_FENCE_GATE = BLOCKS.register("whitewash_fence_gate", () -> new FenceGateBlock(AbstractBlock.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 3.0F).harvestTool(ToolType.AXE)));
-	public static final RegistryObject<Block> WHITEWASH_DOOR = BLOCKS.register("whitewash_door", () -> new DoorBlock(AbstractBlock.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> WHITEWASH_PLANK = BLOCKS.register("whitewash_plank", () -> new Block(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> WHITEWASH_SLAB = BLOCKS.register("whitewash_slab", () -> new SlabBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> WHITEWASH_STAIRS = BLOCKS.register("whitewash_stairs", () -> new StairsBlock(Blocks.OAK_WOOD.defaultBlockState(), AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> WHITEWASH_BUTTON = BLOCKS.register("whitewash_button", () -> new WoodButtonBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> WHITEWASH_FENCE = BLOCKS.register("whitewash_fence", () -> new FenceBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> WHITEWASH_FENCE_GATE = BLOCKS.register("whitewash_fence_gate", () -> new FenceGateBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> WHITEWASH_DOOR = BLOCKS.register("whitewash_door", () -> new DoorBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
 
     // Jump blocks
 	public static final RegistryObject<Block> JUMP_CONTROLLER = BLOCKS.register("jump_controller", () -> new JumpControllerBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
