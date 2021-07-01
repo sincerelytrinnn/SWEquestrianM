@@ -6,10 +6,7 @@ import com.alaharranhonor.swem.commands.DevCommand;
 import com.alaharranhonor.swem.commands.YeetCommand;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.network.HorseFlyingMessage;
-import com.alaharranhonor.swem.network.HorseStateChange;
-import com.alaharranhonor.swem.network.SWEMPacketHandler;
-import com.alaharranhonor.swem.network.SendHorseSpeedChange;
+import com.alaharranhonor.swem.network.*;
 import com.alaharranhonor.swem.world.gen.SWEMOreGen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
@@ -30,6 +27,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -189,6 +187,14 @@ public class ForgeBusEventSubscriber {
 			if (horse.isFlying()) {
 				event.setCanceled(true);
 			}
+		}
+	}
+
+	@SubscribeEvent
+	public static void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
+		if (event.getWorld().isClientSide) {
+			if (Minecraft.getInstance().options.keySprint.isDown())
+				SWEMPacketHandler.INSTANCE.sendToServer(new CMountEntityPacket(event.getTarget()));
 		}
 	}
 

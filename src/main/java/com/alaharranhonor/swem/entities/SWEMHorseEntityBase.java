@@ -34,6 +34,7 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PigEntity;
+import net.minecraft.entity.passive.WaterMobEntity;
 import net.minecraft.entity.passive.horse.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -87,7 +88,6 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import net.minecraft.entity.Entity.IMoveCallback;
 
 public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable, IEntityAdditionalSpawnData {
 
@@ -461,21 +461,52 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return def;
 	}
 
-	@Override
-	public void positionRider(Entity entity, IMoveCallback callback) {
-		if (this.hasPassenger(entity)) {
-			double d0 = this.getY() + this.getPassengersRidingOffset() + entity.getMyRidingOffset();
-			if (entity instanceof AnimalEntity) {
-				entity.setRot(this.yRot, this.xRot);
-				callback.accept(entity, this.getX() + (this.getDirection().getNormal().getX() * 3), d0, this.getZ() + (this.getDirection().getNormal().getZ() * 3));
-			}
 
-			callback.accept(entity, this.getX(), d0, this.getZ());
+	@Override
+	public void positionRider(Entity entity) {
+		if (!this.hasPassenger(entity)) {
+			return;
+		}
+
+		float xzOffset = -0.1f;
+
+		if (this.getPassengers().size() > 1) {
+			int i = this.getPassengers().indexOf(entity);
+			xzOffset = i == 0 ? 0.1f : -0.5f;
+		}
+
+		double yOffset = entity.getMyRidingOffset() + this.getPassengersRidingOffset();
+
+		Vector3d vec3 = new Vector3d(xzOffset, 0, 0).yRot(-this.yBodyRot * ((float) Math.PI / 180f) - ((float) Math.PI / 2F));
+		entity.setPos(this.getX() + vec3.x, this.getY() + yOffset, this.getZ() + vec3.z);
+		this.applyYaw(entity);
+		if (entity instanceof AnimalEntity && this.getPassengers().size() > 1) {
+			int degrees = entity.getId() % 2 == 0 ? 90 : 270;
+			entity.setYBodyRot(((AnimalEntity) entity).yBodyRot + (float) degrees);
+			entity.setYHeadRot(entity.getYHeadRot() + (float) degrees);
 		}
 	}
 
+
+
+	private void applyYaw(Entity entity) {
+		if (!(entity instanceof PlayerEntity)) {
+			entity.setYBodyRot(this.yBodyRot);
+			entity.yRot = this.yBodyRot;
+			entity.setYHeadRot(this.yBodyRot);
+		}
+	}
+
+
+
 	@Override
 	protected boolean canAddPassenger(Entity passenger) {
+		if (!passenger.getType().getCategory().isFriendly()) return false;
+
+		if (passenger instanceof WaterMobEntity) return false;
+
+
+
 		return this.getPassengers().size() < 2;
 	}
 
@@ -1259,7 +1290,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	}
 
 
-
 	@Nullable
 	@Override
 	public Entity getControllingPassenger() {
@@ -1809,6 +1839,13 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 			if (this.isFlying()) {
 				return false;
 			}
+
+			if (this.getControllingPassenger() instanceof LivingEntity
+			&& !(this.getControllingPassenger() instanceof AnimalEntity)
+			&& this.getControllingPassenger() instanceof PlayerEntity) {
+				return true;
+			}
+
 			return super.canBeControlledByRider();
 		} else {
 			return false;
