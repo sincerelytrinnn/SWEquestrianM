@@ -32,5 +32,6 @@ public class SWEMPacketHandler {
 		INSTANCE.registerMessage(17, CDestroyPacket.class, CDestroyPacket::encode, CDestroyPacket::decode, CDestroyPacket::handle);
 		INSTANCE.registerMessage(18, CRemoveLayerPacket.class, CRemoveLayerPacket::encode, CRemoveLayerPacket::decode, CRemoveLayerPacket::handle);
 		INSTANCE.registerMessage(19, SDataSendPacket.class, SDataSendPacket::encode, SDataSendPacket::decode, SDataSendPacket::handle);
+		INSTANCE.registerMessage(20, CMountEntityPacket.class, CMountEntityPacket::encode, CMountEntityPacket::decode, CMountEntityPacket::handle);
 	}
 }
