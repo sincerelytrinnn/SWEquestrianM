@@ -104,11 +104,11 @@ public class SWEMItems {
 	public static final RegistryObject<HorseXPBottle> ALL_XP_BOTTLE = ITEMS.register("all_xp_bottle", () -> new HorseXPBottle("all"));
 	//public static final RegistryObject<HoseItem> HOSE = ITEMS.register("hose", () -> new HoseItem(() -> Fluids.EMPTY, new Item.Properties().tab(SWEM.TAB).stacksTo()(1)));
 	//public static final RegistryObject<HoseItem> HOSE_WATER = ITEMS.register("hose_water", () -> new HoseItem(() -> Fluids.WATER, new Item.Properties().tab(SWEM.TAB).stacksTo()(1)));
-	public static final RegistryObject<SWEMHorseArmorItem> CLOTH_HORSE_ARMOR = ITEMS.register("cloth_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.CLOTH, 3, "cloth", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
-	public static final RegistryObject<SWEMHorseArmorItem> IRON_HORSE_ARMOR = ITEMS.register("iron_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.IRON, 5, "iron", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
-	public static final RegistryObject<SWEMHorseArmorItem> GOLD_HORSE_ARMOR = ITEMS.register("gold_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.GOLD, 7, "gold", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
-	public static final RegistryObject<SWEMHorseArmorItem> DIAMOND_HORSE_ARMOR = ITEMS.register("diamond_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.DIAMOND, 11, "diamond", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
-	public static final RegistryObject<SWEMHorseArmorItem> AMETHYST_HORSE_ARMOR = ITEMS.register("amethyst_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.AMETHYST, 20, "amethyst", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
+	public static final RegistryObject<SWEMHorseArmorItem> CLOTH_HORSE_ARMOR = ITEMS.register("cloth_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.CLOTH, 10, "cloth", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
+	public static final RegistryObject<SWEMHorseArmorItem> IRON_HORSE_ARMOR = ITEMS.register("iron_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.IRON, 30, "iron", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
+	public static final RegistryObject<SWEMHorseArmorItem> GOLD_HORSE_ARMOR = ITEMS.register("gold_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.GOLD, 32, "gold", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
+	public static final RegistryObject<SWEMHorseArmorItem> DIAMOND_HORSE_ARMOR = ITEMS.register("diamond_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.DIAMOND, 37, "diamond", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
+	public static final RegistryObject<SWEMHorseArmorItem> AMETHYST_HORSE_ARMOR = ITEMS.register("amethyst_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.AMETHYST, 50, "amethyst", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
 	public static final RegistryObject<SaddlebagItem> SADDLEBAG = ITEMS.register("saddlebag", () -> new SaddlebagItem("saddlebags"));
 	public static final RegistryObject<MeasurementTool> MEASUREMENT_TAPE = ITEMS.register("measurement_tape", MeasurementTool::new);
 	public static final RegistryObject<PoopItem> POOP = ITEMS.register("poop", PoopItem::new);
