@@ -64,17 +64,12 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			return PlayState.CONTINUE;
 		}*/
 
-		if (horse.isStanding()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("Rear"));
+		if (horse.isFlying()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("Launch"));
 			return PlayState.CONTINUE;
 		}
 
-		if (horse.isInWater()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("Swim"));
-			return PlayState.CONTINUE;
-		}
-
-		if (horse.isJumping() && horse.jumpHeight != 0) {
+		if (horse.shouldJumpAnimationPlay() && horse.jumpHeight != 0) {
 			System.out.println(horse.jumpHeight);
 			if (horse.jumpHeight > 4.0F) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump"));
@@ -90,6 +85,18 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 				return PlayState.CONTINUE;
 			}
 		}
+
+		if (horse.isStanding()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("Rear"));
+			return PlayState.CONTINUE;
+		}
+
+		if (horse.isInWater()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("Swim"));
+			return PlayState.CONTINUE;
+		}
+
+
 
 		if (!event.isMoving()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_idle"));
