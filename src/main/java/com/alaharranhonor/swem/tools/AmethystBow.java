@@ -45,7 +45,7 @@ public class AmethystBow extends BowItem {
 						ArrowItem arrowitem = (ArrowItem)(itemstack.getItem() instanceof ArrowItem ? itemstack.getItem() : Items.ARROW);
 						AbstractArrowEntity abstractarrowentity = arrowitem.createArrow(worldIn, itemstack, playerentity);
 						abstractarrowentity = customArrow(abstractarrowentity);
-						abstractarrowentity.shootFromRotation(playerentity, playerentity.yRot, playerentity.xRot, 0.0F, f * 3.0F, 1.0F);
+						abstractarrowentity.shootFromRotation(playerentity, playerentity.xRot, playerentity.yRot, 0.0F, f * 3.0F, 1.0F);
 						if (f == 1.0F) {
 							abstractarrowentity.setCritArrow(true);
 						}
