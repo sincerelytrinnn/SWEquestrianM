@@ -318,12 +318,11 @@ public class SWEMHorseInventoryContainer extends Container {
 	 * Handle when the stack in slot {@code index} is shift-clicked. Normally this moves the stack between the player
 	 * inventory and the other inventory(s).
 	 */
-	public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
-		ItemStack itemstack = ItemStack.EMPTY;
+	public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
 		Slot slot = this.slots.get(index);
 		if (slot != null && slot.hasItem()) {
 			ItemStack itemstack1 = slot.getItem();
-			itemstack = itemstack1.copy();
+			ItemStack itemstack = itemstack1.copy();
 			int i = this.horseInventory.getContainerSize();
 			if (index < i) {
 				if (!this.moveItemStackTo(itemstack1, i, this.slots.size(), true)) {
@@ -382,7 +381,7 @@ public class SWEMHorseInventoryContainer extends Container {
 			}
 		}
 
-		return itemstack;
+		return ItemStack.EMPTY;
 	}
 
 	/**
