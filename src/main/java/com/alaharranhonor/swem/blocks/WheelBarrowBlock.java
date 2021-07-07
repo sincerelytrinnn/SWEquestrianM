@@ -2,8 +2,8 @@ package com.alaharranhonor.swem.blocks;
 
 import com.alaharranhonor.swem.items.PoopItem;
 import com.alaharranhonor.swem.tileentity.WheelBarrowTE;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -24,10 +24,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nullable;
-
-import static com.alaharranhonor.swem.util.initialization.SWEMBlocks.WET_COMPOST_ITEM;
-
-import net.minecraft.block.AbstractBlock.Properties;
 
 public class WheelBarrowBlock extends HorizontalBlock {
 
@@ -70,7 +66,7 @@ public class WheelBarrowBlock extends HorizontalBlock {
 				worldIn.setBlock(pos, state.setValue(LEVEL, (int) Math.floor(te.itemHandler.getStackInSlot(0).getCount() / 2) ), 3);
 				if (te.itemHandler.getStackInSlot(0).getCount() == 8)
 					te.startTicking();
-				
+
 				return ActionResultType.CONSUME;
 			}
 		}

@@ -1,4 +1,4 @@
-package com.alaharranhonor.swem.util.initialization;
+package com.alaharranhonor.swem.util.registry;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.*;
@@ -8,7 +8,6 @@ import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.potions.CantazaritePotionItem;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.tools.*;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;

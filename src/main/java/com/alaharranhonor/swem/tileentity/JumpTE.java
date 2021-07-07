@@ -1,7 +1,7 @@
 package com.alaharranhonor.swem.tileentity;
 
 import com.alaharranhonor.swem.blocks.jumps.*;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.DyeColor;

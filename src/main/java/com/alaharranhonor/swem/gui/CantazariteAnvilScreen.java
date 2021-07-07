@@ -17,7 +17,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class CantazariteAnvilScreen extends AbstractRepairScreen<CantazariteAnvilContainer> {
 	private static final ResourceLocation ANVIL_RESOURCE = new ResourceLocation(SWEM.MOD_ID, "textures/gui/container/cantazarite_anvil.png");
 	private static final ITextComponent TOO_EXPENSIVE_TEXT = new TranslationTextComponent("swem.container.anvil");
@@ -28,7 +31,13 @@ public class CantazariteAnvilScreen extends AbstractRepairScreen<CantazariteAnvi
 		this.titleLabelX = 60;
 	}
 
-	protected void initFields() {
+	@Override
+	public void tick() {
+		super.tick();
+		this.nameField.tick();
+	}
+
+	protected void subInit() {
 		this.minecraft.keyboardHandler.setSendRepeatsToGui(true);
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
@@ -59,7 +68,7 @@ public class CantazariteAnvilScreen extends AbstractRepairScreen<CantazariteAnvi
 			this.minecraft.player.closeContainer();
 		}
 
-		return !this.nameField.keyPressed(keyCode, scanCode, modifiers) && !this.nameField.canConsumeInput() ? super.keyPressed(keyCode, scanCode, modifiers) : true;
+		return this.nameField.keyPressed(keyCode, scanCode, modifiers) || !this.nameField.canConsumeInput() || super.keyPressed(keyCode, scanCode, modifiers);
 	}
 
 	private void renameItem(String name) {
@@ -104,7 +113,7 @@ public class CantazariteAnvilScreen extends AbstractRepairScreen<CantazariteAnvi
 
 	}
 
-	public void renderNameField(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void renderFg(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		this.nameField.render(matrixStack, mouseX, mouseY, partialTicks);
 	}
 
@@ -112,7 +121,7 @@ public class CantazariteAnvilScreen extends AbstractRepairScreen<CantazariteAnvi
 	 * Sends the contents of an inventory slot to the client-side Container. This doesn't have to match the actual
 	 * contents of that slot.
 	 */
-	public void sendSlotContents(Container containerToSend, int slotInd, ItemStack stack) {
+	public void slotChanged(Container containerToSend, int slotInd, ItemStack stack) {
 		if (slotInd == 0) {
 			this.nameField.setValue(stack.isEmpty() ? "" : stack.getDisplayName().getString());
 			this.nameField.setEditable(!stack.isEmpty());

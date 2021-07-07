@@ -3,7 +3,7 @@ package com.alaharranhonor.swem.util;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.config.ConfigHelper;
 import com.alaharranhonor.swem.config.ConfigHolder;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import com.alaharranhonor.swem.world.gen.OreGenUtils;
 import com.alaharranhonor.swem.world.gen.SWEMOreGen;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

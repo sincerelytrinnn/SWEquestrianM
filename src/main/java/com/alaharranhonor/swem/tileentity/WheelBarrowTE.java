@@ -2,8 +2,8 @@ package com.alaharranhonor.swem.tileentity;
 
 import com.alaharranhonor.swem.blocks.ShavingsItem;
 import com.alaharranhonor.swem.blocks.WheelBarrowBlock;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;

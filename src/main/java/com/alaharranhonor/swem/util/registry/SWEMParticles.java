@@ -1,11 +1,8 @@
-package com.alaharranhonor.swem.util.initialization;
+package com.alaharranhonor.swem.util.registry;
 
 import com.alaharranhonor.swem.SWEM;
-import net.minecraft.client.particle.HeartParticle;
-import net.minecraft.client.particle.SpellParticle;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;

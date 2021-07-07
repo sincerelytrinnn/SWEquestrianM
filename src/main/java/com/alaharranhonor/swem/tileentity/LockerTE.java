@@ -2,7 +2,7 @@ package com.alaharranhonor.swem.tileentity;
 
 import com.alaharranhonor.swem.blocks.LockerBlock;
 import com.alaharranhonor.swem.container.LockerContainer;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;

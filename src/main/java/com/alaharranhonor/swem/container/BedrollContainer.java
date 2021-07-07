@@ -2,7 +2,7 @@ package com.alaharranhonor.swem.container;
 
 import com.alaharranhonor.swem.blocks.FuelBlockItemBase;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.util.initialization.SWEMContainers;
+import com.alaharranhonor.swem.util.registry.SWEMContainers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
