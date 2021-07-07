@@ -2,7 +2,7 @@ package com.alaharranhonor.swem.items;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.util.initialization.SWEMParticles;
+import com.alaharranhonor.swem.util.registry.SWEMParticles;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -11,15 +11,11 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 import java.util.Objects;
 import java.util.UUID;
-
-
-import net.minecraft.item.Item.Properties;
 
 public class WhistleItem extends Item {
 
@@ -52,8 +48,7 @@ public class WhistleItem extends Item {
 			return ActionResult.fail(stack);
 		}
 
-		horse.getNavigation().stop();
-		horse.getNavigation().moveTo(playerIn, 1.0f);
+		horse.getWhistleManager().setWhisteCaller(playerIn);
 		worldIn.addParticle(SWEMParticles.YAY.get(), horse.getX(), horse.getY(), horse.getZ(), 20.0, 0.0, 0.0);
 		return ActionResult.consume(stack);
 
@@ -70,14 +65,10 @@ public class WhistleItem extends Item {
 	 */
 	@Override
 	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-		if (playerIn.getCommandSenderWorld().isClientSide) {
-		    return ActionResultType.PASS;
-        }
-
 		CompoundNBT tag = stack.getOrCreateTag();
 
 		if (!(target instanceof SWEMHorseEntityBase)) {
-			return ActionResultType.FAIL;
+			return ActionResultType.PASS;
 		}
 
 		SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
@@ -87,13 +78,13 @@ public class WhistleItem extends Item {
 		System.out.println(horseOwnerId);
 		System.out.println(playerId);
 
-		if (Objects.equals(playerId,horseOwnerId)) {
+		if (!Objects.equals(playerId,horseOwnerId)) {
 			return ActionResultType.FAIL;
 		}
 
 		tag.putUUID("boundHorse", horse.getUUID());
 
-		return ActionResultType.CONSUME;
+		return ActionResultType.sidedSuccess(playerIn.getCommandSenderWorld().isClientSide);
 	}
 
 }
