@@ -65,8 +65,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		}*/
 
 		if (horse.isFlying()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("Launch"));
-			return PlayState.CONTINUE;
+			return PlayState.STOP;
 		}
 
 		if (horse.shouldJumpAnimationPlay() && horse.jumpHeight != 0) {

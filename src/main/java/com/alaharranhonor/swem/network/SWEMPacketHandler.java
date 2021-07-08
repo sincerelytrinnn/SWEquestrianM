@@ -24,7 +24,7 @@ public class SWEMPacketHandler {
 		INSTANCE.registerMessage(6, HorseStateChange.class, HorseStateChange::encode, HorseStateChange::decode, HorseStateChange::handle);
 		INSTANCE.registerMessage(7, HorseHungerChange.class, HorseHungerChange::encode, HorseHungerChange::decode, HorseHungerChange::handle);
 		INSTANCE.registerMessage(8, RenameItemPacket.class, RenameItemPacket::encode, RenameItemPacket::decode, RenameItemPacket::handle);
-		INSTANCE.registerMessage(9, HorseFlyingMessage.class, HorseFlyingMessage::encode, HorseFlyingMessage::decode, HorseFlyingMessage::handle);
+		INSTANCE.registerMessage(9, HorseFlightPacket.class, HorseFlightPacket::encode, HorseFlightPacket::decode, HorseFlightPacket::handle);
 		INSTANCE.registerMessage(13, CAddLayerPacket.class, CAddLayerPacket::encode, CAddLayerPacket::decode, CAddLayerPacket::handle);
 		INSTANCE.registerMessage(14, CChangeColorPacket.class, CChangeColorPacket::encode, CChangeColorPacket::decode, CChangeColorPacket::handle);
 		INSTANCE.registerMessage(15, CChangeLayerPacket.class, CChangeLayerPacket::encode, CChangeLayerPacket::decode, CChangeLayerPacket::handle);

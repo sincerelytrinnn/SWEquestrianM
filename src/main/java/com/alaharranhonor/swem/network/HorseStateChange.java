@@ -107,12 +107,9 @@ public class HorseStateChange {
 					break;
 				}
 				case 7: {
-					horse.setIsJumping(true);
-					break;
+					horse.setFlying(!horse.isFlying());
 				}
-				case 8: {
-					horse.setIsJumping(false);
-				}
+
 			}
 
 		});

@@ -88,6 +88,8 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.alaharranhonor.swem.entities.HorseFlightController.*;
+
 
 public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable, IEntityAdditionalSpawnData {
 
@@ -126,8 +128,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	public HorseSpeed currentSpeed;
 
 	private NeedManager needs;
-	private boolean isLaunching;
-	private boolean isLanding;
+	private HorseFlightController flightController;
 
 	// Animation variable.
 	public double jumpHeight;
@@ -142,6 +143,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.initSaddlebagInventory();
 		this.initBedrollInventory();
 		this.oldNavigator = navigation;
+		this.flightController = new HorseFlightController(this);
 	}
 
 	@Override
@@ -353,6 +355,15 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.entityData.define(JUMPING, false);
 		this.entityData.define(OWNER_NAME, "");
 
+		this.getEntityData().define(isFloating, false);
+		this.getEntityData().define(isAccelerating, false);
+		this.getEntityData().define(isSlowingDown, false);
+		this.getEntityData().define(isTurningLeft, false);
+		this.getEntityData().define(isTurning, false);
+		this.getEntityData().define(isStillTurning, false);
+		this.getEntityData().define(didFlap, false);
+		this.getEntityData().define(isDiving, false);
+
 	}
 
 	@Override
@@ -514,26 +525,12 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	public void setFlying(boolean flying) {
 		this.entityData.set(FLYING, flying);
 		if (flying) {
-			this.setNoGravity(true);
-			this.launchFlight();
+			this.flightController.launchFlight();
 		} else {
-			this.landFlight();
+			this.flightController.land();
 		}
 	}
 
-	private void launchFlight() {
-		int airHeight = this.checkHeightInAir();
-		if (airHeight < 6) {
-			this.isLaunching = true;
-		}
-	}
-
-	private void landFlight() {
-		int airHeight = this.checkHeightInAir();
-		if (airHeight > 1) {
-			this.isLanding = true;
-		}
-	}
 
 
 	private int checkHeightInAir() {
@@ -1004,8 +1001,12 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	 */
 	@Override
 	public void tick() {
+		if (this.isFlying()) {
+			this.flightController.travel();
+			return;
+		}
 		if (!this.level.isClientSide) {
-			if (this.tickCount % 5 == 0 && !isFlying()) {
+			if (this.tickCount % 5 == 0) {
 
 				if (this.canBeControlledByRider() && this.isVehicle() && this.currentSpeed != HorseSpeed.WALK && this.currentSpeed != HorseSpeed.TROT) {
 					int x = this.blockPosition().getX();
@@ -1060,25 +1061,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		if (this.isInWater() && !this.wasEyeInWater && !this.isVehicle()) {
 			if (this.getDeltaMovement().y > 0) {
 				this.setDeltaMovement(this.getDeltaMovement().x, -.15, this.getDeltaMovement().z); // Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until wasEyeInWater returns true.
-			}
-		}
-
-		if (!this.level.isClientSide) {
-			int airHeight = this.checkHeightInAir();
-			if (this.isLaunching && airHeight < 6) {
-				this.setDeltaMovement(this.getDeltaMovement().add(0.0d, 0.15d, 0.0d));
-			} else if (this.isLaunching) {
-				this.setDeltaMovement(Vector3d.ZERO);
-				this.isLaunching = false;
-			} else if (this.isLanding && airHeight > 1) {
-				Vector3d lookVec = this.getLookAngle();
-				Vector3d downwards = new Vector3d(lookVec.x, -0.2D, lookVec.z);
-				this.setDeltaMovement(downwards);
-			}
-
-			if (this.isLanding && airHeight <= 1) {
-				this.isLanding = false;
-				this.setNoGravity(false);
 			}
 		}
 	}
@@ -1178,115 +1160,125 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	@Override
 	public void travel(Vector3d travelVector) {
+
 		if (this.isFlying()) {
-			this.onGround = true;
-		}
-		if (this.isVehicle() && this.canBeControlledByRider() && this.isHorseSaddled()) {
-			PlayerEntity livingentity = (PlayerEntity) this.getControllingPassenger();
-
-			this.yRot = livingentity.yRot;
-			this.yRotO = this.yRot;
-			this.xRot = livingentity.xRot * 0.5F;
-			this.setRot(this.yRot, this.xRot);
-			this.yBodyRot = this.yRot;
-			this.yHeadRot = this.yBodyRot;
-			float f = livingentity.xxa * 0.5F;
-			float f1 = livingentity.zza;
-			if (f1 <= 0.0F) {
-				f1 *= 0.25F;
-				this.gallopSoundCounter = 0;
-			}
-
-			if (this.onGround && this.playerJumpPendingScale == 0.0F && this.isStanding() && !this.allowStandSliding) {
-				f = 0.0F;
-				f1 = 0.0F;
-			}
-
-
-			 // Check if RNG is higher roll, than disobeying debuff, if so, then do the jump.
-			if (this.playerJumpPendingScale > 0.0F && !this.isJumping() && this.onGround && !this.isFlying()) {
-				double d0 = this.getCustomJump() * (double) this.playerJumpPendingScale * (double) this.getBlockJumpFactor();
-				double d1;
-				if (this.hasEffect(Effects.JUMP)) {
-					d1 = d0 + (double) ((float) (this.getEffect(Effects.JUMP).getAmplifier() + 1) * 0.1F);
-				} else {
-					d1 = d0;
-				}
-
-
-				//if (this.getDisobedienceFactor() > this.progressionManager.getAffinityLeveling().getDebuff()) {
-				Vector3d vector3d = this.getDeltaMovement();
-				this.setDeltaMovement(vector3d.x, d1, vector3d.z);
-				this.setIsJumping(true);
-
-
-
-				// Check jumpheight, and add XP accordingly.
-				float jumpHeight = (float) (-0.1817584952 * ((float)Math.pow(d1, 3.0F)) + 3.689713992 * ((float)Math.pow(d1, 2.0F)) + 2.128599134 * d1 - 0.343930367);
-				float xpToAdd = 0.0f;
-				if (jumpHeight >= 4.0f) {
-					xpToAdd = 40.0f;
-				} else if (jumpHeight >= 3.0f) {
-					xpToAdd = 30.0f;
-				} else if (jumpHeight >= 2.0f) {
-					xpToAdd = 25.0f;
-				} else if (jumpHeight >= 1.0f) {
-					xpToAdd = 20.0f;
-				}
-
-				this.jumpHeight = jumpHeight;
-
-
-
-				SWEMPacketHandler.INSTANCE.sendToServer(new AddJumpXPMessage(xpToAdd, this.getId()));
-
-
-				this.hasImpulse = true;
-				net.minecraftforge.common.ForgeHooks.onLivingJump(this);
-				if (f1 > 0.0F) {
-					float f2 = MathHelper.sin(this.yRot * ((float) Math.PI / 180F));
-					float f3 = MathHelper.cos(this.yRot * ((float) Math.PI / 180F));
-					this.setDeltaMovement(this.getDeltaMovement().add((double) (-0.4F * f2 * this.playerJumpPendingScale), 0.0D, (double) (0.4F * f3 * this.playerJumpPendingScale)));
-				}
-
-
-
-				this.playerJumpPendingScale = 0.0F;
-				//} else {
-				//	this.makeMad();
-				//}
-			}
-
-
-			this.flyingSpeed = this.getSpeed() * 0.1F;
-			if (this.isControlledByLocalInstance() && !isFlying() && !isLanding) {
-				this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
-				super.travel(new Vector3d((double) f, travelVector.y, (double) f1));
-			} else if ((livingentity instanceof PlayerEntity) && !isFlying()) {
-				this.setDeltaMovement(Vector3d.ZERO);
-			}
-
-			if (this.onGround) {
-				this.playerJumpPendingScale = 0.0F;
-				this.setIsJumping(false);
-			}
-
-			this.calculateEntityAnimation(this, false);
-
-
-			boolean flag = this.level.getBlockState(this.blockPosition().offset(this.getDirection().getNormal())).canOcclude();
-
-			// Handles the swimming. Travel is only called when player is riding the entity.
-			if (this.wasEyeInWater && !flag && this.getDeltaMovement().y < 0) { // Check if the eyes is in water level, and we don't have a solid block the way we are facing. If not, then apply a inverse force, to float the horse.
-				this.setDeltaMovement(this.getDeltaMovement().multiply(1, -1.9, 1));
-			}
+			return;
 		} else {
-			super.travel(travelVector);
+			if (this.isVehicle() && this.canBeControlledByRider() && this.isHorseSaddled()) {
+				PlayerEntity livingentity = (PlayerEntity) this.getControllingPassenger();
+
+				this.yRot = livingentity.yRot;
+				this.yRotO = this.yRot;
+				this.xRot = livingentity.xRot * 0.5F;
+				this.setRot(this.yRot, this.xRot);
+				this.yBodyRot = this.yRot;
+				this.yHeadRot = this.yBodyRot;
+				float f = livingentity.xxa * 0.5F;
+				float f1 = livingentity.zza;
+				if (f1 <= 0.0F) {
+					f1 *= 0.25F;
+					this.gallopSoundCounter = 0;
+				}
+
+				if (this.onGround && this.playerJumpPendingScale == 0.0F && this.isStanding() && !this.allowStandSliding) {
+					f = 0.0F;
+					f1 = 0.0F;
+				}
+
+
+				// Check if RNG is higher roll, than disobeying debuff, if so, then do the jump.
+				if (this.playerJumpPendingScale > 0.0F && !this.isJumping() && this.onGround) {
+					double d0 = this.getCustomJump() * (double) this.playerJumpPendingScale * (double) this.getBlockJumpFactor();
+					double d1;
+					if (this.hasEffect(Effects.JUMP)) {
+						d1 = d0 + (double) ((float) (this.getEffect(Effects.JUMP).getAmplifier() + 1) * 0.1F);
+					} else {
+						d1 = d0;
+					}
+
+
+					//if (this.getDisobedienceFactor() > this.progressionManager.getAffinityLeveling().getDebuff()) {
+					Vector3d vector3d = this.getDeltaMovement();
+					this.setDeltaMovement(vector3d.x, d1, vector3d.z);
+					this.setIsJumping(true);
+
+
+					// Check jumpheight, and add XP accordingly.
+					float jumpHeight = (float) (-0.1817584952 * ((float) Math.pow(d1, 3.0F)) + 3.689713992 * ((float) Math.pow(d1, 2.0F)) + 2.128599134 * d1 - 0.343930367);
+					float xpToAdd = 0.0f;
+					if (jumpHeight >= 4.0f) {
+						xpToAdd = 40.0f;
+					} else if (jumpHeight >= 3.0f) {
+						xpToAdd = 30.0f;
+					} else if (jumpHeight >= 2.0f) {
+						xpToAdd = 25.0f;
+					} else if (jumpHeight >= 1.0f) {
+						xpToAdd = 20.0f;
+					}
+
+					this.jumpHeight = jumpHeight;
+
+
+					SWEMPacketHandler.INSTANCE.sendToServer(new AddJumpXPMessage(xpToAdd, this.getId()));
+
+
+					this.hasImpulse = true;
+					net.minecraftforge.common.ForgeHooks.onLivingJump(this);
+					if (f1 > 0.0F) {
+						float f2 = MathHelper.sin(this.yRot * ((float) Math.PI / 180F));
+						float f3 = MathHelper.cos(this.yRot * ((float) Math.PI / 180F));
+						this.setDeltaMovement(this.getDeltaMovement().add((double) (-0.4F * f2 * this.playerJumpPendingScale), 0.0D, (double) (0.4F * f3 * this.playerJumpPendingScale)));
+					}
+
+
+					this.playerJumpPendingScale = 0.0F;
+					//} else {
+					//	this.makeMad();
+					//}
+				}
+
+
+				this.flyingSpeed = this.getSpeed() * 0.1F;
+				if (this.isControlledByLocalInstance()) {
+					this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
+					super.travel(new Vector3d((double) f, travelVector.y, (double) f1));
+				} else if ((livingentity instanceof PlayerEntity)) {
+					this.setDeltaMovement(Vector3d.ZERO);
+				}
+
+				if (this.onGround) {
+					this.playerJumpPendingScale = 0.0F;
+					this.setIsJumping(false);
+				}
+
+				this.calculateEntityAnimation(this, false);
+
+
+				boolean flag = this.level.getBlockState(this.blockPosition().offset(this.getDirection().getNormal())).canOcclude();
+
+				// Handles the swimming. Travel is only called when player is riding the entity.
+				if (this.wasEyeInWater && !flag && this.getDeltaMovement().y < 0) { // Check if the eyes is in water level, and we don't have a solid block the way we are facing. If not, then apply a inverse force, to float the horse.
+					this.setDeltaMovement(this.getDeltaMovement().multiply(1, -1.9, 1));
+				}
+			} else {
+				super.travel(travelVector);
+			}
 		}
 
 	}
 
-
+	@Override
+	public boolean isOnGround() {
+		if (this.isFlying()) {
+			BlockState state = this.level.getBlockState(this.blockPosition().below());
+			if (state.canOcclude()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		return super.isOnGround();
+	}
 
 	@Override
 	public void onPlayerJump(int p_110206_1_) {
@@ -1864,9 +1856,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	@Override
 	public boolean canBeControlledByRider() {
 		if (this.hasBridle() || !ConfigHolder.SERVER.needBridleToSteer.get()) {
-			if (this.isFlying()) {
-				return false;
-			}
 
 			if (this.getControllingPassenger() instanceof LivingEntity
 			&& !(this.getControllingPassenger() instanceof AnimalEntity)
