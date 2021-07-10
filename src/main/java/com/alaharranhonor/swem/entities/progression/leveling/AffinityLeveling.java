@@ -1,7 +1,7 @@
 package com.alaharranhonor.swem.entities.progression.leveling;
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.util.initialization.SWEMItems;
+import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;

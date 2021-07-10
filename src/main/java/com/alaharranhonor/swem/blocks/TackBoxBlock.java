@@ -1,10 +1,9 @@
 package com.alaharranhonor.swem.blocks;
 
-import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.network.SyncEntityIdToClient;
 import com.alaharranhonor.swem.tileentity.TackBoxTE;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,8 +29,6 @@ import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
-
-import net.minecraft.block.AbstractBlock.Properties;
 
 public class TackBoxBlock extends HorizontalBlock {
 	public TackBoxBlock(Properties properties) {

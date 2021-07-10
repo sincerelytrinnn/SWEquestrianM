@@ -1,7 +1,7 @@
 package com.alaharranhonor.swem.blocks;
 
 import com.alaharranhonor.swem.tileentity.CantazariteAnvilTE;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -24,8 +24,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
-
-import net.minecraft.block.AbstractBlock.Properties;
 
 public class CantazariteAnvilBlock extends HorizontalBlock {
 

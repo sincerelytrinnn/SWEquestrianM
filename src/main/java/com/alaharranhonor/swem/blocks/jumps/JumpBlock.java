@@ -1,7 +1,7 @@
 package com.alaharranhonor.swem.blocks.jumps;
 
 import com.alaharranhonor.swem.blocks.SWEMBlockStateProperties;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -14,7 +14,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;

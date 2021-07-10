@@ -2,7 +2,7 @@ package com.alaharranhonor.swem.entities.ai;
 
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.PoopEntity;
-import com.alaharranhonor.swem.util.initialization.SWEMEntities;
+import com.alaharranhonor.swem.util.registry.SWEMEntities;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.math.BlockPos;

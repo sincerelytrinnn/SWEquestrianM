@@ -1,7 +1,7 @@
 package com.alaharranhonor.swem.items.potions;
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
-import com.alaharranhonor.swem.util.initialization.SWEMEntities;
+import com.alaharranhonor.swem.util.registry.SWEMEntities;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
@@ -24,8 +24,6 @@ import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
-import net.minecraft.item.Item.Properties;
 
 public class CantazaritePotionItem extends PotionItem {
 

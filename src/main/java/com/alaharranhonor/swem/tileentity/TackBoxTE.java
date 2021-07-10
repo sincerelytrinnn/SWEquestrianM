@@ -2,7 +2,7 @@ package com.alaharranhonor.swem.tileentity;
 
 import com.alaharranhonor.swem.blocks.TackBoxBlock;
 import com.alaharranhonor.swem.container.TackBoxContainer;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,7 +35,6 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class TackBoxTE extends LockableLootTileEntity implements INamedContainerProvider, IAnimatable {
 

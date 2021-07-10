@@ -5,7 +5,7 @@ import com.alaharranhonor.swem.blocks.GrainFeederBlock;
 import com.alaharranhonor.swem.blocks.NonParallelBlock;
 import com.alaharranhonor.swem.blocks.SlowFeederBlock;
 import com.alaharranhonor.swem.blocks.WheelBarrowBlock;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;

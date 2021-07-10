@@ -5,6 +5,8 @@ import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.container.SaddlebagContainer;
 import com.alaharranhonor.swem.entities.ai.*;
+import com.alaharranhonor.swem.entities.misc.WhistleManager;
+import com.alaharranhonor.swem.entities.misc.WhistleManagerProvider;
 import com.alaharranhonor.swem.entities.needs.HungerNeed;
 import com.alaharranhonor.swem.entities.needs.NeedManager;
 import com.alaharranhonor.swem.entities.needs.ThirstNeed;
@@ -18,9 +20,9 @@ import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.network.*;
 import com.alaharranhonor.swem.util.SWEMUtil;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import com.alaharranhonor.swem.util.initialization.SWEMItems;
-import com.alaharranhonor.swem.util.initialization.SWEMParticles;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMItems;
+import com.alaharranhonor.swem.util.registry.SWEMParticles;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
@@ -45,10 +47,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.BucketItem;
-import net.minecraft.item.HorseArmorItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -73,9 +72,6 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -83,19 +79,15 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.alaharranhonor.swem.entities.HorseFlightController.*;
 
 
-public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable, IEntityAdditionalSpawnData {
-
-
-
+public class SWEMHorseEntityBase
+		extends AbstractHorseEntity
+		implements ISWEMEquipable, IEntityAdditionalSpawnData, WhistleManagerProvider<SWEMHorseEntityBase> {
 
 	private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("556E1665-8B10-40C8-8F9D-CF9B1667F295");
 	private static final DataParameter<Integer> HORSE_VARIANT = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
@@ -121,10 +113,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	private static final DataParameter<Integer> GALLOP_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	private static final DataParameter<Integer> GALLOP_COOLDOWN_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	private static final DataParameter<Boolean> GALLOP_ON_COOLDOWN = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
-	public static DataParameter<Integer> SPEED_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
-
-	@Nullable
-	private LivingEntity whistleCaller;
+	public final static DataParameter<Integer> SPEED_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 
 	public HorseSpeed currentSpeed;
 
@@ -134,6 +123,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	// Animation variable.
 	public double jumpHeight;
 
+	private final WhistleManager<SWEMHorseEntityBase> whistleManager;
+
 	public SWEMHorseEntityBase(EntityType<? extends AbstractHorseEntity> type, World levelIn)
 	{
 		super(type, levelIn);
@@ -141,6 +132,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		this.progressionManager = new ProgressionManager(this);
 		this.currentSpeed = HorseSpeed.TROT;
 		this.needs = new NeedManager(this);
+		this.whistleManager = new WhistleManager<>(this);
 		this.initSaddlebagInventory();
 		this.initBedrollInventory();
 		this.oldNavigator = navigation;
@@ -167,6 +159,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 	protected void registerGoals() {
 		// TODO: ADD AI TO FOLLOW WHISTLE POSITION AS TOP PRIORITY
 		super.registerGoals();
+		this.goalSelector.addGoal(0, new WalkToWhistlerGoal<>(this));
 		//this.goalSelector.addGoal(0, new SwimGoal(this));
 		this.goalSelector.addGoal(1, new PanicStraightGoal(this, 1.2D));
 		//this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 1.2D));
@@ -1442,27 +1435,29 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 	// Item interaction with horse.
 	@Override
-	public ActionResultType mobInteract(PlayerEntity p_230254_1_, Hand p_230254_2_) {
-		ItemStack itemstack = p_230254_1_.getItemInHand(p_230254_2_);
+	public ActionResultType mobInteract(PlayerEntity playerEntity, Hand hand) {
+		ItemStack itemstack = playerEntity.getItemInHand(hand);
 		if (!this.isBaby()) {
-			if (this.isTamed() && p_230254_1_.isSecondaryUseActive()) {
-				this.openInventory(p_230254_1_);
+			if (this.isTamed() && playerEntity.isSecondaryUseActive()) {
+				this.openInventory(playerEntity);
 				return ActionResultType.sidedSuccess(this.level.isClientSide);
 			}
 
 			if (this.isVehicle()) {
-				return super.mobInteract(p_230254_1_, p_230254_2_);
+				return super.mobInteract(playerEntity, hand);
 			}
 		}
 
-		if (!itemstack.isEmpty() && itemstack.getItem() != Items.SADDLE) {
-			if (itemstack.getItem() == Items.LAPIS_LAZULI) {
+		Item item = itemstack.getItem();
+
+		if (!itemstack.isEmpty() && item != Items.SADDLE) {
+			if (item == Items.LAPIS_LAZULI) {
 				if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
 					this.setHorseVariant((this.getHorseVariant() + 1) % (SWEMCoatColors.values().length - 2));
 					ItemStack heldItemCopy = itemstack.copy();
-					if (!p_230254_1_.abilities.instabuild)
+					if (!playerEntity.abilities.instabuild)
 						heldItemCopy.shrink(1);
-					p_230254_1_.setItemInHand(p_230254_2_, heldItemCopy);
+					playerEntity.setItemInHand(hand, heldItemCopy);
 					return ActionResultType.SUCCESS;
 				}
 			}
@@ -1478,13 +1473,13 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 					return ActionResultType.FAIL;
 				}
 
-				if (itemstack.getItem() == SWEMItems.SUGAR_CUBE.get()) {
+				if (item == SWEMItems.SUGAR_CUBE.get()) {
 					// Add some affinity points and spawn particles.
 					if (!this.level.isClientSide) {
 						this.progressionManager.getAffinityLeveling().addXP(5.0F);
 						this.getNeeds().getHunger().addPoints(itemstack);
 
-						((ServerWorld) this.level).addParticle(SWEMParticles.YAY.get(), this.getX(), this.getY() + 1.5, this.getZ(), 3.0, 0.3D, 0.3D);
+						this.level.addParticle(SWEMParticles.YAY.get(), this.getX(), this.getY() + 1.5, this.getZ(), 3.0, 0.3D, 0.3D);
 					}
 
 				}
@@ -1500,16 +1495,16 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 
 
-			if (itemstack.getItem() == Items.WATER_BUCKET) {
+			if (item == Items.WATER_BUCKET) {
 				SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(0, this.getId()));
-				p_230254_1_.setItemInHand(p_230254_2_, ((BucketItem) itemstack.getItem()).getEmptySuccessItem(itemstack, p_230254_1_));
+				playerEntity.setItemInHand(hand, ((BucketItem) item).getEmptySuccessItem(itemstack, playerEntity));
 				return ActionResultType.sidedSuccess(this.level.isClientSide);
 			}
 
-			ActionResultType actionresulttype = itemstack.interactLivingEntity(p_230254_1_, this, p_230254_2_);
+			ActionResultType actionresulttype = itemstack.interactLivingEntity(playerEntity, this, hand);
 			System.out.println("Item interaction hit");
 			if (actionresulttype.consumesAction()) {
-				if (itemstack.getItem() instanceof HorseSaddleItem && actionresulttype.consumesAction()) {
+				if (item instanceof HorseSaddleItem && actionresulttype.consumesAction()) {
 					this.setSWEMSaddled();
 				}
 				return actionresulttype;
@@ -1520,27 +1515,27 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 				return ActionResultType.sidedSuccess(this.level.isClientSide);
 			}
 
-			boolean flag = !this.isBaby() && !this.isSWEMSaddled() && (itemstack.getItem() instanceof HorseSaddleItem);
-			boolean flag1 = !this.isBaby() && this.hasHalter() && (itemstack.getItem() instanceof GirthStrapItem);
-			boolean flag2 = !this.isBaby() && this.hasHalter() && (itemstack.getItem() instanceof BlanketItem);
-			boolean flag3 = !this.isBaby() && this.hasHalter() && (itemstack.getItem() instanceof LegWrapsItem);
-			boolean flag4 = !this.isBaby() && this.hasHalter() && (itemstack.getItem() instanceof BreastCollarItem);
+			boolean flag = !this.isBaby() && !this.isSWEMSaddled() && (item instanceof HorseSaddleItem);
+			boolean flag1 = !this.isBaby() && this.hasHalter() && (item instanceof GirthStrapItem);
+			boolean flag2 = !this.isBaby() && this.hasHalter() && (item instanceof BlanketItem);
+			boolean flag3 = !this.isBaby() && this.hasHalter() && (item instanceof LegWrapsItem);
+			boolean flag4 = !this.isBaby() && this.hasHalter() && (item instanceof BreastCollarItem);
 			if (this.isSWEMArmor(itemstack) || flag) {
 				this.setSWEMSaddled();
-				this.openInventory(p_230254_1_);
+				this.openInventory(playerEntity);
 				return ActionResultType.sidedSuccess(this.level.isClientSide);
 			}
 			if (flag1 || flag2 || flag3 || flag4) {
-				this.openInventory(p_230254_1_);
+				this.openInventory(playerEntity);
 				return ActionResultType.sidedSuccess(this.level.isClientSide);
 			}
 
 		}
 
 		if (this.isBaby()) {
-			return super.mobInteract(p_230254_1_, p_230254_2_);
+			return super.mobInteract(playerEntity, hand);
 		} else {
-			this.doPlayerRide(p_230254_1_);
+			this.doPlayerRide(playerEntity);
 			return ActionResultType.sidedSuccess(this.level.isClientSide);
 		}
 	}
@@ -1791,6 +1786,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		}
 	}
 
+	@Override
+	public WhistleManager<SWEMHorseEntityBase> getWhistleManager() {
+		return this.whistleManager;
+	}
+
 	public static class HorseData extends AgeableEntity.AgeableData {
 		public final CoatColors variant;
 
@@ -1914,15 +1914,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		return jumpHeight;
 	}
 
-
-	public LivingEntity getWhistleCaller() {
-		return this.whistleCaller;
-	}
-
-	public void setWhistleCaller(LivingEntity player) {
-		this.whistleCaller = player;
-	}
-
 	public ITextComponent getOwnerDisplayName() {
 		UUID PlayerUUID = this.getOwnerUUID();
 		if (PlayerUUID == null) {
@@ -1953,6 +1944,4 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 		}
 
 	}
-
-
 }

@@ -1,4 +1,4 @@
-package com.alaharranhonor.swem.util.initialization;
+package com.alaharranhonor.swem.util.registry;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.blocks.jumps.JumpBlock;

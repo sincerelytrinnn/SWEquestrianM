@@ -2,7 +2,7 @@ package com.alaharranhonor.swem.blocks;
 
 import com.alaharranhonor.swem.items.tack.HorseSaddleItem;
 import com.alaharranhonor.swem.tileentity.OneSaddleRackTE;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -29,8 +29,6 @@ import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
-
-import net.minecraft.block.AbstractBlock.Properties;
 
 public class OneSaddleRack extends HorizontalBlock {
 

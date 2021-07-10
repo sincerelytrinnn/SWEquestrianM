@@ -1,6 +1,6 @@
 package com.alaharranhonor.swem.entities;
 
-import com.alaharranhonor.swem.util.initialization.SWEMEntities;
+import com.alaharranhonor.swem.util.registry.SWEMEntities;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;

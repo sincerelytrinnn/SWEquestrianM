@@ -1,6 +1,6 @@
 package com.alaharranhonor.swem.blocks;
 
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.*;
 import net.minecraft.block.material.PushReaction;
 import net.minecraft.client.particle.ParticleManager;

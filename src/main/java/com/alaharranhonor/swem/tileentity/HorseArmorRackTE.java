@@ -2,7 +2,7 @@ package com.alaharranhonor.swem.tileentity;
 
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.items.tack.AdventureSaddleItem;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;

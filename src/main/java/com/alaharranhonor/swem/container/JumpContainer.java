@@ -5,7 +5,7 @@ import com.alaharranhonor.swem.blocks.jumps.StandardLayer;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.network.jumps.SDataSendPacket;
 import com.alaharranhonor.swem.tileentity.JumpTE;
-import com.alaharranhonor.swem.util.initialization.SWEMContainers;
+import com.alaharranhonor.swem.util.registry.SWEMContainers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;

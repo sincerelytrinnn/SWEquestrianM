@@ -1,20 +1,11 @@
 package com.alaharranhonor.swem.commands;
 
-import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.util.initialization.SWEMItems;
-import com.mojang.brigadier.arguments.ArgumentType;
-import com.mojang.brigadier.arguments.FloatArgumentType;
-import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.alaharranhonor.swem.util.registry.SWEMItems;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityPredicate;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.item.LeashKnotEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;

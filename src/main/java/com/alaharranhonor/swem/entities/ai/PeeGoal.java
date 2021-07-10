@@ -2,7 +2,7 @@ package com.alaharranhonor.swem.entities.ai;
 
 import com.alaharranhonor.swem.blocks.Shavings;
 import com.alaharranhonor.swem.config.ConfigHolder;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.*;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.Goal;

@@ -3,7 +3,7 @@ package com.alaharranhonor.swem.blocks;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.items.tack.AdventureSaddleItem;
 import com.alaharranhonor.swem.tileentity.HorseArmorRackTE;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;

@@ -3,8 +3,8 @@ package com.alaharranhonor.swem.container;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.tileentity.TackBoxTE;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import com.alaharranhonor.swem.util.initialization.SWEMContainers;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMContainers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -202,7 +202,7 @@ public class TackBoxContainer extends Container {
 
 
 
-	public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+	public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.slots.get(index);
 		if (slot != null && slot.hasItem()) {

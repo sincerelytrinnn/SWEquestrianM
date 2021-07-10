@@ -1,8 +1,7 @@
 package com.alaharranhonor.swem.armor;
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import net.minecraft.block.BlockState;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -15,9 +14,6 @@ import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
-
-import net.minecraft.item.Item.Properties;
 
 public class GlowRidingBoots extends LeatherRidingBoots {
 	public GlowRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {

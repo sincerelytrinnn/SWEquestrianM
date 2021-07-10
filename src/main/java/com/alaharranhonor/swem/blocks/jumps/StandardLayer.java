@@ -1,7 +1,7 @@
 package com.alaharranhonor.swem.blocks.jumps;
 
 import com.alaharranhonor.swem.blocks.SWEMBlockStateProperties;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.BlockState;
 
 public enum StandardLayer {
