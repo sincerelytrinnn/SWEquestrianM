@@ -14,13 +14,13 @@ public class WormieBoiRender extends GeoEntityRenderer<WormieBoiEntity> {
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(WormieBoiEntity entity) {
+	public ResourceLocation getTextureLocation(WormieBoiEntity entity) {
 		return new ResourceLocation(SWEM.MOD_ID, "textures/entity/wormieboi.png");
 	}
 
 	@Override
-	public EntityRendererManager getRenderManager() {
-		return super.getRenderManager();
+	public EntityRendererManager getDispatcher() {
+		return super.getDispatcher();
 	}
 
 

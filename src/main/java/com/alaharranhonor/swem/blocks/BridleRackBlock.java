@@ -2,8 +2,8 @@ package com.alaharranhonor.swem.blocks;
 
 import com.alaharranhonor.swem.items.tack.HalterItem;
 import com.alaharranhonor.swem.tileentity.BridleRackTE;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.*;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -31,20 +31,20 @@ public class BridleRackBlock extends HorizontalBlock {
 
 	public BridleRackBlock(Properties builder) {
 		super(builder);
-		this.setDefaultState(
-				this.stateContainer.getBaseState()
-						.with(HORIZONTAL_FACING, Direction.NORTH)
+		this.registerDefaultState(
+				this.stateDefinition.any()
+						.setValue(FACING, Direction.NORTH)
 		);
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		if (!worldIn.isRemote && handIn == Hand.MAIN_HAND) {
-			TileEntity tile = worldIn.getTileEntity(hit.getPos());
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
+			TileEntity tile = worldIn.getBlockEntity(hit.getBlockPos());
 			if (tile instanceof BridleRackTE) {
 				BridleRackTE rack = (BridleRackTE) tile;
-				if (player.getHeldItem(handIn).getItem() instanceof HalterItem) {
-					ItemStack halter = player.getHeldItem(handIn);
+				if (player.getItemInHand(handIn).getItem() instanceof HalterItem) {
+					ItemStack halter = player.getItemInHand(handIn);
 					if (rack.itemHandler.getStackInSlot(0) == ItemStack.EMPTY) {
 						ItemStack saddleCopy;
 						if (player.isCreative()) {
@@ -54,20 +54,20 @@ public class BridleRackBlock extends HorizontalBlock {
 						}
 
 						rack.itemHandler.setStackInSlot(0, saddleCopy);
-						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
-						return ActionResultType.func_233537_a_(worldIn.isRemote);
+						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getLevel().getChunkAt(rack.getBlockPos())).send(rack.getUpdatePacket());
+						return ActionResultType.sidedSuccess(worldIn.isClientSide);
 					}
 				} else {
 					if (rack.itemHandler.getStackInSlot(0) != ItemStack.EMPTY) {
-						if (!player.abilities.isCreativeMode) {
-							ItemEntity itementity = new ItemEntity(worldIn, rack.getPos().getX(), rack.getPos().getY(), rack.getPos().getZ(), rack.itemHandler.getStackInSlot(0));
-							itementity.setMotion(RANDOM.nextGaussian() * (double)0.05F, RANDOM.nextGaussian() * (double)0.05F + (double)0.2F, RANDOM.nextGaussian() * (double)0.05F);
-							worldIn.addEntity(itementity);
+						if (!player.abilities.instabuild) {
+							ItemEntity itementity = new ItemEntity(worldIn, rack.getBlockPos().getX(), rack.getBlockPos().getY(), rack.getBlockPos().getZ(), rack.itemHandler.getStackInSlot(0));
+							itementity.setDeltaMovement(RANDOM.nextGaussian() * (double)0.05F, RANDOM.nextGaussian() * (double)0.05F + (double)0.2F, RANDOM.nextGaussian() * (double)0.05F);
+							worldIn.addFreshEntity(itementity);
 						}
 
 						rack.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
-						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
-						return ActionResultType.func_233537_a_(worldIn.isRemote);
+						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getLevel().getChunkAt(rack.getBlockPos())).send(rack.getUpdatePacket());
+						return ActionResultType.sidedSuccess(worldIn.isClientSide);
 					}
 
 				}
@@ -77,19 +77,19 @@ public class BridleRackBlock extends HorizontalBlock {
 	}
 
 	@Override
-	public void harvestBlock(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity te, ItemStack stack) {
-		if (te instanceof BridleRackTE && !player.abilities.isCreativeMode) {
+	public void playerDestroy(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity te, ItemStack stack) {
+		if (te instanceof BridleRackTE && !player.abilities.instabuild) {
 			((BridleRackTE)te).dropItems();
 		}
 	}
 
 	@Override
-	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		if (facing == stateIn.get(HORIZONTAL_FACING)) {
-			if (!facingState.isSolid()) {
+	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+		if (facing == stateIn.getValue(FACING)) {
+			if (!facingState.canOcclude()) {
 				ItemEntity entity = new ItemEntity((World) worldIn, currentPos.getX(), currentPos.getY(), currentPos.getZ(), new ItemStack(SWEMBlocks.BRIDLE_RACK_ITEM.get()));
-				worldIn.addEntity(entity);
-				return Blocks.AIR.getDefaultState();
+				worldIn.addFreshEntity(entity);
+				return Blocks.AIR.defaultBlockState();
 			}
 		}
 		return stateIn;
@@ -108,44 +108,44 @@ public class BridleRackBlock extends HorizontalBlock {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		switch (state.get(HORIZONTAL_FACING)) {
+		switch (state.getValue(FACING)) {
 			case NORTH: {
-				return VoxelShapes.create(0.25d, 0, 0, 0.75d, 1d, 0.375d);
+				return VoxelShapes.box(0.25d, 0, 0, 0.75d, 1d, 0.375d);
 			}
 			case EAST: {
-				return VoxelShapes.create(0.625d, 0, 0.25d, 1, 1d, 0.75d);
+				return VoxelShapes.box(0.625d, 0, 0.25d, 1, 1d, 0.75d);
 			}
 			case SOUTH: {
-				return VoxelShapes.create(0.25d, 0, 0.625d, 0.75d, 1d, 1);
+				return VoxelShapes.box(0.25d, 0, 0.625d, 0.75d, 1d, 1);
 			}
 			case WEST: {
-				return VoxelShapes.create(0, 0, 0.25d, 0.375d, 1d, 0.75d);
+				return VoxelShapes.box(0, 0, 0.25d, 0.375d, 1d, 0.75d);
 			}
 			default: {
-				return VoxelShapes.fullCube();
+				return VoxelShapes.block();
 			}
 		}
 
 	}
 
 	@Override
-	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		return worldIn.getBlockState(pos.offset(state.get(HORIZONTAL_FACING))).isSolid();
+	public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
+		return worldIn.getBlockState(pos.relative(state.getValue(FACING))).canOcclude();
 	}
 
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HORIZONTAL_FACING);
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(FACING);
 	}
 
 	@Override
-	public BlockRenderType getRenderType(BlockState state) {
+	public BlockRenderType getRenderShape(BlockState state) {
 		return BlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
 }

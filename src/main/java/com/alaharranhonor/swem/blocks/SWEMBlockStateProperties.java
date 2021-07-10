@@ -25,10 +25,10 @@ public class SWEMBlockStateProperties extends BlockStateProperties {
 		RIGHT;
 
 		public String toString() {
-			return this.getString();
+			return this.getSerializedName();
 		}
 
-		public String getString() {
+		public String getSerializedName() {
 			return this == LEFT ? "left" : "right";
 		}
 	}
@@ -39,10 +39,10 @@ public class SWEMBlockStateProperties extends BlockStateProperties {
 		RIGHT; // For Jumps = BETWEEN // For standards = top
 
 		public String toString() {
-			return this.getString();
+			return this.getSerializedName();
 		}
 
-		public String getString() {
+		public String getSerializedName() {
 			return this == LEFT ? "left" : this == MIDDLE ? "middle" : "right";
 		}
 	}
@@ -60,10 +60,10 @@ public class SWEMBlockStateProperties extends BlockStateProperties {
 		}
 
 		public String toString() {
-			return this.getString();
+			return this.getSerializedName();
 		}
 
-		public String getString() {
+		public String getSerializedName() {
 			return this == SINGLE ? "single" : this == LEFT ? "left" : this == MIDDLE ? "middle" : "right";
 		}
 

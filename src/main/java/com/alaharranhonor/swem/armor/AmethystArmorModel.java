@@ -5,13 +5,14 @@ import com.alaharranhonor.swem.items.SWEMArmorItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
+import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 public class AmethystArmorModel extends AnimatedGeoModel<SWEMArmorItem> {
 	@Override
 	public ResourceLocation getModelLocation(SWEMArmorItem swemArmorItem) {
-		if (Minecraft.getInstance().player.getSkinType().equals("default")) {
+		if (DefaultPlayerSkin.getSkinModelName(Minecraft.getInstance().player.getUUID()).equals("default")) {
 			return new ResourceLocation(SWEM.MOD_ID, "geo/armor/amethyst_armor_set.geo.json");
 		} else {
 			return new ResourceLocation(SWEM.MOD_ID, "geo/armor/amethyst_armor_set_slim.geo.json");

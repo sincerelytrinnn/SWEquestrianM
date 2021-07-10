@@ -1,6 +1,6 @@
 package com.alaharranhonor.swem.entities;
 
-import com.alaharranhonor.swem.util.initialization.SWEMItems;
+import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.entity.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -25,47 +25,47 @@ public class PoopEntity extends LivingEntity implements IAnimatable {
 
 	public PoopEntity(EntityType<? extends PoopEntity> p_i50225_1_, World world) {
 		super(p_i50225_1_, world);
-		this.stepHeight = 0.0F;
-		this.ignoreFrustumCheck = true;
+		this.maxUpStep = 0.0F;
+		this.noCulling = true;
 	}
 
 	@Override
-	public Iterable<ItemStack> getArmorInventoryList() {
+	public Iterable<ItemStack> getArmorSlots() {
 		return NonNullList.withSize(1, ItemStack.EMPTY);
 	}
 
 	@Override
-	public ItemStack getItemStackFromSlot(EquipmentSlotType slotIn) {
+	public ItemStack getItemBySlot(EquipmentSlotType slotIn) {
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public void setItemStackToSlot(EquipmentSlotType slotIn, ItemStack stack) {
+	public void setItemSlot(EquipmentSlotType slotIn, ItemStack stack) {
 
 	}
 
 	@Override
-	public HandSide getPrimaryHand() {
+	public HandSide getMainArm() {
 		return HandSide.RIGHT;
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource source, float amount) {
-		if (source.getTrueSource() instanceof PlayerEntity && ((PlayerEntity)source.getImmediateSource()).abilities.allowEdit) {
-			this.entityDropItem(new ItemStack(SWEMItems.POOP.get()));
+	public boolean hurt(DamageSource source, float amount) {
+		if (source.getEntity() instanceof PlayerEntity && ((PlayerEntity)source.getDirectEntity()).abilities.mayBuild) {
+			this.spawnAtLocation(new ItemStack(SWEMItems.POOP.get()));
 			this.remove();
 		}
-		return super.attackEntityFrom(source, amount);
+		return super.hurt(source, amount);
 	}
 
 	@Override
-	public boolean canBePushed() {
+	public boolean isPushable() {
 		return false;
 	}
 
 
 	@Override
-	protected void collideWithEntity(Entity entityIn) {
+	protected void doPush(Entity entityIn) {
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class PoopEntity extends LivingEntity implements IAnimatable {
 	}
 
 	@Override
-	public boolean canBeHitWithPotion() {
+	public boolean isAffectedByPotions() {
 		return false;
 	}
 

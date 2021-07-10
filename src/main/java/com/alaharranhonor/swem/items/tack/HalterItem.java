@@ -13,6 +13,8 @@ import net.minecraft.util.SoundCategory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import net.minecraft.item.Item.Properties;
+
 public class HalterItem extends Item {
 
 	private final ResourceLocation texture;
@@ -29,17 +31,17 @@ public class HalterItem extends Item {
 		this.texture = texture;
 	}
 
-	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (target instanceof ISWEMEquipable && target.isAlive()) {
 			ISWEMEquipable iequipable = (ISWEMEquipable) target;
-			if (!iequipable.hasHalter() && iequipable.func_230264_L__()) {
-				if (!playerIn.world.isRemote) {
-					iequipable.func_230266_a_(SoundCategory.NEUTRAL, stack);
-					if (!playerIn.abilities.isCreativeMode)
+			if (!iequipable.hasHalter() && iequipable.isSaddleable()) {
+				if (!playerIn.level.isClientSide) {
+					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack);
+					if (!playerIn.abilities.instabuild)
 						stack.shrink(1);
 				}
 
-				return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+				return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
 			}
 		}
 		return ActionResultType.PASS;

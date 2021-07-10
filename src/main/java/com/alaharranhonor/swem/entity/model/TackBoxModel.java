@@ -10,7 +10,7 @@ public class TackBoxModel extends AnimatedGeoModel<TackBoxTE> {
 
 	@Override
 	public ResourceLocation getModelLocation(TackBoxTE tackBoxTE) {
-		if (tackBoxTE.getBlockState().get(SWEMBlockStateProperties.D_SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
+		if (tackBoxTE.getBlockState().getValue(SWEMBlockStateProperties.D_SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
 			return new ResourceLocation(SWEM.MOD_ID, "geo/tile/tackbox_left.geo.json");
 		} else {
 			return new ResourceLocation(SWEM.MOD_ID, "geo/tile/tackbox_right.geo.json");

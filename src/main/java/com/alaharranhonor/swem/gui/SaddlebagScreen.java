@@ -23,13 +23,13 @@ public class SaddlebagScreen extends ContainerScreen<SaddlebagContainer> impleme
 
 	public SaddlebagScreen(SaddlebagContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
 		super(screenContainer, inv, titleIn);
-		this.xSize = 176;
-		this.ySize = 166;
+		this.imageWidth = 176;
+		this.imageHeight = 166;
 		this.player = inv.player;
-		this.titleX = 7;
-		this.titleY = 7;
-		this.playerInventoryTitleX = 7;
-		this.playerInventoryTitleY = 73;
+		this.titleLabelX = 7;
+		this.titleLabelY = 7;
+		this.inventoryLabelX = 7;
+		this.inventoryLabelY = 73;
 		this.container = screenContainer;
 		this.inventory = inv;
 		this.text = titleIn;
@@ -37,23 +37,23 @@ public class SaddlebagScreen extends ContainerScreen<SaddlebagContainer> impleme
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
+	protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.minecraft.getTextureManager().bindTexture(SADDLE_BAG_TEXTURE);
-		int i = (this.width - this.xSize) / 2;
-		int j = (this.height - this.ySize) / 2;
-		blit(matrixStack, i, j, 0, 0, this.xSize, this.ySize, 256, 256);
+		this.minecraft.getTextureManager().bind(SADDLE_BAG_TEXTURE);
+		int i = (this.width - this.imageWidth) / 2;
+		int j = (this.height - this.imageHeight) / 2;
+		blit(matrixStack, i, j, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
-		super.drawGuiContainerForegroundLayer(matrixStack, x, y);
+	protected void renderLabels(MatrixStack matrixStack, int x, int y) {
+		super.renderLabels(matrixStack, x, y);
 	}
 
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
-		this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
+		this.renderTooltip(matrixStack, mouseX, mouseY);
 	}
 }

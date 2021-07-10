@@ -1,6 +1,6 @@
 package com.alaharranhonor.swem.entities;
 
-import com.alaharranhonor.swem.util.initialization.SWEMEntities;
+import com.alaharranhonor.swem.util.registry.SWEMEntities;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
@@ -27,27 +27,27 @@ public class WormieBoiEntity extends SheepEntity implements IAnimatable {
 
 	public WormieBoiEntity(EntityType<? extends SheepEntity> type, World worldIn) {
 		super(type, worldIn);
-		this.ignoreFrustumCheck = true;
+		this.noCulling = true;
 	}
 
 	public static AttributeModifierMap.MutableAttribute setCustomAttributes()
 	{
-		return MobEntity.func_233666_p_()
-				.createMutableAttribute(Attributes.MAX_HEALTH, 8.0D)
-				.createMutableAttribute(Attributes.MOVEMENT_SPEED, (double) 0.15f);
+		return MobEntity.createMobAttributes()
+				.add(Attributes.MAX_HEALTH, 8.0D)
+				.add(Attributes.MOVEMENT_SPEED, (double) 0.15f);
 	}
 
 	@Override
-	public boolean isShearable() {
+	public boolean readyForShearing() {
 		return false;
 	}
 
 	@Nullable
 	@Override
-	public SheepEntity createChild(ServerWorld p_241840_1_, AgeableEntity p_241840_2_)
+	public SheepEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_)
 	{
 
-		return SWEMEntities.WORMIE_BOI_ENTITY.get().create(this.world);
+		return SWEMEntities.WORMIE_BOI_ENTITY.get().create(this.level);
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class WormieBoiEntity extends SheepEntity implements IAnimatable {
 	 */
 	@Override
 	public void playAmbientSound() {
-		this.playSound(SoundEvents.ENTITY_FOX_AMBIENT, 0.15f, 1.0f);
+		this.playSound(SoundEvents.FOX_AMBIENT, 0.15f, 1.0f);
 	}
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)

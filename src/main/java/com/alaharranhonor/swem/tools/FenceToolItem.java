@@ -15,12 +15,12 @@ public class FenceToolItem extends ItemBase {
 	 * @param context
 	 */
 	@Override
-	public ActionResultType onItemUse(ItemUseContext context) {
-		BlockState targetState = context.getWorld().getBlockState(context.getPos());
+	public ActionResultType useOn(ItemUseContext context) {
+		BlockState targetState = context.getLevel().getBlockState(context.getClickedPos());
 
 		Block target = targetState.getBlock();
 		if (target instanceof FenceBaseBlock) {
-			context.getWorld().setBlockState(context.getPos(), targetState.with(SWEMBlockStateProperties.HALF_FENCE, !targetState.get(SWEMBlockStateProperties.HALF_FENCE)));
+			context.getLevel().setBlock(context.getClickedPos(), targetState.setValue(SWEMBlockStateProperties.HALF_FENCE, !targetState.getValue(SWEMBlockStateProperties.HALF_FENCE)), 3);
 			return ActionResultType.SUCCESS;
 		}
 		return ActionResultType.PASS;

@@ -30,7 +30,7 @@ public class HorseHungerChange {
 	public static HorseHungerChange decode(ByteBuf buf) {
 		try {
 			int entityID = buf.readInt();
-			ItemStack food = ((PacketBuffer) buf).readItemStack();
+			ItemStack food = ((PacketBuffer) buf).readItem();
 			return new HorseHungerChange(entityID, food);
 		} catch (IndexOutOfBoundsException e) {
 			SWEM.LOGGER.error("HorseHungerChange: Unexpected end of packet.\nMessage: " + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()), e);
@@ -40,12 +40,12 @@ public class HorseHungerChange {
 
 	public static void encode(HorseHungerChange msg, PacketBuffer buffer) {
 		buffer.writeInt(msg.entityID);
-		buffer.writeItemStack(msg.food);
+		buffer.writeItem(msg.food);
 	}
 
 	public static void handle(HorseHungerChange msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			((SWEMHorseEntityBase)ctx.get().getSender().world.getEntityByID(msg.entityID)).getNeeds().getHunger().addPoints(msg.food);
+			((SWEMHorseEntityBase)ctx.get().getSender().level.getEntity(msg.entityID)).getNeeds().getHunger().addPoints(msg.food);
 		});
 		ctx.get().setPacketHandled(true);
 	}

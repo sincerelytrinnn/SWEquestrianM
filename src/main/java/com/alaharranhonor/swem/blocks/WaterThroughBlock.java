@@ -12,6 +12,8 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class WaterThroughBlock extends NonParallelBlock {
 	public static final IntegerProperty LEVEL = SWEMBlockStateProperties.LEVEL_0_12;
 	public WaterThroughBlock(Properties properties, DyeColor colour) {
@@ -24,11 +26,11 @@ public class WaterThroughBlock extends NonParallelBlock {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return VoxelShapes.create(0.01, 0.01, 0.01, 0.99, 0.99, 0.99);
+		return VoxelShapes.box(0.01, 0.01, 0.01, 0.99, 0.99, 0.99);
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		super.fillStateContainer(builder);
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+		super.createBlockStateDefinition(builder);
 	}
 }

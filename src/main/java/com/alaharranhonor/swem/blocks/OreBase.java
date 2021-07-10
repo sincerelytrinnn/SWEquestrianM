@@ -9,10 +9,12 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.ToolType;
 
+import net.minecraft.block.AbstractBlock;
+
 public class OreBase extends Block {
      public OreBase() {
-            super(Block.Properties.create(Material.IRON)
-                    .hardnessAndResistance(4.0f, 4.0f)
+            super(AbstractBlock.Properties.of(Material.METAL)
+                    .strength(4.0f, 4.0f)
                     .sound(SoundType.STONE)
                     .harvestLevel(2)
                     .harvestTool(ToolType.PICKAXE)

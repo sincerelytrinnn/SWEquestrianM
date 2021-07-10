@@ -10,6 +10,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 
+import net.minecraft.item.Item.Properties;
+
 public class IronRidingBoots extends GlowRidingBoots {
 	public IronRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
 		super(path, materialIn, slot, builderIn);
@@ -23,9 +25,9 @@ public class IronRidingBoots extends GlowRidingBoots {
 	 * @param playerIn
 	 */
 	@Override
-	public void onCreated(ItemStack stack, World worldIn, PlayerEntity playerIn) {
-		stack.addEnchantment(new DestrierEnchantment(Enchantment.Rarity.RARE, EnchantmentType.ARMOR_FEET, new EquipmentSlotType[] {EquipmentSlotType.FEET} ), 1);
-		super.onCreated(stack, worldIn, playerIn);
+	public void onCraftedBy(ItemStack stack, World worldIn, PlayerEntity playerIn) {
+		stack.enchant(new DestrierEnchantment(Enchantment.Rarity.RARE, EnchantmentType.ARMOR_FEET, new EquipmentSlotType[] {EquipmentSlotType.FEET} ), 1);
+		super.onCraftedBy(stack, worldIn, playerIn);
 	}
 
 }

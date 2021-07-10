@@ -10,13 +10,13 @@ public class HealthLeveling implements ILeveling{
 
 	private SWEMHorseEntityBase horse;
 	private EntityDataManager dataManager;
-	public static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
-	public static final DataParameter<Float> XP = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
+	public static final DataParameter<Integer> LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+	public static final DataParameter<Float> XP = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
 	private float[] requiredXpArray = new float[]{500, 2000, 4000, 7000};
 	private String[] levelNames = new String[] {"Health I", "Health II", "Health III", "Health IV", "Health V"};
 	public HealthLeveling(SWEMHorseEntityBase horse) {
 		this.horse = horse;
-		this.dataManager = this.horse.getDataManager();
+		this.dataManager = this.horse.getEntityData();
 	}
 	@Override
 	public boolean addXP(float amount) {

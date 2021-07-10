@@ -2,8 +2,8 @@ package com.alaharranhonor.swem.entities.needs;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import com.alaharranhonor.swem.util.initialization.SWEMItems;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
@@ -25,21 +25,21 @@ public class HungerNeed {
 
 	private ArrayList<Ingredient> FEEDS = new ArrayList<Ingredient>(
 			Stream.of(
-					Ingredient.fromItems(Items.CARROT),
-					Ingredient.fromItems(Items.APPLE),
-					Ingredient.fromItems(SWEMItems.OAT_BUSHEL.get()),
-					Ingredient.fromItems(SWEMItems.TIMOTHY_BUSHEL.get()),
-					Ingredient.fromItems(SWEMItems.ALFALFA_BUSHEL.get()),
-					Ingredient.fromItems(SWEMBlocks.QUALITY_BALE_ITEM.get()),
-					Ingredient.fromItems(Items.GRASS_BLOCK),
-					Ingredient.fromItems(SWEMItems.SUGAR_CUBE.get())
+					Ingredient.of(Items.CARROT),
+					Ingredient.of(Items.APPLE),
+					Ingredient.of(SWEMItems.OAT_BUSHEL.get()),
+					Ingredient.of(SWEMItems.TIMOTHY_BUSHEL.get()),
+					Ingredient.of(SWEMItems.ALFALFA_BUSHEL.get()),
+					Ingredient.of(SWEMBlocks.QUALITY_BALE_ITEM.get()),
+					Ingredient.of(Items.GRASS_BLOCK),
+					Ingredient.of(SWEMItems.SUGAR_CUBE.get())
 			).collect(Collectors.toList()));
 
 	private int[] POINTS_GIVEN = {1, 1, 5, 5, 5, 15, 1, 1};
 	private int[] TIMES_FED = new int[8];
 	private int[] MAX_TIMES = {1, 1, 1, 4, 4, 1, -1, 1};
 
-	public static final DataParameter<Integer> TOTAL_TIMES_FED = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
+	public static final DataParameter<Integer> TOTAL_TIMES_FED = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 
 	public HungerNeed(SWEMHorseEntityBase horse) {
 		this.horse = horse;
@@ -122,11 +122,11 @@ public class HungerNeed {
 	}
 
 	public int getTotalTimesFed() {
-		return this.horse.getDataManager().get(TOTAL_TIMES_FED);
+		return this.horse.getEntityData().get(TOTAL_TIMES_FED);
 	}
 
 	private void setTotalTimesFed(int amount) {
-		this.horse.getDataManager().set(TOTAL_TIMES_FED, this.getTotalTimesFed() + amount);
+		this.horse.getEntityData().set(TOTAL_TIMES_FED, this.getTotalTimesFed() + amount);
 	}
 
 	public HungerState getState() {
@@ -193,38 +193,38 @@ public class HungerNeed {
 		switch(id) {
 			case 0: {
 				this.setState(HungerState.STARVING);
-				this.horse.getDataManager().set(HungerState.ID, id);
+				this.horse.getEntityData().set(HungerState.ID, id);
 				break;
 			}
 			case 1: {
 				this.setState(HungerState.MALNOURISHED);
-				this.horse.getDataManager().set(HungerState.ID, id);
+				this.horse.getEntityData().set(HungerState.ID, id);
 				break;
 			}
 			case 2: {
 				this.setState(HungerState.HUNGRY);
-				this.horse.getDataManager().set(HungerState.ID, id);
+				this.horse.getEntityData().set(HungerState.ID, id);
 				break;
 			}
 			case 3: {
 				this.setState(HungerState.FED);
-				this.horse.getDataManager().set(HungerState.ID, id);
+				this.horse.getEntityData().set(HungerState.ID, id);
 				break;
 			}
 			case 4: {
 				this.setState(HungerState.FULLY_FED);
-				this.horse.getDataManager().set(HungerState.ID, id);
+				this.horse.getEntityData().set(HungerState.ID, id);
 				break;
 			}
 			default: {
 				this.setState(HungerState.FULLY_FED);
-				this.horse.getDataManager().set(HungerState.ID, 4);
+				this.horse.getEntityData().set(HungerState.ID, 4);
 			}
 		}
 	}
 
 	public void resetDaily() {
-		this.horse.getDataManager().set(TOTAL_TIMES_FED, 0);
+		this.horse.getEntityData().set(TOTAL_TIMES_FED, 0);
 		this.state.resetCurrentPoints();
 		Arrays.fill(this.TIMES_FED, 0);
 	}
@@ -237,7 +237,7 @@ public class HungerNeed {
 		FED(168000, 15),
 		FULLY_FED(180000, -1);
 
-		public static final DataParameter<Integer> ID = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
+		public static final DataParameter<Integer> ID = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 		private int tickAmountChange;
 		private int pointsRequired;
 		private int currentPoints;
@@ -255,7 +255,7 @@ public class HungerNeed {
 		}
 
 		public int getId() {
-			return this.horse.getDataManager().get(ID);
+			return this.horse.getEntityData().get(ID);
 		}
 
 		public int getTickAmountChange() {

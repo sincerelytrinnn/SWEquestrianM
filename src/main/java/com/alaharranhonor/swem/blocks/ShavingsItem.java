@@ -14,21 +14,21 @@ import javax.annotation.Nullable;
 
 public class ShavingsItem extends BlockItem {
     public ShavingsItem(Block block) {
-        super(block, new Item.Properties().group(SWEM.TAB).maxStackSize(16).defaultMaxDamage(8));
+        super(block, new Item.Properties().tab(SWEM.TAB).stacksTo(16).defaultDurability(8));
     }
 
     @Override
-    public boolean onBlockPlaced(BlockPos pos, World worldIn, @Nullable PlayerEntity player, ItemStack stack, BlockState state) {
-        stack.damageItem(1, player, playerEntity -> {});
+    public boolean updateCustomBlockEntityTag(BlockPos pos, World worldIn, @Nullable PlayerEntity player, ItemStack stack, BlockState state) {
+        stack.hurtAndBreak(1, player, playerEntity -> {});
         ItemStack newItem = stack;
-        player.inventory.add(player.inventory.currentItem, newItem);
+        player.inventory.add(player.inventory.selected, newItem);
         return false;
     }
 
     public static class SoiledShavingsItem extends Item {
 
         public SoiledShavingsItem() {
-            super(new Item.Properties().group(SWEM.TAB).maxStackSize(16));
+            super(new Item.Properties().tab(SWEM.TAB).stacksTo(16));
         }
 
 

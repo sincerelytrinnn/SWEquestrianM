@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 public class FuelBlockItemBase extends BlockItem {
     private int ticks;
     public FuelBlockItemBase(Block block, int ticks) {
-        super(block, new Item.Properties().group(SWEM.TAB));
+        super(block, new Item.Properties().tab(SWEM.TAB));
         this.ticks = ticks;
     }
 

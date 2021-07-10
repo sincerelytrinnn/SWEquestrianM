@@ -14,7 +14,7 @@ import net.minecraft.util.Hand;
 public class TackBoxBlockItem extends BlockItem {
 
 	public TackBoxBlockItem(Block block) {
-		super(block, new Item.Properties().group(SWEM.TAB));
+		super(block, new Item.Properties().tab(SWEM.TAB));
 	}
 
 	/**
@@ -26,12 +26,12 @@ public class TackBoxBlockItem extends BlockItem {
 	 * @param hand
 	 */
 	@Override
-	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (target instanceof SWEMHorseEntityBase) {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
 			// TODO: ONLY ALLOW HORSES TAMED BY THE PLAYER TO SET THE HORSE ID
-			stack.getOrCreateTag().putUniqueId("horseUUID", horse.getUniqueID());
-			return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+			stack.getOrCreateTag().putUUID("horseUUID", horse.getUUID());
+			return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
 
 		}
 		return ActionResultType.FAIL;

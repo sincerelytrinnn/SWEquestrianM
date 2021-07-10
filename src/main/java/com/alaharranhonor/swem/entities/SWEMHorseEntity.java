@@ -1,14 +1,12 @@
 package com.alaharranhonor.swem.entities;
 
-import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.util.initialization.SWEMEntities;
+import com.alaharranhonor.swem.util.registry.SWEMEntities;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import software.bernie.geckolib3.GeckoLib;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -18,7 +16,6 @@ import software.bernie.geckolib3.core.event.SoundKeyframeEvent;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.resource.GeckoLibCache;
 
 import javax.annotation.Nullable;
 
@@ -28,15 +25,15 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 	public SWEMHorseEntity(EntityType<? extends SWEMHorseEntityBase> type, World worldIn) {
 		super(type, worldIn);
-		this.ignoreFrustumCheck = true;
+		this.noCulling = true;
 	}
 
 	// createChild method
 	@Nullable
 	@Override
-	public AgeableEntity createChild(ServerWorld p_241840_1_, AgeableEntity p_241840_2_)
+	public AgeableEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_)
 	{
-		return SWEMEntities.SWEM_HORSE_ENTITY.get().create(this.world);
+		return SWEMEntities.SWEM_HORSE_ENTITY.get().create(this.level);
 	}
 
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
@@ -64,28 +61,50 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			return PlayState.CONTINUE;
 		}*/
 
+		if (horse.isFlying()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("Launch"));
+			return PlayState.CONTINUE;
+		}
+
+		if (horse.shouldJumpAnimationPlay() && horse.jumpHeight != 0) {
+			System.out.println(horse.jumpHeight);
+			if (horse.jumpHeight > 4.0F) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump"));
+				return PlayState.CONTINUE;
+			} else if (jumpHeight > 3.0F) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_3"));
+				return PlayState.CONTINUE;
+			} else if (jumpHeight > 2.0F) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_2"));
+				return PlayState.CONTINUE;
+			} else {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_1"));
+				return PlayState.CONTINUE;
+			}
+		}
+
+		if (horse.isStanding()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("Rear"));
+			return PlayState.CONTINUE;
+		}
 
 		if (horse.isInWater()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("Swim"));
 			return PlayState.CONTINUE;
 		}
 
-		if (horse.isHorseJumping()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump"));
-			return PlayState.CONTINUE;
-		}
+
 
 		if (!event.isMoving()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("stand_idle"));
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_idle"));
 		} else {
-
-			if (horse.getDataManager().get(SPEED_LEVEL) == 0) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("walk"));
-			} else if (horse.getDataManager().get(SPEED_LEVEL) == 1) {
+			if (horse.getEntityData().get(SPEED_LEVEL) == 0) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Walk"));
+			} else if (horse.getEntityData().get(SPEED_LEVEL) == 1) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Trot"));
-			} else if (horse.getDataManager().get(SPEED_LEVEL) == 2) {
+			} else if (horse.getEntityData().get(SPEED_LEVEL) == 2) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Canter"));
-			} else if (horse.getDataManager().get(SPEED_LEVEL) == 3) {
+			} else if (horse.getEntityData().get(SPEED_LEVEL) == 3) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Gallop"));
 			}
 		}

@@ -9,9 +9,9 @@ import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.entities.WormieBoiEntity;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.SWLRegistryHandler;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import com.alaharranhonor.swem.util.initialization.SWEMEntities;
-import com.alaharranhonor.swem.util.initialization.SWEMItems;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMEntities;
+import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.block.ComposterBlock;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.item.*;
@@ -60,7 +60,7 @@ public class SWEM
         MinecraftForge.EVENT_BUS.register(this);
 
         // Register config
-        //modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ConfigHolder.CLIENT_SPEC);
+        modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ConfigHolder.CLIENT_SPEC);
         modLoadingContext.registerConfig(ModConfig.Type.SERVER, ConfigHolder.SERVER_SPEC);
     }
 
@@ -71,7 +71,7 @@ public class SWEM
         SWEMBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)
                 .filter(block -> !(block instanceof TimothyGrass))
                 .forEach(block -> {
-                    final Item.Properties properties = new Item.Properties().group(TAB);
+                    final Item.Properties properties = new Item.Properties().tab(TAB);
                     final BlockItem blockItem = new BlockItem(block, properties);
                     blockItem.setRegistryName(block.getRegistryName());
                     registry.register(blockItem);
@@ -83,21 +83,21 @@ public class SWEM
 
     private void setup(final FMLCommonSetupEvent event) {
         DeferredWorkQueue.runLater(() -> {
-            GlobalEntityTypeAttributes.put(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseEntityBase.setCustomAttributes().create());
-            GlobalEntityTypeAttributes.put(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiEntity.setCustomAttributes().create());
-            GlobalEntityTypeAttributes.put(SWEMEntities.HORSE_POOP_ENTITY.get(), PoopEntity.registerAttributes().create());
+            GlobalEntityTypeAttributes.put(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseEntityBase.setCustomAttributes().build());
+            GlobalEntityTypeAttributes.put(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiEntity.setCustomAttributes().build());
+            GlobalEntityTypeAttributes.put(SWEMEntities.HORSE_POOP_ENTITY.get(), PoopEntity.createLivingAttributes().build());
             BrewingRecipeRegistry.addRecipe(new BrewingRecipes.CantazariteBrewingRecipe());
             BrewingRecipeRegistry.addRecipe(new BrewingRecipes.RainbowChicPotion());
 
-            ComposterBlock.CHANCES.put(SWEMItems.ALFALFA_SEEDS.get(), 0.3F);
-            ComposterBlock.CHANCES.put(SWEMItems.ALFALFA_BUSHEL.get(), 0.65F);
-            ComposterBlock.CHANCES.put(SWEMItems.OAT_SEEDS.get(), 0.3F);
-            ComposterBlock.CHANCES.put(SWEMItems.OAT_BUSHEL.get(), 0.65F);
-            ComposterBlock.CHANCES.put(SWEMItems.TIMOTHY_SEEDS.get(), 0.3F);
-            ComposterBlock.CHANCES.put(SWEMItems.TIMOTHY_BUSHEL.get(), 0.65F);
-            ComposterBlock.CHANCES.put(SWEMBlocks.QUALITY_BALE_ITEM.get(), 0.85F);
-            ComposterBlock.CHANCES.put(SWEMBlocks.WET_COMPOST_ITEM.get(), 0.85F);
-            ComposterBlock.CHANCES.put(SWEMBlocks.COMPOST_ITEM.get(), 0.85F);
+            ComposterBlock.COMPOSTABLES.put(SWEMItems.ALFALFA_SEEDS.get(), 0.3F);
+            ComposterBlock.COMPOSTABLES.put(SWEMItems.ALFALFA_BUSHEL.get(), 0.65F);
+            ComposterBlock.COMPOSTABLES.put(SWEMItems.OAT_SEEDS.get(), 0.3F);
+            ComposterBlock.COMPOSTABLES.put(SWEMItems.OAT_BUSHEL.get(), 0.65F);
+            ComposterBlock.COMPOSTABLES.put(SWEMItems.TIMOTHY_SEEDS.get(), 0.3F);
+            ComposterBlock.COMPOSTABLES.put(SWEMItems.TIMOTHY_BUSHEL.get(), 0.65F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.QUALITY_BALE_ITEM.get(), 0.85F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.WET_COMPOST_ITEM.get(), 0.85F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.COMPOST_ITEM.get(), 0.85F);
         });
 
         SWEMPacketHandler.init();
@@ -106,14 +106,14 @@ public class SWEM
 
     public static final ItemGroup SWLMTAB = new ItemGroup("SWLMTab") {
         @Override
-        public ItemStack createIcon() {
+        public ItemStack makeIcon() {
             return new ItemStack(SWLRegistryHandler.STAR_WORM.get());
         }
     };
 
     public static final ItemGroup TAB = new ItemGroup("SWEMTab") {
         @Override
-        public ItemStack createIcon() {
+        public ItemStack makeIcon() {
             return new ItemStack(SWEMItems.WESTERN_SADDLE_LIGHT_BLUE.get());
         }
     };

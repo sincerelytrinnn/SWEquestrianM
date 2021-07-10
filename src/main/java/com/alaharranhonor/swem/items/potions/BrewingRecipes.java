@@ -1,6 +1,6 @@
 package com.alaharranhonor.swem.items.potions;
 
-import com.alaharranhonor.swem.util.initialization.SWEMItems;
+import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.potion.Potions;
@@ -12,7 +12,7 @@ public class BrewingRecipes {
 		@Override
 		public boolean isInput(ItemStack input) {
 			// TODO: Make the input check, work, for only water potions.
-			return PotionUtils.getPotionFromItem(input) == Potions.WATER;
+			return PotionUtils.getPotion(input) == Potions.WATER;
 		}
 
 		@Override
@@ -34,7 +34,7 @@ public class BrewingRecipes {
 		@Override
 		public boolean isInput(ItemStack input) {
 			// TODO: Make the input check, work, for only water potions.
-			return PotionUtils.getPotionFromItem(input) == Potions.WATER;
+			return PotionUtils.getPotion(input) == Potions.WATER;
 		}
 
 		@Override

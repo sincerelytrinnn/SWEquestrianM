@@ -16,6 +16,8 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 public class SWEMSpawnEggItem extends SpawnEggItem {
 	protected static final List<SWEMSpawnEggItem> UNADDED_EGGS = new ArrayList<>();
 
@@ -36,18 +38,18 @@ public class SWEMSpawnEggItem extends SpawnEggItem {
 			 * @param stack
 			 */
 			@Override
-			protected ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
-				Direction direction = source.getBlockState().get(DispenserBlock.FACING);
+			protected ItemStack execute(IBlockSource source, ItemStack stack) {
+				Direction direction = source.getBlockState().getValue(DispenserBlock.FACING);
 				EntityType<?> type = ((SpawnEggItem) stack.getItem()).getType(stack.getTag());
-				type.spawn(source.getWorld(), stack, null, source.getBlockPos(), SpawnReason.DISPENSER, direction != Direction.UP, false);
+				type.spawn(source.getLevel(), stack, null, source.getPos(), SpawnReason.DISPENSER, direction != Direction.UP, false);
 				stack.shrink(1);
 				return stack;
 			}
 		};
 
 		for (final SpawnEggItem spawnEgg : UNADDED_EGGS) {
-			EGGS.put(spawnEgg.getType(null), spawnEgg);
-			DispenserBlock.registerDispenseBehavior(spawnEgg, dispenseBehavior);
+			BY_ID.put(spawnEgg.getType(null), spawnEgg);
+			DispenserBlock.registerBehavior(spawnEgg, dispenseBehavior);
 		}
 
 		UNADDED_EGGS.clear();

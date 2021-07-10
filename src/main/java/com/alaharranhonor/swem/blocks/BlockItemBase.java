@@ -10,7 +10,7 @@ import net.minecraft.util.Hand;
 
 public class BlockItemBase extends BlockItem {
     public BlockItemBase(Block block) {
-        super(block, new Item.Properties().group(SWEM.TAB));
+        super(block, new Item.Properties().tab(SWEM.TAB));
     }
 
     /**
@@ -22,7 +22,7 @@ public class BlockItemBase extends BlockItem {
      * @param hand
      */
     @Override
-    public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-        return super.itemInteractionForEntity(stack, playerIn, target, hand);
+    public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+        return super.interactLivingEntity(stack, playerIn, target, hand);
     }
 }

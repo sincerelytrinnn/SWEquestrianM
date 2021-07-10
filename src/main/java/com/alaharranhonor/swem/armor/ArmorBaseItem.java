@@ -13,6 +13,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
+import net.minecraft.item.Item.Properties;
+
 public class ArmorBaseItem extends ArmorItem {
 
 	private Supplier<Supplier<ArmorBaseModel>> armorModel;

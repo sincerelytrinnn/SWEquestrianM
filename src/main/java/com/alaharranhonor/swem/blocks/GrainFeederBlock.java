@@ -16,6 +16,8 @@ import net.minecraft.world.IWorldReader;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class GrainFeederBlock extends HorizontalBlock {
 
 	public static final BooleanProperty LEFT = SWEMBlockStateProperties.CONNECTED_LEFT;
@@ -27,7 +29,7 @@ public class GrainFeederBlock extends HorizontalBlock {
 
 	public GrainFeederBlock(Properties properties, DyeColor colour) {
 		super(properties);
-		this.setDefaultState(this.stateContainer.getBaseState().with(LEFT, false).with(RIGHT, false).with(LEVEL, 0).with(HORIZONTAL_FACING, Direction.NORTH));
+		this.registerDefaultState(this.stateDefinition.any().setValue(LEFT, false).setValue(RIGHT, false).setValue(LEVEL, 0).setValue(FACING, Direction.NORTH));
 		this.colour = colour;
 	}
 
@@ -38,33 +40,33 @@ public class GrainFeederBlock extends HorizontalBlock {
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		IBlockReader iblockreader = context.getWorld();
-		BlockPos blockpos = context.getPos();
-		FluidState fluidstate = context.getWorld().getFluidState(context.getPos());
-		BlockPos blockpos1 = blockpos.offset(context.getPlacementHorizontalFacing().rotateY());
-		BlockPos blockpos2 = blockpos.offset(context.getPlacementHorizontalFacing().rotateYCCW());
+		IBlockReader iblockreader = context.getLevel();
+		BlockPos blockpos = context.getClickedPos();
+		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
+		BlockPos blockpos1 = blockpos.relative(context.getHorizontalDirection().getClockWise());
+		BlockPos blockpos2 = blockpos.relative(context.getHorizontalDirection().getCounterClockWise());
 		BlockState blockstate = iblockreader.getBlockState(blockpos1);
 		BlockState blockstate1 = iblockreader.getBlockState(blockpos2);
-		BlockState modified = this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
-		if (blockstate.isSolid()) {
-			return modified.with(RIGHT, true);
-		} else if (blockstate1.isSolid()) {
-			return modified.with(LEFT, true);
+		BlockState modified = this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
+		if (blockstate.canOcclude()) {
+			return modified.setValue(RIGHT, true);
+		} else if (blockstate1.canOcclude()) {
+			return modified.setValue(LEFT, true);
 		}
 		return modified;
 	}
 
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(LEFT, RIGHT, LEVEL, HORIZONTAL_FACING);
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(LEFT, RIGHT, LEVEL, FACING);
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return Block.makeCuboidShape(0, 0, 0, 15.99, 15.99, 15.99);
+		return Block.box(0, 0, 0, 15.99, 15.99, 15.99);
 	}
 
 	@Override
-	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		return worldIn.getBlockState(pos.offset(state.get(HORIZONTAL_FACING))).isSolid();
+	public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
+		return worldIn.getBlockState(pos.relative(state.getValue(FACING))).canOcclude();
 	}
 }

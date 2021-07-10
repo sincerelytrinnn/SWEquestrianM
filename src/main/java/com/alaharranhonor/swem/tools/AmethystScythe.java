@@ -22,6 +22,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+import net.minecraft.item.Item.Properties;
+
 public class AmethystScythe extends HoeItem {
 
 	private final float attackDamage;
@@ -30,10 +32,10 @@ public class AmethystScythe extends HoeItem {
 
 	public AmethystScythe(IItemTier tier, int attackDamageIn, float attackSpeedIn, Properties builderIn) {
 		super(tier, attackDamageIn, attackSpeedIn, builderIn);
-		this.attackDamage = (float)attackDamageIn + tier.getAttackDamage();
+		this.attackDamage = (float)attackDamageIn + tier.getAttackDamageBonus();
 		ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-		builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double)this.attackDamage, AttributeModifier.Operation.ADDITION));
-		builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", (double)attackSpeedIn, AttributeModifier.Operation.ADDITION));
+		builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", (double)this.attackDamage, AttributeModifier.Operation.ADDITION));
+		builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", (double)attackSpeedIn, AttributeModifier.Operation.ADDITION));
 		this.attributeModifiers = builder.build();
 	}
 
@@ -53,18 +55,18 @@ public class AmethystScythe extends HoeItem {
 		float f = (float)player.getAttributeValue(Attributes.ATTACK_DAMAGE);
 		float f1;
 		if (target instanceof LivingEntity) {
-			f1 = EnchantmentHelper.getModifierForCreature(player.getHeldItemMainhand(), ((LivingEntity)target).getCreatureAttribute());
+			f1 = EnchantmentHelper.getDamageBonus(player.getMainHandItem(), ((LivingEntity)target).getMobType());
 		} else {
-			f1 = EnchantmentHelper.getModifierForCreature(player.getHeldItemMainhand(), CreatureAttribute.UNDEFINED);
+			f1 = EnchantmentHelper.getDamageBonus(player.getMainHandItem(), CreatureAttribute.UNDEFINED);
 		}
 
-		float f2 = player.getCooledAttackStrength(0.5F);
+		float f2 = player.getAttackStrengthScale(0.5F);
 		f = f * (0.2F + f2 * f2 * 0.8F);
 		f1 = f1 * f2;
 
 		boolean flag = f2 > 0.9F;
 
-		boolean flag2 = flag && player.fallDistance > 0.0F && !player.isOnGround() && !player.isOnLadder() && !player.isInWater() && !player.isPotionActive(Effects.BLINDNESS) && !player.isPassenger() && target instanceof LivingEntity;
+		boolean flag2 = flag && player.fallDistance > 0.0F && !player.isOnGround() && !player.onClimbable() && !player.isInWater() && !player.hasEffect(Effects.BLINDNESS) && !player.isPassenger() && target instanceof LivingEntity;
 		flag2 = flag2 && !player.isSprinting();
 		net.minecraftforge.event.entity.player.CriticalHitEvent hitResult = net.minecraftforge.common.ForgeHooks.getCriticalHit(player, target, flag2, flag2 ? 1.5F : 1.0F);
 		flag2 = hitResult != null;
@@ -74,17 +76,17 @@ public class AmethystScythe extends HoeItem {
 
 		float f3 = 1.0F + (1.0F - 1.0F / (float)(2 + 1)) * f;
 
-		for(LivingEntity livingentity : player.world.getEntitiesWithinAABB(LivingEntity.class, target.getBoundingBox().grow(1.0D, 0.25D, 1.0D))) {
-			if (livingentity != player && livingentity != target && !player.isOnSameTeam(livingentity) && (!(livingentity instanceof ArmorStandEntity) || !((ArmorStandEntity)livingentity).hasMarker()) && player.getDistanceSq(livingentity) < 9.0D) {
-				livingentity.applyKnockback(0.4F, (double) MathHelper.sin(player.rotationYaw * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(player.rotationYaw * ((float)Math.PI / 180F))));
-				livingentity.attackEntityFrom(DamageSource.causePlayerDamage(player), f3);
+		for(LivingEntity livingentity : player.level.getEntitiesOfClass(LivingEntity.class, target.getBoundingBox().inflate(1.0D, 0.25D, 1.0D))) {
+			if (livingentity != player && livingentity != target && !player.isAlliedTo(livingentity) && (!(livingentity instanceof ArmorStandEntity) || !((ArmorStandEntity)livingentity).isMarker()) && player.distanceToSqr(livingentity) < 9.0D) {
+				livingentity.knockback(0.4F, (double) MathHelper.sin(player.yRot * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(player.yRot * ((float)Math.PI / 180F))));
+				livingentity.hurt(DamageSource.playerAttack(player), f3);
 			}
 		}
 
-		player.world.playSound((PlayerEntity)null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
-		player.spawnSweepParticles();
-		stack.damageItem(1, attacker, (entity) -> {
-			entity.sendBreakAnimation(EquipmentSlotType.MAINHAND);
+		player.level.playSound((PlayerEntity)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(), 1.0F, 1.0F);
+		player.sweepAttack();
+		stack.hurtAndBreak(1, attacker, (entity) -> {
+			entity.broadcastBreakEvent(EquipmentSlotType.MAINHAND);
 		});
 		return true;
 	}
@@ -93,9 +95,9 @@ public class AmethystScythe extends HoeItem {
 	 * Called when a Block is destroyed using this Item. Return true to trigger the "Use Item" statistic.
 	 */
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
-		if (!worldIn.isRemote && state.getBlockHardness(worldIn, pos) != 0.0F) {
-			stack.damageItem(1, entityLiving, (entity) -> {
-				entity.sendBreakAnimation(EquipmentSlotType.MAINHAND);
+		if (!worldIn.isClientSide && state.getDestroySpeed(worldIn, pos) != 0.0F) {
+			stack.hurtAndBreak(1, entityLiving, (entity) -> {
+				entity.broadcastBreakEvent(EquipmentSlotType.MAINHAND);
 			});
 		}
 
@@ -105,8 +107,8 @@ public class AmethystScythe extends HoeItem {
 	/**
 	 * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
 	 */
-	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) {
-		return equipmentSlot == EquipmentSlotType.MAINHAND ? this.attributeModifiers : super.getAttributeModifiers(equipmentSlot);
+	public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlotType equipmentSlot) {
+		return equipmentSlot == EquipmentSlotType.MAINHAND ? this.attributeModifiers : super.getDefaultAttributeModifiers(equipmentSlot);
 	}
 
 

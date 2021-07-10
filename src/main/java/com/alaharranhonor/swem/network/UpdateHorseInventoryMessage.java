@@ -34,7 +34,7 @@ public class UpdateHorseInventoryMessage {
 		try {
 			int entityId = buf.readInt();
 			int slotIndex = buf.readInt();
-			ItemStack stack = ((PacketBuffer) buf).readItemStack();
+			ItemStack stack = ((PacketBuffer) buf).readItem();
 			return new UpdateHorseInventoryMessage(entityId, slotIndex, stack);
 		} catch (IndexOutOfBoundsException e) {
 			SWEM.LOGGER.error("UpdateHorseInventoryMessage: Unexpected end of packet.\nMessage: " + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()), e);
@@ -45,15 +45,15 @@ public class UpdateHorseInventoryMessage {
 	public static void encode(UpdateHorseInventoryMessage msg, PacketBuffer buf) {
 		buf.writeInt(msg.entityId);
 		buf.writeInt(msg.slotIndex);
-		buf.writeItemStack(msg.stack);
+		buf.writeItem(msg.stack);
 	}
 
 	public static void handle(UpdateHorseInventoryMessage msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			Entity entity = Minecraft.getInstance().world.getEntityByID(msg.entityId);
+			Entity entity = Minecraft.getInstance().level.getEntity(msg.entityId);
 			if (entity instanceof SWEMHorseEntityBase) {
 				SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-				horse.getHorseInventory().setInventorySlotContents(msg.slotIndex, msg.stack);
+				horse.getHorseInventory().setItem(msg.slotIndex, msg.stack);
 			}
 		});
 		ctx.get().setPacketHandled(true);

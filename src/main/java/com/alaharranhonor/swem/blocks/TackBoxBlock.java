@@ -1,10 +1,9 @@
 package com.alaharranhonor.swem.blocks;
 
-import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.network.SyncEntityIdToClient;
 import com.alaharranhonor.swem.tileentity.TackBoxTE;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -34,10 +33,10 @@ import java.util.UUID;
 public class TackBoxBlock extends HorizontalBlock {
 	public TackBoxBlock(Properties properties) {
 		super(properties);
-		this.setDefaultState(
-				this.stateContainer.getBaseState()
-						.with(HORIZONTAL_FACING, Direction.NORTH)
-						.with(SWEMBlockStateProperties.D_SIDE, SWEMBlockStateProperties.DoubleBlockSide.LEFT)
+		this.registerDefaultState(
+				this.stateDefinition.any()
+						.setValue(FACING, Direction.NORTH)
+						.setValue(SWEMBlockStateProperties.D_SIDE, SWEMBlockStateProperties.DoubleBlockSide.LEFT)
 		);
 	}
 
@@ -72,17 +71,17 @@ public class TackBoxBlock extends HorizontalBlock {
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		if (!worldIn.isRemote) {
-			BlockPos offsetPos = state.get(SWEMBlockStateProperties.D_SIDE) == SWEMBlockStateProperties.DoubleBlockSide.RIGHT ? pos.offset(state.get(HORIZONTAL_FACING).rotateY()).toMutable() : pos;
-			TileEntity tile = worldIn.getTileEntity(offsetPos);
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		if (!worldIn.isClientSide) {
+			BlockPos offsetPos = state.getValue(SWEMBlockStateProperties.D_SIDE) == SWEMBlockStateProperties.DoubleBlockSide.RIGHT ? pos.relative(state.getValue(FACING).getClockWise()).mutable() : pos;
+			TileEntity tile = worldIn.getBlockEntity(offsetPos);
 
 			if (tile instanceof TackBoxTE) {
-				UUID uuid = tile.getTileData().getUniqueId("horseUUID");
-				int entityID = ((ServerWorld)worldIn).getEntityByUuid(uuid).getEntityId();
-				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new SyncEntityIdToClient(entityID, tile.getPos().getX(), tile.getPos().getY(), tile.getPos().getZ()));
+				UUID uuid = tile.getTileData().getUUID("horseUUID");
+				int entityID = ((ServerWorld)worldIn).getEntity(uuid).getId();
+				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new SyncEntityIdToClient(entityID, tile.getBlockPos().getX(), tile.getBlockPos().getY(), tile.getBlockPos().getZ()));
 				NetworkHooks.openGui((ServerPlayerEntity) player, (TackBoxTE) tile, (buffer) -> {
-					buffer.writeBlockPos(tile.getPos());
+					buffer.writeBlockPos(tile.getBlockPos());
 				});
 			}
 		}
@@ -90,24 +89,24 @@ public class TackBoxBlock extends HorizontalBlock {
 	}
 
 	@Override
-	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+	public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.getBlock() != newState.getBlock()) {
-			TileEntity te = worldIn.getTileEntity(pos);
+			TileEntity te = worldIn.getBlockEntity(pos);
 			if (te instanceof TackBoxTE) {
-				InventoryHelper.dropItems(worldIn, pos, ((TackBoxTE)te).getItems());
+				InventoryHelper.dropContents(worldIn, pos, ((TackBoxTE)te).getItems());
 
 			}
-			if (state.get(SWEMBlockStateProperties.D_SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
-					worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateYCCW()), Blocks.AIR.getDefaultState());
+			if (state.getValue(SWEMBlockStateProperties.D_SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
+					worldIn.setBlock(pos.relative(state.getValue(FACING).getCounterClockWise()), Blocks.AIR.defaultBlockState(), 3);
 			} else {
-				worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateY()), Blocks.AIR.getDefaultState());
+				worldIn.setBlock(pos.relative(state.getValue(FACING).getClockWise()), Blocks.AIR.defaultBlockState(), 3);
 			}
 		}
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return VoxelShapes.create(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
+		return VoxelShapes.box(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
 	}
 
 	/**
@@ -120,26 +119,26 @@ public class TackBoxBlock extends HorizontalBlock {
 	 * @param stack
 	 */
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		if (!worldIn.isRemote) {
+	public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+		if (!worldIn.isClientSide) {
 			if (stack.hasTag()) {
-				UUID id = stack.getTag().getUniqueId("horseUUID");
-				TileEntity tile = worldIn.getTileEntity(pos);
+				UUID id = stack.getTag().getUUID("horseUUID");
+				TileEntity tile = worldIn.getBlockEntity(pos);
 				if (tile instanceof TackBoxTE) {
-					tile.getTileData().putUniqueId("horseUUID", id);
+					tile.getTileData().putUUID("horseUUID", id);
 				}
 			}
 		}
 
 
-		worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateYCCW()), state.with(SWEMBlockStateProperties.D_SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT));
+		worldIn.setBlock(pos.relative(state.getValue(FACING).getCounterClockWise()), state.setValue(SWEMBlockStateProperties.D_SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT), 3);
 
-		if (!worldIn.isRemote) {
+		if (!worldIn.isClientSide) {
 			if (stack.hasTag()) {
-				UUID id = stack.getTag().getUniqueId("horseUUID");
-				TileEntity tile = worldIn.getTileEntity(pos.offset(state.get(HORIZONTAL_FACING).rotateY()));
+				UUID id = stack.getTag().getUUID("horseUUID");
+				TileEntity tile = worldIn.getBlockEntity(pos.relative(state.getValue(FACING).getClockWise()));
 				if (tile instanceof TackBoxTE) {
-					tile.getTileData().putUniqueId("horseUUID", id);
+					tile.getTileData().putUUID("horseUUID", id);
 				}
 			}
 		}
@@ -149,16 +148,16 @@ public class TackBoxBlock extends HorizontalBlock {
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing().getOpposite());
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HORIZONTAL_FACING, SWEMBlockStateProperties.D_SIDE);
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(FACING, SWEMBlockStateProperties.D_SIDE);
 	}
 
 	@Override
-	public BlockRenderType getRenderType(BlockState state) {
+	public BlockRenderType getRenderShape(BlockState state) {
 		return BlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
 }

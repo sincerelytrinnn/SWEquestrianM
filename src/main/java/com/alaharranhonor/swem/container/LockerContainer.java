@@ -1,8 +1,8 @@
 package com.alaharranhonor.swem.container;
 
 import com.alaharranhonor.swem.tileentity.LockerTE;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import com.alaharranhonor.swem.util.initialization.SWEMContainers;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMContainers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -28,7 +28,7 @@ public class LockerContainer extends Container {
 		super(SWEMContainers.LOCKER_CONTAINER.get(), id);
 		this.tileEntity = tileEntity;
 		this.leftSideOpened = leftSideOpened;
-		this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
+		this.canInteractWithCallable = IWorldPosCallable.create(tileEntity.getLevel(), tileEntity.getBlockPos());
 		System.out.println(leftSideOpened);
 		this.initSlots(playerInventory);
 	}
@@ -56,14 +56,14 @@ public class LockerContainer extends Container {
 	}
 
 	@Override
-	public boolean canInteractWith(PlayerEntity playerIn) {
-		return isWithinUsableDistance(canInteractWithCallable, playerIn, SWEMBlocks.LOCKER.get());
+	public boolean stillValid(PlayerEntity playerIn) {
+		return stillValid(canInteractWithCallable, playerIn, SWEMBlocks.LOCKER.get());
 	}
 
 	private static LockerTE getTileEntity(final PlayerInventory inventory, final PacketBuffer data) {
 		Objects.requireNonNull(inventory, "Inventory cannot be null");
 		Objects.requireNonNull(data, "Packet Data cannot be null");
-		TileEntity tileAtPos = inventory.player.world.getTileEntity(data.readBlockPos());
+		TileEntity tileAtPos = inventory.player.level.getBlockEntity(data.readBlockPos());
 		if (tileAtPos instanceof LockerTE) {
 			return (LockerTE) tileAtPos;
 		}
@@ -72,24 +72,24 @@ public class LockerContainer extends Container {
 
 
 
-	public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+	public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
-		Slot slot = this.inventorySlots.get(index);
-		if (slot != null && slot.getHasStack()) {
-			ItemStack stack = slot.getStack();
+		Slot slot = this.slots.get(index);
+		if (slot != null && slot.hasItem()) {
+			ItemStack stack = slot.getItem();
 			itemstack = stack.copy();
 			if (index < 30) {
-				if (!mergeItemStack(stack, 30, this.inventorySlots.size(), true)) {
+				if (!moveItemStackTo(stack, 30, this.slots.size(), true)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (!mergeItemStack(stack, 0, 30, false)) {
+			} else if (!moveItemStackTo(stack, 0, 30, false)) {
 				return ItemStack.EMPTY;
 			}
 
 			if (stack.isEmpty()) {
-				slot.putStack(ItemStack.EMPTY);
+				slot.set(ItemStack.EMPTY);
 			} else {
-				slot.onSlotChanged();
+				slot.setChanged();
 			}
 		}
 

@@ -45,7 +45,7 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
 		if (!(armor.getItem() == Items.AIR || armor == ItemStack.EMPTY)) {
 			SWEM.LOGGER.debug("Armor not empty/air");
 			SWEMHorseArmorItem armorItem = (SWEMHorseArmorItem)armor.getItem();
-			IVertexBuilder ivertexbuilder = ItemRenderer.getArmorVertexBuilder(bufferIn, RenderType.getArmorCutoutNoCull(armorItem.getArmorTexture()), false, armor.hasEffect());
+			IVertexBuilder ivertexbuilder = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(armorItem.getRackTexture()), false, armor.hasFoil());
 			GeoModel geoModel = armorModelGeo.getModel(armorModelGeo.getModelLocation(armorItem));
 			Iterator group = geoModel.topLevelBones.iterator();
 
@@ -157,31 +157,31 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
 					bone.setPositionX(1);
 				}
 
-				stack.push();
+				stack.pushPose();
 				double[] translations = this.calculateTranslations(tile.getBlockState());
 				stack.translate(translations[0], translations[1], translations[2]);
-				stack.rotate(this.calculateRotation(tile.getBlockState()));
+				stack.mulPose(this.calculateRotation(tile.getBlockState()));
 				this.renderRecursively(bone, stack, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-				stack.pop();
+				stack.popPose();
 			}
 		}
 
 		if (!(saddle.getItem() == Items.AIR || saddle == ItemStack.EMPTY)) {
 			SWEM.LOGGER.debug("Saddle not empty/air");
 			AdventureSaddleItem saddleItem = (AdventureSaddleItem)saddle.getItem();
-			IVertexBuilder ivertexbuilder = ItemRenderer.getArmorVertexBuilder(bufferIn, RenderType.getArmorCutoutNoCull(saddleItem.getTexture()), false, saddle.hasEffect());
+			IVertexBuilder ivertexbuilder = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(saddleItem.getSaddleRackTexture()), false, saddle.hasFoil());
 			GeoModel geoModel = saddleModel.getModel(saddleModel.getModelLocation(saddleItem));
 			Iterator group = geoModel.topLevelBones.iterator();
 			while (group.hasNext()) {
 				GeoBone bone = (GeoBone) group.next();
 
-				stack.push();
+				stack.pushPose();
 				double[] translations = this.calculateTranslations(tile.getBlockState());
 				stack.translate(translations[0], translations[1] + 0.5, translations[2]);
-				stack.rotate(this.calculateRotation(tile.getBlockState()));
-				stack.rotate(new Quaternion(0, 90f, 0, true));
+				stack.mulPose(this.calculateRotation(tile.getBlockState()));
+				stack.mulPose(new Quaternion(0, 90f, 0, true));
 				this.renderRecursively(bone, stack, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-				stack.pop();
+				stack.popPose();
 			}
 		}
 
@@ -189,7 +189,7 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
 	}
 
 	private Quaternion calculateRotation(BlockState state) {
-		switch (state.get(HorizontalBlock.HORIZONTAL_FACING)) {
+		switch (state.getValue(HorizontalBlock.FACING)) {
 			case SOUTH: {
 				return new Quaternion(0, -180.0f, 0, true);
 			}
@@ -208,7 +208,7 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
 	private double[] calculateTranslations(BlockState state) {
 		double[] translations = new double[3];
 
-		switch (state.get(HorizontalBlock.HORIZONTAL_FACING)) {
+		switch (state.getValue(HorizontalBlock.FACING)) {
 			case NORTH: {
 				translations = new double[] {0, 0, 0.5};
 				break;

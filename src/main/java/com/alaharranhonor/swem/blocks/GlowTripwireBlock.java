@@ -6,6 +6,8 @@ import net.minecraft.block.TripWireHookBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class GlowTripwireBlock extends TripWireBlock {
 	public GlowTripwireBlock(TripWireHookBlock hook, Properties properties) {
 		super(hook, properties);

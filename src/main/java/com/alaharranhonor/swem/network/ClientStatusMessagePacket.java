@@ -35,7 +35,7 @@ public class ClientStatusMessagePacket {
 			int argLength = buf.readInt();
 			ArrayList<String> args = new ArrayList<>();
 			for (int i = 0; i < argLength; i++) {
-				args.add(((PacketBuffer) buf).readString());
+				args.add(((PacketBuffer) buf).readUtf());
 			}
 			return new ClientStatusMessagePacket(action, argLength, args);
 		} catch (IndexOutOfBoundsException e) {
@@ -48,7 +48,7 @@ public class ClientStatusMessagePacket {
 		buffer.writeInt(msg.action);
 		buffer.writeInt(msg.argLength);
 		if (msg.args.size() > 0) {
-			msg.args.forEach(buffer::writeString);
+			msg.args.forEach(buffer::writeUtf);
 		}
 	}
 
@@ -56,11 +56,11 @@ public class ClientStatusMessagePacket {
 		ctx.get().enqueueWork(() -> {
 			switch (msg.action) {
 				case 0: {
-					Minecraft.getInstance().player.sendStatusMessage(new TranslationTextComponent("swem.horse.status.gallop_cooldown").appendString( msg.args.get(0) + "s"),true);
+					Minecraft.getInstance().player.displayClientMessage(new TranslationTextComponent("swem.horse.status.gallop_cooldown").append( msg.args.get(0) + "s"),true);
 					break;
 				}
 				case 1: {
-					Minecraft.getInstance().player.sendStatusMessage(new TranslationTextComponent("swem.horse.status.too_thirsty_to_canter"), true);
+					Minecraft.getInstance().player.displayClientMessage(new TranslationTextComponent("swem.horse.status.too_thirsty_to_canter"), true);
 					break;
 				}
 			}

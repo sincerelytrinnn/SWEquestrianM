@@ -13,10 +13,10 @@ public class DeleteLayerButton extends Button {
 		super(x, y, width, height, title, new DeletePressable());
 		this.screen = screen;
 
-		if (screen.getContainer().layerAmount == 1) this.active = false;
+		if (screen.getMenu().layerAmount == 1) this.active = false;
 	}
 
-	private static class DeletePressable implements DeleteLayerButton.IPressable {
+	private static class DeletePressable implements Button.IPressable {
 
 		@Override
 		public void onPress(Button p_onPress_1_) {

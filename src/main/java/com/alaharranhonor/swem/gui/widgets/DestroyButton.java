@@ -14,13 +14,13 @@ public class DestroyButton extends Button {
 		this.screen = screen;
 	}
 
-	private static class DestroyPressable implements DestroyButton.IPressable {
+	private static class DestroyPressable implements Button.IPressable {
 
 		@Override
 		public void onPress(Button p_onPress_1_) {
 			DestroyButton btn = (DestroyButton) p_onPress_1_;
 			SWEMPacketHandler.INSTANCE.sendToServer(new CDestroyPacket(btn.screen.controllerPos));
-			btn.screen.closeScreen();
+			btn.screen.onClose();
 		}
 	}
 }

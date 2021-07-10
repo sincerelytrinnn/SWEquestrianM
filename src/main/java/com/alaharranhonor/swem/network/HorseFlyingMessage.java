@@ -4,6 +4,7 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
+import net.minecraft.entity.passive.horse.HorseEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.vector.Vector3d;
@@ -43,8 +44,9 @@ public class HorseFlyingMessage {
 	public static void handle(HorseFlyingMessage msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			ServerPlayerEntity player = ctx.get().getSender();
-			if (player.isPassenger() && player.getRidingEntity() instanceof SWEMHorseEntityBase) {
-				SWEMHorseEntityBase horse = (SWEMHorseEntityBase) player.getRidingEntity();
+			if (player.isPassenger() && player.getVehicle() instanceof SWEMHorseEntityBase) {
+				SWEMHorseEntityBase horse = (SWEMHorseEntityBase) player.getVehicle();
+				horse.setRot(player.yRot, player.xRot * 0.5f);
 				switch (msg.action) {
 
 					case 0: {
@@ -52,7 +54,7 @@ public class HorseFlyingMessage {
 					}
 					case 1: {
 						if (horse.isFlying()) {
-							horse.setMotion(horse.getMotion().add(new Vector3d(0.0D, 0.5D, 0.0D)));
+							horse.setDeltaMovement(horse.getDeltaMovement().add(new Vector3d(0.0D, 0.5D, 0.0D)));
 						}
 						break;
 					}
@@ -64,14 +66,14 @@ public class HorseFlyingMessage {
 					}
 					case 3: {
 						if (horse.isFlying()) {
-							Vector3d motion = player.getLookVec().scale(0.882);
-							horse.setMotion(motion.x, horse.getMotion().y, motion.z);
+							Vector3d motion = player.getLookAngle().scale(0.882);
+							horse.setDeltaMovement(motion.x, horse.getDeltaMovement().y, motion.z);
 						}
 						break;
 					}
 					case 4: {
 						if (horse.isFlying()) {
-							horse.setMotion(horse.getMotion().add(new Vector3d(0.0D, -0.5D, 0.0D)));
+							horse.setDeltaMovement(horse.getDeltaMovement().add(new Vector3d(0.0D, -0.5D, 0.0D)));
 						}
 					}
 				}

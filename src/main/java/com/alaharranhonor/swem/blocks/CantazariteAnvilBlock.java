@@ -1,7 +1,7 @@
 package com.alaharranhonor.swem.blocks;
 
 import com.alaharranhonor.swem.tileentity.CantazariteAnvilTE;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -29,16 +29,16 @@ public class CantazariteAnvilBlock extends HorizontalBlock {
 
 	public CantazariteAnvilBlock(Properties properties) {
 		super(properties);
-		this.setDefaultState(
-			this.stateContainer.getBaseState()
-				.with(HORIZONTAL_FACING, Direction.NORTH)
+		this.registerDefaultState(
+			this.stateDefinition.any()
+				.setValue(FACING, Direction.NORTH)
 		);
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		if (!worldIn.isRemote) {
-			TileEntity tile = worldIn.getTileEntity(pos);
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		if (!worldIn.isClientSide) {
+			TileEntity tile = worldIn.getBlockEntity(pos);
 			if (tile instanceof CantazariteAnvilTE) {
 				NetworkHooks.openGui((ServerPlayerEntity) player, (CantazariteAnvilTE) tile, (buffer) -> {
 					buffer.writeBlockPos(pos);
@@ -61,8 +61,8 @@ public class CantazariteAnvilBlock extends HorizontalBlock {
 	}
 
 	@Override
-	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		if (worldIn.getBlockState(pos.down()).isSolid()) {
+	public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
+		if (worldIn.getBlockState(pos.below()).canOcclude()) {
 			return true;
 		}
 		return false;
@@ -70,18 +70,18 @@ public class CantazariteAnvilBlock extends HorizontalBlock {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		double xStart = state.get(HORIZONTAL_FACING).getAxis() == Direction.Axis.Z ? 0.125D : 0.3125D;
-		double zStart = state.get(HORIZONTAL_FACING).getAxis() == Direction.Axis.X ? 0.125D : 0.3125D;
-		return VoxelShapes.create(xStart, 0.0d, zStart, 1.0D - xStart, 0.5d, 1.0D - zStart);
+		double xStart = state.getValue(FACING).getAxis() == Direction.Axis.Z ? 0.125D : 0.3125D;
+		double zStart = state.getValue(FACING).getAxis() == Direction.Axis.X ? 0.125D : 0.3125D;
+		return VoxelShapes.box(xStart, 0.0d, zStart, 1.0D - xStart, 0.5d, 1.0D - zStart);
 	}
 
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HORIZONTAL_FACING);
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(FACING);
 	}
 }

@@ -14,30 +14,32 @@ import net.minecraft.world.IBlockReader;
 
 import java.util.stream.Stream;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class HorsePoopBlock extends HorizontalBlock {
 	public HorsePoopBlock(Properties properties) {
 		super(properties);
-		this.setDefaultState(
-				this.stateContainer.getBaseState()
-				.with(HORIZONTAL_FACING, Direction.NORTH)
+		this.registerDefaultState(
+				this.stateDefinition.any()
+				.setValue(FACING, Direction.NORTH)
 		);
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return Stream.of(
-				Block.makeCuboidShape(5, 0, 7, 8, 2, 9),
-				Block.makeCuboidShape(8, 0, 5, 10, 3, 7),
-				Block.makeCuboidShape(6, 0, 6, 8, 1, 7),
-				Block.makeCuboidShape(8, 0, 8, 10, 1, 11),
-				Block.makeCuboidShape(6, 0, 10, 7, 1, 11),
-				Block.makeCuboidShape(11, 0, 4, 12, 1, 5),
-				Block.makeCuboidShape(10, 0, 6, 11, 1, 8)
-		).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get();
+				Block.box(5, 0, 7, 8, 2, 9),
+				Block.box(8, 0, 5, 10, 3, 7),
+				Block.box(6, 0, 6, 8, 1, 7),
+				Block.box(8, 0, 8, 10, 1, 11),
+				Block.box(6, 0, 10, 7, 1, 11),
+				Block.box(11, 0, 4, 12, 1, 5),
+				Block.box(10, 0, 6, 11, 1, 8)
+		).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get();
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HORIZONTAL_FACING);
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(FACING);
 	}
 }

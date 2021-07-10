@@ -28,12 +28,8 @@ public class LookForWaterGoal extends Goal {
 	 * method as well.
 	 */
 	@Override
-	public boolean shouldExecute() {
-		if (this.horse.getNeeds().getThirst().getState().getId() < 3) {
-			return true;
-		} else {
-			return false;
-		}
+	public boolean canUse() {
+		return this.horse.getNeeds().getThirst().getState().getId() < 3;
 
 	}
 
@@ -41,8 +37,8 @@ public class LookForWaterGoal extends Goal {
 	 * Execute a one shot task or start executing a continuous task
 	 */
 	@Override
-	public void startExecuting() {
-		this.horse.getNavigator().clearPath();
+	public void start() {
+		this.horse.getNavigation().stop();
 		this.tickTimer = 0;
 	}
 
@@ -50,7 +46,7 @@ public class LookForWaterGoal extends Goal {
 	 * Reset the task's internal state. Called when this task is interrupted by another one
 	 */
 	@Override
-	public void resetTask() {
+	public void stop() {
 		this.foundWater = null;
 		this.tickTimer = 0;
 	}
@@ -59,12 +55,8 @@ public class LookForWaterGoal extends Goal {
 	 * Returns whether an in-progress EntityAIBase should continue executing
 	 */
 	@Override
-	public boolean shouldContinueExecuting() {
-		if (this.horse.getNeeds().getThirst().getState().getId() < 3) {
-			return true;
-		} else {
-			return false;
-		}
+	public boolean canContinueToUse() {
+		return this.horse.getNeeds().getThirst().getState().getId() < 3;
 	}
 
 	/**
@@ -77,12 +69,12 @@ public class LookForWaterGoal extends Goal {
 		}
 		if ((this.tickTimer % 100 == 0 && this.timesSearched < 4) || foundWater != null) {
 			if (foundWater == null) {
-				BlockPos entityPos = this.horse.getPosition();
+				BlockPos entityPos = this.horse.blockPosition();
 				for (int i = -3; i < 4; i++) { // X Cord.
 					for (int j = -3; j < 4; j++) { // Z Cord
 						for (int k = -1; k < 2; k++) { // k = y
-							BlockPos checkState = entityPos.add(i, j, k);
-							if (this.horse.world.getBlockState(checkState) == Blocks.WATER.getDefaultState()) {
+							BlockPos checkState = entityPos.offset(i, j, k);
+							if (this.horse.level.getBlockState(checkState) == Blocks.WATER.defaultBlockState()) {
 								this.foundWater = checkState;
 								break;
 							}
@@ -91,13 +83,13 @@ public class LookForWaterGoal extends Goal {
 				}
 				this.timesSearched++;
 				if (foundWater == null) {
-					this.horse.getNavigator().tryMoveToXYZ(entityPos.getX() + this.horse.getRNG().nextInt(14) - 7, entityPos.getY(), this.horse.getRNG().nextInt(14) - 7, this.speed);
+					this.horse.getNavigation().moveTo(entityPos.getX() + this.horse.getRandom().nextInt(14) - 7, entityPos.getY(), this.horse.getRandom().nextInt(14) - 7, this.speed);
 				}
 			} else {
-				if (this.horse.getPosition().withinDistance(this.foundWater, 2)) {
+				if (this.horse.blockPosition().closerThan(this.foundWater, 2)) {
 					this.horse.getNeeds().getThirst().incrementState();
 				} else {
-					this.horse.getNavigator().tryMoveToXYZ(foundWater.getX(), foundWater.getY(), foundWater.getZ(), this.speed);
+					this.horse.getNavigation().moveTo(foundWater.getX(), foundWater.getY(), foundWater.getZ(), this.speed);
 				}
 
 			}

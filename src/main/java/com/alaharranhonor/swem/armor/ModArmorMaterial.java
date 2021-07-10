@@ -1,7 +1,7 @@
 package com.alaharranhonor.swem.armor;
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.util.initialization.SWEMItems;
+import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.Items;
@@ -14,28 +14,28 @@ import java.util.function.Supplier;
 
 public enum ModArmorMaterial implements IArmorMaterial {
 
-	LEATHER(SWEM.MOD_ID + ":leather", 8, new int[]{2, 5, 6, 1}, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0f, () -> {
-		return Ingredient.fromItems(Items.LEATHER);
+	LEATHER(SWEM.MOD_ID + ":leather", 8, new int[]{2, 5, 6, 1}, 0, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0f, () -> {
+		return Ingredient.of(Items.LEATHER);
 	}),
 
-    GLOW(SWEM.MOD_ID + ":glow", 12, new int[]{2, 5, 6, 1}, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0f, () -> {
-		return Ingredient.fromItems(Items.LEATHER);
+    GLOW(SWEM.MOD_ID + ":glow", 12, new int[]{2, 5, 6, 1}, 0, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0f, () -> {
+		return Ingredient.of(Items.LEATHER);
 	}),
 
-	IRON(SWEM.MOD_ID + ":iron", 23, new int[] {2, 5, 6, 3}, 0, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0f, () -> {
-	    return Ingredient.fromItems(Items.IRON_INGOT);
+	IRON(SWEM.MOD_ID + ":iron", 23, new int[] {2, 5, 6, 3}, 0, SoundEvents.ARMOR_EQUIP_IRON, 0.0f, () -> {
+	    return Ingredient.of(Items.IRON_INGOT);
     }),
 
-    GOLD(SWEM.MOD_ID + ":gold", 27, new int[] {2, 5, 6, 3}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0f, () -> {
-        return Ingredient.fromItems(Items.GOLD_INGOT);
+    GOLD(SWEM.MOD_ID + ":gold", 27, new int[] {2, 5, 6, 3}, 0, SoundEvents.ARMOR_EQUIP_GOLD, 0.0f, () -> {
+        return Ingredient.of(Items.GOLD_INGOT);
     }),
 
-    DIAMOND(SWEM.MOD_ID + ":diamond", 38, new int[] {2, 5, 6, 4}, 0, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0.0f, () -> {
-        return Ingredient.fromItems(Items.DIAMOND);
+    DIAMOND(SWEM.MOD_ID + ":diamond", 38, new int[] {2, 5, 6, 4}, 0, SoundEvents.ARMOR_EQUIP_DIAMOND, 0.0f, () -> {
+        return Ingredient.of(Items.DIAMOND);
     }),
 
-    AMETHYST(SWEM.MOD_ID + ":amethyst", 61, new int[] {5, 8, 14, 5}, 0, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0f, () -> {
-        return Ingredient.fromItems(SWEMItems.CANTAZARITE.get());
+    AMETHYST(SWEM.MOD_ID + ":amethyst", 61, new int[] {5, 8, 14, 5}, 0, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0f, () -> {
+        return Ingredient.of(SWEMItems.CANTAZARITE.get());
     });
 
 	private static final int[] MAX_DAMAGE_ARRAY = new int[] {13, 16, 15, 11};
@@ -59,27 +59,27 @@ public enum ModArmorMaterial implements IArmorMaterial {
     }
 
     @Override
-    public int getDurability(EquipmentSlotType slotIn) {
+    public int getDurabilityForSlot(EquipmentSlotType slotIn) {
         return MAX_DAMAGE_ARRAY[slotIn.getIndex()] * this.maxDamageFactor;
     }
 
     @Override
-    public int getDamageReductionAmount(EquipmentSlotType slotIn) {
+    public int getDefenseForSlot(EquipmentSlotType slotIn) {
         return this.damageReductionAmountArray[slotIn.getIndex()];
     }
 
     @Override
-    public int getEnchantability() {
+    public int getEnchantmentValue() {
         return this.enchantability;
     }
 
     @Override
-    public SoundEvent getSoundEvent() {
+    public SoundEvent getEquipSound() {
         return this.soundEvent;
     }
 
     @Override
-    public Ingredient getRepairMaterial() {
+    public Ingredient getRepairIngredient() {
         return this.repairMaterial.get();
     }
 

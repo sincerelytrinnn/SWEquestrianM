@@ -2,7 +2,7 @@ package com.alaharranhonor.swem.entities.ai;
 
 import com.alaharranhonor.swem.blocks.Shavings;
 import com.alaharranhonor.swem.config.ConfigHolder;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.*;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.Goal;
@@ -23,7 +23,7 @@ public class PeeGoal extends Goal {
 
 	public PeeGoal(MobEntity peeEntity) {
 		this.peeEntity = peeEntity;
-		this.entityWorld = peeEntity.world;
+		this.entityWorld = peeEntity.level;
 
 	}
 
@@ -33,25 +33,25 @@ public class PeeGoal extends Goal {
 	 * method as well.
 	 */
 	@Override
-	public boolean shouldExecute() {
-		return this.peeEntity.getRNG().nextInt(10000) == 0 && this.peeEntity.getPassengers().isEmpty();
+	public boolean canUse() {
+		return this.peeEntity.getRandom().nextInt(10000) == 0 && this.peeEntity.getPassengers().isEmpty();
 	}
 
 	/**
 	 * Execute a one shot task or start executing a continuous task
 	 */
 	@Override
-	public void startExecuting() {
+	public void start() {
 		this.peeTimer = 9000;
-		this.entityWorld.setEntityState(this.peeEntity, (byte)10);
-		this.peeEntity.getNavigator().clearPath();
+		this.entityWorld.broadcastEntityEvent(this.peeEntity, (byte)10);
+		this.peeEntity.getNavigation().stop();
 	}
 
 	/**
 	 * Reset the task's internal state. Called when this task is interrupted by another one
 	 */
 	@Override
-	public void resetTask() {
+	public void stop() {
 		this.peeTimer = 0;
 	}
 
@@ -59,7 +59,7 @@ public class PeeGoal extends Goal {
 	 * Returns whether an in-progress EntityAIBase should continue executing
 	 */
 	@Override
-	public boolean shouldContinueExecuting() {
+	public boolean canContinueToUse() {
 		return this.peeTimer > 0 && this.peeEntity.getPassengers().isEmpty();
 	}
 
@@ -74,7 +74,7 @@ public class PeeGoal extends Goal {
 	public void tick() {
 		this.peeTimer = Math.max(0, this.peeTimer - 1);
 		if (this.peeTimer == 4 && ConfigHolder.SERVER.serverTickPoopNeed.get()) {
-			BlockPos blockpos = this.peeEntity.getPosition();
+			BlockPos blockpos = this.peeEntity.blockPosition();
 			BlockPos bestPos = this.getPosOfBestBlock(blockpos);
 			this.pee(bestPos);
 		}
@@ -88,11 +88,11 @@ public class PeeGoal extends Goal {
 		for (int x = -radius; x <= radius; x++) {
 			for (int z = -radius; z <= radius; z++) {
 
-				BlockPos newPos = pos.add(x, 0, z);
+				BlockPos newPos = pos.offset(x, 0, z);
 				BlockState checkState = this.entityWorld.getBlockState(newPos);
 
 				boolean flag = true;
-				if (this.entityWorld.getBlockState(newPos.offset(Direction.UP)) != Blocks.AIR.getDefaultState())
+				if (this.entityWorld.getBlockState(newPos.relative(Direction.UP)) != Blocks.AIR.defaultBlockState())
 					flag = false;
 
 				if (checkState.getBlock() instanceof Shavings && checkState.getBlock() != SWEMBlocks.SOILED_SHAVINGS.get()) {
@@ -114,16 +114,16 @@ public class PeeGoal extends Goal {
 				}
 			}
 		}
-		return shavingsPos.isEmpty() ? bestPos : shavingsPos.get(this.peeEntity.getRNG().nextInt(shavingsPos.size()));
+		return shavingsPos.isEmpty() ? bestPos : shavingsPos.get(this.peeEntity.getRandom().nextInt(shavingsPos.size()));
 	}
 
 	private void pee(BlockPos posToPee) {
 		BlockState state = this.entityWorld.getBlockState(posToPee);
 		if (state.getBlock() instanceof Shavings) {
-			int layers = state.get(Shavings.LAYERS);
-			this.entityWorld.setBlockState(posToPee, SWEMBlocks.SOILED_SHAVINGS.get().getDefaultState().with(Shavings.LAYERS, layers));
+			int layers = state.getValue(Shavings.LAYERS);
+			this.entityWorld.setBlock(posToPee, SWEMBlocks.SOILED_SHAVINGS.get().defaultBlockState().setValue(Shavings.LAYERS, layers), 3);
 		} else {
-			this.entityWorld.setBlockState(posToPee, SWEMBlocks.HORSE_PEE.get().getDefaultState());
+			this.entityWorld.setBlock(posToPee, SWEMBlocks.HORSE_PEE.get().defaultBlockState(), 3);
 		}
 	}
 }

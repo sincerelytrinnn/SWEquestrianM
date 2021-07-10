@@ -23,19 +23,19 @@ import java.util.Random;
 public class TearingMagma extends Block {
 
 
-	public static final IntegerProperty AGE = BlockStateProperties.AGE_0_3;
+	public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
 
 	public TearingMagma(AbstractBlock.Properties properties) {
 		super(properties);
-		this.setDefaultState(this.stateContainer.getBaseState().with(AGE, Integer.valueOf(0)));
+		this.registerDefaultState(this.stateDefinition.any().setValue(AGE, Integer.valueOf(0)));
 	}
 
-	public void harvestBlock(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity te, ItemStack stack) {
-		super.harvestBlock(worldIn, player, pos, state, te, stack);
-		if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) == 0) {
-			Material material = worldIn.getBlockState(pos.down()).getMaterial();
-			if (material.blocksMovement() || material.isLiquid()) {
-				worldIn.setBlockState(pos, Blocks.LAVA.getDefaultState());
+	public void playerDestroy(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity te, ItemStack stack) {
+		super.playerDestroy(worldIn, player, pos, state, te, stack);
+		if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, stack) == 0) {
+			Material material = worldIn.getBlockState(pos.below()).getMaterial();
+			if (material.blocksMotion() || material.isLiquid()) {
+				worldIn.setBlock(pos, Blocks.LAVA.defaultBlockState(), 3);
 			}
 		}
 
@@ -49,26 +49,26 @@ public class TearingMagma extends Block {
 	}
 
 	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
-		if ((rand.nextInt(3) == 0 || this.shouldMelt(worldIn, pos, 4)) && worldIn.getLight(pos) > 11 - state.get(AGE) - state.getOpacity(worldIn, pos) && this.slightlyMelt(state, worldIn, pos)) {
+		if ((rand.nextInt(3) == 0 || this.shouldMelt(worldIn, pos, 4)) && worldIn.getMaxLocalRawBrightness(pos) > 11 - state.getValue(AGE) - state.getLightBlock(worldIn, pos) && this.slightlyMelt(state, worldIn, pos)) {
 			BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
 
 			for(Direction direction : Direction.values()) {
-				blockpos$mutable.setAndMove(pos, direction);
+				blockpos$mutable.setWithOffset(pos, direction);
 				BlockState blockstate = worldIn.getBlockState(blockpos$mutable);
-				if (blockstate.matchesBlock(this) && !this.slightlyMelt(blockstate, worldIn, blockpos$mutable)) {
-					worldIn.getPendingBlockTicks().scheduleTick(blockpos$mutable, this, MathHelper.nextInt(rand, 20, 40));
+				if (blockstate.is(this) && !this.slightlyMelt(blockstate, worldIn, blockpos$mutable)) {
+					worldIn.getBlockTicks().scheduleTick(blockpos$mutable, this, MathHelper.nextInt(rand, 20, 40));
 				}
 			}
 
 		} else {
-			worldIn.getPendingBlockTicks().scheduleTick(pos, this, MathHelper.nextInt(rand, 20, 40));
+			worldIn.getBlockTicks().scheduleTick(pos, this, MathHelper.nextInt(rand, 20, 40));
 		}
 	}
 
 	private boolean slightlyMelt(BlockState state, World worldIn, BlockPos pos) {
-		int i = state.get(AGE);
+		int i = state.getValue(AGE);
 		if (i < 3) {
-			worldIn.setBlockState(pos, state.with(AGE, Integer.valueOf(i + 1)), 2);
+			worldIn.setBlock(pos, state.setValue(AGE, Integer.valueOf(i + 1)), 3);
 			return false;
 		} else {
 			this.turnIntoLava(state, worldIn, pos);
@@ -89,8 +89,8 @@ public class TearingMagma extends Block {
 		BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
 
 		for(Direction direction : Direction.values()) {
-			blockpos$mutable.setAndMove(pos, direction);
-			if (worldIn.getBlockState(blockpos$mutable).matchesBlock(this)) {
+			blockpos$mutable.setWithOffset(pos, direction);
+			if (worldIn.getBlockState(blockpos$mutable).is(this)) {
 				++i;
 				if (i >= neighborsRequired) {
 					return false;
@@ -102,14 +102,14 @@ public class TearingMagma extends Block {
 	}
 
 	protected void turnIntoLava(BlockState state, World world, BlockPos pos) {
-		world.setBlockState(pos, Blocks.LAVA.getDefaultState());
+		world.setBlock(pos, Blocks.LAVA.defaultBlockState(), 3);
 		world.neighborChanged(pos, Blocks.LAVA, pos);
 
 	}
 
 
 
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(AGE);
 	}
 

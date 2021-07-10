@@ -17,35 +17,43 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
+import net.minecraft.item.Item.Properties;
+
 public class SWEMHorseArmorItem extends HorseArmorItem implements IAnimatable {
 	public final String type;
 	private final AnimationFactory factory = new AnimationFactory(this);
 
 	public final HorseArmorTier tier;
 
+	private final ResourceLocation rackTexture;
+
 
 	public SWEMHorseArmorItem(HorseArmorTier tier, int armorValue, String texture, Properties builder) {
-		super(armorValue, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + texture + ".png"), builder);
+		super(armorValue, new ResourceLocation(SWEM.MOD_ID, "textures/finished/" + texture + ".png"), builder);
 		this.type = texture;
 		this.tier = tier;
+		this.rackTexture = new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + texture + ".png");
 	}
 
 	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (target instanceof ISWEMEquipable && target.isAlive()) {
 			ISWEMEquipable iequipable = (ISWEMEquipable)target;
-			if (iequipable.func_230264_L__() && iequipable.canEquipArmor()) {
-				if (!playerIn.world.isRemote) {
-					iequipable.func_230266_a_(SoundCategory.NEUTRAL, stack);
-					if (!playerIn.abilities.isCreativeMode)
+			if (iequipable.isSaddleable() && iequipable.canEquipArmor()) {
+				if (!playerIn.level.isClientSide) {
+					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack);
+					if (!playerIn.abilities.instabuild)
 						stack.shrink(1);
 				}
 
-				return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+				return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
 			}
 		}
 		return ActionResultType.PASS;
 	}
 
+	public ResourceLocation getRackTexture() {
+		return this.rackTexture;
+	}
 
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 		System.out.println(event.getAnimatable().getClass().toString());

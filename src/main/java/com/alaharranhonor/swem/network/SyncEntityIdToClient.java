@@ -55,8 +55,8 @@ public class SyncEntityIdToClient {
 
 	public static void handle(SyncEntityIdToClient msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			ClientWorld world = Minecraft.getInstance().world;
-			TileEntity tile = world.getTileEntity(new BlockPos(msg.posX, msg.posY, msg.posZ));
+			ClientWorld world = Minecraft.getInstance().level;
+			TileEntity tile = world.getBlockEntity(new BlockPos(msg.posX, msg.posY, msg.posZ));
 			if (tile instanceof TackBoxTE) {
 				TackBoxTE te = (TackBoxTE) tile;
 				te.getTileData().putInt("horseID", msg.entityId);

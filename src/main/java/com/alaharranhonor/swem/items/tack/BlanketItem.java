@@ -14,6 +14,8 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import net.minecraft.item.Item.Properties;
+
 public class BlanketItem extends Item {
 
 	private final ResourceLocation texture;
@@ -26,21 +28,21 @@ public class BlanketItem extends Item {
 		this.texture = texture;
 	}
 
-	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (target instanceof ISWEMEquipable && target.isAlive()) {
 			ISWEMEquipable iequipable = (ISWEMEquipable)target;
-			if (playerIn.world.isRemote && !iequipable.hasHalter()) {
-				playerIn.sendStatusMessage(new StringTextComponent("You need to equip a Halter/Bridle first."), true);
+			if (playerIn.level.isClientSide && !iequipable.hasHalter()) {
+				playerIn.displayClientMessage(new StringTextComponent("You need to equip a Halter/Bridle first."), true);
 				return ActionResultType.FAIL;
 			}
-			if (!iequipable.hasBlanket() && iequipable.func_230264_L__() && iequipable.hasHalter()) {
-				if (!playerIn.world.isRemote) {
-					iequipable.func_230266_a_(SoundCategory.NEUTRAL, stack);
-					if (!playerIn.abilities.isCreativeMode)
+			if (!iequipable.hasBlanket() && iequipable.isSaddleable() && iequipable.hasHalter()) {
+				if (!playerIn.level.isClientSide) {
+					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack);
+					if (!playerIn.abilities.instabuild)
 						stack.shrink(1);
 				}
 
-				return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+				return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
 			}
 		}
 		return ActionResultType.PASS;

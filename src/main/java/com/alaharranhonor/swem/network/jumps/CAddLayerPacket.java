@@ -44,7 +44,7 @@ public class CAddLayerPacket {
 
 	public static void handle(CAddLayerPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			Container container = ctx.get().getSender().openContainer;
+			Container container = ctx.get().getSender().containerMenu;
 			if (container instanceof JumpContainer) {
 				JumpContainer jumpContainer = (JumpContainer) container;
 				jumpContainer.controller.addLayer(msg.layerToAdd);

@@ -82,32 +82,32 @@ public class ThirstNeed {
 		switch(id) {
 			case 0: {
 				this.setState(ThirstState.EXICCOSIS);
-				this.horse.getDataManager().set(ThirstState.ID, id);
+				this.horse.getEntityData().set(ThirstState.ID, id);
 				break;
 			}
 			case 1: {
 				this.setState(ThirstState.DEHYDRATED);
-				this.horse.getDataManager().set(ThirstState.ID, id);
+				this.horse.getEntityData().set(ThirstState.ID, id);
 				break;
 			}
 			case 2: {
 				this.setState(ThirstState.THIRSTY);
-				this.horse.getDataManager().set(ThirstState.ID, id);
+				this.horse.getEntityData().set(ThirstState.ID, id);
 				break;
 			}
 			case 3: {
 				this.setState(ThirstState.SATISIFIED);
-				this.horse.getDataManager().set(ThirstState.ID, id);
+				this.horse.getEntityData().set(ThirstState.ID, id);
 				break;
 			}
 			case 4: {
 				this.setState(ThirstState.QUENCHED);
-				this.horse.getDataManager().set(ThirstState.ID, id);
+				this.horse.getEntityData().set(ThirstState.ID, id);
 				break;
 			}
 			default: {
 				this.setState(ThirstState.EXICCOSIS);
-				this.horse.getDataManager().set(ThirstState.ID, 0);
+				this.horse.getEntityData().set(ThirstState.ID, 0);
 			}
 		}
 	}
@@ -121,7 +121,7 @@ public class ThirstNeed {
 		SATISIFIED(84000),
 		QUENCHED(90000);
 
-		public static final DataParameter<Integer> ID = EntityDataManager.createKey(SWEMHorseEntityBase.class, DataSerializers.VARINT);
+		public static final DataParameter<Integer> ID = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 		private int tickAmountChange;
 		private int currentTicks;
 		private SWEMHorseEntityBase horse;
@@ -135,7 +135,7 @@ public class ThirstNeed {
 		}
 
 		public int getId() {
-			return this.horse.getDataManager().get(ID);
+			return this.horse.getEntityData().get(ID);
 		}
 
 		public int getTickAmountChange() {

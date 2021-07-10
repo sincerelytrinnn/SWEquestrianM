@@ -2,7 +2,7 @@ package com.alaharranhonor.swem.tileentity;
 
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.items.tack.AdventureSaddleItem;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
@@ -37,9 +37,9 @@ public class HorseArmorRackTE extends TileEntity implements IAnimatable {
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT compound) {
+	public CompoundNBT save(CompoundNBT compound) {
 		compound.put("inv", itemHandler.serializeNBT());
-		return super.write(compound);
+		return super.save(compound);
 	}
 
 	@Override
@@ -47,20 +47,20 @@ public class HorseArmorRackTE extends TileEntity implements IAnimatable {
 		CompoundNBT nbt = new CompoundNBT();
 		CompoundNBT armor = new CompoundNBT();
 		CompoundNBT saddle = new CompoundNBT();
-		this.itemHandler.getStackInSlot(0).write(armor);
-		this.itemHandler.getStackInSlot(1).write(saddle);
+		this.itemHandler.getStackInSlot(0).save(armor);
+		this.itemHandler.getStackInSlot(1).save(saddle);
 		nbt.put("armor", armor);
 		nbt.put("saddle", saddle);
-		return this.write(nbt);
+		return this.save(nbt);
 	}
 
 	@Override
 	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
 		if (tag.contains("armor")) {
-			this.itemHandler.setStackInSlot(0, ItemStack.read(tag.getCompound("armor")));
+			this.itemHandler.setStackInSlot(0, ItemStack.of(tag.getCompound("armor")));
 		}
 		if (tag.contains("saddle")) {
-			this.itemHandler.setStackInSlot(1, ItemStack.read(tag.getCompound("saddle")));
+			this.itemHandler.setStackInSlot(1, ItemStack.of(tag.getCompound("saddle")));
 		}
 	}
 
@@ -70,28 +70,28 @@ public class HorseArmorRackTE extends TileEntity implements IAnimatable {
 		CompoundNBT nbt = new CompoundNBT();
 		CompoundNBT armor = new CompoundNBT();
 		CompoundNBT saddle = new CompoundNBT();
-		this.itemHandler.getStackInSlot(0).write(armor);
-		this.itemHandler.getStackInSlot(1).write(saddle);
+		this.itemHandler.getStackInSlot(0).save(armor);
+		this.itemHandler.getStackInSlot(1).save(saddle);
 		nbt.put("armor", armor);
 		nbt.put("saddle", saddle);
-		return new SUpdateTileEntityPacket(this.getPos(), 0, nbt);
+		return new SUpdateTileEntityPacket(this.getBlockPos(), 0, nbt);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		CompoundNBT tag = pkt.getNbtCompound();
+		CompoundNBT tag = pkt.getTag();
 		if (tag.contains("armor")) {
-			this.itemHandler.setStackInSlot(0, ItemStack.read(tag.getCompound("armor")));
+			this.itemHandler.setStackInSlot(0, ItemStack.of(tag.getCompound("armor")));
 		}
 		if (tag.contains("saddle")) {
-			this.itemHandler.setStackInSlot(1, ItemStack.read(tag.getCompound("saddle")));
+			this.itemHandler.setStackInSlot(1, ItemStack.of(tag.getCompound("saddle")));
 		}
 	}
 
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
+	public void load(BlockState state, CompoundNBT nbt) {
 		itemHandler.deserializeNBT(nbt.getCompound("inv"));
-		super.read(state, nbt);
+		super.load(state, nbt);
 	}
 
 
@@ -108,7 +108,7 @@ public class HorseArmorRackTE extends TileEntity implements IAnimatable {
 		return new ItemStackHandler(2) {
 			@Override
 			protected void onContentsChanged(int slot) {
-				markDirty();
+				setChanged();
 			}
 
 			@Override
@@ -134,8 +134,8 @@ public class HorseArmorRackTE extends TileEntity implements IAnimatable {
 	 * invalidates a tile entity
 	 */
 	@Override
-	public void remove() {
-		super.remove();
+	public void setRemoved() {
+		super.setRemoved();
 		if (itemHandler != null) {
 			handler.invalidate();
 		}
@@ -145,10 +145,10 @@ public class HorseArmorRackTE extends TileEntity implements IAnimatable {
 	public void dropItems() {
 		for (int i = 0; i < itemHandler.getSlots(); i++) {
 			if (this.itemHandler.getStackInSlot(i) != ItemStack.EMPTY) {
-				ItemEntity entity = new ItemEntity(this.world, this.getPos().getX(), this.getPos().getY(), this.getPos().getZ(), this.itemHandler.getStackInSlot(i));
-				Random RANDOM = this.world.getRandom();
-				entity.setMotion(RANDOM.nextGaussian() * (double)0.05F, RANDOM.nextGaussian() * (double)0.05F + (double)0.2F, RANDOM.nextGaussian() * (double)0.05F);
-				this.world.addEntity(entity);
+				ItemEntity entity = new ItemEntity(this.level, this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), this.itemHandler.getStackInSlot(i));
+				Random RANDOM = this.level.getRandom();
+				entity.setDeltaMovement(RANDOM.nextGaussian() * (double)0.05F, RANDOM.nextGaussian() * (double)0.05F + (double)0.2F, RANDOM.nextGaussian() * (double)0.05F);
+				this.level.addFreshEntity(entity);
 				this.itemHandler.setStackInSlot(i, ItemStack.EMPTY);
 			}
 		}

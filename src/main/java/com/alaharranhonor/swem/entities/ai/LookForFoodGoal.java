@@ -2,7 +2,7 @@ package com.alaharranhonor.swem.entities.ai;
 
 import com.alaharranhonor.swem.blocks.SlowFeederBlock;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.goal.Goal;
@@ -36,12 +36,8 @@ public class LookForFoodGoal extends Goal {
 	 * method as well.
 	 */
 	@Override
-	public boolean shouldExecute() {
-		if (this.horse.getNeeds().getHunger().getState().getId() < 3) {
-			return true;
-		} else {
-			return false;
-		}
+	public boolean canUse() {
+		return this.horse.getNeeds().getHunger().getState().getId() < 3;
 
 	}
 
@@ -49,8 +45,8 @@ public class LookForFoodGoal extends Goal {
 	 * Execute a one shot task or start executing a continuous task
 	 */
 	@Override
-	public void startExecuting() {
-		this.horse.getNavigator().clearPath();
+	public void start() {
+		this.horse.getNavigation().stop();
 		this.tickTimer = 0;
 	}
 
@@ -58,7 +54,7 @@ public class LookForFoodGoal extends Goal {
 	 * Reset the task's internal state. Called when this task is interrupted by another one
 	 */
 	@Override
-	public void resetTask() {
+	public void stop() {
 		this.foundFood = null;
 		this.tickTimer = 0;
 		this.blockFound = -1;
@@ -68,12 +64,8 @@ public class LookForFoodGoal extends Goal {
 	 * Returns whether an in-progress EntityAIBase should continue executing
 	 */
 	@Override
-	public boolean shouldContinueExecuting() {
-		if (this.horse.getNeeds().getHunger().getState().getId() < 3) {
-			return true;
-		} else {
-			return false;
-		}
+	public boolean canContinueToUse() {
+		return this.horse.getNeeds().getHunger().getState().getId() < 3;
 	}
 
 	/**
@@ -86,18 +78,18 @@ public class LookForFoodGoal extends Goal {
 		}
 		if ((this.tickTimer % 100 == 0 && this.timesSearched < 4) || foundFood != null) {
 			if (foundFood == null) {
-				BlockPos entityPos = this.horse.getPosition();
+				BlockPos entityPos = this.horse.blockPosition();
 				for (int i = -3; i < 4; i++) { // X Cord.
 					for (int j = -3; j < 4; j++) { // Z Cord
 						for (int k = -1; k < 2; k++) { // k = y
-							BlockPos checkState = entityPos.add(i, j, k);
-							if (this.horse.world.getBlockState(checkState) == Blocks.GRASS_BLOCK.getDefaultState() && this.blockFound <= 0) {
+							BlockPos checkState = entityPos.offset(i, j, k);
+							if (this.horse.level.getBlockState(checkState) == Blocks.GRASS_BLOCK.defaultBlockState() && this.blockFound <= 0) {
 								this.foundFood = checkState;
 								this.blockFound = 0;
-							} else if (this.horse.world.getBlockState(checkState) == SWEMBlocks.QUALITY_BALE.get().getDefaultState() && this.blockFound <= 1) {
+							} else if (this.horse.level.getBlockState(checkState) == SWEMBlocks.QUALITY_BALE.get().defaultBlockState() && this.blockFound <= 1) {
 								this.foundFood = checkState;
 								this.blockFound = 1;
-							} else if ( SWEMBlocks.SLOW_FEEDERS.stream().anyMatch((sf) -> sf.get().getDefaultState().with(SlowFeederBlock.LEVEL, 1) == this.horse.world.getBlockState(checkState)) || SWEMBlocks.SLOW_FEEDERS.stream().anyMatch((sf) -> sf.get().getDefaultState().with(SlowFeederBlock.LEVEL, 2) == this.horse.world.getBlockState(checkState)) && this.blockFound <= 2) {
+							} else if ( SWEMBlocks.SLOW_FEEDERS.stream().anyMatch((sf) -> sf.get().defaultBlockState().setValue(SlowFeederBlock.LEVEL, 1) == this.horse.level.getBlockState(checkState)) || SWEMBlocks.SLOW_FEEDERS.stream().anyMatch((sf) -> sf.get().defaultBlockState().setValue(SlowFeederBlock.LEVEL, 2) == this.horse.level.getBlockState(checkState)) && this.blockFound <= 2) {
 								this.foundFood = checkState;
 								this.blockFound = 2;
 							}
@@ -106,36 +98,36 @@ public class LookForFoodGoal extends Goal {
 				}
 				this.timesSearched++;
 				if (foundFood == null) {
-					this.horse.getNavigator().tryMoveToXYZ(entityPos.getX() + this.horse.getRNG().nextInt(14) - 7, entityPos.getY(), this.horse.getRNG().nextInt(14) - 7, this.speed);
+					this.horse.getNavigation().moveTo(entityPos.getX() + this.horse.getRandom().nextInt(14) - 7, entityPos.getY(), this.horse.getRandom().nextInt(14) - 7, this.speed);
 				}
 			} else {
-				if (this.horse.getPosition().withinDistance(this.foundFood, 2)) {
+				if (this.horse.blockPosition().closerThan(this.foundFood, 2)) {
 					switch (this.blockFound) {
 						case 0: {
 							this.horse.getNeeds().getHunger().addPoints(new ItemStack(Items.GRASS_BLOCK));
-							if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.horse.world, this.horse)) {
-								this.horse.world.playEvent(2001, foundFood, Block.getStateId(Blocks.GRASS_BLOCK.getDefaultState()));
-								this.horse.world.setBlockState(foundFood, Blocks.DIRT.getDefaultState(), 3);
+							if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.horse.level, this.horse)) {
+								this.horse.level.levelEvent(2001, foundFood, Block.getId(Blocks.GRASS_BLOCK.defaultBlockState()));
+								this.horse.level.setBlock(foundFood, Blocks.DIRT.defaultBlockState(), 3);
 
 							}
 							break;
 						}
 						case 1: {
 							this.horse.getNeeds().getHunger().addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get()));
-							this.horse.world.setBlockState(foundFood, Blocks.AIR.getDefaultState(), 3);
+							this.horse.level.setBlock(foundFood, Blocks.AIR.defaultBlockState(), 3);
 
 							break;
 						}
 						case 2: {
 							this.horse.getNeeds().getHunger().addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get()));
-							((SlowFeederBlock) this.horse.world.getBlockState(foundFood).getBlock()).eatHay(this.horse.world, foundFood, this.horse.world.getBlockState(foundFood));
+							((SlowFeederBlock) this.horse.level.getBlockState(foundFood).getBlock()).eatHay(this.horse.level, foundFood, this.horse.level.getBlockState(foundFood));
 							break;
 						}
 					}
 					foundFood = null;
 
 				} else {
-					this.horse.getNavigator().tryMoveToXYZ(foundFood.getX(), foundFood.getY(), foundFood.getZ(), this.speed);
+					this.horse.getNavigation().moveTo(foundFood.getX(), foundFood.getY(), foundFood.getZ(), this.speed);
 				}
 
 			}

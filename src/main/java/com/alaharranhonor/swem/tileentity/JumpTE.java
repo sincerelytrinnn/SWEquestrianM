@@ -1,7 +1,7 @@
 package com.alaharranhonor.swem.tileentity;
 
 import com.alaharranhonor.swem.blocks.jumps.*;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.DyeColor;
@@ -43,16 +43,16 @@ public class JumpTE extends TileEntity {
 		this.currentStandard = standard;
 
 		if (standard != StandardLayer.NONE) {
-			this.world.setBlockState(layerPositions.get(layerNumber).get(0), layerNumber == layerAmount ? standard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING)) : layerNumber == 1 ? standard.getBottomState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()) : standard.getMiddleState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING)), 3);
-			this.world.setBlockState(layerPositions.get(layerNumber).get(6), layerNumber == layerAmount ? standard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()) : layerNumber == 1 ? standard.getBottomState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()) : standard.getMiddleState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).rotateY().rotateY()), 3);
+			this.level.setBlock(layerPositions.get(layerNumber).get(0), layerNumber == layerAmount ? standard.getTopState().setValue(JumpStandardBlock.FACING, this.getBlockState().getValue(JumpStandardBlock.FACING)) : layerNumber == 1 ? standard.getBottomState().setValue(JumpStandardBlock.FACING, this.getBlockState().getValue(JumpStandardBlock.FACING).getClockWise().getClockWise()) : standard.getMiddleState().setValue(JumpStandardBlock.FACING, this.getBlockState().getValue(JumpStandardBlock.FACING)), 3);
+			this.level.setBlock(layerPositions.get(layerNumber).get(6), layerNumber == layerAmount ? standard.getTopState().setValue(JumpStandardBlock.FACING, this.getBlockState().getValue(JumpStandardBlock.FACING).getClockWise().getClockWise()) : layerNumber == 1 ? standard.getBottomState().setValue(JumpStandardBlock.FACING, this.getBlockState().getValue(JumpStandardBlock.FACING).getClockWise().getClockWise()) : standard.getMiddleState().setValue(JumpStandardBlock.FACING, this.getBlockState().getValue(JumpStandardBlock.FACING).getClockWise().getClockWise()), 3);
 		} else {
-			this.world.setBlockState(layerPositions.get(layerNumber).get(0), standard.getBottomState(), 3);
-			this.world.setBlockState(layerPositions.get(layerNumber).get(6), standard.getBottomState(), 3);
+			this.level.setBlock(layerPositions.get(layerNumber).get(0), standard.getBottomState(), 3);
+			this.level.setBlock(layerPositions.get(layerNumber).get(6), standard.getBottomState(), 3);
 		}
 
 		JumpTE newTe = this;
-		newTe.validate();
-		this.world.addTileEntity(newTe);
+		newTe.clearRemoved();
+		this.level.addBlockEntity(newTe);
 
 	}
 
@@ -60,12 +60,12 @@ public class JumpTE extends TileEntity {
 		this.currentStandard = standard;
 		for (int i = 1; i <= layerAmount; i++) {
 
-			this.world.setBlockState(layerPositions.get(i).get(0), i == 1 ? standard.getBottomState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpControllerBlock.HORIZONTAL_FACING)) : i == layerAmount ? standard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpControllerBlock.HORIZONTAL_FACING)) : standard.getMiddleState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpControllerBlock.HORIZONTAL_FACING)), 3);
-			((JumpPasserTE) this.world.getTileEntity(layerPositions.get(i).get(0))).setControllerPos(this.getPos());
+			this.level.setBlock(layerPositions.get(i).get(0), i == 1 ? standard.getBottomState().setValue(JumpStandardBlock.FACING, this.getBlockState().getValue(JumpControllerBlock.FACING)) : i == layerAmount ? standard.getTopState().setValue(JumpStandardBlock.FACING, this.getBlockState().getValue(JumpControllerBlock.FACING)) : standard.getMiddleState().setValue(JumpStandardBlock.FACING, this.getBlockState().getValue(JumpControllerBlock.FACING)), 3);
+			((JumpPasserTE) this.level.getBlockEntity(layerPositions.get(i).get(0))).setControllerPos(this.getBlockPos());
 
 
-			this.world.setBlockState(layerPositions.get(i).get(6), i == 1 ? standard.getBottomState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpControllerBlock.HORIZONTAL_FACING).rotateY().rotateY()) : i == layerAmount ? standard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpControllerBlock.HORIZONTAL_FACING).rotateY().rotateY()) : standard.getMiddleState().with(JumpStandardBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpControllerBlock.HORIZONTAL_FACING).rotateY().rotateY()), 3);
-			((JumpPasserTE) this.world.getTileEntity(layerPositions.get(i).get(6))).setControllerPos(this.getPos());
+			this.level.setBlock(layerPositions.get(i).get(6), i == 1 ? standard.getBottomState().setValue(JumpStandardBlock.FACING, this.getBlockState().getValue(JumpControllerBlock.FACING).getClockWise().getClockWise()) : i == layerAmount ? standard.getTopState().setValue(JumpStandardBlock.FACING, this.getBlockState().getValue(JumpControllerBlock.FACING).getClockWise().getClockWise()) : standard.getMiddleState().setValue(JumpStandardBlock.FACING, this.getBlockState().getValue(JumpControllerBlock.FACING).getClockWise().getClockWise()), 3);
+			((JumpPasserTE) this.level.getBlockEntity(layerPositions.get(i).get(6))).setControllerPos(this.getBlockPos());
 
 		}
 	}
@@ -75,19 +75,19 @@ public class JumpTE extends TileEntity {
 		if (!layerColors.containsKey(number)) {
 			this.resetColor(number);
 		}
-		if (this.world != null) {
+		if (this.level != null) {
 			for (int i = 1; i < 6; i++) {
 				BlockState placeState = i % 3 == 0 ?
-						layer.getMiddleState(this.layerColors.get(number)).with(JumpBlock.HORIZONTAL_FACING, this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING))
-						: i % 2 == 0 ? layer.getBetweenState(this.layerColors.get(number)).with(JumpBlock.HORIZONTAL_FACING, i == 2 ? this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING) : this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).getOpposite())
-						: layer.getEndState(this.layerColors.get(number)).with(JumpBlock.HORIZONTAL_FACING, i == 1 ? this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING) : this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).getOpposite());
+						layer.getMiddleState(this.layerColors.get(number)).setValue(JumpBlock.FACING, this.getBlockState().getValue(JumpStandardBlock.FACING))
+						: i % 2 == 0 ? layer.getBetweenState(this.layerColors.get(number)).setValue(JumpBlock.FACING, i == 2 ? this.getBlockState().getValue(JumpStandardBlock.FACING) : this.getBlockState().getValue(JumpStandardBlock.FACING).getOpposite())
+						: layer.getEndState(this.layerColors.get(number)).setValue(JumpBlock.FACING, i == 1 ? this.getBlockState().getValue(JumpStandardBlock.FACING) : this.getBlockState().getValue(JumpStandardBlock.FACING).getOpposite());
 
-				//Direction facing = i == 1 ? this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING) : this.getBlockState().get(JumpStandardBlock.HORIZONTAL_FACING).getOpposite();
-				this.world.setBlockState(layerPositions.get(number).get(i), placeState, 1 | 2);
-				JumpPasserTE passer = (JumpPasserTE) this.world.getTileEntity(layerPositions.get(number).get(i));
+				//Direction facing = i == 1 ? this.getBlockState().get(JumpStandardBlock.FACING) : this.getBlockState().get(JumpStandardBlock.FACING).getOpposite();
+				this.level.setBlock(layerPositions.get(number).get(i), placeState, 1 | 2);
+				JumpPasserTE passer = (JumpPasserTE) this.level.getBlockEntity(layerPositions.get(number).get(i));
 				if (passer != null) {
-					passer.setControllerPos(this.getPos());
-					passer.markDirty();
+					passer.setControllerPos(this.getBlockPos());
+					passer.setChanged();
 				}
 			}
 
@@ -317,7 +317,7 @@ public class JumpTE extends TileEntity {
 	public void deleteLayer(int layerNumber) {
 		if (layerNumber < 2 ) return;
 		for (int i = 0; i < 7; i++) {
-			this.world.setBlockState(this.layerPositions.get(layerNumber).get(i), Blocks.AIR.getDefaultState(), 3);
+			this.level.setBlock(this.layerPositions.get(layerNumber).get(i), Blocks.AIR.defaultBlockState(), 3);
 		}
 
 		if (layerTypes.containsKey(layerNumber)) {
@@ -339,22 +339,22 @@ public class JumpTE extends TileEntity {
 
 		for (int i = 0; i < 7; i++) {
 
-			BlockPos newPos = this.layerPositions.get(layerNumber - 1).get(i).add(0, 1, 0);
+			BlockPos newPos = this.layerPositions.get(layerNumber - 1).get(i).offset(0, 1, 0);
 			positions.add(newPos);
 
 			if (i == 0 || i == 6) {
 				// Standards
-				Direction facing = i == 0 ? this.getBlockState().get(JumpControllerBlock.HORIZONTAL_FACING) : this.getBlockState().get(JumpControllerBlock.HORIZONTAL_FACING).rotateY().rotateY();
+				Direction facing = i == 0 ? this.getBlockState().getValue(JumpControllerBlock.FACING) : this.getBlockState().getValue(JumpControllerBlock.FACING).getClockWise().getClockWise();
 
 				// Replace the lower standards to a middle piece. If the 2nd layer is added, keep the bottom as the bottom piece.
 				if (layerNumber - 1 != 1) {
-					this.world.setBlockState(this.layerPositions.get(layerNumber - 1).get(i), this.currentStandard.getMiddleState().with(JumpStandardBlock.HORIZONTAL_FACING, facing), 1 | 2 );
-					((JumpPasserTE) this.world.getTileEntity(this.layerPositions.get(layerNumber - 1).get(i))).setControllerPos(this.getPos());
+					this.level.setBlock(this.layerPositions.get(layerNumber - 1).get(i), this.currentStandard.getMiddleState().setValue(JumpStandardBlock.FACING, facing), 1 | 2 );
+					((JumpPasserTE) this.level.getBlockEntity(this.layerPositions.get(layerNumber - 1).get(i))).setControllerPos(this.getBlockPos());
 
 				}
 				// Set the state at the new pos, to the top piece.
-				this.world.setBlockState(newPos, this.currentStandard.getTopState().with(JumpStandardBlock.HORIZONTAL_FACING, facing), 1 | 2 );
-				((JumpPasserTE) this.world.getTileEntity(newPos)).setControllerPos(this.getPos());
+				this.level.setBlock(newPos, this.currentStandard.getTopState().setValue(JumpStandardBlock.FACING, facing), 1 | 2 );
+				((JumpPasserTE) this.level.getBlockEntity(newPos)).setControllerPos(this.getBlockPos());
 
 
 			}
@@ -366,21 +366,21 @@ public class JumpTE extends TileEntity {
 	}
 
 	@Override
-	public void remove() {
+	public void setRemoved() {
 
-		this.world.setBlockState(this.layerPositions.get(1).get(0).offset(Direction.UP, 5), Blocks.AIR.getDefaultState(), 3);
+		this.level.setBlock(this.layerPositions.get(1).get(0).relative(Direction.UP, 5), Blocks.AIR.defaultBlockState(), 3);
 		for (ArrayList<BlockPos> positions : this.layerPositions.values()) {
 			for (BlockPos pos : positions) {
-				this.world.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
+				this.level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
 			}
 		}
 
 
-		super.remove();
+		super.setRemoved();
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT compound) {
+	public CompoundNBT save(CompoundNBT compound) {
 		CompoundNBT positions = new CompoundNBT();
 
 		layerPositions.forEach((layerNumber, blockPos) -> {
@@ -415,11 +415,11 @@ public class JumpTE extends TileEntity {
 		compound.putString("standard", this.currentStandard != null ? this.currentStandard.name() : StandardLayer.SCHOOLING.name());
 
 
-		return super.write(compound);
+		return super.save(compound);
 	}
 
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
+	public void load(BlockState state, CompoundNBT nbt) {
 		this.setLayerAmount(nbt.getInt("layerAmount"));
 
 
@@ -458,7 +458,7 @@ public class JumpTE extends TileEntity {
 
 		this.currentStandard = StandardLayer.valueOf(nbt.getString("standard"));
 
-		super.read(state, nbt);
+		super.load(state, nbt);
 	}
 
 }

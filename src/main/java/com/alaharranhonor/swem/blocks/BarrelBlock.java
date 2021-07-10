@@ -1,6 +1,6 @@
 package com.alaharranhonor.swem.blocks;
 
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -31,23 +31,23 @@ public class BarrelBlock extends Block {
 
 	public BarrelBlock(Properties properties) {
 		super(properties);
-		this.setDefaultState(
-				this.stateContainer.getBaseState()
-						.with(PART, HitchingPostBase.PostPart.LOWER)
+		this.registerDefaultState(
+				this.stateDefinition.any()
+						.setValue(PART, HitchingPostBase.PostPart.LOWER)
 		);
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		ItemStack itemstack = player.getHeldItem(handIn);
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		ItemStack itemstack = player.getItemInHand(handIn);
 		if (itemstack.getItem() == Items.SHEARS) {
-			itemstack.damageItem(1, player, (entity) -> entity.sendBreakAnimation(handIn));
-			worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
+			itemstack.hurtAndBreak(1, player, (entity) -> entity.broadcastBreakEvent(handIn));
+			worldIn.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
 			ItemEntity entity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(SWEMBlocks.HALF_BARRELS.get(DyeColor.WHITE.getId()).get()));
 			ItemEntity entity1 = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(SWEMBlocks.HALF_BARRELS.get(DyeColor.WHITE.getId()).get()));
 
-			worldIn.addEntity(entity);
-			worldIn.addEntity(entity1);
+			worldIn.addFreshEntity(entity);
+			worldIn.addFreshEntity(entity1);
 			return ActionResultType.SUCCESS;
 		} else {
 			return ActionResultType.PASS;
@@ -56,34 +56,34 @@ public class BarrelBlock extends Block {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		if (state.get(PART) == HitchingPostBase.PostPart.UPPER) {
-			return VoxelShapes.create(0.01D, 0.01D, 0.01D, 0.99D, 1.45d, 0.99D).withOffset(0.0D, -1.0D, 0.0D);
+		if (state.getValue(PART) == HitchingPostBase.PostPart.UPPER) {
+			return VoxelShapes.box(0.01D, 0.01D, 0.01D, 0.99D, 1.45d, 0.99D).move(0.0D, -1.0D, 0.0D);
 		} else {
-			return VoxelShapes.create(0.01D, 0.01D, 0.01D, 0.99D, 1.45d, 0.99D);
+			return VoxelShapes.box(0.01D, 0.01D, 0.01D, 0.99D, 1.45d, 0.99D);
 		}
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(PART);
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-		if (!worldIn.isRemote) {
-			BlockPos blockpos = pos.offset(Direction.UP);
-			worldIn.setBlockState(blockpos, state.with(PART, HitchingPostBase.PostPart.UPPER), 3);
-			state.updateNeighbours(worldIn, pos, 3);
+	public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+		super.setPlacedBy(worldIn, pos, state, placer, stack);
+		if (!worldIn.isClientSide) {
+			BlockPos blockpos = pos.relative(Direction.UP);
+			worldIn.setBlock(blockpos, state.setValue(PART, HitchingPostBase.PostPart.UPPER), 3);
+			state.updateNeighbourShapes(worldIn, pos, 3);
 		}
 	}
 
-	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		if (stateIn.get(PART) == HitchingPostBase.PostPart.LOWER && facing == Direction.UP && facingState.getBlock() == Blocks.AIR) {
-			return Blocks.AIR.getDefaultState();
-		} else if (stateIn.get(PART) == HitchingPostBase.PostPart.UPPER && facing == Direction.DOWN && facingState.getBlock() == Blocks.AIR) {
-			return Blocks.AIR.getDefaultState();
+	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+		if (stateIn.getValue(PART) == HitchingPostBase.PostPart.LOWER && facing == Direction.UP && facingState.getBlock() == Blocks.AIR) {
+			return Blocks.AIR.defaultBlockState();
+		} else if (stateIn.getValue(PART) == HitchingPostBase.PostPart.UPPER && facing == Direction.DOWN && facingState.getBlock() == Blocks.AIR) {
+			return Blocks.AIR.defaultBlockState();
 		}
-		return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 	}
 }

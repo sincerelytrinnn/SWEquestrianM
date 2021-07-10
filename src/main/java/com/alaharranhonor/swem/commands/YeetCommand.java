@@ -12,12 +12,12 @@ public class YeetCommand {
 				Commands.literal("yeet")
 				.then(Commands.literal("burrito")
 					.executes(ctx ->  {
-						ctx.getSource().sendFeedback(new StringTextComponent("Yetto Burrito"), false);
+						ctx.getSource().sendSuccess(new StringTextComponent("Yetto Burrito"), false);
 						return 1;
 					})
 				)
 				.executes(ctx -> {
-					ctx.getSource().sendFeedback(new StringTextComponent("Yeet"), false);
+					ctx.getSource().sendSuccess(new StringTextComponent("Yeet"), false);
 					return 1;
 				});
 	}

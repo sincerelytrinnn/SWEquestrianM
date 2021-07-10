@@ -2,14 +2,12 @@ package com.alaharranhonor.swem.tools;
 
 import com.alaharranhonor.swem.blocks.jumps.JumpControllerBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpLayer;
-import com.alaharranhonor.swem.blocks.jumps.JumpStandardBlock;
 import com.alaharranhonor.swem.blocks.jumps.StandardLayer;
 import com.alaharranhonor.swem.container.JumpContainer;
 import com.alaharranhonor.swem.items.ItemBase;
 import com.alaharranhonor.swem.tileentity.JumpPasserTE;
 import com.alaharranhonor.swem.tileentity.JumpTE;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import net.minecraft.entity.LivingEntity;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -34,16 +32,16 @@ import java.util.Map;
 public class MeasurementTool extends ItemBase {
 
 	@Override
-	public ActionResultType onItemUse(ItemUseContext context) {
+	public ActionResultType useOn(ItemUseContext context) {
 
-		if (context.getWorld().isRemote) return ActionResultType.PASS;
+		if (context.getLevel().isClientSide) return ActionResultType.PASS;
 
-		TileEntity te = context.getWorld().getTileEntity(context.getPos());
+		TileEntity te = context.getLevel().getBlockEntity(context.getClickedPos());
 		if (te != null) {
 			if (te instanceof JumpPasserTE) {
 				JumpPasserTE jumpPasser = (JumpPasserTE) te;
 				if (jumpPasser.getControllerPos() != null ) {
-					JumpTE controller = (JumpTE) context.getWorld().getTileEntity(jumpPasser.getControllerPos());
+					JumpTE controller = (JumpTE) context.getLevel().getBlockEntity(jumpPasser.getControllerPos());
 					INamedContainerProvider provider = new INamedContainerProvider() {
 						@Override
 						public ITextComponent getDisplayName() {
@@ -58,7 +56,7 @@ public class MeasurementTool extends ItemBase {
 					};
 					NetworkHooks.openGui((ServerPlayerEntity) context.getPlayer(), provider, buffer ->
 							buffer
-									.writeBlockPos(controller.getPos())
+									.writeBlockPos(controller.getBlockPos())
 					);
 					//SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) context.getPlayer()), new OpenGuiPacket(controller.getPos(), controller.getLayerAmount(), controller.getCurrentStandard()));
 
@@ -81,7 +79,7 @@ public class MeasurementTool extends ItemBase {
 				};
 				NetworkHooks.openGui((ServerPlayerEntity) context.getPlayer(), provider, buffer ->
 						buffer
-								.writeBlockPos(jumpController.getPos())
+								.writeBlockPos(jumpController.getBlockPos())
 				);
 				//SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) context.getPlayer()), new OpenGuiPacket(jumpController.getPos(), jumpController.getLayerAmount(), jumpController.getCurrentStandard()));
 			}
@@ -89,13 +87,13 @@ public class MeasurementTool extends ItemBase {
 		}
 
 
-		ItemStack stack = context.getItem();
+		ItemStack stack = context.getItemInHand();
 		CompoundNBT nbt = stack.getOrCreateTag();
 
 		if (nbt.contains("pos1")) {
 			int[] posCords = nbt.getIntArray("pos1");
 			BlockPos firstPos = new BlockPos(posCords[0], posCords[1], posCords[2]);
-			BlockPos pos = context.getPos();
+			BlockPos pos = context.getClickedPos();
 			int direction = isValidPos(firstPos, pos);
 			if (direction == -1) {
 				nbt.remove("pos1");
@@ -107,8 +105,8 @@ public class MeasurementTool extends ItemBase {
 
 			System.out.println(firstPos.toString() + " | " + pos.toString());
 			ArrayList<BlockPos> blockPositions = new ArrayList<>();
-			BlockPos.getAllInBoxMutable(firstPos, pos).forEach((ps) -> {
-				BlockPos pos1 = ps.toImmutable();
+			BlockPos.betweenClosed(firstPos, pos).forEach((ps) -> {
+				BlockPos pos1 = ps.immutable();
 				blockPositions.add(pos1);
 			});
 			int layerAmount = blockPositions.size() / 7;
@@ -119,11 +117,11 @@ public class MeasurementTool extends ItemBase {
 
 			// Should default to either the player facing north/east
 
-			Direction facing = context.getPlacementHorizontalFacing().getAxis() == Direction.Axis.Z ? Direction.SOUTH : Direction.WEST;
+			Direction facing = context.getHorizontalDirection().getAxis() == Direction.Axis.Z ? Direction.SOUTH : Direction.WEST;
 
-			context.getWorld().setBlockState(layers.get(1).get(0).offset(Direction.UP, 5), SWEMBlocks.JUMP_CONTROLLER.get().getDefaultState().with(JumpControllerBlock.HORIZONTAL_FACING, facing));
+			context.getLevel().setBlock(layers.get(1).get(0).relative(Direction.UP, 5), SWEMBlocks.JUMP_CONTROLLER.get().defaultBlockState().setValue(JumpControllerBlock.FACING, facing), 3);
 
-			JumpTE jumpController = (JumpTE) context.getWorld().getTileEntity(layers.get(1).get(0).offset(Direction.UP, 5));
+			JumpTE jumpController = (JumpTE) context.getLevel().getBlockEntity(layers.get(1).get(0).relative(Direction.UP, 5));
 			jumpController.setLayerAmount(layerAmount);
 			jumpController.assignJumpBlocks(layers);
 			jumpController.initStandards(StandardLayer.SCHOOLING);
@@ -145,7 +143,7 @@ public class MeasurementTool extends ItemBase {
 			};
 			NetworkHooks.openGui((ServerPlayerEntity) context.getPlayer(), provider, buffer ->
 					buffer
-							.writeBlockPos(jumpController.getPos())
+							.writeBlockPos(jumpController.getBlockPos())
 			);
 
 			//SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) context.getPlayer()), new OpenGuiPacket(jumpController.getPos(), jumpController.getLayerAmount(), jumpController.getCurrentStandard()));
@@ -156,7 +154,7 @@ public class MeasurementTool extends ItemBase {
 
 			return ActionResultType.CONSUME;
 		} else {
-			BlockPos pos = context.getPos();
+			BlockPos pos = context.getClickedPos();
 			nbt.putIntArray("pos1", new int[] {pos.getX(), pos.getY(), pos.getZ()});
 			stack.setTag(nbt);
 			return ActionResultType.CONSUME;

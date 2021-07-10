@@ -2,7 +2,7 @@ package com.alaharranhonor.swem.tileentity;
 
 import com.alaharranhonor.swem.blocks.TackBoxBlock;
 import com.alaharranhonor.swem.container.TackBoxContainer;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,12 +35,11 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class TackBoxTE extends LockableLootTileEntity implements INamedContainerProvider, IAnimatable {
 
 	private AnimationFactory factory = new AnimationFactory(this);
-	private NonNullList<ItemStack> tackContents = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
+	private NonNullList<ItemStack> tackContents = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
 	private int numPlayersUsing;
 	private IItemHandlerModifiable items = createHandler();
 	private LazyOptional<IItemHandlerModifiable> itemHandler = LazyOptional.of(() -> items);
@@ -75,9 +74,9 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT compound) {
-		super.write(compound);
-		if (!this.checkLootAndWrite(compound)) {
+	public CompoundNBT save(CompoundNBT compound) {
+		super.save(compound);
+		if (!this.trySaveLootTable(compound)) {
 			ItemStackHelper.saveAllItems(compound, this.tackContents);
 		}
 		return compound;
@@ -86,42 +85,35 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 
 
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
-		super.read(state, nbt);
-		this.tackContents = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
-		if (!this.checkLootAndRead(nbt)) {
+	public void load(BlockState state, CompoundNBT nbt) {
+		super.load(state, nbt);
+		this.tackContents = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+		if (!this.tryLoadLootTable(nbt)) {
 			ItemStackHelper.loadAllItems(nbt, this.tackContents);
 		}
 
 	}
 
 	private void playSound(SoundEvent event) {
-		double dx = (double) this.pos.getX() + 0.5d;
-		double dy = (double) this.pos.getY() + 0.5d;
-		double dz = (double) this.pos.getZ() + 0.5d;
+		double dx = (double) this.getBlockPos().getX() + 0.5d;
+		double dy = (double) this.getBlockPos().getY() + 0.5d;
+		double dz = (double) this.getBlockPos().getZ() + 0.5d;
 
-		this.world.playSound((PlayerEntity)null, dx, dy, dz, event, SoundCategory.BLOCKS, 0.5f, this.world.rand.nextFloat() * 0.1f + 0.9f);
+		this.level.playSound((PlayerEntity)null, dx, dy, dz, event, SoundCategory.BLOCKS, 0.5f, this.level.random.nextFloat() * 0.1f + 0.9f);
 	}
 
-	/**
-	 * See {@link Block#eventReceived} for more information. This must return true serverside before it is called
-	 * clientside.
-	 *
-	 * @param id
-	 * @param type
-	 */
 	@Override
-	public boolean receiveClientEvent(int id, int type) {
+	public boolean triggerEvent(int id, int type) {
 		if (id == 1) {
 			this.numPlayersUsing = type;
 			return true;
 		} else {
-			return super.receiveClientEvent(id, type);
+			return super.triggerEvent(id, type);
 		}
 	}
 
 	@Override
-	public void openInventory(PlayerEntity player) {
+	public void startOpen(PlayerEntity player) {
 		if (!player.isSpectator()) {
 			if (this.numPlayersUsing < 0) {
 				this.numPlayersUsing = 0;
@@ -133,7 +125,7 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 	}
 
 	@Override
-	public void closeInventory(PlayerEntity player) {
+	public void stopOpen(PlayerEntity player) {
 		if (!player.isSpectator()) {
 			--this.numPlayersUsing;
 			this.onOpenOrClose();
@@ -143,15 +135,15 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 	protected void onOpenOrClose() {
 		Block block = this.getBlockState().getBlock();
 		if (block instanceof TackBoxBlock) {
-			this.world.addBlockEvent(this.pos, block, 1, this.numPlayersUsing);
-			this.world.notifyNeighborsOfStateChange(this.pos, block);
+			this.level.blockEvent(this.getBlockPos(), block, 1, this.numPlayersUsing);
+			this.level.updateNeighborsAt(this.getBlockPos(), block);
 		}
 	}
 
 	public static int getPlayersUsing(IBlockReader reader, BlockPos pos) {
 		BlockState state = reader.getBlockState(pos);
 		if (state.hasTileEntity()) {
-			TileEntity tileEntity = reader.getTileEntity(pos);
+			TileEntity tileEntity = reader.getBlockEntity(pos);
 			if (tileEntity instanceof TackBoxTE) {
 				return ((TackBoxTE) tileEntity).numPlayersUsing;
 			}
@@ -167,8 +159,8 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 	}
 
 	@Override
-	public void updateContainingBlockInfo() {
-		super.updateContainingBlockInfo();
+	public void clearCache() {
+		super.clearCache();
 		if (this.itemHandler != null) {
 			this.itemHandler.invalidate();
 			this.itemHandler = null;
@@ -192,8 +184,8 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 	 * invalidates a tile entity
 	 */
 	@Override
-	public void remove() {
-		super.remove();
+	public void setRemoved() {
+		super.setRemoved();
 		if (itemHandler != null) {
 			itemHandler.invalidate();
 		}
@@ -203,7 +195,7 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 	 * Returns the number of slots in the inventory.
 	 */
 	@Override
-	public int getSizeInventory() {
+	public int getContainerSize() {
 		return 30;
 	}
 

@@ -3,6 +3,8 @@ package com.alaharranhonor.swem.items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import net.minecraft.item.Item.Properties;
+
 public class PestleMortarItem extends Item {
 	
 	public PestleMortarItem(final Properties properties) {
@@ -15,7 +17,7 @@ public class PestleMortarItem extends Item {
 	}
 
 	@Override
-	public boolean hasContainerItem() {
+	public boolean hasCraftingRemainingItem() {
 		return true;
 	}
 }

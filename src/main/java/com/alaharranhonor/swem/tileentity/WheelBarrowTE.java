@@ -2,8 +2,8 @@ package com.alaharranhonor.swem.tileentity;
 
 import com.alaharranhonor.swem.blocks.ShavingsItem;
 import com.alaharranhonor.swem.blocks.WheelBarrowBlock;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
@@ -35,24 +35,24 @@ public class WheelBarrowTE extends TileEntity implements ITickableTileEntity {
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT compound) {
+	public CompoundNBT save(CompoundNBT compound) {
 		compound.put("inv", itemHandler.serializeNBT());
-		return super.write(compound);
+		return super.save(compound);
 	}
 
 	@Override
 	public CompoundNBT getUpdateTag() {
 		CompoundNBT nbt = new CompoundNBT();
 		CompoundNBT layers = new CompoundNBT();
-		this.itemHandler.getStackInSlot(0).write(layers);
+		this.itemHandler.getStackInSlot(0).save(layers);
 		nbt.put("layers", layers);
-		return this.write(nbt);
+		return this.save(nbt);
 	}
 
 	@Override
 	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
 		if (tag.contains("layers")) {
-			this.itemHandler.setStackInSlot(0, ItemStack.read((CompoundNBT) tag.get("layers")));
+			this.itemHandler.setStackInSlot(0, ItemStack.of((CompoundNBT) tag.get("layers")));
 		}
 	}
 
@@ -60,20 +60,20 @@ public class WheelBarrowTE extends TileEntity implements ITickableTileEntity {
 	@Override
 	public SUpdateTileEntityPacket getUpdatePacket() {
 		CompoundNBT nbt = new CompoundNBT();
-		this.itemHandler.getStackInSlot(0).write(nbt);
+		this.itemHandler.getStackInSlot(0).save(nbt);
 
-		return new SUpdateTileEntityPacket(this.getPos(), 0, nbt);
+		return new SUpdateTileEntityPacket(this.getBlockPos(), 0, nbt);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		this.itemHandler.setStackInSlot(0, ItemStack.read(pkt.getNbtCompound()));
+		this.itemHandler.setStackInSlot(0, ItemStack.of(pkt.getTag()));
 	}
 
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
+	public void load(BlockState state, CompoundNBT nbt) {
 		itemHandler.deserializeNBT(nbt.getCompound("inv"));
-		super.read(state, nbt);
+		super.load(state, nbt);
 	}
 
 
@@ -90,7 +90,7 @@ public class WheelBarrowTE extends TileEntity implements ITickableTileEntity {
 		return new ItemStackHandler(1) {
 			@Override
 			protected void onContentsChanged(int slot) {
-				markDirty();
+				setChanged();
 			}
 
 			@Override
@@ -119,8 +119,8 @@ public class WheelBarrowTE extends TileEntity implements ITickableTileEntity {
 	 * invalidates a tile entity
 	 */
 	@Override
-	public void remove() {
-		super.remove();
+	public void setRemoved() {
+		super.setRemoved();
 		if (itemHandler != null) {
 			handler.invalidate();
 		}
@@ -130,10 +130,10 @@ public class WheelBarrowTE extends TileEntity implements ITickableTileEntity {
 	public void dropItems() {
 		for (int i = 0; i < itemHandler.getSlots(); i++) {
 			if (this.itemHandler.getStackInSlot(i) != ItemStack.EMPTY) {
-				ItemEntity entity = new ItemEntity(this.world, this.getPos().getX(), this.getPos().getY(), this.getPos().getZ(), this.itemHandler.getStackInSlot(i));
-				Random RANDOM = this.world.getRandom();
-				entity.setMotion(RANDOM.nextGaussian() * (double)0.05F, RANDOM.nextGaussian() * (double)0.05F + (double)0.2F, RANDOM.nextGaussian() * (double)0.05F);
-				this.world.addEntity(entity);
+				ItemEntity entity = new ItemEntity(this.level, this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), this.itemHandler.getStackInSlot(i));
+				Random RANDOM = this.level.getRandom();
+				entity.setDeltaMovement(RANDOM.nextGaussian() * (double)0.05F, RANDOM.nextGaussian() * (double)0.05F + (double)0.2F, RANDOM.nextGaussian() * (double)0.05F);
+				this.level.addFreshEntity(entity);
 				this.itemHandler.setStackInSlot(i, ItemStack.EMPTY);
 			}
 		}
@@ -150,7 +150,7 @@ public class WheelBarrowTE extends TileEntity implements ITickableTileEntity {
 
 	@Override
 	public void tick() {
-		if (!this.world.isRemote) {
+		if (!this.level.isClientSide) {
 			if (shouldTick) {
 				this.timer++;
 				if (this.timer % 20 == 0) {
@@ -163,15 +163,15 @@ public class WheelBarrowTE extends TileEntity implements ITickableTileEntity {
 	}
 
 	private void resetBlockStateLevel() {
-		BlockState state = this.world.getBlockState(this.pos);
-		this.world.setBlockState(pos, state.with(WheelBarrowBlock.LEVEL, 0));
+		BlockState state = this.level.getBlockState(this.getBlockPos());
+		this.level.setBlock(this.getBlockPos(), state.setValue(WheelBarrowBlock.LEVEL, 0), 3);
 	}
 
 	private void dropCompost() {
 		this.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
 		ItemStack stack = new ItemStack(SWEMBlocks.WET_COMPOST_ITEM.get());
-		ItemEntity itemEntity = new ItemEntity(this.world, this.pos.getX(), this.pos.getY(), this.pos.getZ(), stack);
-		this.world.addEntity(itemEntity);
+		ItemEntity itemEntity = new ItemEntity(this.level, this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), stack);
+		this.level.addFreshEntity(itemEntity);
 
 	}
 }

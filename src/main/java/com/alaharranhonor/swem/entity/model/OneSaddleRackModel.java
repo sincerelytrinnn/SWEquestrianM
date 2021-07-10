@@ -9,7 +9,7 @@ import software.bernie.geckolib3.model.AnimatedGeoModel;
 public class OneSaddleRackModel extends AnimatedGeoModel<OneSaddleRackTE> {
 	@Override
 	public ResourceLocation getModelLocation(OneSaddleRackTE oneSaddleRackTE) {
-		if (oneSaddleRackTE.getBlockState().get(BlockStateProperties.HANGING)) {
+		if (oneSaddleRackTE.getBlockState().getValue(BlockStateProperties.HANGING)) {
 			return new ResourceLocation(SWEM.MOD_ID, "geo/tile/saddle_rack_wall.geo.json");
 		}
 		return new ResourceLocation(SWEM.MOD_ID, "geo/tile/saddle_rack_floor.geo.json");
@@ -17,7 +17,7 @@ public class OneSaddleRackModel extends AnimatedGeoModel<OneSaddleRackTE> {
 
 	@Override
 	public ResourceLocation getTextureLocation(OneSaddleRackTE oneSaddleRackTE) {
-		if (oneSaddleRackTE.getBlockState().get(BlockStateProperties.HANGING)) {
+		if (oneSaddleRackTE.getBlockState().getValue(BlockStateProperties.HANGING)) {
 			return new ResourceLocation(SWEM.MOD_ID, "textures/tile/saddle_rack_wall.png");
 		}
 		return new ResourceLocation(SWEM.MOD_ID, "textures/tile/saddle_rack_floor.png");

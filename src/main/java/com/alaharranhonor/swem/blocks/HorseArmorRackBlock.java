@@ -3,7 +3,7 @@ package com.alaharranhonor.swem.blocks;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.items.tack.AdventureSaddleItem;
 import com.alaharranhonor.swem.tileentity.HorseArmorRackTE;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
@@ -34,26 +34,26 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 
 	public HorseArmorRackBlock(AbstractBlock.Properties properties) {
 		super(properties);
-		this.setDefaultState(
-				this.stateContainer.getBaseState()
-						.with(HORIZONTAL_FACING, Direction.NORTH)
-						.with(SIDE, SWEMBlockStateProperties.DoubleBlockSide.LEFT)
+		this.registerDefaultState(
+				this.stateDefinition.any()
+						.setValue(FACING, Direction.NORTH)
+						.setValue(SIDE, SWEMBlockStateProperties.DoubleBlockSide.LEFT)
 		);
 
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		if (!worldIn.isRemote && handIn == Hand.MAIN_HAND) {
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
 			BlockPos position = pos;
-			if (state.get(SIDE) == SWEMBlockStateProperties.DoubleBlockSide.RIGHT)
-				position = pos.offset(state.get(HORIZONTAL_FACING).rotateY());
+			if (state.getValue(SIDE) == SWEMBlockStateProperties.DoubleBlockSide.RIGHT)
+				position = pos.relative(state.getValue(FACING).getClockWise());
 
-			TileEntity tile = worldIn.getTileEntity(position);
+			TileEntity tile = worldIn.getBlockEntity(position);
 			if (tile instanceof HorseArmorRackTE) {
 				HorseArmorRackTE rack = (HorseArmorRackTE) tile;
-				if (player.getHeldItem(handIn).getItem() instanceof SWEMHorseArmorItem) {
-					ItemStack armor = player.getHeldItem(handIn);
+				if (player.getItemInHand(handIn).getItem() instanceof SWEMHorseArmorItem) {
+					ItemStack armor = player.getItemInHand(handIn);
 					if (rack.itemHandler.getStackInSlot(0) == ItemStack.EMPTY) {
 						ItemStack armorCopy;
 						if (player.isCreative()) {
@@ -63,11 +63,11 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 						}
 
 						rack.itemHandler.setStackInSlot(0, armorCopy);
-						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
-						return ActionResultType.func_233537_a_(worldIn.isRemote);
+						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getLevel().getChunkAt(rack.getBlockPos())).send(rack.getUpdatePacket());
+						return ActionResultType.sidedSuccess(worldIn.isClientSide);
 					}
-				} else if (player.getHeldItem(handIn).getItem() instanceof AdventureSaddleItem) {
-					ItemStack saddle = player.getHeldItem(handIn);
+				} else if (player.getItemInHand(handIn).getItem() instanceof AdventureSaddleItem) {
+					ItemStack saddle = player.getItemInHand(handIn);
 					if (rack.itemHandler.getStackInSlot(1) == ItemStack.EMPTY) {
 						ItemStack saddleCopy;
 						if (player.isCreative()) {
@@ -77,33 +77,33 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 						}
 
 						rack.itemHandler.setStackInSlot(1, saddleCopy);
-						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
-						return ActionResultType.func_233537_a_(worldIn.isRemote);
+						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getLevel().getChunkAt(rack.getBlockPos())).send(rack.getUpdatePacket());
+						return ActionResultType.sidedSuccess(worldIn.isClientSide);
 					}
 				} else {
 					if (rack.itemHandler.getStackInSlot(1) != ItemStack.EMPTY) {
 
-						if (!player.abilities.isCreativeMode) {
-							ItemEntity itementity = new ItemEntity(worldIn, rack.getPos().getX(), rack.getPos().getY(), rack.getPos().getZ(), rack.itemHandler.getStackInSlot(1));
-							itementity.setMotion(RANDOM.nextGaussian() * (double)0.05F, RANDOM.nextGaussian() * (double)0.05F + (double)0.2F, RANDOM.nextGaussian() * (double)0.05F);
-							worldIn.addEntity(itementity);
+						if (!player.abilities.instabuild) {
+							ItemEntity itementity = new ItemEntity(worldIn, rack.getBlockPos().getX(), rack.getBlockPos().getY(), rack.getBlockPos().getZ(), rack.itemHandler.getStackInSlot(1));
+							itementity.setDeltaMovement(RANDOM.nextGaussian() * (double)0.05F, RANDOM.nextGaussian() * (double)0.05F + (double)0.2F, RANDOM.nextGaussian() * (double)0.05F);
+							worldIn.addFreshEntity(itementity);
 						}
 
 						rack.itemHandler.setStackInSlot(1, ItemStack.EMPTY);
-						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
-						return ActionResultType.func_233537_a_(worldIn.isRemote);
+						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getLevel().getChunkAt(rack.getBlockPos())).send(rack.getUpdatePacket());
+						return ActionResultType.sidedSuccess(worldIn.isClientSide);
 
 					} else if (rack.itemHandler.getStackInSlot(0) != ItemStack.EMPTY && rack.itemHandler.getStackInSlot(1) == ItemStack.EMPTY) {
 
-						if (!player.abilities.isCreativeMode) {
-							ItemEntity itementity = new ItemEntity(worldIn, rack.getPos().getX(), rack.getPos().getY(), rack.getPos().getZ(), rack.itemHandler.getStackInSlot(0));
-							itementity.setMotion(RANDOM.nextGaussian() * (double)0.05F, RANDOM.nextGaussian() * (double)0.05F + (double)0.2F, RANDOM.nextGaussian() * (double)0.05F);
-							worldIn.addEntity(itementity);
+						if (!player.abilities.instabuild) {
+							ItemEntity itementity = new ItemEntity(worldIn, rack.getBlockPos().getX(), rack.getBlockPos().getY(), rack.getBlockPos().getZ(), rack.itemHandler.getStackInSlot(0));
+							itementity.setDeltaMovement(RANDOM.nextGaussian() * (double)0.05F, RANDOM.nextGaussian() * (double)0.05F + (double)0.2F, RANDOM.nextGaussian() * (double)0.05F);
+							worldIn.addFreshEntity(itementity);
 						}
 
 						rack.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
-						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getWorld().getChunkAt(rack.getPos())).send(rack.getUpdatePacket());
-						return ActionResultType.func_233537_a_(worldIn.isRemote);
+						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getLevel().getChunkAt(rack.getBlockPos())).send(rack.getUpdatePacket());
+						return ActionResultType.sidedSuccess(worldIn.isClientSide);
 					}
 
 				}
@@ -113,29 +113,29 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+	public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+		super.setPlacedBy(worldIn, pos, state, placer, stack);
 
 		// Rotate counter clockwise, because the Direction has been inverted in #getStateForPlacement
-		worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateYCCW()), state.with(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT));
+		worldIn.setBlock(pos.relative(state.getValue(FACING).getCounterClockWise()), state.setValue(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT), 3);
 
 
 	}
 
 	@Override
-	public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
-		if (state.get(SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
-			worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateYCCW()), Blocks.AIR.getDefaultState(), 3);
+	public void playerWillDestroy(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
+		if (state.getValue(SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
+			worldIn.setBlock(pos.relative(state.getValue(FACING).getCounterClockWise()), Blocks.AIR.defaultBlockState(), 3);
 		} else {
-			worldIn.setBlockState(pos.offset(state.get(HORIZONTAL_FACING).rotateY()), Blocks.AIR.getDefaultState(), 3);
+			worldIn.setBlock(pos.relative(state.getValue(FACING).getClockWise()), Blocks.AIR.defaultBlockState(), 3);
 		}
 
-		super.onBlockHarvested(worldIn, pos, state, player);
+		super.playerWillDestroy(worldIn, pos, state, player);
 	}
 
 	@Override
-	public void harvestBlock(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity te, ItemStack stack) {
-		if (te instanceof HorseArmorRackTE && !player.abilities.isCreativeMode) {
+	public void playerDestroy(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity te, ItemStack stack) {
+		if (te instanceof HorseArmorRackTE && !player.abilities.instabuild) {
 			((HorseArmorRackTE)te).dropItems();
 		}
 	}
@@ -153,27 +153,27 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return VoxelShapes.create(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
+		return VoxelShapes.box(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
 	}
 
 	@Override
-	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
+	public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
 		return true;
 	}
 
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing().getOpposite());
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HORIZONTAL_FACING, SIDE);
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(FACING, SIDE);
 	}
 
 	@Override
-	public BlockRenderType getRenderType(BlockState state) {
+	public BlockRenderType getRenderShape(BlockState state) {
 		return BlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
 }

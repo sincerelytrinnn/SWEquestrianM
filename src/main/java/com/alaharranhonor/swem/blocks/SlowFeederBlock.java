@@ -1,6 +1,6 @@
 package com.alaharranhonor.swem.blocks;
 
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -35,7 +35,7 @@ public class SlowFeederBlock extends Block {
 
 	public SlowFeederBlock(Properties properties, DyeColor colour) {
 		super(properties);
-		this.setDefaultState(this.stateContainer.getBaseState().with(NORTH, Boolean.valueOf(false)).with(EAST, Boolean.valueOf(false)).with(SOUTH, Boolean.valueOf(false)).with(WEST, Boolean.valueOf(false)).with(LEVEL, 0).with(LEVEL_VANILLA, 0));
+		this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, Boolean.valueOf(false)).setValue(EAST, Boolean.valueOf(false)).setValue(SOUTH, Boolean.valueOf(false)).setValue(WEST, Boolean.valueOf(false)).setValue(LEVEL, 0).setValue(LEVEL_VANILLA, 0));
 		this.colour = colour;
 	}
 
@@ -44,9 +44,9 @@ public class SlowFeederBlock extends Block {
 	}
 
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		IBlockReader iblockreader = context.getWorld();
-		BlockPos blockpos = context.getPos();
-		FluidState fluidstate = context.getWorld().getFluidState(context.getPos());
+		IBlockReader iblockreader = context.getLevel();
+		BlockPos blockpos = context.getClickedPos();
+		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
 		BlockPos blockpos1 = blockpos.north();
 		BlockPos blockpos2 = blockpos.east();
 		BlockPos blockpos3 = blockpos.south();
@@ -55,22 +55,22 @@ public class SlowFeederBlock extends Block {
 		BlockState blockstate1 = iblockreader.getBlockState(blockpos2);
 		BlockState blockstate2 = iblockreader.getBlockState(blockpos3);
 		BlockState blockstate3 = iblockreader.getBlockState(blockpos4);
-		return this.getDefaultState().with(NORTH, this.isBlock(blockstate)).with(EAST, this.isBlock(blockstate1)).with(SOUTH, this.isBlock(blockstate2)).with(WEST, this.isBlock(blockstate3));
+		return this.defaultBlockState().setValue(NORTH, this.isBlock(blockstate)).setValue(EAST, this.isBlock(blockstate1)).setValue(SOUTH, this.isBlock(blockstate2)).setValue(WEST, this.isBlock(blockstate3));
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		ItemStack itemstack = player.getHeldItem(handIn);
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		ItemStack itemstack = player.getItemInHand(handIn);
 		if (itemstack.isEmpty()) {
 			return ActionResultType.PASS;
 		} else {
-			int level_swem = state.get(LEVEL);
-			int level_vanilla = state.get(LEVEL_VANILLA);
+			int level_swem = state.getValue(LEVEL);
+			int level_vanilla = state.getValue(LEVEL_VANILLA);
 			Item item = itemstack.getItem();
 			if (item == SWEMBlocks.QUALITY_BALE_ITEM.get() && level_vanilla == 0) {
 				if (level_swem == 0) {
 					this.setHayLevel(worldIn, pos, state, LEVEL, 2);
-					return ActionResultType.func_233537_a_(worldIn.isRemote);
+					return ActionResultType.sidedSuccess(worldIn.isClientSide);
 				} else {
 					return ActionResultType.PASS;
 				}
@@ -78,7 +78,7 @@ public class SlowFeederBlock extends Block {
 			} else if (item == Items.HAY_BLOCK && level_swem == 0) {
 				if (level_vanilla == 0) {
 					this.setHayLevel(worldIn, pos, state, LEVEL_VANILLA, 2);
-					return ActionResultType.func_233537_a_(worldIn.isRemote);
+					return ActionResultType.sidedSuccess(worldIn.isClientSide);
 				} else {
 					return ActionResultType.PASS;
 				}
@@ -90,24 +90,24 @@ public class SlowFeederBlock extends Block {
 	}
 
 	private Boolean isBlock(BlockState state) {
-		if (!state.equals(Blocks.AIR.getDefaultState()) && !state.equals(Blocks.CAVE_AIR.getDefaultState()) && !state.equals(Blocks.VOID_AIR.getDefaultState())) {
+		if (!state.equals(Blocks.AIR.defaultBlockState()) && !state.equals(Blocks.CAVE_AIR.defaultBlockState()) && !state.equals(Blocks.VOID_AIR.defaultBlockState())) {
 			return Boolean.TRUE;
 		} else {
 			return Boolean.FALSE;
 		}
 	}
 
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(NORTH, EAST, WEST, SOUTH, LEVEL, LEVEL_VANILLA);
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return Block.makeCuboidShape(0, 0, 0, 15.99, 15.99, 15.99);
+		return Block.box(0, 0, 0, 15.99, 15.99, 15.99);
 	}
 
 	public boolean isFeedable(World worldIn, BlockState state) {
-		int level = state.get(LEVEL);
+		int level = state.getValue(LEVEL);
 
 		if (level > 0) {
 			return true;
@@ -117,17 +117,17 @@ public class SlowFeederBlock extends Block {
 	}
 
 	public void setHayLevel(World worldIn, BlockPos pos, BlockState state, IntegerProperty prop, int level) {
-		worldIn.setBlockState(pos, state.with(prop, Integer.valueOf(MathHelper.clamp(level, 0, 2))));
+		worldIn.setBlock(pos, state.setValue(prop, Integer.valueOf(MathHelper.clamp(level, 0, 2))), 3);
 	}
 
 	public void eatHay(World worldIn, BlockPos pos, BlockState state) {
-		int level = state.get(LEVEL);
-		int level_vanilla = state.get(LEVEL_VANILLA);
+		int level = state.getValue(LEVEL);
+		int level_vanilla = state.getValue(LEVEL_VANILLA);
 
 		if ( level > 0 ) {
-			worldIn.setBlockState(pos, state.with(LEVEL, Integer.valueOf(MathHelper.clamp(level - 1, 0, 2))));
+			worldIn.setBlock(pos, state.setValue(LEVEL, Integer.valueOf(MathHelper.clamp(level - 1, 0, 2))), 3);
 		} else if ( level_vanilla > 0 ) {
-			worldIn.setBlockState(pos, state.with(LEVEL_VANILLA, Integer.valueOf(MathHelper.clamp(level - 1, 0, 2))));
+			worldIn.setBlock(pos, state.setValue(LEVEL_VANILLA, Integer.valueOf(MathHelper.clamp(level - 1, 0, 2))), 3);
 		}
 	}
 }

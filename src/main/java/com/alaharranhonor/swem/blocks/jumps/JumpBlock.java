@@ -1,7 +1,7 @@
 package com.alaharranhonor.swem.blocks.jumps;
 
 import com.alaharranhonor.swem.blocks.SWEMBlockStateProperties;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -14,7 +14,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
@@ -22,25 +21,29 @@ import javax.annotation.Nullable;
 public class JumpBlock extends HorizontalBlock {
 
 	public static final EnumProperty<SWEMBlockStateProperties.TripleBlockSide> JUMP_PIECE = SWEMBlockStateProperties.T_SIDE;
+	private VoxelShape ew;
+	private VoxelShape ns;
 
-	public JumpBlock() {
-		super(AbstractBlock.Properties.create(Material.IRON).notSolid());
+	public JumpBlock(VoxelShape ew, VoxelShape ns) {
+		super(AbstractBlock.Properties.of(Material.METAL).noOcclusion());
+		this.ew = ew;
+		this.ns = ns;
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		if (state.get(HORIZONTAL_FACING).getAxis() == Direction.Axis.X) {
-			return VoxelShapes.create(0.125d, 0, 0, 0.875d, 1.0d, 1.0d);
+		if (state.getValue(FACING).getAxis() == Direction.Axis.X) {
+			return this.ew;
 		} else {
-			return VoxelShapes.create(0, 0, 0.125d, 1.0d, 1.0d, 0.875d);
+			return this.ns;
 		}
 	}
 
 
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HORIZONTAL_FACING, JUMP_PIECE);
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(FACING, JUMP_PIECE);
 	}
 
 	@Override

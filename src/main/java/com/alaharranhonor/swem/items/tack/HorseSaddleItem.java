@@ -17,32 +17,36 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 
 
+import net.minecraft.item.Item.Properties;
+
 public class HorseSaddleItem extends Item implements IAnimatable {
 
 	private ResourceLocation texture;
+	private ResourceLocation saddleRackTexture;
 	private final AnimationFactory factory = new AnimationFactory(this);
 
 
 	public HorseSaddleItem(String textureName, Properties properties) {
 		super(properties);
 		this.texture = new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/saddle/" + textureName + ".png");
+		this.saddleRackTexture = new ResourceLocation(SWEM.MOD_ID, "textures/tile/saddle_rack/" + textureName + ".png");
 	}
 
-	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (target instanceof ISWEMEquipable && target.isAlive()) {
 			ISWEMEquipable iequipable = (ISWEMEquipable)target;
-			if (playerIn.world.isRemote && !iequipable.canEquipSaddle()) {
-				playerIn.sendStatusMessage(new StringTextComponent("You need to equip a Blanket first!"), true);
+			if (playerIn.level.isClientSide && !iequipable.canEquipSaddle()) {
+				playerIn.displayClientMessage(new StringTextComponent("You need to equip a Blanket first!"), true);
 				return ActionResultType.FAIL;
 			}
-			if (!iequipable.isHorseSaddled() && iequipable.func_230264_L__() && iequipable.canEquipSaddle()) {
-				if (!playerIn.world.isRemote) {
-					iequipable.func_230266_a_(SoundCategory.NEUTRAL, stack);
-					if (!playerIn.abilities.isCreativeMode)
+			if (!iequipable.isHorseSaddled() && iequipable.isSaddleable() && iequipable.canEquipSaddle()) {
+				if (!playerIn.level.isClientSide) {
+					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack);
+					if (!playerIn.abilities.instabuild)
 						stack.shrink(1);
 				}
 
-				return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+				return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
 			}
 		}
 
@@ -50,6 +54,9 @@ public class HorseSaddleItem extends Item implements IAnimatable {
 	}
 
 	public ResourceLocation getTexture() {
+		return this.texture;
+	}
+	public ResourceLocation getSaddleRackTexture() {
 		return this.texture;
 	}
 

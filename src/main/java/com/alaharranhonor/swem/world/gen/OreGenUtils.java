@@ -11,9 +11,9 @@ public class OreGenUtils {
 
 	public static ConfiguredFeature<?, ?> buildOverWorldFeature(BlockState bstate) {
 		return Feature.ORE
-				.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, bstate, 5))
-				.withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(5, 0, 20))
-						.square())
+				.configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, bstate, 5))
+				.decorated(Placement.RANGE.configured(new TopSolidRangeConfig(5, 0, 20))
+						.squared())
 				.count(8);
 	}
 }

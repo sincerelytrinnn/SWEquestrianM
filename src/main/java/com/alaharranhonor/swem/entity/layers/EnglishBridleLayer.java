@@ -1,7 +1,7 @@
 package com.alaharranhonor.swem.entity.layers;
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
-import com.alaharranhonor.swem.entity.model.EnglishBridleModel;
 import com.alaharranhonor.swem.items.tack.BridleItem;
 import com.alaharranhonor.swem.items.tack.EnglishBridleItem;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -11,16 +11,17 @@ import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Quaternion;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
 import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 
 public class EnglishBridleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
-	private final EnglishBridleModel<SWEMHorseEntity> modelBridle = new EnglishBridleModel<>();
-
+	private IGeoRenderer entityRenderer;
 	public EnglishBridleLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
 		super(entityRendererIn);
+		this.entityRenderer = entityRendererIn;
 	}
 
 	@Override
@@ -30,13 +31,25 @@ public class EnglishBridleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 			if (stack.getItem() instanceof BridleItem) {
 				BridleItem bridleItem = (BridleItem)stack.getItem();
 				if (shouldRender(stack, entitylivingbaseIn)) {
-					matrixStackIn.push();
-					matrixStackIn.translate(0.0D, 1.7D, 0.125D);
-					matrixStackIn.rotate(new Quaternion(0.0f, 0.0f, 1.0f, 0.0f));
-					this.modelBridle.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-					IVertexBuilder ivertexbuilder = ItemRenderer.getArmorVertexBuilder(bufferIn, RenderType.getArmorCutoutNoCull(bridleItem.getModelTexture()), false, stack.hasEffect());
-					this.modelBridle.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-					matrixStackIn.pop();
+					this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json")),
+							entitylivingbaseIn,
+							partialTicks,
+							RenderType.entityCutout(bridleItem.getModelTexture()),
+							matrixStackIn,
+							bufferIn,
+							bufferIn.getBuffer(RenderType.entityCutout(bridleItem.getModelTexture())),
+							packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
+					);
+
+					this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json")),
+							entitylivingbaseIn,
+							partialTicks,
+							RenderType.entityCutout(bridleItem.getArmorTexture()),
+							matrixStackIn,
+							bufferIn,
+							bufferIn.getBuffer(RenderType.entityCutout(bridleItem.getArmorTexture())),
+							packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
+					);
 
 				}
 			}

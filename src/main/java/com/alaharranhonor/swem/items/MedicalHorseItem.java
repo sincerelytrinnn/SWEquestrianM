@@ -8,6 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 
+import net.minecraft.item.Item.Properties;
+
 public class MedicalHorseItem extends Item {
 	private float heal;
 	private float xp;
@@ -19,8 +21,8 @@ public class MedicalHorseItem extends Item {
 	}
 
 	@Override
-	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-		if (!playerIn.world.isRemote) {
+	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+		if (!playerIn.level.isClientSide) {
 			if (target instanceof SWEMHorseEntityBase) {
 				SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
 

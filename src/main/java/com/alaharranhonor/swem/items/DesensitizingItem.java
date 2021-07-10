@@ -18,32 +18,32 @@ public class DesensitizingItem extends ItemBase {
 	}
 
 	@Override
-	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (target instanceof SWEMHorseEntityBase) {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
 			switch (this.id) {
 				case 0: {
-					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(1, horse.getEntityId()));
-					return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(1, horse.getId()));
+					return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
 				}
 				case 1: {
-					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(2, horse.getEntityId()));
-					return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(2, horse.getId()));
+					return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
 				}
 				case 2: {
-					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(3, horse.getEntityId()));
-					return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(3, horse.getId()));
+					return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
 				}
 				case 3: {
-					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(4, horse.getEntityId()));
-					return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(4, horse.getId()));
+					return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
 				}
 				case 4: {
-					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(5, horse.getEntityId()));
-					return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(5, horse.getId()));
+					return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
 				}
 			}
 		}
-		return super.itemInteractionForEntity(stack, playerIn, target, hand);
+		return super.interactLivingEntity(stack, playerIn, target, hand);
 	}
 }
