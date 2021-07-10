@@ -1,6 +1,6 @@
 package com.alaharranhonor.swem.items.potions;
 
-import com.alaharranhonor.swem.util.initialization.SWEMItems;
+import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.potion.Potions;

@@ -1,7 +1,7 @@
 package com.alaharranhonor.swem.container;
 
 import com.alaharranhonor.swem.items.SWEMArmorItem;
-import com.alaharranhonor.swem.util.initialization.SWEMContainers;
+import com.alaharranhonor.swem.util.registry.SWEMContainers;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;

@@ -3,9 +3,9 @@ package com.alaharranhonor.swem.container;
 import com.alaharranhonor.swem.blocks.HitchingPostBase;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.items.tack.HalterItem;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import com.alaharranhonor.swem.util.initialization.SWEMContainers;
-import com.alaharranhonor.swem.util.initialization.SWEMItems;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMContainers;
+import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
@@ -387,7 +387,7 @@ public class SaddlebagContainer extends Container {
 	 * Handle when the stack in slot {@code index} is shift-clicked. Normally this moves the stack between the player
 	 * inventory and the other inventory(s).
 	 */
-	public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+	public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.slots.get(index);
 		if (slot != null && slot.hasItem()) {

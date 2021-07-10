@@ -1,6 +1,6 @@
 package com.alaharranhonor.swem.blocks.jumps;
 
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -14,8 +14,6 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
-
-import net.minecraft.block.AbstractBlock.Properties;
 
 public class JumpControllerBlock extends HorizontalBlock {
 	public JumpControllerBlock(Properties properties) {

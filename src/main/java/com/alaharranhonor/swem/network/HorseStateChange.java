@@ -3,7 +3,7 @@ package com.alaharranhonor.swem.network;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.BedrollContainer;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.util.initialization.SWEMItems;
+import com.alaharranhonor.swem.util.registry.SWEMItems;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import net.minecraft.entity.player.PlayerEntity;

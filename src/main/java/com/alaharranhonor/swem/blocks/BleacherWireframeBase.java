@@ -1,6 +1,6 @@
 package com.alaharranhonor.swem.blocks;
 
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -18,9 +18,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 import java.util.stream.Stream;
-
-
-import net.minecraft.block.AbstractBlock.Properties;
 
 public class BleacherWireframeBase extends SlabBlock {
 

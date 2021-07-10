@@ -2,8 +2,8 @@ package com.alaharranhonor.swem.entities.needs;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import com.alaharranhonor.swem.util.initialization.SWEMItems;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;

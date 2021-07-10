@@ -2,8 +2,8 @@ package com.alaharranhonor.swem.blocks;
 
 import com.alaharranhonor.swem.items.tack.HalterItem;
 import com.alaharranhonor.swem.tileentity.BridleRackTE;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import com.alaharranhonor.swem.util.initialization.SWEMTileEntities;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.*;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,8 +26,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nullable;
-
-import net.minecraft.block.AbstractBlock.Properties;
 
 public class BridleRackBlock extends HorizontalBlock {
 

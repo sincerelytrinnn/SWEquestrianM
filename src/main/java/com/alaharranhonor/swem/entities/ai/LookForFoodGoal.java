@@ -2,7 +2,7 @@ package com.alaharranhonor.swem.entities.ai;
 
 import com.alaharranhonor.swem.blocks.SlowFeederBlock;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.goal.Goal;

@@ -1,11 +1,10 @@
-package com.alaharranhonor.swem.util.initialization;
+package com.alaharranhonor.swem.util.registry;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.blocks.*;
 import com.alaharranhonor.swem.blocks.BarrelBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpControllerBlock;
-import com.alaharranhonor.swem.blocks.jumps.JumpLayer;
 import com.alaharranhonor.swem.blocks.jumps.JumpStandardBlock;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;

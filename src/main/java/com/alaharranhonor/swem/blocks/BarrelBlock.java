@@ -1,6 +1,6 @@
 package com.alaharranhonor.swem.blocks;
 
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -25,8 +25,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-
-import net.minecraft.block.AbstractBlock.Properties;
 
 public class BarrelBlock extends Block {
 	public static final EnumProperty<HitchingPostBase.PostPart> PART = SWEMBlockStateProperties.POST_PART;

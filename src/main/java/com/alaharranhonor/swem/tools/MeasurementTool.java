@@ -2,14 +2,12 @@ package com.alaharranhonor.swem.tools;
 
 import com.alaharranhonor.swem.blocks.jumps.JumpControllerBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpLayer;
-import com.alaharranhonor.swem.blocks.jumps.JumpStandardBlock;
 import com.alaharranhonor.swem.blocks.jumps.StandardLayer;
 import com.alaharranhonor.swem.container.JumpContainer;
 import com.alaharranhonor.swem.items.ItemBase;
 import com.alaharranhonor.swem.tileentity.JumpPasserTE;
 import com.alaharranhonor.swem.tileentity.JumpTE;
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
-import net.minecraft.entity.LivingEntity;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;

@@ -1,7 +1,7 @@
 package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.util.initialization.*;
+import com.alaharranhonor.swem.util.registry.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.IForgeRegistryEntry;

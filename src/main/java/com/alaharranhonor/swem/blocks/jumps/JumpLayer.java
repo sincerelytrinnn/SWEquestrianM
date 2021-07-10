@@ -1,15 +1,13 @@
 
 package com.alaharranhonor.swem.blocks.jumps;
 
-import com.alaharranhonor.swem.util.initialization.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraftforge.fml.RegistryObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.alaharranhonor.swem.blocks.SWEMBlockStateProperties.*;
 
 import com.alaharranhonor.swem.blocks.SWEMBlockStateProperties.TripleBlockSide;
 

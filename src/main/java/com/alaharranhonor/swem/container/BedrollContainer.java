@@ -2,7 +2,7 @@ package com.alaharranhonor.swem.container;
 
 import com.alaharranhonor.swem.blocks.FuelBlockItemBase;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.util.initialization.SWEMContainers;
+import com.alaharranhonor.swem.util.registry.SWEMContainers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
@@ -87,7 +87,7 @@ public class BedrollContainer extends Container {
 	 * Handle when the stack in slot {@code index} is shift-clicked. Normally this moves the stack between the player
 	 * inventory and the other inventory(s).
 	 */
-	public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+	public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.slots.get(index);
 		if (slot != null && slot.hasItem()) {
