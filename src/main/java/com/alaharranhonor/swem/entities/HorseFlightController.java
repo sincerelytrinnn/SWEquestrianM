@@ -58,17 +58,39 @@ public class HorseFlightController {
 			}
 
 			if (horse.getEntityData().get(isAccelerating)) {
-				horse.setDeltaMovement(0, 0, 0);
+				horse.setDeltaMovement(horse.getLookAngle().x * 0.75, 0, horse.getLookAngle().z * 0.75);
 			}
 
-			if (horse.getEntityData().get(isTurning)) {
+			if (horse.getEntityData().get(isSlowingDown)) {
+				slowingDownCounter++;
+				double xMove = Math.max(horse.getLookAngle().x * (0.75 / slowingDownCounter * 3.5), horse.getLookAngle().x * 0.25);
+				double zMove = Math.max(horse.getLookAngle().z * (0.75 / slowingDownCounter * 3.5), horse.getLookAngle().z * 0.25);
+				horse.setDeltaMovement(xMove, 0, zMove);
 
-				turningCounter++;
-				horse.yRot = horse.yRot + 1;
-				horse.yRotO = horse.yRot;
-				horse.setRot(horse.yRot, horse.xRot);
-				System.out.println("yRot: " + horse.yRot);
+				if (slowingDownCounter == 20) {
+					horse.getEntityData().set(isSlowingDown, false);
+				}
 			}
+
+			if (horse.getEntityData().get(didFlap)) {
+				flapCounter++;
+
+				Vector3d moveVec = horse.getDeltaMovement();
+
+
+
+				if (flapCounter == 20) {
+					flapCounter = 0;
+					horse.getEntityData().set(didFlap, false);
+					horse.setDeltaMovement(moveVec.x, 0, moveVec.z);
+				} else {
+					horse.setDeltaMovement(moveVec.x, 0.5 / flapCounter, moveVec.z);
+				}
+
+
+			}
+
+
 
 
 
@@ -91,7 +113,26 @@ public class HorseFlightController {
 
 
 		}
+		if (horse.getEntityData().get(isTurning)) {
+
+			int rotInc = horse.getEntityData().get(isTurningLeft) ? -2 : 2;
+
+			horse.setRot(horse.yRot + rotInc, horse.xRot);
+			horse.setYBodyRot(horse.yRot);
+			horse.setYHeadRot(horse.yBodyRot);
+
+			if (!horse.level.isClientSide) {
+				turningCounter++;
+				if (turningCounter == 20) {
+					horse.getEntityData().set(isTurning, false);
+					turningCounter = 0;
+				}
+			}
+		}
+
 		horse.move(MoverType.SELF, horse.getDeltaMovement());
+
+		horse.baseTick();
 	};
 
 	private void clientTravel() {
@@ -116,13 +157,13 @@ public class HorseFlightController {
 
 		}
 
-		if (Minecraft.getInstance().options.keyJump.isDown()) {
+		if (Minecraft.getInstance().options.keyJump.consumeClick()) {
 			SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlightPacket(5, horse.getId()));
 
 
 		}
 
-		if (!Minecraft.getInstance().options.keyUp.isDown() && !Minecraft.getInstance().options.keyLeft.isDown() && !Minecraft.getInstance().options.keyRight.isDown()) {
+		if (!Minecraft.getInstance().options.keyUp.isDown() && !Minecraft.getInstance().options.keyLeft.isDown() && !Minecraft.getInstance().options.keyRight.isDown() && !horse.getEntityData().get(didFlap) && !horse.getEntityData().get(isSlowingDown)) {
 			SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlightPacket(0, horse.getId()));
 
 		}
