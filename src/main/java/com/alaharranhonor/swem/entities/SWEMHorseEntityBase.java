@@ -217,15 +217,7 @@ public class SWEMHorseEntityBase
 	public void aiStep()
 	{
 
-		if (this.level.isClientSide)
-		{
 
-			if (this.onGround && this.isJumping()) {
-				this.playerJumpPendingScale = 0.0F;
-				this.setIsJumping(false);
-				SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(8, this.getId()));
-			}
-		}
 		if (!this.level.isClientSide) {
 			if ((int)(this.level.getDayTime() % 24000L) == 10000) {
 				this.resetDaily();
@@ -380,6 +372,11 @@ public class SWEMHorseEntityBase
 	public boolean isJumping() {
 		return this.entityData.get(JUMPING);
 	}
+
+	public boolean shouldJumpAnimationPlay() {
+		return this.isJumping;
+	}
+
 
 	public boolean isSaddleable() {
 		return this.isAlive() && !this.isBaby() && this.isTamed();
@@ -1198,6 +1195,7 @@ public class SWEMHorseEntityBase
 				f1 = 0.0F;
 			}
 
+
 			 // Check if RNG is higher roll, than disobeying debuff, if so, then do the jump.
 			if (this.playerJumpPendingScale > 0.0F && !this.isJumping() && this.onGround && !this.isFlying()) {
 				double d0 = this.getCustomJump() * (double) this.playerJumpPendingScale * (double) this.getBlockJumpFactor();
@@ -1209,7 +1207,6 @@ public class SWEMHorseEntityBase
 				}
 
 
-				SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(7, this.getId()));
 				//if (this.getDisobedienceFactor() > this.progressionManager.getAffinityLeveling().getDebuff()) {
 				Vector3d vector3d = this.getDeltaMovement();
 				this.setDeltaMovement(vector3d.x, d1, vector3d.z);
@@ -1281,6 +1278,37 @@ public class SWEMHorseEntityBase
 		}
 
 	}
+
+
+
+	@Override
+	public void onPlayerJump(int p_110206_1_) {
+		if (this.isSaddled()) {
+			if (p_110206_1_ < 0) {
+				p_110206_1_ = 0;
+			} else {
+				this.allowStandSliding = true;
+				this.setIsJumping(true);
+			}
+
+			if (p_110206_1_ >= 90) {
+				this.playerJumpPendingScale = 1.0F;
+			} else {
+				this.playerJumpPendingScale = 0.4F + 0.4F * (float)p_110206_1_ / 90.0F;
+			}
+
+		}
+	}
+
+	@Override
+	public void knockback(float p_233627_1_, double p_233627_2_, double p_233627_4_) {
+	}
+
+	@Override
+	public void handleStartJump(int p_184775_1_) {
+		this.playJumpSound();
+	}
+
 
 
 	@Nullable
