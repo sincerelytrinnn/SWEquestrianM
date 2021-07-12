@@ -1297,7 +1297,15 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public void handleStartJump(int p_184775_1_) {
-		this.playJumpSound();
+		if (this.getEntityData().get(FLYING)) {
+			this.playFlapWingSound();
+		} else {
+			this.playJumpSound();
+		}
+	}
+
+	private void playFlapWingSound() {
+		// TODO: ADD A FLAP WING SOUND AND PLAY IT HERE!
 	}
 
 
