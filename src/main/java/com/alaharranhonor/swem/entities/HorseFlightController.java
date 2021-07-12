@@ -69,6 +69,7 @@ public class HorseFlightController {
 
 				if (slowingDownCounter == 20) {
 					horse.getEntityData().set(isSlowingDown, false);
+					horse.getEntityData().set(isFloating, true);
 				}
 			}
 
@@ -79,12 +80,12 @@ public class HorseFlightController {
 
 
 
-				if (flapCounter == 20) {
+				if (flapCounter == 40) {
 					flapCounter = 0;
 					horse.getEntityData().set(didFlap, false);
 					horse.setDeltaMovement(moveVec.x, 0, moveVec.z);
 				} else {
-					horse.setDeltaMovement(moveVec.x, 0.5 / flapCounter, moveVec.z);
+					horse.setDeltaMovement(moveVec.x, 1.0 / flapCounter, moveVec.z);
 				}
 
 
