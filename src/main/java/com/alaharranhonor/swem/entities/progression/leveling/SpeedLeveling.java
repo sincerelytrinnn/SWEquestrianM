@@ -40,6 +40,7 @@ public class SpeedLeveling {
 		float excessXP = this.getXp() - this.getRequiredXp();
 		this.setLevel(this.getLevel() + 1);
 		this.setXp(excessXP);
+		this.horse.levelUpSpeed();
 	}
 
 	public int getLevel() {

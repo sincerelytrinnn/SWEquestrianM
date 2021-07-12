@@ -43,7 +43,6 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
 		ItemStack saddle = tile.itemHandler.getStackInSlot(1);
 
 		if (!(armor.getItem() == Items.AIR || armor == ItemStack.EMPTY)) {
-			SWEM.LOGGER.debug("Armor not empty/air");
 			SWEMHorseArmorItem armorItem = (SWEMHorseArmorItem)armor.getItem();
 			IVertexBuilder ivertexbuilder = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(armorItem.getRackTexture()), false, armor.hasFoil());
 			GeoModel geoModel = armorModelGeo.getModel(armorModelGeo.getModelLocation(armorItem));
@@ -167,7 +166,6 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
 		}
 
 		if (!(saddle.getItem() == Items.AIR || saddle == ItemStack.EMPTY)) {
-			SWEM.LOGGER.debug("Saddle not empty/air");
 			AdventureSaddleItem saddleItem = (AdventureSaddleItem)saddle.getItem();
 			IVertexBuilder ivertexbuilder = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(saddleItem.getSaddleRackTexture()), false, saddle.hasFoil());
 			GeoModel geoModel = saddleModel.getModel(saddleModel.getModelLocation(saddleItem));
