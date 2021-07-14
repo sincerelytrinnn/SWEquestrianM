@@ -1008,15 +1008,13 @@ public class SWEMHorseEntityBase
 						z = Math.abs(z - this.currentPos.getZ());
 						int dist = ((int)Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)));
 						if (dist > 0 && dist < 25) {
-							boolean speedLevelUp = false;
+
 							if (this.currentSpeed == HorseSpeed.CANTER) {
-								speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist);
+								this.progressionManager.getSpeedLeveling().addXP(dist);
 							} else if (this.currentSpeed == HorseSpeed.GALLOP) {
-								speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist * 2);
+								this.progressionManager.getSpeedLeveling().addXP(dist * 2);
 							}
-							if (speedLevelUp) {
-								this.levelUpSpeed();
-							}
+
 							// Affinity leveling, is not affected by speed. so no matter the speed, just add 1xp per block.
 							this.progressionManager.getAffinityLeveling().addXP(dist);
 						}

@@ -7,6 +7,8 @@ import net.minecraft.item.*;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.stats.Stats;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -114,6 +116,16 @@ public class HitchingPostBase extends Block {
 			return Blocks.AIR.defaultBlockState();
 		}
 		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+	}
+
+	@Override
+	public void playerDestroy(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, @org.jetbrains.annotations.Nullable TileEntity p_180657_5_, ItemStack p_180657_6_) {
+		player.awardStat(Stats.BLOCK_MINED.get(this));
+		player.causeFoodExhaustion(0.005F);
+
+		if (!player.abilities.instabuild) {
+			dropResources(state, worldIn, pos);
+		}
 	}
 
 	public enum HitchingPostType {

@@ -13,7 +13,7 @@ public class AdventureSaddleModel extends AnimatedGeoModel<AdventureSaddleItem> 
 
 	@Override
 	public ResourceLocation getTextureLocation(AdventureSaddleItem westernSaddleItem) {
-		return westernSaddleItem.getTexture();
+		return westernSaddleItem.getSaddleRackTexture();
 	}
 
 	@Override
