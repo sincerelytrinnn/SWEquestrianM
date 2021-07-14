@@ -14,7 +14,7 @@ public class EnglishSaddleModel extends AnimatedGeoModel<EnglishSaddleItem> {
 
 	@Override
 	public ResourceLocation getTextureLocation(EnglishSaddleItem westernSaddleItem) {
-		return westernSaddleItem.getSaddleRackTexture();
+		return westernSaddleItem.getTexture();
 	}
 
 	@Override
