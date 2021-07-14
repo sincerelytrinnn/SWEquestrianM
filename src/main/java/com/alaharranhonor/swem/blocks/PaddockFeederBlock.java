@@ -182,9 +182,6 @@ public class PaddockFeederBlock extends Block {
 				level++;
 				worldIn.setBlock(pos1, state1.setValue(LEVEL, MathHelper.clamp(level, 0, 3)), 3);
 				worldIn.setBlock(posOther, stateOther.setValue(LEVEL, MathHelper.clamp(level, 0, 3)), 3);
-				if (!player.abilities.instabuild) {
-					stack.shrink(1);
-				}
 				return ActionResultType.CONSUME;
 			} else {
 				return ActionResultType.FAIL;
@@ -245,7 +242,7 @@ public class PaddockFeederBlock extends Block {
 
 
 	public PushReaction getPushReaction(BlockState state) {
-		return PushReaction.IGNORE;
+		return PushReaction.DESTROY;
 	}
 
 

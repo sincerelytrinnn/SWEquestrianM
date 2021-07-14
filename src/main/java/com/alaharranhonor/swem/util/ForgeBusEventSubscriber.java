@@ -8,7 +8,6 @@ import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.network.*;
 import com.alaharranhonor.swem.world.gen.SWEMOreGen;
-import com.alaharranhonor.swem.world.structure.SWEMConfiguredStructures;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -52,10 +51,6 @@ public class ForgeBusEventSubscriber {
 			// Nether oregen
 		} else {
 			SWEMOreGen.generateOverworldOres(event);
-		}
-
-		if (event.getCategory() == Biome.Category.PLAINS) {
-			event.getGeneration().getStructures().add(() -> SWEMConfiguredStructures.CONFIGURED_BARN);
 		}
 	}
 
