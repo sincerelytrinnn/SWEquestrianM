@@ -1932,10 +1932,10 @@ public class SWEMHorseEntityBase
 
 	public enum HorseSpeed {
 
-		WALK(new AttributeModifier("HORSE_WALK", -0.8d, AttributeModifier.Operation.MULTIPLY_TOTAL), 0),
-		TROT(new AttributeModifier("HORSE_TROT", -0.6d, AttributeModifier.Operation.MULTIPLY_TOTAL), 1),
-		CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.MULTIPLY_TOTAL), 2),
-		GALLOP(new AttributeModifier("HORSE_GALLOP", 0.07115276974015008d, AttributeModifier.Operation.ADDITION), 3);
+		WALK(new AttributeModifier("HORSE_WALK", -0.85d, AttributeModifier.Operation.MULTIPLY_TOTAL), 0),
+		TROT(new AttributeModifier("HORSE_TROT", -0.65d, AttributeModifier.Operation.MULTIPLY_TOTAL), 1),
+		CANTER(new AttributeModifier("HORSE_CANTER", -0.1d, AttributeModifier.Operation.MULTIPLY_TOTAL), 2),
+		GALLOP(new AttributeModifier("HORSE_GALLOP", 0, AttributeModifier.Operation.ADDITION), 3);
 		private AttributeModifier modifier;
 		private int speedLevel;
 		HorseSpeed(AttributeModifier modifier, int speedLevel) {
