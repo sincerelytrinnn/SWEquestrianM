@@ -17,6 +17,7 @@ import net.minecraft.resources.IResourcePack;
 import net.minecraft.resources.data.IMetadataSectionSerializer;
 import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib3.GeckoLib;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.geo.render.built.GeoBone;
@@ -31,7 +32,7 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T>, IResourceManager {
+public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> {
 
 	public static final RiderGeoRenderer<RiderEntity> INSTANCE = new RiderGeoRenderer<>();
 
@@ -75,7 +76,7 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T>,
 		}
 	}
 
-	@Override
+	/*@Override
 	public Set<String> getNamespaces() {
 		return ImmutableSet.of("swem");
 	}
@@ -98,7 +99,9 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T>,
 					System.out.println(p_199002_1_);
 					System.out.println("Working dir: " + System.getProperty("user.dir"));
 
-					File f1 = new File(p_199002_1_.getPath());
+					IResourceManager
+
+					File f1 = new File("./resources/assets/swem/" + p_199002_1_.getPath());
 					System.out.println(f1.getAbsolutePath());
 					String anim;
 					if (f1.exists()) {
@@ -158,5 +161,5 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T>,
 	@Override
 	public Stream<IResourcePack> listPacks() {
 		return null;
-	}
+	}*/
 }

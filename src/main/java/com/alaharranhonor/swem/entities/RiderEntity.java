@@ -2,7 +2,9 @@ package com.alaharranhonor.swem.entities;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entity.render.RiderGeoRenderer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimatableModel;
@@ -45,7 +47,7 @@ public class RiderEntity implements IAnimatable {
 
 				@Override
 				public Animation getAnimation(String s, IAnimatable iAnimatable) {
-					return new AnimationFileLoader().loadAllAnimations(GeckoLibCache.getInstance().parser, new ResourceLocation(SWEM.MOD_ID, "animations/rider.animation.json"), RiderGeoRenderer.INSTANCE).getAnimation(s);
+					return new AnimationFileLoader().loadAllAnimations(GeckoLibCache.getInstance().parser, new ResourceLocation(SWEM.MOD_ID, "animations/rider.animation.json"), Minecraft.getInstance().getResourceManager()).getAnimation(s);
 				}
 
 				@Override
