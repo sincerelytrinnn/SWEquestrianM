@@ -3,15 +3,20 @@ package com.alaharranhonor.swem.util;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.AmethystRidingBoots;
 import com.alaharranhonor.swem.commands.DevCommand;
-import com.alaharranhonor.swem.commands.YeetCommand;
 import com.alaharranhonor.swem.config.ConfigHolder;
+import com.alaharranhonor.swem.entities.RiderEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.entity.render.RiderGeoRenderer;
 import com.alaharranhonor.swem.network.*;
 import com.alaharranhonor.swem.world.gen.SWEMOreGen;
 import com.alaharranhonor.swem.world.structure.SWEMConfiguredStructures;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.PlayerRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,12 +24,14 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -33,6 +40,9 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
+
+import java.util.HashMap;
 
 
 @Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -41,6 +51,8 @@ public class ForgeBusEventSubscriber {
 	public static final ResourceLocation GUI_ICONS_LOCATION = new ResourceLocation(SWEM.MOD_ID, "textures/gui/icons.png");
 
 	private static int KEY_PRESS_COUNTER = 0;
+
+	private static final HashMap<PlayerEntity, RiderEntity> animatedPlayers = new HashMap<>();
 
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void onBiomeLoading(BiomeLoadingEvent event)
@@ -83,7 +95,7 @@ public class ForgeBusEventSubscriber {
 
 	@SubscribeEvent
 	public static void onKeyPress(InputEvent.KeyInputEvent event) {
-		KeyBinding[] keyBindings = ClientEventBusSubscriber.keyBindings;
+		KeyBinding[] keyBindings = ClientModEventBusSubscriber.keyBindings;
 		if (KEY_PRESS_COUNTER == 1) {
 
 			if (keyBindings[0].consumeClick()) {
@@ -248,5 +260,36 @@ public class ForgeBusEventSubscriber {
 		if (stack.getItem() instanceof AmethystRidingBoots) {
 			event.setAmount(-1);
 		}
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	@SubscribeEvent
+	public static void onPlayerRender(RenderPlayerEvent.Pre event) {
+		event.getMatrixStack().pushPose();
+
+		if (!animatedPlayers.containsKey(event.getPlayer()))
+			animatedPlayers.put(event.getPlayer(), new RiderEntity(event.getPlayer()));
+
+		Entity entity = event.getPlayer().getVehicle();
+		if (entity instanceof SWEMHorseEntityBase) {
+			event.setCanceled(true);
+
+			event.getMatrixStack().mulPose(new Quaternion(0, 180 - event.getPlayer().getVehicle().getViewYRot(event.getPartialRenderTick()), 0, true));
+
+			RiderGeoRenderer.INSTANCE.render(
+					RiderGeoRenderer.INSTANCE.getGeoModelProvider().getModel(RiderGeoRenderer.INSTANCE.getGeoModelProvider().getModelLocation(null)),
+					animatedPlayers.get(event.getPlayer()),
+					event.getPartialRenderTick(),
+					RenderType.entityCutoutNoCull(event.getRenderer().getTextureLocation((AbstractClientPlayerEntity) event.getPlayer())),
+					event.getMatrixStack(),
+					event.getBuffers(),
+					null,
+					event.getLight(),
+					OverlayTexture.NO_OVERLAY,
+					1, 1, 1, 1
+			);
+		}
+
+		event.getMatrixStack().popPose();
 	}
 }
