@@ -9,7 +9,7 @@ public class RiderModel extends AnimatedGeoModel<RiderEntity> {
 
 	@Override
 	public ResourceLocation getModelLocation(RiderEntity r) {
-		return new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/rider.geo.json");
+		return new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/rider_steve.geo.json");
 	}
 
 	@Override
@@ -19,6 +19,6 @@ public class RiderModel extends AnimatedGeoModel<RiderEntity> {
 
 	@Override
 	public ResourceLocation getAnimationFileLocation(RiderEntity r) {
-		return new ResourceLocation(SWEM.MOD_ID, "animations/rider.animation.json");
+		return new ResourceLocation(SWEM.MOD_ID, "animations/rider_steve.animation.json");
 	}
 }

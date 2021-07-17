@@ -3,9 +3,12 @@ package com.alaharranhonor.swem.entities;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entity.render.RiderGeoRenderer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.PlayerRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimatableModel;
 import software.bernie.geckolib3.core.PlayState;
@@ -17,7 +20,10 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.core.processor.AnimationProcessor;
 import software.bernie.geckolib3.file.AnimationFileLoader;
+import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 import software.bernie.geckolib3.resource.GeckoLibCache;
+
+import static com.alaharranhonor.swem.entities.SWEMHorseEntityBase.SPEED_LEVEL;
 
 public class RiderEntity implements IAnimatable {
 	private final PlayerEntity player;
@@ -47,7 +53,7 @@ public class RiderEntity implements IAnimatable {
 
 				@Override
 				public Animation getAnimation(String s, IAnimatable iAnimatable) {
-					return new AnimationFileLoader().loadAllAnimations(GeckoLibCache.getInstance().parser, new ResourceLocation(SWEM.MOD_ID, "animations/rider.animation.json"), Minecraft.getInstance().getResourceManager()).getAnimation(s);
+					return new AnimationFileLoader().loadAllAnimations(GeckoLibCache.getInstance().parser, new ResourceLocation(SWEM.MOD_ID, "animations/rider_steve.animation.json"), Minecraft.getInstance().getResourceManager()).getAnimation(s);
 				}
 
 				@Override
@@ -67,8 +73,28 @@ public class RiderEntity implements IAnimatable {
 	}
 
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		System.out.println("RIDER PREDICATE CALLED");
-		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+		Entity entity = this.getPlayer().getVehicle();
+		if (entity instanceof SWEMHorseEntityBase) {
+			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+			float limbSwingAmount = MathHelper.lerp(event.getPartialTick(), horse.animationSpeedOld, horse.animationSpeed);
+
+			boolean isMoving = limbSwingAmount <= -0.15F || limbSwingAmount >= 0.15F;
+
+			if (!isMoving) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Idle"));
+			} else {
+				if (horse.getEntityData().get(SPEED_LEVEL) == 0) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Walk"));
+				} else if (horse.getEntityData().get(SPEED_LEVEL) == 1) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Trot"));
+				} else if (horse.getEntityData().get(SPEED_LEVEL) == 2) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Canter"));
+				} else if (horse.getEntityData().get(SPEED_LEVEL) == 3) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Gallop"));
+				}
+			}
+
+		}
 		return PlayState.CONTINUE;
 	}
 
