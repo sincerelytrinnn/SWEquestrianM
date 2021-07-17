@@ -42,14 +42,14 @@ import org.lwjgl.glfw.GLFW;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
 @Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ClientEventBusSubscriber {
+public class ClientModEventBusSubscriber {
 
     public static KeyBinding[] keyBindings;
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event)
     {
-        DeferredWorkQueue.runLater(ClientEventBusSubscriber::initLate);
+        DeferredWorkQueue.runLater(ClientModEventBusSubscriber::initLate);
         registerRenderers(event);
         setRenderLayers();
         registerKeybinds();
@@ -211,15 +211,6 @@ public class ClientEventBusSubscriber {
     public static void onRegisterItems(RegistryEvent.Register<Item> event) {
             event.getRegistry().register(new SWEMSpawnEggItem(SWEMEntities.WORMIE_BOI_ENTITY, Color.parseColor("#bf7b05").getValue(), Color.parseColor("#663c02").getValue(), new Item.Properties().tab(SWEM.TAB)).setRegistryName("worm_spawn_egg"));
             event.getRegistry().register(new SWEMSpawnEggItem(SWEMEntities.SWEM_HORSE_ENTITY, Color.parseColor("#bf7b05").getValue(), Color.parseColor("#663c02").getValue(), new Item.Properties().tab(SWEM.TAB)).setRegistryName("swem_horse_spawn_egg"));
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
-    public static void onPlayerRender(RenderPlayerEvent event) {
-        Entity entity = event.getPlayer().getVehicle();
-        if (entity instanceof SWEMHorseEntityBase) {
-            event.setCanceled(true);
-        }
     }
 
 
