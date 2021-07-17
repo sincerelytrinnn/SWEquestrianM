@@ -28,8 +28,9 @@ public abstract class CauldronBlockMixin {
 	@Final
 	@Shadow public static final IntegerProperty LEVEL = BlockStateProperties.LEVEL_CAULDRON;
 
-
-	@Shadow public abstract void setWaterLevel(World worldIn, BlockPos pos, BlockState state, int level);
+	@Shadow public void setWaterLevel(World p_176590_1_, BlockPos p_176590_2_, BlockState p_176590_3_, int p_176590_4_) {
+		throw new IllegalStateException("Mixin failed to shadow setWaterLevel");
+	}
 
 	@Inject(at = @At("HEAD"), method = "Lnet/minecraft/block/CauldronBlock;use(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Hand;Lnet/minecraft/util/math/BlockRayTraceResult;)Lnet/minecraft/util/ActionResultType;", cancellable = true)
 	private void use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit, CallbackInfoReturnable<ActionResultType> callback) {
