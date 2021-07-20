@@ -152,7 +152,7 @@ public class HalfHorseDoorBlock extends Block {
 	/**
 	 * Called by ItemBlocks after a block is set in the world, to allow post-place logic
 	 */
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+	public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 
 		// Z-Axis is Norht/South
 		// X-Axis is East/West
@@ -501,7 +501,7 @@ public class HalfHorseDoorBlock extends Block {
 
 	}
 
-	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
+	public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
 		return this.getAllDoorParts(state, pos, (World) worldIn, true).stream().allMatch((pos1) ->  {
 			BlockState state1 = worldIn.getBlockState(pos1);
 			return state1 == Blocks.AIR.defaultBlockState();
@@ -518,7 +518,7 @@ public class HalfHorseDoorBlock extends Block {
 	}
 
 
-	public PushReaction getPushReaction(BlockState state) {
+	public PushReaction getPistonPushReaction(BlockState state) {
 		return PushReaction.DESTROY;
 	}
 
@@ -534,7 +534,7 @@ public class HalfHorseDoorBlock extends Block {
 
 
 	@OnlyIn(Dist.CLIENT)
-	public long getPositionRandom(BlockState state, BlockPos pos) {
+	public long getSeed(BlockState state, BlockPos pos) {
 		return MathHelper.getSeed(pos.getX(), pos.getY(), pos.getZ());
 	}
 
@@ -542,7 +542,7 @@ public class HalfHorseDoorBlock extends Block {
 		builder.add(FACING, OPEN, HINGE, SIDE);
 	}
 
-	public static boolean isWooden(World world, BlockPos pos) {
+	public static boolean isWoodenDoor(World world, BlockPos pos) {
 		return isWooden(world.getBlockState(pos));
 	}
 
