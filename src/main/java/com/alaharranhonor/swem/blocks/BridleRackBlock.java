@@ -87,8 +87,6 @@ public class BridleRackBlock extends HorizontalBlock {
 	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
 		if (facing == stateIn.getValue(FACING)) {
 			if (!facingState.canOcclude()) {
-				ItemEntity entity = new ItemEntity((World) worldIn, currentPos.getX(), currentPos.getY(), currentPos.getZ(), new ItemStack(SWEMBlocks.BRIDLE_RACK_ITEM.get()));
-				worldIn.addFreshEntity(entity);
 				return Blocks.AIR.defaultBlockState();
 			}
 		}
