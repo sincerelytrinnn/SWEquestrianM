@@ -65,7 +65,7 @@ public final class ServerConfig {
 		this.serverTickPoopNeed = builder.comment("Enable Poop ticking on swem horses?").translation("swem.config.enablePoopTick").define("poopTick", true);
 		this.serverTickPeeNeed = builder.comment("Enable Pee ticking on swem horses?").translation("swem.config.enablePeeTick").define("peeTick", true);
 		builder.comment("Set the option below to true, if you just want a piece of lapis lazuli to cycle the coats.");
-		this.lapisCycleCoats = builder.comment("Enable Lapis Lazuli coat cycling?").translation("swem.config.enableLapisCycle").define("lapisCycle", false);
+		this.lapisCycleCoats = builder.comment("Enable Lapis Lazuli coat cycling?").translation("swem.config.enableLapisCycle").define("lapisCycle", true);
 
 			builder.push("Tack Dependencies");
 			this.halterDependency = builder.comment("Enable/Disable the halter, being needed for any other tack.").translation("swem.config.halterDep").define("HalterDependency", true);
