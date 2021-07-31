@@ -277,7 +277,7 @@ public class ForgeBusEventSubscriber {
 			event.getMatrixStack().mulPose(new Quaternion(0, 180 - event.getPlayer().getVehicle().getViewYRot(event.getPartialRenderTick()), 0, true));
 
 			RiderGeoRenderer.INSTANCE.render(
-					RiderGeoRenderer.INSTANCE.getGeoModelProvider().getModel(RiderGeoRenderer.INSTANCE.getGeoModelProvider().getModelLocation(null)),
+					RiderGeoRenderer.INSTANCE.getGeoModelProvider().getModel(RiderGeoRenderer.INSTANCE.getGeoModelProvider().getModelLocation(animatedPlayers.get(event.getPlayer()))),
 					animatedPlayers.get(event.getPlayer()),
 					event.getPartialRenderTick(),
 					RenderType.entityCutoutNoCull(event.getRenderer().getTextureLocation((AbstractClientPlayerEntity) event.getPlayer())),
