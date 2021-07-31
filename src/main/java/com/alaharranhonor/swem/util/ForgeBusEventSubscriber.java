@@ -219,7 +219,7 @@ public class ForgeBusEventSubscriber {
 		event.setCanceled(true);
 		SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 
-		int xPosition = event.getWindow().getGuiScaledHeight() / 2 - 100;
+		int xPosition = event.getWindow().getGuiScaledWidth() / 2 - 100;
 
 		float f = player.getJumpRidingScale();
 		int i = 201;
