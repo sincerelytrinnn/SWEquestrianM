@@ -447,7 +447,7 @@ public class SWEMHorseEntityBase
 	@Override
 	public double getPassengersRidingOffset() {
 		double def = (double)(this.getDimensions(this.getPose()).height * 0.75D);
-		def += 0.15D;
+		def += 0.3D;
 		return def;
 	}
 
