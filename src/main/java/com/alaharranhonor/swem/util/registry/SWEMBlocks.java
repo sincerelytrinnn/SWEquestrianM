@@ -123,7 +123,7 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> MEDIUM_FRIENDLY_BARS = BLOCKS.register("medium_friendly_bars", () -> new PaneBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
 	public static final RegistryObject<Block> DARK_FRIENDLY_BARS = BLOCKS.register("dark_friendly_bars", () -> new PaneBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
 	public static final RegistryObject<NonParallelBlock> WATER_TROUGH = BLOCKS.register("water_trough", () -> new WaterThroughBlock(AbstractBlock.Properties.of(Material.METAL), DyeColor.BLACK));
-	public static final RegistryObject<Block> WET_COMPOST = BLOCKS.register("wet_compost", () -> new Block(AbstractBlock.Properties.of(Material.GRASS)));
+	public static final RegistryObject<Block> WET_COMPOST = BLOCKS.register("wet_compost", () -> new Block(AbstractBlock.Properties.of(Material.GRASS).strength(0.5f, 0.5f).sound(SoundType.WET_GRASS)));
 	public static final RegistryObject<Block> COMPOST = BLOCKS.register("compost", () -> new Block(AbstractBlock.Properties.of(Material.GRASS)));
 	public static final RegistryObject<Block> HORSE_PEE = BLOCKS.register("horse_pee", () -> new PeeBlock(AbstractBlock.Properties.of(Material.GRASS).noOcclusion().isValidSpawn(Blocks::never).isRedstoneConductor(Blocks::never).isSuffocating(Blocks::never).isViewBlocking(Blocks::never)));
 	public static final RegistryObject<Block> CANTAZARITE_ANVIL = BLOCKS.register("cantazarite_anvil", () -> new CantazariteAnvilBlock(AbstractBlock.Properties.copy(Blocks.ANVIL).noOcclusion()));
