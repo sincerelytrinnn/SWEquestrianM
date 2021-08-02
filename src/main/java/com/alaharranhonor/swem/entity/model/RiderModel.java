@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.entity.model;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.RiderEntity;
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.entity.model.IHasArm;
@@ -25,6 +26,8 @@ public class RiderModel extends AnimatedGeoModel<RiderEntity> {
 	public ResourceLocation getTextureLocation(RiderEntity r) {
 		return new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/rider.png");
 	}
+
+
 
 	@Override
 	public ResourceLocation getAnimationFileLocation(RiderEntity r) {
@@ -65,4 +68,13 @@ public class RiderModel extends AnimatedGeoModel<RiderEntity> {
 			stack.mulPose(Vector3f.XP.rotation(bone.getRotationZ()));
 		}
 	}
+
+	public Iterable<GeoBone> headParts(GeoModel model) {
+		return ImmutableList.of(model.getBone("Head").get());
+	}
+
+	public Iterable<GeoBone> bodyParts(GeoModel model) {
+		return ImmutableList.of(model.getBone("Body").get(), model.getBone("RightArm").get(), model.getBone("LeftArm").get(), model.getBone("RightLeg").get(), model.getBone("LeftLeg").get());
+	}
+
 }
