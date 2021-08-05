@@ -136,10 +136,14 @@ public class BarnStructure extends Structure<NoFeatureConfig> {
 
 		// Combine the column of blocks with land height and you get the top block itself which you can test.
 		BlockState topBlock = columnOfBlocks.getBlockState(centerOfChunk.above(landHeight));
+		BlockState topBlockOneDown = columnOfBlocks.getBlockState(centerOfChunk.above(landHeight - 1));
+		BlockState topBlockTwoDown = columnOfBlocks.getBlockState(centerOfChunk.above(landHeight - 2));
+		BlockState topBlockThreeDown = columnOfBlocks.getBlockState(centerOfChunk.above(landHeight - 3));
+		BlockState topBlockFourDown = columnOfBlocks.getBlockState(centerOfChunk.above(landHeight - 3));
 
 		// Now we test to make sure our structure is not spawning on water or other fluids.
 		// You can do height check instead too to make it spawn at high elevations.
-		return topBlock.getFluidState().isEmpty() && !isNearVillage(chunkGenerator, seed, chunkRandom, chunkX, chunkZ); //landHeight > 100;
+		return topBlock.getFluidState().isEmpty() && topBlockOneDown.getFluidState().isEmpty() && topBlockTwoDown.getFluidState().isEmpty() && topBlockThreeDown.getFluidState().isEmpty() && topBlockFourDown.getFluidState().isEmpty() && !isNearVillage(chunkGenerator, seed, chunkRandom, chunkX, chunkZ); //landHeight > 100;
 
 
 	}
@@ -243,10 +247,8 @@ public class BarnStructure extends Structure<NoFeatureConfig> {
 			//
 			// By lifting the house up by 1 and lowering the bounding box, the land at bottom of house will now be
 			// flush with the surrounding terrain without blocking off the doorstep.
-			this.pieces.forEach(piece -> piece.move(0, 1, 0));
-			this.pieces.forEach(piece -> piece.getBoundingBox().y0 -= 1);
-
-			this.pieces.forEach(piece -> piece.move(0, -6, 0));
+			this.pieces.forEach(piece -> piece.move(0, -4, 0));
+			this.pieces.forEach(piece -> piece.getBoundingBox().y0 += 4);
 
 
 			// Sets the bounds of the structure once you are finished.
