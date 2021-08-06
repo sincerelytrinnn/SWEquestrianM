@@ -36,7 +36,7 @@
         {
           "type": "minecraft:item",
           "weight": 4,
-          "name": "swem:amethyst_bow_iron"
+          "name": "swem:iron_bow"
         },
         {
           "type": "minecraft:item",
