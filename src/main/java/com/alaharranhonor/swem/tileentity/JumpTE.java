@@ -456,7 +456,12 @@ public class JumpTE extends TileEntity {
 			}
 		}
 
-		this.currentStandard = StandardLayer.valueOf(nbt.getString("standard"));
+		if (nbt.contains("standard")) {
+			this.currentStandard = StandardLayer.valueOf(nbt.getString("standard"));
+		} else {
+			this.currentStandard = StandardLayer.SCHOOLING;
+		}
+
 
 		super.load(state, nbt);
 	}
