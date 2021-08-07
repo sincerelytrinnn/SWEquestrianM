@@ -220,7 +220,7 @@ public class SWEMBlocks {
 					block -> () -> new BlockItemBase(block.get())));
 			SEPARATORS.add(register("separator_"+color.toString(), () -> new NonParallelBlock(AbstractBlock.Properties.of(Material.METAL), color),
 					block -> () -> new BlockItemBase(block.get())));
-			GRAIN_FEEDERS.add(register("grain_feeder_"+color.toString(), () -> new GrainFeederBlock(AbstractBlock.Properties.of(Material.METAL), color),
+			GRAIN_FEEDERS.add(register("grain_feeder_"+color.toString(), () -> new GrainFeederBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion(), color),
 					block -> () -> new BlockItemBase(block.get())));
 			PASTURE_GATES_HORSE.add(register("pasture_"+color.toString() + "_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().strength(1.0f), color),
 					block -> () -> new BlockItemBase(block.get())));
