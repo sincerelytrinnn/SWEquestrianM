@@ -4,6 +4,7 @@ package com.alaharranhonor.swem.blocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.DyeColor;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
@@ -16,6 +17,7 @@ import net.minecraft.world.IBlockReader;
 
 import net.minecraft.block.AbstractBlock.Properties;
 import net.minecraft.world.IWorld;
+import org.jetbrains.annotations.Nullable;
 
 public class WaterThroughBlock extends NonParallelBlock {
 	public static final IntegerProperty LEVEL = SWEMBlockStateProperties.LEVEL_0_12;
@@ -42,7 +44,7 @@ public class WaterThroughBlock extends NonParallelBlock {
 		}
 
 		if (connections > 4) {
-			return orgState;
+			return this.defaultBlockState().setValue(FACING, stateIn.getValue(FACING));
 		}
 		return updated;
 
