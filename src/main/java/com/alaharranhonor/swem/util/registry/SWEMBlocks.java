@@ -102,6 +102,7 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> WESTERN_POLE = BLOCKS.register("western_pole", () -> new WesternPoleBlock(AbstractBlock.Properties.of(Material.WOOD)));
 	public static final RegistryObject<Block> INVISIBLE_GLOW_BLOCK = BLOCKS.register("invisible_glow_block", () -> new InvisibleGlowBlock(AbstractBlock.Properties.of(Material.METAL)));
 	public static final RegistryObject<Block> WESTERN_FENCE = BLOCKS.register("western_fence", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD)));
+	public static final RegistryObject<Block> ENGLISH_FENCE = register("english_fence", () -> new EnglishFenceBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion()));
 	public static final RegistryObject<Block> PASTURE_FENCE = BLOCKS.register("pasture_fence", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD)));
 	public static final RegistryObject<Block> TACK_BOX = BLOCKS.register("tack_box", () -> new TackBoxBlock(AbstractBlock.Properties.of(Material.METAL)));
 	public static final RegistryObject<HorseDoorBlock> ACACIA_STALL_HORSE = BLOCKS.register("acacia_stall_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().strength(1.0f), DyeColor.BLACK));
