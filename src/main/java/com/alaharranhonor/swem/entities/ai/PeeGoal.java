@@ -76,7 +76,7 @@ public class PeeGoal extends Goal {
 		if (this.peeTimer == 4 && ConfigHolder.SERVER.serverTickPoopNeed.get()) {
 			BlockPos blockpos = this.peeEntity.blockPosition();
 			BlockPos bestPos = this.getPosOfBestBlock(blockpos);
-			this.pee(bestPos);
+			//this.pee(bestPos);
 		}
 
 	}
