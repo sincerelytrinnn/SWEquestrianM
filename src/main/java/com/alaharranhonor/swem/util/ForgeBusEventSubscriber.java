@@ -3,6 +3,7 @@ package com.alaharranhonor.swem.util;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.AmethystRidingBoots;
 import com.alaharranhonor.swem.commands.DevCommand;
+import com.alaharranhonor.swem.commands.SWEMCommand;
 import com.alaharranhonor.swem.commands.YeetCommand;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
@@ -79,6 +80,7 @@ public class ForgeBusEventSubscriber {
 	public static void registerCommands(RegisterCommandsEvent event) {
 		//event.getDispatcher().register(YeetCommand.register());
 		event.getDispatcher().register(DevCommand.register());
+		event.getDispatcher().register(SWEMCommand.register());
 	}
 
 	@SubscribeEvent
@@ -190,6 +192,21 @@ public class ForgeBusEventSubscriber {
 		if (entity instanceof SWEMHorseEntityBase) {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 			if (horse.isFlying()) {
+				event.setCanceled(true);
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public static void canEntityBeMounted(EntityMountEvent event) {
+		if (!event.isMounting()) return;
+		if (event.getEntityBeingMounted() == null) return;
+
+		Entity entity = event.getEntityBeingMounted();
+		if (entity instanceof SWEMHorseEntityBase) {
+			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+
+			if (!horse.canMountPlayer((PlayerEntity) event.getEntityMounting())){
 				event.setCanceled(true);
 			}
 		}

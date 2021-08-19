@@ -9,11 +9,15 @@ import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
+import com.alaharranhonor.swem.network.HorseStateChange;
+import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.util.SWEMUtil;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
@@ -23,6 +27,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.Objects;
 import java.util.Timer;
 import java.util.UUID;
 
@@ -40,6 +45,8 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 
 	public static Timer TIMER;
 
+	private Button permissionButton;
+
 
 
 	public SWEMHorseInventoryScreen(SWEMHorseInventoryContainer p_i51084_1_, PlayerInventory playerInventoryIn, ITextComponent title) {
@@ -52,6 +59,21 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		this.inventoryLabelY = this.imageHeight - 94;
 		this.titleLabelX = 65;
 		this.titleLabelY = 22;
+	}
+
+	@Override
+	protected void init() {
+		super.init();
+		this.permissionButton = new Button(this.leftPos  + 123, this.topPos + 112, 44, 11, new StringTextComponent(horseEntity.getPermissionState().name()), p_onPress_1_ -> {
+			SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(9, horseEntity.getId()));
+			p_onPress_1_.setMessage(new StringTextComponent(horseEntity.getPermissionState().name()));
+		});
+
+		if (!Objects.equals(this.horseEntity.getOwnerUUID(), Minecraft.getInstance().player.getUUID())) {
+			this.permissionButton.active = false;
+		}
+
+		this.addButton(this.permissionButton);
 	}
 
 	@Override
@@ -188,6 +210,7 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		this.mousePosY = (float)mouseY;
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		this.renderTooltip(matrixStack, mouseX, mouseY);
+		this.permissionButton.render(matrixStack, mouseX, mouseY, partialTicks);
 	}
 
 }
