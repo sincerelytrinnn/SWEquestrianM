@@ -25,7 +25,7 @@
         "facing": "south"
       },
       "apply": {
-        "model": "swem:block/panel_arrow_outer_black_fliped",
+        "model": "swem:block/panel_arrow_outer_black_flipped",
         "y": 0
       }
     },
@@ -35,7 +35,7 @@
         "facing": "west"
       },
       "apply": {
-        "model": "swem:block/panel_arrow_outer_black_fliped",
+        "model": "swem:block/panel_arrow_outer_black_flipped",
         "y": 90
       }
     },
