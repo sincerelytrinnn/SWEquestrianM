@@ -3,11 +3,8 @@ package com.alaharranhonor.swem.util;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.AmethystRidingBoots;
 import com.alaharranhonor.swem.commands.DevCommand;
-<<<<<<< HEAD
 import com.alaharranhonor.swem.commands.SWEMCommand;
 import com.alaharranhonor.swem.commands.YeetCommand;
-=======
->>>>>>> player-anims
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.RiderEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
