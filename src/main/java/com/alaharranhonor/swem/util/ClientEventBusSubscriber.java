@@ -190,6 +190,9 @@ public class ClientEventBusSubscriber {
             }, barrel);
         }
 
+        WaterTroughBlock waterTrough = SWEMBlocks.WATER_TROUGH.get();
+        colors.register((state, reader, pos, color) -> reader != null && pos != null ? BiomeColors.getAverageWaterColor(reader, pos) : -1, waterTrough);
+
         colors.register((state, reader, pos, color) -> {
             return reader != null && pos != null ? BiomeColors.getAverageFoliageColor(reader, pos) : FoliageColors.getDefaultColor();
         }, SWEMBlocks.JUMP_HEDGE.get());
