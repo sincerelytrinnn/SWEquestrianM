@@ -22,6 +22,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
+import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
@@ -40,6 +41,13 @@ public class WaterTroughBlock extends NonParallelBlock {
 		return VoxelShapes.box(0.01, 0.01, 0.01, 0.99, 0.99, 0.99);
 	}
 
+	@Override
+	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+		if (!(facingState.getBlock() instanceof NonParallelBlock)) {
+			return stateIn; // Disable other blocks updating the water trough, and also other liquids.
+		}
+		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+	}
 
 	@Override
 	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_) {
