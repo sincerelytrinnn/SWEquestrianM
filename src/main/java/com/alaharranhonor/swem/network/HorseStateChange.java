@@ -112,6 +112,10 @@ public class HorseStateChange {
 				}
 				case 8: {
 					horse.setIsJumping(false);
+					break;
+				}
+				case 9: {
+					horse.cycleRidingPermission();
 				}
 			}
 

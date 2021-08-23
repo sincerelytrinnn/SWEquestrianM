@@ -14,9 +14,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.vector.Quaternion;
+import software.bernie.geckolib3.geo.render.built.GeoBone;
 import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 
 import java.awt.*;
+import java.util.Iterator;
 
 public class BridleRackRender extends GeoBlockRenderer<BridleRackTE> {
 
@@ -37,37 +39,51 @@ public class BridleRackRender extends GeoBlockRenderer<BridleRackTE> {
 
 		Direction direction = tile.getBlockState().getValue(BridleRackBlock.FACING);
 
-		stack.translate(0, 1.5, 0);
+		stack.translate(0, 0, 0);
 
 		stack.translate(0.5d, 0, 0.5d);
 
-		stack.mulPose(new Quaternion(0, 180 - direction.toYRot(), 180, true));
+		stack.mulPose(new Quaternion(0, 180 - direction.toYRot(), 0, true));
 
 		if (itemStack.getItem() instanceof WesternBridleItem || itemStack.getItem() instanceof AdventureBridleItem) {
 			BridleItem item = (BridleItem) itemStack.getItem();
-			BridleRackWesternModel model = new BridleRackWesternModel<>();
+			BridleRackWesternModel model = new BridleRackWesternModel();
 
-			IVertexBuilder builder = bufferIn.getBuffer(RenderType.entityCutoutNoCull(item.getBridleRackTexture()));
+			IVertexBuilder builder = bufferIn.getBuffer(RenderType.entityCutout(item.getBridleRackTexture()));
 			Color renderColor = this.getRenderColor(tile, partialTicks, stack, bufferIn, builder, packedLightIn);
-			model.renderToBuffer(stack, builder, packedLightIn, OverlayTexture.NO_OVERLAY, (float)renderColor.getRed() / 255.0F, (float)renderColor.getGreen() / 255.0F, (float)renderColor.getBlue() / 255.0F, (float)renderColor.getAlpha() / 255.0F);
+			Iterator group = model.getModel(model.getModelLocation(null)).topLevelBones.iterator();
+			while (group.hasNext()) {
+				GeoBone bone = (GeoBone) group.next();
+				this.renderRecursively(bone, stack, builder, packedLightIn, OverlayTexture.NO_OVERLAY, (float)renderColor.getRed() / 255.0F, (float)renderColor.getGreen() / 255.0F, (float)renderColor.getBlue() / 255.0F, (float)renderColor.getAlpha() / 255.0F);
+			}
 			stack.popPose();
 			return;
 		} else if (itemStack.getItem() instanceof EnglishBridleItem) {
 			EnglishBridleItem item = (EnglishBridleItem) itemStack.getItem();
-			BridleRackEnglishModel model = new BridleRackEnglishModel<>();
+			BridleRackEnglishModel model = new BridleRackEnglishModel();
 
-			IVertexBuilder builder = bufferIn.getBuffer(RenderType.entityCutoutNoCull(item.getBridleRackTexture()));
+			IVertexBuilder builder = bufferIn.getBuffer(RenderType.entityCutout(item.getBridleRackTexture()));
 			Color renderColor = this.getRenderColor(tile, partialTicks, stack, bufferIn, builder, packedLightIn);
-			model.renderToBuffer(stack, builder, packedLightIn, OverlayTexture.NO_OVERLAY, (float)renderColor.getRed() / 255.0F, (float)renderColor.getGreen() / 255.0F, (float)renderColor.getBlue() / 255.0F, (float)renderColor.getAlpha() / 255.0F);
+			Iterator group = model.getModel(model.getModelLocation(null)).topLevelBones.iterator();
+			while (group.hasNext()) {
+				GeoBone bone = (GeoBone) group.next();
+				this.renderRecursively(bone, stack, builder, packedLightIn, OverlayTexture.NO_OVERLAY, (float)renderColor.getRed() / 255.0F, (float)renderColor.getGreen() / 255.0F, (float)renderColor.getBlue() / 255.0F, (float)renderColor.getAlpha() / 255.0F);
+			}
 			stack.popPose();
 			return;
 		} else if (itemStack.getItem() instanceof HalterItem) {
 			HalterItem item = (HalterItem) itemStack.getItem();
-			BridleRackHalterModel model = new BridleRackHalterModel<>();
+			BridleRackHalterModel model = new BridleRackHalterModel();
 
-			IVertexBuilder builder = bufferIn.getBuffer(RenderType.entityCutoutNoCull(item.getBridleRackTexture()));
+			IVertexBuilder builder = bufferIn.getBuffer(RenderType.entityCutout(item.getBridleRackTexture()));
 			Color renderColor = this.getRenderColor(tile, partialTicks, stack, bufferIn, builder, packedLightIn);
-			model.renderToBuffer(stack, builder, packedLightIn, OverlayTexture.NO_OVERLAY, (float)renderColor.getRed() / 255.0F, (float)renderColor.getGreen() / 255.0F, (float)renderColor.getBlue() / 255.0F, (float)renderColor.getAlpha() / 255.0F);
+			Iterator group = model.getModel(model.getModelLocation(null)).topLevelBones.iterator();
+			while (group.hasNext()) {
+				GeoBone bone = (GeoBone) group.next();
+				this.renderRecursively(bone, stack, builder, packedLightIn, OverlayTexture.NO_OVERLAY, (float)renderColor.getRed() / 255.0F, (float)renderColor.getGreen() / 255.0F, (float)renderColor.getBlue() / 255.0F, (float)renderColor.getAlpha() / 255.0F);
+			}
+			stack.popPose();
+			return;
 		}
 
 		stack.popPose();

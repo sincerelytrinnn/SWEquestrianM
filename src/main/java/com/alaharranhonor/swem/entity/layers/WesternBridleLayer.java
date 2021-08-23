@@ -34,10 +34,10 @@ public class WesternBridleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 					this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json")),
 							entitylivingbaseIn,
 							partialTicks,
-							RenderType.entityCutout(bridleItem.getModelTexture()),
+							RenderType.entityCutoutNoCull(bridleItem.getModelTexture()),
 							matrixStackIn,
 							bufferIn,
-							bufferIn.getBuffer(RenderType.entityCutout(bridleItem.getModelTexture())),
+							bufferIn.getBuffer(RenderType.entityCutoutNoCull(bridleItem.getModelTexture())),
 							packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
 					);
 

@@ -111,6 +111,8 @@ public class SWEMHorseEntityBase
 	private static final DataParameter<Integer> GALLOP_COOLDOWN_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	private static final DataParameter<Boolean> GALLOP_ON_COOLDOWN = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public final static DataParameter<Integer> SPEED_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+	public final static DataParameter<String> PERMISSION_STRING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
+	private ArrayList<UUID> allowedList = new ArrayList<>();
 
 	public HorseSpeed currentSpeed;
 
@@ -346,6 +348,8 @@ public class SWEMHorseEntityBase
 		this.entityData.define(JUMPING, false);
 		this.entityData.define(OWNER_NAME, "");
 
+		this.entityData.define(PERMISSION_STRING, "NONE");
+
 	}
 
 	@Override
@@ -375,6 +379,16 @@ public class SWEMHorseEntityBase
 
 	public boolean shouldJumpAnimationPlay() {
 		return this.isJumping;
+	}
+
+	public boolean canMountPlayer(PlayerEntity player) {
+		if (Objects.equals(this.getOwnerUUID(), player.getUUID())) return true;
+
+		if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.NONE) return false;
+		else if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.EVERYONE) return true;
+		else {
+			return this.allowedList.contains(player.getUUID());
+		}
 	}
 
 
@@ -447,7 +461,7 @@ public class SWEMHorseEntityBase
 	@Override
 	public double getPassengersRidingOffset() {
 		double def = (double)(this.getDimensions(this.getPose()).height * 0.75D);
-		def += 0.15D;
+		def += 0.3D;
 		return def;
 	}
 
@@ -545,7 +559,7 @@ public class SWEMHorseEntityBase
 
 	@Override
 	protected int calculateFallDamage(float distance, float damageMultiplier) {
-		return 0;
+		return 0; //TODO: MAKE THE HORSE GO DOWN TO 3 HEARTS AT MAX.
 	}
 
 	@Override
@@ -739,6 +753,14 @@ public class SWEMHorseEntityBase
 		compound.putInt("HorseVariant", this.getHorseVariant());
 
 		compound.putString("ownerName", this.getOwnerName());
+
+		CompoundNBT allowedList = new CompoundNBT();
+		for (int i = 0; i < this.allowedList.size(); i++) {
+			allowedList.putUUID(Integer.toString(i), this.allowedList.get(i));
+		}
+
+		compound.put("allowedList", allowedList);
+		compound.putString("permissionState", RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)).name());
 	}
 
 	public ItemStack getArmor() {
@@ -820,7 +842,43 @@ public class SWEMHorseEntityBase
 		this.setHorseVariant(compound.getInt("HorseVariant"));
 
 		this.setOwnerName(compound.getString("ownerName"));
+
+		if (compound.contains("allowedList")) {
+			CompoundNBT allowList = compound.getCompound("allowedList");
+			for (int i = 0; i < allowList.size(); i++) {
+				this.addAllowedUUID(allowList.getUUID(Integer.toString(i)));
+			}
+		}
+
+		if (compound.contains("permissionState")) {
+			this.setPermissionState(compound.getString("permissionState"));
+		}
+
 	}
+
+
+	public void addAllowedUUID(UUID playerUUID) {
+		if (!this.allowedList.contains(playerUUID)) {
+			this.allowedList.add(playerUUID);
+		}
+	}
+
+	public void removeAllowedUUID(UUID playerUUID) {
+		this.allowedList.remove(playerUUID);
+	}
+
+	public void transferHorse(PlayerEntity player) {
+		this.tameWithName(player);
+		this.removeAllAllowedUUIDs();
+	}
+
+	public void removeAllAllowedUUIDs() {
+		for (UUID allowed : this.allowedList) {
+			this.removeAllowedUUID(allowed);
+		}
+	}
+
+
 
 	private void writeSaddlebagInventory(CompoundNBT compound) {
 
@@ -1798,6 +1856,24 @@ public class SWEMHorseEntityBase
 		return this.whistleManager;
 	}
 
+	public void cycleRidingPermission() {
+		if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.NONE) {
+			this.setPermissionState("ALLOWED");
+		} else if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.ALLOWED) {
+			this.setPermissionState("EVERYONE");
+		} else {
+			this.setPermissionState("NONE");
+		}
+	}
+
+	public RidingPermission getPermissionState() {
+		return RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING));
+	}
+
+	private void setPermissionState(String string) {
+		this.entityData.set(PERMISSION_STRING, string);
+	}
+
 	public static class HorseData extends AgeableEntity.AgeableData {
 		public final CoatColors variant;
 
@@ -1934,10 +2010,10 @@ public class SWEMHorseEntityBase
 
 	public enum HorseSpeed {
 
-		WALK(new AttributeModifier("HORSE_WALK", -0.8d, AttributeModifier.Operation.MULTIPLY_TOTAL), 0),
-		TROT(new AttributeModifier("HORSE_TROT", -0.6d, AttributeModifier.Operation.MULTIPLY_TOTAL), 1),
-		CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.MULTIPLY_TOTAL), 2),
-		GALLOP(new AttributeModifier("HORSE_GALLOP", 0.07115276974015008d, AttributeModifier.Operation.ADDITION), 3);
+		WALK(new AttributeModifier("HORSE_WALK", -0.85d, AttributeModifier.Operation.MULTIPLY_TOTAL), 0),
+		TROT(new AttributeModifier("HORSE_TROT", -0.65d, AttributeModifier.Operation.MULTIPLY_TOTAL), 1),
+		CANTER(new AttributeModifier("HORSE_CANTER", -0.1d, AttributeModifier.Operation.MULTIPLY_TOTAL), 2),
+		GALLOP(new AttributeModifier("HORSE_GALLOP", 0, AttributeModifier.Operation.ADDITION), 3);
 		private AttributeModifier modifier;
 		private int speedLevel;
 		HorseSpeed(AttributeModifier modifier, int speedLevel) {
@@ -1953,5 +2029,12 @@ public class SWEMHorseEntityBase
 			return this.speedLevel;
 		}
 
+	}
+
+	public enum RidingPermission {
+
+		NONE,
+		ALLOWED,
+		EVERYONE;
 	}
 }

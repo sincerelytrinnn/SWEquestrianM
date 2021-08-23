@@ -101,8 +101,9 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> HORSE_POO = BLOCKS.register("pile_of_horse_poo", () -> new HorsePoopBlock(AbstractBlock.Properties.of(Material.GRASS)));
 	public static final RegistryObject<Block> WESTERN_POLE = BLOCKS.register("western_pole", () -> new WesternPoleBlock(AbstractBlock.Properties.of(Material.WOOD)));
 	public static final RegistryObject<Block> INVISIBLE_GLOW_BLOCK = BLOCKS.register("invisible_glow_block", () -> new InvisibleGlowBlock(AbstractBlock.Properties.of(Material.METAL)));
-	public static final RegistryObject<Block> WESTERN_FENCE = BLOCKS.register("western_fence", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.METAL)));
-	public static final RegistryObject<Block> PASTURE_FENCE = BLOCKS.register("pasture_fence", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.METAL)));
+	public static final RegistryObject<Block> WESTERN_FENCE = BLOCKS.register("western_fence", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD)));
+	public static final RegistryObject<Block> ENGLISH_FENCE = register("english_fence", () -> new EnglishFenceBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion()));
+	public static final RegistryObject<Block> PASTURE_FENCE = BLOCKS.register("pasture_fence", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD)));
 	public static final RegistryObject<Block> TACK_BOX = BLOCKS.register("tack_box", () -> new TackBoxBlock(AbstractBlock.Properties.of(Material.METAL)));
 	public static final RegistryObject<HorseDoorBlock> ACACIA_STALL_HORSE = BLOCKS.register("acacia_stall_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().strength(1.0f), DyeColor.BLACK));
 	public static final RegistryObject<HorseDoorBlock> BIRCH_STALL_HORSE = BLOCKS.register("birch_stall_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().strength(1.0f), DyeColor.BLACK));
@@ -118,12 +119,12 @@ public class SWEMBlocks {
 	public static final RegistryObject<CareDoorBlock> SPRUCE_STALL_CARE = BLOCKS.register("spruce_stall_care", () -> new CareDoorBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().strength(1.0f), DyeColor.BLACK));
 	public static final RegistryObject<Block> ONE_SADDLE_RACK = BLOCKS.register("one_saddle_rack", () -> new OneSaddleRack(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
 	public static final RegistryObject<Block> BRIDLE_RACK = BLOCKS.register("bridle_rack", () -> new BridleRackBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
-	public static final RegistryObject<Block> METAL_GRATE = BLOCKS.register("metal_grate", () -> new TrapDoorBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion()));
+	public static final RegistryObject<Block> METAL_GRATE = BLOCKS.register("metal_grate", () -> new TrapDoorBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
 	public static final RegistryObject<Block> LIGHT_FRIENDLY_BARS = BLOCKS.register("light_friendly_bars", () -> new PaneBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
 	public static final RegistryObject<Block> MEDIUM_FRIENDLY_BARS = BLOCKS.register("medium_friendly_bars", () -> new PaneBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
 	public static final RegistryObject<Block> DARK_FRIENDLY_BARS = BLOCKS.register("dark_friendly_bars", () -> new PaneBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
-	public static final RegistryObject<NonParallelBlock> WATER_TROUGH = BLOCKS.register("water_trough", () -> new WaterThroughBlock(AbstractBlock.Properties.of(Material.METAL), DyeColor.BLACK));
-	public static final RegistryObject<Block> WET_COMPOST = BLOCKS.register("wet_compost", () -> new Block(AbstractBlock.Properties.of(Material.GRASS)));
+	public static final RegistryObject<WaterTroughBlock> WATER_TROUGH = BLOCKS.register("water_trough", () -> new WaterTroughBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion(), DyeColor.BLACK));
+	public static final RegistryObject<Block> WET_COMPOST = BLOCKS.register("wet_compost", () -> new Block(AbstractBlock.Properties.of(Material.GRASS).strength(0.5f, 0.5f).sound(SoundType.WET_GRASS)));
 	public static final RegistryObject<Block> COMPOST = BLOCKS.register("compost", () -> new Block(AbstractBlock.Properties.of(Material.GRASS)));
 	public static final RegistryObject<Block> HORSE_PEE = BLOCKS.register("horse_pee", () -> new PeeBlock(AbstractBlock.Properties.of(Material.GRASS).noOcclusion().isValidSpawn(Blocks::never).isRedstoneConductor(Blocks::never).isSuffocating(Blocks::never).isViewBlocking(Blocks::never)));
 	public static final RegistryObject<Block> CANTAZARITE_ANVIL = BLOCKS.register("cantazarite_anvil", () -> new CantazariteAnvilBlock(AbstractBlock.Properties.copy(Blocks.ANVIL).noOcclusion()));
@@ -156,9 +157,9 @@ public class SWEMBlocks {
 	public static final RegistryObject<JumpBlock> JUMP_HEDGE = BLOCKS.register("jump_hedge", () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d)));
 	public static final RegistryObject<JumpBlock> JUMP_WALL = BLOCKS.register("jump_wall", () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d)));
 
-	public static final RegistryObject<JumpBlock> JUMP_BRUSH_BOX = BLOCKS.register("jump_brush_box", () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d)));
-	public static final RegistryObject<JumpBlock> JUMP_COOP = BLOCKS.register("jump_coop", () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d)));
-	public static final RegistryObject<JumpBlock> JUMP_WALL_MINI = BLOCKS.register("jump_wall_mini", () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d)));
+	public static final RegistryObject<JumpBlock> JUMP_BRUSH_BOX = BLOCKS.register("jump_brush_box", () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 0.875d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 0.875d, 0.875d)));
+	public static final RegistryObject<JumpBlock> JUMP_COOP = BLOCKS.register("jump_coop", () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 0.5625d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 0.5625d, 0.875d)));
+	public static final RegistryObject<JumpBlock> JUMP_WALL_MINI = BLOCKS.register("jump_wall_mini", () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 0.5d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 0.5d, 0.875d)));
 	//public static final RegistryObject<JumpBlock> JUMP_CROSS_RAILS = BLOCKS.register("jump_cross_rails", () -> new JumpBlock(CROSS_RAILS));
 
 	//public static final RegistryObject<JumpBlock> JUMP_SWEDISH_RAILS = BLOCKS.register("jump_swedish_rails", () -> new JumpBlock(SWEDISH_RAILS));
@@ -197,17 +198,17 @@ public class SWEMBlocks {
 	static {
 		for (DyeColor color : DyeColor.values()) {
 			// Jumps
-			ROLL_TOPS.add(registerNoItem("jump_roll_top_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
-			RAILS.add(registerNoItem("jump_rail_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
-			GROUND_POLES.add(registerNoItem("jump_ground_pole_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
-			POLE_ON_BOXES_SMALL.add(registerNoItem("jump_pole_on_box_small_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
-			POLE_ON_BOXES_LARGE.add(registerNoItem("jump_pole_on_box_large_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
+			ROLL_TOPS.add(registerNoItem("jump_roll_top_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 0.875d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 0.875d, 0.875d))));
+			RAILS.add(registerNoItem("jump_rail_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 0.875d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 0.875d, 0.875d))));
+			GROUND_POLES.add(registerNoItem("jump_ground_pole_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 0.1875d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 0.1875d, 0.875d))));
+			POLE_ON_BOXES_SMALL.add(registerNoItem("jump_pole_on_box_small_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 0.6875d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 0.6875d, 0.875d))));
+			POLE_ON_BOXES_LARGE.add(registerNoItem("jump_pole_on_box_large_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 0.8125d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 0.875d, 0.875d))));
 			FANCY_PLANKS.add(registerNoItem("jump_plank_fancy_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
-			PLANKS.add(registerNoItem("jump_plank_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
+			PLANKS.add(registerNoItem("jump_plank_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 0.875d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 0.875d, 0.875d))));
 			PANELS_WAVE.add(registerNoItem("jump_panel_wave_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
 			PANELS_STRIPE.add(registerNoItem("jump_panel_stripe_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
 			PANELS_ARROW.add(registerNoItem("jump_panel_arrow_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
-			FLOWER_BOXES.add(registerNoItem("jump_flower_box_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
+			FLOWER_BOXES.add(registerNoItem("jump_flower_box_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 0.875d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 0.875d, 0.875d))));
 			CAVALETTIS.add(registerNoItem("jump_cavaletti_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
 
 
@@ -220,7 +221,7 @@ public class SWEMBlocks {
 					block -> () -> new BlockItemBase(block.get())));
 			SEPARATORS.add(register("separator_"+color.toString(), () -> new NonParallelBlock(AbstractBlock.Properties.of(Material.METAL), color),
 					block -> () -> new BlockItemBase(block.get())));
-			GRAIN_FEEDERS.add(register("grain_feeder_"+color.toString(), () -> new GrainFeederBlock(AbstractBlock.Properties.of(Material.METAL), color),
+			GRAIN_FEEDERS.add(register("grain_feeder_"+color.toString(), () -> new GrainFeederBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion(), color),
 					block -> () -> new BlockItemBase(block.get())));
 			PASTURE_GATES_HORSE.add(register("pasture_"+color.toString() + "_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().strength(1.0f), color),
 					block -> () -> new BlockItemBase(block.get())));

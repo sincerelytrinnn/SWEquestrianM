@@ -86,6 +86,26 @@ public class DevCommand {
 								}
 								return 0;
 							})
+						)
+						.then(Commands.literal("hide")
+							.then(Commands.literal("rider")
+									.executes(ctx -> {
+										Entity riding = ctx.getSource().getPlayerOrException().getVehicle();
+										if (riding instanceof  SWEMHorseEntityBase) {
+											SWEMHorseEntityBase horse = (SWEMHorseEntityBase) riding;
+
+											//make player model invisible
+
+											// Console message
+											ctx.getSource().sendSuccess(new StringTextComponent("[SWEM] Player hidden"), false);
+
+											return 1;
+										}
+										return 0;
+									})
+							)
+
+
 						);
 	}
 }

@@ -25,8 +25,8 @@
         "facing": "south"
       },
       "apply": {
-        "model": "swem:block/panel_stripe_outer_purple",
-        "y": 180
+        "model": "swem:block/panel_stripe_outer_purple_flipped",
+        "y": 0
       }
     },
     {
@@ -35,8 +35,8 @@
         "facing": "west"
       },
       "apply": {
-        "model": "swem:block/panel_stripe_outer_purple",
-        "y": 270
+        "model": "swem:block/panel_stripe_outer_purple_flipped",
+        "y": 90
       }
     },
 

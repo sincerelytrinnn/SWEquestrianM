@@ -7,6 +7,8 @@ import com.alaharranhonor.swem.entity.coats.SWEMCoatColors;
 import com.google.common.collect.Maps;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
+import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 import java.util.Map;

@@ -58,8 +58,8 @@ public class CantazariteAnvilScreen extends AbstractRepairScreen<CantazariteAnvi
 		this.nameField.setValue(s);
 	}
 
-	public void onClose() {
-		super.onClose();
+	public void removed() {
+		super.removed();
 		this.minecraft.keyboardHandler.setSendRepeatsToGui(false);
 	}
 
@@ -68,14 +68,14 @@ public class CantazariteAnvilScreen extends AbstractRepairScreen<CantazariteAnvi
 			this.minecraft.player.closeContainer();
 		}
 
-		return this.nameField.keyPressed(keyCode, scanCode, modifiers) || !this.nameField.canConsumeInput() || super.keyPressed(keyCode, scanCode, modifiers);
+		return !this.nameField.keyPressed(keyCode, scanCode, modifiers) && !this.nameField.canConsumeInput() ? super.keyPressed(keyCode, scanCode, modifiers) : true;
 	}
 
 	private void renameItem(String name) {
 		if (!name.isEmpty()) {
 			String s = name;
 			Slot slot = this.menu.getSlot(0);
-			if (slot != null && slot.hasItem() && !slot.getItem().hasCustomHoverName() && name.equals(slot.getItem().getDisplayName().getString())) {
+			if (slot != null && slot.hasItem() && !slot.getItem().hasCustomHoverName() && name.equals(slot.getItem().getHoverName().getString())) {
 				s = "";
 			}
 
@@ -123,7 +123,7 @@ public class CantazariteAnvilScreen extends AbstractRepairScreen<CantazariteAnvi
 	 */
 	public void slotChanged(Container containerToSend, int slotInd, ItemStack stack) {
 		if (slotInd == 0) {
-			this.nameField.setValue(stack.isEmpty() ? "" : stack.getDisplayName().getString());
+			this.nameField.setValue(stack.isEmpty() ? "" : stack.getHoverName().getString());
 			this.nameField.setEditable(!stack.isEmpty());
 			this.setFocused(this.nameField);
 		}

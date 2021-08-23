@@ -26,7 +26,7 @@
       },
       "apply": {
         "model": "swem:block/panel_wave_outer_red",
-        "y": 180
+        "y": 0
       }
     },
     {
@@ -36,7 +36,7 @@
       },
       "apply": {
         "model": "swem:block/panel_wave_outer_red",
-        "y": 270
+        "y": 90
       }
     },
 
