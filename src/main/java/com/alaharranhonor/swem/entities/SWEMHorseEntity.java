@@ -90,10 +90,10 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			} else if (horse.jumpHeight > 4.0F) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_4", false));
 				return PlayState.CONTINUE;
-			} else if (jumpHeight > 3.0F) {
+			} else if (horse.jumpHeight > 3.0F) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_3", false));
 				return PlayState.CONTINUE;
-			} else if (jumpHeight > 2.0F) {
+			} else if (horse.jumpHeight > 2.0F) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_2", false));
 				return PlayState.CONTINUE;
 			} else {
@@ -242,7 +242,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 	@Override
 	public void registerControllers(AnimationData animationData) {
-		animationData.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+		animationData.addAnimationController(new AnimationController(this, "controller", 2, this::predicate));
 	}
 
 	@Override

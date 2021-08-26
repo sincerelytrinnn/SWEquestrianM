@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimatableModel;
 import software.bernie.geckolib3.core.PlayState;
@@ -39,7 +40,7 @@ public class RiderEntity implements IAnimatable {
 
 	@Override
 	public void registerControllers(AnimationData animationData) {
-		AnimationController<RiderEntity> controller = new AnimationController(this, "controller", 1, this::predicate);
+		AnimationController<RiderEntity> controller = new AnimationController(this, "controller", 2, this::predicate);
 		AnimationController.addModelFetcher((animatable) -> {
 			return new IAnimatableModel() {
 				@Override
@@ -74,9 +75,46 @@ public class RiderEntity implements IAnimatable {
 	}
 
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+		Animation anim = event.getController().getCurrentAnimation();
+		if (anim != null) {
+			if ((anim.animationName.equals("Jump_Lvl_1Player")
+					|| anim.animationName.equals("Jump_Lvl_2Player")
+					|| anim.animationName.equals("Jump_Lvl_3Player")
+					|| anim.animationName.equals("Jump_Lvl_4Player")
+					|| anim.animationName.equals("Jump_Lvl_5Player")
+			) && event.getController().getAnimationState() != AnimationState.Stopped) {
+				return PlayState.CONTINUE;
+			}
+		}
+
 		Entity entity = this.getPlayer().getVehicle();
 		if (entity instanceof SWEMHorseEntityBase) {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+
+
+
+
+
+			if (horse.shouldJumpAnimationPlay() && horse.jumpHeight != 0) {
+				System.out.println(horse.jumpHeight);
+				if (horse.jumpHeight > 5.0F) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_5Player", false));
+					return PlayState.CONTINUE;
+				} else if (horse.jumpHeight > 4.0F) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_4Player", false));
+					return PlayState.CONTINUE;
+				} else if (horse.jumpHeight > 3.0F) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_3Player", false));
+					return PlayState.CONTINUE;
+				} else if (horse.jumpHeight > 2.0F) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_2Player", false));
+					return PlayState.CONTINUE;
+				} else {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_1Player", false));
+					return PlayState.CONTINUE;
+				}
+			}
+
 			float limbSwingAmount = MathHelper.lerp(event.getPartialTick(), horse.animationSpeedOld, horse.animationSpeed);
 
 			boolean isMoving = limbSwingAmount <= -0.15F || limbSwingAmount >= 0.15F;

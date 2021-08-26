@@ -44165,7 +44165,7 @@
 				}
 			}
 		},
-		"Jump_Lvl_1 ": {
+		"Jump_Lvl_1": {
 			"loop": true,
 			"animation_length": 0.92,
 			"bones": {
