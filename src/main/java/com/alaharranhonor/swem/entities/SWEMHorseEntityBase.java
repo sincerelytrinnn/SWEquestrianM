@@ -382,6 +382,7 @@ public class SWEMHorseEntityBase
 	}
 
 	public boolean canMountPlayer(PlayerEntity player) {
+		if (!this.isTamed()) return true;
 		if (Objects.equals(this.getOwnerUUID(), player.getUUID())) return true;
 
 		if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.NONE) return false;
