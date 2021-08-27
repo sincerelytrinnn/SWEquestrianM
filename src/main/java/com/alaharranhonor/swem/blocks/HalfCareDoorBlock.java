@@ -120,7 +120,7 @@ public class HalfCareDoorBlock extends Block {
 				blockChecks.add(context.getLevel().getBlockState(blockPos1).canBeReplaced(context));
 			});
 
-			if (blockpos.getY() < 254 && blockChecks.stream().allMatch((bool) -> bool)) {
+			if (blockpos.getY() < 254 && blockChecks.stream().allMatch((bool) -> true)) {
 				World world = context.getLevel();
 
 				boolean flag = world.hasNeighborSignal(blockpos) || world.hasNeighborSignal(blockpos.above());

@@ -746,7 +746,7 @@ public class CareDoorBlock extends Block {
 		super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
 	}
 
-	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
+	public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
 		return this.getAllDoorParts(state, pos, (World) worldIn, true).stream().allMatch((pos1) ->  {
 			BlockState state1 = worldIn.getBlockState(pos1);
 			return state1 == Blocks.AIR.defaultBlockState();
