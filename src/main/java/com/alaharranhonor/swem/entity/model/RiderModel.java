@@ -4,7 +4,9 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.RiderEntity;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.entity.player.RemoteClientPlayerEntity;
 import net.minecraft.client.renderer.entity.model.IHasArm;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,7 +21,7 @@ public class RiderModel extends AnimatedGeoModel<RiderEntity> {
 
 	@Override
 	public ResourceLocation getModelLocation(RiderEntity r) {
-		return new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/rider_" + (((ClientPlayerEntity) r.getPlayer()).getModelName().equals("default") ? "steve" : "alex") + ".geo.json");
+		return new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/rider_" + (((AbstractClientPlayerEntity) r.getPlayer()).getModelName().equals("default") ? "steve" : "alex") + ".geo.json");
 	}
 
 	@Override
@@ -31,7 +33,7 @@ public class RiderModel extends AnimatedGeoModel<RiderEntity> {
 
 	@Override
 	public ResourceLocation getAnimationFileLocation(RiderEntity r) {
-		return new ResourceLocation(SWEM.MOD_ID, "animations/rider_" + (((ClientPlayerEntity) r.getPlayer()).getModelName().equals("default") ? "steve" : "alex") + ".animation.json");
+		return new ResourceLocation(SWEM.MOD_ID, "animations/rider_" + (((AbstractClientPlayerEntity) r.getPlayer()).getModelName().equals("default") ? "steve" : "alex") + ".animation.json");
 	}
 
 
