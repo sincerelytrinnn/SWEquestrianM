@@ -1274,6 +1274,7 @@ public class SWEMHorseEntityBase
 				}
 
 				this.jumpHeight = jumpHeight;
+
 				this.startJump(jumpHeight);
 
 
@@ -1308,7 +1309,7 @@ public class SWEMHorseEntityBase
 
 			if (this.onGround) {
 				this.playerJumpPendingScale = 0.0F;
-				if (this.entityData.get(JUMPING)) {
+				if (this.entityData.get(JUMPING) && this.level.isClientSide) {
 					this.stopJump();
 				}
 			}
