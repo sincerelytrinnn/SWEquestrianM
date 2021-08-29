@@ -45,7 +45,7 @@ public class RiderModel extends AnimatedGeoModel<RiderEntity> {
 
 	public void translateToHand(HandSide p_225599_1_, MatrixStack p_225599_2_, RiderEntity rider) {
 		GeoBone modelrenderer = this.getArm(p_225599_1_, rider);
-		if (((ClientPlayerEntity)rider.getPlayer()).getModelName().equals("slim")) {
+		if (((AbstractClientPlayerEntity)rider.getPlayer()).getModelName().equals("slim")) {
 			float f = 0.5F * (float)(p_225599_1_ == HandSide.RIGHT ? 1 : -1);
 			modelrenderer.setPositionX(modelrenderer.getPositionX() + f);
 			boneTranslateAndRotate(modelrenderer, p_225599_2_);
