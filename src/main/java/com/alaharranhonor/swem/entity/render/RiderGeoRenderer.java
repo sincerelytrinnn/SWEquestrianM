@@ -14,6 +14,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.HorseRenderer;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.entity.layers.BipedArmorLayer;
 import net.minecraft.client.renderer.entity.model.IHasArm;
@@ -104,7 +105,10 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 			renderArmorPiece(matrixStackIn, renderTypeBuffer, animatable, EquipmentSlotType.LEGS, packedLightIn, this.getGeoModelProvider().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/rider_armor.geo.json")), model);
 			renderArmorPiece(matrixStackIn, renderTypeBuffer, animatable, EquipmentSlotType.FEET, packedLightIn, this.getGeoModelProvider().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/rider_armor.geo.json")), model);
 			renderArmorPiece(matrixStackIn, renderTypeBuffer, animatable, EquipmentSlotType.HEAD, packedLightIn, this.getGeoModelProvider().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/rider_armor.geo.json")), model);
-			checkRenderNameTag(animatable, animatable.getPlayer().getDisplayName(), matrixStackIn, renderTypeBuffer, packedLightIn);
+
+			if (!Minecraft.getInstance().options.hideGui) {
+				checkRenderNameTag(animatable, animatable.getPlayer().getDisplayName(), matrixStackIn, renderTypeBuffer, packedLightIn);
+			}
 		}
 	}
 
