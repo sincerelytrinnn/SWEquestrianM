@@ -82,8 +82,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			return PlayState.CONTINUE;
 		}
 
-		if (horse.shouldJumpAnimationPlay() && horse.jumpHeight != 0) {
-			System.out.println(horse.jumpHeight);
+		if (horse.getEntityData().get(SWEMHorseEntityBase.JUMPING) && horse.jumpHeight != 0) {
 			if (horse.jumpHeight > 5.0F) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_5", false));
 				return PlayState.CONTINUE;

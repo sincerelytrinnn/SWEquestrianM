@@ -107,7 +107,7 @@ public class HorseStateChange {
 					break;
 				}
 				case 7: {
-					horse.setIsJumping(true);
+					horse.getEntityData().set(SWEMHorseEntityBase.JUMPING, true);
 					break;
 				}
 				case 8: {

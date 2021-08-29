@@ -95,8 +95,7 @@ public class RiderEntity implements IAnimatable {
 
 
 
-			if (horse.shouldJumpAnimationPlay() && horse.jumpHeight != 0) {
-				System.out.println(horse.jumpHeight);
+			if (horse.getEntityData().get(SWEMHorseEntityBase.JUMPING) && horse.jumpHeight != 0) {
 				if (horse.jumpHeight > 5.0F) {
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_5Player", false));
 					return PlayState.CONTINUE;

@@ -93,7 +93,7 @@ public class SWEMHorseEntityBase
 	public static final Ingredient FOOD_ITEMS = Ingredient.of(Items.APPLE, Items.CARROT, SWEMItems.OAT_BUSHEL.get(), SWEMItems.TIMOTHY_BUSHEL.get(), SWEMItems.ALFALFA_BUSHEL.get(), SWEMBlocks.QUALITY_BALE_ITEM.get(), SWEMItems.SUGAR_CUBE.get());
 	public static final Ingredient NEGATIVE_FOOD_ITEMS = Ingredient.of(Items.WHEAT, Items.HAY_BLOCK);
 	private static final DataParameter<Boolean> FLYING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
-	private static final DataParameter<Boolean> JUMPING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	public static final DataParameter<Boolean> JUMPING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<String> OWNER_NAME = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
 	private static final EntitySize JUMPING_SIZE = EntitySize.scalable(1.5f, 1.5f);
 	private PathNavigator oldNavigator;
@@ -363,22 +363,10 @@ public class SWEMHorseEntityBase
 		}
 	}
 
-	@Override
-	public void setIsJumping(boolean jumping) {
-		super.setIsJumping(jumping);
-		if (!jumping)
-			this.jumpHeight = 0;
-		if (!this.level.isClientSide)
-			this.entityData.set(JUMPING, jumping);
-	}
 
 	@Override
 	public boolean isJumping() {
-		return this.entityData.get(JUMPING);
-	}
-
-	public boolean shouldJumpAnimationPlay() {
-		return this.isJumping;
+		return super.isJumping();
 	}
 
 	public boolean canMountPlayer(PlayerEntity player) {
@@ -1219,11 +1207,12 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public EntitySize getDimensions(Pose poseIn) {
-		if (this.isJumping()) {
+		return super.getDimensions(poseIn);
+		/*if (this.isJumping()) {
 			return JUMPING_SIZE;
 		} else {
 			return super.getDimensions(poseIn);
-		}
+		}*/
 	}
 
 	@Override
@@ -1254,7 +1243,7 @@ public class SWEMHorseEntityBase
 
 
 			 // Check if RNG is higher roll, than disobeying debuff, if so, then do the jump.
-			if (this.playerJumpPendingScale > 0.0F && !this.isJumping() && this.onGround && !this.isFlying()) {
+			if (this.playerJumpPendingScale > 0.0F && !this.entityData.get(JUMPING) && this.onGround && !this.isFlying()) {
 				double d0 = this.getCustomJump() * (double) this.playerJumpPendingScale * (double) this.getBlockJumpFactor();
 				double d1;
 				if (this.hasEffect(Effects.JUMP)) {
@@ -1267,7 +1256,7 @@ public class SWEMHorseEntityBase
 				//if (this.getDisobedienceFactor() > this.progressionManager.getAffinityLeveling().getDebuff()) {
 				Vector3d vector3d = this.getDeltaMovement();
 				this.setDeltaMovement(vector3d.x, d1, vector3d.z);
-				this.setIsJumping(true);
+
 
 
 
@@ -1285,6 +1274,7 @@ public class SWEMHorseEntityBase
 				}
 
 				this.jumpHeight = jumpHeight;
+				this.startJump(jumpHeight);
 
 
 
@@ -1318,7 +1308,9 @@ public class SWEMHorseEntityBase
 
 			if (this.onGround) {
 				this.playerJumpPendingScale = 0.0F;
-				this.setIsJumping(false);
+				if (this.entityData.get(JUMPING)) {
+					this.stopJump();
+				}
 			}
 
 			this.calculateEntityAnimation(this, false);
@@ -1337,7 +1329,6 @@ public class SWEMHorseEntityBase
 	}
 
 
-
 	@Override
 	public void onPlayerJump(int p_110206_1_) {
 		if (this.isSaddled()) {
@@ -1345,7 +1336,6 @@ public class SWEMHorseEntityBase
 				p_110206_1_ = 0;
 			} else {
 				this.allowStandSliding = true;
-				this.setIsJumping(true);
 			}
 
 			if (p_110206_1_ >= 90) {
@@ -1367,6 +1357,13 @@ public class SWEMHorseEntityBase
 	}
 
 
+	private void startJump(float jumpHeight) {
+		SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), true, jumpHeight));
+	}
+
+	private void stopJump() {
+		SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), false, 0.0F));
+	}
 
 	@Nullable
 	@Override
@@ -1837,7 +1834,9 @@ public class SWEMHorseEntityBase
 
 	public void updateSelectedSpeed(HorseSpeed oldSpeed) {
 		this.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(oldSpeed.getModifier());
-		this.getAttribute(Attributes.MOVEMENT_SPEED).addTransientModifier(this.currentSpeed.getModifier());
+		if (!this.getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(this.currentSpeed.getModifier())) {
+			this.getAttribute(Attributes.MOVEMENT_SPEED).addTransientModifier(this.currentSpeed.getModifier());
+		}
 		this.entityData.set(SPEED_LEVEL, this.currentSpeed.speedLevel);
 	}
 
