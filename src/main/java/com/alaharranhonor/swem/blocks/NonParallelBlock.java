@@ -79,9 +79,6 @@ public class NonParallelBlock extends HorizontalBlock {
 
 	@Override
 	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		if (!(facingState.getBlock() instanceof NonParallelBlock)) {
-			return stateIn; // Disable other blocks updating nonparallel blocks, and also other liquids.
-		}
 
 		switch (stateIn.getValue(PART)) {
 			case RIGHT: {
@@ -116,7 +113,7 @@ public class NonParallelBlock extends HorizontalBlock {
 						return stateIn.setValue(FACING, facingState.getValue(FACING)).setValue(PART, SWEMBlockStateProperties.TwoWay.LEFT);
 					}
 				} else if (facing == stateIn.getValue(FACING).getOpposite()) {
-					if (facingState.isAir()) {
+					if (!(facingState.getBlock() instanceof NonParallelBlock)) {
 						return stateIn;
 					}
 					if (worldIn.getBlockState(currentPos.relative(facingState.getValue(FACING).getCounterClockWise())).getBlock() instanceof NonParallelBlock) {
