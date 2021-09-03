@@ -43,9 +43,6 @@ public class WaterTroughBlock extends NonParallelBlock {
 
 	@Override
 	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		if (!(facingState.getBlock() instanceof NonParallelBlock)) {
-			return stateIn; // Disable other blocks updating the water trough, and also other liquids.
-		}
 		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 	}
 
@@ -65,11 +62,10 @@ public class WaterTroughBlock extends NonParallelBlock {
 
 					player.awardStat(Stats.FILL_CAULDRON);
 					this.setWaterLevel(worldIn, pos, state, false);
-					worldIn.playSound((PlayerEntity)null, pos, SoundEvents.BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
-					return ActionResultType.CONSUME;
-				} else {
-					return ActionResultType.PASS;
+					worldIn.playSound((PlayerEntity) null, pos, SoundEvents.BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				}
+
+				return ActionResultType.sidedSuccess(worldIn.isClientSide);
 
 			} else if (item == Items.BUCKET) {
 				if (i >= 1 && !worldIn.isClientSide) {
@@ -85,10 +81,10 @@ public class WaterTroughBlock extends NonParallelBlock {
 					player.awardStat(Stats.USE_CAULDRON);
 					this.setWaterLevel(worldIn, pos, state, true);
 					worldIn.playSound((PlayerEntity) null, pos, SoundEvents.BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-					return ActionResultType.CONSUME;
-				} else {
-					return ActionResultType.PASS;
 				}
+
+				return ActionResultType.sidedSuccess(worldIn.isClientSide);
+
 			} else {
 				return ActionResultType.PASS;
 			}
@@ -166,7 +162,6 @@ public class WaterTroughBlock extends NonParallelBlock {
 			return fetchConnectionPos(checkState, world, pos.relative(dir.getClockWise(), 1), false);
 		}
 
-		SWEM.LOGGER.error("Could not fetch water troughs positions from middle piece.");
 		return new ArrayList<>();
 	}
 
@@ -181,7 +176,6 @@ public class WaterTroughBlock extends NonParallelBlock {
 			return fetchConnectionStates(checkState, world, pos.relative(dir.getClockWise(), 1), false);
 		}
 
-		SWEM.LOGGER.error("Could not fetch water troughs connections from middle piece.");
 		return new ArrayList<>();
 	}
 
