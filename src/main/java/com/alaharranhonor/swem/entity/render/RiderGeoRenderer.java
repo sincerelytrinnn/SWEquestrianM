@@ -76,8 +76,7 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 
 	@Override
 	public void render(GeoModel model, T animatable, float partialTicks, RenderType type, MatrixStack matrixStackIn, @Nullable IRenderTypeBuffer renderTypeBuffer, @Nullable IVertexBuilder vertexBuilder, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-		RiderEntity rider = animatable;
-		Entity entity = rider.getPlayer().getVehicle();
+		Entity entity = animatable.getPlayer().getVehicle();
 		if (entity instanceof SWEMHorseEntityBase) {
 
 			float limbSwing = 0.0f;
