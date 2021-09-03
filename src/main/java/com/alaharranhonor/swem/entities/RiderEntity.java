@@ -4,6 +4,7 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entity.render.RiderGeoRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
+import net.minecraft.client.entity.player.RemoteClientPlayerEntity;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,10 +29,10 @@ import software.bernie.geckolib3.resource.GeckoLibCache;
 import static com.alaharranhonor.swem.entities.SWEMHorseEntityBase.SPEED_LEVEL;
 
 public class RiderEntity implements IAnimatable {
-	private final PlayerEntity player;
+	private AbstractClientPlayerEntity player;
 	private final AnimationFactory factory = new AnimationFactory(this);
 
-	public RiderEntity(PlayerEntity player) {
+	public RiderEntity(AbstractClientPlayerEntity player) {
 		this.player = player;
 	}
 
@@ -141,4 +142,7 @@ public class RiderEntity implements IAnimatable {
 	}
 
 
+	public void setPlayer(AbstractClientPlayerEntity player) {
+		this.player = player;
+	}
 }
