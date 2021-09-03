@@ -16,7 +16,9 @@ import com.alaharranhonor.swem.util.registry.SWEMStructure;
 import com.alaharranhonor.swem.world.structure.SWEMConfiguredStructures;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.ComposterBlock;
+import net.minecraft.client.renderer.entity.VillagerRenderer;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
@@ -48,6 +50,8 @@ import software.bernie.example.GeckoLibMod;
 import software.bernie.geckolib3.GeckoLib;
 
 import java.lang.reflect.Method;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,9 +68,8 @@ public class SWEM
 
     public SWEM() {
         // Register the setup method for modloading
-        final ModLoadingContext modLoadingContext = ModLoadingContext.get();
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        modEventBus.addListener(this::setup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 
         RegistryHandler.init(modEventBus);
         SWLRegistryHandler.init();
@@ -80,6 +83,7 @@ public class SWEM
         MinecraftForge.EVENT_BUS.register(this);
 
         // Register config
+        final ModLoadingContext modLoadingContext = ModLoadingContext.get();
         modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ConfigHolder.CLIENT_SPEC);
         modLoadingContext.registerConfig(ModConfig.Type.SERVER, ConfigHolder.SERVER_SPEC);
     }
