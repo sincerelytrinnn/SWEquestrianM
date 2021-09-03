@@ -101,10 +101,12 @@ public class HalfBarrelBlock extends Block {
 					this.setWaterLevel(worldIn, pos, state, i - 1);
 					worldIn.playSound((PlayerEntity) null, pos, SoundEvents.BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				}
+
+				return ActionResultType.sidedSuccess(worldIn.isClientSide);
+
 			} else {
 				return ActionResultType.PASS;
 			}
-			return ActionResultType.PASS;
 		}
 	}
 
