@@ -90,6 +90,7 @@ public class OneSaddleRack extends HorizontalBlock {
 		if (te instanceof OneSaddleRackTE && !player.abilities.instabuild) {
 			((OneSaddleRackTE)te).dropItems();
 		}
+		super.playerDestroy(worldIn, player, pos, state, te, stack);
 	}
 
 	@Override

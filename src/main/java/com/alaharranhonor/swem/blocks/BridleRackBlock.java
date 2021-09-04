@@ -81,6 +81,8 @@ public class BridleRackBlock extends HorizontalBlock {
 		if (te instanceof BridleRackTE && !player.abilities.instabuild) {
 			((BridleRackTE)te).dropItems();
 		}
+
+		super.playerDestroy(worldIn, player, pos, state, te, stack);
 	}
 
 	@Override

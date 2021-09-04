@@ -138,6 +138,7 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 		if (te instanceof HorseArmorRackTE && !player.abilities.instabuild) {
 			((HorseArmorRackTE)te).dropItems();
 		}
+		super.playerDestroy(worldIn, player, pos, state, te, stack);
 	}
 
 	@Override
