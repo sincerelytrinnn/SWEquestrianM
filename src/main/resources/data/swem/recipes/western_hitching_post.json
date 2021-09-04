@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "pasture_hitching_post",
+  "group": "western_hitching_post",
   "pattern":
   [
     " x ",
@@ -11,16 +11,16 @@
   {
 	"x":
     {
-      "item": "minecraft:jungle_planks"
+      "item": "minecraft:iron_nugget"
     },
 	"y":
     {
-      "item": "minecraft:jungle_log"
+      "tag": "minecraft:logs"
     }
   },
   "result":
   {
-    "item": "swem:jungle_pasture_hitching_post",
+    "item": "swem:western_hitching_post",
     "count": 1
   }
 }

@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "english_hitching_post",
+  "group": "pasture_hitching_post",
   "pattern":
   [
     " x ",
@@ -11,16 +11,16 @@
   {
 	"x":
     {
-      "item": "minecraft:iron_ingot"
+      "tag": "minecraft:planks"
     },
 	"y":
     {
-      "item": "minecraft:oak_log"
+      "tag": "minecraft:logs"
     }
   },
   "result":
   {
-    "item": "swem:oak_english_hitching_post",
+    "item": "swem:pasture_hitching_post",
     "count": 1
   }
 }
