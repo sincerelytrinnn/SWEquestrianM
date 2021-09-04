@@ -1,6 +1,7 @@
 {
   "parent": "swem:block/friendly_bars_cap_alt",
   "textures": {
-    "bars": "swem:blocks/friendly_bars_dark"
+    "bars": "swem:blocks/friendly_bars_dark",
+    "particle": "swem:blocks/friendly_bars_dark"
   }
 }

@@ -2,6 +2,7 @@
   "parent": "swem:block/friendly_bars_side_alt",
   "textures": {
     "bars": "swem:blocks/friendly_bars_medium",
-    "edge": "swem:blocks/friendly_bars_medium"
+    "edge": "swem:blocks/friendly_bars_medium",
+    "particle": "swem:blocks/friendly_bars_medium"
   }
 }
