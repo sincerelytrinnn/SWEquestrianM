@@ -13,9 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -63,6 +61,7 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 						}
 
 						rack.itemHandler.setStackInSlot(0, armorCopy);
+						worldIn.playSound(null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 0.5F, 1.0F);
 						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getLevel().getChunkAt(rack.getBlockPos())).send(rack.getUpdatePacket());
 						return ActionResultType.sidedSuccess(worldIn.isClientSide);
 					}
@@ -77,6 +76,7 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 						}
 
 						rack.itemHandler.setStackInSlot(1, saddleCopy);
+						worldIn.playSound(null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 0.5F, 1.0F);
 						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getLevel().getChunkAt(rack.getBlockPos())).send(rack.getUpdatePacket());
 						return ActionResultType.sidedSuccess(worldIn.isClientSide);
 					}
@@ -90,6 +90,7 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 						}
 
 						rack.itemHandler.setStackInSlot(1, ItemStack.EMPTY);
+						worldIn.playSound(null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 0.5F, 1.0F);
 						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getLevel().getChunkAt(rack.getBlockPos())).send(rack.getUpdatePacket());
 						return ActionResultType.sidedSuccess(worldIn.isClientSide);
 
@@ -102,6 +103,7 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 						}
 
 						rack.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
+						worldIn.playSound(null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 0.5F, 1.0F);
 						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getLevel().getChunkAt(rack.getBlockPos())).send(rack.getUpdatePacket());
 						return ActionResultType.sidedSuccess(worldIn.isClientSide);
 					}
