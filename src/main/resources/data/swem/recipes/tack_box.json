@@ -5,14 +5,10 @@
   [
     "wxw",
     "yzy",
-    "wvw"
+    "w w"
   ],
   "key":
   {
-	"v":
-    {
-      "item": "minecraft:magenta_dye"
-    },
 	"w":
     {
       "item": "minecraft:iron_nugget"
@@ -32,7 +28,7 @@
   },
   "result":
   {
-    "item": "swem:tack_box_magenta",
+    "item": "swem:tack_box",
     "count": 1
   }
 }
