@@ -89,6 +89,18 @@ public class HorseFlightPacket {
 				}
 				case 8: {
 					horse.getEntityData().set(HorseFlightController.isDiving, false);
+					break;
+				}
+				case 9: {
+					horse.getEntityData().set(HorseFlightController.isFloating, false);
+					horse.getEntityData().set(HorseFlightController.isAccelerating, false);
+					horse.getEntityData().set(HorseFlightController.isSlowingDown, true);
+					horse.getEntityData().set(HorseFlightController.isStillSlowingDown, true);
+					break;
+				}
+				case 10: {
+					horse.getEntityData().set(HorseFlightController.isStillSlowingDown, false);
+					break;
 				}
 
 			}
