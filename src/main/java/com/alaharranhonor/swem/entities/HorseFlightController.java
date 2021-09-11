@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.entities;
 
 import com.alaharranhonor.swem.network.HorseFlightPacket;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
+import com.alaharranhonor.swem.util.ClientEventHandlers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.MoverType;
 import net.minecraft.network.datasync.DataParameter;
@@ -24,6 +25,7 @@ public class HorseFlightController {
 	public static DataParameter<Boolean> isFloating = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public static DataParameter<Boolean> isAccelerating = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public static DataParameter<Boolean> isSlowingDown = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	public static DataParameter<Boolean> isStillSlowingDown = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private int slowingDownCounter;
 
 	public static DataParameter<Boolean> isTurningLeft = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN); // Identifier for playing either turning left or turning right animation
@@ -104,11 +106,11 @@ public class HorseFlightController {
 
 			if (horse.getEntityData().get(isSlowingDown)) {
 				slowingDownCounter++;
-				double xMove = Math.max(horse.getLookAngle().x * ((21 - slowingDownCounter) * 3.5) * 0.01, horse.getLookAngle().x * 0.35);
-				double zMove = Math.max(horse.getLookAngle().z * ((21 - slowingDownCounter) * 3.5) * 0.01, horse.getLookAngle().z * 0.35);
+				double xMove = Math.max(horse.getLookAngle().x * ((slowingDownCounter < 21 ? 21 - slowingDownCounter : 1) * 3.5) * 0.01, horse.getLookAngle().x * 0.10);
+				double zMove = Math.max(horse.getLookAngle().z * ((slowingDownCounter < 21 ? 21 - slowingDownCounter: 1) * 3.5) * 0.01, horse.getLookAngle().z * 0.10);
 				horse.setDeltaMovement(xMove, 0, zMove);
 
-				if (slowingDownCounter == 20) {
+				if (slowingDownCounter >= 20 && !horse.getEntityData().get(isStillSlowingDown)) {
 					slowingDownCounter = 0;
 					horse.getEntityData().set(isSlowingDown, false);
 					horse.getEntityData().set(isFloating, true);
@@ -209,9 +211,15 @@ public class HorseFlightController {
 			SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlightPacket(5, horse.getId()));
 		}
 
-		if (Minecraft.getInstance().options.keyDown.isDown() && !horse.getEntityData().get(didFlap) && !horse.getEntityData().get(isTurning)) {
+		if (Minecraft.getInstance().options.keyDown.isDown() && !horse.getEntityData().get(didFlap) && !horse.getEntityData().get(isTurning) && !horse.getEntityData().get(isAccelerating)) {
+			SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlightPacket(9, horse.getId()));
+		} else if (horse.getEntityData().get(isStillSlowingDown) && !Minecraft.getInstance().options.keyDown.isDown()) {
+			SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlightPacket(10, horse.getId()));
+		}
+
+		if (ClientEventHandlers.keyBindings[5].isDown() && !horse.getEntityData().get(didFlap) && !horse.getEntityData().get(isTurning)) {
 			SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlightPacket(7, horse.getId()));
-		} else if (horse.getEntityData().get(isDiving) && !Minecraft.getInstance().options.keyDown.isDown()) {
+		} else if (horse.getEntityData().get(isDiving) && !ClientEventHandlers.keyBindings[5].isDown()) {
 			SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlightPacket(8, horse.getId()));
 		}
 

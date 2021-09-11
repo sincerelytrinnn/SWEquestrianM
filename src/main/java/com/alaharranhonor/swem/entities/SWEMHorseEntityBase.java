@@ -355,6 +355,7 @@ public class SWEMHorseEntityBase
 		this.getEntityData().define(isFloating, false);
 		this.getEntityData().define(isAccelerating, false);
 		this.getEntityData().define(isSlowingDown, false);
+		this.getEntityData().define(isStillSlowingDown, false);
 		this.getEntityData().define(isTurningLeft, false);
 		this.getEntityData().define(isTurning, false);
 		this.getEntityData().define(isStillTurning, false);
