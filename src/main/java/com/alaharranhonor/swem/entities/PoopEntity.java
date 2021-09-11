@@ -51,7 +51,7 @@ public class PoopEntity extends LivingEntity implements IAnimatable {
 
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
-		if (source.getEntity() instanceof PlayerEntity && ((PlayerEntity)source.getDirectEntity()).abilities.mayBuild) {
+		if ((source.getEntity() instanceof PlayerEntity) && ((PlayerEntity)source.getDirectEntity()).abilities.mayBuild) {
 			this.spawnAtLocation(new ItemStack(SWEMItems.POOP.get()));
 			this.remove();
 		}

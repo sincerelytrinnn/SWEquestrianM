@@ -57,7 +57,7 @@ public class HorseSaddleItem extends Item implements IAnimatable {
 		return this.texture;
 	}
 	public ResourceLocation getSaddleRackTexture() {
-		return this.texture;
+		return this.saddleRackTexture;
 	}
 
 	@Override

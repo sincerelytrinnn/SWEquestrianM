@@ -72,7 +72,7 @@ public class PoopGoal extends Goal {
 			PoopEntity poop = SWEMEntities.HORSE_POOP_ENTITY.get().create(this.entityWorld);
 			BlockPos posToPoop = blockpos.offset(0, 1.5d, 0).relative(this.pooperEntity.getDirection().getOpposite());
 			poop.setPos(posToPoop.getX(), posToPoop.getY(), posToPoop.getZ());
-			this.entityWorld.addFreshEntity(poop);
+			//this.entityWorld.addFreshEntity(poop);
 		}
 	}
 }

@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
@@ -68,12 +69,13 @@ public class WesternPoleBlock extends Block {
 
 
 	@Override
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		if (stateIn.getValue(PART) == HitchingPostBase.PostPart.LOWER && facing == Direction.UP && facingState.getBlock() == Blocks.AIR) {
-			return Blocks.AIR.defaultBlockState();
-		} else if (stateIn.getValue(PART) == HitchingPostBase.PostPart.UPPER && facing == Direction.DOWN && facingState.getBlock() == Blocks.AIR) {
-			return Blocks.AIR.defaultBlockState();
+	public void playerWillDestroy(World p_176208_1_, BlockPos p_176208_2_, BlockState p_176208_3_, PlayerEntity p_176208_4_) {
+		super.playerWillDestroy(p_176208_1_, p_176208_2_, p_176208_3_, p_176208_4_);
+
+		if (p_176208_3_.getValue(PART) == HitchingPostBase.PostPart.LOWER) {
+			p_176208_1_.setBlock(p_176208_2_.above(), Blocks.AIR.defaultBlockState(), 3);
+		} else if (p_176208_3_.getValue(PART) == HitchingPostBase.PostPart.UPPER) {
+			p_176208_1_.setBlock(p_176208_2_.below(), Blocks.AIR.defaultBlockState(), 3);
 		}
-		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 	}
 }

@@ -33,5 +33,8 @@ public class SWEMPacketHandler {
 		INSTANCE.registerMessage(18, CRemoveLayerPacket.class, CRemoveLayerPacket::encode, CRemoveLayerPacket::decode, CRemoveLayerPacket::handle);
 		INSTANCE.registerMessage(19, SDataSendPacket.class, SDataSendPacket::encode, SDataSendPacket::decode, SDataSendPacket::handle);
 		INSTANCE.registerMessage(20, CMountEntityPacket.class, CMountEntityPacket::encode, CMountEntityPacket::decode, CMountEntityPacket::handle);
+		INSTANCE.registerMessage(21, SHorseFriendPacket.class, SHorseFriendPacket::encode, SHorseFriendPacket::decode, SHorseFriendPacket::handle);
+		INSTANCE.registerMessage(22, CHorseJumpPacket.class, CHorseJumpPacket::encode, CHorseJumpPacket::decode, CHorseJumpPacket::handle);
+		INSTANCE.registerMessage(23, SHorseJumpPacket.class, SHorseJumpPacket::encode, SHorseJumpPacket::decode, SHorseJumpPacket::handle);
 	}
 }

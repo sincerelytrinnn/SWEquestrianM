@@ -1,0 +1,82 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "side": "left",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "swem:block/english_fence_arc",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "side": "left",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "swem:block/english_fence_arc"
+      }
+    },
+    {
+      "when": {
+        "side": "left",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "swem:block/english_fence_arc",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "side": "left",
+        "facing": "west"
+      },
+      "apply": {
+        "model": "swem:block/english_fence_arc",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "side": "right",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "swem:block/english_fence_middle",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "side": "right",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "swem:block/english_fence_middle"
+      }
+    },
+    {
+      "when": {
+        "side": "right",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "swem:block/english_fence_middle",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "side": "right",
+        "facing": "west"
+      },
+      "apply": {
+        "model": "swem:block/english_fence_middle",
+        "y": 180
+      }
+    }
+  ]
+}

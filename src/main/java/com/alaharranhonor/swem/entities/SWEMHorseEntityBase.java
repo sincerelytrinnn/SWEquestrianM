@@ -96,7 +96,7 @@ public class SWEMHorseEntityBase
 	public static final Ingredient FOOD_ITEMS = Ingredient.of(Items.APPLE, Items.CARROT, SWEMItems.OAT_BUSHEL.get(), SWEMItems.TIMOTHY_BUSHEL.get(), SWEMItems.ALFALFA_BUSHEL.get(), SWEMBlocks.QUALITY_BALE_ITEM.get(), SWEMItems.SUGAR_CUBE.get());
 	public static final Ingredient NEGATIVE_FOOD_ITEMS = Ingredient.of(Items.WHEAT, Items.HAY_BLOCK);
 	private static final DataParameter<Boolean> FLYING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
-	private static final DataParameter<Boolean> JUMPING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	public static final DataParameter<Boolean> JUMPING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<String> OWNER_NAME = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
 	private static final EntitySize JUMPING_SIZE = EntitySize.scalable(1.5f, 1.5f);
 	private PathNavigator oldNavigator;
@@ -114,6 +114,8 @@ public class SWEMHorseEntityBase
 	private static final DataParameter<Integer> GALLOP_COOLDOWN_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	private static final DataParameter<Boolean> GALLOP_ON_COOLDOWN = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public final static DataParameter<Integer> SPEED_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+	public final static DataParameter<String> PERMISSION_STRING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
+	private ArrayList<UUID> allowedList = new ArrayList<>();
 
 	public HorseSpeed currentSpeed;
 
@@ -349,6 +351,7 @@ public class SWEMHorseEntityBase
 		this.entityData.define(JUMPING, false);
 		this.entityData.define(OWNER_NAME, "");
 
+		this.getEntityData().define(isLaunching, false);
 		this.getEntityData().define(isFloating, false);
 		this.getEntityData().define(isAccelerating, false);
 		this.getEntityData().define(isSlowingDown, false);
@@ -357,6 +360,7 @@ public class SWEMHorseEntityBase
 		this.getEntityData().define(isStillTurning, false);
 		this.getEntityData().define(didFlap, false);
 		this.getEntityData().define(isDiving, false);
+		this.entityData.define(PERMISSION_STRING, "NONE");
 
 	}
 
@@ -371,22 +375,21 @@ public class SWEMHorseEntityBase
 		}
 	}
 
-	@Override
-	public void setIsJumping(boolean jumping) {
-		super.setIsJumping(jumping);
-		if (!jumping)
-			this.jumpHeight = 0;
-		if (!this.level.isClientSide)
-			this.entityData.set(JUMPING, jumping);
-	}
 
 	@Override
 	public boolean isJumping() {
-		return this.entityData.get(JUMPING);
+		return super.isJumping();
 	}
 
-	public boolean shouldJumpAnimationPlay() {
-		return this.isJumping;
+	public boolean canMountPlayer(PlayerEntity player) {
+		if (!this.isTamed()) return true;
+		if (Objects.equals(this.getOwnerUUID(), player.getUUID())) return true;
+
+		if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.NONE) return false;
+		else if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.EVERYONE) return true;
+		else {
+			return this.allowedList.contains(player.getUUID());
+		}
 	}
 
 
@@ -459,7 +462,7 @@ public class SWEMHorseEntityBase
 	@Override
 	public double getPassengersRidingOffset() {
 		double def = (double)(this.getDimensions(this.getPose()).height * 0.75D);
-		def += 0.15D;
+		def += 0.3D;
 		return def;
 	}
 
@@ -543,7 +546,7 @@ public class SWEMHorseEntityBase
 
 	@Override
 	protected int calculateFallDamage(float distance, float damageMultiplier) {
-		return 0;
+		return 0; //TODO: MAKE THE HORSE GO DOWN TO 3 HEARTS AT MAX.
 	}
 
 	@Override
@@ -737,6 +740,14 @@ public class SWEMHorseEntityBase
 		compound.putInt("HorseVariant", this.getHorseVariant());
 
 		compound.putString("ownerName", this.getOwnerName());
+
+		CompoundNBT allowedList = new CompoundNBT();
+		for (int i = 0; i < this.allowedList.size(); i++) {
+			allowedList.putUUID(Integer.toString(i), this.allowedList.get(i));
+		}
+
+		compound.put("allowedList", allowedList);
+		compound.putString("permissionState", RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)).name());
 	}
 
 	public ItemStack getArmor() {
@@ -818,7 +829,43 @@ public class SWEMHorseEntityBase
 		this.setHorseVariant(compound.getInt("HorseVariant"));
 
 		this.setOwnerName(compound.getString("ownerName"));
+
+		if (compound.contains("allowedList")) {
+			CompoundNBT allowList = compound.getCompound("allowedList");
+			for (int i = 0; i < allowList.size(); i++) {
+				this.addAllowedUUID(allowList.getUUID(Integer.toString(i)));
+			}
+		}
+
+		if (compound.contains("permissionState")) {
+			this.setPermissionState(compound.getString("permissionState"));
+		}
+
 	}
+
+
+	public void addAllowedUUID(UUID playerUUID) {
+		if (!this.allowedList.contains(playerUUID)) {
+			this.allowedList.add(playerUUID);
+		}
+	}
+
+	public void removeAllowedUUID(UUID playerUUID) {
+		this.allowedList.remove(playerUUID);
+	}
+
+	public void transferHorse(PlayerEntity player) {
+		this.tameWithName(player);
+		this.removeAllAllowedUUIDs();
+	}
+
+	public void removeAllAllowedUUIDs() {
+		for (UUID allowed : this.allowedList) {
+			this.removeAllowedUUID(allowed);
+		}
+	}
+
+
 
 	private void writeSaddlebagInventory(CompoundNBT compound) {
 
@@ -1143,11 +1190,12 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public EntitySize getDimensions(Pose poseIn) {
-		if (this.isJumping()) {
+		return super.getDimensions(poseIn);
+		/*if (this.isJumping()) {
 			return JUMPING_SIZE;
 		} else {
 			return super.getDimensions(poseIn);
-		}
+		}*/
 	}
 
 	@Override
@@ -1192,7 +1240,6 @@ public class SWEMHorseEntityBase
 					//if (this.getDisobedienceFactor() > this.progressionManager.getAffinityLeveling().getDebuff()) {
 					Vector3d vector3d = this.getDeltaMovement();
 					this.setDeltaMovement(vector3d.x, d1, vector3d.z);
-					this.setIsJumping(true);
 
 
 					// Check jumpheight, and add XP accordingly.
@@ -1209,6 +1256,7 @@ public class SWEMHorseEntityBase
 					}
 
 					this.jumpHeight = jumpHeight;
+					this.startJump(jumpHeight);
 
 
 					SWEMPacketHandler.INSTANCE.sendToServer(new AddJumpXPMessage(xpToAdd, this.getId()));
@@ -1240,7 +1288,7 @@ public class SWEMHorseEntityBase
 
 				if (this.onGround) {
 					this.playerJumpPendingScale = 0.0F;
-					this.setIsJumping(false);
+					this.stopJump();
 				}
 
 				this.calculateEntityAnimation(this, false);
@@ -1272,6 +1320,7 @@ public class SWEMHorseEntityBase
 		return super.isOnGround();
 	}
 
+
 	@Override
 	public void onPlayerJump(int p_110206_1_) {
 		if (this.isSaddled()) {
@@ -1279,7 +1328,6 @@ public class SWEMHorseEntityBase
 				p_110206_1_ = 0;
 			} else {
 				this.allowStandSliding = true;
-				this.setIsJumping(true);
 			}
 
 			if (p_110206_1_ >= 90) {
@@ -1309,6 +1357,15 @@ public class SWEMHorseEntityBase
 	}
 
 
+	private void startJump(float jumpHeight) {
+		SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), true, jumpHeight));
+	}
+
+	private void stopJump() {
+		if (this.getEntityData().get(JUMPING)) {
+			SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), false, 0.0F));
+		}
+	}
 
 	@Nullable
 	@Override
@@ -1779,7 +1836,9 @@ public class SWEMHorseEntityBase
 
 	public void updateSelectedSpeed(HorseSpeed oldSpeed) {
 		this.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(oldSpeed.getModifier());
-		this.getAttribute(Attributes.MOVEMENT_SPEED).addTransientModifier(this.currentSpeed.getModifier());
+		if (!this.getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(this.currentSpeed.getModifier())) {
+			this.getAttribute(Attributes.MOVEMENT_SPEED).addTransientModifier(this.currentSpeed.getModifier());
+		}
 		this.entityData.set(SPEED_LEVEL, this.currentSpeed.speedLevel);
 	}
 
@@ -1795,6 +1854,24 @@ public class SWEMHorseEntityBase
 	@Override
 	public WhistleManager<SWEMHorseEntityBase> getWhistleManager() {
 		return this.whistleManager;
+	}
+
+	public void cycleRidingPermission() {
+		if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.NONE) {
+			this.setPermissionState("ALLOWED");
+		} else if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.ALLOWED) {
+			this.setPermissionState("EVERYONE");
+		} else {
+			this.setPermissionState("NONE");
+		}
+	}
+
+	public RidingPermission getPermissionState() {
+		return RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING));
+	}
+
+	private void setPermissionState(String string) {
+		this.entityData.set(PERMISSION_STRING, string);
 	}
 
 	public static class HorseData extends AgeableEntity.AgeableData {
@@ -1930,10 +2007,10 @@ public class SWEMHorseEntityBase
 
 	public enum HorseSpeed {
 
-		WALK(new AttributeModifier("HORSE_WALK", -0.8d, AttributeModifier.Operation.MULTIPLY_TOTAL), 0),
-		TROT(new AttributeModifier("HORSE_TROT", -0.6d, AttributeModifier.Operation.MULTIPLY_TOTAL), 1),
-		CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.MULTIPLY_TOTAL), 2),
-		GALLOP(new AttributeModifier("HORSE_GALLOP", 0.07115276974015008d, AttributeModifier.Operation.ADDITION), 3);
+		WALK(new AttributeModifier("HORSE_WALK", -0.85d, AttributeModifier.Operation.MULTIPLY_TOTAL), 0),
+		TROT(new AttributeModifier("HORSE_TROT", -0.65d, AttributeModifier.Operation.MULTIPLY_TOTAL), 1),
+		CANTER(new AttributeModifier("HORSE_CANTER", -0.1d, AttributeModifier.Operation.MULTIPLY_TOTAL), 2),
+		GALLOP(new AttributeModifier("HORSE_GALLOP", 0, AttributeModifier.Operation.ADDITION), 3);
 		private AttributeModifier modifier;
 		private int speedLevel;
 		HorseSpeed(AttributeModifier modifier, int speedLevel) {
@@ -1949,5 +2026,12 @@ public class SWEMHorseEntityBase
 			return this.speedLevel;
 		}
 
+	}
+
+	public enum RidingPermission {
+
+		NONE,
+		ALLOWED,
+		EVERYONE;
 	}
 }

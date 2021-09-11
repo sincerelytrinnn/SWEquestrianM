@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [128, 128],
 	"textures": {
-		"0": "swem:blocks/water_through_single_texture",
-		"particle": "swem:blocks/water_through_single_texture"
+		"0": "swem:blocks/water_trough_single_texture",
+		"particle": "swem:blocks/water_trough_single_texture"
 	},
 	"display": {
 		"thirdperson_righthand": {
@@ -44,35 +44,42 @@
 		{
 			"name": "group",
 			"origin": [8, 8, 8],
+			"color": 0,
 			"children": [
 				{
 					"name": "top lip",
 					"origin": [8, 8, 8],
+					"color": 0,
 					"children": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 				},
 				{
 					"name": "second lip",
 					"origin": [8, 8, 8],
+					"color": 0,
 					"children": [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
 				},
 				{
 					"name": "panel lip",
 					"origin": [8, 8, 8],
+					"color": 0,
 					"children": [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47]
 				},
 				{
 					"name": "bottom lip",
 					"origin": [8, 8, 8],
+					"color": 0,
 					"children": [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63]
 				},
 				{
 					"name": "inner panels",
 					"origin": [8, 8, 8],
+					"color": 0,
 					"children": [64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79]
 				},
 				{
 					"name": "bottom panel",
 					"origin": [8, 8, 8],
+					"color": 0,
 					"children": [80, 81, 82, 83, 84, 85, 86, 87]
 				}
 			]
@@ -82,8 +89,8 @@
 	"layers": {
 		"solid": {
 			"textures": {
-				"0": "swem:blocks/water_through_single_texture",
-				"particle": "swem:blocks/water_through_single_texture"
+				"0": "swem:blocks/water_trough_single_texture",
+				"particle": "swem:blocks/water_trough_single_texture"
 			},
 			"elements": [
 				{
@@ -1318,8 +1325,8 @@
 		},
 		"translucent": {
 			"textures": {
-				"0": "swem:blocks/water_through_single_texture",
-				"particle": "swem:blocks/water_through_single_texture"
+				"0": "swem:blocks/water_trough_single_texture",
+				"particle": "swem:blocks/water_trough_single_texture"
 			},
 			"elements": [
 				{

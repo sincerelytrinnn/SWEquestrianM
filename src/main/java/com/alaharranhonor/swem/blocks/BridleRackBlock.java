@@ -11,9 +11,7 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -54,6 +52,7 @@ public class BridleRackBlock extends HorizontalBlock {
 						}
 
 						rack.itemHandler.setStackInSlot(0, saddleCopy);
+						worldIn.playSound(null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 0.5F, 1.0F);
 						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getLevel().getChunkAt(rack.getBlockPos())).send(rack.getUpdatePacket());
 						return ActionResultType.sidedSuccess(worldIn.isClientSide);
 					}
@@ -66,6 +65,7 @@ public class BridleRackBlock extends HorizontalBlock {
 						}
 
 						rack.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
+						worldIn.playSound(null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 0.5F, 1.0F);
 						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getLevel().getChunkAt(rack.getBlockPos())).send(rack.getUpdatePacket());
 						return ActionResultType.sidedSuccess(worldIn.isClientSide);
 					}
@@ -81,14 +81,14 @@ public class BridleRackBlock extends HorizontalBlock {
 		if (te instanceof BridleRackTE && !player.abilities.instabuild) {
 			((BridleRackTE)te).dropItems();
 		}
+
+		super.playerDestroy(worldIn, player, pos, state, te, stack);
 	}
 
 	@Override
 	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
 		if (facing == stateIn.getValue(FACING)) {
 			if (!facingState.canOcclude()) {
-				ItemEntity entity = new ItemEntity((World) worldIn, currentPos.getX(), currentPos.getY(), currentPos.getZ(), new ItemStack(SWEMBlocks.BRIDLE_RACK_ITEM.get()));
-				worldIn.addFreshEntity(entity);
 				return Blocks.AIR.defaultBlockState();
 			}
 		}

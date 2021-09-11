@@ -14,12 +14,18 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import net.minecraft.item.Item.Properties;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class HalterItem extends Item {
+public class HalterItem extends Item implements IAnimatable {
 
 	private final ResourceLocation texture;
 
 	private ResourceLocation bridleRackTexture;
+
+	private AnimationFactory factory = new AnimationFactory(this);
+
 
 	public HalterItem(String textureName, Properties properties) {
 		this(new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/halter/" + textureName + ".png"), properties);
@@ -56,4 +62,13 @@ public class HalterItem extends Item {
 		return this.bridleRackTexture;
 	}
 
+	@Override
+	public void registerControllers(AnimationData animationData) {
+
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
+	}
 }

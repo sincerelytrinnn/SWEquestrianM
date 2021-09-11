@@ -1,0 +1,1820 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "two_way": "single"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_single"
+      }
+    },
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "north|south"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_middle",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "east|west"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_middle"
+      }
+    },
+    {
+      "when": {
+        "two_way": "left",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_end"
+      }
+    },
+    {
+      "when": {
+        "two_way": "left",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_end",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "two_way": "left",
+        "facing": "west"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_end",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "two_way": "left",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_end",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "two_way": "right",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_end",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "two_way": "right",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_end",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "two_way": "right",
+        "facing": "west"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_end"
+      }
+    },
+    {
+      "when": {
+        "two_way": "right",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "swem:block/water_trough_end",
+        "y": 90
+      }
+    },
+
+
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 16
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 16
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_16"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "north",
+            "level": 16
+          },
+          {
+            "two_way": "left",
+            "facing": "south",
+            "level": 16
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_16",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "east",
+            "level": 16
+          },
+          {
+            "two_way": "left",
+            "facing": "west",
+            "level": 16
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_16",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "south",
+            "level": 16
+          },
+          {
+            "two_way": "left",
+            "facing": "north",
+            "level": 16
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_16",
+        "y": 270
+      }
+    },
+
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 15
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 15
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_15"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 15
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 15
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_15"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "north",
+            "level": 15
+          },
+          {
+            "two_way": "left",
+            "facing": "south",
+            "level": 15
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_15",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "east",
+            "level": 15
+          },
+          {
+            "two_way": "left",
+            "facing": "west",
+            "level": 15
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_15",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "south",
+            "level": 15
+          },
+          {
+            "two_way": "left",
+            "facing": "north",
+            "level": 15
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_15",
+        "y": 270
+      }
+    },
+
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 14
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 14
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_14"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 14
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 14
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_14"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "north",
+            "level": 14
+          },
+          {
+            "two_way": "left",
+            "facing": "south",
+            "level": 14
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_14",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "east",
+            "level": 14
+          },
+          {
+            "two_way": "left",
+            "facing": "west",
+            "level": 14
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_14",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "south",
+            "level": 14
+          },
+          {
+            "two_way": "left",
+            "facing": "north",
+            "level": 14
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_14",
+        "y": 270
+      }
+    },
+
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 13
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 13
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_13"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 13
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 13
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_13"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "north",
+            "level": 13
+          },
+          {
+            "two_way": "left",
+            "facing": "south",
+            "level": 13
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_13",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "east",
+            "level": 13
+          },
+          {
+            "two_way": "left",
+            "facing": "west",
+            "level": 13
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_13",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "south",
+            "level": 13
+          },
+          {
+            "two_way": "left",
+            "facing": "north",
+            "level": 13
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_13",
+        "y": 270
+      }
+    },
+
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 12
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 12
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_12"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 12
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 12
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_12"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "north",
+            "level": 12
+          },
+          {
+            "two_way": "left",
+            "facing": "south",
+            "level": 12
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_12",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "east",
+            "level": 12
+          },
+          {
+            "two_way": "left",
+            "facing": "west",
+            "level": 12
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_12",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "south",
+            "level": 12
+          },
+          {
+            "two_way": "left",
+            "facing": "north",
+            "level": 12
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_12",
+        "y": 270
+      }
+    },
+
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 11
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 11
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_11"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "north",
+            "level": 11
+          },
+          {
+            "two_way": "left",
+            "facing": "south",
+            "level": 11
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_11",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "east",
+            "level": 11
+          },
+          {
+            "two_way": "left",
+            "facing": "west",
+            "level": 11
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_11",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "south",
+            "level": 11
+          },
+          {
+            "two_way": "left",
+            "facing": "north",
+            "level": 11
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_11",
+        "y": 270
+      }
+    },
+
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 10
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 10
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_10"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "north",
+            "level": 10
+          },
+          {
+            "two_way": "left",
+            "facing": "south",
+            "level": 10
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_10",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "east",
+            "level": 10
+          },
+          {
+            "two_way": "left",
+            "facing": "west",
+            "level": 10
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_10",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "south",
+            "level": 10
+          },
+          {
+            "two_way": "left",
+            "facing": "north",
+            "level": 10
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_10",
+        "y": 270
+      }
+    },
+
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 9
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 9
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_9"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "north",
+            "level": 9
+          },
+          {
+            "two_way": "left",
+            "facing": "south",
+            "level": 9
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_9",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "east",
+            "level": 9
+          },
+          {
+            "two_way": "left",
+            "facing": "west",
+            "level": 9
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_9",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "south",
+            "level": 9
+          },
+          {
+            "two_way": "left",
+            "facing": "north",
+            "level": 9
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_9",
+        "y": 270
+      }
+    },
+
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 8
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 8
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_8"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "north",
+            "level": 8
+          },
+          {
+            "two_way": "left",
+            "facing": "south",
+            "level": 8
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_8",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "east",
+            "level": 8
+          },
+          {
+            "two_way": "left",
+            "facing": "west",
+            "level": 8
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_8",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "south",
+            "level": 8
+          },
+          {
+            "two_way": "left",
+            "facing": "north",
+            "level": 8
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_8",
+        "y": 270
+      }
+    },
+
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 7
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 7
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_7"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "north",
+            "level": 7
+          },
+          {
+            "two_way": "left",
+            "facing": "south",
+            "level": 7
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_7",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "east",
+            "level": 7
+          },
+          {
+            "two_way": "left",
+            "facing": "west",
+            "level": 7
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_7",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "south",
+            "level": 7
+          },
+          {
+            "two_way": "left",
+            "facing": "north",
+            "level": 7
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_7",
+        "y": 270
+      }
+    },
+
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 6
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 6
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_6"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "north",
+            "level": 6
+          },
+          {
+            "two_way": "left",
+            "facing": "south",
+            "level": 6
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_6",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "east",
+            "level": 6
+          },
+          {
+            "two_way": "left",
+            "facing": "west",
+            "level": 6
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_6",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "south",
+            "level": 6
+          },
+          {
+            "two_way": "left",
+            "facing": "north",
+            "level": 6
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_6",
+        "y": 270
+      }
+    },
+
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 5
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 5
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_5"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "north",
+            "level": 5
+          },
+          {
+            "two_way": "left",
+            "facing": "south",
+            "level": 5
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_5",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "east",
+            "level": 5
+          },
+          {
+            "two_way": "left",
+            "facing": "west",
+            "level": 5
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_5",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "south",
+            "level": 5
+          },
+          {
+            "two_way": "left",
+            "facing": "north",
+            "level": 5
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_5",
+        "y": 270
+      }
+    },
+
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 4
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 4
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_4"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "north",
+            "level": 4
+          },
+          {
+            "two_way": "left",
+            "facing": "south",
+            "level": 4
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_4",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "east",
+            "level": 4
+          },
+          {
+            "two_way": "left",
+            "facing": "west",
+            "level": 4
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_4",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "south",
+            "level": 4
+          },
+          {
+            "two_way": "left",
+            "facing": "north",
+            "level": 4
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_4",
+        "y": 270
+      }
+    },
+
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 3
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 3
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_3"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "north",
+            "level": 3
+          },
+          {
+            "two_way": "left",
+            "facing": "south",
+            "level": 3
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_3",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "east",
+            "level": 3
+          },
+          {
+            "two_way": "left",
+            "facing": "west",
+            "level": 3
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_3",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "south",
+            "level": 3
+          },
+          {
+            "two_way": "left",
+            "facing": "north",
+            "level": 3
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_3",
+        "y": 270
+      }
+    },
+
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 2
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 2
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_2"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "north",
+            "level": 2
+          },
+          {
+            "two_way": "left",
+            "facing": "south",
+            "level": 2
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_2",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "east",
+            "level": 2
+          },
+          {
+            "two_way": "left",
+            "facing": "west",
+            "level": 2
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_2",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "south",
+            "level": 2
+          },
+          {
+            "two_way": "left",
+            "facing": "north",
+            "level": 2
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_2",
+        "y": 270
+      }
+    },
+
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "west",
+            "level": 1
+          },
+          {
+            "two_way": "left",
+            "facing": "east",
+            "level": 1
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_1"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "north",
+            "level": 1
+          },
+          {
+            "two_way": "left",
+            "facing": "south",
+            "level": 1
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_1",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "east",
+            "level": 1
+          },
+          {
+            "two_way": "left",
+            "facing": "west",
+            "level": 1
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_1",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "two_way": "right",
+            "facing": "south",
+            "level": 1
+          },
+          {
+            "two_way": "left",
+            "facing": "north",
+            "level": 1
+          }
+        ]
+      },
+      "apply": {
+        "model": "swem:block/wt_end_1",
+        "y": 270
+      }
+    },
+
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "north|south",
+        "level": 1
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_1",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "east|west",
+        "level": 1
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_1"
+      }
+    },
+
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "north|south",
+        "level": 2
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_2",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "east|west",
+        "level": 2
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_2"
+      }
+    },
+
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "north|south",
+        "level": 3
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_3",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "east|west",
+        "level": 3
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_3"
+      }
+    },
+
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "north|south",
+        "level": 4
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_4",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "east|west",
+        "level": 4
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_4"
+      }
+    },
+
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "north|south",
+        "level": 5
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_5",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "east|west",
+        "level": 5
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_5"
+      }
+    },
+
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "north|south",
+        "level": 6
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_6",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "east|west",
+        "level": 6
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_6"
+      }
+    },
+
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "north|south",
+        "level": 7
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_7",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "east|west",
+        "level": 7
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_7"
+      }
+    },
+
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "north|south",
+        "level": 8
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_8",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "east|west",
+        "level": 8
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_8"
+      }
+    },
+
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "north|south",
+        "level": 9
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_9",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "east|west",
+        "level": 9
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_9"
+      }
+    },
+
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "north|south",
+        "level": 10
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_10",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "east|west",
+        "level": 10
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_10"
+      }
+    },
+
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "north|south",
+        "level": 11
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_11",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "east|west",
+        "level": 11
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_11"
+      }
+    },
+
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "north|south",
+        "level": 12
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_12",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "east|west",
+        "level": 12
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_12"
+      }
+    },
+
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "north|south",
+        "level": 13
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_13",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "east|west",
+        "level": 13
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_13"
+      }
+    },
+
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "north|south",
+        "level": 14
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_14",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "east|west",
+        "level": 14
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_14"
+      }
+    },
+
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "north|south",
+        "level": 15
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_15",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "east|west",
+        "level": 15
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_15"
+      }
+    },
+
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "north|south",
+        "level": 16
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_16",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "two_way": "middle",
+        "facing": "east|west",
+        "level": 16
+      },
+      "apply": {
+        "model": "swem:block/wt_middle_16"
+      }
+    }
+
+
+  ]
+}

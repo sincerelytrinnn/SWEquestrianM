@@ -3,10 +3,7 @@ package com.alaharranhonor.swem.blocks;
 import com.alaharranhonor.swem.items.tack.HorseSaddleItem;
 import com.alaharranhonor.swem.tileentity.OneSaddleRackTE;
 import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.*;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
@@ -14,9 +11,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -63,6 +58,7 @@ public class OneSaddleRack extends HorizontalBlock {
 						tag.putUUID("UUID", UUID.randomUUID());
 						saddleCopy.setTag(tag);
 						rack.itemHandler.setStackInSlot(0, saddleCopy);
+						worldIn.playSound(null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 0.5F, 1.0F);
 						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getLevel().getChunkAt(rack.getBlockPos())).send(rack.getUpdatePacket());
 						return ActionResultType.sidedSuccess(worldIn.isClientSide);
 					}
@@ -75,6 +71,7 @@ public class OneSaddleRack extends HorizontalBlock {
 						}
 
 						rack.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
+						worldIn.playSound(null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 0.5F, 1.0F);
 						PacketDistributor.TRACKING_CHUNK.with(() -> rack.getLevel().getChunkAt(rack.getBlockPos())).send(rack.getUpdatePacket());
 						return ActionResultType.sidedSuccess(worldIn.isClientSide);
 					}
@@ -90,6 +87,7 @@ public class OneSaddleRack extends HorizontalBlock {
 		if (te instanceof OneSaddleRackTE && !player.abilities.instabuild) {
 			((OneSaddleRackTE)te).dropItems();
 		}
+		super.playerDestroy(worldIn, player, pos, state, te, stack);
 	}
 
 	@Override
@@ -105,7 +103,12 @@ public class OneSaddleRack extends HorizontalBlock {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return VoxelShapes.box(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
+		if (state.getValue(FACING).getAxis() == Direction.Axis.Z) {
+			return VoxelShapes.box(0.125d, 0.01d, 0.01d, 0.875d, 0.99d, 0.99d);
+		}
+
+		return VoxelShapes.box(0.01d, 0.01d, 0.125d, 0.99d, 0.99d, 0.875d);
+
 	}
 
 	@Override

@@ -12,12 +12,15 @@ import net.minecraft.util.math.vector.Vector3d;
 
 import java.util.Scanner;
 
+
 public class HorseFlightController {
 
 	private SWEMHorseEntityBase horse;
 
 	private BlockPos launchPos;
 
+	public static DataParameter<Boolean> isLaunching = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	private int launchCounter;
 	public static DataParameter<Boolean> isFloating = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public static DataParameter<Boolean> isAccelerating = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public static DataParameter<Boolean> isSlowingDown = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
@@ -43,18 +46,56 @@ public class HorseFlightController {
 	}
 
 	public void travel() {
-		System.out.println("yRot: " + horse.yRot + " - Look Angle: " + horse.getLookAngle());
+		//System.out.println("yRot: " + horse.yRot + " - Look Angle: " + horse.getLookAngle());
 		//System.out.println("isClientSide: " + horse.level.isClientSide + " | Movement: " + horse.getDeltaMovement() + " | Look Angle Vec: " + horse.getLookAngle() + " | isFloating: " + horse.getEntityData().get(isFloating));
 		if (this.horse.level.isClientSide) {
 			this.clientTravel();
 		} else {
 
-			if (horse.isOnGround()) {
+
+			/*String sb = new StringBuilder()
+					.append("isFloating: " + horse.getEntityData().get(isFloating)).append("\n")
+					.append("isAccelerating: " + horse.getEntityData().get(isAccelerating)).append("\n")
+					.append("isSlowingDown: " + horse.getEntityData().get(isSlowingDown)).append("\n")
+					.append("didFlap: " + horse.getEntityData().get(didFlap)).append("\n")
+					.append("isTurning: " + horse.getEntityData().get(isTurning)).append("\n")
+					.append("isTurningLeft: " + horse.getEntityData().get(isTurningLeft)).append("\n")
+					.toString();*/
+
+			if (horse.isOnGround() && !horse.getEntityData().get(isLaunching)) {
 				horse.setFlying(false);
+				horse.getEntityData().set(isFloating, false);
+				horse.getEntityData().set(isAccelerating, false);
+				horse.getEntityData().set(isSlowingDown, false);
+				horse.getEntityData().set(isTurningLeft, false);
+				horse.getEntityData().set(isTurning, false);
+				horse.getEntityData().set(isStillTurning, false);
+				horse.getEntityData().set(didFlap, false);
+				horse.getEntityData().set(isDiving, false);
+				horse.getEntityData().set(isLaunching, false);
 			}
+			if (horse.getEntityData().get(isLaunching)) {
+				if (launchCounter < 4) {
+					horse.setDeltaMovement(0, 10, 0);
+				} else {
+					horse.setDeltaMovement(0, 1, 0);
+				}
+				horse.move(MoverType.SELF, horse.getDeltaMovement());
+				horse.hasImpulse = true;
+				System.out.println("Movement: " + horse.getDeltaMovement());
+				System.out.println("Y: " + horse.getY());
+				horse.baseTick();
+				if (++launchCounter >= 37) {
+					horse.hasImpulse = false;
+					horse.getEntityData().set(isLaunching, false);
+					launchCounter = 0;
+				}
+				return;
+			}
+
 			//System.out.println("Position: " + horse.blockPosition());
 			if (horse.getEntityData().get(isFloating)) {
-				horse.setDeltaMovement(horse.getLookAngle().x * 0.25, -0.05, horse.getLookAngle().z * 0.25);
+				horse.setDeltaMovement(horse.getLookAngle().x * 0.35, -0.05, horse.getLookAngle().z * 0.35);
 			}
 
 			if (horse.getEntityData().get(isAccelerating)) {
@@ -63,11 +104,12 @@ public class HorseFlightController {
 
 			if (horse.getEntityData().get(isSlowingDown)) {
 				slowingDownCounter++;
-				double xMove = Math.max(horse.getLookAngle().x * (0.75 / slowingDownCounter * 3.5), horse.getLookAngle().x * 0.25);
-				double zMove = Math.max(horse.getLookAngle().z * (0.75 / slowingDownCounter * 3.5), horse.getLookAngle().z * 0.25);
+				double xMove = Math.max(horse.getLookAngle().x * ((21 - slowingDownCounter) * 3.5) * 0.01, horse.getLookAngle().x * 0.35);
+				double zMove = Math.max(horse.getLookAngle().z * ((21 - slowingDownCounter) * 3.5) * 0.01, horse.getLookAngle().z * 0.35);
 				horse.setDeltaMovement(xMove, 0, zMove);
 
 				if (slowingDownCounter == 20) {
+					slowingDownCounter = 0;
 					horse.getEntityData().set(isSlowingDown, false);
 					horse.getEntityData().set(isFloating, true);
 				}
@@ -79,16 +121,23 @@ public class HorseFlightController {
 				Vector3d moveVec = horse.getDeltaMovement();
 
 
-
-				if (flapCounter == 40) {
+				if (flapCounter == 23) {
 					flapCounter = 0;
 					horse.getEntityData().set(didFlap, false);
 					horse.setDeltaMovement(moveVec.x, 0, moveVec.z);
 				} else {
-					horse.setDeltaMovement(moveVec.x, 1.0 / flapCounter, moveVec.z);
+					horse.setDeltaMovement(moveVec.x, (1.0 / (flapCounter * 0.75)) , moveVec.z);
 				}
+			}
 
 
+			if (horse.getEntityData().get(isDiving)) {
+
+				Vector3d moveVec = horse.getDeltaMovement();
+
+				double downSpeed = horse.getEntityData().get(isAccelerating) ? -0.5d : -0.75d;
+
+				horse.setDeltaMovement(moveVec.x, downSpeed, moveVec.z);
 			}
 
 
@@ -116,7 +165,9 @@ public class HorseFlightController {
 		}
 		if (horse.getEntityData().get(isTurning)) {
 
-			int rotInc = horse.getEntityData().get(isTurningLeft) ? -2 : 2;
+			float rotInc = horse.getEntityData().get(isTurningLeft) ? -0.75f : 0.75f;
+
+			rotInc *= horse.getEntityData().get(isAccelerating) ? 2 : 3;
 
 			horse.setRot(horse.yRot + rotInc, horse.xRot);
 			horse.setYBodyRot(horse.yRot);
@@ -124,7 +175,7 @@ public class HorseFlightController {
 
 			if (!horse.level.isClientSide) {
 				turningCounter++;
-				if (turningCounter == 20) {
+				if (turningCounter >= 30 && !horse.getEntityData().get(isStillTurning)) {
 					horse.getEntityData().set(isTurning, false);
 					turningCounter = 0;
 				}
@@ -144,27 +195,27 @@ public class HorseFlightController {
 
 		} else if (!Minecraft.getInstance().options.keyUp.isDown() && horse.getEntityData().get(isAccelerating)) { // If move forward is checked, but the w key is not held anymore, start the slowing down.
 			SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlightPacket(2, horse.getId()));
-
-
 		}
 
-		if (Minecraft.getInstance().options.keyLeft.isDown()) {
+		if (Minecraft.getInstance().options.keyLeft.isDown() && !horse.getEntityData().get(isDiving)) {
 			SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlightPacket(3, horse.getId()));
-
-
-		} else if (Minecraft.getInstance().options.keyRight.isDown()) {
+		} else if (Minecraft.getInstance().options.keyRight.isDown() & !horse.getEntityData().get(isDiving)) {
 			SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlightPacket(4, horse.getId()));
-
-
+		} else if (horse.getEntityData().get(isStillTurning)) {
+			SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlightPacket(6, horse.getId()));
 		}
 
-		if (Minecraft.getInstance().options.keyJump.consumeClick()) {
+		if (Minecraft.getInstance().options.keyJump.consumeClick() && !horse.getEntityData().get(isDiving)) {
 			SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlightPacket(5, horse.getId()));
-
-
 		}
 
-		if (!Minecraft.getInstance().options.keyUp.isDown() && !Minecraft.getInstance().options.keyLeft.isDown() && !Minecraft.getInstance().options.keyRight.isDown() && !horse.getEntityData().get(didFlap) && !horse.getEntityData().get(isSlowingDown)) {
+		if (Minecraft.getInstance().options.keyDown.isDown() && !horse.getEntityData().get(didFlap) && !horse.getEntityData().get(isTurning)) {
+			SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlightPacket(7, horse.getId()));
+		} else if (horse.getEntityData().get(isDiving) && !Minecraft.getInstance().options.keyDown.isDown()) {
+			SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlightPacket(8, horse.getId()));
+		}
+
+		if (!Minecraft.getInstance().options.keyUp.isDown() && !Minecraft.getInstance().options.keyLeft.isDown() && !Minecraft.getInstance().options.keyRight.isDown() && !horse.getEntityData().get(didFlap) && !horse.getEntityData().get(isSlowingDown) && !horse.getEntityData().get(isLaunching)) {
 			SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlightPacket(0, horse.getId()));
 
 		}
@@ -177,7 +228,6 @@ public class HorseFlightController {
 
 	public void launchFlight() {
 		this.launchPos = horse.blockPosition();
-		horse.setPos(launchPos.getX(), launchPos.getY() + 10, launchPos.getZ());
 	}
 
 	public void land() {

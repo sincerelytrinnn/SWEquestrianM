@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "simple_rider_door",
+  "group": "web_guard_rider",
   "pattern":
   [
     "z  ",
@@ -27,7 +27,7 @@
   },
   "result":
   {
-    "item": "swem:simple_rider_door_orange",
+    "item": "swem:web_guard_orange_rider",
     "count": 2
   }
 }

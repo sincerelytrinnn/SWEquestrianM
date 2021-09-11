@@ -87,44 +87,20 @@ public class HitchingPostBase extends Block {
 	 */
 	@Override
 	public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		super.setPlacedBy(worldIn, pos, state, placer, stack);
 		if (!worldIn.isClientSide) {
 			BlockPos blockpos = pos.relative(Direction.UP);
 			worldIn.setBlock(blockpos, state.setValue(PART, PostPart.UPPER), 3);
-			state.updateNeighbourShapes(worldIn, pos, 3);
 		}
 	}
 
-	/**
-	 * Update the provided state given the provided neighbor facing and neighbor state, returning a new state.
-	 * For example, fences make their connections to the passed in state if possible, and wet concrete powder immediately
-	 * returns its solidified counterpart.
-	 * Note that this method should ideally consider only the specific face passed in.
-	 *
-	 * @param stateIn
-	 * @param facing
-	 * @param facingState
-	 * @param worldIn
-	 * @param currentPos
-	 * @param facingPos
-	 */
 	@Override
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		if (stateIn.getValue(PART) == PostPart.LOWER && facing == Direction.UP && facingState.getBlock() == Blocks.AIR) {
-			return Blocks.AIR.defaultBlockState();
-		} else if (stateIn.getValue(PART) == PostPart.UPPER && facing == Direction.DOWN && facingState.getBlock() == Blocks.AIR) {
-			return Blocks.AIR.defaultBlockState();
-		}
-		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
-	}
+	public void playerWillDestroy(World p_176208_1_, BlockPos p_176208_2_, BlockState p_176208_3_, PlayerEntity p_176208_4_) {
+		super.playerWillDestroy(p_176208_1_, p_176208_2_, p_176208_3_, p_176208_4_);
 
-	@Override
-	public void playerDestroy(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, @org.jetbrains.annotations.Nullable TileEntity p_180657_5_, ItemStack p_180657_6_) {
-		player.awardStat(Stats.BLOCK_MINED.get(this));
-		player.causeFoodExhaustion(0.005F);
-
-		if (!player.abilities.instabuild) {
-			dropResources(state, worldIn, pos);
+		if (p_176208_3_.getValue(PART) == PostPart.LOWER) {
+			p_176208_1_.setBlock(p_176208_2_.above(), Blocks.AIR.defaultBlockState(), 3);
+		} else if (p_176208_3_.getValue(PART) == PostPart.UPPER) {
+			p_176208_1_.setBlock(p_176208_2_.below(), Blocks.AIR.defaultBlockState(), 3);
 		}
 	}
 

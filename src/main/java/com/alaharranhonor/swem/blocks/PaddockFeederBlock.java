@@ -91,6 +91,7 @@ public class PaddockFeederBlock extends Block {
 
 	@Override
 	public void playerWillDestroy(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
+		super.playerWillDestroy(worldIn, pos, state, player);
 		if (!worldIn.isClientSide) {
 
 			this.getAllParts(state, pos, worldIn).stream().forEach((blockPos) -> {
@@ -108,7 +109,6 @@ public class PaddockFeederBlock extends Block {
 			}
 		}
 
-		super.playerWillDestroy(worldIn, pos, state, player);
 	}
 
 	/**
@@ -236,11 +236,6 @@ public class PaddockFeederBlock extends Block {
 			BlockState state1 = worldIn.getBlockState(pos1);
 			return state1 == Blocks.AIR.defaultBlockState();
 		});
-	}
-
-	@Override
-	public boolean addDestroyEffects(BlockState state, World world, BlockPos pos, ParticleManager manager) {
-		return true;
 	}
 
 

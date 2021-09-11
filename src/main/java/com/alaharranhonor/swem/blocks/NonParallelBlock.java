@@ -18,6 +18,8 @@ import javax.annotation.Nullable;
 
 import net.minecraft.block.AbstractBlock.Properties;
 
+
+// General class, for blocks connecting on all 4 sides and after placement, only on the same axis.
 public class NonParallelBlock extends HorizontalBlock {
 
 	public static final EnumProperty<SWEMBlockStateProperties.TwoWay> PART = SWEMBlockStateProperties.TWO_WAY;
@@ -73,6 +75,8 @@ public class NonParallelBlock extends HorizontalBlock {
 		}
 	}
 
+
+
 	@Override
 	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
 
@@ -103,10 +107,20 @@ public class NonParallelBlock extends HorizontalBlock {
 			}
 			case SINGLE: {
 				if (facing == stateIn.getValue(FACING)) {
-					System.out.println(facingState.getValue(PART));
-					return stateIn.setValue(FACING, facingState.getValue(FACING)).setValue(PART, SWEMBlockStateProperties.TwoWay.LEFT);
+					if (worldIn.getBlockState(currentPos.relative(facingState.getValue(FACING).getCounterClockWise())).getBlock() instanceof NonParallelBlock) {
+						return stateIn.setValue(FACING, facingState.getValue(FACING)).setValue(PART, SWEMBlockStateProperties.TwoWay.RIGHT);
+					} else if (worldIn.getBlockState(currentPos.relative(facingState.getValue(FACING).getClockWise())).getBlock() instanceof NonParallelBlock) {
+						return stateIn.setValue(FACING, facingState.getValue(FACING)).setValue(PART, SWEMBlockStateProperties.TwoWay.LEFT);
+					}
 				} else if (facing == stateIn.getValue(FACING).getOpposite()) {
-					return stateIn.setValue(FACING, facingState.getValue(FACING)).setValue(PART, SWEMBlockStateProperties.TwoWay.RIGHT);
+					if (!(facingState.getBlock() instanceof NonParallelBlock)) {
+						return stateIn;
+					}
+					if (worldIn.getBlockState(currentPos.relative(facingState.getValue(FACING).getCounterClockWise())).getBlock() instanceof NonParallelBlock) {
+						return stateIn.setValue(FACING, facingState.getValue(FACING)).setValue(PART, SWEMBlockStateProperties.TwoWay.RIGHT);
+					} else if (worldIn.getBlockState(currentPos.relative(facingState.getValue(FACING).getClockWise())).getBlock() instanceof NonParallelBlock) {
+						return stateIn.setValue(FACING, facingState.getValue(FACING)).setValue(PART, SWEMBlockStateProperties.TwoWay.LEFT);
+					}
 				}
 
 				if (facing == stateIn.getValue(FACING).getClockWise()) {

@@ -125,7 +125,9 @@ public class MeasurementTool extends ItemBase {
 			jumpController.setLayerAmount(layerAmount);
 			jumpController.assignJumpBlocks(layers);
 			jumpController.initStandards(StandardLayer.SCHOOLING);
-			jumpController.placeLayer(1, JumpLayer.NONE);
+			for (int i = 1; i <= layerAmount; i++) {
+				jumpController.placeLayer(i, JumpLayer.NONE);
+			}
 
 
 

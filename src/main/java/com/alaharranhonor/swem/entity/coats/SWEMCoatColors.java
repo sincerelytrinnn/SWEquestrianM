@@ -6,7 +6,7 @@ public enum SWEMCoatColors {
 	WHITE(0),
 	GRAY(1),
 	BLACK(2),
-	DARKBROWN(3),
+	CHESTNUT(3),
 	BROWN(4),
 	REDROAN(5),
 	BUCKSKIN(6),

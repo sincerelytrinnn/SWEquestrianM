@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import net.minecraft.item.Item.Properties;
 
-public class BridleItem extends HalterItem {
+public class BridleItem extends HalterItem  {
 
 	private ResourceLocation modelTexture;
 

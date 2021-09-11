@@ -4,11 +4,14 @@ import com.alaharranhonor.swem.util.registry.SWEMEntities;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.tileentity.PistonTileEntity;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.Animation;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.ParticleKeyFrameEvent;
@@ -61,23 +64,33 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			return PlayState.CONTINUE;
 		}*/
 
-		if (horse.isFlying()) {
-			return PlayState.STOP;
+		Animation anim = event.getController().getCurrentAnimation();
+		if (anim != null) {
+			if ((anim.animationName.equals("Jump_Lvl_1")
+					|| anim.animationName.equals("Jump_Lvl_2")
+					|| anim.animationName.equals("Jump_Lvl_3")
+					|| anim.animationName.equals("Jump_Lvl_4")
+					|| anim.animationName.equals("Jump_Lvl_5")
+			) && event.getController().getAnimationState() != AnimationState.Stopped) {
+				return PlayState.CONTINUE;
+			}
 		}
 
-		if (horse.shouldJumpAnimationPlay() && horse.jumpHeight != 0) {
-			System.out.println(horse.jumpHeight);
-			if (horse.jumpHeight > 4.0F) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump"));
+		if (horse.getEntityData().get(SWEMHorseEntityBase.JUMPING) && horse.jumpHeight != 0) {
+			if (horse.jumpHeight > 5.0F) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_5", false));
 				return PlayState.CONTINUE;
-			} else if (jumpHeight > 3.0F) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_3"));
+			} else if (horse.jumpHeight > 4.0F) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_4", false));
 				return PlayState.CONTINUE;
-			} else if (jumpHeight > 2.0F) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_2"));
+			} else if (horse.jumpHeight > 3.0F) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_3", false));
+				return PlayState.CONTINUE;
+			} else if (horse.jumpHeight > 2.0F) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_2", false));
 				return PlayState.CONTINUE;
 			} else {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_1"));
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_1", false));
 				return PlayState.CONTINUE;
 			}
 		}
@@ -95,7 +108,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 
 		if (!event.isMoving()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_idle"));
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_Idle"));
 		} else {
 			if (horse.getEntityData().get(SPEED_LEVEL) == 0) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Walk"));
@@ -181,6 +194,56 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		}*/
 	}
 
+	public <E extends IAnimatable> PlayState flightPredicate(AnimationEvent<E> event) {
+
+		SWEMHorseEntityBase horse = (SWEMHorseEntityBase) event.getAnimatable();
+
+		if (horse.isFlying()) {
+
+			if (horse.getEntityData().get(HorseFlightController.isTurning)) {
+				System.out.println("State: " + event.getController().getAnimationState().name());
+				if (event.getController().getCurrentAnimation().animationName.equals("Turn_Cycle")) {
+					return PlayState.CONTINUE;
+				}
+				if (horse.getEntityData().get(HorseFlightController.isTurningLeft)) {
+					if (!event.getController().getCurrentAnimation().animationName.equals("Turn")) {
+						event.getController().setAnimation(new AnimationBuilder().addAnimation("Turn", false).addAnimation("Turn_Cycle", true));
+						return PlayState.CONTINUE;
+					}
+
+				}
+
+				if (event.getController().getCurrentAnimation().animationName.equals("Turn")) {
+					return PlayState.CONTINUE;
+				}
+
+			}
+
+			if (horse.getEntityData().get(HorseFlightController.isLaunching)) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Launch"));
+				return PlayState.CONTINUE;
+			}
+			if (horse.getEntityData().get(HorseFlightController.isDiving)) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Dive"));
+				return PlayState.CONTINUE;
+			}
+			if (horse.getEntityData().get(HorseFlightController.didFlap)) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Going_Up"));
+				return PlayState.CONTINUE;
+			} else if (horse.getEntityData().get(HorseFlightController.isSlowingDown)) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Slow_Down"));
+				return PlayState.CONTINUE;
+			} else if (horse.getEntityData().get(HorseFlightController.isFloating)) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Float_Down"));
+				return PlayState.CONTINUE;
+			} else if (horse.getEntityData().get(HorseFlightController.isAccelerating)) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Speed_Up"));
+				return PlayState.CONTINUE;
+			}
+		}
+		return PlayState.CONTINUE;
+	}
+
 
 	/**
 	 *
@@ -222,7 +285,8 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 	@Override
 	public void registerControllers(AnimationData animationData) {
-		animationData.addAnimationController(new AnimationController(this, "controller", 5, this::predicate));
+		animationData.addAnimationController(new AnimationController(this, "controller", 2, this::predicate));
+		animationData.addAnimationController(new AnimationController(this, "flightController", 0, this::flightPredicate));
 	}
 
 	@Override

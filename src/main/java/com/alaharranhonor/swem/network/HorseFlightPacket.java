@@ -62,21 +62,33 @@ public class HorseFlightPacket {
 					break;
 				}
 				case 3: {
-					horse.getEntityData().set(HorseFlightController.isFloating, false);
 					horse.getEntityData().set(HorseFlightController.isTurningLeft, true);
 					horse.getEntityData().set(HorseFlightController.isTurning, true);
+					horse.getEntityData().set(HorseFlightController.isStillTurning, true);
 					break;
 				}
 				case 4: {
-					horse.getEntityData().set(HorseFlightController.isFloating, false);
 					horse.getEntityData().set(HorseFlightController.isTurningLeft, false);
 					horse.getEntityData().set(HorseFlightController.isTurning, true);
+					horse.getEntityData().set(HorseFlightController.isStillTurning, true);
 					break;
 				}
 				case 5: {
 					horse.getEntityData().set(HorseFlightController.isFloating, false);
 					horse.getEntityData().set(HorseFlightController.didFlap, true);
 					break;
+				}
+				case 6: {
+					horse.getEntityData().set(HorseFlightController.isStillTurning, false);
+					break;
+				}
+				case 7: {
+					horse.getEntityData().set(HorseFlightController.isTurning, false);
+					horse.getEntityData().set(HorseFlightController.isDiving, true);
+					break;
+				}
+				case 8: {
+					horse.getEntityData().set(HorseFlightController.isDiving, false);
 				}
 
 			}
