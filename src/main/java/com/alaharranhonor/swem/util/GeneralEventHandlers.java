@@ -172,48 +172,14 @@ public class GeneralEventHandlers {
 					ConfigHolder.CLIENT.wingsTransparency.set(value);
 				}
 
-				if (Minecraft.getInstance().options.keyUp.isDown()) {
-					SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(3));
-				}
-
-				if (Minecraft.getInstance().options.keyRight.isDown()) {
-					Entity entity = Minecraft.getInstance().player.getVehicle();
-					if (entity != null) {
-						if (entity instanceof SWEMHorseEntityBase) {
-							SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-							if (horse.isFlying()) {
-								SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(6));
-								horse.setRot((horse.yRot + 5) % 360.0F, horse.xRot);
-							}
-
-						}
-					}
-				}
-
-				if (Minecraft.getInstance().options.keyLeft.isDown()) {
-					Entity entity = Minecraft.getInstance().player.getVehicle();
-					if (entity != null) {
-						if (entity instanceof SWEMHorseEntityBase) {
-							SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-							if (horse.isFlying()) {
-								SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(5));
-								horse.setRot((horse.yRot - 5) % 360.0F, horse.xRot);
-							}
-
-						}
-					}
-				}
-
-				if (Minecraft.getInstance().options.keyJump.consumeClick()) {
-					SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(1));
-				}
-
-				if (Minecraft.getInstance().options.keyDrop.isDown()) {
-					SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(4));
-				}
-
 				if (keyBindings[3].consumeClick()) {
-					SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlyingMessage(2));
+					Entity entity = Minecraft.getInstance().player.getVehicle();
+					if (entity instanceof SWEMHorseEntityBase) {
+						SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+
+						SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(10, horse.getId()));
+
+					}
 				}
 
 				KEY_PRESS_COUNTER = 0;

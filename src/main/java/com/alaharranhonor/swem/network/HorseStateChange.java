@@ -20,6 +20,9 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
+import static com.alaharranhonor.swem.entities.HorseFlightController.*;
+import static com.alaharranhonor.swem.entities.HorseFlightController.isDiving;
+
 public class HorseStateChange {
 
 	private int action;
@@ -116,7 +119,25 @@ public class HorseStateChange {
 				}
 				case 9: {
 					horse.cycleRidingPermission();
+					break;
 				}
+				case 10: {
+					horse.setFlying(!horse.isFlying());
+					if (!horse.isFlying()) {
+						horse.getEntityData().set(isFloating, false);
+						horse.getEntityData().set(isAccelerating, false);
+						horse.getEntityData().set(isSlowingDown, false);
+						horse.getEntityData().set(isTurningLeft, false);
+						horse.getEntityData().set(isTurning, false);
+						horse.getEntityData().set(isStillTurning, false);
+						horse.getEntityData().set(didFlap, false);
+						horse.getEntityData().set(isDiving, false);
+						horse.getEntityData().set(isLaunching, false);
+					} else {
+						horse.getEntityData().set(isLaunching, true);
+					}
+				}
+
 			}
 
 		});
