@@ -183,13 +183,14 @@ public class ClientEventHandlers {
 	}
 
 	public static void registerKeybinds() {
-		keyBindings = new KeyBinding[5];
+		keyBindings = new KeyBinding[6];
 
 		keyBindings[0] = new KeyBinding("key.swem.horse.increment", GLFW.GLFW_KEY_H, "key.swem.category");
 		keyBindings[1] = new KeyBinding("key.swem.horse.decrement", GLFW.GLFW_KEY_G, "key.swem.category");
 		keyBindings[2] = new KeyBinding("key.swem.horse.toggle_bedroll", GLFW.GLFW_KEY_K, "key.swem.category");
 		keyBindings[3] = new KeyBinding("key.swem.horse.toggle_flight", GLFW.GLFW_KEY_J, "key.swem.category");
 		keyBindings[4] = new KeyBinding("key.swem.horse.toggle_wings", GLFW.GLFW_KEY_PERIOD, "key.swem.category");
+		keyBindings[5] = new KeyBinding("key.swem.horse.dive_flight", GLFW.GLFW_KEY_X, "key.swem.category");
 
 
 		for (int i = 0; i < keyBindings.length; i++) {
@@ -250,7 +251,7 @@ public class ClientEventHandlers {
 
 			event.setCanceled(true);
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-
+			if (horse.isFlying()) return;
 			int xPosition = event.getWindow().getGuiScaledWidth() / 2 - 100;
 
 			float f = player.getJumpRidingScale();
