@@ -177,8 +177,9 @@ public class GeneralEventHandlers {
 					if (entity instanceof SWEMHorseEntityBase) {
 						SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 
-						SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(10, horse.getId()));
-
+						if (!horse.isFlying())  {
+							SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(10, horse.getId()));
+						}
 					}
 				}
 
