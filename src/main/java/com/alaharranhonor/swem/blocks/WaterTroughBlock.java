@@ -270,16 +270,24 @@ public class WaterTroughBlock extends NonParallelBlock {
 			if (!checkState.isAir() && checkState.getBlock() instanceof WaterTroughBlock) {
 				int connections = 0;
 				if (checkState.getValue(PART) == SWEMBlockStateProperties.TwoWay.LEFT) {
-					connections = countConnectionsFromLeft(checkState, world, pos);
+					connections += countConnectionsFromLeft(checkState, world, pos);
 				} else if (checkState.getValue(PART) == SWEMBlockStateProperties.TwoWay.RIGHT) {
-					connections = countConnectionsFromRight(checkState, world, pos);
+					connections += countConnectionsFromRight(checkState, world, pos);
 				}
+
+
 
 				if (connections >= 4) {
 					return false;
 				}
 			}
 		}
+
+
+		if ((checkLeft.getBlock() instanceof WaterTroughBlock && checkRight.getBlock() instanceof WaterTroughBlock) && checkLeft.getValue(PART) == SWEMBlockStateProperties.TwoWay.LEFT && checkRight.getValue(PART) == SWEMBlockStateProperties.TwoWay.RIGHT) {
+			return false;
+		}
+
 
 		return true;
 	}
