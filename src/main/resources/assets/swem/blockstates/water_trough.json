@@ -1813,6 +1813,42 @@
       "apply": {
         "model": "swem:block/wt_middle_16"
       }
+    },
+    {
+      "when": {
+        "two_way": "single",
+        "level": 16
+      },
+      "apply": {
+        "model": "swem:block/wt_single16"
+      }
+    },
+    {
+      "when": {
+        "two_way": "single",
+        "level": 12
+      },
+      "apply": {
+        "model": "swem:block/wt_single12"
+      }
+    },
+    {
+      "when": {
+        "two_way": "single",
+        "level": 8
+      },
+      "apply": {
+        "model": "swem:block/wt_single8"
+      }
+    },
+    {
+      "when": {
+        "two_way": "single",
+        "level": 4
+      },
+      "apply": {
+        "model": "swem:block/wt_single4"
+      }
     }
 
 
