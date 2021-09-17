@@ -116,7 +116,7 @@ public class HorseDoorBlock extends Block{
 	public BlockState checkAndGetRightSide(BlockPos blockpos, Direction direction, BlockItemUseContext context, DoorHingeSide hinge, boolean secondTime) {
 
 		ArrayList<Boolean> blockChecks = new ArrayList<>();
-		BlockPos.betweenClosed(blockpos, blockpos.above().relative(direction.getCounterClockWise().getAxis(), -1)).forEach(blockPos1 -> {
+		BlockPos.betweenClosed(blockpos, blockpos.above().relative(direction.getCounterClockWise().getAxis(), direction == Direction.EAST ? 1 : direction == Direction.NORTH ? 1 : -1)).forEach(blockPos1 -> {
 			blockChecks.add(context.getLevel().getBlockState(blockPos1).canBeReplaced(context));
 		});
 
@@ -136,7 +136,7 @@ public class HorseDoorBlock extends Block{
 
 	public BlockState checkAndGetLeftSide(BlockPos blockpos, Direction direction, BlockItemUseContext context, DoorHingeSide hinge, boolean secondTime) {
 		ArrayList<Boolean> blockChecks = new ArrayList<>();
-		BlockPos.betweenClosed(blockpos, blockpos.above().relative(direction.getCounterClockWise().getAxis(), 1)).forEach(blockPos1 -> {
+		BlockPos.betweenClosed(blockpos, blockpos.above().relative(direction.getCounterClockWise().getAxis(), direction == Direction.EAST ? -1 : direction == Direction.NORTH ? -1 : 1)).forEach(blockPos1 -> {
 			blockChecks.add(context.getLevel().getBlockState(blockPos1).canBeReplaced(context));
 		});
 
