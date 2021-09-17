@@ -57,6 +57,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.potion.Effects;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -1102,6 +1103,10 @@ public class SWEMHorseEntityBase
 			if (this.getDeltaMovement().y > 0) {
 				this.setDeltaMovement(this.getDeltaMovement().x, -.15, this.getDeltaMovement().z); // Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until wasEyeInWater returns true.
 			}
+		} else if (this.isInLava() && !this.isEyeInFluid(FluidTags.LAVA) && !this.isVehicle()) {
+			if (this.getDeltaMovement().y > 0) {
+				this.setDeltaMovement(this.getDeltaMovement().x, -.5, this.getDeltaMovement().z); // Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until wasEyeInWater returns true.
+			}
 		}
 	}
 
@@ -1174,12 +1179,9 @@ public class SWEMHorseEntityBase
 					}
 				}
 			}
-
-		} else if (this.isInLava() && !this.wasEyeInWater && !this.isVehicle()) {
-			if (this.getDeltaMovement().y > 0) {
-				this.setDeltaMovement(this.getDeltaMovement().x, -.15, this.getDeltaMovement().z); // Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until wasEyeInWater returns true.
-			}
 		}
+
+		this.clearFire();
 
 
 	}
@@ -1298,7 +1300,7 @@ public class SWEMHorseEntityBase
 				boolean flag = this.level.getBlockState(this.blockPosition().offset(this.getDirection().getNormal())).canOcclude();
 
 				// Handles the swimming. Travel is only called when player is riding the entity.
-				if (this.wasEyeInWater && !flag && this.getDeltaMovement().y < 0) { // Check if the eyes is in water level, and we don't have a solid block the way we are facing. If not, then apply a inverse force, to float the horse.
+				if ((this.wasEyeInWater || this.fluidOnEyes == FluidTags.LAVA) && !flag && this.getDeltaMovement().y < 0) { // Check if the eyes is in water level, and we don't have a solid block the way we are facing. If not, then apply a inverse force, to float the horse.
 					this.setDeltaMovement(this.getDeltaMovement().multiply(1, -1.9, 1));
 				}
 			} else {
