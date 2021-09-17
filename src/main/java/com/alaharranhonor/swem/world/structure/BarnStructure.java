@@ -125,6 +125,7 @@ public class BarnStructure extends Structure<NoFeatureConfig> {
 	@Override
 	protected boolean isFeatureChunk(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) {
 		BlockPos centerOfChunk = new BlockPos((chunkX << 4) + 7, 0, (chunkZ << 4) + 7);
+		// Make more checks with different offset, try and get one in each corner.
 
 		// Grab height of land. Will stop at first non-air block.
 		int landHeight = chunkGenerator.getFirstOccupiedHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
@@ -140,6 +141,7 @@ public class BarnStructure extends Structure<NoFeatureConfig> {
 		BlockState topBlockTwoDown = columnOfBlocks.getBlockState(centerOfChunk.above(landHeight - 2));
 		BlockState topBlockThreeDown = columnOfBlocks.getBlockState(centerOfChunk.above(landHeight - 3));
 		BlockState topBlockFourDown = columnOfBlocks.getBlockState(centerOfChunk.above(landHeight - 3));
+
 
 		// Now we test to make sure our structure is not spawning on water or other fluids.
 		// You can do height check instead too to make it spawn at high elevations.
@@ -247,8 +249,10 @@ public class BarnStructure extends Structure<NoFeatureConfig> {
 			//
 			// By lifting the house up by 1 and lowering the bounding box, the land at bottom of house will now be
 			// flush with the surrounding terrain without blocking off the doorstep.
-			this.pieces.forEach(piece -> piece.move(0, -4, 0));
-			this.pieces.forEach(piece -> piece.getBoundingBox().y0 += 4);
+
+
+			this.pieces.forEach(piece -> piece.move(0, -9, 0));
+			this.pieces.forEach(piece -> piece.getBoundingBox().y0 += 9);
 
 
 			// Sets the bounds of the structure once you are finished.
