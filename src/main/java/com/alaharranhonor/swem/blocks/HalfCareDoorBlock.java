@@ -115,34 +115,50 @@ public class HalfCareDoorBlock extends Block {
 
 		if (hinge == DoorHingeSide.LEFT) {
 			// Check right
-			ArrayList<Boolean> blockChecks = new ArrayList<>();
-			BlockPos.betweenClosed(blockpos, blockpos.above().relative(direction.getAxis(), 2)).forEach(blockPos1 -> {
-				blockChecks.add(context.getLevel().getBlockState(blockPos1).canBeReplaced(context));
-			});
-
-			if (blockpos.getY() < 254 && blockChecks.stream().allMatch((bool) -> true)) {
-				World world = context.getLevel();
-
-				boolean flag = world.hasNeighborSignal(blockpos) || world.hasNeighborSignal(blockpos.above());
-				return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection()).setValue(HINGE, this.getHingeSide(context)).setValue(OPEN, Boolean.valueOf(flag)).setValue(SIDE, SWEMBlockStateProperties.TripleBlockSide.LEFT);
-			} else {
-				return null;
-			}
+			return checkAndGetRightSide(blockpos, direction, context, hinge, false);
 		} else {
-			// Check right.
-			ArrayList<Boolean> blockChecks = new ArrayList<>();
-			BlockPos.betweenClosed(blockpos, blockpos.above().relative(direction.getAxis(), -2)).forEach(blockPos1 -> {
-				blockChecks.add(context.getLevel().getBlockState(blockPos1).canBeReplaced(context));
-			});
+			// Check left.
+			return checkAndGetLeftSide(blockpos, direction, context, hinge, false);
+		}
+	}
 
-			if (blockpos.getY() < 254 && blockChecks.stream().allMatch((bool) -> bool)) {
-				World world = context.getLevel();
+	public BlockState checkAndGetRightSide(BlockPos blockpos, Direction direction, BlockItemUseContext context, DoorHingeSide hinge, boolean secondTime) {
 
-				boolean flag = world.hasNeighborSignal(blockpos) || world.hasNeighborSignal(blockpos.above());
-				return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection()).setValue(HINGE, this.getHingeSide(context)).setValue(OPEN, Boolean.valueOf(flag)).setValue(SIDE, SWEMBlockStateProperties.TripleBlockSide.RIGHT);
-			} else {
-				return null;
+		ArrayList<Boolean> blockChecks = new ArrayList<>();
+		BlockPos.betweenClosed(blockpos, blockpos.relative(direction.getCounterClockWise().getAxis(), -1)).forEach(blockPos1 -> {
+			blockChecks.add(context.getLevel().getBlockState(blockPos1).canBeReplaced(context));
+		});
+
+		if (blockpos.getY() < 254 && blockChecks.stream().allMatch((bool) -> bool)) {
+			World world = context.getLevel();
+
+			boolean flag = world.hasNeighborSignal(blockpos) || world.hasNeighborSignal(blockpos.above());
+			return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection()).setValue(HINGE, hinge).setValue(OPEN, Boolean.valueOf(flag)).setValue(SIDE, SWEMBlockStateProperties.TripleBlockSide.LEFT);
+		} else {
+			if (!secondTime) {
+				return checkAndGetLeftSide(blockpos, direction, context, hinge == DoorHingeSide.LEFT ? DoorHingeSide.RIGHT : hinge, true);
 			}
+
+			return null;
+		}
+	}
+
+	public BlockState checkAndGetLeftSide(BlockPos blockpos, Direction direction, BlockItemUseContext context, DoorHingeSide hinge, boolean secondTime) {
+		ArrayList<Boolean> blockChecks = new ArrayList<>();
+		BlockPos.betweenClosed(blockpos, blockpos.relative(direction.getCounterClockWise().getAxis(), 1)).forEach(blockPos1 -> {
+			blockChecks.add(context.getLevel().getBlockState(blockPos1).canBeReplaced(context));
+		});
+
+		if (blockpos.getY() < 254 && blockChecks.stream().allMatch((bool) -> bool)) {
+			World world = context.getLevel();
+
+			boolean flag = world.hasNeighborSignal(blockpos) || world.hasNeighborSignal(blockpos.above());
+			return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection()).setValue(HINGE, hinge).setValue(OPEN, Boolean.valueOf(flag)).setValue(SIDE, SWEMBlockStateProperties.TripleBlockSide.RIGHT);
+		} else {
+			if (!secondTime) {
+				return checkAndGetRightSide(blockpos, direction, context, hinge == DoorHingeSide.RIGHT ? DoorHingeSide.LEFT : hinge, true);
+			}
+			return null;
 		}
 	}
 
