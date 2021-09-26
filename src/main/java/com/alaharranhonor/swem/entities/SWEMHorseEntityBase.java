@@ -261,17 +261,34 @@ public class SWEMHorseEntityBase
 
 	private double getAlteredMovementSpeed()
 	{
+
+		//TODO: Remove, once speed has been confirmed.
+		/*
 		switch (this.progressionManager.getSpeedLeveling().getLevel()) {
 			case 1:
-				return 0.284629981024667d;
+				return 0.286d;
 			case 2:
-				return 0.332068311195445d;
+				return 0.3905d;
 			case 3:
-				return 0.379506641366223d;
+				return 0.517d;
 			case 4:
-				return 0.426944971537001d;
+				return 0.649d;
 			default:
-				return 0.237191650853889d;
+				return 0.1826d;
+		}
+		 */
+
+		switch (this.progressionManager.getSpeedLeveling().getLevel()) {
+			case 1:
+				return 0.286d;
+			case 2:
+				return 0.3905d;
+			case 3:
+				return 0.517d;
+			case 4:
+				return 0.649d;
+			default:
+				return 0.1826d;
 		}
 	}
 
@@ -1105,7 +1122,7 @@ public class SWEMHorseEntityBase
 			}
 		} else if (this.isInLava() && !this.isEyeInFluid(FluidTags.LAVA) && !this.isVehicle()) {
 			if (this.getDeltaMovement().y > 0) {
-				this.setDeltaMovement(this.getDeltaMovement().x, -.5, this.getDeltaMovement().z); // Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until wasEyeInWater returns true.
+				this.setDeltaMovement(this.getDeltaMovement().x, -.5, this.getDeltaMovement().z);// Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until wasEyeInWater returns true.
 			}
 		}
 	}
@@ -1403,9 +1420,14 @@ public class SWEMHorseEntityBase
 	}
 
 	public void levelUpSpeed() {
+		// TODO: Remove once speed has been confirmed.
+		/*
 		double currentSpeed = this.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
 		double newSpeed = this.getAlteredMovementSpeed();
 		this.getAttribute(Attributes.MOVEMENT_SPEED).addPermanentModifier(new AttributeModifier(this.progressionManager.getSpeedLeveling().getLevelName(), newSpeed - currentSpeed, AttributeModifier.Operation.ADDITION));
+		 */
+
+		this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getAlteredMovementSpeed());
 	}
 
 	/**
@@ -1838,10 +1860,42 @@ public class SWEMHorseEntityBase
 	}
 
 	public void updateSelectedSpeed(HorseSpeed oldSpeed) {
+
+		if (this.currentSpeed == HorseSpeed.TROT) {
+			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.123d);
+		} else if (this.currentSpeed == HorseSpeed.WALK) {
+			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0425d);
+		} else {
+			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getAlteredMovementSpeed());
+		}
 		this.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(oldSpeed.getModifier());
 		if (!this.getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(this.currentSpeed.getModifier())) {
 			this.getAttribute(Attributes.MOVEMENT_SPEED).addTransientModifier(this.currentSpeed.getModifier());
 		}
+
+		//TODO: Remove once speed has been confirmed.
+		/*
+		if (oldSpeed == HorseSpeed.CANTER) {
+			if (this.getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(oldSpeed.getModifier())) {
+				this.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(oldSpeed.getModifier());
+			}
+		}
+
+		if (this.currentSpeed == HorseSpeed.CANTER) {
+			if (!this.getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(this.currentSpeed.getModifier())) {
+				this.getAttribute(Attributes.MOVEMENT_SPEED).addTransientModifier(this.currentSpeed.getModifier());
+			}
+		}
+		if (this.currentSpeed == HorseSpeed.CANTER && oldSpeed == HorseSpeed.TROT) {
+			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getAlteredMovementSpeed());
+		}
+
+		if (this.currentSpeed == HorseSpeed.WALK) {
+			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.03d);
+		} else if (this.currentSpeed == HorseSpeed.TROT) {
+			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.123d);
+		}
+		 */
 		this.entityData.set(SPEED_LEVEL, this.currentSpeed.speedLevel);
 	}
 
@@ -2010,10 +2064,14 @@ public class SWEMHorseEntityBase
 
 	public enum HorseSpeed {
 
-		WALK(new AttributeModifier("HORSE_WALK", -0.85d, AttributeModifier.Operation.MULTIPLY_TOTAL), 0),
-		TROT(new AttributeModifier("HORSE_TROT", -0.65d, AttributeModifier.Operation.MULTIPLY_TOTAL), 1),
+		/*
+		WALK(new AttributeModifier("HORSE_WALK", 0, AttributeModifier.Operation.ADDITION), 0),
+		TROT(new AttributeModifier("HORSE_TROT", 0, AttributeModifier.Operation.ADDITION), 1),
+		 */
+		WALK(new AttributeModifier("HORSE_WALK", 0, AttributeModifier.Operation.ADDITION), 0),
+		TROT(new AttributeModifier("HORSE_TROT", 0, AttributeModifier.Operation.ADDITION), 1),
 		CANTER(new AttributeModifier("HORSE_CANTER", -0.1d, AttributeModifier.Operation.MULTIPLY_TOTAL), 2),
-		GALLOP(new AttributeModifier("HORSE_GALLOP", 0, AttributeModifier.Operation.ADDITION), 3);
+		GALLOP(new AttributeModifier("HORSE_GALLOP", 0.2d, AttributeModifier.Operation.MULTIPLY_TOTAL), 3);
 		private AttributeModifier modifier;
 		private int speedLevel;
 		HorseSpeed(AttributeModifier modifier, int speedLevel) {
