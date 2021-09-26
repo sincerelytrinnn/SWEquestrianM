@@ -25,6 +25,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
@@ -33,6 +34,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.text.Color;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
@@ -52,6 +54,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class GeneralEventHandlers {
@@ -127,6 +130,18 @@ public class GeneralEventHandlers {
 		public static void onKeyPress(InputEvent.KeyInputEvent event) {
 			KeyBinding[] keyBindings = ClientEventHandlers.keyBindings;
 			if (KEY_PRESS_COUNTER == 1) {
+
+
+				// TODO: Remove once speed has been confirmed.
+				if (keyBindings[6].consumeClick()) {
+					ClientPlayerEntity player = Minecraft.getInstance().player;
+					Entity entity = player.getVehicle();
+					if (entity instanceof SWEMHorseEntityBase) {
+						SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+						player.sendMessage(new StringTextComponent("Speed: " + horse.getAttributeValue(Attributes.MOVEMENT_SPEED)), UUID.randomUUID());
+						player.sendMessage(new StringTextComponent("Base Value: " + horse.getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue()), UUID.randomUUID());
+					}
+				}
 
 				if (keyBindings[0].consumeClick()) {
 					// Increment Speed.
