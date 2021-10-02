@@ -1,0 +1,36 @@
+{
+  "display": {
+    "icon": {
+      "item": "swem:gold_horse_armor"
+    },
+    "title": {
+      "translate": "advancements.swem.main.gold_horse_armor.title"
+    },
+    "description": {
+      "translate": "advancements.swem.main.gold_horse_armor.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "parent": "swem:main/iron_horse_armor",
+  "criteria": {
+    "gold_horse_armor": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:gold_horse_armor"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "gold_horse_armor"
+    ]
+  ]
+}

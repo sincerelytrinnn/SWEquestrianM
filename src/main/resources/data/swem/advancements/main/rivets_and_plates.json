@@ -1,0 +1,39 @@
+{
+  "display": {
+    "icon": {
+      "item": "swem:iron_rivet"
+    },
+    "title": {
+      "translate": "advancements.swem.main.rivets_and_plates.title"
+    },
+    "description": {
+      "translate": "advancements.swem.main.rivets_and_plates.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "parent": "swem:main/tack_box",
+  "criteria": {
+    "rivets_and_plates": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "swem:iron_rivet"
+          },
+          {
+            "items": "swem:iron_plate"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "rivets_and_plates"
+    ]
+  ]
+}

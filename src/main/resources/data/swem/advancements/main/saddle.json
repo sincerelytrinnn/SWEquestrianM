@@ -1,0 +1,36 @@
+{
+  "display": {
+    "icon": {
+      "item": "swem:western_saddle_light_blue"
+    },
+    "title": {
+      "translate": "advancements.swem.main.saddle.title"
+    },
+    "description": {
+      "translate": "advancements.swem.main.saddle.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "parent": "swem:main/root",
+  "criteria": {
+    "saddle": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": ["swem:western_saddle_light_blue", "swem:english_saddle_black", "swem:adventure_saddle"]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "saddle"
+    ]
+  ]
+}

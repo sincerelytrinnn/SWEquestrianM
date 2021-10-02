@@ -1,0 +1,36 @@
+{
+  "display": {
+    "icon": {
+      "item": "swem:adventure_saddle_glow"
+    },
+    "title": {
+      "translate": "advancements.swem.main.glow_saddle.title"
+    },
+    "description": {
+      "translate": "advancements.swem.main.glow_saddle.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "parent": "swem:main/saddle",
+  "criteria": {
+    "glow_saddle": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:adventure_saddle_glow"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "glow_saddle"
+    ]
+  ]
+}

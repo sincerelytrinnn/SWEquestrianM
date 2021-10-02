@@ -1,0 +1,36 @@
+{
+  "display": {
+    "icon": {
+      "item": "swem:tack_box"
+    },
+    "title": {
+      "translate": "advancements.swem.main.tack_box.title"
+    },
+    "description": {
+      "translate": "advancements.swem.main.tack_box.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "parent": "swem:main/cloth_horse_armor",
+  "criteria": {
+    "tack_box": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:tack_box"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "tack_box"
+    ]
+  ]
+}

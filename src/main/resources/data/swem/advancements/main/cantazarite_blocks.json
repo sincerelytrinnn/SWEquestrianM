@@ -1,0 +1,39 @@
+{
+  "display": {
+    "icon": {
+      "item": "swem:cantazarite_block"
+    },
+    "title": {
+      "translate": "advancements.swem.main.cantazarite_blocks.title"
+    },
+    "description": {
+      "translate": "advancements.swem.main.cantazarite_blocks.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "parent": "swem:main/root",
+  "criteria": {
+    "cantazarite_blocks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:cantazarite_block",
+            "count": {
+              "min": 4
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "cantazarite_blocks"
+    ]
+  ]
+}
