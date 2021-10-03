@@ -10,15 +10,21 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.advancements.AdvancementsScreen;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.inventory.AbstractFurnaceScreen;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.DyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.HoverEvent;
+
+import java.util.Collection;
 
 public class TackBoxProgressionScreen extends Screen {
 	private static final ResourceLocation TACKBOX_PROGRESSION_TEXTURE = new ResourceLocation(SWEM.MOD_ID, "textures/gui/container/tackbox_progression.png");
@@ -63,16 +69,39 @@ public class TackBoxProgressionScreen extends Screen {
 		this.blit(matrixStack, i, j, 0, 0, 247, 207);
 		this.font.draw(matrixStack, this.title, (float) this.guiLeft + 13, (float)this.guiTop + 30, 4210752);
 
-		if ((mouseX > this.guiLeft && mouseX < this.guiLeft + this.xSize) && (mouseY > this.guiTop && mouseY < this.guiTop + this.ySize)) {
-			for (ProgressionBoxes pb : ProgressionBoxes.values()) {
-				if (pb.isMouseOver(mouseX, mouseY)) {
-					Advancement adv = Minecraft.getInstance().player.connection.getAdvancements().getAdvancements().get(new ResourceLocation(SWEM.MOD_ID, pb.getPath()));
-					//this.font.draw(matrixStack, adv.getDisplay().getTitle()..append("\n").append(adv.getDisplay().getDescription()), pb.getX(), pb.getY(), 4210752);
-				}
+		for (ProgressionBoxes pb : ProgressionBoxes.values()) {
+			Advancement adv = Minecraft.getInstance().player.connection.getAdvancements().getAdvancements().get(new ResourceLocation(SWEM.MOD_ID, pb.getPath()));
+			if (adv == null) continue; // Advancement has not been completed, don't overlay the blue box.
+			this.blit(matrixStack, pb.getX() + this.guiLeft, pb.getY() + this.guiTop, 247, 25, 3, 3);
+
+			if (pb.isMouseOver(mouseX, mouseY, this.guiLeft, this.guiTop)) {
+
+				// Place the same render call that happens in AdvancementsScreen
+				this.font.draw(matrixStack, adv.getDisplay().getTitle().copy().append("\n").append(adv.getDisplay().getDescription()), pb.getX() + this.guiLeft, pb.getY() + this.guiTop, 6724056);
 			}
 		}
 
+		/*
+		if ((mouseX > this.guiLeft && mouseX < this.guiLeft + this.xSize) && (mouseY > this.guiTop && mouseY < this.guiTop + this.ySize)) {
+			for (ProgressionBoxes pb : ProgressionBoxes.values()) {
+				if (pb.isMouseOver(mouseX, mouseY, this.guiLeft, this.guiTop)) {
+					Minecraft.getInstance().player.connection.getAdvancements().progress.keySet().forEach((adv) -> {
+						if (adv.getId().getNamespace().equals("swem")) {
+							System.out.println(adv.getId().toString());
+						}
+					});
+
+					Advancement adv = Minecraft.getInstance().player.connection.getAdvancements().getAdvancements().get(new ResourceLocation(SWEM.MOD_ID, pb.getPath()));
+					// Place the same render call that happens in AdvancementsScreen
+					this.font.draw(matrixStack, adv.getDisplay().getTitle().copy().append("\n").append(adv.getDisplay().getDescription()), pb.getX() + this.guiLeft, pb.getY() + this.guiTop, 6724056);
+				}
+			}
+		}
+		 */
+
 	}
+
+
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
