@@ -12,7 +12,7 @@
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": false,
-    "hidden": true,
+    "hidden": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
   "parent": "swem:main/iron_horse_armor",

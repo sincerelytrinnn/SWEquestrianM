@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "swem:leather_reading_boots"
+      "item": "swem:leather_riding_boots"
     },
     "title": {
       "translate": "advancements.swem.main.leather_boots.title"
@@ -12,17 +12,17 @@
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": false,
-    "hidden": true,
+    "hidden": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
   "parent": "swem:main/root",
   "criteria": {
-    "leather_reading_boots": {
+    "leather_riding_boots": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:leather_reading_boots"
+            "item": "swem:leather_riding_boots"
           }
         ]
       }
@@ -30,7 +30,7 @@
   },
   "requirements": [
     [
-      "leather_reading_boots"
+      "leather_riding_boots"
     ]
   ]
 }

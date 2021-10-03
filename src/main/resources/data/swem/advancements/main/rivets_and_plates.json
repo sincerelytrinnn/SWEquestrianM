@@ -12,7 +12,7 @@
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": false,
-    "hidden": true,
+    "hidden": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
   "parent": "swem:main/tack_box",
@@ -22,10 +22,16 @@
       "conditions": {
         "items": [
           {
-            "items": "swem:iron_rivet"
+            "item": "swem:iron_rivet",
+            "count": {
+              "min": 1
+            }
           },
           {
-            "items": "swem:iron_plate"
+            "item": "swem:iron_plate",
+            "count": {
+              "min": 1
+            }
           }
         ]
       }
