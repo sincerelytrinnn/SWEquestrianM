@@ -83,6 +83,7 @@ public class TackBoxBlock extends HorizontalBlock {
 				NetworkHooks.openGui((ServerPlayerEntity) player, (TackBoxTE) tile, (buffer) -> {
 					buffer.writeBlockPos(tile.getBlockPos());
 				});
+				return ActionResultType.CONSUME;
 			}
 		}
 		return ActionResultType.FAIL;
