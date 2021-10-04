@@ -9,7 +9,7 @@ buildscript {
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1+', changing: true
         classpath 'org.parchmentmc:librarian:1.+'
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+        classpath 'org.spongepowered:mixingradle:0.7.+'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
@@ -54,8 +54,6 @@ minecraft {
 
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
-
-            arg "-mixin.config=swem.mixins.json"
 
             jvmArgs "-Xms2G", "-Xmx8G"
 
@@ -131,10 +129,14 @@ dependencies {
 
     compileOnly 'org.jetbrains:annotations:20.1.0'
 
+    //Apply mixin AP
+    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
+
 }
 
 mixin {
     add sourceSets.main, "swem.refmap.json"
+    config 'swem.mixins.json'
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
