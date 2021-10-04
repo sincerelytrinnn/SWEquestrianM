@@ -1382,7 +1382,7 @@ public class SWEMHorseEntityBase
 	}
 
 	private void stopJump() {
-		if (this.getEntityData().get(JUMPING)) {
+		if (this.level.isClientSide) {
 			SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), false, 0.0F));
 		}
 	}
