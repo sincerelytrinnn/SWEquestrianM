@@ -158,6 +158,10 @@ public class NonParallelBlock extends HorizontalBlock {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return VoxelShapes.box(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
+		if (state.getValue(FACING).getAxis() == Direction.Axis.Z) {
+			return VoxelShapes.box(0.01d, 0.01d, 0.4375d, 0.99d, 0.99d, 0.5625d);
+		} else {
+			return VoxelShapes.box(0.4375d, 0.01d, 0.01d, 0.5625d, 0.99d, 0.99d);
+		}
 	}
 }
