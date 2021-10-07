@@ -14,6 +14,7 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
@@ -142,6 +143,8 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> WHITEWASH_FENCE = BLOCKS.register("whitewash_fence", () -> new FenceBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
 	public static final RegistryObject<Block> WHITEWASH_FENCE_GATE = BLOCKS.register("whitewash_fence_gate", () -> new FenceGateBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
 	public static final RegistryObject<Block> WHITEWASH_DOOR = BLOCKS.register("whitewash_door", () -> new DoorBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> WHITEWASH_LOG = register("whitewash_log", () -> new RotatedPillarBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> WHITEWASH_TRAPDOOR = register("whitewash_trapdoor", () -> new TrapDoorBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
 
     // Jump blocks
 	public static final RegistryObject<Block> JUMP_CONTROLLER = BLOCKS.register("jump_controller", () -> new JumpControllerBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
