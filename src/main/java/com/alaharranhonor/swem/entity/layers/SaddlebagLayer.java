@@ -33,7 +33,7 @@ public class SaddlebagLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 		ItemStack stack = entitylivingbaseIn.getSaddlebag();
 		if (!stack.isEmpty()) {
 			SaddlebagItem bagItem = (SaddlebagItem)stack.getItem();
-			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json")),
+			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
 					entitylivingbaseIn,
 					partialTicks,
 					RenderType.entityCutout(bagItem.getArmorTexture()),

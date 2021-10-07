@@ -37,7 +37,7 @@ public class SWEMHorseModel extends AnimatedGeoModel<SWEMHorseEntity> {
 
     @Override
     public ResourceLocation getModelLocation(SWEMHorseEntity swemHorseEntity) {
-        return new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json");
+        return new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json");
     }
 
     @Override
