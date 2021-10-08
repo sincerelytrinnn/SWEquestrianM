@@ -26,14 +26,50 @@ public class TrackerItem extends ItemBase {
 
 			if (horse.isBaby() || !horse.isTamed()) return ActionResultType.FAIL;
 
-			CompoundNBT nbt = stack.getOrCreateTag();
-			CompoundNBT tracked = stack.getOrCreateTagElement("tracked");
+			if (!horse.getOwnerUUID().equals(playerIn.getUUID())) {
+				playerIn.displayClientMessage(new StringTextComponent("You can't track horses, that aren't yours."), true);
+				return ActionResultType.FAIL;
+			}
 
-			tracked.putUUID(Integer.toString(tracked.size()), horse.getUUID());
+			if (playerIn.isShiftKeyDown()) {
+				// Remove tracking status
+				CompoundNBT tracked = stack.getOrCreateTagElement("tracked");
+				CompoundNBT trackedNew = new CompoundNBT();
+				boolean removed = false;
+				for (int i = 0; i < tracked.size(); i++) {
 
-			playerIn.displayClientMessage(new StringTextComponent("Horse is now being tracked"), true);
+					if (tracked.getUUID(String.valueOf(i)).equals(horse.getUUID())) {
+						playerIn.displayClientMessage(new StringTextComponent("Horse is no longer being tracked"), true);
+						removed = true;
+						horse.setTracked(false);
+						continue;
+					}
+					trackedNew.putUUID(String.valueOf(removed ? i - 1 : i), tracked.getUUID(String.valueOf(i)));
 
-			nbt.put("tracked", tracked);
+				}
+
+
+				stack.getOrCreateTag().put("tracked", trackedNew);
+			} else {
+				//Add tracking status
+				CompoundNBT nbt = stack.getOrCreateTag();
+				CompoundNBT tracked = stack.getOrCreateTagElement("tracked");
+
+				for (int i = 0; i < tracked.size(); i++) {
+					if (tracked.getUUID(String.valueOf(i)).equals(horse.getUUID())) {
+						playerIn.displayClientMessage(new StringTextComponent("Horse is already being tracked."), true);
+						return ActionResultType.FAIL;
+					}
+				}
+				tracked.putUUID(Integer.toString(tracked.size()), horse.getUUID());
+
+				horse.setTracked(true);
+
+				playerIn.displayClientMessage(new StringTextComponent("Horse is now being tracked"), true);
+
+				nbt.put("tracked", tracked);
+			}
+
 			return ActionResultType.CONSUME;
 		}
 		return ActionResultType.PASS;

@@ -116,6 +116,7 @@ public class SWEMHorseEntityBase
 	private static final DataParameter<Boolean> GALLOP_ON_COOLDOWN = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public final static DataParameter<Integer> SPEED_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	public final static DataParameter<String> PERMISSION_STRING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
+	public final static DataParameter<Boolean> TRACKED = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private ArrayList<UUID> allowedList = new ArrayList<>();
 
 	public HorseSpeed currentSpeed;
@@ -380,7 +381,16 @@ public class SWEMHorseEntityBase
 		this.getEntityData().define(didFlap, false);
 		this.getEntityData().define(isDiving, false);
 		this.entityData.define(PERMISSION_STRING, "EVERYONE");
+		this.entityData.define(TRACKED, false);
 
+	}
+
+	public void setTracked(boolean tracked) {
+		this.entityData.set(TRACKED, tracked);
+	}
+
+	public boolean isBeingTracked() {
+		return this.entityData.get(TRACKED);
 	}
 
 	@Override
@@ -767,6 +777,7 @@ public class SWEMHorseEntityBase
 
 		compound.put("allowedList", allowedList);
 		compound.putString("permissionState", RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)).name());
+		compound.putBoolean("tracked", this.entityData.get(TRACKED));
 	}
 
 	public ItemStack getArmor() {
@@ -858,6 +869,10 @@ public class SWEMHorseEntityBase
 
 		if (compound.contains("permissionState")) {
 			this.setPermissionState(compound.getString("permissionState"));
+		}
+
+		if (compound.contains("tracked")) {
+			this.setTracked(compound.getBoolean("tracked"));
 		}
 
 	}
@@ -1526,7 +1541,7 @@ public class SWEMHorseEntityBase
 	public ActionResultType mobInteract(PlayerEntity playerEntity, Hand hand) {
 		ItemStack itemstack = playerEntity.getItemInHand(hand);
 		if (!this.isBaby()) {
-			if (this.isTamed() && playerEntity.isSecondaryUseActive()) {
+			if (this.isTamed() && playerEntity.isSecondaryUseActive() && !(itemstack.getItem() instanceof TrackerItem)) {
 				this.openInventory(playerEntity);
 				return ActionResultType.sidedSuccess(this.level.isClientSide);
 			}

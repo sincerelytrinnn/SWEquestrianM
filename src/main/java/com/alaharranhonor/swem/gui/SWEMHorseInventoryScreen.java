@@ -147,7 +147,9 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 
 
 		// Overlay, for Tracker.
-		//fillGradient(matrixStack, 9, 117, 12, 120, 0xFF479238, 0xFF85f96d);
+		if (this.horseEntity.isBeingTracked()) {
+			fillGradient(matrixStack, 9, 117, 12, 120, 0xFF479238, 0xFF85f96d);
+		}
 
 		// Hunger.
 		switch (this.horseEntity.getEntityData().get(HungerNeed.HungerState.ID)) {
