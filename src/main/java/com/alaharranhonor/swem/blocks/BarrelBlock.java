@@ -43,7 +43,16 @@ public class BarrelBlock extends Block {
 		ItemStack itemstack = player.getItemInHand(handIn);
 		if (itemstack.getItem() == Items.SHEARS) {
 			itemstack.hurtAndBreak(1, player, (entity) -> entity.broadcastBreakEvent(handIn));
+
+			// Destroy both parts of the barrel.
 			worldIn.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+			if (state.getValue(PART) == HitchingPostBase.PostPart.LOWER) {
+				worldIn.setBlock(pos.above(), Blocks.AIR.defaultBlockState(), 3);
+			} else if (state.getValue(PART) == HitchingPostBase.PostPart.UPPER) {
+				worldIn.setBlock(pos.below(), Blocks.AIR.defaultBlockState(), 3);
+
+			}
+
 			ItemEntity entity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(SWEMBlocks.HALF_BARRELS.get(DyeColor.WHITE.getId()).get()));
 			ItemEntity entity1 = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(SWEMBlocks.HALF_BARRELS.get(DyeColor.WHITE.getId()).get()));
 
@@ -68,6 +77,7 @@ public class BarrelBlock extends Block {
 	public void playerWillDestroy(World p_176208_1_, BlockPos p_176208_2_, BlockState p_176208_3_, PlayerEntity p_176208_4_) {
 		super.playerWillDestroy(p_176208_1_, p_176208_2_, p_176208_3_, p_176208_4_);
 
+		// Destroy the other part of the barrel.
 		if (p_176208_3_.getValue(PART) == HitchingPostBase.PostPart.LOWER) {
 			p_176208_1_.setBlock(p_176208_2_.above(), Blocks.AIR.defaultBlockState(), 3);
 		} else if (p_176208_3_.getValue(PART) == HitchingPostBase.PostPart.UPPER) {
