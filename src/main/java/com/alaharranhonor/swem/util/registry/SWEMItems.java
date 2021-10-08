@@ -323,7 +323,7 @@ public class SWEMItems {
 			new AmethystBow(new Item.Properties().tab(SWEM.TAB))
 	);
 	public static final RegistryObject<AmethystScythe> AMETHYST_SCYTHE = ITEMS.register("amethyst_scythe", () ->
-			new AmethystScythe(SWEMItemTier.AMETHYST, 4, 2F, new Item.Properties().tab(SWEM.TAB))
+			new AmethystScythe(SWEMItemTier.AMETHYST, 3, 2F, new Item.Properties().tab(SWEM.TAB))
 	);
 	public static final RegistryObject<ShieldItem> AMETHYST_SHIELD = ITEMS.register("amethyst_shield", () ->
 			new AmethystShield(new Item.Properties().tab(SWEM.TAB))
