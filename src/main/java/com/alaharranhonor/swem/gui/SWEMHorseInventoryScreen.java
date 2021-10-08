@@ -23,6 +23,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -64,9 +65,9 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 	@Override
 	protected void init() {
 		super.init();
-		this.permissionButton = new Button(this.leftPos  + 123, this.topPos + 112, 44, 11, new StringTextComponent(horseEntity.getPermissionState().name()), p_onPress_1_ -> {
+		this.permissionButton = new Button(this.leftPos  + 118, this.topPos + 109, 52, 20, new StringTextComponent(horseEntity.getPermissionState().name()), p_onPress_1_ -> {
 			SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(9, horseEntity.getId()));
-			p_onPress_1_.setMessage(new StringTextComponent(horseEntity.getPermissionState().name()));
+			p_onPress_1_.setMessage(new StringTextComponent(SWEMHorseEntityBase.RidingPermission.values()[(horseEntity.getPermissionState().ordinal() + 1) % 3].name()));
 		});
 
 		if (!Objects.equals(this.horseEntity.getOwnerUUID(), Minecraft.getInstance().player.getUUID())) {
