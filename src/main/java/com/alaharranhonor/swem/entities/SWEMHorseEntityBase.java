@@ -379,7 +379,7 @@ public class SWEMHorseEntityBase
 		this.getEntityData().define(isStillTurning, false);
 		this.getEntityData().define(didFlap, false);
 		this.getEntityData().define(isDiving, false);
-		this.entityData.define(PERMISSION_STRING, "NONE");
+		this.entityData.define(PERMISSION_STRING, "EVERYONE");
 
 	}
 
