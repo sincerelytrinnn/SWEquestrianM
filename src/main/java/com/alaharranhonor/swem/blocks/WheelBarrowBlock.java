@@ -19,6 +19,9 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.PacketDistributor;
@@ -40,6 +43,16 @@ public class WheelBarrowBlock extends HorizontalBlock {
 		);
 
 		this.colour = colour;
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState p_220053_1_, IBlockReader p_220053_2_, BlockPos p_220053_3_, ISelectionContext p_220053_4_) {
+		if (p_220053_1_.getValue(FACING).getAxis() == Direction.Axis.Z) {
+			// p_220053_1_.getValue(FACING).getStepZ() == -1 ?
+			return VoxelShapes.box(0.125d, 0.01d,  p_220053_1_.getValue(FACING).getStepZ() == 1 ? -0.375d : -0.5d, 0.875d, 0.875d, p_220053_1_.getValue(FACING).getStepZ() == 1 ? 1.5d : 1.375d);
+		} else {
+			return VoxelShapes.box(p_220053_1_.getValue(FACING).getStepX() == 1 ? -0.375d : -0.5d, 0.01d, 0.125d, p_220053_1_.getValue(FACING).getStepX() == 1 ? 1.5d : 1.375d, 0.875d, 0.875d);
+		}
 	}
 
 	@Override
