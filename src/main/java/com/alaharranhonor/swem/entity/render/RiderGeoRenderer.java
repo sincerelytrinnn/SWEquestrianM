@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.HorseRenderer;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.entity.layers.BipedArmorLayer;
+import net.minecraft.client.renderer.entity.model.ElytraModel;
 import net.minecraft.client.renderer.entity.model.IHasArm;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
@@ -24,9 +25,11 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerModelPart;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.resources.IResource;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.IResourcePack;
@@ -36,6 +39,7 @@ import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.ITextComponent;
@@ -63,6 +67,8 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 	public static final RiderGeoRenderer<RiderEntity> INSTANCE = new RiderGeoRenderer<>();
 
 	private static final RiderModel riderModel = new RiderModel();
+
+	private static final ResourceLocation WINGS_LOCATION = new ResourceLocation("textures/entity/elytra.png");
 
 	@Override
 	public GeoModelProvider getGeoModelProvider() {
@@ -108,9 +114,85 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 			if (!Minecraft.getInstance().options.hideGui) {
 				checkRenderNameTag(animatable, animatable.getPlayer().getDisplayName(), matrixStackIn, renderTypeBuffer, packedLightIn);
 			}
+
+			renderElytraPiece(matrixStackIn, renderTypeBuffer, animatable, packedLightIn, new ElytraModel<>(), model, partialTicks);
+
+
 		}
 	}
 
+	// See ElytraLayer#render
+	private void renderElytraPiece(MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, T animatable, int packedLight, ElytraModel model, GeoModel copyFrom, float partialTicks) {
+		ItemStack chestStack = animatable.getPlayer().getItemBySlot(EquipmentSlotType.CHEST);
+		if (chestStack.getItem() == Items.ELYTRA) { //shouldRender call.
+			ResourceLocation resourcelocation;
+			if (animatable.getPlayer() instanceof AbstractClientPlayerEntity) {
+				AbstractClientPlayerEntity abstractclientplayerentity = (AbstractClientPlayerEntity) animatable.getPlayer();
+				if (abstractclientplayerentity.isElytraLoaded() && abstractclientplayerentity.getElytraTextureLocation() != null) {
+					resourcelocation = abstractclientplayerentity.getElytraTextureLocation();
+				} else if (abstractclientplayerentity.isCapeLoaded() && abstractclientplayerentity.getCloakTextureLocation() != null && abstractclientplayerentity.isModelPartShown(PlayerModelPart.CAPE)) {
+					resourcelocation = abstractclientplayerentity.getCloakTextureLocation();
+				} else {
+					resourcelocation = WINGS_LOCATION;
+				}
+			} else {
+				resourcelocation = WINGS_LOCATION;
+			}
+
+			matrixStack.pushPose();
+			matrixStack.translate(0.0D, 0.0D, 0.125D);
+
+			boolean shouldSit = animatable.getPlayer().isPassenger();
+
+			float f = MathHelper.rotLerp(partialTicks, animatable.getPlayer().yBodyRotO, animatable.getPlayer().yBodyRot);
+			float f1 = MathHelper.rotLerp(partialTicks, animatable.getPlayer().yHeadRotO, animatable.getPlayer().yHeadRot);
+			float f2 = f1 - f;
+			if (shouldSit && animatable.getPlayer().getVehicle() instanceof LivingEntity) {
+				LivingEntity livingEntity = (LivingEntity)animatable.getPlayer().getVehicle();
+				f = MathHelper.rotLerp(partialTicks, livingEntity.yBodyRotO, livingEntity.yBodyRot);
+				f2 = f1 - f;
+				float f3 = MathHelper.wrapDegrees(f2);
+				if (f3 < -85.0F) {
+					f3 = -85.0F;
+				}
+
+				if (f3 >= 85.0F) {
+					f3 = 85.0F;
+				}
+
+				f = f1 - f3;
+				if (f3 * f3 > 2500.0F) {
+					f += f3 * 0.2F;
+				}
+
+				f2 = f1 - f;
+			}
+
+			float f5 = 0.0F;
+			float f6 = MathHelper.lerp(partialTicks, animatable.getPlayer().xRotO, animatable.getPlayer().xRot);
+			float f7 = this.getBob(animatable, partialTicks);
+			float f8 = 0.0F;
+
+			if (!shouldSit && animatable.getPlayer().isAlive()) {
+				f8 = MathHelper.lerp(partialTicks, animatable.getPlayer().animationSpeedOld, animatable.getPlayer().animationSpeed);
+				f5 = animatable.getPlayer().animationPosition - animatable.getPlayer().animationSpeed * (1.0F - partialTicks);
+				if (animatable.getPlayer().isBaby()) {
+					f5 *= 3.0F;
+				}
+
+				if (f8 > 1.0F) {
+					f8 = 1.0F;
+				}
+			}
+
+			model.setupAnim(animatable.getPlayer(), f5, f8, f7, f2, f6);
+			IVertexBuilder ivertexbuilder = ItemRenderer.getArmorFoilBuffer(renderTypeBuffer, RenderType.armorCutoutNoCull(resourcelocation), false, chestStack.hasFoil());
+			model.renderToBuffer(matrixStack, ivertexbuilder, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+			matrixStack.popPose();
+		}
+	}
+
+	// See bipedArmorLayer#render
 	private void renderArmorPiece(MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, T animatable, EquipmentSlotType slotType, int packedLight, GeoModel model, GeoModel copyFrom) {
 		ItemStack itemStack = animatable.getPlayer().getItemBySlot(slotType);
 		if (itemStack.getItem() instanceof ArmorItem) {
@@ -272,6 +354,10 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 
 			p_225629_3_.popPose();
 		}
+	}
+
+	private float getBob(T animatable, float partialTicks) {
+		return (float)animatable.getPlayer().tickCount + partialTicks;
 	}
 
 
