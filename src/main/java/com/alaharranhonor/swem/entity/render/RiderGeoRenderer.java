@@ -85,9 +85,7 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 		Entity entity = animatable.getPlayer().getVehicle();
 		if (entity instanceof SWEMHorseEntityBase) {
 
-			float limbSwing = 0.0f;
-			float limbSwingAmount = 0.0f;
-			AnimationEvent<T> predicate = new AnimationEvent((IAnimatable)entity, limbSwing, limbSwingAmount, partialTicks, limbSwingAmount <= -0.15F || limbSwingAmount >= 0.15F, Collections.singletonList(new EntityModelData()));
+			AnimationEvent<T> predicate = new AnimationEvent((IAnimatable)entity, 0.0f, 0.0f, partialTicks, 0.0f <= -0.15F || 0.0f >= 0.15F, Collections.singletonList(new EntityModelData()));
 			this.riderModel.setLivingAnimations(animatable, this.getUniqueID(animatable), predicate);
 
 
@@ -115,14 +113,61 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 				checkRenderNameTag(animatable, animatable.getPlayer().getDisplayName(), matrixStackIn, renderTypeBuffer, packedLightIn);
 			}
 
-			renderElytraPiece(matrixStackIn, renderTypeBuffer, animatable, packedLightIn, new ElytraModel<>(), model, partialTicks);
+			boolean shouldSit = animatable.getPlayer().isPassenger();
 
+			float f = MathHelper.rotLerp(partialTicks, animatable.getPlayer().yBodyRotO, animatable.getPlayer().yBodyRot);
+			float f1 = MathHelper.rotLerp(partialTicks, animatable.getPlayer().yHeadRotO, animatable.getPlayer().yHeadRot);
+			float netHeadYaw = f1 - f;
+			if (shouldSit && animatable.getPlayer().getVehicle() instanceof LivingEntity) {
+				LivingEntity livingEntity = (LivingEntity)animatable.getPlayer().getVehicle();
+				f = MathHelper.rotLerp(partialTicks, livingEntity.yBodyRotO, livingEntity.yBodyRot);
+				netHeadYaw = f1 - f;
+				float f3 = MathHelper.wrapDegrees(netHeadYaw);
+				if (f3 < -85.0F) {
+					f3 = -85.0F;
+				}
+
+				if (f3 >= 85.0F) {
+					f3 = 85.0F;
+				}
+
+				f = f1 - f3;
+				if (f3 * f3 > 2500.0F) {
+					f += f3 * 0.2F;
+				}
+
+				netHeadYaw = f1 - f;
+			}
+
+			float limbSwing = 0.0F;
+			float headPitch = MathHelper.lerp(partialTicks, animatable.getPlayer().xRotO, animatable.getPlayer().xRot);
+			float ageInTicks = this.getBob(animatable, partialTicks);
+			float limbSwingAmount = 0.0F;
+
+			if (!shouldSit && animatable.getPlayer().isAlive()) {
+				limbSwingAmount = MathHelper.lerp(partialTicks, animatable.getPlayer().animationSpeedOld, animatable.getPlayer().animationSpeed);
+				limbSwing = animatable.getPlayer().animationPosition - animatable.getPlayer().animationSpeed * (1.0F - partialTicks);
+				if (animatable.getPlayer().isBaby()) {
+					limbSwing *= 3.0F;
+				}
+
+				if (limbSwingAmount > 1.0F) {
+					limbSwingAmount = 1.0F;
+				}
+			}
+
+			renderElytraPiece(matrixStackIn, renderTypeBuffer, animatable, packedLightIn, new ElytraModel<>(), model, partialTicks, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+
+			//renderCape(matrixStackIn, renderTypeBuffer, packedLightIn, animatable, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
 
 		}
 	}
 
-	// See ElytraLayer#render
-	private void renderElytraPiece(MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, T animatable, int packedLight, ElytraModel model, GeoModel copyFrom, float partialTicks) {
+	/**
+	 * @see net.minecraft.client.renderer.entity.layers.ElytraLayer#render
+	 *
+	 **/
+	private void renderElytraPiece(MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, T animatable, int packedLight, ElytraModel model, GeoModel copyFrom, float partialTicks, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		ItemStack chestStack = animatable.getPlayer().getItemBySlot(EquipmentSlotType.CHEST);
 		if (chestStack.getItem() == Items.ELYTRA) { //shouldRender call.
 			ResourceLocation resourcelocation;
@@ -142,57 +187,66 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 			matrixStack.pushPose();
 			matrixStack.translate(0.0D, 0.0D, 0.125D);
 
-			boolean shouldSit = animatable.getPlayer().isPassenger();
-
-			float f = MathHelper.rotLerp(partialTicks, animatable.getPlayer().yBodyRotO, animatable.getPlayer().yBodyRot);
-			float f1 = MathHelper.rotLerp(partialTicks, animatable.getPlayer().yHeadRotO, animatable.getPlayer().yHeadRot);
-			float f2 = f1 - f;
-			if (shouldSit && animatable.getPlayer().getVehicle() instanceof LivingEntity) {
-				LivingEntity livingEntity = (LivingEntity)animatable.getPlayer().getVehicle();
-				f = MathHelper.rotLerp(partialTicks, livingEntity.yBodyRotO, livingEntity.yBodyRot);
-				f2 = f1 - f;
-				float f3 = MathHelper.wrapDegrees(f2);
-				if (f3 < -85.0F) {
-					f3 = -85.0F;
-				}
-
-				if (f3 >= 85.0F) {
-					f3 = 85.0F;
-				}
-
-				f = f1 - f3;
-				if (f3 * f3 > 2500.0F) {
-					f += f3 * 0.2F;
-				}
-
-				f2 = f1 - f;
-			}
-
-			float f5 = 0.0F;
-			float f6 = MathHelper.lerp(partialTicks, animatable.getPlayer().xRotO, animatable.getPlayer().xRot);
-			float f7 = this.getBob(animatable, partialTicks);
-			float f8 = 0.0F;
-
-			if (!shouldSit && animatable.getPlayer().isAlive()) {
-				f8 = MathHelper.lerp(partialTicks, animatable.getPlayer().animationSpeedOld, animatable.getPlayer().animationSpeed);
-				f5 = animatable.getPlayer().animationPosition - animatable.getPlayer().animationSpeed * (1.0F - partialTicks);
-				if (animatable.getPlayer().isBaby()) {
-					f5 *= 3.0F;
-				}
-
-				if (f8 > 1.0F) {
-					f8 = 1.0F;
-				}
-			}
-
-			model.setupAnim(animatable.getPlayer(), f5, f8, f7, f2, f6);
+			model.setupAnim(animatable.getPlayer(), limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 			IVertexBuilder ivertexbuilder = ItemRenderer.getArmorFoilBuffer(renderTypeBuffer, RenderType.armorCutoutNoCull(resourcelocation), false, chestStack.hasFoil());
 			model.renderToBuffer(matrixStack, ivertexbuilder, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 			matrixStack.popPose();
 		}
 	}
 
-	// See bipedArmorLayer#render
+
+	/**
+	* @see net.minecraft.client.renderer.entity.layers.CapeLayer#render
+ 	*
+    **/
+	private void renderCape(MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int packedLight, T animatable, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYet, float headPitch) {
+		AbstractClientPlayerEntity playerEntity = null;
+		if (animatable.getPlayer() instanceof AbstractClientPlayerEntity) {
+			playerEntity = (AbstractClientPlayerEntity) animatable.getPlayer();
+		}
+		if (playerEntity == null) return;
+
+		if (playerEntity.isCapeLoaded() && !animatable.getPlayer().isInvisible() && animatable.getPlayer().isModelPartShown(PlayerModelPart.CAPE) && playerEntity.getCloakTextureLocation() != null) {
+			ItemStack itemstack = animatable.getPlayer().getItemBySlot(EquipmentSlotType.CHEST);
+			if (itemstack.getItem() != Items.ELYTRA) {
+				matrixStack.pushPose();
+				matrixStack.translate(0.0D, 0.0D, 0.125D);
+				double d0 = MathHelper.lerp((double)partialTicks, animatable.getPlayer().xCloakO, animatable.getPlayer().xCloak) - MathHelper.lerp((double)partialTicks, animatable.getPlayer().xo, animatable.getPlayer().getX());
+				double d1 = MathHelper.lerp((double)partialTicks, animatable.getPlayer().yCloakO, animatable.getPlayer().yCloak) - MathHelper.lerp((double)partialTicks, animatable.getPlayer().yo, animatable.getPlayer().getY());
+				double d2 = MathHelper.lerp((double)partialTicks, animatable.getPlayer().zCloakO, animatable.getPlayer().zCloak) - MathHelper.lerp((double)partialTicks, animatable.getPlayer().zo, animatable.getPlayer().getZ());
+				float f = animatable.getPlayer().yBodyRotO + (animatable.getPlayer().yBodyRot - animatable.getPlayer().yBodyRotO);
+				double d3 = (double)MathHelper.sin(f * ((float)Math.PI / 180F));
+				double d4 = (double)(-MathHelper.cos(f * ((float)Math.PI / 180F)));
+				float f1 = (float)d1 * 10.0F;
+				f1 = MathHelper.clamp(f1, -6.0F, 32.0F);
+				float f2 = (float)(d0 * d3 + d2 * d4) * 100.0F;
+				f2 = MathHelper.clamp(f2, 0.0F, 150.0F);
+				float f3 = (float)(d0 * d4 - d2 * d3) * 100.0F;
+				f3 = MathHelper.clamp(f3, -20.0F, 20.0F);
+				if (f2 < 0.0F) {
+					f2 = 0.0F;
+				}
+
+				float f4 = MathHelper.lerp(partialTicks, animatable.getPlayer().oBob, animatable.getPlayer().bob);
+				f1 = f1 + MathHelper.sin(MathHelper.lerp(partialTicks, animatable.getPlayer().walkDistO, animatable.getPlayer().walkDist) * 6.0F) * 32.0F * f4;
+				if (animatable.getPlayer().isCrouching()) {
+					f1 += 25.0F;
+				}
+
+				matrixStack.mulPose(Vector3f.XP.rotationDegrees(6.0F + f2 / 2.0F + f1));
+				matrixStack.mulPose(Vector3f.ZP.rotationDegrees(f3 / 2.0F));
+				matrixStack.mulPose(Vector3f.YP.rotationDegrees(180.0F - f3 / 2.0F));
+				IVertexBuilder ivertexbuilder = renderTypeBuffer.getBuffer(RenderType.entitySolid(playerEntity.getCloakTextureLocation()));
+				//renderToBuffer(matrixStack, ivertexbuilder, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+				matrixStack.popPose();
+			}
+		}
+	}
+
+	/**
+	 * @see net.minecraft.client.renderer.entity.layers.BipedArmorLayer#render
+	 *
+	 **/
 	private void renderArmorPiece(MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, T animatable, EquipmentSlotType slotType, int packedLight, GeoModel model, GeoModel copyFrom) {
 		ItemStack itemStack = animatable.getPlayer().getItemBySlot(slotType);
 		if (itemStack.getItem() instanceof ArmorItem) {
