@@ -25,9 +25,6 @@ public class SWEMItems {
 	}
 
 
-	public static final RegistryObject<Item> WOOD_COIL = ITEMS.register("wood_coil", ItemBase::new);
-	public static final RegistryObject<Item> TETHER = ITEMS.register("tether", ItemBase::new);
-	public static final RegistryObject<Item> WIRE = ITEMS.register("wire", ItemBase::new);
 	public static final RegistryObject<Item> DIAMOND_PLATE = ITEMS.register("diamond_plate", ItemBase::new);
 	public static final RegistryObject<Item> GOLD_PLATE = ITEMS.register("gold_plate", ItemBase::new);
 	public static final RegistryObject<Item> IRON_PLATE = ITEMS.register("iron_plate", ItemBase::new);
