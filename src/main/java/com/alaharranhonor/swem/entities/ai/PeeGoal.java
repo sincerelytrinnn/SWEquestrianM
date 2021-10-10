@@ -34,7 +34,7 @@ public class PeeGoal extends Goal {
 	 */
 	@Override
 	public boolean canUse() {
-		return this.peeEntity.getRandom().nextInt(10000) == 0 && this.peeEntity.getPassengers().isEmpty();
+		return this.peeEntity.level.getGameTime() % (ConfigHolder.SERVER.serverPeeInterval.get() * 20) == 0 && this.peeEntity.getPassengers().isEmpty() && ConfigHolder.SERVER.serverTickPeeNeed.get();
 	}
 
 	/**
@@ -42,8 +42,8 @@ public class PeeGoal extends Goal {
 	 */
 	@Override
 	public void start() {
-		this.peeTimer = 9000;
-		this.entityWorld.broadcastEntityEvent(this.peeEntity, (byte)10);
+		this.peeTimer = 40;
+		this.entityWorld.broadcastEntityEvent(this.peeEntity, (byte)126);
 		this.peeEntity.getNavigation().stop();
 	}
 
@@ -73,10 +73,10 @@ public class PeeGoal extends Goal {
 	@Override
 	public void tick() {
 		this.peeTimer = Math.max(0, this.peeTimer - 1);
-		if (this.peeTimer == 4 && ConfigHolder.SERVER.serverTickPoopNeed.get()) {
+		if (peeTimer == 4) {
 			BlockPos blockpos = this.peeEntity.blockPosition();
 			BlockPos bestPos = this.getPosOfBestBlock(blockpos);
-			//this.pee(bestPos);
+			this.pee(bestPos);
 		}
 
 	}

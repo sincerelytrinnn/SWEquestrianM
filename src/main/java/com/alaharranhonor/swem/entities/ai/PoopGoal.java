@@ -28,7 +28,7 @@ public class PoopGoal extends Goal {
 	 */
 	@Override
 	public boolean canUse() {
-		return this.pooperEntity.getRandom().nextInt(10000) == 0 && this.pooperEntity.getPassengers().isEmpty();
+		return this.pooperEntity.level.getGameTime() % (ConfigHolder.SERVER.serverPoopInterval.get() * 20) == 0 && this.pooperEntity.getPassengers().isEmpty() && ConfigHolder.SERVER.serverTickPoopNeed.get();
 	}
 
 	/**
@@ -36,8 +36,8 @@ public class PoopGoal extends Goal {
 	 */
 	@Override
 	public void start() {
-		this.poopTimer = 9600;
-		this.entityWorld.broadcastEntityEvent(this.pooperEntity, (byte)10);
+		this.poopTimer = 40;
+		this.entityWorld.broadcastEntityEvent(this.pooperEntity, (byte)127);
 		this.pooperEntity.getNavigation().stop();
 	}
 
@@ -67,12 +67,12 @@ public class PoopGoal extends Goal {
 	@Override
 	public void tick() {
 		this.poopTimer = Math.max(0, this.poopTimer - 1);
-		if (this.poopTimer == 4 && ConfigHolder.SERVER.serverTickPoopNeed.get()) {
+		if (this.poopTimer == 4) {
 			BlockPos blockpos = this.pooperEntity.blockPosition();
 			PoopEntity poop = SWEMEntities.HORSE_POOP_ENTITY.get().create(this.entityWorld);
 			BlockPos posToPoop = blockpos.offset(0, 1.5d, 0).relative(this.pooperEntity.getDirection().getOpposite());
 			poop.setPos(posToPoop.getX(), posToPoop.getY(), posToPoop.getZ());
-			//this.entityWorld.addFreshEntity(poop);
+			this.entityWorld.addFreshEntity(poop);
 		}
 	}
 }
