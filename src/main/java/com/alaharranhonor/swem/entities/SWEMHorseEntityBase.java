@@ -28,7 +28,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -123,11 +122,17 @@ public class SWEMHorseEntityBase
 
 	private NeedManager needs;
 	private HorseFlightController flightController;
-
-	// Animation variable.
-	public double jumpHeight;
-
 	private final WhistleManager<SWEMHorseEntityBase> whistleManager;
+
+	private PeeGoal peeGoal;
+	private PoopGoal poopGoal;
+
+	// Animation variables.
+	public double jumpHeight;
+	private int poopAnimationTick;
+	private int peeAnimationTick;
+
+
 
 	public SWEMHorseEntityBase(EntityType<? extends AbstractHorseEntity> type, World levelIn)
 	{
@@ -163,6 +168,8 @@ public class SWEMHorseEntityBase
 	protected void registerGoals() {
 		// TODO: ADD AI TO FOLLOW WHISTLE POSITION AS TOP PRIORITY
 		super.registerGoals();
+		this.peeGoal = new PeeGoal(this);
+		this.poopGoal = new PoopGoal(this);
 		this.goalSelector.addGoal(0, new WalkToWhistlerGoal<>(this));
 		//this.goalSelector.addGoal(0, new SwimGoal(this));
 		this.goalSelector.addGoal(1, new PanicStraightGoal(this, 1.2D));
@@ -171,14 +178,35 @@ public class SWEMHorseEntityBase
 		//this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, TEMPTATION_ITEMS, false));
 		//this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.0D));
 		this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PigEntity.class, 12.0f, 1.0d, 1.0d));
-		this.goalSelector.addGoal(5, new PoopGoal(this));
-		this.goalSelector.addGoal(5, new PeeGoal(this));
+		this.goalSelector.addGoal(5, this.poopGoal);
+		this.goalSelector.addGoal(5, this.peeGoal);
 		//this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.7D));
 		//this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
 		this.goalSelector.addGoal(8, new LookForFoodGoal(this, 1.0d));
 		this.goalSelector.addGoal(8, new LookForWaterGoal(this, 1.0d));
 		this.goalSelector.addGoal(9, new EatGrassGoal(this));
+	}
+
+	// This method is being called from the SEntityStatusPacket, which is fired in the goal's start method, with the broadcastAndSendChanges
+	// This is so we can set animation timers on the client side on the entity.
+	@Override
+	public void handleEntityEvent(byte p_70103_1_) {
+		if (p_70103_1_ == 127) { // Poop goal
+			this.poopAnimationTick = 40;
+		} else if (p_70103_1_ == 126) { // Pee goal
+			this.peeAnimationTick = 40;
+		} else {
+			super.handleEntityEvent(p_70103_1_);
+		}
+	}
+
+	public boolean isPooping() {
+		return this.poopAnimationTick > 0;
+	}
+
+	public boolean isPeeing() {
+		return this.peeAnimationTick > 0;
 	}
 
 	@Override
@@ -219,6 +247,12 @@ public class SWEMHorseEntityBase
 		this.entityData.set(OWNER_NAME, ownerName);
 	}
 
+	@Override
+	protected void customServerAiStep() {
+		this.peeAnimationTick = this.peeGoal.getPeeTimer();
+		this.poopAnimationTick = this.poopGoal.getPoopTimer();
+		super.customServerAiStep();
+	}
 
 	@Override
 	public void aiStep()
@@ -226,6 +260,11 @@ public class SWEMHorseEntityBase
 
 
 		if (!this.level.isClientSide) {
+			// Tick the animation timers.
+			this.peeAnimationTick = Math.max(0, this.peeAnimationTick - 1);
+			this.poopAnimationTick = Math.max(0, this.poopAnimationTick - 1);
+
+
 			if ((int)(this.level.getDayTime() % 24000L) == 10000) {
 				this.resetDaily();
 			}
