@@ -25,7 +25,9 @@ public final class ServerConfig {
 	public final ForgeConfigSpec.BooleanValue serverTickFoodNeed;
 	public final ForgeConfigSpec.BooleanValue serverTickWaterNeed;
 	public final ForgeConfigSpec.BooleanValue serverTickPoopNeed;
+	public final ForgeConfigSpec.IntValue serverPoopInterval;
 	public final ForgeConfigSpec.BooleanValue serverTickPeeNeed;
+	public final ForgeConfigSpec.IntValue serverPeeInterval;
 
 	public final ForgeConfigSpec.BooleanValue halterDependency;
 	public final ForgeConfigSpec.BooleanValue needBridleToSteer;
@@ -63,7 +65,9 @@ public final class ServerConfig {
 		this.serverTickFoodNeed = builder.comment("Enable Food need ticking on swem horses?").translation("swem.config.enableFoodTick").define("foodTick", true);
 		this.serverTickWaterNeed = builder.comment("Enable Water need ticking on swem horses?").translation("swem.config.enableWaterTick").define("waterTick", true);
 		this.serverTickPoopNeed = builder.comment("Enable Poop ticking on swem horses?").translation("swem.config.enablePoopTick").define("poopTick", true);
+		this.serverPoopInterval = builder.comment("Specify in seconds the interval between each poop cycle.").translation("swem.config.poopInterval").defineInRange("poopInterval", 960, 1, 2147483647);
 		this.serverTickPeeNeed = builder.comment("Enable Pee ticking on swem horses?").translation("swem.config.enablePeeTick").define("peeTick", true);
+		this.serverPeeInterval = builder.comment("Specify in seconds the interval between each pee cycle.").translation("swem.config.peeInterval").defineInRange("peeInterval", 930, 1, 2147483647);
 		builder.comment("Set the option below to true, if you just want a piece of lapis lazuli to cycle the coats.");
 		this.lapisCycleCoats = builder.comment("Enable Lapis Lazuli coat cycling?").translation("swem.config.enableLapisCycle").define("lapisCycle", true);
 
