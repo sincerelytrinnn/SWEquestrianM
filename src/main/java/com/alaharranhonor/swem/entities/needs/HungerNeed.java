@@ -32,12 +32,13 @@ public class HungerNeed {
 					Ingredient.of(SWEMItems.ALFALFA_BUSHEL.get()),
 					Ingredient.of(SWEMBlocks.QUALITY_BALE_ITEM.get()),
 					Ingredient.of(Items.GRASS_BLOCK),
-					Ingredient.of(SWEMItems.SUGAR_CUBE.get())
+					Ingredient.of(SWEMItems.SUGAR_CUBE.get()),
+					Ingredient.of(SWEMItems.SWEET_FEED.get())
 			).collect(Collectors.toList()));
 
-	private int[] POINTS_GIVEN = {1, 1, 5, 5, 5, 15, 1, 1};
+	private int[] POINTS_GIVEN = {1, 1, 5, 5, 5, 15, 1, 1, 15};
 	private int[] TIMES_FED = new int[8];
-	private int[] MAX_TIMES = {1, 1, 1, 4, 4, 1, -1, 1};
+	private int[] MAX_TIMES = {1, 1, 1, 4, 4, 1, -1, 1, 1};
 
 	public static final DataParameter<Integer> TOTAL_TIMES_FED = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 
@@ -88,6 +89,7 @@ public class HungerNeed {
 
 	public void incrementState() {
 		if (this.state != HungerState.FED) {
+			this.state.setCurrentPoints(state.getCurrentPoints() - this.state.getPointsRequired());
 			this.setStateById(this.state.getId() + 1);
 			if (this.state == HungerState.FED) {
 				this.state.setCurrentTicks(192000);
