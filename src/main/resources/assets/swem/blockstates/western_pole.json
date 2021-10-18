@@ -2,7 +2,7 @@
   "multipart": [
     {
       "when": {
-        "post_part": "upper"
+        "side": "right"
       },
       "apply": {
         "model": "swem:block/western_pole_upper"
@@ -10,7 +10,15 @@
     },
     {
       "when": {
-        "post_part": "lower"
+        "side": "middle"
+      },
+      "apply": {
+        "model": "swem:block/western_pole_middle"
+      }
+    },
+    {
+      "when": {
+        "side": "left"
       },
       "apply": {
         "model": "swem:block/western_pole_lower"

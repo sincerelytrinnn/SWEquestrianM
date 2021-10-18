@@ -25,19 +25,19 @@ import net.minecraft.block.AbstractBlock.Properties;
 
 public class WesternPoleBlock extends Block {
 
-	public static final EnumProperty<HitchingPostBase.PostPart> PART = SWEMBlockStateProperties.POST_PART;
+	public static final EnumProperty<SWEMBlockStateProperties.TripleBlockSide> PART = SWEMBlockStateProperties.T_SIDE;
 
 	public WesternPoleBlock(Properties properties) {
 		super(properties);
 		this.registerDefaultState(
 				this.stateDefinition.any()
-						.setValue(PART, HitchingPostBase.PostPart.LOWER)
+						.setValue(PART, SWEMBlockStateProperties.TripleBlockSide.LEFT)
 		);
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		if (state.getValue(PART) == HitchingPostBase.PostPart.UPPER) {
+		if (state.getValue(PART) == SWEMBlockStateProperties.TripleBlockSide.RIGHT) {
 			return Stream.of(
 					Block.box(7.5, 3, 7.5, 8.5, 32, 8.5),
 					Block.box(6.5, 2, 6.5, 9.5, 3, 9.5),
@@ -62,7 +62,8 @@ public class WesternPoleBlock extends Block {
 		super.setPlacedBy(worldIn, pos, state, placer, stack);
 		if (!worldIn.isClientSide) {
 			BlockPos blockpos = pos.relative(Direction.UP);
-			worldIn.setBlock(blockpos, state.setValue(PART, HitchingPostBase.PostPart.UPPER), 3);
+			worldIn.setBlock(blockpos, state.setValue(PART, SWEMBlockStateProperties.TripleBlockSide.MIDDLE), 3);
+			worldIn.setBlock(blockpos.above(), state.setValue(PART, SWEMBlockStateProperties.TripleBlockSide.RIGHT), 3);
 			state.updateNeighbourShapes(worldIn, pos, 3);
 		}
 	}
@@ -72,10 +73,15 @@ public class WesternPoleBlock extends Block {
 	public void playerWillDestroy(World p_176208_1_, BlockPos p_176208_2_, BlockState p_176208_3_, PlayerEntity p_176208_4_) {
 		super.playerWillDestroy(p_176208_1_, p_176208_2_, p_176208_3_, p_176208_4_);
 
-		if (p_176208_3_.getValue(PART) == HitchingPostBase.PostPart.LOWER) {
+		if (p_176208_3_.getValue(PART) == SWEMBlockStateProperties.TripleBlockSide.LEFT) {
 			p_176208_1_.setBlock(p_176208_2_.above(), Blocks.AIR.defaultBlockState(), 3);
-		} else if (p_176208_3_.getValue(PART) == HitchingPostBase.PostPart.UPPER) {
+			p_176208_1_.setBlock(p_176208_2_.above().above(), Blocks.AIR.defaultBlockState(), 3);
+		} else if (p_176208_3_.getValue(PART) == SWEMBlockStateProperties.TripleBlockSide.RIGHT) {
 			p_176208_1_.setBlock(p_176208_2_.below(), Blocks.AIR.defaultBlockState(), 3);
+			p_176208_1_.setBlock(p_176208_2_.below().below(), Blocks.AIR.defaultBlockState(), 3);
+		} else if (p_176208_3_.getValue(PART) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+			p_176208_1_.setBlock(p_176208_2_.below(), Blocks.AIR.defaultBlockState(), 3);
+			p_176208_1_.setBlock(p_176208_2_.above(), Blocks.AIR.defaultBlockState(), 3);
 		}
 	}
 }
