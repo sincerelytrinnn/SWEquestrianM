@@ -94,7 +94,9 @@ public class LookForFoodGoal extends Goal {
 							} else if ( SWEMBlocks.SLOW_FEEDERS.stream().anyMatch((sf) -> sf.get().defaultBlockState().setValue(SlowFeederBlock.LEVEL, 1) == this.horse.level.getBlockState(checkState)) || SWEMBlocks.SLOW_FEEDERS.stream().anyMatch((sf) -> sf.get().defaultBlockState().setValue(SlowFeederBlock.LEVEL, 2) == this.horse.level.getBlockState(checkState)) && this.blockFound <= 2) {
 								this.foundFood = checkState;
 								this.blockFound = 2;
-							} else if ( SWEMBlocks.GRAIN_FEEDERS.stream().anyMatch((sf) -> sf.get().defaultBlockState().setValue(GrainFeederBlock.OCCUPIED, true) == this.horse.level.getBlockState(checkState)) && this.blockFound <= 2) {
+							} else if ( SWEMBlocks.GRAIN_FEEDERS.stream().anyMatch((sf) -> sf.get().defaultBlockState().setValue(GrainFeederBlock.OCCUPIED, true) == this.horse.level.getBlockState(checkState))
+									&& this.blockFound <= 2
+									&& this.horse.getNeeds().getHunger().getTimesFed(this.horse.getNeeds().getHunger().getItemIndex(new ItemStack(SWEMItems.SWEET_FEED.get()))) < this.horse.getNeeds().getHunger().getMaxTimesFed(this.horse.getNeeds().getHunger().getItemIndex(new ItemStack(SWEMItems.SWEET_FEED.get())))) {
 								this.foundFood = checkState;
 								this.blockFound = 3;
 							}

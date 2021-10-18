@@ -37,7 +37,7 @@ public class HungerNeed {
 			).collect(Collectors.toList()));
 
 	private int[] POINTS_GIVEN = {1, 1, 5, 5, 5, 15, 1, 1, 15};
-	private int[] TIMES_FED = new int[8];
+	private int[] TIMES_FED = new int[9];
 	private int[] MAX_TIMES = {1, 1, 1, 4, 4, 1, -1, 1, 1};
 
 	public static final DataParameter<Integer> TOTAL_TIMES_FED = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
@@ -99,7 +99,7 @@ public class HungerNeed {
 		}
 	}
 
-	private int getItemIndex(ItemStack itemstack) {
+	public int getItemIndex(ItemStack itemstack) {
 		int index = -1;
 		for (int i = 0; i < FEEDS.size(); i++) {
 			Ingredient ingredient = FEEDS.get(i);
@@ -111,11 +111,11 @@ public class HungerNeed {
 		return index;
 	}
 
-	private int getTimesFed(int index) {
+	public int getTimesFed(int index) {
 		return this.TIMES_FED[index];
 	}
 
-	private int getMaxTimesFed(int index) {
+	public int getMaxTimesFed(int index) {
 		return this.MAX_TIMES[index];
 	}
 
