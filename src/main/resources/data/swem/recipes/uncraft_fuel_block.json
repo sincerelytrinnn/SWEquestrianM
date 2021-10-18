@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "swem:fuel_block"
+    }
+  ],
+  "result":
+  {
+    "item": "minecraft:flint",
+    "count": 1
+  }
+}
