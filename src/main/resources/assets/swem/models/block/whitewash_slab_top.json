@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/slab_top",
   "textures": {
-    "bottom": "swem:blocks/western_fence",
-    "top": "swem:blocks/western_fence",
-    "side": "swem:blocks/western_fence"
+    "bottom": "swem:blocks/whitewash_planks",
+    "top": "swem:blocks/whitewash_planks",
+    "side": "swem:blocks/whitewash_planks"
   }
 }
