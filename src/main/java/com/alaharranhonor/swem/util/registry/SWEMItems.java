@@ -113,7 +113,7 @@ public class SWEMItems {
 	public static final RegistryObject<MedicalHorseItem> SALVE = ITEMS.register("salve", () -> new MedicalHorseItem(new Item.Properties().tab(SWEM.TAB), 4.0f, 30.0f));
 	public static final RegistryObject<MedicalHorseItem> MEDICATED_BANDAGE = ITEMS.register("medicated_bandage", () -> new MedicalHorseItem(new Item.Properties().tab(SWEM.TAB), 6.0f, 45.0f));
 	public static final RegistryObject<MedicalHorseItem> GLISTENING_MELON = ITEMS.register("glistening_melon", () -> new MedicalHorseItem(new Item.Properties().tab(SWEM.TAB), 10.0f, 75.0f));
-
+	public static final RegistryObject<Item> WHITEWASH_FINISH = ITEMS.register("whitewash_finish", () -> new Item(new Item.Properties().tab(SWEM.TAB)));
 
 
 	// Rainbow Horse recipe items.
