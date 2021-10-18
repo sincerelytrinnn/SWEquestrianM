@@ -12,11 +12,13 @@ import com.alaharranhonor.swem.items.SWEMSpawnEggItem;
 import com.alaharranhonor.swem.particle.*;
 import com.alaharranhonor.swem.util.registry.*;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.block.WoodType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.entity.player.RemoteClientPlayerEntity;
 import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
@@ -59,6 +61,7 @@ public class ClientEventHandlers {
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event)
 	{
+		Atlases.addWoodType(SWEM.WHITEWASH_WT);
 		DeferredWorkQueue.runLater(ClientEventHandlers::initLate);
 		registerRenderers(event);
 		setRenderLayers();
