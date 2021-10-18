@@ -120,7 +120,7 @@ public class SlowFeederBlock extends Block {
 		worldIn.setBlock(pos, state.setValue(prop, Integer.valueOf(MathHelper.clamp(level, 0, 2))), 3);
 	}
 
-	public void eatHay(World worldIn, BlockPos pos, BlockState state) {
+	public void eat(World worldIn, BlockPos pos, BlockState state) {
 		int level = state.getValue(LEVEL);
 		int level_vanilla = state.getValue(LEVEL_VANILLA);
 
