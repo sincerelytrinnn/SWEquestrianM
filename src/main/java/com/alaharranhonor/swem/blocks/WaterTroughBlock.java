@@ -5,6 +5,7 @@ import com.alaharranhonor.swem.SWEM;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
@@ -25,6 +26,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -112,6 +114,9 @@ public class WaterTroughBlock extends NonParallelBlock {
 
 		int levelToAdd = 16 / states.size() / 4;
 		int setLevel = state.getValue(LEVEL);
+		if (states.size() == 1 && (setLevel != 0 && setLevel != 4 && setLevel != 8 && setLevel != 12 && setLevel != 16)) {
+			setLevel = setLevel > 12 ? 12 : setLevel > 8 ? 8 : setLevel > 4 ? 4 : 0;
+		}
 
 		if (states.size() == 3) {
 			levelToAdd = worldIn.getRandom().nextInt(2) + 1;
@@ -125,6 +130,53 @@ public class WaterTroughBlock extends NonParallelBlock {
 			worldIn.setBlock(positions.get(i), states.get(i).setValue(LEVEL, MathHelper.clamp(setLevel, 0, 16)), 3);
 		}
 
+
+	}
+
+	private void splitWater(BlockState state, World worldIn, BlockPos pos) {
+		// Count how many connections we have based on the blockstate
+		ArrayList<BlockState> states = new ArrayList<>();
+		ArrayList<BlockPos> positions = new ArrayList<>();
+		int waterLevelInCloseWT = 0;
+		if (state.getValue(PART) == SWEMBlockStateProperties.TwoWay.LEFT) {
+			states = fetchConnectionStates(state, worldIn, pos, true);
+			positions = fetchConnectionPos(state, worldIn, pos, true);
+			waterLevelInCloseWT = states.get(0).getValue(LEVEL);
+		} else if (state.getValue(PART) == SWEMBlockStateProperties.TwoWay.RIGHT) {
+			BlockPos offset = pos.relative(state.getValue(FACING).getCounterClockWise());
+			states = fetchConnectionStates(worldIn.getBlockState(offset), worldIn, offset, false);
+			positions = fetchConnectionPos(worldIn.getBlockState(offset), worldIn, offset, false);
+			waterLevelInCloseWT = states.get(0).getValue(LEVEL);
+		} else if (state.getValue(PART) == SWEMBlockStateProperties.TwoWay.MIDDLE) {
+			states = fetchConnectionStatesFromMiddle(state, worldIn, pos);
+			positions = fetchConnectionPosFromMiddle(state, worldIn, pos);
+			waterLevelInCloseWT = states.get(0).getValue(LEVEL);
+		}
+		// Find out how much water is in the on nearby.
+
+		// Use the same logic as for placing to determine how much water needs to be added and removed.
+
+
+		states.add(state);
+		positions.add(pos);
+
+		int levelToAdd = 16 / states.size() / 4;
+
+
+		int setLevel = states.get(0).getValue(LEVEL);
+
+		int average = 0;
+		int actualConnectionSize = (states.size() - 1);
+		if (actualConnectionSize > 1) {
+			average = setLevel / actualConnectionSize;
+		} else {
+			average = setLevel / 2;
+		}
+
+		// Loops over the states that are already in the world.
+		for (int i = 0; i < states.size(); i++) {
+			worldIn.setBlock(positions.get(i), states.get(i).setValue(LEVEL, MathHelper.clamp(setLevel - average, 0, 16)), 3);
+		}
 
 	}
 
@@ -284,11 +336,24 @@ public class WaterTroughBlock extends NonParallelBlock {
 		}
 
 
-		if ((checkLeft.getBlock() instanceof WaterTroughBlock && checkRight.getBlock() instanceof WaterTroughBlock) && checkLeft.getValue(PART) == SWEMBlockStateProperties.TwoWay.LEFT && checkRight.getValue(PART) == SWEMBlockStateProperties.TwoWay.RIGHT) {
+		if ((checkLeft.getBlock() instanceof WaterTroughBlock && checkRight.getBlock() instanceof WaterTroughBlock)
+			&& ((checkLeft.getValue(PART) == SWEMBlockStateProperties.TwoWay.LEFT && checkRight.getValue(PART) == SWEMBlockStateProperties.TwoWay.RIGHT)
+			|| (checkLeft.getValue(PART) == SWEMBlockStateProperties.TwoWay.LEFT && checkRight.getValue(PART) == SWEMBlockStateProperties.TwoWay.SINGLE)
+			|| (checkLeft.getValue(PART) == SWEMBlockStateProperties.TwoWay.SINGLE && checkRight.getValue(PART) == SWEMBlockStateProperties.TwoWay.RIGHT)
+		)) {
 			return false;
 		}
 
 
+		// It can be placed, so split the water out.
+
 		return true;
+	}
+
+	@Override
+	public void setPlacedBy(World pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
+		super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
+		this.splitWater(pState, pLevel, pPos);
+
 	}
 }
