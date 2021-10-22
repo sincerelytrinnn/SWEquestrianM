@@ -4,6 +4,7 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.blocks.jumps.JumpBlock;
 import com.alaharranhonor.swem.tileentity.*;
 import net.minecraft.block.Block;
+import net.minecraft.tileentity.SignTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
@@ -31,7 +32,7 @@ public class SWEMTileEntities {
 	public static final RegistryObject<TileEntityType<JumpPasserTE>> JUMP_PASSER_TILE_ENTITY = TILE_ENTITY_TYPES.register("jump_passer_tile_entity", () -> TileEntityType.Builder.of(JumpPasserTE::new, getAllJumpBlocks()).build(null));
 	public static final RegistryObject<TileEntityType<LockerTE>> LOCKER_TILE_ENTITY = TILE_ENTITY_TYPES.register("locker", () -> TileEntityType.Builder.of(LockerTE::new, SWEMBlocks.LOCKER.get()).build(null));
 	public static final RegistryObject<TileEntityType<HorseArmorRackTE>> HORSE_ARMOR_RACK_TILE_ENTITY = TILE_ENTITY_TYPES.register("horse_armor_rack", () -> TileEntityType.Builder.of(HorseArmorRackTE::new, SWEMBlocks.HORSE_ARMOR_RACK.get()).build(null));
-
+	public static final RegistryObject<TileEntityType<SWEMSignTE>> SWEM_SIGN = TILE_ENTITY_TYPES.register("swem_sign", () -> TileEntityType.Builder.of(SWEMSignTE::new, SWEMBlocks.WHITEWASH_SIGN.get(), SWEMBlocks.WHITEWASH_WALL_SIGN.get()).build(null));
 
 	private static Block[] getAllJumpBlocks() {
 
