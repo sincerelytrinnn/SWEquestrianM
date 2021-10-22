@@ -16,6 +16,8 @@ import com.alaharranhonor.swem.util.registry.SWEMStructure;
 import com.alaharranhonor.swem.world.structure.SWEMConfiguredStructures;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.ComposterBlock;
+import net.minecraft.block.WoodType;
+import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.entity.VillagerRenderer;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.player.PlayerEntity;
@@ -62,6 +64,7 @@ public class SWEM
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "swem";
+    public static WoodType WHITEWASH_WT;
 
     static {
         GeckoLibMod.DISABLE_IN_DEV = true;
@@ -69,6 +72,7 @@ public class SWEM
 
     public SWEM() {
         // Register the setup method for modloading
+        WHITEWASH_WT = WoodType.register(WoodType.create("swem:whitewash"));
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 
@@ -130,6 +134,8 @@ public class SWEM
         });
 
         SWEMPacketHandler.init();
+
+
     }
 
 
