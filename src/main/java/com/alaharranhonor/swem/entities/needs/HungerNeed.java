@@ -136,7 +136,6 @@ public class HungerNeed {
 	}
 
 	public HungerState getNextState() {
-		SWEM.LOGGER.debug(this.state.getId());
 		int hungerId = this.state.getId() + 1;
 		if (hungerId > 4) {
 			hungerId = 4;
