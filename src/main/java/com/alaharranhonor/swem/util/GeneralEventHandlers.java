@@ -134,20 +134,22 @@ public class GeneralEventHandlers {
 			KeyBinding[] keyBindings = ClientEventHandlers.keyBindings;
 			if (KEY_PRESS_COUNTER == 1) {
 
-				Entity check = Minecraft.getInstance().player.getVehicle();
-				if (event.getKey() == 'W' && event.getAction() == 0 && check instanceof SWEMHorseEntityBase) {
-					// 'W' KEy was released start the 1 second timer.
-					executor.schedule(new Runnable() {
-						@Override
-						public void run() {
-							System.out.println("Running scheduled");
-							if (Minecraft.getInstance().options.keyUp.isDown()) {
-								return;
-							} else {
-								SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, check.getId()));
+				if (event.getKey() == 'W' && event.getAction() == 0 && Minecraft.getInstance().player != null) {
+					Entity check = Minecraft.getInstance().player.getVehicle();
+					if (check instanceof SWEMHorseEntityBase) {
+						// 'W' KEy was released start the 1 second timer.
+						executor.schedule(new Runnable() {
+							@Override
+							public void run() {
+								System.out.println("Running scheduled");
+								if (Minecraft.getInstance().options.keyUp.isDown()) {
+									return;
+								} else {
+									SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, check.getId()));
+								}
 							}
-						}
-					}, 105, TimeUnit.MILLISECONDS);
+						}, 105, TimeUnit.MILLISECONDS);
+					}
 				}
 
 
