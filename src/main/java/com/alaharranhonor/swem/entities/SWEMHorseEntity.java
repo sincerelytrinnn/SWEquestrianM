@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.entities;
 
 import com.alaharranhonor.swem.util.registry.SWEMEntities;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -120,7 +121,11 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			}
 		}
 
-		if (horse.getEntityData().get(SWEMHorseEntityBase.JUMPING) && horse.jumpHeight != 0) {
+
+		// No idea why this needs to be up here, but something in the following jump if statement, blocks the code execution when jumping into water.
+		boolean isInWater = horse.level.getBlockStates(horse.getBoundingBox().contract(0, 1, 0)).allMatch((bs) -> bs.getBlock() == Blocks.WATER);
+
+		if (!isInWater && horse.getEntityData().get(SWEMHorseEntityBase.JUMPING) && horse.jumpHeight != 0) {
 			if (horse.jumpHeight > 5.0F) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_5", false));
 				return PlayState.CONTINUE;
@@ -139,12 +144,15 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			}
 		}
 
+
+
 		if (horse.isStanding()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("Rear"));
 			return PlayState.CONTINUE;
 		}
 
-		if (horse.isInWater()) {
+		System.out.println(isInWater);
+		if (horse.isInWater() || isInWater) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("Swim"));
 			return PlayState.CONTINUE;
 		}
