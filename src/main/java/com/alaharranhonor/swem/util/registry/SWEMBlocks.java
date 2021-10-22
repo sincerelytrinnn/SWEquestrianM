@@ -145,8 +145,8 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> WHITEWASH_TRAPDOOR = register("whitewash_trapdoor", () -> new TrapDoorBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
 	public static final RegistryObject<CareDoorBlock> WHITEWASH_STALL_CARE = register("whitewash_stall_care", () -> new CareDoorBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().strength(1.0f), DyeColor.BLACK));
 	public static final RegistryObject<HorseDoorBlock> WHITEWASH_STALL_HORSE = register("whitewash_stall_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().strength(1.0f), DyeColor.BLACK));
-	public static final RegistryObject<StandingSignBlock> WHITEWASH_SIGN = BLOCKS.register("whitewash_sign", () -> new StandingSignBlock(AbstractBlock.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD), SWEM.WHITEWASH_WT));
-	public static final RegistryObject<WallSignBlock> WHITEWASH_WALL_SIGN = BLOCKS.register("whitewash_wall_sign", () -> new WallSignBlock(AbstractBlock.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD), SWEM.WHITEWASH_WT));
+	public static final RegistryObject<ModdedStandingSignBlock> WHITEWASH_SIGN = BLOCKS.register("whitewash_sign", () -> new ModdedStandingSignBlock(AbstractBlock.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD), SWEM.WHITEWASH_WT));
+	public static final RegistryObject<ModdedWallSignBlock> WHITEWASH_WALL_SIGN = BLOCKS.register("whitewash_wall_sign", () -> new ModdedWallSignBlock(AbstractBlock.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD), SWEM.WHITEWASH_WT));
 
     // Jump blocks
 	public static final RegistryObject<Block> JUMP_CONTROLLER = BLOCKS.register("jump_controller", () -> new JumpControllerBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
