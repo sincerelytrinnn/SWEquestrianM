@@ -5,7 +5,7 @@
         "half_fence": "false"
       },
       "apply": {
-        "model": "swem:block/pasture_fence_post"
+        "model": "swem:block/pasture_fence_post_oak"
       }
     },
     {
@@ -14,7 +14,7 @@
         "north": "true"
       },
       "apply": {
-        "model": "swem:block/pasture_fence_side",
+        "model": "swem:block/pasture_fence_side_oak",
         "uvlock": true,
         "y": 90
       }
@@ -25,7 +25,7 @@
         "east": "true"
       },
       "apply": {
-        "model": "swem:block/pasture_fence_side",
+        "model": "swem:block/pasture_fence_side_oak",
         "uvlock": true,
         "y": 180
       }
@@ -36,7 +36,7 @@
         "south": "true"
       },
       "apply": {
-        "model": "swem:block/pasture_fence_side",
+        "model": "swem:block/pasture_fence_side_oak",
         "uvlock": true,
         "y": 270
       }
@@ -47,7 +47,7 @@
         "west": "true"
       },
       "apply": {
-        "model": "swem:block/pasture_fence_side",
+        "model": "swem:block/pasture_fence_side_oak",
         "uvlock": true
       }
     },
@@ -57,7 +57,7 @@
         "half_fence": "true"
       },
       "apply": {
-        "model": "swem:block/pasture_fence_post_half"
+        "model": "swem:block/pasture_fence_post_half_oak"
       }
     },
     {
@@ -66,7 +66,7 @@
         "north": "true"
       },
       "apply": {
-        "model": "swem:block/pasture_fence_side_half",
+        "model": "swem:block/pasture_fence_side_half_oak",
         "uvlock": true,
         "y": 90
       }
@@ -77,7 +77,7 @@
         "east": "true"
       },
       "apply": {
-        "model": "swem:block/pasture_fence_side_half",
+        "model": "swem:block/pasture_fence_side_half_oak",
         "uvlock": true,
         "y": 180
       }
@@ -88,7 +88,7 @@
         "south": "true"
       },
       "apply": {
-        "model": "swem:block/pasture_fence_side_half",
+        "model": "swem:block/pasture_fence_side_half_oak",
         "uvlock": true,
         "y": 270
       }
@@ -99,7 +99,7 @@
         "west": "true"
       },
       "apply": {
-        "model": "swem:block/pasture_fence_side_half",
+        "model": "swem:block/pasture_fence_side_half_oak",
         "uvlock": true
       }
     }
