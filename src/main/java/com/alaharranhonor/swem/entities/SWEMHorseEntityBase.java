@@ -139,7 +139,7 @@ public class SWEMHorseEntityBase
 		super(type, levelIn);
 		this.currentPos = this.blockPosition();
 		this.progressionManager = new ProgressionManager(this);
-		this.currentSpeed = HorseSpeed.TROT;
+		this.currentSpeed = HorseSpeed.WALK;
 		this.needs = new NeedManager(this);
 		this.whistleManager = new WhistleManager<>(this);
 		this.initSaddlebagInventory();
@@ -632,7 +632,7 @@ public class SWEMHorseEntityBase
 			player.startRiding(this);
 		}
 		HorseSpeed oldSpeed = this.currentSpeed;
-		this.currentSpeed = HorseSpeed.TROT;
+		this.currentSpeed = HorseSpeed.WALK;
 		this.updateSelectedSpeed(oldSpeed);
 	}
 
