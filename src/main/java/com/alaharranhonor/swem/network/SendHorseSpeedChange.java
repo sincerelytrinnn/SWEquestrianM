@@ -50,7 +50,11 @@ public class SendHorseSpeedChange {
 			Entity entity = player.level.getEntity(msg.entityID);
 			if (entity instanceof SWEMHorseEntityBase) {
 				SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-				if (msg.action == 1) {
+				if (msg.action == 2) {
+					SWEMHorseEntityBase.HorseSpeed oldSpeed = horse.currentSpeed;
+					horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
+					horse.updateSelectedSpeed(oldSpeed);
+				} else if (msg.action == 1) {
 					horse.incrementSpeed();
 				} else if (msg.action == 0) {
 					horse.decrementSpeed();

@@ -55,6 +55,8 @@ import net.minecraftforge.fml.config.ModConfig;
 
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 @Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class GeneralEventHandlers {
@@ -84,6 +86,7 @@ public class GeneralEventHandlers {
 
 
 		private static int KEY_PRESS_COUNTER = 0;
+		private static ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
 
 
 		@SubscribeEvent(priority = EventPriority.HIGH)
@@ -130,6 +133,22 @@ public class GeneralEventHandlers {
 		public static void onKeyPress(InputEvent.KeyInputEvent event) {
 			KeyBinding[] keyBindings = ClientEventHandlers.keyBindings;
 			if (KEY_PRESS_COUNTER == 1) {
+
+				Entity check = Minecraft.getInstance().player.getVehicle();
+				if (event.getKey() == 'W' && event.getAction() == 0 && check instanceof SWEMHorseEntityBase) {
+					// 'W' KEy was released start the 1 second timer.
+					executor.schedule(new Runnable() {
+						@Override
+						public void run() {
+							System.out.println("Running scheduled");
+							if (Minecraft.getInstance().options.keyUp.isDown()) {
+								return;
+							} else {
+								SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, check.getId()));
+							}
+						}
+					}, 105, TimeUnit.MILLISECONDS);
+				}
 
 
 				// TODO: Remove once speed has been confirmed.
