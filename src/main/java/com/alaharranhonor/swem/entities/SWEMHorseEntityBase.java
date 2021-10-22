@@ -419,7 +419,7 @@ public class SWEMHorseEntityBase
 		this.getEntityData().define(isStillTurning, false);
 		this.getEntityData().define(didFlap, false);
 		this.getEntityData().define(isDiving, false);
-		this.entityData.define(PERMISSION_STRING, "EVERYONE");
+		this.entityData.define(PERMISSION_STRING, "ALL");
 		this.entityData.define(TRACKED, false);
 
 	}
@@ -454,7 +454,7 @@ public class SWEMHorseEntityBase
 		if (Objects.equals(this.getOwnerUUID(), player.getUUID())) return true;
 
 		if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.NONE) return false;
-		else if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.EVERYONE) return true;
+		else if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.ALL) return true;
 		else {
 			return this.allowedList.contains(player.getUUID());
 		}
@@ -1615,19 +1615,24 @@ public class SWEMHorseEntityBase
 					return ActionResultType.FAIL;
 				}
 
-				if (item == SWEMItems.SUGAR_CUBE.get()) {
-					// Add some affinity points and spawn particles.
-					if (!this.level.isClientSide) {
-						this.progressionManager.getAffinityLeveling().addXP(5.0F);
-						this.getNeeds().getHunger().addPoints(itemstack);
+				if (!this.level.isClientSide) {
+					if (this.getNeeds().getHunger().addPoints(itemstack)) {
+						if (!playerEntity.isCreative()) {
+							itemstack.shrink(1);
+						}
+						if (item == SWEMItems.SUGAR_CUBE.get()) {
+							this.progressionManager.getAffinityLeveling().addXP(5.0F);
+						}
 
 						this.level.addParticle(SWEMParticles.YAY.get(), this.getX(), this.getY() + 1.5, this.getZ(), 3.0, 0.3D, 0.3D);
+					} else {
+						this.level.addParticle(SWEMParticles.ECH.get(), this.getX(), this.getY() + 1.5, this.getZ(), 3.0, 0.3D, 0.3D);
+						return ActionResultType.FAIL;
 					}
 
+
 				}
-				if (!this.level.isClientSide) {
-					this.getNeeds().getHunger().addPoints(itemstack);
-				}
+
 				return ActionResultType.sidedSuccess(this.level.isClientSide);
 			}
 
@@ -1969,9 +1974,9 @@ public class SWEMHorseEntityBase
 
 	public void cycleRidingPermission() {
 		if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.NONE) {
-			this.setPermissionState("ALLOWED");
-		} else if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.ALLOWED) {
-			this.setPermissionState("EVERYONE");
+			this.setPermissionState("TRUST");
+		} else if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.TRUST) {
+			this.setPermissionState("ALL");
 		} else {
 			this.setPermissionState("NONE");
 		}
@@ -2146,7 +2151,7 @@ public class SWEMHorseEntityBase
 	public enum RidingPermission {
 
 		NONE,
-		ALLOWED,
-		EVERYONE;
+		TRUST,
+		ALL;
 	}
 }
