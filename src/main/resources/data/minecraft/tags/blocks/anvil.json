@@ -1,5 +1,5 @@
 {
-  "replaces": false,
+  "replace": false,
   "values": [
     "minecraft:anvil",
     "minecraft:chipped_anvil",
