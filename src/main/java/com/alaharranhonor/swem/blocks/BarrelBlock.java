@@ -23,6 +23,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -101,4 +102,8 @@ public class BarrelBlock extends Block {
 		}
 	}
 
+	@Override
+	public boolean canSurvive(BlockState pState, IWorldReader pLevel, BlockPos pPos) {
+		return pLevel.getBlockState(pPos).isAir() && pLevel.getBlockState(pPos.above()).isAir();
+	}
 }

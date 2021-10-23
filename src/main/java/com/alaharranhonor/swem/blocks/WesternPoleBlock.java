@@ -16,6 +16,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -83,5 +84,10 @@ public class WesternPoleBlock extends Block {
 			p_176208_1_.setBlock(p_176208_2_.below(), Blocks.AIR.defaultBlockState(), 3);
 			p_176208_1_.setBlock(p_176208_2_.above(), Blocks.AIR.defaultBlockState(), 3);
 		}
+	}
+
+	@Override
+	public boolean canSurvive(BlockState pState, IWorldReader pLevel, BlockPos pPos) {
+		return pLevel.getBlockState(pPos).isAir() && pLevel.getBlockState(pPos.above()).isAir() && pLevel.getBlockState(pPos.above(2)).isAir();
 	}
 }
