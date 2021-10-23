@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.entities;
 
 import com.alaharranhonor.swem.util.registry.SWEMEntities;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -146,7 +147,11 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 
 		if (horse.isStanding()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("Rear"));
+			if (event.getController().getCurrentAnimation().animationName.equals("Rear") || event.getController().getCurrentAnimation().animationName.equals("Buck")) {
+				return PlayState.CONTINUE;
+			}
+			event.getController().setAnimation(new AnimationBuilder().addAnimation(horse.getRandom().nextDouble() > 0.5 ? "Rear" : "Buck"));
+
 			return PlayState.CONTINUE;
 		}
 
@@ -160,6 +165,13 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		if (!event.isMoving()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_Idle"));
 		} else {
+			Entity playerVehicle = Minecraft.getInstance().player.getVehicle();
+			if (playerVehicle instanceof SWEMHorseEntityBase && playerVehicle.getUUID().equals(horse.getUUID())) {
+				if (Minecraft.getInstance().options.keyDown.isDown()) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Walking_Backwards"));
+					return PlayState.CONTINUE;
+				}
+			}
 			if (horse.getEntityData().get(SPEED_LEVEL) == 0) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Walk"));
 			} else if (horse.getEntityData().get(SPEED_LEVEL) == 1) {

@@ -131,6 +131,7 @@ public class SWEMHorseEntityBase
 	public double jumpHeight;
 	private int poopAnimationTick;
 	private int peeAnimationTick;
+	private int standAnimationTick;
 
 
 
@@ -209,6 +210,11 @@ public class SWEMHorseEntityBase
 	}
 
 	@Override
+	public boolean isStanding() {
+		return super.isStanding() || this.standAnimationTick > 0;
+	}
+
+	@Override
 	protected int getExperienceReward(PlayerEntity player) {
 		return 0;
 	}
@@ -257,11 +263,12 @@ public class SWEMHorseEntityBase
 	public void aiStep()
 	{
 
-
+		this.peeAnimationTick = Math.max(0, this.peeAnimationTick - 1);
+		this.poopAnimationTick = Math.max(0, this.poopAnimationTick - 1);
+		this.standAnimationTick = Math.max(0, this.standAnimationTick - 1);
 		if (!this.level.isClientSide) {
 			// Tick the animation timers.
-			this.peeAnimationTick = Math.max(0, this.peeAnimationTick - 1);
-			this.poopAnimationTick = Math.max(0, this.poopAnimationTick - 1);
+
 
 
 			if ((int)(this.level.getDayTime() % 24000L) == 10000) {
@@ -2086,6 +2093,7 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
+		this.standAnimationTick = 43;
 		return super.hurt(source, amount);
 	}
 
