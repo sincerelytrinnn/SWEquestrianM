@@ -80,6 +80,8 @@ public class HungerNeed {
 		if (this.checkIncrement()) {
 			this.incrementState();
 		}
+
+		horse.progressionManager.getHealthLeveling().addXP(points);
 		return true;
 	}
 
@@ -233,10 +235,10 @@ public class HungerNeed {
 	public enum HungerState {
 
 		STARVING(-1, -1),
-		MALNOURISHED(72000, 15),
-		HUNGRY(144000, 40),
-		FED(168000, 15),
-		FULLY_FED(180000, -1);
+		MALNOURISHED(72_000, 15),
+		HUNGRY(144_000, 40),
+		FED(168_000, 15),
+		FULLY_FED(180_000, -1);
 
 		public static final DataParameter<Integer> ID = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 		private int tickAmountChange;
