@@ -27,7 +27,7 @@ public class HealthLeveling implements ILeveling{
 
 	@Override
 	public boolean checkLevelUp() {
-		if (this.getXp() >= this.getRequiredXp() && this.getLevel() < this.maxLevel) {
+		if (this.getXp() >= this.getRequiredXp() && this.getLevel() < this.getMaxLevel()) {
 			this.levelUp();
 			return true;
 		} else {
