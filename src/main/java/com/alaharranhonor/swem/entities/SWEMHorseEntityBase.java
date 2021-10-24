@@ -1490,6 +1490,10 @@ public class SWEMHorseEntityBase
 		this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getAlteredMovementSpeed());
 	}
 
+	public void levelUpHealth() {
+		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getAlteredMaxHealth());
+	}
+
 	/**
 	 * Called by InventoryBasic.containerChanged() on a array that is never filled.
 	 */

@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.entities.progression.leveling;
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -40,6 +41,8 @@ public class HealthLeveling implements ILeveling{
 		float excessXP = this.getXp() - this.getRequiredXp();
 		this.setLevel(this.getLevel() + 1);
 		this.setXp(excessXP);
+
+		this.horse.levelUpHealth();
 	}
 
 	@Override
