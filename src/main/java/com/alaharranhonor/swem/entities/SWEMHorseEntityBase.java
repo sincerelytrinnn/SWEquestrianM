@@ -118,7 +118,7 @@ public class SWEMHorseEntityBase
 	public final static DataParameter<Boolean> TRACKED = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private ArrayList<UUID> allowedList = new ArrayList<>();
 
-	public HorseSpeed currentSpeed;
+	public HorseSpeed currentSpeed; // NPE from CustomWalkingGoal
 
 	private NeedManager needs;
 	private HorseFlightController flightController;
@@ -181,7 +181,7 @@ public class SWEMHorseEntityBase
 		this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PigEntity.class, 12.0f, 4.0d, 5.5d));
 		this.goalSelector.addGoal(5, this.poopGoal);
 		this.goalSelector.addGoal(5, this.peeGoal);
-		this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 4.0D)); //Speed 4.0 looks like a good speed, plus it triggers anim.
+		this.goalSelector.addGoal(6, new CustomWaterAvoidingRandomWalkingGoal(this, 4.0D)); //Speed 4.0 looks like a good speed, plus it triggers anim.
 		//this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
 		this.goalSelector.addGoal(8, new LookForFoodGoal(this, 4.0d));
