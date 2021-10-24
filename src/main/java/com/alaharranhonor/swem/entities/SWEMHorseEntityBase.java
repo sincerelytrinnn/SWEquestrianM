@@ -132,6 +132,7 @@ public class SWEMHorseEntityBase
 	private int poopAnimationTick;
 	private int peeAnimationTick;
 	private int standAnimationTick;
+	private int standAnimationVariant;
 
 
 
@@ -214,6 +215,14 @@ public class SWEMHorseEntityBase
 		return super.isStanding() || this.standAnimationTick > 0;
 	}
 
+	/**
+	 *
+	 * @return an integer based on the variant. 2 = buck, 1 = Rear.
+	 */
+	public int getStandVariant() {
+		return this.standAnimationVariant;
+	}
+
 	@Override
 	protected int getExperienceReward(PlayerEntity player) {
 		return 0;
@@ -269,7 +278,13 @@ public class SWEMHorseEntityBase
 		if (!this.level.isClientSide) {
 			// Tick the animation timers.
 
-
+			if (this.standAnimationTick == 20 && this.getStandVariant() == 2) {
+				this.level.getNearbyEntities(LivingEntity.class, new EntityPredicate().range(5), this, this.getBoundingBox().inflate(2)).forEach((entity) -> {
+					entity.hurt(DamageSource.GENERIC, 5);
+					entity.knockback(0.5f, 0.5, 0.5);
+				});
+				this.standAnimationVariant = -1;
+			}
 
 			if ((int)(this.level.getDayTime() % 24000L) == 10000) {
 				this.resetDaily();
@@ -2098,7 +2113,8 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
-		this.standAnimationTick = 43;
+		this.standAnimationTick = 42;
+		this.standAnimationVariant = this.getRandom().nextDouble() > 0.5 ? 2 : 1;
 		return super.hurt(source, amount);
 	}
 
