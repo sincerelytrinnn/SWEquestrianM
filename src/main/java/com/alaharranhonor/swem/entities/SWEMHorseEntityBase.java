@@ -118,7 +118,7 @@ public class SWEMHorseEntityBase
 	public final static DataParameter<Boolean> TRACKED = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private ArrayList<UUID> allowedList = new ArrayList<>();
 
-	public HorseSpeed currentSpeed; // NPE from CustomWalkingGoal
+	public HorseSpeed currentSpeed;
 
 	private NeedManager needs;
 	private HorseFlightController flightController;
