@@ -5,8 +5,6 @@ import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.container.SaddlebagContainer;
 import com.alaharranhonor.swem.entities.ai.*;
-import com.alaharranhonor.swem.entities.misc.WhistleManager;
-import com.alaharranhonor.swem.entities.misc.WhistleManagerProvider;
 import com.alaharranhonor.swem.entities.needs.HungerNeed;
 import com.alaharranhonor.swem.entities.needs.NeedManager;
 import com.alaharranhonor.swem.entities.needs.ThirstNeed;
@@ -54,7 +52,6 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
@@ -87,7 +84,7 @@ import static com.alaharranhonor.swem.entities.HorseFlightController.*;
 
 public class SWEMHorseEntityBase
 		extends AbstractHorseEntity
-		implements ISWEMEquipable, IEntityAdditionalSpawnData, WhistleManagerProvider<SWEMHorseEntityBase> {
+		implements ISWEMEquipable, IEntityAdditionalSpawnData {
 
 	private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("556E1665-8B10-40C8-8F9D-CF9B1667F295");
 	private static final DataParameter<Integer> HORSE_VARIANT = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
@@ -99,12 +96,10 @@ public class SWEMHorseEntityBase
 	public static final DataParameter<Boolean> JUMPING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<String> OWNER_NAME = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
 	private static final EntitySize JUMPING_SIZE = EntitySize.scalable(1.5f, 1.5f);
-	private PathNavigator oldNavigator;
 	private static Random rand = new Random();
 
 	public final ProgressionManager progressionManager;
 	private BlockPos currentPos;
-
 	private LazyOptional<InvWrapper> itemHandler;
 	private LazyOptional<InvWrapper> saddlebagItemHandler;
 	private LazyOptional<InvWrapper> bedrollItemHandler;
@@ -122,10 +117,11 @@ public class SWEMHorseEntityBase
 
 	private NeedManager needs;
 	private HorseFlightController flightController;
-	private final WhistleManager<SWEMHorseEntityBase> whistleManager;
 
 	private PeeGoal peeGoal;
 	private PoopGoal poopGoal;
+
+	private BlockPos whistlePos = null;
 
 	// Animation variables.
 	public double jumpHeight;
@@ -143,10 +139,8 @@ public class SWEMHorseEntityBase
 		this.progressionManager = new ProgressionManager(this);
 		this.currentSpeed = HorseSpeed.WALK;
 		this.needs = new NeedManager(this);
-		this.whistleManager = new WhistleManager<>(this);
 		this.initSaddlebagInventory();
 		this.initBedrollInventory();
-		this.oldNavigator = navigation;
 		this.flightController = new HorseFlightController(this);
 	}
 
@@ -171,7 +165,6 @@ public class SWEMHorseEntityBase
 		// TODO: ADD AI TO FOLLOW WHISTLE POSITION AS TOP PRIORITY
 		this.peeGoal = new PeeGoal(this);
 		this.poopGoal = new PoopGoal(this);
-		this.goalSelector.addGoal(0, new WalkToWhistlerGoal<>(this));
 		//this.goalSelector.addGoal(0, new SwimGoal(this));
 		this.goalSelector.addGoal(1, new PanicStraightGoal(this, 4.0D));
 		//this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 1.2D));
@@ -277,6 +270,14 @@ public class SWEMHorseEntityBase
 		this.standAnimationTick = Math.max(0, this.standAnimationTick - 1);
 		if (!this.level.isClientSide) {
 			// Tick the animation timers.
+
+			if (this.whistlePos != null) {
+				this.getNavigation().moveTo(whistlePos.getX(), whistlePos.getY(), whistlePos.getZ(), this.getSpeed());
+				if (this.blockPosition().closerThan(this.whistlePos, 2)) {
+					this.whistlePos = null;
+					this.getNavigation().stop();
+				}
+			}
 
 			if (this.standAnimationTick == 20 && this.getStandVariant() == 2) {
 				this.level.getNearbyEntities(LivingEntity.class, new EntityPredicate().range(5), this, this.getBoundingBox().inflate(2)).forEach((entity) -> {
@@ -1993,10 +1994,6 @@ public class SWEMHorseEntityBase
 		}
 	}
 
-	@Override
-	public WhistleManager<SWEMHorseEntityBase> getWhistleManager() {
-		return this.whistleManager;
-	}
 
 	public void cycleRidingPermission() {
 		if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.NONE) {
@@ -2147,6 +2144,10 @@ public class SWEMHorseEntityBase
 			return new TranslationTextComponent("Not owned.");
 		}
 		return this.level.getPlayerByUUID(PlayerUUID).getDisplayName();
+	}
+
+	public void setWhistlePos(BlockPos pos) {
+		this.whistlePos = pos;
 	}
 
 	public enum HorseSpeed {
