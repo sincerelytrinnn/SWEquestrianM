@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.entities.ai;
 
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.PoopEntity;
+import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMEntities;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.Goal;
@@ -10,12 +11,12 @@ import net.minecraft.world.World;
 
 public class PoopGoal extends Goal {
 
-	private final MobEntity pooperEntity;
+	private final SWEMHorseEntityBase pooperEntity;
 	private final World entityWorld;
 
 	private int poopTimer;
 
-	public PoopGoal(MobEntity pooperEntity) {
+	public PoopGoal(SWEMHorseEntityBase pooperEntity) {
 		this.pooperEntity = pooperEntity;
 		this.entityWorld = pooperEntity.level;
 
@@ -39,6 +40,9 @@ public class PoopGoal extends Goal {
 		this.poopTimer = 40;
 		this.entityWorld.broadcastEntityEvent(this.pooperEntity, (byte)127);
 		this.pooperEntity.getNavigation().stop();
+		SWEMHorseEntityBase.HorseSpeed oldSpeed = this.pooperEntity.currentSpeed;
+		this.pooperEntity.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
+		this.pooperEntity.updateSelectedSpeed(oldSpeed);
 	}
 
 	/**

@@ -50,6 +50,9 @@ public class LookForFoodGoal extends Goal {
 	public void start() {
 		this.horse.getNavigation().stop();
 		this.tickTimer = 0;
+		SWEMHorseEntityBase.HorseSpeed oldSpeed = this.horse.currentSpeed;
+		this.horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
+		this.horse.updateSelectedSpeed(oldSpeed);
 	}
 
 	/**

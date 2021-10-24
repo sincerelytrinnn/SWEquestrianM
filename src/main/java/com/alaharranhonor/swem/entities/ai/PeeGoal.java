@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.entities.ai;
 
 import com.alaharranhonor.swem.blocks.Shavings;
 import com.alaharranhonor.swem.config.ConfigHolder;
+import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.*;
 import net.minecraft.entity.MobEntity;
@@ -14,14 +15,14 @@ import java.util.ArrayList;
 
 public class PeeGoal extends Goal {
 
-	private final MobEntity peeEntity;
+	private final SWEMHorseEntityBase peeEntity;
 	private final World entityWorld;
 
 	private final int radius = 3;
 
 	private int peeTimer;
 
-	public PeeGoal(MobEntity peeEntity) {
+	public PeeGoal(SWEMHorseEntityBase peeEntity) {
 		this.peeEntity = peeEntity;
 		this.entityWorld = peeEntity.level;
 
@@ -45,6 +46,9 @@ public class PeeGoal extends Goal {
 		this.peeTimer = 40;
 		this.entityWorld.broadcastEntityEvent(this.peeEntity, (byte)126);
 		this.peeEntity.getNavigation().stop();
+		SWEMHorseEntityBase.HorseSpeed oldSpeed = this.peeEntity.currentSpeed;
+		this.peeEntity.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
+		this.peeEntity.updateSelectedSpeed(oldSpeed);
 	}
 
 	/**
