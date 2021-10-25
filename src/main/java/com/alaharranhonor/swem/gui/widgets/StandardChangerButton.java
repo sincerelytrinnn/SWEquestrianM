@@ -41,7 +41,7 @@ public class StandardChangerButton extends CycableButton {
 		if (this.getCurrentLayer() == null) {
 			return new StringTextComponent("Option");
 		}
-		return new StringTextComponent(this.getCurrentLayer().name());
+		return new StringTextComponent(this.getCurrentLayer().getDisplayName());
 	}
 
 	public static class Press implements StandardChangerButton.IPressable {
