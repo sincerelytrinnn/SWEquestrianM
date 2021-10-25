@@ -6,8 +6,10 @@ import com.alaharranhonor.swem.gui.widgets.ProgressionBoxes;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
+import net.minecraft.client.gui.advancements.AdvancementState;
 import net.minecraft.client.gui.advancements.AdvancementsScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.AbstractFurnaceScreen;
@@ -16,18 +18,20 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.DyeColor;
+import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.text.Color;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.*;
 import net.minecraft.util.text.event.HoverEvent;
 
 import java.util.Collection;
+import java.util.List;
 
 public class TackBoxProgressionScreen extends Screen {
+	private static final ResourceLocation WIDGETS_LOCATION = new ResourceLocation("minecraft", "textures/gui/advancements/widgets.png");
 	private static final ResourceLocation TACKBOX_PROGRESSION_TEXTURE = new ResourceLocation(SWEM.MOD_ID, "textures/gui/container/tackbox_progression.png");
+	private static final int[] TEST_SPLIT_OFFSETS = new int[]{0, 10, -10, 25, -25};
 	private TackBoxContainer container;
 	private PlayerInventory inv;
 	private ITextComponent text;
@@ -56,7 +60,10 @@ public class TackBoxProgressionScreen extends Screen {
 		}
 	}
 
-
+	@Override
+	public boolean isPauseScreen() {
+		return false;
+	}
 
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
@@ -71,18 +78,18 @@ public class TackBoxProgressionScreen extends Screen {
 
 		for (ProgressionBoxes pb : ProgressionBoxes.values()) {
 			Advancement adv = Minecraft.getInstance().player.connection.getAdvancements().getAdvancements().get(new ResourceLocation(SWEM.MOD_ID, pb.getPath()));
+			AdvancementProgress advProgress = Minecraft.getInstance().player.connection.getAdvancements().progress.get(adv);
 			if (adv == null) continue; // Advancement has not been completed, don't overlay the blue box.
 			this.blit(matrixStack, pb.getX() + this.guiLeft, pb.getY() + this.guiTop, 247, 25, 3, 3);
 
 			if (pb.isMouseOver(mouseX, mouseY, this.guiLeft, this.guiTop)) {
-
 				// Place the same render call that happens in AdvancementsScreen
-				this.font.draw(matrixStack, adv.getDisplay().getTitle().copy().append("\n").append(adv.getDisplay().getDescription()), pb.getX() + this.guiLeft, pb.getY() + this.guiTop, 6724056);
+				drawAdvancementHover(matrixStack, mouseX, mouseY, 0, this.xSize, this.ySize, adv, advProgress);
 			}
 		}
 
 		/*
-		if ((mouseX > this.guiLeft && mouseX < this.guiLeft + this.xSize) && (mouseY > this.guiTop && mouseY < this.guiTop + this.ySize)) {
+		if ((mouseX > this.guiLeft && mouseX < this.guiLeft + ((int) advancement.getDisplay().getX())Size) && (mouseY > this.guiTop && mouseY < this.guiTop + ((int) advancement.getDisplay().getY())Size)) {
 			for (ProgressionBoxes pb : ProgressionBoxes.values()) {
 				if (pb.isMouseOver(mouseX, mouseY, this.guiLeft, this.guiTop)) {
 					Minecraft.getInstance().player.connection.getAdvancements().progress.keySet().forEach((adv) -> {
@@ -99,6 +106,143 @@ public class TackBoxProgressionScreen extends Screen {
 		}
 		 */
 
+	}
+
+	public void drawAdvancementHover(MatrixStack pMatrixStack, int pX, int pY, float pFade, int pWidth, int pHeight, Advancement advancement, AdvancementProgress progress) {
+		int iText = advancement.getMaxCriteraRequired();
+		int jText = String.valueOf(iText).length();
+		int kText = iText > 1 ? Minecraft.getInstance().font.width("  ") + Minecraft.getInstance().font.width("0") * jText * 2 + Minecraft.getInstance().font.width("/") : 0;
+		int sWidth = 29 + Minecraft.getInstance().font.width(this.title) + kText;
+		List<IReorderingProcessor> description = LanguageMap.getInstance().getVisualOrder(this.findOptimalLines(TextComponentUtils.mergeStyles(advancement.getDisplay().getDescription().copy(), Style.EMPTY.withColor(advancement.getDisplay().getFrame().getChatColor())), sWidth));
+
+		boolean flag = pWidth + pX + advancement.getDisplay().getX() + this.width + 26 >= this.xSize;
+		String s = progress == null ? null : progress.getProgressText();
+		int i = s == null ? 0 : this.minecraft.font.width(s);
+		boolean flag1 = 113 - pY - advancement.getDisplay().getY() - 26 <= 6 + description.size() * 9;
+		float f = progress == null ? 0.0F : progress.getPercent();
+		int j = MathHelper.floor(f * (float)this.width);
+		AdvancementState advancementstate;
+		AdvancementState advancementstate1;
+		AdvancementState advancementstate2;
+		if (f >= 1.0F) {
+			j = this.width / 2;
+			advancementstate = AdvancementState.OBTAINED;
+			advancementstate1 = AdvancementState.OBTAINED;
+			advancementstate2 = AdvancementState.OBTAINED;
+		} else if (j < 2) {
+			j = this.width / 2;
+			advancementstate = AdvancementState.UNOBTAINED;
+			advancementstate1 = AdvancementState.UNOBTAINED;
+			advancementstate2 = AdvancementState.UNOBTAINED;
+		} else if (j > this.width - 2) {
+			j = this.width / 2;
+			advancementstate = AdvancementState.OBTAINED;
+			advancementstate1 = AdvancementState.OBTAINED;
+			advancementstate2 = AdvancementState.UNOBTAINED;
+		} else {
+			advancementstate = AdvancementState.OBTAINED;
+			advancementstate1 = AdvancementState.UNOBTAINED;
+			advancementstate2 = AdvancementState.UNOBTAINED;
+		}
+
+		int k = this.width - j;
+		this.minecraft.getTextureManager().bind(WIDGETS_LOCATION);
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.enableBlend();
+		int l = pY + ((int) advancement.getDisplay().getY());
+		int i1;
+		if (flag) {
+			i1 = pX + ((int) advancement.getDisplay().getX()) - this.width + 26 + 6;
+		} else {
+			i1 = pX + ((int) advancement.getDisplay().getX());
+		}
+
+		int j1 = 32 + description.size() * 9;
+		if (!description.isEmpty()) {
+			if (flag1) {
+				this.render9Sprite(pMatrixStack, i1, l + 26 - j1, this.width, j1, 10, 200, 26, 0, 52);
+			} else {
+				this.render9Sprite(pMatrixStack, i1, l, this.width, j1, 10, 200, 26, 0, 52);
+			}
+		}
+
+		this.blit(pMatrixStack, i1, l, 0, advancementstate.getIndex() * 26, j, 26);
+		this.blit(pMatrixStack, i1 + j, l, 200 - k, advancementstate1.getIndex() * 26, k, 26);
+		this.blit(pMatrixStack, pX + ((int) advancement.getDisplay().getX()) + 3, pY + ((int) advancement.getDisplay().getY()), advancement.getDisplay().getFrame().getTexture(), 128 + advancementstate2.getIndex() * 26, 26, 26);
+		if (flag) {
+			this.minecraft.font.drawShadow(pMatrixStack, this.title, (float)(i1 + 5), (float)(pY + ((int) advancement.getDisplay().getY()) + 9), -1);
+			if (s != null) {
+				this.minecraft.font.drawShadow(pMatrixStack, s, (float)(pX + ((int) advancement.getDisplay().getX()) - i), (float)(pY + ((int) advancement.getDisplay().getY()) + 9), -1);
+			}
+		} else {
+			this.minecraft.font.drawShadow(pMatrixStack, this.title, (float)(pX + ((int) advancement.getDisplay().getX()) + 32), (float)(pY + ((int) advancement.getDisplay().getY()) + 9), -1);
+			if (s != null) {
+				this.minecraft.font.drawShadow(pMatrixStack, s, (float)(pX + ((int) advancement.getDisplay().getX()) + this.width - i - 5), (float)(pY + ((int) advancement.getDisplay().getY()) + 9), -1);
+			}
+		}
+
+		if (flag1) {
+			for(int k1 = 0; k1 < description.size(); ++k1) {
+				this.minecraft.font.draw(pMatrixStack, description.get(k1), (float)(i1 + 5), (float)(l + 26 - j1 + 7 + k1 * 9), -5592406);
+			}
+		} else {
+			for(int l1 = 0; l1 < description.size(); ++l1) {
+				this.minecraft.font.draw(pMatrixStack, description.get(l1), (float)(i1 + 5), (float)(pY + ((int) advancement.getDisplay().getY()) + 9 + 17 + l1 * 9), -5592406);
+			}
+		}
+
+		this.minecraft.getItemRenderer().renderAndDecorateFakeItem(advancement.getDisplay().getIcon(), pX + ((int) advancement.getDisplay().getX()) + 8, pY + ((int) advancement.getDisplay().getY()) + 5);
+	}
+
+	protected void render9Sprite(MatrixStack pMatrixStack, int pX, int pY, int pWidth, int pHeight, int pPadding, int pUWidth, int pVHeight, int pUOffset, int pVOffset) {
+		this.blit(pMatrixStack, pX, pY, pUOffset, pVOffset, pPadding, pPadding);
+		this.renderRepeating(pMatrixStack, pX + pPadding, pY, pWidth - pPadding - pPadding, pPadding, pUOffset + pPadding, pVOffset, pUWidth - pPadding - pPadding, pVHeight);
+		this.blit(pMatrixStack, pX + pWidth - pPadding, pY, pUOffset + pUWidth - pPadding, pVOffset, pPadding, pPadding);
+		this.blit(pMatrixStack, pX, pY + pHeight - pPadding, pUOffset, pVOffset + pVHeight - pPadding, pPadding, pPadding);
+		this.renderRepeating(pMatrixStack, pX + pPadding, pY + pHeight - pPadding, pWidth - pPadding - pPadding, pPadding, pUOffset + pPadding, pVOffset + pVHeight - pPadding, pUWidth - pPadding - pPadding, pVHeight);
+		this.blit(pMatrixStack, pX + pWidth - pPadding, pY + pHeight - pPadding, pUOffset + pUWidth - pPadding, pVOffset + pVHeight - pPadding, pPadding, pPadding);
+		this.renderRepeating(pMatrixStack, pX, pY + pPadding, pPadding, pHeight - pPadding - pPadding, pUOffset, pVOffset + pPadding, pUWidth, pVHeight - pPadding - pPadding);
+		this.renderRepeating(pMatrixStack, pX + pPadding, pY + pPadding, pWidth - pPadding - pPadding, pHeight - pPadding - pPadding, pUOffset + pPadding, pVOffset + pPadding, pUWidth - pPadding - pPadding, pVHeight - pPadding - pPadding);
+		this.renderRepeating(pMatrixStack, pX + pWidth - pPadding, pY + pPadding, pPadding, pHeight - pPadding - pPadding, pUOffset + pUWidth - pPadding, pVOffset + pPadding, pUWidth, pVHeight - pPadding - pPadding);
+	}
+
+	protected void renderRepeating(MatrixStack pMatrixStack, int pX, int pY, int pBorderToU, int pBorderToV, int pUOffset, int pVOffset, int pUWidth, int pVHeight) {
+		for(int i = 0; i < pBorderToU; i += pUWidth) {
+			int j = pX + i;
+			int k = Math.min(pUWidth, pBorderToU - i);
+
+			for(int l = 0; l < pBorderToV; l += pVHeight) {
+				int i1 = pY + l;
+				int j1 = Math.min(pVHeight, pBorderToV - l);
+				this.blit(pMatrixStack, j, i1, pUOffset, pVOffset, k, j1);
+			}
+		}
+
+	}
+
+	private List<ITextProperties> findOptimalLines(ITextComponent pComponent, int pMaxWidth) {
+		CharacterManager charactermanager = this.minecraft.font.getSplitter();
+		List<ITextProperties> list = null;
+		float f = Float.MAX_VALUE;
+
+		for(int i : TEST_SPLIT_OFFSETS) {
+			List<ITextProperties> list1 = charactermanager.splitLines(pComponent, pMaxWidth - i, Style.EMPTY);
+			float f1 = Math.abs(getMaxWidth(charactermanager, list1) - (float)pMaxWidth);
+			if (f1 <= 10.0F) {
+				return list1;
+			}
+
+			if (f1 < f) {
+				f = f1;
+				list = list1;
+			}
+		}
+
+		return list;
+	}
+
+	private static float getMaxWidth(CharacterManager pManager, List<ITextProperties> pText) {
+		return (float)pText.stream().mapToDouble(pManager::stringWidth).max().orElse(0.0D);
 	}
 
 
