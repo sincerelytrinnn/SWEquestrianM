@@ -167,7 +167,19 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		// Affinity TEXT
 		TranslationTextComponent affinityInfo;
 		if (affinityLeveling.getLevel() != affinityLeveling.getMaxLevel()) {
-			affinityInfo = new TranslationTextComponent(String.format("%s: %.0f/%.0f", affinityLeveling.getLevelName(), affinityLeveling.getXp(), affinityLeveling.getRequiredXp()));
+			float currentXP = affinityLeveling.getXp();
+			float requiredXP = affinityLeveling.getRequiredXp();
+			boolean currentThousands = false;
+			boolean requiredThousands = false;
+			if (currentXP > 1000) {
+				currentXP /= 1000;
+				currentThousands = true;
+			}
+			if (requiredXP > 1000) {
+				requiredXP /= 1000;
+				requiredThousands = true;
+			}
+			affinityInfo = new TranslationTextComponent(String.format("%s: ", affinityLeveling.getLevelName()) + String.format("%.0f", currentXP) + (currentThousands ? "k" : "") + "/" +  String.format("%.0f", requiredXP) + (requiredThousands ? "k" : ""));
 		} else {
 			affinityInfo = new TranslationTextComponent(String.format("%s", affinityLeveling.getLevelName()));
 		}
