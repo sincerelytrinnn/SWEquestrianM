@@ -1,6 +1,6 @@
 {
       "parent": "swem:block/pasture_fence_inventory",
       "textures": {
-        "texture": "swem:block/whitewash_planks"
+        "0": "swem:blocks/whitewash_planks"
       }
     }

@@ -1,6 +1,6 @@
 {
       "parent": "swem:block/pasture_fence_inventory",
       "textures": {
-        "texture": "minecraft:block/birch_planks"
+        "0": "minecraft:block/birch_planks"
       }
     }
