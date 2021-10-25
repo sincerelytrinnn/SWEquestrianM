@@ -30,7 +30,21 @@ public class ColorChangerButton extends CycableButton {
 
 	@Override
 	public ITextComponent getMessage() {
-		return new StringTextComponent(DyeColor.byId(this.screen.layerColors.get(this.layer)).name());
+		String colorName = DyeColor.byId(this.screen.layerColors.get(this.layer)).getName();
+		String[] names = colorName.split("_");
+		String finalName = "";
+		for (int i = 0; i < names.length; i++) {
+			String name = names[i];
+			String subName = name.substring(1);
+			char firstChar = Character.toUpperCase(name.charAt(0));
+			finalName += firstChar + subName;
+			if (i + 1 < names.length) {
+				finalName += " ";
+			}
+
+		}
+
+		return new StringTextComponent(finalName);
 	}
 
 	public static class Press implements ColorChangerButton.IPressable {
