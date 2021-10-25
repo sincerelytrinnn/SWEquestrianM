@@ -39,17 +39,11 @@ public class WesternPoleBlock extends Block {
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		if (state.getValue(PART) == SWEMBlockStateProperties.TripleBlockSide.RIGHT) {
-			return Stream.of(
-					Block.box(7.5, 3, 7.5, 8.5, 32, 8.5),
-					Block.box(6.5, 2, 6.5, 9.5, 3, 9.5),
-					Block.box(5.5, 0, 5.5, 10.5, 2, 10.5)
-			).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get().move(0.0d, -1.0d, 0.0d);
+			return Block.box(7, 0, 7, 9, 48, 9).move(0.0d, -2.0d, 0.0d);
+		} else if (state.getValue(PART) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+			return Block.box(7, 0, 7, 9, 48, 9).move(0.0d, -1.0d, 0.0d);
 		} else {
-			return Stream.of(
-					Block.box(7.5, 3, 7.5, 8.5, 32, 8.5),
-					Block.box(6.5, 2, 6.5, 9.5, 3, 9.5),
-					Block.box(5.5, 0, 5.5, 10.5, 2, 10.5)
-			).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get();
+			return Block.box(7, 0, 7, 9, 48, 9);
 		}
 	}
 
