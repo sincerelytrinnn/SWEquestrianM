@@ -168,7 +168,7 @@ public class GeneralEventHandlers {
 					// Increment Speed.
 					ClientPlayerEntity player = Minecraft.getInstance().player;
 					Entity entity = player.getVehicle();
-					if (entity instanceof SWEMHorseEntityBase) {
+					if (entity instanceof SWEMHorseEntityBase && player.zza > 0) {
 						SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 						SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(1, horse.getId()));
 					}
@@ -178,7 +178,7 @@ public class GeneralEventHandlers {
 					// Decrement speed
 					ClientPlayerEntity player = Minecraft.getInstance().player;
 					Entity entity = player.getVehicle();
-					if (entity instanceof SWEMHorseEntityBase) {
+					if (entity instanceof SWEMHorseEntityBase && player.zza > 0) {
 						SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 						SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(0, horse.getId()));
 					}
