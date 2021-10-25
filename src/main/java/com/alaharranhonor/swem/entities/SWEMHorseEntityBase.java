@@ -1313,7 +1313,6 @@ public class SWEMHorseEntityBase
 				float f = livingentity.xxa * 0.5F;
 				float f1 = livingentity.zza;
 				if (f1 <= 0.0F) {
-					f1 *= 0.25F;
 					this.gallopSoundCounter = 0;
 				}
 
@@ -1378,6 +1377,14 @@ public class SWEMHorseEntityBase
 				this.flyingSpeed = this.getSpeed() * 0.1F;
 				if (this.isControlledByLocalInstance()) {
 					this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
+					if (f1 < 0.0f) { // Backwards movement.
+						if (this.currentSpeed != HorseSpeed.WALK) {
+							SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, this.getId()));
+						}
+						livingentity.zza *= 3f;
+						// We multiply with a number close to 4, since in the AbstractHorseEntity it slows the backwards movement with * 0.25
+						// So we counter that, by check if it's negative, but still make it a bit slower than regular walking.
+					}
 					super.travel(new Vector3d((double) f, travelVector.y, (double) f1));
 				} else if ((livingentity instanceof PlayerEntity)) {
 					this.setDeltaMovement(Vector3d.ZERO);
