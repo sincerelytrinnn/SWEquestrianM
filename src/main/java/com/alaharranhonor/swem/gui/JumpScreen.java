@@ -53,11 +53,12 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 		super.init(minecraft, width, height);
 		this.guiLeft = (this.width - this.xSize) / 2;
 		this.guiTop = (this.height - this.ySize) / 2;
+		this.removeAllButtons();
 
 		// Init the static buttons, but add the listeners inside the initButtons method, since we are clearing the listener children, to avoid standard changing on layer buttons.
-		this.deleteLayerButton = new DeleteLayerButton(this.guiLeft + 100, this.guiTop + 12, 50, 20, new TranslationTextComponent("button.swem.delete_layer"), this);
-		this.addLayerButton = new AddLayerButton(this.guiLeft + 155, this.guiTop + 12, 50, 20, new TranslationTextComponent("button.swem.add_layer"), this);
-		this.destroyButton = new DestroyButton(this.guiLeft + 14, this.guiTop + 148, 50, 20, new TranslationTextComponent("button.swem.destroy"), this);
+		this.deleteLayerButton = new DeleteLayerButton(this.guiLeft + 100, this.guiTop + 5, 70, 20, new TranslationTextComponent("button.swem.delete_layer"), this);
+		this.addLayerButton = new AddLayerButton(this.guiLeft + 175, this.guiTop + 5, 60, 20, new TranslationTextComponent("button.swem.add_layer"), this);
+		this.destroyButton = new DestroyButton(this.guiLeft + 6, this.guiTop + 18, 50, 20, new TranslationTextComponent("button.swem.destroy"), this);
 
 		initButtons();
 
@@ -65,13 +66,13 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 
 	public void initButtons() {
 		for (int i = 0; i < this.layerAmount; i++) {
-			LayerChangerButton btn = new LayerChangerButton(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 113, 20, new StringTextComponent("Option"), this);
+			LayerChangerButton btn = new LayerChangerButton(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * i) + 25)), 100, 20, new StringTextComponent("Option"), this);
 			btn.setLayer(i + 1);
 			btn.setSelected(this.layerTypes.get(i + 1));
 			this.addButton(btn);
 
 
-			ColorChangerButton colorButton = new ColorChangerButton(this.guiLeft + (62 + 113 + 8), this.guiTop + (this.ySize - ((23 * i) + 23 * 2)), 90, 20, new StringTextComponent("Color"), this);
+			ColorChangerButton colorButton = new ColorChangerButton(this.guiLeft + (62 + 100 + 8), this.guiTop + (this.ySize - ((23 * i) + 25)), 65, 20, new StringTextComponent("Color"), this);
 			colorButton.setLayer(i + 1);
 			if (!this.layerTypes.get(i + 1).hasColorVariants()) {
 				colorButton.active = false;
@@ -79,7 +80,7 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 			this.addColorButton(colorButton);
 		}
 
-		StandardChangerButton standardButton = new StandardChangerButton(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * this.layerAmount - 1) + 23 * 2)), 113, 20, new StringTextComponent("Option"), this);
+		StandardChangerButton standardButton = new StandardChangerButton(this.guiLeft + 62, this.guiTop + (this.ySize - ((23 * this.layerAmount - 1) + 25)), 100, 20, new StringTextComponent("Option"), this);
 		standardButton.setSelected(currentStandard);
 		this.addButton(standardButton);
 
@@ -104,6 +105,11 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 		this.buttons.clear();
 		this.children.clear();
 		this.colorButtons.clear();
+
+	}
+
+	public void removeAndReInit() {
+		removeAllButtons();
 		this.initButtons();
 	}
 
@@ -118,7 +124,7 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 		this.layerTypes = layers;
 		this.layerColors = colors;
 		this.currentStandard = standard;
-		this.removeAllButtons();
+		this.removeAndReInit();
 		this.checkLayerButtons();
 	}
 
@@ -132,7 +138,7 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 		int j = (this.height - this.ySize) / 2;
 		this.blit(matrixStack, i, j, 0, 0, this.xSize, this.ySize); // GUI TEXTURE, needs to be called before anything else is rendered.
 
-		int offSet = 16;
+		int offSet = -7;
 		for (int k = 0; k < this.layerAmount; k++) {
 			offSet += 23;
 			this.font.draw(matrixStack, new StringTextComponent("Layer " + (k + 1) + ":"), this.guiLeft + 7, this.guiTop + (this.ySize - offSet), 4210752);
