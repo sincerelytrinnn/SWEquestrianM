@@ -109,7 +109,7 @@ public class PeeGoal extends Goal {
 					bestBlock = 1;
 					bestPos = newPos;
 				} else {
-					if (flag) {
+					if (flag && !this.entityWorld.getBlockState(newPos.relative(Direction.DOWN)).isAir()) {
 						bestBlock = 0;
 						bestPos = pos;
 					}
