@@ -187,9 +187,9 @@ public class SWEMHorseEntityBase
 	@Override
 	public void handleEntityEvent(byte p_70103_1_) {
 		if (p_70103_1_ == 127) { // Poop goal
-			this.poopAnimationTick = 40;
+			this.poopAnimationTick = 79;
 		} else if (p_70103_1_ == 126) { // Pee goal
-			this.peeAnimationTick = 40;
+			this.peeAnimationTick = 79;
 		} else {
 			super.handleEntityEvent(p_70103_1_);
 		}

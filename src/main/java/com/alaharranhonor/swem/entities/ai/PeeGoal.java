@@ -43,12 +43,9 @@ public class PeeGoal extends Goal {
 	 */
 	@Override
 	public void start() {
-		this.peeTimer = 40;
+		this.peeTimer = 79;
 		this.entityWorld.broadcastEntityEvent(this.peeEntity, (byte)126);
 		this.peeEntity.getNavigation().stop();
-		SWEMHorseEntityBase.HorseSpeed oldSpeed = this.peeEntity.currentSpeed;
-		this.peeEntity.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
-		this.peeEntity.updateSelectedSpeed(oldSpeed);
 	}
 
 	/**
@@ -76,8 +73,9 @@ public class PeeGoal extends Goal {
 	 */
 	@Override
 	public void tick() {
+		this.peeEntity.getNavigation().stop();
 		this.peeTimer = Math.max(0, this.peeTimer - 1);
-		if (peeTimer == 4) {
+		if (peeTimer == 48) {
 			BlockPos blockpos = this.peeEntity.blockPosition();
 			BlockPos bestPos = this.getPosOfBestBlock(blockpos);
 			this.pee(bestPos);

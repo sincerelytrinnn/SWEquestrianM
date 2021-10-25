@@ -37,12 +37,9 @@ public class PoopGoal extends Goal {
 	 */
 	@Override
 	public void start() {
-		this.poopTimer = 40;
+		this.poopTimer = 79;
 		this.entityWorld.broadcastEntityEvent(this.pooperEntity, (byte)127);
 		this.pooperEntity.getNavigation().stop();
-		SWEMHorseEntityBase.HorseSpeed oldSpeed = this.pooperEntity.currentSpeed;
-		this.pooperEntity.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
-		this.pooperEntity.updateSelectedSpeed(oldSpeed);
 	}
 
 	/**
@@ -70,8 +67,9 @@ public class PoopGoal extends Goal {
 	 */
 	@Override
 	public void tick() {
+		this.pooperEntity.getNavigation().stop();
 		this.poopTimer = Math.max(0, this.poopTimer - 1);
-		if (this.poopTimer == 4) {
+		if (this.poopTimer == 48) {
 			BlockPos blockpos = this.pooperEntity.blockPosition();
 			PoopEntity poop = SWEMEntities.HORSE_POOP_ENTITY.get().create(this.entityWorld);
 			BlockPos posToPoop = blockpos.offset(0, 1.5d, 0).relative(this.pooperEntity.getDirection().getOpposite());
