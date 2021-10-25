@@ -9,6 +9,7 @@ import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
+import com.alaharranhonor.swem.items.tack.HorseSaddleItem;
 import com.alaharranhonor.swem.network.HorseStateChange;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.util.SWEMUtil;
@@ -36,7 +37,7 @@ import java.util.UUID;
 @OnlyIn(Dist.CLIENT)
 public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventoryContainer> implements IHasContainer<SWEMHorseInventoryContainer> {
 
-	private static final ResourceLocation HORSE_GUI_TEXTURES = new ResourceLocation(SWEM.MOD_ID, "textures/gui/container/swem_horse_western.png");
+	private static final ResourceLocation HORSE_GUI_TEXTURES = new ResourceLocation(SWEM.MOD_ID, "textures/gui/container/swem_horse.png");
 	/** The EntityHorse whose inventory is currently being accessed. */
 	private SWEMHorseEntityBase horseEntity;
 	/** The mouse x-position recorded during the last rendered frame. */
@@ -89,6 +90,33 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
 		this.blit(matrixStack, i, j, 0, 0, this.imageWidth, this.imageHeight);
+
+		//overlay tack slots
+
+		if (horseEntity.hasHalter()) {
+			this.blit(matrixStack, i + 8, j + 17, 176, 0, 16, 16);
+		}
+		if (horseEntity.hasSaddle().getItem() instanceof HorseSaddleItem) {
+			this.blit(matrixStack, i + 29, j + 17, 176, 0, 16, 16);
+		}
+		if (horseEntity.hasBreastCollar()) {
+			this.blit(matrixStack, i + 8, j + 38, 176, 0, 16, 16);
+		}
+		if (horseEntity.hasBlanket()) {
+			this.blit(matrixStack, i + 29, j + 38, 176, 0, 16, 16);
+		}
+		if (horseEntity.hasLegWraps()) {
+			this.blit(matrixStack, i + 8, j + 59, 176, 0, 16, 16);
+		}
+		if (horseEntity.hasGirthStrap()) {
+			this.blit(matrixStack, i + 29, j + 59, 176, 0, 16, 16);
+		}
+		if (horseEntity.isWearingArmor()) {
+			this.blit(matrixStack, i + 8, j + 87, 176, 0, 16, 16);
+		}
+		if (horseEntity.hasSaddleBag()) {
+			this.blit(matrixStack, i + 29, j + 87, 176, 0, 16, 16);
+		}
 
 		// Not sure what this renders, some weird box.
 		//if (this.horseEntity.isSaddleable()) {

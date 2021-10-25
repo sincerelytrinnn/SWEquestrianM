@@ -2136,7 +2136,11 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public boolean isWearingArmor() {
-		return super.isWearingArmor();
+		return this.inventory.getItem(6).getItem() instanceof SWEMHorseArmorItem;
+	}
+
+	public boolean hasSaddleBag() {
+		return this.inventory.getItem(7).getItem() instanceof SaddlebagItem;
 	}
 
 	public float getJumpHeight() {
