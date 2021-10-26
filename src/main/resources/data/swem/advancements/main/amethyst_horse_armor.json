@@ -15,7 +15,6 @@
     "hidden": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
-  "parent": "swem:main/diamond_horse_armor",
   "criteria": {
     "amethyst_horse_armor": {
       "trigger": "minecraft:inventory_changed",

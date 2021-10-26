@@ -85,6 +85,7 @@ public class TackBoxProgressionScreen extends Screen {
 			if (pb.isMouseOver(mouseX, mouseY, this.guiLeft, this.guiTop)) {
 				// Place the same render call that happens in AdvancementsScreen
 				drawAdvancementHover(matrixStack, mouseX, mouseY, 0, this.xSize, this.ySize, adv, advProgress);
+				//AdvancementsScreen
 			}
 		}
 

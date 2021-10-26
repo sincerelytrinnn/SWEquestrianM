@@ -1,28 +1,28 @@
 {
   "display": {
     "icon": {
-      "item": "swem:iron_horse_armor"
+      "item": "swem:amethyst_bow"
     },
     "title": {
-      "translate": "advancements.swem.main.iron_horse_armor.title"
+      "translate": "advancements.swem.main.amethyst_bow.title"
     },
     "description": {
-      "translate": "advancements.swem.main.iron_horse_armor.description"
+      "translate": "advancements.swem.main.amethyst_bow.description"
     },
-    "frame": "task",
+    "frame": "goal",
     "show_toast": true,
     "announce_to_chat": false,
     "hidden": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
-  "parent": "swem:main/cloth_horse_armor",
+  "parent": "swem:main/amethyst",
   "criteria": {
-    "iron_horse_armor": {
+    "amethyst_bow": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:iron_horse_armor"
+            "item": "swem:amethyst_bow"
           }
         ]
       }
@@ -30,7 +30,7 @@
   },
   "requirements": [
     [
-      "iron_horse_armor"
+      "amethyst_bow"
     ]
   ]
 }

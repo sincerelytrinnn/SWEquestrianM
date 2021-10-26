@@ -1,13 +1,13 @@
 {
   "display": {
     "icon": {
-      "item": "swem:glow_riding_boots"
+      "item": "swem:horse_whistle"
     },
     "title": {
-      "translate": "advancements.swem.main.glow_boots.title"
+      "translate": "advancements.swem.main.horse_whistle.title"
     },
     "description": {
-      "translate": "advancements.swem.main.glow_boots.description"
+      "translate": "advancements.swem.main.horse_whistle.description"
     },
     "frame": "task",
     "show_toast": true,
@@ -15,14 +15,14 @@
     "hidden": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
-  "parent": "swem:main/root",
+  "parent": "swem:main/shavings",
   "criteria": {
-    "glow_riding_boots": {
+    "horse_whistle": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:glow_riding_boots"
+            "item": "swem:horse_whistle"
           }
         ]
       }
@@ -30,7 +30,7 @@
   },
   "requirements": [
     [
-      "glow_riding_boots"
+      "horse_whistle"
     ]
   ]
 }

@@ -1,13 +1,13 @@
 {
   "display": {
     "icon": {
-      "item": "swem:cantazarite_block"
+      "item": "swem:amethyst"
     },
     "title": {
-      "translate": "advancements.swem.main.cantazarite_blocks.title"
+      "translate": "advancements.swem.main.amethyst.title"
     },
     "description": {
-      "translate": "advancements.swem.main.cantazarite_blocks.description"
+      "translate": "advancements.swem.main.amethyst.description"
     },
     "frame": "task",
     "show_toast": true,
@@ -15,17 +15,14 @@
     "hidden": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
-  "parent": "swem:main/root",
+  "parent": "swem:main/sw_diamond_block",
   "criteria": {
-    "cantazarite_blocks": {
+    "amethyst": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:cantazarite_block",
-            "count": {
-              "min": 4
-            }
+            "item": "swem:amethyst"
           }
         ]
       }
@@ -33,7 +30,7 @@
   },
   "requirements": [
     [
-      "cantazarite_blocks"
+      "amethyst"
     ]
   ]
 }

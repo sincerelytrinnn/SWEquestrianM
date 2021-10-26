@@ -15,7 +15,7 @@
     "hidden": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
-  "parent": "swem:main/iron_boots",
+  "parent": "swem:main/glow_boots",
   "criteria": {
     "gold_riding_boots": {
       "trigger": "minecraft:inventory_changed",

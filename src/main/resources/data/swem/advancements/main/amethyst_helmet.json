@@ -15,7 +15,7 @@
     "hidden": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
-  "parent": "swem:main/iron_boots",
+  "parent": "swem:main/amethyst",
   "criteria": {
     "amethyst_helmet": {
       "trigger": "minecraft:inventory_changed",

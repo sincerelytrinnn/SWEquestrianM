@@ -1,13 +1,13 @@
 {
   "display": {
     "icon": {
-      "item": "swem:glow_riding_boots"
+      "item": "swem:slow_feeders"
     },
     "title": {
-      "translate": "advancements.swem.main.glow_boots.title"
+      "translate": "advancements.swem.main.slow_feeders.title"
     },
     "description": {
-      "translate": "advancements.swem.main.glow_boots.description"
+      "translate": "advancements.swem.main.slow_feeders.description"
     },
     "frame": "task",
     "show_toast": true,
@@ -15,14 +15,14 @@
     "hidden": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
-  "parent": "swem:main/root",
+  "parent": "swem:main/bandage",
   "criteria": {
-    "glow_riding_boots": {
+    "slow_feeders": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:glow_riding_boots"
+            "tag": "swem:slow_feeder_items"
           }
         ]
       }
@@ -30,7 +30,7 @@
   },
   "requirements": [
     [
-      "glow_riding_boots"
+      "slow_feeders"
     ]
   ]
 }

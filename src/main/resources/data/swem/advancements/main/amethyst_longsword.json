@@ -1,28 +1,28 @@
 {
   "display": {
     "icon": {
-      "item": "swem:adventure_saddle_glow"
+      "item": "swem:amethyst_longsword"
     },
     "title": {
-      "translate": "advancements.swem.main.glow_saddle.title"
+      "translate": "advancements.swem.main.amethyst_longsword.title"
     },
     "description": {
-      "translate": "advancements.swem.main.glow_saddle.description"
+      "translate": "advancements.swem.main.amethyst_longsword.description"
     },
-    "frame": "task",
+    "frame": "goal",
     "show_toast": true,
     "announce_to_chat": false,
     "hidden": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
-  "parent": "swem:main/saddle",
+  "parent": "swem:main/amethyst",
   "criteria": {
-    "glow_saddle": {
+    "amethyst_longsword": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:adventure_saddle_glow"
+            "item": "swem:amethyst_longsword"
           }
         ]
       }
@@ -30,7 +30,7 @@
   },
   "requirements": [
     [
-      "glow_saddle"
+      "amethyst_longsword"
     ]
   ]
 }

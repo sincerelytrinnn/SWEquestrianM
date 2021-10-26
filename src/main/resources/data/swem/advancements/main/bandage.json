@@ -1,13 +1,13 @@
 {
   "display": {
     "icon": {
-      "item": "swem:diamond_horse_armor"
+      "item": "swem:bandage"
     },
     "title": {
-      "translate": "advancements.swem.main.diamond_horse_armor.title"
+      "translate": "advancements.swem.main.bandage.title"
     },
     "description": {
-      "translate": "advancements.swem.main.diamond_horse_armor.description"
+      "translate": "advancements.swem.main.bandage.description"
     },
     "frame": "task",
     "show_toast": true,
@@ -15,14 +15,14 @@
     "hidden": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
-  "parent": "swem:main/gold_horse_armor",
+  "parent": "swem:main/star_worm_goop",
   "criteria": {
-    "diamond_horse_armor": {
+    "bandage": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:diamond_horse_armor"
+            "item": "swem:bandage"
           }
         ]
       }
@@ -30,7 +30,7 @@
   },
   "requirements": [
     [
-      "diamond_horse_armor"
+      "bandage"
     ]
   ]
 }

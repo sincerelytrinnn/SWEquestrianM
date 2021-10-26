@@ -15,7 +15,7 @@
     "hidden": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
-  "parent": "swem:main/root",
+  "parent": "swem:main/cantazarite",
   "criteria": {
     "cantazarite_dye": {
       "trigger": "minecraft:inventory_changed",

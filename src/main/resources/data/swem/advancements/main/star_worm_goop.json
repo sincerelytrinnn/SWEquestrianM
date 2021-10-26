@@ -1,13 +1,13 @@
 {
   "display": {
     "icon": {
-      "item": "swem:western_saddle_light_blue"
+      "item": "swem:star_worm_goop"
     },
     "title": {
-      "translate": "advancements.swem.main.saddle.title"
+      "translate": "advancements.swem.main.star_worm_goop.title"
     },
     "description": {
-      "translate": "advancements.swem.main.saddle.description"
+      "translate": "advancements.swem.main.star_worm_goop.description"
     },
     "frame": "task",
     "show_toast": true,
@@ -17,12 +17,12 @@
   },
   "parent": "swem:main/root",
   "criteria": {
-    "saddle": {
+    "star_worm_goop": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "tag": "swem:saddles"
+            "item": "swem:star_worm_goop"
           }
         ]
       }
@@ -30,7 +30,7 @@
   },
   "requirements": [
     [
-      "saddle"
+      "star_worm_goop"
     ]
   ]
 }

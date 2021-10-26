@@ -1,13 +1,13 @@
 {
   "display": {
     "icon": {
-      "item": "swem:glow_riding_boots"
+      "item": "swem:star_worm_block_diamond_block"
     },
     "title": {
-      "translate": "advancements.swem.main.glow_boots.title"
+      "translate": "advancements.swem.main.star_worm_diamond_block.title"
     },
     "description": {
-      "translate": "advancements.swem.main.glow_boots.description"
+      "translate": "advancements.swem.main.star_worm_diamond_block.description"
     },
     "frame": "task",
     "show_toast": true,
@@ -17,12 +17,12 @@
   },
   "parent": "swem:main/root",
   "criteria": {
-    "glow_riding_boots": {
+    "star_worm_diamond_block": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:glow_riding_boots"
+            "item": "swem:star_worm_block_diamond_block"
           }
         ]
       }
@@ -30,7 +30,7 @@
   },
   "requirements": [
     [
-      "glow_riding_boots"
+      "star_worm_diamond_block"
     ]
   ]
 }

@@ -1,13 +1,13 @@
 {
   "display": {
     "icon": {
-      "item": "swem:leather_riding_boots"
+      "item": "swem:cantazarite"
     },
     "title": {
-      "translate": "advancements.swem.main.leather_boots.title"
+      "translate": "advancements.swem.main.cantazarite.title"
     },
     "description": {
-      "translate": "advancements.swem.main.leather_boots.description"
+      "translate": "advancements.swem.main.cantazarite.description"
     },
     "frame": "task",
     "show_toast": true,
@@ -17,12 +17,12 @@
   },
   "parent": "swem:main/root",
   "criteria": {
-    "leather_riding_boots": {
+    "cantazarite": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:leather_riding_boots"
+            "item": "swem:cantazarite"
           }
         ]
       }
@@ -30,7 +30,7 @@
   },
   "requirements": [
     [
-      "leather_riding_boots"
+      "cantazarite"
     ]
   ]
 }

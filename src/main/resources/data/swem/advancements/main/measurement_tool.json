@@ -1,13 +1,13 @@
 {
   "display": {
     "icon": {
-      "item": "swem:iron_riding_boots"
+      "item": "swem:measurement_tool"
     },
     "title": {
-      "translate": "advancements.swem.main.iron_boots.title"
+      "translate": "advancements.swem.main.measurement_tool.title"
     },
     "description": {
-      "translate": "advancements.swem.main.iron_boots.description"
+      "translate": "advancements.swem.main.measurement_tool.description"
     },
     "frame": "task",
     "show_toast": true,
@@ -15,14 +15,14 @@
     "hidden": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
-  "parent": "swem:main/glow_boots",
+  "parent": "swem:main/star_worm_goop",
   "criteria": {
-    "iron_riding_boots": {
+    "measurement_tool": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:iron_riding_boots"
+            "item": "swem:measurement_tool"
           }
         ]
       }
@@ -30,7 +30,7 @@
   },
   "requirements": [
     [
-      "iron_riding_boots"
+      "measurement_tool"
     ]
   ]
 }

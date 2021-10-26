@@ -1,28 +1,28 @@
 {
   "display": {
     "icon": {
-      "item": "swem:glow_riding_boots"
+      "item": "swem:amethyst_scythe"
     },
     "title": {
-      "translate": "advancements.swem.main.glow_boots.title"
+      "translate": "advancements.swem.main.amethyst_scythe.title"
     },
     "description": {
-      "translate": "advancements.swem.main.glow_boots.description"
+      "translate": "advancements.swem.main.amethyst_scythe.description"
     },
-    "frame": "task",
+    "frame": "goal",
     "show_toast": true,
     "announce_to_chat": false,
     "hidden": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
-  "parent": "swem:main/root",
+  "parent": "swem:main/amethyst",
   "criteria": {
-    "glow_riding_boots": {
+    "amethyst_scythe": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:glow_riding_boots"
+            "item": "swem:amethyst_scythe"
           }
         ]
       }
@@ -30,7 +30,7 @@
   },
   "requirements": [
     [
-      "glow_riding_boots"
+      "amethyst_scythe"
     ]
   ]
 }

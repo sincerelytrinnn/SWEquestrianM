@@ -1,13 +1,13 @@
 {
   "display": {
     "icon": {
-      "item": "swem:cloth_horse_armor"
+      "item": "swem:western_barrel"
     },
     "title": {
-      "translate": "advancements.swem.main.cloth_horse_armor.title"
+      "translate": "advancements.swem.main.western_barrel.title"
     },
     "description": {
-      "translate": "advancements.swem.main.cloth_horse_armor.description"
+      "translate": "advancements.swem.main.western_barrel.description"
     },
     "frame": "task",
     "show_toast": true,
@@ -15,14 +15,14 @@
     "hidden": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
-  "parent": "swem:main/glow_saddle",
+  "parent": "swem:main/measurement_tool",
   "criteria": {
-    "cloth_horse_armor": {
+    "western_barrel": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:cloth_horse_armor"
+            "item": "swem:western_barrel"
           }
         ]
       }
@@ -30,7 +30,7 @@
   },
   "requirements": [
     [
-      "cloth_horse_armor"
+      "western_barrel"
     ]
   ]
 }

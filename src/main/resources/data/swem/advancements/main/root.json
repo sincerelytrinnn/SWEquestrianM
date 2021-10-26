@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "swem:cantazarite"
+      "item": "swem:star_worm"
     },
     "title": {
       "translate": "advancements.swem.main.root.title"
@@ -16,12 +16,12 @@
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
   "criteria": {
-    "cantazarite": {
+    "star_worm": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:cantazarite"
+            "item": "swem:star_worm"
           }
         ]
       }
@@ -29,7 +29,7 @@
   },
   "requirements": [
     [
-      "cantazarite"
+      "star_worm"
     ]
   ]
 }
