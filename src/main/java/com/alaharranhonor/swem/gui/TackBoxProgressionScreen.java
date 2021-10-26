@@ -110,33 +110,36 @@ public class TackBoxProgressionScreen extends Screen {
 	}
 
 	public void drawAdvancementHover(MatrixStack pMatrixStack, int pX, int pY, float pFade, int pWidth, int pHeight, Advancement advancement, AdvancementProgress progress) {
+		final IReorderingProcessor advancementTitle = LanguageMap.getInstance().getVisualOrder(this.minecraft.font.substrByWidth(advancement.getDisplay().getTitle(), 163));
+		final int advancementWidth = (29 + this.minecraft.font.width(advancementTitle) + ((advancement.getMaxCriteraRequired()) > 1 ? this.minecraft.font.width("  ") + this.minecraft.font.width("0") * (String.valueOf(advancement.getMaxCriteraRequired()).length()) * 2 + this.minecraft.font.width("/") : 0)) + 3 + 5;
+
 		int iText = advancement.getMaxCriteraRequired();
 		int jText = String.valueOf(iText).length();
 		int kText = iText > 1 ? Minecraft.getInstance().font.width("  ") + Minecraft.getInstance().font.width("0") * jText * 2 + Minecraft.getInstance().font.width("/") : 0;
-		int sWidth = 29 + Minecraft.getInstance().font.width(this.title) + kText;
+		int sWidth = 29 + Minecraft.getInstance().font.width(advancementTitle) + kText;
 		List<IReorderingProcessor> description = LanguageMap.getInstance().getVisualOrder(this.findOptimalLines(TextComponentUtils.mergeStyles(advancement.getDisplay().getDescription().copy(), Style.EMPTY.withColor(advancement.getDisplay().getFrame().getChatColor())), sWidth));
 
-		boolean flag = pWidth + pX + advancement.getDisplay().getX() + this.width + 26 >= this.xSize;
+		boolean flag = pWidth + pX + advancement.getDisplay().getX() + advancementWidth + 26 >= this.xSize;
 		String s = progress == null ? null : progress.getProgressText();
 		int i = s == null ? 0 : this.minecraft.font.width(s);
 		boolean flag1 = 113 - pY - advancement.getDisplay().getY() - 26 <= 6 + description.size() * 9;
 		float f = progress == null ? 0.0F : progress.getPercent();
-		int j = MathHelper.floor(f * (float)this.width);
+		int j = MathHelper.floor(f * (float)advancementWidth);
 		AdvancementState advancementstate;
 		AdvancementState advancementstate1;
 		AdvancementState advancementstate2;
 		if (f >= 1.0F) {
-			j = this.width / 2;
+			j = advancementWidth / 2;
 			advancementstate = AdvancementState.OBTAINED;
 			advancementstate1 = AdvancementState.OBTAINED;
 			advancementstate2 = AdvancementState.OBTAINED;
 		} else if (j < 2) {
-			j = this.width / 2;
+			j = advancementWidth / 2;
 			advancementstate = AdvancementState.UNOBTAINED;
 			advancementstate1 = AdvancementState.UNOBTAINED;
 			advancementstate2 = AdvancementState.UNOBTAINED;
-		} else if (j > this.width - 2) {
-			j = this.width / 2;
+		} else if (j > advancementWidth - 2) {
+			j = advancementWidth / 2;
 			advancementstate = AdvancementState.OBTAINED;
 			advancementstate1 = AdvancementState.OBTAINED;
 			advancementstate2 = AdvancementState.UNOBTAINED;
@@ -146,14 +149,14 @@ public class TackBoxProgressionScreen extends Screen {
 			advancementstate2 = AdvancementState.UNOBTAINED;
 		}
 
-		int k = this.width - j;
+		int k = advancementWidth - j;
 		this.minecraft.getTextureManager().bind(WIDGETS_LOCATION);
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.enableBlend();
 		int l = pY + ((int) advancement.getDisplay().getY());
 		int i1;
 		if (flag) {
-			i1 = pX + ((int) advancement.getDisplay().getX()) - this.width + 26 + 6;
+			i1 = pX + ((int) advancement.getDisplay().getX()) - advancementWidth + 26 + 6;
 		} else {
 			i1 = pX + ((int) advancement.getDisplay().getX());
 		}
@@ -161,9 +164,9 @@ public class TackBoxProgressionScreen extends Screen {
 		int j1 = 32 + description.size() * 9;
 		if (!description.isEmpty()) {
 			if (flag1) {
-				this.render9Sprite(pMatrixStack, i1, l + 26 - j1, this.width, j1, 10, 200, 26, 0, 52);
+				this.render9Sprite(pMatrixStack, i1, l + 26 - j1, advancementWidth, j1, 10, 200, 26, 0, 52);
 			} else {
-				this.render9Sprite(pMatrixStack, i1, l, this.width, j1, 10, 200, 26, 0, 52);
+				this.render9Sprite(pMatrixStack, i1, l, advancementWidth, j1, 10, 200, 26, 0, 52);
 			}
 		}
 
@@ -171,14 +174,14 @@ public class TackBoxProgressionScreen extends Screen {
 		this.blit(pMatrixStack, i1 + j, l, 200 - k, advancementstate1.getIndex() * 26, k, 26);
 		this.blit(pMatrixStack, pX + ((int) advancement.getDisplay().getX()) + 3, pY + ((int) advancement.getDisplay().getY()), advancement.getDisplay().getFrame().getTexture(), 128 + advancementstate2.getIndex() * 26, 26, 26);
 		if (flag) {
-			this.minecraft.font.drawShadow(pMatrixStack, this.title, (float)(i1 + 5), (float)(pY + ((int) advancement.getDisplay().getY()) + 9), -1);
+			this.minecraft.font.drawShadow(pMatrixStack, advancementTitle, (float)(i1 + 5), (float)(pY + ((int) advancement.getDisplay().getY()) + 9), -1);
 			if (s != null) {
 				this.minecraft.font.drawShadow(pMatrixStack, s, (float)(pX + ((int) advancement.getDisplay().getX()) - i), (float)(pY + ((int) advancement.getDisplay().getY()) + 9), -1);
 			}
 		} else {
-			this.minecraft.font.drawShadow(pMatrixStack, this.title, (float)(pX + ((int) advancement.getDisplay().getX()) + 32), (float)(pY + ((int) advancement.getDisplay().getY()) + 9), -1);
+			this.minecraft.font.drawShadow(pMatrixStack, advancementTitle, (float)(pX + ((int) advancement.getDisplay().getX()) + 32), (float)(pY + ((int) advancement.getDisplay().getY()) + 9), -1);
 			if (s != null) {
-				this.minecraft.font.drawShadow(pMatrixStack, s, (float)(pX + ((int) advancement.getDisplay().getX()) + this.width - i - 5), (float)(pY + ((int) advancement.getDisplay().getY()) + 9), -1);
+				this.minecraft.font.drawShadow(pMatrixStack, s, (float)(pX + ((int) advancement.getDisplay().getX()) + advancementWidth - i - 5), (float)(pY + ((int) advancement.getDisplay().getY()) + 9), -1);
 			}
 		}
 
