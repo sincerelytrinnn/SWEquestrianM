@@ -177,7 +177,7 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
 				double[] translations = this.calculateTranslations(tile.getBlockState());
 				stack.translate(translations[0], translations[1] + 0.5, translations[2]);
 				stack.mulPose(this.calculateRotation(tile.getBlockState()));
-				stack.mulPose(new Quaternion(0, 90f, 0, true));
+				stack.mulPose(new Quaternion(0, -90f, 0, true));
 				this.renderRecursively(bone, stack, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 				stack.popPose();
 			}
