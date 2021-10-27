@@ -328,6 +328,10 @@ public class JumpTE extends TileEntity {
 		}
 
 		this.layerAmount--;
+
+		if (this.layerAmount > 1) {
+			this.placeStandards(this.layerAmount, this.currentStandard);
+		}
 	}
 
 	public void addLayer(int layerNumber) {
