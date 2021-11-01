@@ -127,8 +127,8 @@ public class SWEMHorseEntityBase
 	public double jumpHeight;
 	private int poopAnimationTick;
 	private int peeAnimationTick;
-	private int standAnimationTick;
-	private int standAnimationVariant;
+	public int standAnimationTick;
+	public int standAnimationVariant;
 
 
 
@@ -1145,7 +1145,7 @@ public class SWEMHorseEntityBase
 		if (!this.level.isClientSide) {
 			if (this.tickCount % 5 == 0) {
 
-				if (this.canBeControlledByRider() && this.isVehicle() && this.currentSpeed != HorseSpeed.WALK && this.currentSpeed != HorseSpeed.TROT) {
+				if (this.canBeControlledByRider() && this.isVehicle()) {
 					int x = this.blockPosition().getX();
 					int z = this.blockPosition().getZ();
 					if (x != this.currentPos.getX() || z != this.currentPos.getZ()) {
@@ -1301,6 +1301,7 @@ public class SWEMHorseEntityBase
 		if (this.isFlying()) {
 			return;
 		} else {
+			if (this.isStanding()) return;
 			if (this.isVehicle() && this.canBeControlledByRider() && this.isHorseSaddled()) {
 				PlayerEntity livingentity = (PlayerEntity) this.getControllingPassenger();
 
@@ -1934,6 +1935,10 @@ public class SWEMHorseEntityBase
 	}
 
 	public void incrementSpeed() {
+		if (this.getRandom().nextDouble() < this.progressionManager.getAffinityLeveling().getDebuff()) {
+			this.setStandingAnim();
+			return;
+		}
 		HorseSpeed oldSpeed = this.currentSpeed;
 		if (oldSpeed == HorseSpeed.GALLOP) return;
 		else if (oldSpeed == HorseSpeed.CANTER) {
@@ -2126,6 +2131,9 @@ public class SWEMHorseEntityBase
 	public void setStandingAnim() {
 		this.standAnimationTick = 42;
 		this.standAnimationVariant = this.getRandom().nextDouble() > 0.5 ? 2 : 1;
+
+		if (!this.level.isClientSide)
+			SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
 	}
 
 	public boolean isBlanket(ItemStack stack) {
