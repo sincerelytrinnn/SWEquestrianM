@@ -1735,8 +1735,9 @@ public class SWEMHorseEntityBase
 	public ActionResultType interactAt(PlayerEntity player, Vector3d vec, Hand hand) {
 		// Vec is a local hit vector for the horse, not sure how vec.x and vec.z applies.
 
+		return ActionResultType.PASS;
 
-		if (player.isSecondaryUseActive()) {
+		/*if (player.isSecondaryUseActive()) {
 			return ActionResultType.PASS;
 		}
 
@@ -1772,7 +1773,7 @@ public class SWEMHorseEntityBase
 			buffer.writeInt(getId());
 		});
 
-		return ActionResultType.CONSUME;
+		return ActionResultType.CONSUME;*/
 	}
 
 	private boolean checkForBackHit(Vector3d vec) {

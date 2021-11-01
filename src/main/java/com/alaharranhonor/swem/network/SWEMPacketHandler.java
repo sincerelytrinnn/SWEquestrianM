@@ -37,5 +37,6 @@ public class SWEMPacketHandler {
 		INSTANCE.registerMessage(22, CHorseJumpPacket.class, CHorseJumpPacket::encode, CHorseJumpPacket::decode, CHorseJumpPacket::handle);
 		INSTANCE.registerMessage(23, SHorseJumpPacket.class, SHorseJumpPacket::encode, SHorseJumpPacket::decode, SHorseJumpPacket::handle);
 		INSTANCE.registerMessage(24, SHorseAnimationPacket.class, SHorseAnimationPacket::encode, SHorseAnimationPacket::decode, SHorseAnimationPacket::handle);
+		INSTANCE.registerMessage(25, SContainerPacket.class, SContainerPacket::encode, SContainerPacket::decode, SContainerPacket::handle);
 	}
 }

@@ -185,7 +185,7 @@ public class ClientEventHandlers {
 	}
 
 	public static void registerKeybinds() {
-		keyBindings = new KeyBinding[7];
+		keyBindings = new KeyBinding[8];
 
 		keyBindings[0] = new KeyBinding("key.swem.horse.increment", GLFW.GLFW_KEY_H, "key.swem.category");
 		keyBindings[1] = new KeyBinding("key.swem.horse.decrement", GLFW.GLFW_KEY_G, "key.swem.category");
@@ -196,7 +196,7 @@ public class ClientEventHandlers {
 
 		//TODO: REMOVE ONCE SPEED HAS BEEN CONFIRMED
 		keyBindings[6] = new KeyBinding("key.swem.horse.check_speed", GLFW.GLFW_KEY_N, "key.swem.category");
-
+		keyBindings[7] = new KeyBinding("key.swem.horse.toggle_saddlebag", GLFW.GLFW_KEY_L, "key.swem.category");
 
 		for (int i = 0; i < keyBindings.length; i++) {
 			ClientRegistry.registerKeyBinding(keyBindings[i]);
