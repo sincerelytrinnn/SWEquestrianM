@@ -1993,12 +1993,7 @@ public class SWEMHorseEntityBase
 	}
 
 	public boolean canFly() {
-		// && ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() == 4
-		if (!this.hasSaddle().isEmpty()) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.hasSaddle().getItem() instanceof AdventureSaddleItem && ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() == 4;
 	}
 
 
