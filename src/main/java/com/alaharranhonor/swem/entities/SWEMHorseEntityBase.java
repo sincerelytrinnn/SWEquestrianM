@@ -1323,55 +1323,62 @@ public class SWEMHorseEntityBase
 
 
 				// Check if RNG is higher roll, than disobeying debuff, if so, then do the jump.
+
+
+
 				if (this.playerJumpPendingScale > 0.0F && !this.isJumping() && this.onGround) {
-					double d0 = this.getCustomJump() * (double) this.playerJumpPendingScale * (double) this.getBlockJumpFactor();
-					double d1;
-					if (this.hasEffect(Effects.JUMP)) {
-						d1 = d0 + (double) ((float) (this.getEffect(Effects.JUMP).getAmplifier() + 1) * 0.1F);
+					if (this.getRandom().nextDouble() > this.progressionManager.getAffinityLeveling().getDebuff()) {
+						double d0 = this.getCustomJump() * (double) this.playerJumpPendingScale * (double) this.getBlockJumpFactor();
+						double d1;
+						if (this.hasEffect(Effects.JUMP)) {
+							d1 = d0 + (double) ((float) (this.getEffect(Effects.JUMP).getAmplifier() + 1) * 0.1F);
+						} else {
+							d1 = d0;
+						}
+
+
+						//if (this.getDisobedienceFactor() > this.progressionManager.getAffinityLeveling().getDebuff()) {
+						Vector3d vector3d = this.getDeltaMovement();
+						this.setDeltaMovement(vector3d.x, d1, vector3d.z);
+
+
+						// Check jumpheight, and add XP accordingly.
+						float jumpHeight = (float) (-0.1817584952 * ((float) Math.pow(d1, 3.0F)) + 3.689713992 * ((float) Math.pow(d1, 2.0F)) + 2.128599134 * d1 - 0.343930367);
+						float xpToAdd = 0.0f;
+						if (jumpHeight >= 4.0f) {
+							xpToAdd = 40.0f;
+						} else if (jumpHeight >= 3.0f) {
+							xpToAdd = 30.0f;
+						} else if (jumpHeight >= 2.0f) {
+							xpToAdd = 25.0f;
+						} else if (jumpHeight >= 1.0f) {
+							xpToAdd = 20.0f;
+						}
+
+						this.jumpHeight = jumpHeight;
+						this.startJump(jumpHeight);
+
+
+						SWEMPacketHandler.INSTANCE.sendToServer(new AddJumpXPMessage(xpToAdd, this.getId()));
+
+
+						this.hasImpulse = true;
+						net.minecraftforge.common.ForgeHooks.onLivingJump(this);
+						if (f1 > 0.0F) {
+							float f2 = MathHelper.sin(this.yRot * ((float) Math.PI / 180F));
+							float f3 = MathHelper.cos(this.yRot * ((float) Math.PI / 180F));
+							this.setDeltaMovement(this.getDeltaMovement().add((double) (-0.4F * f2 * this.playerJumpPendingScale), 0.0D, (double) (0.4F * f3 * this.playerJumpPendingScale)));
+						}
 					} else {
-						d1 = d0;
+						this.setStandingAnim();
 					}
-
-
-					//if (this.getDisobedienceFactor() > this.progressionManager.getAffinityLeveling().getDebuff()) {
-					Vector3d vector3d = this.getDeltaMovement();
-					this.setDeltaMovement(vector3d.x, d1, vector3d.z);
-
-
-					// Check jumpheight, and add XP accordingly.
-					float jumpHeight = (float) (-0.1817584952 * ((float) Math.pow(d1, 3.0F)) + 3.689713992 * ((float) Math.pow(d1, 2.0F)) + 2.128599134 * d1 - 0.343930367);
-					float xpToAdd = 0.0f;
-					if (jumpHeight >= 4.0f) {
-						xpToAdd = 40.0f;
-					} else if (jumpHeight >= 3.0f) {
-						xpToAdd = 30.0f;
-					} else if (jumpHeight >= 2.0f) {
-						xpToAdd = 25.0f;
-					} else if (jumpHeight >= 1.0f) {
-						xpToAdd = 20.0f;
-					}
-
-					this.jumpHeight = jumpHeight;
-					this.startJump(jumpHeight);
-
-
-					SWEMPacketHandler.INSTANCE.sendToServer(new AddJumpXPMessage(xpToAdd, this.getId()));
-
-
-					this.hasImpulse = true;
-					net.minecraftforge.common.ForgeHooks.onLivingJump(this);
-					if (f1 > 0.0F) {
-						float f2 = MathHelper.sin(this.yRot * ((float) Math.PI / 180F));
-						float f3 = MathHelper.cos(this.yRot * ((float) Math.PI / 180F));
-						this.setDeltaMovement(this.getDeltaMovement().add((double) (-0.4F * f2 * this.playerJumpPendingScale), 0.0D, (double) (0.4F * f3 * this.playerJumpPendingScale)));
-					}
-
 
 					this.playerJumpPendingScale = 0.0F;
 					//} else {
 					//	this.makeMad();
 					//}
 				}
+
 
 
 				this.flyingSpeed = this.getSpeed() * 0.1F;
@@ -2112,9 +2119,13 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
+		this.setStandingAnim();
+		return super.hurt(source, amount);
+	}
+
+	public void setStandingAnim() {
 		this.standAnimationTick = 42;
 		this.standAnimationVariant = this.getRandom().nextDouble() > 0.5 ? 2 : 1;
-		return super.hurt(source, amount);
 	}
 
 	public boolean isBlanket(ItemStack stack) {
