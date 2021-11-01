@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "galaxy",
+  "pattern":
+  [
+    " y ",
+    "xbz",
+    " c "
+  ],
+  "key":
+  {
+    "y":
+    {
+      "item": "swem:vibrant_offering"
+    },
+    "x":
+    {
+      "item": "swem:earth_offering"
+    },
+    "b": {
+      "item": "swem:nova_offering"
+    },
+    "z": {
+      "item": "swem:life_offering"
+    },
+    "c": {
+      "item": "swem:ocean_offering"
+    }
+  },
+  "result":
+  {
+    "item": "swem:gallaxorium",
+    "count": 1
+  }
+}
