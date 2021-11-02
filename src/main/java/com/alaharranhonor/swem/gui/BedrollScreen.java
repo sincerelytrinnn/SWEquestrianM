@@ -42,7 +42,7 @@ public class BedrollScreen extends ContainerScreen<BedrollContainer> implements 
 		this.minecraft.getTextureManager().bind(SADDLE_BAG_TEXTURE);
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
-		blit(matrixStack, i, j, 0, 0, this.imageHeight, this.imageHeight, 256, 256);
+		blit(matrixStack, i, j, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
 	}
 
 	@Override

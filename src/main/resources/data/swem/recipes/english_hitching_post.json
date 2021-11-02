@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "english_hitching_post",
+  "pattern":
+  [
+    " x ",
+    " y ",
+    " y "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:iron_ingot"
+    },
+	"y":
+    {
+      "tag": "minecraft:logs"
+    }
+  },
+  "result":
+  {
+    "item": "swem:english_hitching_post",
+    "count": 1
+  }
+}

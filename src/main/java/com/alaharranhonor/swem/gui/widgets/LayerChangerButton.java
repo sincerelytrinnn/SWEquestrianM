@@ -53,7 +53,7 @@ public class LayerChangerButton extends CycableButton {
 		if (this.screen.layerTypes.get(this.layer) == null) {
 			return new StringTextComponent("Option");
 		}
-		return new StringTextComponent(this.screen.layerTypes.get(this.layer).name());
+		return new StringTextComponent(this.screen.layerTypes.get(this.layer).getDisplayName());
 	}
 
 	public static class Press implements LayerChangerButton.IPressable {

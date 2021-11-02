@@ -1,0 +1,6 @@
+{
+      "parent": "swem:block/pasture_fence_inventory",
+      "textures": {
+        "0": "minecraft:block/acacia_planks"
+      }
+    }

@@ -1,0 +1,108 @@
+{
+      "multipart": [
+        {
+          "when": {
+            "half_fence": "false"
+          },
+          "apply": {
+            "model": "swem:block/pasture_fence_post_spruce"
+          }
+        },
+        {
+          "when": {
+            "half_fence": false,
+            "north": "true"
+          },
+          "apply": {
+            "model": "swem:block/pasture_fence_side_spruce",
+            "uvlock": true,
+            "y": 90
+          }
+        },
+        {
+          "when": {
+            "half_fence": false,
+            "east": "true"
+          },
+          "apply": {
+            "model": "swem:block/pasture_fence_side_spruce",
+            "uvlock": true,
+            "y": 180
+          }
+        },
+        {
+          "when": {
+            "half_fence": false,
+            "south": "true"
+          },
+          "apply": {
+            "model": "swem:block/pasture_fence_side_spruce",
+            "uvlock": true,
+            "y": 270
+          }
+        },
+        {
+          "when": {
+            "half_fence": false,
+            "west": "true"
+          },
+          "apply": {
+            "model": "swem:block/pasture_fence_side_spruce",
+            "uvlock": true
+          }
+        },
+    
+        {
+          "when": {
+            "half_fence": "true"
+          },
+          "apply": {
+            "model": "swem:block/pasture_fence_post_half_spruce"
+          }
+        },
+        {
+          "when": {
+            "half_fence": "true",
+            "north": "true"
+          },
+          "apply": {
+            "model": "swem:block/pasture_fence_side_half_spruce",
+            "uvlock": true,
+            "y": 90
+          }
+        },
+        {
+          "when": {
+            "half_fence": "true",
+            "east": "true"
+          },
+          "apply": {
+            "model": "swem:block/pasture_fence_side_half_spruce",
+            "uvlock": true,
+            "y": 180
+          }
+        },
+        {
+          "when": {
+            "half_fence": "true",
+            "south": "true"
+          },
+          "apply": {
+            "model": "swem:block/pasture_fence_side_half_spruce",
+            "uvlock": true,
+            "y": 270
+          }
+        },
+        {
+          "when": {
+            "half_fence": "true",
+            "west": "true"
+          },
+          "apply": {
+            "model": "swem:block/pasture_fence_side_half_spruce",
+            "uvlock": true
+          }
+        }
+    
+      ]
+    }

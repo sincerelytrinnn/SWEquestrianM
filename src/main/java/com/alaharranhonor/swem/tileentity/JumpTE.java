@@ -328,6 +328,10 @@ public class JumpTE extends TileEntity {
 		}
 
 		this.layerAmount--;
+
+		if (this.layerAmount > 1) {
+			this.placeStandards(this.layerAmount, this.currentStandard);
+		}
 	}
 
 	public void addLayer(int layerNumber) {
@@ -368,12 +372,15 @@ public class JumpTE extends TileEntity {
 	@Override
 	public void setRemoved() {
 
-		this.level.setBlock(this.layerPositions.get(1).get(0).relative(Direction.UP, 5), Blocks.AIR.defaultBlockState(), 3);
-		for (ArrayList<BlockPos> positions : this.layerPositions.values()) {
-			for (BlockPos pos : positions) {
-				this.level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+		if (this.level != null) {
+			this.level.setBlock(this.layerPositions.get(1).get(0).relative(Direction.UP, 5), Blocks.AIR.defaultBlockState(), 3);
+			for (ArrayList<BlockPos> positions : this.layerPositions.values()) {
+				for (BlockPos pos : positions) {
+					this.level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+				}
 			}
 		}
+
 
 
 		super.setRemoved();

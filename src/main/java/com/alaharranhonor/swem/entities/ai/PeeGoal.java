@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.entities.ai;
 
 import com.alaharranhonor.swem.blocks.Shavings;
 import com.alaharranhonor.swem.config.ConfigHolder;
+import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.*;
 import net.minecraft.entity.MobEntity;
@@ -14,14 +15,14 @@ import java.util.ArrayList;
 
 public class PeeGoal extends Goal {
 
-	private final MobEntity peeEntity;
+	private final SWEMHorseEntityBase peeEntity;
 	private final World entityWorld;
 
 	private final int radius = 3;
 
 	private int peeTimer;
 
-	public PeeGoal(MobEntity peeEntity) {
+	public PeeGoal(SWEMHorseEntityBase peeEntity) {
 		this.peeEntity = peeEntity;
 		this.entityWorld = peeEntity.level;
 
@@ -34,7 +35,7 @@ public class PeeGoal extends Goal {
 	 */
 	@Override
 	public boolean canUse() {
-		return this.peeEntity.getRandom().nextInt(10000) == 0 && this.peeEntity.getPassengers().isEmpty();
+		return this.peeEntity.level.getGameTime() % (ConfigHolder.SERVER.serverPeeInterval.get() * 20) == 0 && this.peeEntity.getPassengers().isEmpty() && ConfigHolder.SERVER.serverTickPeeNeed.get();
 	}
 
 	/**
@@ -42,8 +43,8 @@ public class PeeGoal extends Goal {
 	 */
 	@Override
 	public void start() {
-		this.peeTimer = 9000;
-		this.entityWorld.broadcastEntityEvent(this.peeEntity, (byte)10);
+		this.peeTimer = 79;
+		this.entityWorld.broadcastEntityEvent(this.peeEntity, (byte)126);
 		this.peeEntity.getNavigation().stop();
 	}
 
@@ -72,11 +73,12 @@ public class PeeGoal extends Goal {
 	 */
 	@Override
 	public void tick() {
+		this.peeEntity.getNavigation().stop();
 		this.peeTimer = Math.max(0, this.peeTimer - 1);
-		if (this.peeTimer == 4 && ConfigHolder.SERVER.serverTickPoopNeed.get()) {
+		if (peeTimer == 48) {
 			BlockPos blockpos = this.peeEntity.blockPosition();
 			BlockPos bestPos = this.getPosOfBestBlock(blockpos);
-			//this.pee(bestPos);
+			this.pee(bestPos);
 		}
 
 	}
@@ -107,7 +109,7 @@ public class PeeGoal extends Goal {
 					bestBlock = 1;
 					bestPos = newPos;
 				} else {
-					if (flag) {
+					if (flag && !this.entityWorld.getBlockState(newPos.relative(Direction.DOWN)).isAir()) {
 						bestBlock = 0;
 						bestPos = pos;
 					}

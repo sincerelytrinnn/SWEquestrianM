@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "item": "swem:star_worm"
+    },
+    "title": {
+      "translate": "advancements.swem.main.root.title"
+    },
+    "description": {
+      "translate": "advancements.swem.main.root.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "criteria": {
+    "star_worm": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:star_worm"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "star_worm"
+    ]
+  ]
+}

@@ -28,7 +28,7 @@ public class BreastCollarLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 		ItemStack stack = entitylivingbaseIn.getBreastCollar();
 		if (!stack.isEmpty()) {
 			BreastCollarItem breastCollar = (BreastCollarItem)stack.getItem();
-			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json")),
+			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
 					entitylivingbaseIn,
 					partialTicks,
 					RenderType.entityCutout(breastCollar.getArmorTexture()),

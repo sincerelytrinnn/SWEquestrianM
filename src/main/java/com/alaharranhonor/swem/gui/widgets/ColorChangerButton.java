@@ -7,6 +7,8 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.DyeColor;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 
 
 public class ColorChangerButton extends CycableButton {
@@ -30,7 +32,24 @@ public class ColorChangerButton extends CycableButton {
 
 	@Override
 	public ITextComponent getMessage() {
-		return new StringTextComponent(DyeColor.byId(this.screen.layerColors.get(this.layer)).name());
+		if (this.screen.layerAmount < this.layer) {
+			return new StringTextComponent("White");
+		}
+		String colorName = DyeColor.byId(this.screen.layerColors.get(this.layer)).getName();
+		String[] names = colorName.split("_");
+		String finalName = "";
+		for (int i = 0; i < names.length; i++) {
+			String name = names[i];
+			String subName = name.substring(1);
+			char firstChar = Character.toUpperCase(name.charAt(0));
+			finalName += firstChar + subName;
+			if (i + 1 < names.length) {
+				finalName += " ";
+			}
+
+		}
+
+		return new StringTextComponent(finalName);
 	}
 
 	public static class Press implements ColorChangerButton.IPressable {

@@ -1,0 +1,36 @@
+{
+  "display": {
+    "icon": {
+      "item": "swem:cantazarite_anvil"
+    },
+    "title": {
+      "translate": "advancements.swem.main.cantazarite_anvil.title"
+    },
+    "description": {
+      "translate": "advancements.swem.main.cantazarite_anvil.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "parent": "swem:main/cantazarite_potion",
+  "criteria": {
+    "cantazarite_anvil": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:cantazarite_anvil"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "cantazarite_anvil"
+    ]
+  ]
+}

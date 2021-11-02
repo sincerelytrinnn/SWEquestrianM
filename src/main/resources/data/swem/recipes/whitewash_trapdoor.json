@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "swem:whitewash_finish"
+    },
+    {
+      "tag": "minecraft:wooden_trapdoors"
+    }
+  ],
+  "result": {
+    "item": "swem:whitewash_trapdoor"
+  }
+}

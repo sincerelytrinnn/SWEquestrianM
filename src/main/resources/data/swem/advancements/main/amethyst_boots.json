@@ -1,0 +1,36 @@
+{
+  "display": {
+    "icon": {
+      "item": "swem:amethyst_riding_boots"
+    },
+    "title": {
+      "translate": "advancements.swem.main.amethyst_boots.title"
+    },
+    "description": {
+      "translate": "advancements.swem.main.amethyst_boots.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "parent": "swem:main/diamond_boots",
+  "criteria": {
+    "amethyst_riding_boots": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:amethyst_riding_boots"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "amethyst_riding_boots"
+    ]
+  ]
+}

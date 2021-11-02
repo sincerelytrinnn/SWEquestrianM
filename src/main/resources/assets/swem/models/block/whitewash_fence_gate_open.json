@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/template_fence_gate_open",
   "textures": {
-    "texture": "swem:blocks/western_fence"
+    "texture": "swem:blocks/whitewash_planks"
   }
 }

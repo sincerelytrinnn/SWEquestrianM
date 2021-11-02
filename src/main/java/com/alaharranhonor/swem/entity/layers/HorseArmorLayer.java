@@ -37,7 +37,7 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 		if (!stack.isEmpty()) {
 
 			SWEMHorseArmorItem armorItem = (SWEMHorseArmorItem)stack.getItem();
-			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json")),
+			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
 					entitylivingbaseIn,
 					partialTicks,
 					RenderType.entityCutout(armorItem.getTexture()),
@@ -51,7 +51,7 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
 				// Check the Client settings for if they want to render the wings or not.
 
-				this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json")),
+				this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
 						entitylivingbaseIn,
 						partialTicks,
 						RenderType.entityTranslucent(new ResourceLocation(SWEM.MOD_ID, "textures/finished/amethyst_wings.png")),

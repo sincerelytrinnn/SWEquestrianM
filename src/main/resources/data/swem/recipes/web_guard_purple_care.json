@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "simple_care_door"
+  "group": "web_guard_care",
   "pattern":
   [
     "zx ",
@@ -28,7 +28,7 @@
   },
   "result":
   {
-    "item": "swem:simple_care_door_purple",
+    "item": "swem:web_guard_purple_care",
     "count": 2
   }
 }

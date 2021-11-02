@@ -28,7 +28,7 @@ public class LegWrapsLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 		if (!stack.isEmpty()) {
 			LegWrapsItem legWraps = (LegWrapsItem)stack.getItem();
 
-			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json")),
+			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
 					entitylivingbaseIn,
 					partialTicks,
 					RenderType.entityCutout(legWraps.getArmorTexture()),

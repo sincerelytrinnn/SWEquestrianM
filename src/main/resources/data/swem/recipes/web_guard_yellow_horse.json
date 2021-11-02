@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "simple_horse_door"
+  "group": "web_guard_horse",
   "pattern":
   [
     "wxy",
@@ -27,7 +27,7 @@
   },
   "result":
   {
-    "item": "swem:simple_horse_door_yellow",
+    "item": "swem:web_guard_yellow_horse",
     "count": 2
   }
 }

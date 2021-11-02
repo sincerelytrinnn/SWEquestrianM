@@ -105,35 +105,51 @@ public class HorseDoorBlock extends Block{
 
 
 		if (hinge == DoorHingeSide.LEFT) {
-			// Check right
-			ArrayList<Boolean> blockChecks = new ArrayList<>();
-			BlockPos.betweenClosed(blockpos, blockpos.above().relative(direction.getAxis(), 1)).forEach(blockPos1 -> {
-				blockChecks.add(context.getLevel().getBlockState(blockPos1).canBeReplaced(context));
-			});
-
-			if (blockpos.getY() < 254 && blockChecks.stream().allMatch((bool) -> bool)) {
-				World world = context.getLevel();
-
-				boolean flag = world.hasNeighborSignal(blockpos) || world.hasNeighborSignal(blockpos.above());
-				return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection()).setValue(HINGE, this.getHingeSide(context)).setValue(OPEN, Boolean.valueOf(flag)).setValue(HALF, DoubleBlockHalf.LOWER).setValue(SIDE, SWEMBlockStateProperties.DoubleBlockSide.LEFT);
-			} else {
-				return null;
-			}
+			// Check left.
+			return checkAndGetRightSide(blockpos, direction, context, hinge, false);
 		} else {
 			// Check right.
-			ArrayList<Boolean> blockChecks = new ArrayList<>();
-			BlockPos.betweenClosed(blockpos, blockpos.above().relative(direction.getAxis(), -1)).forEach(blockPos1 -> {
-				blockChecks.add(context.getLevel().getBlockState(blockPos1).canBeReplaced(context));
-			});
+			return checkAndGetLeftSide(blockpos, direction, context, hinge, false);
+		}
+	}
 
-			if (blockpos.getY() < 254 && blockChecks.stream().allMatch((bool) -> bool)) {
-				World world = context.getLevel();
+	public BlockState checkAndGetRightSide(BlockPos blockpos, Direction direction, BlockItemUseContext context, DoorHingeSide hinge, boolean secondTime) {
 
-				boolean flag = world.hasNeighborSignal(blockpos) || world.hasNeighborSignal(blockpos.above());
-				return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection()).setValue(HINGE, this.getHingeSide(context)).setValue(OPEN, Boolean.valueOf(flag)).setValue(HALF, DoubleBlockHalf.LOWER).setValue(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT);
-			} else {
-				return null;
+		ArrayList<Boolean> blockChecks = new ArrayList<>();
+		BlockPos.betweenClosed(blockpos, blockpos.above().relative(direction.getCounterClockWise().getAxis(), direction == Direction.EAST ? 1 : direction == Direction.NORTH ? 1 : -1)).forEach(blockPos1 -> {
+			blockChecks.add(context.getLevel().getBlockState(blockPos1).canBeReplaced(context));
+		});
+
+		if (blockpos.getY() < 254 && blockChecks.stream().allMatch((bool) -> bool)) {
+			World world = context.getLevel();
+
+			boolean flag = world.hasNeighborSignal(blockpos) || world.hasNeighborSignal(blockpos.above());
+			return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection()).setValue(HINGE, hinge).setValue(OPEN, Boolean.valueOf(flag)).setValue(HALF, DoubleBlockHalf.LOWER).setValue(SIDE, SWEMBlockStateProperties.DoubleBlockSide.LEFT);
+		} else {
+			if (!secondTime) {
+				return checkAndGetLeftSide(blockpos, direction, context, hinge == DoorHingeSide.LEFT ? DoorHingeSide.RIGHT : hinge, true);
 			}
+
+			return null;
+		}
+	}
+
+	public BlockState checkAndGetLeftSide(BlockPos blockpos, Direction direction, BlockItemUseContext context, DoorHingeSide hinge, boolean secondTime) {
+		ArrayList<Boolean> blockChecks = new ArrayList<>();
+		BlockPos.betweenClosed(blockpos, blockpos.above().relative(direction.getCounterClockWise().getAxis(), direction == Direction.EAST ? -1 : direction == Direction.NORTH ? -1 : 1)).forEach(blockPos1 -> {
+			blockChecks.add(context.getLevel().getBlockState(blockPos1).canBeReplaced(context));
+		});
+
+		if (blockpos.getY() < 254 && blockChecks.stream().allMatch((bool) -> bool)) {
+			World world = context.getLevel();
+
+			boolean flag = world.hasNeighborSignal(blockpos) || world.hasNeighborSignal(blockpos.above());
+			return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection()).setValue(HINGE, hinge).setValue(OPEN, Boolean.valueOf(flag)).setValue(HALF, DoubleBlockHalf.LOWER).setValue(SIDE, SWEMBlockStateProperties.DoubleBlockSide.RIGHT);
+		} else {
+			if (!secondTime) {
+				return checkAndGetRightSide(blockpos, direction, context, hinge == DoorHingeSide.RIGHT ? DoorHingeSide.LEFT : hinge, true);
+			}
+			return null;
 		}
 	}
 
@@ -224,17 +240,24 @@ public class HorseDoorBlock extends Block{
 		IBlockReader iblockreader = context.getLevel();
 		BlockPos blockpos = context.getClickedPos();
 		Direction direction = context.getHorizontalDirection();
+
 		BlockPos blockpos1 = blockpos.above();
 		Direction direction1 = direction.getCounterClockWise();
+
 		BlockPos blockpos2 = blockpos.relative(direction1);
 		BlockState blockstate = iblockreader.getBlockState(blockpos2);
+
 		BlockPos blockpos3 = blockpos1.relative(direction1);
 		BlockState blockstate1 = iblockreader.getBlockState(blockpos3);
+
 		Direction direction2 = direction.getClockWise();
+
 		BlockPos blockpos4 = blockpos.relative(direction2);
 		BlockState blockstate2 = iblockreader.getBlockState(blockpos4);
+
 		BlockPos blockpos5 = blockpos1.relative(direction2);
 		BlockState blockstate3 = iblockreader.getBlockState(blockpos5);
+
 		int i = (blockstate.isCollisionShapeFullBlock(iblockreader, blockpos2) ? -1 : 0) + (blockstate1.isCollisionShapeFullBlock(iblockreader, blockpos3) ? -1 : 0) + (blockstate2.isCollisionShapeFullBlock(iblockreader, blockpos4) ? 1 : 0) + (blockstate3.isCollisionShapeFullBlock(iblockreader, blockpos5) ? 1 : 0);
 		boolean flag = blockstate.is(this) && blockstate.getValue(HALF) == DoubleBlockHalf.LOWER;
 		boolean flag1 = blockstate2.is(this) && blockstate2.getValue(HALF) == DoubleBlockHalf.LOWER;

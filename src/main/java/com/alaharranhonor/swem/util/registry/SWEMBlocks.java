@@ -9,10 +9,7 @@ import com.alaharranhonor.swem.blocks.jumps.JumpStandardBlock;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.item.*;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -81,30 +78,42 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> SOILED_SHAVINGS = BLOCKS.register("soiled_shavings",
 			() -> new Shavings(AbstractBlock.Properties.of(new Material.Builder(MaterialColor.SNOW).noCollider().notSolidBlocking().nonSolid().destroyOnPush().replaceable().build()).randomTicks().strength(0.1F).requiresCorrectToolForDrops().sound(SoundType.SNOW)));
 	public static final RegistryObject<Block> BLEACHER_SLAB = BLOCKS.register("bleacher",
-			() -> new BleacherBase(AbstractBlock.Properties.of(Material.METAL)));
+			() -> new BleacherBase(AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(2.5F, 2.5F)));
 	public static final RegistryObject<Block> BLEACHER_WIREFRAME = BLOCKS.register("bleacher_wireframe",
 			() -> new BleacherWireframeBase(AbstractBlock.Properties.of(Material.METAL)));
 	public static final RegistryObject<Block> WESTERN_HITCHING_POST = BLOCKS.register("western_hitching_post",
-			() -> new HitchingPostBase(HitchingPostBase.HitchingPostType.WESTERN, AbstractBlock.Properties.of(Material.WOOD)));
+			() -> new HitchingPostBase(HitchingPostBase.HitchingPostType.WESTERN, AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).strength(2.0F, 3.0F)));
 	public static final RegistryObject<Block> ENGLISH_HITCHING_POST = BLOCKS.register("english_hitching_post",
-			() -> new HitchingPostBase(HitchingPostBase.HitchingPostType.ENGLISH, AbstractBlock.Properties.of(Material.WOOD)));
+			() -> new HitchingPostBase(HitchingPostBase.HitchingPostType.ENGLISH, AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).strength(2.0F, 3.0F)));
 	public static final RegistryObject<Block> PASTURE_HITCHING_POST = BLOCKS.register("pasture_hitching_post",
-			() -> new HitchingPostBase(HitchingPostBase.HitchingPostType.PASTURE, AbstractBlock.Properties.of(Material.WOOD)));
+			() -> new HitchingPostBase(HitchingPostBase.HitchingPostType.PASTURE, AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
 
 	public static final RegistryObject<Block> ENGLISH_HITCHING_POST_MINI = BLOCKS.register("english_hitching_post_mini",
-			() -> new HitchingPostBaseMini(HitchingPostBaseMini.HitchingPostType.ENGLISH, AbstractBlock.Properties.of(Material.WOOD)));
+			() -> new HitchingPostBaseMini(HitchingPostBaseMini.HitchingPostType.ENGLISH, AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).strength(2.0F, 3.0F)));
 	public static final RegistryObject<Block> WESTERN_HITCHING_POST_MINI = BLOCKS.register("western_hitching_post_mini",
-			() -> new HitchingPostBaseMini(HitchingPostBaseMini.HitchingPostType.ENGLISH, AbstractBlock.Properties.of(Material.WOOD)));
+			() -> new HitchingPostBaseMini(HitchingPostBaseMini.HitchingPostType.ENGLISH, AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).strength(2.0F, 3.0F)));
 	public static final RegistryObject<Block> PASTURE_HITCHING_POST_MINI = BLOCKS.register("pasture_hitching_post_mini",
-			() -> new HitchingPostBaseMini(HitchingPostBaseMini.HitchingPostType.ENGLISH, AbstractBlock.Properties.of(Material.WOOD)));
+			() -> new HitchingPostBaseMini(HitchingPostBaseMini.HitchingPostType.ENGLISH, AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
 
 	public static final RegistryObject<Block> HORSE_POO = BLOCKS.register("pile_of_horse_poo", () -> new HorsePoopBlock(AbstractBlock.Properties.of(Material.GRASS)));
-	public static final RegistryObject<Block> WESTERN_POLE = BLOCKS.register("western_pole", () -> new WesternPoleBlock(AbstractBlock.Properties.of(Material.WOOD)));
+	public static final RegistryObject<Block> WESTERN_POLE = BLOCKS.register("western_pole", () -> new WesternPoleBlock(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).strength(2.0F, 3.0F)));
 	public static final RegistryObject<Block> INVISIBLE_GLOW_BLOCK = BLOCKS.register("invisible_glow_block", () -> new InvisibleGlowBlock(AbstractBlock.Properties.of(Material.METAL)));
-	public static final RegistryObject<Block> WESTERN_FENCE = BLOCKS.register("western_fence", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD)));
-	public static final RegistryObject<Block> ENGLISH_FENCE = register("english_fence", () -> new EnglishFenceBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion()));
-	public static final RegistryObject<Block> PASTURE_FENCE = BLOCKS.register("pasture_fence", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD)));
-	public static final RegistryObject<Block> TACK_BOX = BLOCKS.register("tack_box", () -> new TackBoxBlock(AbstractBlock.Properties.of(Material.METAL)));
+	public static final RegistryObject<Block> WESTERN_FENCE_WHITEWASH = register("western_fence_whitewash", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
+	public static final RegistryObject<Block> WESTERN_FENCE_ACACIA = register("western_fence_acacia", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
+	public static final RegistryObject<Block> WESTERN_FENCE_BIRCH = register("western_fence_birch", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
+	public static final RegistryObject<Block> WESTERN_FENCE_SPRUCE = register("western_fence_spruce", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
+	public static final RegistryObject<Block> WESTERN_FENCE_DARK_OAK = register("western_fence_dark_oak", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
+	public static final RegistryObject<Block> WESTERN_FENCE_OAK = register("western_fence_oak", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
+	public static final RegistryObject<Block> WESTERN_FENCE_JUNGLE = register("western_fence_jungle", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
+	public static final RegistryObject<Block> ENGLISH_FENCE = register("english_fence", () -> new EnglishFenceBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
+	public static final RegistryObject<Block> PASTURE_FENCE_OAK = register("pasture_fence_oak", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
+	public static final RegistryObject<Block> PASTURE_FENCE_ACACIA = register("pasture_fence_acacia", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
+	public static final RegistryObject<Block> PASTURE_FENCE_DARK_OAK = register("pasture_fence_dark_oak", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
+	public static final RegistryObject<Block> PASTURE_FENCE_SPRUCE = register("pasture_fence_spruce", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
+	public static final RegistryObject<Block> PASTURE_FENCE_BIRCH = register("pasture_fence_birch", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
+	public static final RegistryObject<Block> PASTURE_FENCE_JUNGLE = register("pasture_fence_jungle", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
+	public static final RegistryObject<Block> PASTURE_FENCE_WHITEWASH = register("pasture_fence_whitewash", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
+	public static final RegistryObject<Block> TACK_BOX = BLOCKS.register("tack_box", () -> new TackBoxBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.5F)));
 	public static final RegistryObject<HorseDoorBlock> ACACIA_STALL_HORSE = BLOCKS.register("acacia_stall_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().strength(1.0f), DyeColor.BLACK));
 	public static final RegistryObject<HorseDoorBlock> BIRCH_STALL_HORSE = BLOCKS.register("birch_stall_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().strength(1.0f), DyeColor.BLACK));
 	public static final RegistryObject<HorseDoorBlock> DARK_OAK_STALL_HORSE = BLOCKS.register("dark_oak_stall_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().strength(1.0f), DyeColor.BLACK));
@@ -117,23 +126,23 @@ public class SWEMBlocks {
 	public static final RegistryObject<CareDoorBlock> JUNGLE_STALL_CARE = BLOCKS.register("jungle_stall_care", () -> new CareDoorBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().strength(1.0f), DyeColor.BLACK));
 	public static final RegistryObject<CareDoorBlock> OAK_STALL_CARE = BLOCKS.register("oak_stall_care", () -> new CareDoorBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().strength(1.0f), DyeColor.BLACK));
 	public static final RegistryObject<CareDoorBlock> SPRUCE_STALL_CARE = BLOCKS.register("spruce_stall_care", () -> new CareDoorBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().strength(1.0f), DyeColor.BLACK));
-	public static final RegistryObject<Block> ONE_SADDLE_RACK = BLOCKS.register("one_saddle_rack", () -> new OneSaddleRack(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
-	public static final RegistryObject<Block> BRIDLE_RACK = BLOCKS.register("bridle_rack", () -> new BridleRackBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
-	public static final RegistryObject<Block> METAL_GRATE = BLOCKS.register("metal_grate", () -> new TrapDoorBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
-	public static final RegistryObject<Block> LIGHT_FRIENDLY_BARS = BLOCKS.register("light_friendly_bars", () -> new PaneBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
-	public static final RegistryObject<Block> MEDIUM_FRIENDLY_BARS = BLOCKS.register("medium_friendly_bars", () -> new PaneBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
-	public static final RegistryObject<Block> DARK_FRIENDLY_BARS = BLOCKS.register("dark_friendly_bars", () -> new PaneBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
-	public static final RegistryObject<WaterTroughBlock> WATER_TROUGH = BLOCKS.register("water_trough", () -> new WaterTroughBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion(), DyeColor.BLACK));
-	public static final RegistryObject<Block> WET_COMPOST = BLOCKS.register("wet_compost", () -> new Block(AbstractBlock.Properties.of(Material.GRASS).strength(0.5f, 0.5f).sound(SoundType.WET_GRASS)));
-	public static final RegistryObject<Block> COMPOST = BLOCKS.register("compost", () -> new Block(AbstractBlock.Properties.of(Material.GRASS)));
+	public static final RegistryObject<Block> ONE_SADDLE_RACK = BLOCKS.register("one_saddle_rack", () -> new OneSaddleRack(AbstractBlock.Properties.of(Material.METAL).noOcclusion().sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(3.5F, 4.5F)));
+	public static final RegistryObject<Block> BRIDLE_RACK = BLOCKS.register("bridle_rack", () -> new BridleRackBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(2.5F, 3.5F)));
+	public static final RegistryObject<Block> METAL_GRATE = BLOCKS.register("metal_grate", () -> new TrapDoorBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.METAL).noOcclusion().harvestTool(ToolType.PICKAXE).strength(4.0F, 5.0F)));
+	public static final RegistryObject<Block> LIGHT_FRIENDLY_BARS = BLOCKS.register("light_friendly_bars", () -> new PaneBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(5.0F, 6.0F)));
+	public static final RegistryObject<Block> MEDIUM_FRIENDLY_BARS = BLOCKS.register("medium_friendly_bars", () -> new PaneBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(5.0F, 6.0F)));
+	public static final RegistryObject<Block> DARK_FRIENDLY_BARS = BLOCKS.register("dark_friendly_bars", () -> new PaneBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(5.0F, 6.0F)));
+	public static final RegistryObject<WaterTroughBlock> WATER_TROUGH = BLOCKS.register("water_trough", () -> new WaterTroughBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().sound(SoundType.METAL).strength(5.0f, 6.0f).harvestTool(ToolType.PICKAXE), DyeColor.BLACK));
+	public static final RegistryObject<Block> WET_COMPOST = BLOCKS.register("wet_compost", () -> new Block(AbstractBlock.Properties.of(Material.GRASS).strength(0.6F).sound(SoundType.WET_GRASS).harvestTool(ToolType.SHOVEL)));
+	public static final RegistryObject<Block> COMPOST = BLOCKS.register("compost", () -> new Block(AbstractBlock.Properties.of(Material.GRASS).sound(SoundType.NETHER_WART).harvestTool(ToolType.SHOVEL).strength(0.6F)));
 	public static final RegistryObject<Block> HORSE_PEE = BLOCKS.register("horse_pee", () -> new PeeBlock(AbstractBlock.Properties.of(Material.GRASS).noOcclusion().isValidSpawn(Blocks::never).isRedstoneConductor(Blocks::never).isSuffocating(Blocks::never).isViewBlocking(Blocks::never)));
 	public static final RegistryObject<Block> CANTAZARITE_ANVIL = BLOCKS.register("cantazarite_anvil", () -> new CantazariteAnvilBlock(AbstractBlock.Properties.copy(Blocks.ANVIL).noOcclusion()));
 	public static final RegistryObject<Block> TEARING_MAGMA = BLOCKS.register("tearing_magma", () -> new TearingMagma(AbstractBlock.Properties.of(Material.STONE, MaterialColor.NETHER).requiresCorrectToolForDrops().noOcclusion().randomTicks()));
 	public static final RegistryObject<Block> GLOW_STRING = BLOCKS.register("glow_string", () -> new GlowTripwireBlock((TripWireHookBlock)TRIPWIRE_HOOK, AbstractBlock.Properties.of(Material.DECORATION).noCollission()));
-	public static final RegistryObject<Block> LOCKER = BLOCKS.register("locker", () -> new LockerBlock(AbstractBlock.Properties.of(Material.METAL)));
-	public static final RegistryObject<Block> PADDOCK_FEEDER = BLOCKS.register("paddock_feeder", () -> new PaddockFeederBlock(AbstractBlock.Properties.of(Material.WOOD)));
-	public static final RegistryObject<Block> HORSE_ARMOR_RACK = BLOCKS.register("horse_armor_rack", () -> new HorseArmorRackBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
-	public static final RegistryObject<Block> WESTERN_BARREL = register("western_barrel", () -> new BarrelBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
+	public static final RegistryObject<Block> LOCKER = BLOCKS.register("locker", () -> new LockerBlock(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).strength(1.5f, 6.0f)));
+	public static final RegistryObject<Block> PADDOCK_FEEDER = BLOCKS.register("paddock_feeder", () -> new PaddockFeederBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0f).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> HORSE_ARMOR_RACK = BLOCKS.register("horse_armor_rack", () -> new HorseArmorRackBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().harvestTool(ToolType.PICKAXE).strength(5.0f, 6.0f)));
+	public static final RegistryObject<Block> WESTERN_BARREL = register("western_barrel", () -> new BarrelBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(3.0F, 4.0F)));
 
 	public static final RegistryObject<Block> WHITEWASH_PLANK = BLOCKS.register("whitewash_plank", () -> new Block(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
 	public static final RegistryObject<Block> WHITEWASH_SLAB = BLOCKS.register("whitewash_slab", () -> new SlabBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
@@ -142,6 +151,12 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> WHITEWASH_FENCE = BLOCKS.register("whitewash_fence", () -> new FenceBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
 	public static final RegistryObject<Block> WHITEWASH_FENCE_GATE = BLOCKS.register("whitewash_fence_gate", () -> new FenceGateBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
 	public static final RegistryObject<Block> WHITEWASH_DOOR = BLOCKS.register("whitewash_door", () -> new DoorBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> WHITEWASH_LOG = register("whitewash_log", () -> new RotatedPillarBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> WHITEWASH_TRAPDOOR = register("whitewash_trapdoor", () -> new TrapDoorBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<CareDoorBlock> WHITEWASH_STALL_CARE = register("whitewash_stall_care", () -> new CareDoorBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().strength(1.0f), DyeColor.BLACK));
+	public static final RegistryObject<HorseDoorBlock> WHITEWASH_STALL_HORSE = register("whitewash_stall_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().strength(1.0f), DyeColor.BLACK));
+	public static final RegistryObject<ModdedStandingSignBlock> WHITEWASH_SIGN = BLOCKS.register("whitewash_sign", () -> new ModdedStandingSignBlock(AbstractBlock.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD), SWEM.WHITEWASH_WT));
+	public static final RegistryObject<ModdedWallSignBlock> WHITEWASH_WALL_SIGN = BLOCKS.register("whitewash_wall_sign", () -> new ModdedWallSignBlock(AbstractBlock.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD), SWEM.WHITEWASH_WT));
 
     // Jump blocks
 	public static final RegistryObject<Block> JUMP_CONTROLLER = BLOCKS.register("jump_controller", () -> new JumpControllerBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
@@ -215,13 +230,13 @@ public class SWEMBlocks {
 
 
 			CONES.add(register(color.toString()+"_cone", ConeBase::new, block -> () -> new ConeBlockItem(block.get())));
-			WHEEL_BARROWS.add(register("wheel_barrow_"+color.toString(), () -> new WheelBarrowBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion(), color),
+			WHEEL_BARROWS.add(register("wheel_barrow_"+color.toString(), () -> new WheelBarrowBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(2.5F, 3.5F), color),
 					 block -> () -> new BlockItemBase(block.get())));
-			SLOW_FEEDERS.add(register("slow_feeder_"+color.toString(), () -> new SlowFeederBlock(AbstractBlock.Properties.of(Material.METAL), color),
+			SLOW_FEEDERS.add(register("slow_feeder_"+color.toString(), () -> new SlowFeederBlock(AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(3.0F, 4.0F), color),
 					block -> () -> new BlockItemBase(block.get())));
-			SEPARATORS.add(register("separator_"+color.toString(), () -> new NonParallelBlock(AbstractBlock.Properties.of(Material.METAL), color),
+			SEPARATORS.add(register("separator_"+color.toString(), () -> new NonParallelBlock(AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(2.5F, 3.5F), color),
 					block -> () -> new BlockItemBase(block.get())));
-			GRAIN_FEEDERS.add(register("grain_feeder_"+color.toString(), () -> new GrainFeederBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion(), color),
+			GRAIN_FEEDERS.add(register("grain_feeder_"+color.toString(), () -> new GrainFeederBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(2.0F, 3.0F), color),
 					block -> () -> new BlockItemBase(block.get())));
 			PASTURE_GATES_HORSE.add(register("pasture_"+color.toString() + "_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().strength(1.0f), color),
 					block -> () -> new BlockItemBase(block.get())));
@@ -233,7 +248,7 @@ public class SWEMBlocks {
 					block -> () -> new BlockItemBase(block.get())));
 			WEB_GUARDS_RIDER.add(register("web_guard_"+color.toString() + "_rider", () -> new HalfDoorBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().strength(1.0f)),
 					block -> () -> new BlockItemBase(block.get())));
-			HALF_BARRELS.add(register("half_barrel_"+color.getName(), () -> new HalfBarrelBlock(Block.Properties.of(Material.METAL).noOcclusion()),
+			HALF_BARRELS.add(register("half_barrel_"+color.getName(), () -> new HalfBarrelBlock(Block.Properties.of(Material.METAL).noOcclusion().sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(2.0F, 3.0F)),
 					block -> () -> new BlockItemBase(block.get())));
 		}
 	}
@@ -278,8 +293,6 @@ public class SWEMBlocks {
 			() -> new BlockItemBase(WESTERN_HITCHING_POST_MINI.get()));
 	public static final RegistryObject<Item> PASTURE_HITCHING_POST_MINI_ITEM = SWEMItems.ITEMS.register("pasture_hitching_post_mini",
 			() -> new BlockItemBase(PASTURE_HITCHING_POST_MINI.get()));
-	public static final RegistryObject<Item> WESTERN_FENCE_ITEM = SWEMItems.ITEMS.register("western_fence", () -> new BlockItemBase(WESTERN_FENCE.get()));
-	public static final RegistryObject<Item> PASTURE_FENCE_ITEM = SWEMItems.ITEMS.register("pasture_fence", () -> new BlockItemBase(PASTURE_FENCE.get()));
 	public static final RegistryObject<Item> TACK_BOX_ITEM = SWEMItems.ITEMS.register("tack_box", () -> new TackBoxBlockItem(TACK_BOX.get()));
 	public static final RegistryObject<Item> ACACIA_STALL_HORSE_ITEM = SWEMItems.ITEMS.register("acacia_stall_horse", () -> new BlockItemBase(ACACIA_STALL_HORSE.get()));
 	public static final RegistryObject<Item> BIRCH_STALL_HORSE_ITEM = SWEMItems.ITEMS.register("birch_stall_horse", () -> new BlockItemBase(BIRCH_STALL_HORSE.get()));
@@ -315,5 +328,5 @@ public class SWEMBlocks {
 	public static final RegistryObject<Item> WHITEWASH_FENCE_ITEM = SWEMItems.ITEMS.register("whitewash_fence", () -> new BlockItemBase(WHITEWASH_FENCE.get()));
 	public static final RegistryObject<Item> WHITEWASH_FENCE_GATE_ITEM = SWEMItems.ITEMS.register("whitewash_fence_gate", () -> new BlockItemBase(WHITEWASH_FENCE_GATE.get()));
 	public static final RegistryObject<Item> WHITEWASH_DOOR_ITEM = SWEMItems.ITEMS.register("whitewash_door", () -> new BlockItemBase(WHITEWASH_DOOR.get()));
-
+	public static final RegistryObject<SignItem> WHITEWASH_SIGN_ITEM = SWEMItems.ITEMS.register("whitewash_sign", () -> new SignItem(new Item.Properties().stacksTo(16).tab(SWEM.TAB), WHITEWASH_SIGN.get(), WHITEWASH_WALL_SIGN.get()));
 }

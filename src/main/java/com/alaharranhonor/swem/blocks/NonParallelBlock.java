@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.blocks;
 
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.*;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.DyeColor;
@@ -60,7 +61,11 @@ public class NonParallelBlock extends HorizontalBlock {
 
 		BlockState standard = this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
 
-
+		// Check if water has been split
+		/*BlockState checkState = context.getLevel().getBlockState(context.getClickedPos());
+		if (checkState.getBlock() instanceof WaterTroughBlock) {
+			standard.setValue(WaterTroughBlock.LEVEL, checkState.getValue(WaterTroughBlock.LEVEL));
+		}*/
 
 
 		if (blockstate1.getBlock() == this && blockstate2.getBlock() == this) {
@@ -84,7 +89,11 @@ public class NonParallelBlock extends HorizontalBlock {
 			case RIGHT: {
 				if (facing == stateIn.getValue(FACING).getCounterClockWise()) {
 					if (facingState.isAir()) {
-						return stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.SINGLE);
+						BlockState state = stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.SINGLE);
+						if (state.getBlock() instanceof WaterTroughBlock) {
+							state.setValue(WaterTroughBlock.LEVEL, state.getValue(WaterTroughBlock.LEVEL) > 12 ? 12 : state.getValue(WaterTroughBlock.LEVEL) > 8 ? 8 : state.getValue(WaterTroughBlock.LEVEL) > 4 ? 4 : 0);
+						}
+						return state;
 					}
 				} else if (facing == stateIn.getValue(FACING).getClockWise()) {
 					if (facingState.getBlock() == this && stateIn.getValue(FACING).getAxis() == facingState.getValue(FACING).getAxis()) {
@@ -96,7 +105,11 @@ public class NonParallelBlock extends HorizontalBlock {
 			case LEFT: {
 				if (facing == stateIn.getValue(FACING).getClockWise()) {
 					if (facingState.isAir()) {
-						return stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.SINGLE);
+						BlockState state = stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.SINGLE);
+						if (state.getBlock() instanceof WaterTroughBlock) {
+							state.setValue(WaterTroughBlock.LEVEL, state.getValue(WaterTroughBlock.LEVEL) > 12 ? 12 : state.getValue(WaterTroughBlock.LEVEL) > 8 ? 8 : state.getValue(WaterTroughBlock.LEVEL) > 4 ? 4 : 0);
+						}
+						return state;
 					}
 				} else if (facing == stateIn.getValue(FACING).getCounterClockWise()) {
 					if (facingState.getBlock() == this && stateIn.getValue(FACING).getAxis() == facingState.getValue(FACING).getAxis()) {
@@ -107,16 +120,13 @@ public class NonParallelBlock extends HorizontalBlock {
 			}
 			case SINGLE: {
 				if (facing == stateIn.getValue(FACING)) {
-					if (facingState.isAir()) {
-						return stateIn;
-					}
 					if (worldIn.getBlockState(currentPos.relative(facingState.getValue(FACING).getCounterClockWise())).getBlock() instanceof NonParallelBlock) {
 						return stateIn.setValue(FACING, facingState.getValue(FACING)).setValue(PART, SWEMBlockStateProperties.TwoWay.RIGHT);
 					} else if (worldIn.getBlockState(currentPos.relative(facingState.getValue(FACING).getClockWise())).getBlock() instanceof NonParallelBlock) {
 						return stateIn.setValue(FACING, facingState.getValue(FACING)).setValue(PART, SWEMBlockStateProperties.TwoWay.LEFT);
 					}
 				} else if (facing == stateIn.getValue(FACING).getOpposite()) {
-					if (facingState.isAir()) {
+					if (!(facingState.getBlock() instanceof NonParallelBlock)) {
 						return stateIn;
 					}
 					if (worldIn.getBlockState(currentPos.relative(facingState.getValue(FACING).getCounterClockWise())).getBlock() instanceof NonParallelBlock) {
@@ -161,6 +171,10 @@ public class NonParallelBlock extends HorizontalBlock {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return VoxelShapes.box(0.01d, 0.01d, 0.01d, 0.99d, 0.99d, 0.99d);
+		if (state.getValue(FACING).getAxis() == Direction.Axis.Z) {
+			return VoxelShapes.box(0.01d, 0.01d, 0.4375d, 0.99d, 0.99d, 0.5625d);
+		} else {
+			return VoxelShapes.box(0.4375d, 0.01d, 0.01d, 0.5625d, 0.99d, 0.99d);
+		}
 	}
 }

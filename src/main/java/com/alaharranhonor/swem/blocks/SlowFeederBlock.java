@@ -70,6 +70,9 @@ public class SlowFeederBlock extends Block {
 			if (item == SWEMBlocks.QUALITY_BALE_ITEM.get() && level_vanilla == 0) {
 				if (level_swem == 0) {
 					this.setHayLevel(worldIn, pos, state, LEVEL, 2);
+					if (!player.isCreative()) {
+						itemstack.shrink(1);
+					}
 					return ActionResultType.sidedSuccess(worldIn.isClientSide);
 				} else {
 					return ActionResultType.PASS;
@@ -78,6 +81,9 @@ public class SlowFeederBlock extends Block {
 			} else if (item == Items.HAY_BLOCK && level_swem == 0) {
 				if (level_vanilla == 0) {
 					this.setHayLevel(worldIn, pos, state, LEVEL_VANILLA, 2);
+					if (!player.isCreative()) {
+						itemstack.shrink(1);
+					}
 					return ActionResultType.sidedSuccess(worldIn.isClientSide);
 				} else {
 					return ActionResultType.PASS;
@@ -120,7 +126,7 @@ public class SlowFeederBlock extends Block {
 		worldIn.setBlock(pos, state.setValue(prop, Integer.valueOf(MathHelper.clamp(level, 0, 2))), 3);
 	}
 
-	public void eatHay(World worldIn, BlockPos pos, BlockState state) {
+	public void eat(World worldIn, BlockPos pos, BlockState state) {
 		int level = state.getValue(LEVEL);
 		int level_vanilla = state.getValue(LEVEL_VANILLA);
 

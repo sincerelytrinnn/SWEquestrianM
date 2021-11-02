@@ -48,7 +48,7 @@ public class WhistleItem extends Item {
 			return ActionResult.fail(stack);
 		}
 
-		horse.getWhistleManager().setWhisteCaller(playerIn);
+		horse.setWhistlePos(playerIn.blockPosition());
 		worldIn.addParticle(SWEMParticles.YAY.get(), horse.getX(), horse.getY(), horse.getZ(), 20.0, 0.0, 0.0);
 		return ActionResult.consume(stack);
 

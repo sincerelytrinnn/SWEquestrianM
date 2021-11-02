@@ -1,0 +1,36 @@
+{
+  "display": {
+    "icon": {
+      "item": "swem:shavings"
+    },
+    "title": {
+      "translate": "advancements.swem.main.shavings.title"
+    },
+    "description": {
+      "translate": "advancements.swem.main.shavings.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "parent": "swem:main/slow_feeders",
+  "criteria": {
+    "shavings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "swem:shavings"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "shavings"
+    ]
+  ]
+}

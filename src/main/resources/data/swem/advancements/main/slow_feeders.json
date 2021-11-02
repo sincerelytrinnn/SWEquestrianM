@@ -1,0 +1,36 @@
+{
+  "display": {
+    "icon": {
+      "item": "swem:slow_feeders"
+    },
+    "title": {
+      "translate": "advancements.swem.main.slow_feeders.title"
+    },
+    "description": {
+      "translate": "advancements.swem.main.slow_feeders.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "parent": "swem:main/bandage",
+  "criteria": {
+    "slow_feeders": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "swem:slow_feeder_items"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "slow_feeders"
+    ]
+  ]
+}

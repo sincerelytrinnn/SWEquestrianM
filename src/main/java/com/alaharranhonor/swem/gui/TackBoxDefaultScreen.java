@@ -83,22 +83,17 @@ public class TackBoxDefaultScreen extends ContainerScreen<TackBoxContainer> {
 				this.font.draw(matrixStack, new StringTextComponent( String.format("Affinity Status: %s",horse.progressionManager.getAffinityLeveling().getLevelName())), 18, 79, 4210752);
 			}
 
+			if (horse.isBeingTracked()) {
+				// Overlay, for Tracker.
+				fillGradient(matrixStack, 214, 32, 217, 35, 0xFF479238, 0xFF85f96d);
+			}
+
 			// 17px x for stats.
 		}
 		this.font.draw(matrixStack, new StringTextComponent("English"), 13, 128, 4210752);
 		this.font.draw(matrixStack, new StringTextComponent("Western"), 59, 128, 4210752);
 		this.font.draw(matrixStack, new StringTextComponent("Adv."), 109, 128, 4210752);
 		this.font.draw(matrixStack, new StringTextComponent("General"), 168, 128, 4210752);
-
-		// Overlay, for Tracker.
-		//fillGradient(matrixStack, 214, 32, 217, 35, 0xFF479238, 0xFF85f96d);
-
-
-
-		// 69 123
-
-
-
 
 	}
 

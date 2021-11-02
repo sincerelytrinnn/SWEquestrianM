@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.blocks;
 
+import com.alaharranhonor.swem.network.ClientStatusMessagePacket;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.network.SyncEntityIdToClient;
 import com.alaharranhonor.swem.tileentity.TackBoxTE;
@@ -28,6 +29,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class TackBoxBlock extends HorizontalBlock {
@@ -77,12 +79,17 @@ public class TackBoxBlock extends HorizontalBlock {
 			TileEntity tile = worldIn.getBlockEntity(offsetPos);
 
 			if (tile instanceof TackBoxTE) {
+				if (!tile.getTileData().hasUUID("horseUUID")) {
+					SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new ClientStatusMessagePacket(2, 0, new ArrayList<>()));
+					return ActionResultType.FAIL;
+				}
 				UUID uuid = tile.getTileData().getUUID("horseUUID");
 				int entityID = ((ServerWorld)worldIn).getEntity(uuid).getId();
 				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new SyncEntityIdToClient(entityID, tile.getBlockPos().getX(), tile.getBlockPos().getY(), tile.getBlockPos().getZ()));
 				NetworkHooks.openGui((ServerPlayerEntity) player, (TackBoxTE) tile, (buffer) -> {
 					buffer.writeBlockPos(tile.getBlockPos());
 				});
+				return ActionResultType.CONSUME;
 			}
 		}
 		return ActionResultType.FAIL;

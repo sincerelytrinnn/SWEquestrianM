@@ -9,6 +9,7 @@ import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
+import com.alaharranhonor.swem.items.tack.HorseSaddleItem;
 import com.alaharranhonor.swem.network.HorseStateChange;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.util.SWEMUtil;
@@ -23,6 +24,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -35,7 +37,7 @@ import java.util.UUID;
 @OnlyIn(Dist.CLIENT)
 public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventoryContainer> implements IHasContainer<SWEMHorseInventoryContainer> {
 
-	private static final ResourceLocation HORSE_GUI_TEXTURES = new ResourceLocation(SWEM.MOD_ID, "textures/gui/container/swem_horse_western.png");
+	private static final ResourceLocation HORSE_GUI_TEXTURES = new ResourceLocation(SWEM.MOD_ID, "textures/gui/container/swem_horse.png");
 	/** The EntityHorse whose inventory is currently being accessed. */
 	private SWEMHorseEntityBase horseEntity;
 	/** The mouse x-position recorded during the last rendered frame. */
@@ -64,9 +66,9 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 	@Override
 	protected void init() {
 		super.init();
-		this.permissionButton = new Button(this.leftPos  + 123, this.topPos + 112, 44, 11, new StringTextComponent(horseEntity.getPermissionState().name()), p_onPress_1_ -> {
+		this.permissionButton = new Button(this.leftPos  + 118, this.topPos + 109, 52, 20, new StringTextComponent(horseEntity.getPermissionState().name()), p_onPress_1_ -> {
 			SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(9, horseEntity.getId()));
-			p_onPress_1_.setMessage(new StringTextComponent(horseEntity.getPermissionState().name()));
+			p_onPress_1_.setMessage(new StringTextComponent(SWEMHorseEntityBase.RidingPermission.values()[(horseEntity.getPermissionState().ordinal() + 1) % 3].name()));
 		});
 
 		if (!Objects.equals(this.horseEntity.getOwnerUUID(), Minecraft.getInstance().player.getUUID())) {
@@ -88,6 +90,33 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
 		this.blit(matrixStack, i, j, 0, 0, this.imageWidth, this.imageHeight);
+
+		//overlay tack slots
+
+		if (horseEntity.hasHalter()) {
+			this.blit(matrixStack, i + 8, j + 17, 176, 0, 16, 16);
+		}
+		if (horseEntity.hasSaddle().getItem() instanceof HorseSaddleItem) {
+			this.blit(matrixStack, i + 29, j + 17, 176, 0, 16, 16);
+		}
+		if (horseEntity.hasBreastCollar()) {
+			this.blit(matrixStack, i + 8, j + 38, 176, 0, 16, 16);
+		}
+		if (horseEntity.hasBlanket()) {
+			this.blit(matrixStack, i + 29, j + 38, 176, 0, 16, 16);
+		}
+		if (horseEntity.hasLegWraps()) {
+			this.blit(matrixStack, i + 8, j + 59, 176, 0, 16, 16);
+		}
+		if (horseEntity.hasGirthStrap()) {
+			this.blit(matrixStack, i + 29, j + 59, 176, 0, 16, 16);
+		}
+		if (horseEntity.isWearingArmor()) {
+			this.blit(matrixStack, i + 8, j + 87, 176, 0, 16, 16);
+		}
+		if (horseEntity.hasSaddleBag()) {
+			this.blit(matrixStack, i + 29, j + 87, 176, 0, 16, 16);
+		}
 
 		// Not sure what this renders, some weird box.
 		//if (this.horseEntity.isSaddleable()) {
@@ -138,7 +167,19 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		// Affinity TEXT
 		TranslationTextComponent affinityInfo;
 		if (affinityLeveling.getLevel() != affinityLeveling.getMaxLevel()) {
-			affinityInfo = new TranslationTextComponent(String.format("%s: %.0f/%.0f", affinityLeveling.getLevelName(), affinityLeveling.getXp(), affinityLeveling.getRequiredXp()));
+			float currentXP = affinityLeveling.getXp();
+			float requiredXP = affinityLeveling.getRequiredXp();
+			boolean currentThousands = false;
+			boolean requiredThousands = false;
+			if (currentXP > 1000) {
+				currentXP /= 1000;
+				currentThousands = true;
+			}
+			if (requiredXP > 1000) {
+				requiredXP /= 1000;
+				requiredThousands = true;
+			}
+			affinityInfo = new TranslationTextComponent(String.format("%s: ", affinityLeveling.getLevelName()) + String.format("%.0f", currentXP) + (currentThousands ? "k" : "") + "/" +  String.format("%.0f", requiredXP) + (requiredThousands ? "k" : ""));
 		} else {
 			affinityInfo = new TranslationTextComponent(String.format("%s", affinityLeveling.getLevelName()));
 		}
@@ -146,7 +187,9 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 
 
 		// Overlay, for Tracker.
-		//fillGradient(matrixStack, 9, 117, 12, 120, 0xFF479238, 0xFF85f96d);
+		if (this.horseEntity.isBeingTracked()) {
+			fillGradient(matrixStack, 9, 117, 12, 120, 0xFF479238, 0xFF85f96d);
+		}
 
 		// Hunger.
 		switch (this.horseEntity.getEntityData().get(HungerNeed.HungerState.ID)) {

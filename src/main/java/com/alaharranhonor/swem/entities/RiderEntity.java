@@ -3,13 +3,15 @@ package com.alaharranhonor.swem.entities;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entity.render.RiderGeoRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
+import net.minecraft.client.entity.player.RemoteClientPlayerEntity;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimatableModel;
 import software.bernie.geckolib3.core.PlayState;
@@ -27,10 +29,10 @@ import software.bernie.geckolib3.resource.GeckoLibCache;
 import static com.alaharranhonor.swem.entities.SWEMHorseEntityBase.SPEED_LEVEL;
 
 public class RiderEntity implements IAnimatable {
-	private final PlayerEntity player;
+	private AbstractClientPlayerEntity player;
 	private final AnimationFactory factory = new AnimationFactory(this);
 
-	public RiderEntity(PlayerEntity player) {
+	public RiderEntity(AbstractClientPlayerEntity player) {
 		this.player = player;
 	}
 
@@ -39,7 +41,7 @@ public class RiderEntity implements IAnimatable {
 
 	@Override
 	public void registerControllers(AnimationData animationData) {
-		AnimationController<RiderEntity> controller = new AnimationController(this, "controller", 1, this::predicate);
+		AnimationController<RiderEntity> controller = new AnimationController(this, "controller", 2, this::predicate);
 		AnimationController.addModelFetcher((animatable) -> {
 			return new IAnimatableModel() {
 				@Override
@@ -54,7 +56,7 @@ public class RiderEntity implements IAnimatable {
 
 				@Override
 				public Animation getAnimation(String s, IAnimatable iAnimatable) {
-					return new AnimationFileLoader().loadAllAnimations(GeckoLibCache.getInstance().parser, new ResourceLocation(SWEM.MOD_ID, "animations/rider_" + (((ClientPlayerEntity) player).getModelName().equals("default") ? "steve" : "alex") + ".animation.json"), Minecraft.getInstance().getResourceManager()).getAnimation(s);
+					return new AnimationFileLoader().loadAllAnimations(GeckoLibCache.getInstance().parser, new ResourceLocation(SWEM.MOD_ID, "animations/rider_" + (((AbstractClientPlayerEntity) player).getModelName().equals("default") ? "steve" : "alex") + ".animation.json"), Minecraft.getInstance().getResourceManager()).getAnimation(s);
 				}
 
 				@Override
@@ -74,9 +76,45 @@ public class RiderEntity implements IAnimatable {
 	}
 
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+		Animation anim = event.getController().getCurrentAnimation();
+		if (anim != null) {
+			if ((anim.animationName.equals("Jump_Lvl_1Player")
+					|| anim.animationName.equals("Jump_Lvl_2Player")
+					|| anim.animationName.equals("Jump_Lvl_3Player")
+					|| anim.animationName.equals("Jump_Lvl_4Player")
+					|| anim.animationName.equals("Jump_Lvl_5Player")
+			) && event.getController().getAnimationState() != AnimationState.Stopped) {
+				return PlayState.CONTINUE;
+			}
+		}
+
 		Entity entity = this.getPlayer().getVehicle();
 		if (entity instanceof SWEMHorseEntityBase) {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+
+
+
+
+
+			if (horse.getEntityData().get(SWEMHorseEntityBase.JUMPING) && horse.jumpHeight != 0) {
+				if (horse.jumpHeight > 5.0F) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_5Player", false));
+					return PlayState.CONTINUE;
+				} else if (horse.jumpHeight > 4.0F) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_4Player", false));
+					return PlayState.CONTINUE;
+				} else if (horse.jumpHeight > 3.0F) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_3Player", false));
+					return PlayState.CONTINUE;
+				} else if (horse.jumpHeight > 2.0F) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_2Player", false));
+					return PlayState.CONTINUE;
+				} else {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_1Player", false));
+					return PlayState.CONTINUE;
+				}
+			}
+
 			float limbSwingAmount = MathHelper.lerp(event.getPartialTick(), horse.animationSpeedOld, horse.animationSpeed);
 
 			boolean isMoving = limbSwingAmount <= -0.15F || limbSwingAmount >= 0.15F;
@@ -104,4 +142,7 @@ public class RiderEntity implements IAnimatable {
 	}
 
 
+	public void setPlayer(AbstractClientPlayerEntity player) {
+		this.player = player;
+	}
 }

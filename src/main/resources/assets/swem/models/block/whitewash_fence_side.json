@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/fence_side",
   "textures": {
-    "texture": "swem:blocks/western_fence"
+    "texture": "swem:blocks/whitewash_planks"
   }
 }

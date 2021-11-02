@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "galaxy",
+  "pattern":
+  [
+    " y ",
+    "x z",
+    " c "
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "minecraft:blue_glass"
+    },
+    "y":
+    {
+      "item": "minecraft:red_glass"
+    },
+    "z": {
+      "item": "minecraft:yellow_glass"
+    },
+    "c": {
+      "item": "minecraft:black_glass"
+    }
+  },
+  "result":
+  {
+    "item": "swem:vibrant_offering",
+    "count": 1
+  }
+}

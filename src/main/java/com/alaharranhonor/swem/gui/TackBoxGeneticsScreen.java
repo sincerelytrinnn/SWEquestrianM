@@ -40,6 +40,11 @@ public class TackBoxGeneticsScreen extends Screen {
 	}
 
 	@Override
+	public boolean isPauseScreen() {
+		return false;
+	}
+
+	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);

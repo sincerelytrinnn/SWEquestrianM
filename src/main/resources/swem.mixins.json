@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "swem.refmap.json",
   "mixins": [
-    "CauldronBlockMixin"
+    "CauldronBlockMixin",
+    "AbstractHorseEntityMixin"
   ],
   "minVersion": "0.8"
 }

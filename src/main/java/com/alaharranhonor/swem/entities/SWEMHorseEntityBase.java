@@ -5,8 +5,6 @@ import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.container.SaddlebagContainer;
 import com.alaharranhonor.swem.entities.ai.*;
-import com.alaharranhonor.swem.entities.misc.WhistleManager;
-import com.alaharranhonor.swem.entities.misc.WhistleManagerProvider;
 import com.alaharranhonor.swem.entities.needs.HungerNeed;
 import com.alaharranhonor.swem.entities.needs.NeedManager;
 import com.alaharranhonor.swem.entities.needs.ThirstNeed;
@@ -54,8 +52,8 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.potion.Effects;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -81,10 +79,12 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.alaharranhonor.swem.entities.HorseFlightController.*;
+
 
 public class SWEMHorseEntityBase
 		extends AbstractHorseEntity
-		implements ISWEMEquipable, IEntityAdditionalSpawnData, WhistleManagerProvider<SWEMHorseEntityBase> {
+		implements ISWEMEquipable, IEntityAdditionalSpawnData {
 
 	private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("556E1665-8B10-40C8-8F9D-CF9B1667F295");
 	private static final DataParameter<Integer> HORSE_VARIANT = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
@@ -93,15 +93,13 @@ public class SWEMHorseEntityBase
 	public static final Ingredient FOOD_ITEMS = Ingredient.of(Items.APPLE, Items.CARROT, SWEMItems.OAT_BUSHEL.get(), SWEMItems.TIMOTHY_BUSHEL.get(), SWEMItems.ALFALFA_BUSHEL.get(), SWEMBlocks.QUALITY_BALE_ITEM.get(), SWEMItems.SUGAR_CUBE.get());
 	public static final Ingredient NEGATIVE_FOOD_ITEMS = Ingredient.of(Items.WHEAT, Items.HAY_BLOCK);
 	private static final DataParameter<Boolean> FLYING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
-	private static final DataParameter<Boolean> JUMPING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	public static final DataParameter<Boolean> JUMPING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<String> OWNER_NAME = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
 	private static final EntitySize JUMPING_SIZE = EntitySize.scalable(1.5f, 1.5f);
-	private PathNavigator oldNavigator;
 	private static Random rand = new Random();
 
 	public final ProgressionManager progressionManager;
 	private BlockPos currentPos;
-
 	private LazyOptional<InvWrapper> itemHandler;
 	private LazyOptional<InvWrapper> saddlebagItemHandler;
 	private LazyOptional<InvWrapper> bedrollItemHandler;
@@ -112,30 +110,38 @@ public class SWEMHorseEntityBase
 	private static final DataParameter<Boolean> GALLOP_ON_COOLDOWN = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public final static DataParameter<Integer> SPEED_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	public final static DataParameter<String> PERMISSION_STRING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
+	public final static DataParameter<Boolean> TRACKED = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private ArrayList<UUID> allowedList = new ArrayList<>();
 
 	public HorseSpeed currentSpeed;
 
 	private NeedManager needs;
-	private boolean isLaunching;
-	private boolean isLanding;
+	private HorseFlightController flightController;
 
-	// Animation variable.
+	private PeeGoal peeGoal;
+	private PoopGoal poopGoal;
+
+	private BlockPos whistlePos = null;
+
+	// Animation variables.
 	public double jumpHeight;
+	private int poopAnimationTick;
+	private int peeAnimationTick;
+	public int standAnimationTick;
+	public int standAnimationVariant;
 
-	private final WhistleManager<SWEMHorseEntityBase> whistleManager;
+
 
 	public SWEMHorseEntityBase(EntityType<? extends AbstractHorseEntity> type, World levelIn)
 	{
 		super(type, levelIn);
 		this.currentPos = this.blockPosition();
 		this.progressionManager = new ProgressionManager(this);
-		this.currentSpeed = HorseSpeed.TROT;
+		this.currentSpeed = HorseSpeed.WALK;
 		this.needs = new NeedManager(this);
-		this.whistleManager = new WhistleManager<>(this);
 		this.initSaddlebagInventory();
 		this.initBedrollInventory();
-		this.oldNavigator = navigation;
+		this.flightController = new HorseFlightController(this);
 	}
 
 	@Override
@@ -157,23 +163,57 @@ public class SWEMHorseEntityBase
 	@Override
 	protected void registerGoals() {
 		// TODO: ADD AI TO FOLLOW WHISTLE POSITION AS TOP PRIORITY
-		super.registerGoals();
-		this.goalSelector.addGoal(0, new WalkToWhistlerGoal<>(this));
+		this.peeGoal = new PeeGoal(this);
+		this.poopGoal = new PoopGoal(this);
 		//this.goalSelector.addGoal(0, new SwimGoal(this));
-		this.goalSelector.addGoal(1, new PanicStraightGoal(this, 1.2D));
+		this.goalSelector.addGoal(1, new PanicStraightGoal(this, 4.0D));
 		//this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 1.2D));
 		//this.goalSelector.addGoal(2, new BreedGoal(this, 1.0d));
 		//this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, TEMPTATION_ITEMS, false));
 		//this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.0D));
-		this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PigEntity.class, 12.0f, 1.0d, 1.0d));
-		this.goalSelector.addGoal(5, new PoopGoal(this));
-		this.goalSelector.addGoal(5, new PeeGoal(this));
-		//this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.7D));
+		this.goalSelector.addGoal(2, new HorseAvoidEntityGoal<>(this, PigEntity.class, 12.0f, 4.0d, 5.5d));
+		this.goalSelector.addGoal(5, this.poopGoal);
+		this.goalSelector.addGoal(5, this.peeGoal);
+		this.goalSelector.addGoal(6, new HorseWaterAvoidingRandomWalkingGoal(this, 4.0D)); //Speed 4.0 looks like a good speed, plus it triggers anim.
 		//this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
-		this.goalSelector.addGoal(8, new LookForFoodGoal(this, 1.0d));
-		this.goalSelector.addGoal(8, new LookForWaterGoal(this, 1.0d));
+		this.goalSelector.addGoal(8, new LookForFoodGoal(this, 4.0d));
+		this.goalSelector.addGoal(8, new LookForWaterGoal(this, 4.0d));
 		this.goalSelector.addGoal(9, new EatGrassGoal(this));
+	}
+
+	// This method is being called from the SEntityStatusPacket, which is fired in the goal's start method, with the broadcastAndSendChanges
+	// This is so we can set animation timers on the client side on the entity.
+	@Override
+	public void handleEntityEvent(byte p_70103_1_) {
+		if (p_70103_1_ == 127) { // Poop goal
+			this.poopAnimationTick = 79;
+		} else if (p_70103_1_ == 126) { // Pee goal
+			this.peeAnimationTick = 79;
+		} else {
+			super.handleEntityEvent(p_70103_1_);
+		}
+	}
+
+	public boolean isPooping() {
+		return this.poopAnimationTick > 0;
+	}
+
+	public boolean isPeeing() {
+		return this.peeAnimationTick > 0;
+	}
+
+	@Override
+	public boolean isStanding() {
+		return super.isStanding() || this.standAnimationTick > 0;
+	}
+
+	/**
+	 *
+	 * @return an integer based on the variant. 2 = buck, 1 = Rear.
+	 */
+	public int getStandVariant() {
+		return this.standAnimationVariant;
 	}
 
 	@Override
@@ -214,13 +254,39 @@ public class SWEMHorseEntityBase
 		this.entityData.set(OWNER_NAME, ownerName);
 	}
 
+	@Override
+	protected void customServerAiStep() {
+		this.peeAnimationTick = this.peeGoal.getPeeTimer();
+		this.poopAnimationTick = this.poopGoal.getPoopTimer();
+		super.customServerAiStep();
+	}
 
 	@Override
 	public void aiStep()
 	{
 
-
+		this.peeAnimationTick = Math.max(0, this.peeAnimationTick - 1);
+		this.poopAnimationTick = Math.max(0, this.poopAnimationTick - 1);
+		this.standAnimationTick = Math.max(0, this.standAnimationTick - 1);
 		if (!this.level.isClientSide) {
+			// Tick the animation timers.
+
+			if (this.whistlePos != null) {
+				this.getNavigation().moveTo(whistlePos.getX(), whistlePos.getY(), whistlePos.getZ(), this.getSpeed());
+				if (this.blockPosition().closerThan(this.whistlePos, 2)) {
+					this.whistlePos = null;
+					this.getNavigation().stop();
+				}
+			}
+
+			if (this.standAnimationTick == 20 && this.getStandVariant() == 2) {
+				this.level.getNearbyEntities(LivingEntity.class, new EntityPredicate().range(5), this, this.getBoundingBox().inflate(2)).forEach((entity) -> {
+					entity.hurt(DamageSource.GENERIC, 5);
+					entity.knockback(0.5f, 0.5, 0.5);
+				});
+				this.standAnimationVariant = -1;
+			}
+
 			if ((int)(this.level.getDayTime() % 24000L) == 10000) {
 				this.resetDaily();
 			}
@@ -257,17 +323,34 @@ public class SWEMHorseEntityBase
 
 	private double getAlteredMovementSpeed()
 	{
+
+		//TODO: Remove, once speed has been confirmed.
+		/*
 		switch (this.progressionManager.getSpeedLeveling().getLevel()) {
 			case 1:
-				return 0.284629981024667d;
+				return 0.286d;
 			case 2:
-				return 0.332068311195445d;
+				return 0.3905d;
 			case 3:
-				return 0.379506641366223d;
+				return 0.517d;
 			case 4:
-				return 0.426944971537001d;
+				return 0.649d;
 			default:
-				return 0.237191650853889d;
+				return 0.1826d;
+		}
+		 */
+
+		switch (this.progressionManager.getSpeedLeveling().getLevel()) {
+			case 1:
+				return 0.286d;
+			case 2:
+				return 0.3905d;
+			case 3:
+				return 0.517d;
+			case 4:
+				return 0.649d;
+			default:
+				return 0.1826d;
 		}
 	}
 
@@ -348,8 +431,27 @@ public class SWEMHorseEntityBase
 		this.entityData.define(JUMPING, false);
 		this.entityData.define(OWNER_NAME, "");
 
-		this.entityData.define(PERMISSION_STRING, "NONE");
+		this.getEntityData().define(isLaunching, false);
+		this.getEntityData().define(isFloating, false);
+		this.getEntityData().define(isAccelerating, false);
+		this.getEntityData().define(isSlowingDown, false);
+		this.getEntityData().define(isStillSlowingDown, false);
+		this.getEntityData().define(isTurningLeft, false);
+		this.getEntityData().define(isTurning, false);
+		this.getEntityData().define(isStillTurning, false);
+		this.getEntityData().define(didFlap, false);
+		this.getEntityData().define(isDiving, false);
+		this.entityData.define(PERMISSION_STRING, "ALL");
+		this.entityData.define(TRACKED, false);
 
+	}
+
+	public void setTracked(boolean tracked) {
+		this.entityData.set(TRACKED, tracked);
+	}
+
+	public boolean isBeingTracked() {
+		return this.entityData.get(TRACKED);
 	}
 
 	@Override
@@ -363,29 +465,19 @@ public class SWEMHorseEntityBase
 		}
 	}
 
-	@Override
-	public void setIsJumping(boolean jumping) {
-		super.setIsJumping(jumping);
-		if (!jumping)
-			this.jumpHeight = 0;
-		if (!this.level.isClientSide)
-			this.entityData.set(JUMPING, jumping);
-	}
 
 	@Override
 	public boolean isJumping() {
-		return this.entityData.get(JUMPING);
-	}
-
-	public boolean shouldJumpAnimationPlay() {
-		return this.isJumping;
+		return super.isJumping();
 	}
 
 	public boolean canMountPlayer(PlayerEntity player) {
+		if (this.isStanding()) return false;
+		if (!this.isTamed()) return true;
 		if (Objects.equals(this.getOwnerUUID(), player.getUUID())) return true;
 
 		if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.NONE) return false;
-		else if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.EVERYONE) return true;
+		else if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.ALL) return true;
 		else {
 			return this.allowedList.contains(player.getUUID());
 		}
@@ -521,26 +613,12 @@ public class SWEMHorseEntityBase
 	public void setFlying(boolean flying) {
 		this.entityData.set(FLYING, flying);
 		if (flying) {
-			this.setNoGravity(true);
-			this.launchFlight();
+			this.flightController.launchFlight();
 		} else {
-			this.landFlight();
+			this.flightController.land();
 		}
 	}
 
-	private void launchFlight() {
-		int airHeight = this.checkHeightInAir();
-		if (airHeight < 6) {
-			this.isLaunching = true;
-		}
-	}
-
-	private void landFlight() {
-		int airHeight = this.checkHeightInAir();
-		if (airHeight > 1) {
-			this.isLanding = true;
-		}
-	}
 
 
 	private int checkHeightInAir() {
@@ -577,7 +655,7 @@ public class SWEMHorseEntityBase
 			player.startRiding(this);
 		}
 		HorseSpeed oldSpeed = this.currentSpeed;
-		this.currentSpeed = HorseSpeed.TROT;
+		this.currentSpeed = HorseSpeed.WALK;
 		this.updateSelectedSpeed(oldSpeed);
 	}
 
@@ -761,6 +839,7 @@ public class SWEMHorseEntityBase
 
 		compound.put("allowedList", allowedList);
 		compound.putString("permissionState", RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)).name());
+		compound.putBoolean("tracked", this.entityData.get(TRACKED));
 	}
 
 	public ItemStack getArmor() {
@@ -852,6 +931,10 @@ public class SWEMHorseEntityBase
 
 		if (compound.contains("permissionState")) {
 			this.setPermissionState(compound.getString("permissionState"));
+		}
+
+		if (compound.contains("tracked")) {
+			this.setTracked(compound.getBoolean("tracked"));
 		}
 
 	}
@@ -1055,10 +1138,14 @@ public class SWEMHorseEntityBase
 	 */
 	@Override
 	public void tick() {
+		if (this.isFlying()) {
+			this.flightController.travel();
+			return;
+		}
 		if (!this.level.isClientSide) {
-			if (this.tickCount % 5 == 0 && !isFlying()) {
+			if (this.tickCount % 5 == 0) {
 
-				if (this.canBeControlledByRider() && this.isVehicle() && this.currentSpeed != HorseSpeed.WALK && this.currentSpeed != HorseSpeed.TROT) {
+				if (this.canBeControlledByRider() && this.isVehicle()) {
 					int x = this.blockPosition().getX();
 					int z = this.blockPosition().getZ();
 					if (x != this.currentPos.getX() || z != this.currentPos.getZ()) {
@@ -1112,24 +1199,9 @@ public class SWEMHorseEntityBase
 			if (this.getDeltaMovement().y > 0) {
 				this.setDeltaMovement(this.getDeltaMovement().x, -.15, this.getDeltaMovement().z); // Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until wasEyeInWater returns true.
 			}
-		}
-
-		if (!this.level.isClientSide) {
-			int airHeight = this.checkHeightInAir();
-			if (this.isLaunching && airHeight < 6) {
-				this.setDeltaMovement(this.getDeltaMovement().add(0.0d, 0.15d, 0.0d));
-			} else if (this.isLaunching) {
-				this.setDeltaMovement(Vector3d.ZERO);
-				this.isLaunching = false;
-			} else if (this.isLanding && airHeight > 1) {
-				Vector3d lookVec = this.getLookAngle();
-				Vector3d downwards = new Vector3d(lookVec.x, -0.2D, lookVec.z);
-				this.setDeltaMovement(downwards);
-			}
-
-			if (this.isLanding && airHeight <= 1) {
-				this.isLanding = false;
-				this.setNoGravity(false);
+		} else if (this.isInLava() && !this.isEyeInFluid(FluidTags.LAVA) && !this.isVehicle()) {
+			if (this.getDeltaMovement().y > 0) {
+				this.setDeltaMovement(this.getDeltaMovement().x, -.5, this.getDeltaMovement().z);// Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until wasEyeInWater returns true.
 			}
 		}
 	}
@@ -1203,12 +1275,9 @@ public class SWEMHorseEntityBase
 					}
 				}
 			}
-
-		} else if (this.isInLava() && !this.wasEyeInWater && !this.isVehicle()) {
-			if (this.getDeltaMovement().y > 0) {
-				this.setDeltaMovement(this.getDeltaMovement().x, -.15, this.getDeltaMovement().z); // Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until wasEyeInWater returns true.
-			}
 		}
+
+		this.clearFire();
 
 
 	}
@@ -1220,123 +1289,150 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public EntitySize getDimensions(Pose poseIn) {
-		if (this.isJumping()) {
+		return super.getDimensions(poseIn);
+		/*if (this.isJumping()) {
 			return JUMPING_SIZE;
 		} else {
 			return super.getDimensions(poseIn);
-		}
+		}*/
 	}
 
 	@Override
 	public void travel(Vector3d travelVector) {
+
 		if (this.isFlying()) {
-			this.onGround = true;
-		}
-		if (this.isVehicle() && this.canBeControlledByRider() && this.isHorseSaddled()) {
-			PlayerEntity livingentity = (PlayerEntity) this.getControllingPassenger();
-
-			this.yRot = livingentity.yRot;
-			this.yRotO = this.yRot;
-			this.xRot = livingentity.xRot * 0.5F;
-			this.setRot(this.yRot, this.xRot);
-			this.yBodyRot = this.yRot;
-			this.yHeadRot = this.yBodyRot;
-			float f = livingentity.xxa * 0.5F;
-			float f1 = livingentity.zza;
-			if (f1 <= 0.0F) {
-				f1 *= 0.25F;
-				this.gallopSoundCounter = 0;
-			}
-
-			if (this.onGround && this.playerJumpPendingScale == 0.0F && this.isStanding() && !this.allowStandSliding) {
-				f = 0.0F;
-				f1 = 0.0F;
-			}
-
-
-			 // Check if RNG is higher roll, than disobeying debuff, if so, then do the jump.
-			if (this.playerJumpPendingScale > 0.0F && !this.isJumping() && this.onGround && !this.isFlying()) {
-				double d0 = this.getCustomJump() * (double) this.playerJumpPendingScale * (double) this.getBlockJumpFactor();
-				double d1;
-				if (this.hasEffect(Effects.JUMP)) {
-					d1 = d0 + (double) ((float) (this.getEffect(Effects.JUMP).getAmplifier() + 1) * 0.1F);
-				} else {
-					d1 = d0;
-				}
-
-
-				//if (this.getDisobedienceFactor() > this.progressionManager.getAffinityLeveling().getDebuff()) {
-				Vector3d vector3d = this.getDeltaMovement();
-				this.setDeltaMovement(vector3d.x, d1, vector3d.z);
-				this.setIsJumping(true);
-
-
-
-				// Check jumpheight, and add XP accordingly.
-				float jumpHeight = (float) (-0.1817584952 * ((float)Math.pow(d1, 3.0F)) + 3.689713992 * ((float)Math.pow(d1, 2.0F)) + 2.128599134 * d1 - 0.343930367);
-				float xpToAdd = 0.0f;
-				if (jumpHeight >= 4.0f) {
-					xpToAdd = 40.0f;
-				} else if (jumpHeight >= 3.0f) {
-					xpToAdd = 30.0f;
-				} else if (jumpHeight >= 2.0f) {
-					xpToAdd = 25.0f;
-				} else if (jumpHeight >= 1.0f) {
-					xpToAdd = 20.0f;
-				}
-
-				this.jumpHeight = jumpHeight;
-
-
-
-				SWEMPacketHandler.INSTANCE.sendToServer(new AddJumpXPMessage(xpToAdd, this.getId()));
-
-
-				this.hasImpulse = true;
-				net.minecraftforge.common.ForgeHooks.onLivingJump(this);
-				if (f1 > 0.0F) {
-					float f2 = MathHelper.sin(this.yRot * ((float) Math.PI / 180F));
-					float f3 = MathHelper.cos(this.yRot * ((float) Math.PI / 180F));
-					this.setDeltaMovement(this.getDeltaMovement().add((double) (-0.4F * f2 * this.playerJumpPendingScale), 0.0D, (double) (0.4F * f3 * this.playerJumpPendingScale)));
-				}
-
-
-
-				this.playerJumpPendingScale = 0.0F;
-				//} else {
-				//	this.makeMad();
-				//}
-			}
-
-
-			this.flyingSpeed = this.getSpeed() * 0.1F;
-			if (this.isControlledByLocalInstance() && !isFlying() && !isLanding) {
-				this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
-				super.travel(new Vector3d((double) f, travelVector.y, (double) f1));
-			} else if ((livingentity instanceof PlayerEntity) && !isFlying()) {
-				this.setDeltaMovement(Vector3d.ZERO);
-			}
-
-			if (this.onGround) {
-				this.playerJumpPendingScale = 0.0F;
-				this.setIsJumping(false);
-			}
-
-			this.calculateEntityAnimation(this, false);
-
-
-			boolean flag = this.level.getBlockState(this.blockPosition().offset(this.getDirection().getNormal())).canOcclude();
-
-			// Handles the swimming. Travel is only called when player is riding the entity.
-			if (this.wasEyeInWater && !flag && this.getDeltaMovement().y < 0) { // Check if the eyes is in water level, and we don't have a solid block the way we are facing. If not, then apply a inverse force, to float the horse.
-				this.setDeltaMovement(this.getDeltaMovement().multiply(1, -1.9, 1));
-			}
+			return;
 		} else {
-			super.travel(travelVector);
+			if (this.isStanding()) return;
+			if (this.isVehicle() && this.canBeControlledByRider() && this.isHorseSaddled()) {
+				PlayerEntity livingentity = (PlayerEntity) this.getControllingPassenger();
+
+				this.yRot = livingentity.yRot;
+				this.yRotO = this.yRot;
+				this.xRot = livingentity.xRot * 0.5F;
+				this.setRot(this.yRot, this.xRot);
+				this.yBodyRot = this.yRot;
+				this.yHeadRot = this.yBodyRot;
+				float f = livingentity.xxa * 0.5F;
+				float f1 = livingentity.zza;
+				if (f1 <= 0.0F) {
+					this.gallopSoundCounter = 0;
+				}
+
+				if (this.onGround && this.playerJumpPendingScale == 0.0F && this.isStanding() && !this.allowStandSliding) {
+					f = 0.0F;
+					f1 = 0.0F;
+				}
+
+
+				// Check if RNG is higher roll, than disobeying debuff, if so, then do the jump.
+
+
+
+				if (this.playerJumpPendingScale > 0.0F && !this.isJumping() && this.onGround) {
+					if (this.getRandom().nextDouble() > this.progressionManager.getAffinityLeveling().getDebuff()) {
+						double d0 = this.getCustomJump() * (double) this.playerJumpPendingScale * (double) this.getBlockJumpFactor();
+						double d1;
+						if (this.hasEffect(Effects.JUMP)) {
+							d1 = d0 + (double) ((float) (this.getEffect(Effects.JUMP).getAmplifier() + 1) * 0.1F);
+						} else {
+							d1 = d0;
+						}
+
+
+						//if (this.getDisobedienceFactor() > this.progressionManager.getAffinityLeveling().getDebuff()) {
+						Vector3d vector3d = this.getDeltaMovement();
+						this.setDeltaMovement(vector3d.x, d1, vector3d.z);
+
+
+						// Check jumpheight, and add XP accordingly.
+						float jumpHeight = (float) (-0.1817584952 * ((float) Math.pow(d1, 3.0F)) + 3.689713992 * ((float) Math.pow(d1, 2.0F)) + 2.128599134 * d1 - 0.343930367);
+						float xpToAdd = 0.0f;
+						if (jumpHeight >= 4.0f) {
+							xpToAdd = 40.0f;
+						} else if (jumpHeight >= 3.0f) {
+							xpToAdd = 30.0f;
+						} else if (jumpHeight >= 2.0f) {
+							xpToAdd = 25.0f;
+						} else if (jumpHeight >= 1.0f) {
+							xpToAdd = 20.0f;
+						}
+
+						this.jumpHeight = jumpHeight;
+						this.startJump(jumpHeight);
+
+
+						SWEMPacketHandler.INSTANCE.sendToServer(new AddJumpXPMessage(xpToAdd, this.getId()));
+
+
+						this.hasImpulse = true;
+						net.minecraftforge.common.ForgeHooks.onLivingJump(this);
+						if (f1 > 0.0F) {
+							float f2 = MathHelper.sin(this.yRot * ((float) Math.PI / 180F));
+							float f3 = MathHelper.cos(this.yRot * ((float) Math.PI / 180F));
+							this.setDeltaMovement(this.getDeltaMovement().add((double) (-0.4F * f2 * this.playerJumpPendingScale), 0.0D, (double) (0.4F * f3 * this.playerJumpPendingScale)));
+						}
+					} else {
+						this.setStandingAnim();
+					}
+
+					this.playerJumpPendingScale = 0.0F;
+					//} else {
+					//	this.makeMad();
+					//}
+				}
+
+
+
+				this.flyingSpeed = this.getSpeed() * 0.1F;
+				if (this.isControlledByLocalInstance()) {
+					this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
+					if (f1 < 0.0f) { // Backwards movement.
+						if (this.currentSpeed != HorseSpeed.WALK) {
+							SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, this.getId()));
+						}
+						livingentity.zza *= 3f;
+						// We multiply with a number close to 4, since in the AbstractHorseEntity it slows the backwards movement with * 0.25
+						// So we counter that, by check if it's negative, but still make it a bit slower than regular walking.
+					}
+					super.travel(new Vector3d((double) f, travelVector.y, (double) f1));
+				} else if ((livingentity instanceof PlayerEntity)) {
+					this.setDeltaMovement(Vector3d.ZERO);
+				}
+
+				if (this.onGround) {
+					this.playerJumpPendingScale = 0.0F;
+					this.stopJump();
+				}
+
+				this.calculateEntityAnimation(this, false);
+
+
+				boolean flag = this.level.getBlockState(this.blockPosition().offset(this.getDirection().getNormal())).canOcclude();
+
+				// Handles the swimming. Travel is only called when player is riding the entity.
+				if ((this.wasEyeInWater || this.fluidOnEyes == FluidTags.LAVA) && !flag && this.getDeltaMovement().y < 0) { // Check if the eyes is in water level, and we don't have a solid block the way we are facing. If not, then apply a inverse force, to float the horse.
+					this.setDeltaMovement(this.getDeltaMovement().multiply(1, -1.9, 1));
+				}
+			} else {
+				super.travel(travelVector);
+			}
 		}
 
 	}
 
+	@Override
+	public boolean isOnGround() {
+		if (this.isFlying()) {
+			BlockState state = this.level.getBlockState(this.blockPosition().below());
+			if (state.canOcclude()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		return super.isOnGround();
+	}
 
 
 	@Override
@@ -1346,7 +1442,6 @@ public class SWEMHorseEntityBase
 				p_110206_1_ = 0;
 			} else {
 				this.allowStandSliding = true;
-				this.setIsJumping(true);
 			}
 
 			if (p_110206_1_ >= 90) {
@@ -1364,10 +1459,27 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public void handleStartJump(int p_184775_1_) {
-		this.playJumpSound();
+		if (this.getEntityData().get(FLYING)) {
+			this.playFlapWingSound();
+		} else {
+			this.playJumpSound();
+		}
+	}
+
+	private void playFlapWingSound() {
+		// TODO: ADD A FLAP WING SOUND AND PLAY IT HERE!
 	}
 
 
+	private void startJump(float jumpHeight) {
+		SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), true, jumpHeight));
+	}
+
+	private void stopJump() {
+		if (this.level.isClientSide) {
+			SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), false, 0.0F));
+		}
+	}
 
 	@Nullable
 	@Override
@@ -1402,9 +1514,18 @@ public class SWEMHorseEntityBase
 	}
 
 	public void levelUpSpeed() {
+		// TODO: Remove once speed has been confirmed.
+		/*
 		double currentSpeed = this.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
 		double newSpeed = this.getAlteredMovementSpeed();
 		this.getAttribute(Attributes.MOVEMENT_SPEED).addPermanentModifier(new AttributeModifier(this.progressionManager.getSpeedLeveling().getLevelName(), newSpeed - currentSpeed, AttributeModifier.Operation.ADDITION));
+		 */
+
+		this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getAlteredMovementSpeed());
+	}
+
+	public void levelUpHealth() {
+		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getAlteredMaxHealth());
 	}
 
 	/**
@@ -1503,7 +1624,7 @@ public class SWEMHorseEntityBase
 	public ActionResultType mobInteract(PlayerEntity playerEntity, Hand hand) {
 		ItemStack itemstack = playerEntity.getItemInHand(hand);
 		if (!this.isBaby()) {
-			if (this.isTamed() && playerEntity.isSecondaryUseActive()) {
+			if (this.isTamed() && playerEntity.isSecondaryUseActive() && !(itemstack.getItem() instanceof TrackerItem)) {
 				this.openInventory(playerEntity);
 				return ActionResultType.sidedSuccess(this.level.isClientSide);
 			}
@@ -1538,19 +1659,24 @@ public class SWEMHorseEntityBase
 					return ActionResultType.FAIL;
 				}
 
-				if (item == SWEMItems.SUGAR_CUBE.get()) {
-					// Add some affinity points and spawn particles.
-					if (!this.level.isClientSide) {
-						this.progressionManager.getAffinityLeveling().addXP(5.0F);
-						this.getNeeds().getHunger().addPoints(itemstack);
+				if (!this.level.isClientSide) {
+					if (this.getNeeds().getHunger().addPoints(itemstack)) {
+						if (!playerEntity.isCreative()) {
+							itemstack.shrink(1);
+						}
+						if (item == SWEMItems.SUGAR_CUBE.get()) {
+							this.progressionManager.getAffinityLeveling().addXP(5.0F);
+						}
 
 						this.level.addParticle(SWEMParticles.YAY.get(), this.getX(), this.getY() + 1.5, this.getZ(), 3.0, 0.3D, 0.3D);
+					} else {
+						this.level.addParticle(SWEMParticles.ECH.get(), this.getX(), this.getY() + 1.5, this.getZ(), 3.0, 0.3D, 0.3D);
+						return ActionResultType.FAIL;
 					}
 
+
 				}
-				if (!this.level.isClientSide) {
-					this.getNeeds().getHunger().addPoints(itemstack);
-				}
+
 				return ActionResultType.sidedSuccess(this.level.isClientSide);
 			}
 
@@ -1611,8 +1737,9 @@ public class SWEMHorseEntityBase
 	public ActionResultType interactAt(PlayerEntity player, Vector3d vec, Hand hand) {
 		// Vec is a local hit vector for the horse, not sure how vec.x and vec.z applies.
 
+		return ActionResultType.PASS;
 
-		if (player.isSecondaryUseActive()) {
+		/*if (player.isSecondaryUseActive()) {
 			return ActionResultType.PASS;
 		}
 
@@ -1648,7 +1775,7 @@ public class SWEMHorseEntityBase
 			buffer.writeInt(getId());
 		});
 
-		return ActionResultType.CONSUME;
+		return ActionResultType.CONSUME;*/
 	}
 
 	private boolean checkForBackHit(Vector3d vec) {
@@ -1811,6 +1938,10 @@ public class SWEMHorseEntityBase
 	}
 
 	public void incrementSpeed() {
+		if (this.getRandom().nextDouble() < this.progressionManager.getAffinityLeveling().getDebuff()) {
+			this.setStandingAnim();
+			return;
+		}
 		HorseSpeed oldSpeed = this.currentSpeed;
 		if (oldSpeed == HorseSpeed.GALLOP) return;
 		else if (oldSpeed == HorseSpeed.CANTER) {
@@ -1837,30 +1968,55 @@ public class SWEMHorseEntityBase
 	}
 
 	public void updateSelectedSpeed(HorseSpeed oldSpeed) {
+
+		if (this.currentSpeed == HorseSpeed.TROT) {
+			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.123d);
+		} else if (this.currentSpeed == HorseSpeed.WALK) {
+			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0425d);
+		} else {
+			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getAlteredMovementSpeed());
+		}
 		this.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(oldSpeed.getModifier());
-		this.getAttribute(Attributes.MOVEMENT_SPEED).addTransientModifier(this.currentSpeed.getModifier());
+		if (!this.getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(this.currentSpeed.getModifier())) {
+			this.getAttribute(Attributes.MOVEMENT_SPEED).addTransientModifier(this.currentSpeed.getModifier());
+		}
+
+		//TODO: Remove once speed has been confirmed.
+		/*
+		if (oldSpeed == HorseSpeed.CANTER) {
+			if (this.getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(oldSpeed.getModifier())) {
+				this.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(oldSpeed.getModifier());
+			}
+		}
+
+		if (this.currentSpeed == HorseSpeed.CANTER) {
+			if (!this.getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(this.currentSpeed.getModifier())) {
+				this.getAttribute(Attributes.MOVEMENT_SPEED).addTransientModifier(this.currentSpeed.getModifier());
+			}
+		}
+		if (this.currentSpeed == HorseSpeed.CANTER && oldSpeed == HorseSpeed.TROT) {
+			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getAlteredMovementSpeed());
+		}
+
+		if (this.currentSpeed == HorseSpeed.WALK) {
+			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.03d);
+		} else if (this.currentSpeed == HorseSpeed.TROT) {
+			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.123d);
+		}
+		 */
 		this.entityData.set(SPEED_LEVEL, this.currentSpeed.speedLevel);
 	}
 
 	public boolean canFly() {
-		// && ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() == 4
-		if (!this.hasSaddle().isEmpty()) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.hasSaddle().getItem() instanceof AdventureSaddleItem && ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() == 4;
 	}
 
-	@Override
-	public WhistleManager<SWEMHorseEntityBase> getWhistleManager() {
-		return this.whistleManager;
-	}
 
 	public void cycleRidingPermission() {
 		if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.NONE) {
-			this.setPermissionState("ALLOWED");
-		} else if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.ALLOWED) {
-			this.setPermissionState("EVERYONE");
+			this.setPermissionState("TRUST");
+		} else if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.TRUST) {
+			this.setPermissionState("ALL");
 		} else {
 			this.setPermissionState("NONE");
 		}
@@ -1940,9 +2096,6 @@ public class SWEMHorseEntityBase
 	@Override
 	public boolean canBeControlledByRider() {
 		if (this.hasBridle() || !ConfigHolder.SERVER.needBridleToSteer.get()) {
-			if (this.isFlying()) {
-				return false;
-			}
 
 			if (this.getControllingPassenger() instanceof LivingEntity
 			&& !(this.getControllingPassenger() instanceof AnimalEntity)
@@ -1974,7 +2127,16 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
+		this.setStandingAnim();
 		return super.hurt(source, amount);
+	}
+
+	public void setStandingAnim() {
+		this.standAnimationTick = 42;
+		this.standAnimationVariant = this.getRandom().nextDouble() > 0.5 ? 2 : 1;
+
+		if (!this.level.isClientSide)
+			SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
 	}
 
 	public boolean isBlanket(ItemStack stack) {
@@ -1991,7 +2153,11 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public boolean isWearingArmor() {
-		return super.isWearingArmor();
+		return this.inventory.getItem(6).getItem() instanceof SWEMHorseArmorItem;
+	}
+
+	public boolean hasSaddleBag() {
+		return this.inventory.getItem(7).getItem() instanceof SaddlebagItem;
 	}
 
 	public float getJumpHeight() {
@@ -2008,12 +2174,20 @@ public class SWEMHorseEntityBase
 		return this.level.getPlayerByUUID(PlayerUUID).getDisplayName();
 	}
 
+	public void setWhistlePos(BlockPos pos) {
+		this.whistlePos = pos;
+	}
+
 	public enum HorseSpeed {
 
-		WALK(new AttributeModifier("HORSE_WALK", -0.85d, AttributeModifier.Operation.MULTIPLY_TOTAL), 0),
-		TROT(new AttributeModifier("HORSE_TROT", -0.65d, AttributeModifier.Operation.MULTIPLY_TOTAL), 1),
+		/*
+		WALK(new AttributeModifier("HORSE_WALK", 0, AttributeModifier.Operation.ADDITION), 0),
+		TROT(new AttributeModifier("HORSE_TROT", 0, AttributeModifier.Operation.ADDITION), 1),
+		 */
+		WALK(new AttributeModifier("HORSE_WALK", 0, AttributeModifier.Operation.ADDITION), 0),
+		TROT(new AttributeModifier("HORSE_TROT", 0, AttributeModifier.Operation.ADDITION), 1),
 		CANTER(new AttributeModifier("HORSE_CANTER", -0.1d, AttributeModifier.Operation.MULTIPLY_TOTAL), 2),
-		GALLOP(new AttributeModifier("HORSE_GALLOP", 0, AttributeModifier.Operation.ADDITION), 3);
+		GALLOP(new AttributeModifier("HORSE_GALLOP", 0.2d, AttributeModifier.Operation.MULTIPLY_TOTAL), 3);
 		private AttributeModifier modifier;
 		private int speedLevel;
 		HorseSpeed(AttributeModifier modifier, int speedLevel) {
@@ -2034,7 +2208,7 @@ public class SWEMHorseEntityBase
 	public enum RidingPermission {
 
 		NONE,
-		ALLOWED,
-		EVERYONE;
+		TRUST,
+		ALL;
 	}
 }

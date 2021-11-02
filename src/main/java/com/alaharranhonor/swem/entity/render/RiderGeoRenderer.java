@@ -9,11 +9,15 @@ import com.google.common.collect.ImmutableSet;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.HorseRenderer;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.entity.layers.BipedArmorLayer;
+import net.minecraft.client.renderer.entity.model.ElytraModel;
 import net.minecraft.client.renderer.entity.model.IHasArm;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
@@ -21,16 +25,25 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerModelPart;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.resources.IResource;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.IResourcePack;
 import net.minecraft.resources.data.IMetadataSectionSerializer;
+import net.minecraft.scoreboard.Score;
+import net.minecraft.scoreboard.ScoreObjective;
+import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.GeckoLib;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -55,6 +68,8 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 
 	private static final RiderModel riderModel = new RiderModel();
 
+	private static final ResourceLocation WINGS_LOCATION = new ResourceLocation("textures/entity/elytra.png");
+
 	@Override
 	public GeoModelProvider getGeoModelProvider() {
 		return riderModel;
@@ -67,13 +82,10 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 
 	@Override
 	public void render(GeoModel model, T animatable, float partialTicks, RenderType type, MatrixStack matrixStackIn, @Nullable IRenderTypeBuffer renderTypeBuffer, @Nullable IVertexBuilder vertexBuilder, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-		RiderEntity rider = animatable;
-		Entity entity = rider.getPlayer().getVehicle();
+		Entity entity = animatable.getPlayer().getVehicle();
 		if (entity instanceof SWEMHorseEntityBase) {
 
-			float limbSwing = 0.0f;
-			float limbSwingAmount = 0.0f;
-			AnimationEvent<T> predicate = new AnimationEvent((IAnimatable)entity, limbSwing, limbSwingAmount, partialTicks, limbSwingAmount <= -0.15F || limbSwingAmount >= 0.15F, Collections.singletonList(new EntityModelData()));
+			AnimationEvent<T> predicate = new AnimationEvent((IAnimatable)entity, 0.0f, 0.0f, partialTicks, 0.0f <= -0.15F || 0.0f >= 0.15F, Collections.singletonList(new EntityModelData()));
 			this.riderModel.setLivingAnimations(animatable, this.getUniqueID(animatable), predicate);
 
 
@@ -96,9 +108,145 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 			renderArmorPiece(matrixStackIn, renderTypeBuffer, animatable, EquipmentSlotType.LEGS, packedLightIn, this.getGeoModelProvider().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/rider_armor.geo.json")), model);
 			renderArmorPiece(matrixStackIn, renderTypeBuffer, animatable, EquipmentSlotType.FEET, packedLightIn, this.getGeoModelProvider().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/rider_armor.geo.json")), model);
 			renderArmorPiece(matrixStackIn, renderTypeBuffer, animatable, EquipmentSlotType.HEAD, packedLightIn, this.getGeoModelProvider().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/rider_armor.geo.json")), model);
+
+			if (!Minecraft.getInstance().options.hideGui) {
+				checkRenderNameTag(animatable, animatable.getPlayer().getDisplayName(), matrixStackIn, renderTypeBuffer, packedLightIn);
+			}
+
+			boolean shouldSit = animatable.getPlayer().isPassenger();
+
+			float f = MathHelper.rotLerp(partialTicks, animatable.getPlayer().yBodyRotO, animatable.getPlayer().yBodyRot);
+			float f1 = MathHelper.rotLerp(partialTicks, animatable.getPlayer().yHeadRotO, animatable.getPlayer().yHeadRot);
+			float netHeadYaw = f1 - f;
+			if (shouldSit && animatable.getPlayer().getVehicle() instanceof LivingEntity) {
+				LivingEntity livingEntity = (LivingEntity)animatable.getPlayer().getVehicle();
+				f = MathHelper.rotLerp(partialTicks, livingEntity.yBodyRotO, livingEntity.yBodyRot);
+				netHeadYaw = f1 - f;
+				float f3 = MathHelper.wrapDegrees(netHeadYaw);
+				if (f3 < -85.0F) {
+					f3 = -85.0F;
+				}
+
+				if (f3 >= 85.0F) {
+					f3 = 85.0F;
+				}
+
+				f = f1 - f3;
+				if (f3 * f3 > 2500.0F) {
+					f += f3 * 0.2F;
+				}
+
+				netHeadYaw = f1 - f;
+			}
+
+			float limbSwing = 0.0F;
+			float headPitch = MathHelper.lerp(partialTicks, animatable.getPlayer().xRotO, animatable.getPlayer().xRot);
+			float ageInTicks = this.getBob(animatable, partialTicks);
+			float limbSwingAmount = 0.0F;
+
+			if (!shouldSit && animatable.getPlayer().isAlive()) {
+				limbSwingAmount = MathHelper.lerp(partialTicks, animatable.getPlayer().animationSpeedOld, animatable.getPlayer().animationSpeed);
+				limbSwing = animatable.getPlayer().animationPosition - animatable.getPlayer().animationSpeed * (1.0F - partialTicks);
+				if (animatable.getPlayer().isBaby()) {
+					limbSwing *= 3.0F;
+				}
+
+				if (limbSwingAmount > 1.0F) {
+					limbSwingAmount = 1.0F;
+				}
+			}
+
+			renderElytraPiece(matrixStackIn, renderTypeBuffer, animatable, packedLightIn, new ElytraModel<>(), model, partialTicks, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+
+			//renderCape(matrixStackIn, renderTypeBuffer, packedLightIn, animatable, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
+
 		}
 	}
 
+	/**
+	 * @see net.minecraft.client.renderer.entity.layers.ElytraLayer#render
+	 *
+	 **/
+	private void renderElytraPiece(MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, T animatable, int packedLight, ElytraModel model, GeoModel copyFrom, float partialTicks, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		ItemStack chestStack = animatable.getPlayer().getItemBySlot(EquipmentSlotType.CHEST);
+		if (chestStack.getItem() == Items.ELYTRA) { //shouldRender call.
+			ResourceLocation resourcelocation;
+			if (animatable.getPlayer() instanceof AbstractClientPlayerEntity) {
+				AbstractClientPlayerEntity abstractclientplayerentity = (AbstractClientPlayerEntity) animatable.getPlayer();
+				if (abstractclientplayerentity.isElytraLoaded() && abstractclientplayerentity.getElytraTextureLocation() != null) {
+					resourcelocation = abstractclientplayerentity.getElytraTextureLocation();
+				} else if (abstractclientplayerentity.isCapeLoaded() && abstractclientplayerentity.getCloakTextureLocation() != null && abstractclientplayerentity.isModelPartShown(PlayerModelPart.CAPE)) {
+					resourcelocation = abstractclientplayerentity.getCloakTextureLocation();
+				} else {
+					resourcelocation = WINGS_LOCATION;
+				}
+			} else {
+				resourcelocation = WINGS_LOCATION;
+			}
+
+			matrixStack.pushPose();
+			matrixStack.translate(0.0D, 0.0D, 0.125D);
+
+			model.setupAnim(animatable.getPlayer(), limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+			IVertexBuilder ivertexbuilder = ItemRenderer.getArmorFoilBuffer(renderTypeBuffer, RenderType.armorCutoutNoCull(resourcelocation), false, chestStack.hasFoil());
+			model.renderToBuffer(matrixStack, ivertexbuilder, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+			matrixStack.popPose();
+		}
+	}
+
+
+	/**
+	* @see net.minecraft.client.renderer.entity.layers.CapeLayer#render
+ 	*
+    **/
+	private void renderCape(MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int packedLight, T animatable, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYet, float headPitch) {
+		AbstractClientPlayerEntity playerEntity = null;
+		if (animatable.getPlayer() instanceof AbstractClientPlayerEntity) {
+			playerEntity = (AbstractClientPlayerEntity) animatable.getPlayer();
+		}
+		if (playerEntity == null) return;
+
+		if (playerEntity.isCapeLoaded() && !animatable.getPlayer().isInvisible() && animatable.getPlayer().isModelPartShown(PlayerModelPart.CAPE) && playerEntity.getCloakTextureLocation() != null) {
+			ItemStack itemstack = animatable.getPlayer().getItemBySlot(EquipmentSlotType.CHEST);
+			if (itemstack.getItem() != Items.ELYTRA) {
+				matrixStack.pushPose();
+				matrixStack.translate(0.0D, 0.0D, 0.125D);
+				double d0 = MathHelper.lerp((double)partialTicks, animatable.getPlayer().xCloakO, animatable.getPlayer().xCloak) - MathHelper.lerp((double)partialTicks, animatable.getPlayer().xo, animatable.getPlayer().getX());
+				double d1 = MathHelper.lerp((double)partialTicks, animatable.getPlayer().yCloakO, animatable.getPlayer().yCloak) - MathHelper.lerp((double)partialTicks, animatable.getPlayer().yo, animatable.getPlayer().getY());
+				double d2 = MathHelper.lerp((double)partialTicks, animatable.getPlayer().zCloakO, animatable.getPlayer().zCloak) - MathHelper.lerp((double)partialTicks, animatable.getPlayer().zo, animatable.getPlayer().getZ());
+				float f = animatable.getPlayer().yBodyRotO + (animatable.getPlayer().yBodyRot - animatable.getPlayer().yBodyRotO);
+				double d3 = (double)MathHelper.sin(f * ((float)Math.PI / 180F));
+				double d4 = (double)(-MathHelper.cos(f * ((float)Math.PI / 180F)));
+				float f1 = (float)d1 * 10.0F;
+				f1 = MathHelper.clamp(f1, -6.0F, 32.0F);
+				float f2 = (float)(d0 * d3 + d2 * d4) * 100.0F;
+				f2 = MathHelper.clamp(f2, 0.0F, 150.0F);
+				float f3 = (float)(d0 * d4 - d2 * d3) * 100.0F;
+				f3 = MathHelper.clamp(f3, -20.0F, 20.0F);
+				if (f2 < 0.0F) {
+					f2 = 0.0F;
+				}
+
+				float f4 = MathHelper.lerp(partialTicks, animatable.getPlayer().oBob, animatable.getPlayer().bob);
+				f1 = f1 + MathHelper.sin(MathHelper.lerp(partialTicks, animatable.getPlayer().walkDistO, animatable.getPlayer().walkDist) * 6.0F) * 32.0F * f4;
+				if (animatable.getPlayer().isCrouching()) {
+					f1 += 25.0F;
+				}
+
+				matrixStack.mulPose(Vector3f.XP.rotationDegrees(6.0F + f2 / 2.0F + f1));
+				matrixStack.mulPose(Vector3f.ZP.rotationDegrees(f3 / 2.0F));
+				matrixStack.mulPose(Vector3f.YP.rotationDegrees(180.0F - f3 / 2.0F));
+				IVertexBuilder ivertexbuilder = renderTypeBuffer.getBuffer(RenderType.entitySolid(playerEntity.getCloakTextureLocation()));
+				//renderToBuffer(matrixStack, ivertexbuilder, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+				matrixStack.popPose();
+			}
+		}
+	}
+
+	/**
+	 * @see net.minecraft.client.renderer.entity.layers.BipedArmorLayer#render
+	 *
+	 **/
 	private void renderArmorPiece(MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, T animatable, EquipmentSlotType slotType, int packedLight, GeoModel model, GeoModel copyFrom) {
 		ItemStack itemStack = animatable.getPlayer().getItemBySlot(slotType);
 		if (itemStack.getItem() instanceof ArmorItem) {
@@ -218,6 +366,52 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 			Minecraft.getInstance().getItemInHandRenderer().renderItem(playerEntity.getPlayer(), itemStack, transformType, flag, matrixStack, renderTypeBuffer, packedLight);
 			matrixStack.popPose();
 		}
+	}
+
+	private void checkRenderNameTag(T animatable, ITextComponent p_225629_2_, MatrixStack p_225629_3_, IRenderTypeBuffer p_225629_4_, int p_225629_5_) {
+		double d0 = Minecraft.getInstance().getEntityRenderDispatcher().distanceToSqr(animatable.getPlayer());
+		p_225629_3_.pushPose();
+		if (d0 < 100.0D) {
+			Scoreboard scoreboard = animatable.getPlayer().getScoreboard();
+			ScoreObjective scoreobjective = scoreboard.getDisplayObjective(2);
+			if (scoreobjective != null) {
+				Score score = scoreboard.getOrCreatePlayerScore(animatable.getPlayer().getScoreboardName(), scoreobjective);
+				this.renderNameTagInWorld(animatable, (new StringTextComponent(Integer.toString(score.getScore()))).append(" ").append(scoreobjective.getDisplayName()), p_225629_3_, p_225629_4_, p_225629_5_);
+				p_225629_3_.translate(0.0D, (double)(9.0F * 1.15F * 0.025F), 0.0D);
+			}
+		}
+
+		this.renderNameTagInWorld(animatable, p_225629_2_, p_225629_3_, p_225629_4_, p_225629_5_);
+		p_225629_3_.popPose();
+	}
+
+
+	private void renderNameTagInWorld(T p_225629_1_, ITextComponent p_225629_2_, MatrixStack p_225629_3_, IRenderTypeBuffer p_225629_4_, int p_225629_5_) {
+		double d0 = Minecraft.getInstance().getEntityRenderDispatcher().distanceToSqr(p_225629_1_.getPlayer());
+		if (net.minecraftforge.client.ForgeHooksClient.isNameplateInRenderDistance(p_225629_1_.getPlayer(), d0)) {
+			boolean flag = !p_225629_1_.getPlayer().isDiscrete();
+			float f = p_225629_1_.getPlayer().getBbHeight() + 1F;
+			int i = "deadmau5".equals(p_225629_2_.getString()) ? -10 : 0;
+			p_225629_3_.pushPose();
+			p_225629_3_.translate(0.0D, (double)f, 0.0D);
+			p_225629_3_.mulPose(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
+			p_225629_3_.scale(-0.025F, -0.025F, 0.025F);
+			Matrix4f matrix4f = p_225629_3_.last().pose();
+			float f1 = Minecraft.getInstance().options.getBackgroundOpacity(0.25F);
+			int j = (int)(f1 * 255.0F) << 24;
+			FontRenderer fontrenderer = Minecraft.getInstance().getEntityRenderDispatcher().getFont();
+			float f2 = (float)(-fontrenderer.width(p_225629_2_) / 2);
+			fontrenderer.drawInBatch(p_225629_2_, f2, (float)i, 553648127, false, matrix4f, p_225629_4_, flag, j, p_225629_5_);
+			if (flag) {
+				fontrenderer.drawInBatch(p_225629_2_, f2, (float)i, -1, false, matrix4f, p_225629_4_, false, 0, p_225629_5_);
+			}
+
+			p_225629_3_.popPose();
+		}
+	}
+
+	private float getBob(T animatable, float partialTicks) {
+		return (float)animatable.getPlayer().tickCount + partialTicks;
 	}
 
 

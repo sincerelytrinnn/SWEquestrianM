@@ -1,0 +1,20 @@
+{
+  "values": [
+    "swem:slow_feeder_black",
+    "swem:slow_feeder_brown",
+    "swem:slow_feeder_blue",
+    "swem:slow_feeder_cyan",
+    "swem:slow_feeder_green",
+    "swem:slow_feeder_gray",
+    "swem:slow_feeder_light_blue",
+    "swem:slow_feeder_light_gray",
+    "swem:slow_feeder_lime",
+    "swem:slow_feeder_magenta",
+    "swem:slow_feeder_orange",
+    "swem:slow_feeder_purple",
+    "swem:slow_feeder_pink",
+    "swem:slow_feeder_red",
+    "swem:slow_feeder_yellow",
+    "swem:slow_feeder_white"
+  ]
+}

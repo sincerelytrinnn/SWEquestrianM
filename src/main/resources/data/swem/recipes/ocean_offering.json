@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "galaxy",
+  "pattern":
+  [
+    " y ",
+    "x z",
+    " c "
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "minecraft:kelp"
+    },
+    "y":
+    {
+      "item": "minecraft:pufferfish"
+    },
+    "z": {
+      "item": "minecraft:bubble_coral_block"
+    },
+    "c": {
+      "item": "minecraft:ink_sac"
+    }
+  },
+  "result":
+  {
+    "item": "swem:ocean_offering",
+    "count": 1
+  }
+}

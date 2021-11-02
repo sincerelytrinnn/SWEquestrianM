@@ -20,6 +20,7 @@ public class DevCommand {
 		return
 				Commands.literal("dev")
 						.then(Commands.literal("tackup")
+								.requires((source) -> source.hasPermission(3))
 								.executes(ctx ->  {
 									ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
 
@@ -38,6 +39,7 @@ public class DevCommand {
 								})
 						)
 						.then(Commands.literal("tame")
+								.requires((source) -> source.hasPermission(3))
 								.executes(ctx ->  {
 									ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
 									List<SWEMHorseEntityBase> list = player.level.getEntitiesOfClass(SWEMHorseEntityBase.class, new AxisAlignedBB(player.position().x - 7.0D, player.position().y - 7.0D, player.position().z- 7.0D, player.blockPosition().getX() + 7.0D, player.blockPosition().getY() + 7.0D, player.blockPosition().getZ() + 7.0D));
@@ -54,6 +56,7 @@ public class DevCommand {
 								})
 						)
 						.then(Commands.literal("maxlevel")
+								.requires((source) -> source.hasPermission(3))
 								.executes(ctx ->  {
 									ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
 
@@ -72,40 +75,6 @@ public class DevCommand {
 									ctx.getSource().sendSuccess(new StringTextComponent("[§bSWEM§f] Your horse has been maxed out sir! (With the accent)"), false);
 									return 1;
 								})
-						)
-						.then(Commands.literal("sethealth")
-							.executes(ctx -> {
-								Entity riding = ctx.getSource().getPlayerOrException().getVehicle();
-								if (riding instanceof  SWEMHorseEntityBase) {
-									SWEMHorseEntityBase horse = (SWEMHorseEntityBase) riding;
-
-									horse.setHealth(10.0f);
-
-									ctx.getSource().sendSuccess(new StringTextComponent("[SWEM] You're horse's health has been set to 10"), false);
-									return 1;
-								}
-								return 0;
-							})
-						)
-						.then(Commands.literal("hide")
-							.then(Commands.literal("rider")
-									.executes(ctx -> {
-										Entity riding = ctx.getSource().getPlayerOrException().getVehicle();
-										if (riding instanceof  SWEMHorseEntityBase) {
-											SWEMHorseEntityBase horse = (SWEMHorseEntityBase) riding;
-
-											//make player model invisible
-
-											// Console message
-											ctx.getSource().sendSuccess(new StringTextComponent("[SWEM] Player hidden"), false);
-
-											return 1;
-										}
-										return 0;
-									})
-							)
-
-
 						);
 	}
 }

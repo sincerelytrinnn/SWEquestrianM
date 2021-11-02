@@ -1,0 +1,36 @@
+{
+  "display": {
+    "icon": {
+      "item": "swem:cantazarite_dye"
+    },
+    "title": {
+      "translate": "advancements.swem.main.cantazarite_dye.title"
+    },
+    "description": {
+      "translate": "advancements.swem.main.cantazarite_dye.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "parent": "swem:main/cantazarite",
+  "criteria": {
+    "cantazarite_dye": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:cantazarite_dye"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "cantazarite_dye"
+    ]
+  ]
+}

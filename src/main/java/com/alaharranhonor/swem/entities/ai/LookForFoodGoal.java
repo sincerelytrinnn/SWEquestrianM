@@ -1,8 +1,10 @@
 package com.alaharranhonor.swem.entities.ai;
 
+import com.alaharranhonor.swem.blocks.GrainFeederBlock;
 import com.alaharranhonor.swem.blocks.SlowFeederBlock;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.goal.Goal;
@@ -48,6 +50,9 @@ public class LookForFoodGoal extends Goal {
 	public void start() {
 		this.horse.getNavigation().stop();
 		this.tickTimer = 0;
+		SWEMHorseEntityBase.HorseSpeed oldSpeed = this.horse.currentSpeed;
+		this.horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
+		this.horse.updateSelectedSpeed(oldSpeed);
 	}
 
 	/**
@@ -92,6 +97,11 @@ public class LookForFoodGoal extends Goal {
 							} else if ( SWEMBlocks.SLOW_FEEDERS.stream().anyMatch((sf) -> sf.get().defaultBlockState().setValue(SlowFeederBlock.LEVEL, 1) == this.horse.level.getBlockState(checkState)) || SWEMBlocks.SLOW_FEEDERS.stream().anyMatch((sf) -> sf.get().defaultBlockState().setValue(SlowFeederBlock.LEVEL, 2) == this.horse.level.getBlockState(checkState)) && this.blockFound <= 2) {
 								this.foundFood = checkState;
 								this.blockFound = 2;
+							} else if ( SWEMBlocks.GRAIN_FEEDERS.stream().anyMatch((sf) -> sf.get().defaultBlockState().setValue(GrainFeederBlock.OCCUPIED, true) == this.horse.level.getBlockState(checkState))
+									&& this.blockFound <= 2
+									&& this.horse.getNeeds().getHunger().getTimesFed(this.horse.getNeeds().getHunger().getItemIndex(new ItemStack(SWEMItems.SWEET_FEED.get()))) < this.horse.getNeeds().getHunger().getMaxTimesFed(this.horse.getNeeds().getHunger().getItemIndex(new ItemStack(SWEMItems.SWEET_FEED.get())))) {
+								this.foundFood = checkState;
+								this.blockFound = 3;
 							}
 						}
 					}
@@ -120,7 +130,12 @@ public class LookForFoodGoal extends Goal {
 						}
 						case 2: {
 							this.horse.getNeeds().getHunger().addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get()));
-							((SlowFeederBlock) this.horse.level.getBlockState(foundFood).getBlock()).eatHay(this.horse.level, foundFood, this.horse.level.getBlockState(foundFood));
+							((SlowFeederBlock) this.horse.level.getBlockState(foundFood).getBlock()).eat(this.horse.level, foundFood, this.horse.level.getBlockState(foundFood));
+							break;
+						}
+						case 3: {
+							this.horse.getNeeds().getHunger().addPoints(new ItemStack(SWEMItems.SWEET_FEED.get()));
+							((GrainFeederBlock) this.horse.level.getBlockState(foundFood).getBlock()).eat(this.horse.level, foundFood, this.horse.level.getBlockState(foundFood));
 							break;
 						}
 					}

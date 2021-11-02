@@ -1,0 +1,6 @@
+{
+      "parent": "swem:block/western_fence_inventory",
+      "textures": {
+        "0": "minecraft:block/spruce_planks"
+      }
+    }
