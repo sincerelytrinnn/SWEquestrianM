@@ -116,6 +116,7 @@ public class SWEMItems {
 	public static final RegistryObject<Item> WHITEWASH_FINISH = ITEMS.register("whitewash_finish", () -> new Item(new Item.Properties().tab(SWEM.TAB)));
 	public static final RegistryObject<Item> SWEET_FEED = ITEMS.register("sweet_feed", ItemBase::new);
 	public static final RegistryObject<Item> REFINED_LEATHER = ITEMS.register("refined_leather", ItemBase::new);
+	public static final RegistryObject<Item> PAINT_FILLER = ITEMS.register("paint_filler", ItemBase::new);
 
 	// Rainbow Horse recipe items.
 	public static final RegistryObject<Item> WARMER_EGG = ITEMS.register("warmer_egg", ItemBase::new);
