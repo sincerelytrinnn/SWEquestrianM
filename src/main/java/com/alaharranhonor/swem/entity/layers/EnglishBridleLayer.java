@@ -41,7 +41,7 @@ public class EnglishBridleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 							packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
 					);
 
-					this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_new.geo.json")),
+					this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
 							entitylivingbaseIn,
 							partialTicks,
 							RenderType.entityCutout(bridleItem.getArmorTexture()),
