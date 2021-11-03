@@ -109,7 +109,7 @@ public class PeeGoal extends Goal {
 					bestBlock = 1;
 					bestPos = newPos;
 				} else {
-					if (flag && !this.entityWorld.getBlockState(newPos.relative(Direction.DOWN)).isAir()) {
+					if (flag && checkState.getBlock() != Blocks.AIR && checkState.getBlock() != SWEMBlocks.HORSE_PEE.get() ) {
 						bestBlock = 0;
 						bestPos = pos;
 					}
