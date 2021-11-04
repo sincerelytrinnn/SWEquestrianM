@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "swem:block/tackbox"
+        "model": "swem:block/tack_box"
       }
     }
   ]
