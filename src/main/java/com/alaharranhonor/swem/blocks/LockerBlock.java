@@ -82,7 +82,7 @@ public class LockerBlock extends HorizontalBlock {
 				return ActionResultType.CONSUME;
 			}
 		}
-		return ActionResultType.FAIL;
+		return ActionResultType.SUCCESS;
 	}
 
 
