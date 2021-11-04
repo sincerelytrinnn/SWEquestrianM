@@ -167,7 +167,7 @@ public class SWEMHorseEntityBase
 		this.poopGoal = new PoopGoal(this);
 		//this.goalSelector.addGoal(0, new SwimGoal(this));
 		this.goalSelector.addGoal(1, new PanicStraightGoal(this, 4.0D));
-		//this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 1.2D));
+		this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 1.2D));
 		//this.goalSelector.addGoal(2, new BreedGoal(this, 1.0d));
 		//this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, TEMPTATION_ITEMS, false));
 		//this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.0D));
