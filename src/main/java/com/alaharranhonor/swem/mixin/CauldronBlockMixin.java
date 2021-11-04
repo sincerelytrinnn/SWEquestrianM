@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(CauldronBlock.class)
-public abstract class CauldronBlockMixin {
+public class CauldronBlockMixin {
 
 
 	@Final
