@@ -2,19 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "pattern":
   [
-    "xyx",
-    "x x",
-    "xzx"
+    "xzx",
+    "xzx",
+    "x x"
   ],
   "key":
   {
     "x":
     {
-      "tag": "minecraft:planks"
-    },
-    "y":
-    {
-      "tag": "minecraft:wooden_slabs"
+      "item": "minecraft:spruce_planks"
     },
     "z":
     {
@@ -23,7 +19,7 @@
   },
   "result":
   {
-    "item": "swem:western_fence",
+    "item": "swem:pasture_fence_spruce",
     "count": 8
   }
 }

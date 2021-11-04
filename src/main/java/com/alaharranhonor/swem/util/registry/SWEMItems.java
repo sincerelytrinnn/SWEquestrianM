@@ -133,7 +133,7 @@ public class SWEMItems {
 	public static final RegistryObject<Item> LIFE_OFFERING = ITEMS.register("life_offering", ItemBase::new);
 	public static final RegistryObject<Item> EARTH_OFFERING = ITEMS.register("earth_offering", ItemBase::new);
 	public static final RegistryObject<Item> VIBRANT_OFFERING = ITEMS.register("vibrant_offering", ItemBase::new);
-	public static final RegistryObject<Item> OCCEAN_OFFERING = ITEMS.register("occean_offering", ItemBase::new);
+	public static final RegistryObject<Item> OCEAN_OFFERING = ITEMS.register("ocean_offering", ItemBase::new);
 	public static final RegistryObject<Item> NOVA_OFFERING = ITEMS.register("nova_offering", ItemBase::new);
 
 	public static final RegistryObject<Item> GALLAXORIUM = ITEMS.register("gallaxorium", Gallaxorium::new);

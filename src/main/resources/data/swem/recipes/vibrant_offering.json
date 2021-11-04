@@ -11,17 +11,17 @@
   {
     "x":
     {
-      "item": "minecraft:blue_glass"
+      "item": "minecraft:blue_stained_glass"
     },
     "y":
     {
-      "item": "minecraft:red_glass"
+      "item": "minecraft:red_stained_glass"
     },
     "z": {
-      "item": "minecraft:yellow_glass"
+      "item": "minecraft:yellow_stained_glass"
     },
     "c": {
-      "item": "minecraft:black_glass"
+      "item": "minecraft:black_stained_glass"
     }
   },
   "result":
