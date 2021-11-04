@@ -26,6 +26,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.command.impl.SummonCommand;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -425,8 +426,7 @@ public class SWEMHorseEntityBase
 		this.entityData.define(HungerNeed.TOTAL_TIMES_FED, 0);
 
 		this.entityData.define(AffinityLeveling.CURRENT_DESENSITIZING_ITEM, ItemStack.EMPTY);
-		this.entityData.define(HORSE_VARIANT, 12);
-
+		this.entityData.define(HORSE_VARIANT, this.random.nextInt(16));
 		this.entityData.define(FLYING, false);
 		this.entityData.define(JUMPING, false);
 		this.entityData.define(OWNER_NAME, "");
@@ -1869,15 +1869,16 @@ public class SWEMHorseEntityBase
 
 	@Nullable
 	public ILivingEntityData finalizeSpawn(IServerWorld levelIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
-		CoatColors coatcolors;
+		SWEMCoatColors coatcolors = SWEMCoatColors.SWEETBOY;
 		if (spawnDataIn instanceof HorseEntity.HorseData) {
-			coatcolors = ((HorseEntity.HorseData)spawnDataIn).variant;
+			//coatcolors = ((HorseEntity.HorseData)spawnDataIn).variant;
 		} else {
-			coatcolors = Util.getRandom(CoatColors.values(), this.rand);
-			spawnDataIn = new HorseEntity.HorseData(coatcolors);
+			coatcolors = Util.getRandom(SWEMCoatColors.values(), this.rand);
+			//spawnDataIn = new HorseEntity.HorseData(coatcolors);
 		}
 
-		this.setVariantAndMarkings(coatcolors, Util.getRandom(CoatTypes.values(), this.rand));
+		this.setHorseVariant(coatcolors.getId());
+		//this.setVariantAndMarkings(coatcolors, Util.getRandom(CoatTypes.values(), this.rand));
 		return super.finalizeSpawn(levelIn, difficultyIn, reason, spawnDataIn, dataTag);
 	}
 
