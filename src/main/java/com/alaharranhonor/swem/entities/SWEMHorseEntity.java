@@ -152,8 +152,10 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		}
 
 		if (horse.isStanding()) {
-			if (event.getController().getCurrentAnimation().animationName.equals("Rear") || event.getController().getCurrentAnimation().animationName.equals("Buck")) {
-				return PlayState.CONTINUE;
+			if (anim != null) {
+				if (anim.animationName.equals("Rear") || anim.animationName.equals("Buck")) {
+					return PlayState.CONTINUE;
+				}
 			}
 			event.getController().setAnimation(new AnimationBuilder().addAnimation(horse.getStandVariant() == 2 ? "Buck" : "Rear"));
 
