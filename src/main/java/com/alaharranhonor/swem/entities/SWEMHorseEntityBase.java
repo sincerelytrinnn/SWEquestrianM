@@ -426,7 +426,7 @@ public class SWEMHorseEntityBase
 		this.entityData.define(HungerNeed.TOTAL_TIMES_FED, 0);
 
 		this.entityData.define(AffinityLeveling.CURRENT_DESENSITIZING_ITEM, ItemStack.EMPTY);
-		this.entityData.define(HORSE_VARIANT, this.random.nextInt(16));
+		this.entityData.define(HORSE_VARIANT, this.random.nextInt(SWEMCoatColors.values().length - 2));
 		this.entityData.define(FLYING, false);
 		this.entityData.define(JUMPING, false);
 		this.entityData.define(OWNER_NAME, "");
@@ -1873,7 +1873,7 @@ public class SWEMHorseEntityBase
 		if (spawnDataIn instanceof HorseEntity.HorseData) {
 			//coatcolors = ((HorseEntity.HorseData)spawnDataIn).variant;
 		} else {
-			coatcolors = Util.getRandom(SWEMCoatColors.values(), this.rand);
+			coatcolors = SWEMCoatColors.values()[this.rand.nextInt(SWEMCoatColors.values().length - 2)];
 			//spawnDataIn = new HorseEntity.HorseData(coatcolors);
 		}
 
