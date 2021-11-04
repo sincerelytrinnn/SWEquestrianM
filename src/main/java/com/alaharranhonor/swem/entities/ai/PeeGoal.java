@@ -7,6 +7,7 @@ import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.*;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.fluid.WaterFluid;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -78,48 +79,61 @@ public class PeeGoal extends Goal {
 		if (peeTimer == 48) {
 			BlockPos blockpos = this.peeEntity.blockPosition();
 			BlockPos bestPos = this.getPosOfBestBlock(blockpos);
-			this.pee(bestPos);
+			if (bestPos != null)
+				this.pee(bestPos);
 		}
 
 	}
 
 	private BlockPos getPosOfBestBlock(BlockPos pos) {
-		int bestBlock = -1;
 		BlockPos bestPos = pos;
 		ArrayList<BlockPos> shavingsPos = new ArrayList<>();
+		ArrayList<BlockPos> peePos = new ArrayList<>();
+		ArrayList<BlockPos> grassBlocks = new ArrayList<>();
+		ArrayList<BlockPos> sandBlocks = new ArrayList<>();
+		ArrayList<BlockPos> dirtblocks = new ArrayList<>();
 		for (int x = -radius; x <= radius; x++) {
 			for (int z = -radius; z <= radius; z++) {
 
-				BlockPos newPos = pos.offset(x, 0, z);
+				BlockPos newPos = pos.offset(x, 0, z); // New pos is on the block above the horse is standing.
+				BlockPos belowCheck = newPos.below();
 				BlockState checkState = this.entityWorld.getBlockState(newPos);
-
+				BlockState belowCheckState = this.entityWorld.getBlockState(belowCheck);
 				boolean flag = true;
-				if (this.entityWorld.getBlockState(newPos.relative(Direction.UP)) != Blocks.AIR.defaultBlockState())
+				if (checkState != Blocks.AIR.defaultBlockState() || checkState.getBlock() == SWEMBlocks.HORSE_PEE.get())
 					flag = false;
 
 				if (checkState.getBlock() instanceof Shavings && checkState.getBlock() != SWEMBlocks.SOILED_SHAVINGS.get()) {
 					shavingsPos.add(newPos);
-				} else if (checkState.getBlock() instanceof GrassBlock && bestBlock < 3 && flag) {
-					bestBlock = 3;
-					bestPos = newPos;
-				} else if (checkState.getBlock() instanceof SandBlock && bestBlock < 2 && flag) {
-					bestBlock = 2;
-					bestPos = newPos;
-				} else if (checkState.getBlock() == Blocks.DIRT && bestBlock < 1 && flag) {
-					bestBlock = 1;
-					bestPos = newPos;
+				} else if (belowCheckState.getBlock() == Blocks.GRASS_BLOCK && flag) {
+					grassBlocks.add(newPos);
+				} else if (belowCheckState.getBlock() == Blocks.SAND && flag) {
+					sandBlocks.add(newPos);
+				} else if (belowCheckState.getBlock() == Blocks.DIRT && flag) {
+					dirtblocks.add(newPos);
 				} else {
-					if (flag && checkState.getBlock() != Blocks.AIR && checkState.getBlock() != SWEMBlocks.HORSE_PEE.get() ) {
-						bestBlock = 0;
-						bestPos = pos;
+					if (flag
+							&& belowCheckState.getBlock() != Blocks.AIR
+							&& checkState.getBlock() != SWEMBlocks.HORSE_PEE.get()
+							&& belowCheckState.getFluidState().isEmpty()
+							&& checkState.getFluidState().isEmpty()
+					) {
+						peePos.add(newPos);
 					}
 				}
 			}
 		}
-		return shavingsPos.isEmpty() ? bestPos : shavingsPos.get(this.peeEntity.getRandom().nextInt(shavingsPos.size()));
+
+		return !shavingsPos.isEmpty() ? shavingsPos.get(this.peeEntity.getRandom().nextInt(shavingsPos.size()))
+				: !grassBlocks.isEmpty() ? grassBlocks.get(this.peeEntity.getRandom().nextInt(grassBlocks.size()))
+				: !sandBlocks.isEmpty() ? sandBlocks.get(this.peeEntity.getRandom().nextInt(sandBlocks.size()))
+				: !dirtblocks.isEmpty() ? dirtblocks.get(this.peeEntity.getRandom().nextInt(dirtblocks.size()))
+				: !peePos.isEmpty() ? peePos.get(this.peeEntity.getRandom().nextInt(peePos.size()))
+				: null;
 	}
 
 	private void pee(BlockPos posToPee) {
+		System.out.println(posToPee);
 		BlockState state = this.entityWorld.getBlockState(posToPee);
 		if (state.getBlock() instanceof Shavings) {
 			int layers = state.getValue(Shavings.LAYERS);
