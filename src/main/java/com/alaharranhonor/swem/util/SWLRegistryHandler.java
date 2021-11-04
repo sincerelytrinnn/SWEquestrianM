@@ -479,6 +479,7 @@ public class SWLRegistryHandler {
 		validUUIDS.add("dcf2390ae651441cb31e991d2780bf13");
 		validUUIDS.add("135429c96c8d4350a70a0204f7519087");
 		validUUIDS.add("64aa9724b3054253a7afc3d855f95384");
+		validUUIDS.add("86c03404fcb84d20a11932e69db3519b");
 
 
 		String playerUUID = Minecraft.getInstance().getUser().getUuid().replaceAll("-", "");
