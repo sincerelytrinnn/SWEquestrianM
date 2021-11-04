@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "swem:slow_feeders"
+      "item": "swem:slow_feeder_lime"
     },
     "title": {
       "translate": "advancements.swem.main.slow_feeders.title"

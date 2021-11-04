@@ -1,13 +1,13 @@
 {
   "display": {
     "icon": {
-      "item": "swem:star_worm_block_diamond_block"
+      "item": "swem:star_worm_block_diamond"
     },
     "title": {
-      "translate": "advancements.swem.main.star_worm_diamond_block.title"
+      "translate": "advancements.swem.main.star_worm_block_diamond.title"
     },
     "description": {
-      "translate": "advancements.swem.main.star_worm_diamond_block.description"
+      "translate": "advancements.swem.main.star_worm_block_diamond.description"
     },
     "frame": "task",
     "show_toast": true,
@@ -17,12 +17,12 @@
   },
   "parent": "swem:main/root",
   "criteria": {
-    "star_worm_diamond_block": {
+    "star_worm_block_diamond": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:star_worm_block_diamond_block"
+            "item": "swem:star_worm_block_diamond"
           }
         ]
       }
@@ -30,7 +30,7 @@
   },
   "requirements": [
     [
-      "star_worm_diamond_block"
+      "star_worm_block_diamond"
     ]
   ]
 }

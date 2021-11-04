@@ -1,13 +1,13 @@
 {
   "display": {
     "icon": {
-      "item": "swem:horse_whistle"
+      "item": "swem:whistle"
     },
     "title": {
-      "translate": "advancements.swem.main.horse_whistle.title"
+      "translate": "advancements.swem.main.whistle.title"
     },
     "description": {
-      "translate": "advancements.swem.main.horse_whistle.description"
+      "translate": "advancements.swem.main.whistle.description"
     },
     "frame": "task",
     "show_toast": true,
@@ -17,12 +17,12 @@
   },
   "parent": "swem:main/shavings",
   "criteria": {
-    "horse_whistle": {
+    "whistle": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:horse_whistle"
+            "item": "swem:whistle"
           }
         ]
       }
@@ -30,7 +30,7 @@
   },
   "requirements": [
     [
-      "horse_whistle"
+      "whistle"
     ]
   ]
 }
