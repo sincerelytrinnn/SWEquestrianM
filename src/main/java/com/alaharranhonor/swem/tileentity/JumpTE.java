@@ -1,6 +1,8 @@
 package com.alaharranhonor.swem.tileentity;
 
 import com.alaharranhonor.swem.blocks.jumps.*;
+import com.alaharranhonor.swem.network.SWEMPacketHandler;
+import com.alaharranhonor.swem.network.jumps.CDestroyPacket;
 import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -372,18 +374,15 @@ public class JumpTE extends TileEntity {
 	@Override
 	public void setRemoved() {
 
-		if (this.level != null) {
+		if (this.level != null && !this.level.isClientSide) {
 			this.level.setBlock(this.layerPositions.get(1).get(0).relative(Direction.UP, 5), Blocks.AIR.defaultBlockState(), 3);
 			for (ArrayList<BlockPos> positions : this.layerPositions.values()) {
 				for (BlockPos pos : positions) {
 					this.level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
 				}
 			}
+			super.setRemoved();
 		}
-
-
-
-		super.setRemoved();
 	}
 
 	@Override
