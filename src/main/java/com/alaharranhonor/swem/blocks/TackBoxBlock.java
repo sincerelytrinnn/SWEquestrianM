@@ -92,7 +92,7 @@ public class TackBoxBlock extends HorizontalBlock {
 				return ActionResultType.CONSUME;
 			}
 		}
-		return ActionResultType.FAIL;
+		return ActionResultType.SUCCESS;
 	}
 
 	@Override
