@@ -26,6 +26,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.command.impl.SummonCommand;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -40,6 +41,7 @@ import net.minecraft.entity.passive.horse.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
@@ -309,7 +311,7 @@ public class SWEMHorseEntityBase
 				}
 			}
 
-			//this.needs.tick();
+			this.needs.tick();
 		}
 		super.aiStep();
 	}
@@ -472,7 +474,12 @@ public class SWEMHorseEntityBase
 	}
 
 	public boolean canMountPlayer(PlayerEntity player) {
-		if (this.isStanding()) return false;
+		if (this.isStanding()
+				&& this.getLastDamageSource() != DamageSource.IN_FIRE
+				&& this.getLastDamageSource() != DamageSource.LAVA
+				&& this.getLastDamageSource() != DamageSource.DROWN
+				&& this.getLastDamageSource() != DamageSource.ON_FIRE
+				&& this.getLastDamageSource() != DamageSource.HOT_FLOOR) return false;
 		if (!this.isTamed()) return true;
 		if (Objects.equals(this.getOwnerUUID(), player.getUUID())) return true;
 
@@ -1198,14 +1205,16 @@ public class SWEMHorseEntityBase
 
 		}
 		super.tick();
-		if (this.isInWater() && !this.wasEyeInWater && !this.isVehicle()) {
-			if (this.getDeltaMovement().y > 0) {
-				this.setDeltaMovement(this.getDeltaMovement().x, -.15, this.getDeltaMovement().z); // Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until wasEyeInWater returns true.
+		if (this.isInWater() && !this.isVehicle()) {
+			if (this.wasEyeInWater) {
+				this.setDeltaMovement(this.getDeltaMovement().x, .05, this.getDeltaMovement().z); // Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until wasEyeInWater returns true.
+			} else {
+				this.setDeltaMovement(this.getDeltaMovement().x, -.05, this.getDeltaMovement().z); // Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until wasEyeInWater returns true.
+
 			}
+
 		} else if (this.isInLava() && !this.isEyeInFluid(FluidTags.LAVA) && !this.isVehicle()) {
-			if (this.getDeltaMovement().y > 0) {
-				this.setDeltaMovement(this.getDeltaMovement().x, -.5, this.getDeltaMovement().z);// Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until wasEyeInWater returns true.
-			}
+			this.setDeltaMovement(this.getDeltaMovement().x, -.5, this.getDeltaMovement().z);// Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until wasEyeInWater returns true.
 		}
 	}
 
@@ -1306,7 +1315,14 @@ public class SWEMHorseEntityBase
 		if (this.isFlying()) {
 			return;
 		} else {
-			if (this.isStanding()) return;
+			if (this.isStanding()
+					&& this.getLastDamageSource() != DamageSource.IN_FIRE
+					&& this.getLastDamageSource() != DamageSource.LAVA
+					&& this.getLastDamageSource() != DamageSource.DROWN
+					&& this.getLastDamageSource() != DamageSource.ON_FIRE
+					&& this.getLastDamageSource() != DamageSource.HOT_FLOOR) return;
+
+
 			if (this.isVehicle() && this.canBeControlledByRider() && this.isHorseSaddled()) {
 				PlayerEntity livingentity = (PlayerEntity) this.getControllingPassenger();
 
