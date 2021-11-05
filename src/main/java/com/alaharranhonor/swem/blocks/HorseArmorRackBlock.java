@@ -167,7 +167,8 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+		boolean flag = context.getLevel().getBlockState(context.getClickedPos().relative(context.getHorizontalDirection().getOpposite().getCounterClockWise())).getBlock() == Blocks.AIR;
+		return flag ? this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()) : null;
 	}
 
 	@Override
