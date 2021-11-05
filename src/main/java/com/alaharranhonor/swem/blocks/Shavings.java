@@ -3,6 +3,7 @@ package com.alaharranhonor.swem.blocks;
 import javax.annotation.Nullable;
 
 import com.alaharranhonor.swem.tools.PitchforkTool;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -83,6 +84,7 @@ public class Shavings extends Block {
 
     public boolean canBeReplaced(BlockState state, BlockItemUseContext useContext) {
         int i = state.getValue(LAYERS);
+        if (this.getBlock() == SWEMBlocks.SOILED_SHAVINGS.get()) return false;
         if (useContext.getItemInHand().getItem() == this.asItem() && i < 8) {
             if (useContext.replacingClickedOnBlock()) {
                 return useContext.getClickedFace() == Direction.UP;
