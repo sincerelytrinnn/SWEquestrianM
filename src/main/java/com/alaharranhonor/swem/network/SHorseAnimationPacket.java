@@ -7,8 +7,10 @@ import io.netty.buffer.ByteBufUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
+import org.apache.logging.log4j.core.jmx.Server;
 
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -47,7 +49,7 @@ public class SHorseAnimationPacket {
 
 	public static void handle(SHorseAnimationPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			ClientPlayerEntity player = Minecraft.getInstance().player;
+			ServerPlayerEntity player = ctx.get().getSender();
 			Entity entity = player.level.getEntity(msg.entityID);
 			if (!(entity instanceof SWEMHorseEntityBase)) {
 				return;

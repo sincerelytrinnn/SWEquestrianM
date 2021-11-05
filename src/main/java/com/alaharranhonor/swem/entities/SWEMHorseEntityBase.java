@@ -2130,7 +2130,7 @@ public class SWEMHorseEntityBase
 		this.standAnimationTick = 42;
 		this.standAnimationVariant = this.getRandom().nextDouble() > 0.5 ? 2 : 1;
 
-		if (!this.level.isClientSide)
+		if (this.level.isClientSide)
 			SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
 	}
 
