@@ -284,8 +284,10 @@ public class SWEMHorseEntityBase
 
 			if (this.standAnimationTick == 20 && this.getStandVariant() == 2) {
 				this.level.getNearbyEntities(LivingEntity.class, new EntityPredicate().range(5), this, this.getBoundingBox().inflate(2)).forEach((entity) -> {
-					entity.hurt(DamageSource.GENERIC, 5);
-					entity.knockback(0.5f, 0.5, 0.5);
+					if (entity.getVehicle() != this) {
+						entity.hurt(DamageSource.GENERIC, 5);
+						entity.knockback(0.5f, 0.5, 0.5);
+					}
 				});
 				this.standAnimationVariant = -1;
 			}
