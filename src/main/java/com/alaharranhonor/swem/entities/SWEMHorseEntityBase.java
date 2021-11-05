@@ -918,7 +918,9 @@ public class SWEMHorseEntityBase
 
 		//this.setFlying(compound.getBoolean("flying"));
 
-		this.setHorseVariant(compound.getInt("HorseVariant"));
+		int variant = compound.getInt("HorseVariant");
+		System.out.println("[SWEM] Loaded variant as " + variant);
+		this.setHorseVariant(variant % (SWEMCoatColors.values().length - 2));
 
 		this.setOwnerName(compound.getString("ownerName"));
 
@@ -1016,6 +1018,7 @@ public class SWEMHorseEntityBase
 	}
 
 	private void setHorseVariant(int id) {
+		System.out.println("Setting coat to: " + id);
 		this.entityData.set(HORSE_VARIANT, id);
 	}
 
@@ -1869,12 +1872,12 @@ public class SWEMHorseEntityBase
 
 	@Nullable
 	public ILivingEntityData finalizeSpawn(IServerWorld levelIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
-		SWEMCoatColors coatcolors = SWEMCoatColors.SWEETBOY;
-		if (spawnDataIn instanceof HorseEntity.HorseData) {
-			//coatcolors = ((HorseEntity.HorseData)spawnDataIn).variant;
+		SWEMCoatColors coatcolors;
+		if (spawnDataIn instanceof SWEMHorseEntityBase.SWEMHorseData) {
+			coatcolors = ((SWEMHorseEntityBase.SWEMHorseData)spawnDataIn).variant;
 		} else {
 			coatcolors = SWEMCoatColors.values()[this.rand.nextInt(SWEMCoatColors.values().length - 2)];
-			//spawnDataIn = new HorseEntity.HorseData(coatcolors);
+			spawnDataIn = new SWEMHorseEntityBase.SWEMHorseData(coatcolors);
 		}
 
 		this.setHorseVariant(coatcolors.getId());
@@ -2029,15 +2032,6 @@ public class SWEMHorseEntityBase
 
 	private void setPermissionState(String string) {
 		this.entityData.set(PERMISSION_STRING, string);
-	}
-
-	public static class HorseData extends AgeableEntity.AgeableData {
-		public final CoatColors variant;
-
-		public HorseData(CoatColors p_i231557_1_) {
-			super(true);
-			this.variant = p_i231557_1_;
-		}
 	}
 
 	@Override
@@ -2211,5 +2205,14 @@ public class SWEMHorseEntityBase
 		NONE,
 		TRUST,
 		ALL;
+	}
+
+	public static class SWEMHorseData extends AgeableEntity.AgeableData {
+		public final SWEMCoatColors variant;
+
+		public SWEMHorseData(SWEMCoatColors p_i231557_1_) {
+			super(false);
+			this.variant = p_i231557_1_;
+		}
 	}
 }
