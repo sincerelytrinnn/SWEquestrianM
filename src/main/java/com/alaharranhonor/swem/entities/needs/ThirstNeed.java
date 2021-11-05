@@ -12,28 +12,31 @@ public class ThirstNeed {
 	private ThirstState state;
 
 	private SWEMHorseEntityBase horse;
+	private int tickCounter;
 
 	public ThirstNeed(SWEMHorseEntityBase horse) {
 		this.horse = horse;
 		this.setState(ThirstState.QUENCHED);
+		this.tickCounter = 96_000;
 	}
 
 	public void tick() {
-		if (this.state.getCurrentTicks() == 0) return;
-		this.state.setCurrentTicks(this.state.getCurrentTicks() - 1);
+		if (this.tickCounter == 0) return;
+		this.tickCounter--;
 
-		if (this.state.getCurrentTicks() <= this.state.getTickAmountChange() && this.state != ThirstState.EXICCOSIS) {
+		if (this.tickCounter <= this.state.getTickAmountChange() && this.state != ThirstState.EXICCOSIS) {
 			this.setStateById(this.state.getId() - 1);
 		}
 	}
 
 	public void incrementState() {
 		if (this.state != ThirstState.QUENCHED) {
-			this.setStateById(this.state.getId() + 1);
+			ThirstState nextState = getNextState();
+			this.setStateById(nextState.ordinal());
 			if (this.state == ThirstState.QUENCHED) {
-				this.state.setCurrentTicks(96000);
+				this.tickCounter = 96_000;
 			} else {
-				this.state.setCurrentTicks(this.getNextState().getTickAmountChange());
+				this.tickCounter = this.state.getTickAmountChange();
 			}
 		}
 	}
@@ -43,23 +46,22 @@ public class ThirstNeed {
 	}
 
 	public ThirstState getNextState() {
-		return this.state.values()[this.state.getId() + 1];
+		int thirstId = this.state.getId() + 1;
+		if (thirstId > 4) {
+			thirstId = 4;
+		}
+		return ThirstState.values()[thirstId];
 	}
 
 	public void setState(ThirstState state) {
-		int ticks = 0;
-		if (this.state != null) {
-			ticks = this.state.getCurrentTicks();
-		}
 		this.state = state;
-		this.state.setCurrentTicks(ticks);
 		this.state.setHorse(this.horse);
 	}
 
 	public CompoundNBT write(CompoundNBT nbt) {
 		if (this.state != null) {
 			nbt.putInt("thirstStateID", this.state.getId());
-			nbt.putInt("thirstStateTick", this.state.getCurrentTicks());
+			nbt.putInt("thirstTick", this.tickCounter);
 		}
 		return nbt;
 	}
@@ -71,9 +73,12 @@ public class ThirstNeed {
 		} else {
 			this.setStateById(4);
 		}
-		if (nbt.contains("thirstStateTick")) {
-			int ticks = nbt.getInt("thirstStateTick");
-			this.state.setCurrentTicks(ticks);
+		if (nbt.contains("thirstTick")) {
+			int ticks = nbt.getInt("thirstTick");
+			if (ticks == 0 && this.state != ThirstState.EXICCOSIS) {
+				ticks = getNextState().tickAmountChange;
+			}
+			this.tickCounter = ticks;
 		}
 		this.state.setHorse(this.horse);
 	}
@@ -123,11 +128,9 @@ public class ThirstNeed {
 
 		public static final DataParameter<Integer> ID = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 		private int tickAmountChange;
-		private int currentTicks;
 		private SWEMHorseEntityBase horse;
 		ThirstState(int tickAmountChange) {
 			this.tickAmountChange = tickAmountChange;
-			this.currentTicks = 0;
 		}
 
 		public void setHorse(SWEMHorseEntityBase horse) {
@@ -142,12 +145,5 @@ public class ThirstNeed {
 			return tickAmountChange;
 		}
 
-		public int getCurrentTicks() {
-			return currentTicks;
-		}
-
-		public void setCurrentTicks(int currentTicks) {
-			this.currentTicks = currentTicks;
-		}
 	}
 }
