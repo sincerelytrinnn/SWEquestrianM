@@ -3,6 +3,7 @@ package com.alaharranhonor.swem.entity.model;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.RiderEntity;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -72,11 +73,43 @@ public class RiderModel extends AnimatedGeoModel<RiderEntity> {
 	}
 
 	public Iterable<GeoBone> headParts(GeoModel model) {
-		return ImmutableList.of(model.getBone("Head").get());
+		ImmutableList<GeoBone> imList = ImmutableList.of(model.getBone("Head").get());
+		if (model.getBone("HatLayer").isPresent()) {
+			return Iterables.concat(imList, ImmutableList.of(model.getBone("HatLayer").get()));
+		}
+		return imList;
 	}
 
 	public Iterable<GeoBone> bodyParts(GeoModel model) {
-		return ImmutableList.of(model.getBone("Body").get(), model.getBone("RightArm").get(), model.getBone("LeftArm").get(), model.getBone("RightLeg").get(), model.getBone("LeftLeg").get());
+		ImmutableList<GeoBone> imList = ImmutableList.of();
+
+		if (model.getBone("BodyLayer").isPresent()) {
+			imList = ImmutableList.of(model.getBone("BodyLayer").get());
+		}
+
+		if (model.getBone("LeftArmLayer").isPresent()) {
+			imList = (ImmutableList<GeoBone>) Iterables.concat(imList, ImmutableList.of(model.getBone("LeftArmLayer").get()));
+		}
+
+		if (model.getBone("RightArmLayer").isPresent()) {
+			imList = (ImmutableList<GeoBone>) Iterables.concat(imList, ImmutableList.of(model.getBone("RightArmLayer").get()));
+		}
+
+		if (model.getBone("LeftLegLayer").isPresent()) {
+			imList = (ImmutableList<GeoBone>) Iterables.concat(imList, ImmutableList.of(model.getBone("LeftLegLayer").get()));
+		}
+
+		if (model.getBone("RightLegLayer").isPresent()) {
+			imList = (ImmutableList<GeoBone>) Iterables.concat(imList, ImmutableList.of(model.getBone("RightLegLayer").get()));
+		}
+
+
+		return Iterables.concat(imList, ImmutableList.of(model.getBone("Body").get(),
+				model.getBone("RightArm").get(),
+				model.getBone("LeftArm").get(),
+				model.getBone("RightLeg").get(),
+				model.getBone("LeftLeg").get())
+		);
 	}
 
 }
