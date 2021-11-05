@@ -23,6 +23,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -155,7 +156,8 @@ public class TackBoxBlock extends HorizontalBlock {
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+		boolean flag = context.getLevel().getBlockState(context.getClickedPos().relative(context.getHorizontalDirection().getOpposite().getCounterClockWise())).getBlock() == Blocks.AIR;
+		return flag ? this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()) : null;
 	}
 
 	@Override
