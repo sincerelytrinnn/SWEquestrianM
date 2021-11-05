@@ -2012,6 +2012,9 @@ public class SWEMHorseEntityBase
 	}
 
 	public boolean canFly() {
+		if (!(this.getSWEMArmor().getItem() instanceof SWEMHorseArmorItem)) {
+			return false;
+		}
 		return this.hasSaddle().getItem() instanceof AdventureSaddleItem && ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() == 4;
 	}
 
