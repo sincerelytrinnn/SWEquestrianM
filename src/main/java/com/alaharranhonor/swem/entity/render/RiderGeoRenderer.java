@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.HorseRenderer;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.entity.layers.BipedArmorLayer;
+import net.minecraft.client.renderer.entity.layers.CapeLayer;
 import net.minecraft.client.renderer.entity.model.ElytraModel;
 import net.minecraft.client.renderer.entity.model.IHasArm;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
@@ -41,6 +42,7 @@ import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -185,7 +187,10 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 			}
 
 			matrixStack.pushPose();
-			matrixStack.translate(0.0D, 0.0D, 0.125D);
+			// y translate
+			matrixStack.translate(0.0D, 3D + (copyFrom.getBone("Body").get().getPositionY() / 32), 0.06125D + (copyFrom.getBone("Body").get().getPositionZ() / 32));
+			matrixStack.scale(2f, 2f, 2f);
+			matrixStack.mulPose(new Quaternion(-(copyFrom.getBone("Body").get().getRotationX()), 0,  180, true));
 
 			model.setupAnim(animatable.getPlayer(), limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 			IVertexBuilder ivertexbuilder = ItemRenderer.getArmorFoilBuffer(renderTypeBuffer, RenderType.armorCutoutNoCull(resourcelocation), false, chestStack.hasFoil());
