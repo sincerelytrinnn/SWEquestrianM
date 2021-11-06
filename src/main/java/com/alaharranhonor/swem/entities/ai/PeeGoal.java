@@ -5,12 +5,16 @@ import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.*;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.fluid.WaterFluid;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 
@@ -22,11 +26,13 @@ public class PeeGoal extends Goal {
 	private final int radius = 3;
 
 	private int peeTimer;
+	private double speed;
+	private BlockPos peeSpot;
 
-	public PeeGoal(SWEMHorseEntityBase peeEntity) {
+	public PeeGoal(SWEMHorseEntityBase peeEntity, double speed) {
 		this.peeEntity = peeEntity;
 		this.entityWorld = peeEntity.level;
-
+		this.speed = speed;
 	}
 
 
@@ -55,6 +61,7 @@ public class PeeGoal extends Goal {
 	@Override
 	public void stop() {
 		this.peeTimer = 0;
+		this.peeSpot = null;
 	}
 
 	/**
@@ -74,19 +81,28 @@ public class PeeGoal extends Goal {
 	 */
 	@Override
 	public void tick() {
-		this.peeEntity.getNavigation().stop();
 		this.peeTimer = Math.max(0, this.peeTimer - 1);
-		if (peeTimer == 48) {
-			BlockPos blockpos = this.peeEntity.blockPosition();
-			BlockPos bestPos = this.getPosOfBestBlock(blockpos);
-			if (bestPos != null)
-				this.pee(bestPos);
+		if (this.peeSpot == null) {
+			this.peeSpot = this.getPosOfBestBlock(this.peeEntity.blockPosition());
+		} else {
+			this.peeEntity.getNavigation().moveTo(peeSpot.getX(), peeSpot.getY(), peeSpot.getZ(), this.speed);
+		}
+		if (peeTimer == 38) {
+			if (this.peeSpot != null && this.peeEntity.blockPosition().closerThan(this.peeSpot, 2)) {
+				// Add pee particles
+				/*for(int i = 0; i < 7; ++i) {
+					double d0 = this.peeEntity.getRandom().nextGaussian() * 0.02D;
+					double d1 = this.peeEntity.getRandom().nextGaussian() * 0.02D;
+					double d2 = this.peeEntity.getRandom().nextGaussian() * 0.02D;
+					((ServerWorld)this.peeEntity.level).sendParticles(ParticleTypes.HEART, this.peeEntity.getRandomX(1.0D), this.peeEntity.getRandomY() + 0.5D, this.peeEntity.getRandomZ(1.0D), 7, -d0, -d1, -d2, 0.5);
+				}*/
+				this.pee(peeSpot);
+			}
 		}
 
 	}
 
 	private BlockPos getPosOfBestBlock(BlockPos pos) {
-		BlockPos bestPos = pos;
 		ArrayList<BlockPos> shavingsPos = new ArrayList<>();
 		ArrayList<BlockPos> peePos = new ArrayList<>();
 		ArrayList<BlockPos> grassBlocks = new ArrayList<>();
