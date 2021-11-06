@@ -120,6 +120,9 @@ public class NonParallelBlock extends HorizontalBlock {
 			}
 			case SINGLE: {
 				if (facing == stateIn.getValue(FACING)) {
+					if (!(facingState.getBlock() instanceof NonParallelBlock)) {
+						return stateIn;
+					}
 					if (worldIn.getBlockState(currentPos.relative(facingState.getValue(FACING).getCounterClockWise())).getBlock() instanceof NonParallelBlock) {
 						return stateIn.setValue(FACING, facingState.getValue(FACING)).setValue(PART, SWEMBlockStateProperties.TwoWay.RIGHT);
 					} else if (worldIn.getBlockState(currentPos.relative(facingState.getValue(FACING).getClockWise())).getBlock() instanceof NonParallelBlock) {

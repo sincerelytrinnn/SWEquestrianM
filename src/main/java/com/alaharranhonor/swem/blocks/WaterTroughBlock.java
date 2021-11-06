@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.blocks;
 
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -186,7 +187,7 @@ public class WaterTroughBlock extends NonParallelBlock {
 		int connections = 0;
 		for (int i = 1; i < 5; i++) {
 			BlockState checkState = world.getBlockState(pos.relative(dir.getClockWise(), i));
-			if (checkState.isAir()) {
+			if (checkState.getBlock() != SWEMBlocks.WATER_TROUGH.get()) {
 				break;
 			}
 			if (checkState.getValue(NonParallelBlock.PART) != SWEMBlockStateProperties.TwoWay.RIGHT) {
@@ -280,7 +281,7 @@ public class WaterTroughBlock extends NonParallelBlock {
 		int connections = 0;
 		for (int i = 1; i < 5; i++) {
 			BlockState checkState = world.getBlockState(pos.relative(dir.getCounterClockWise(), i));
-			if (checkState.isAir()) {
+			if (checkState.getBlock() != SWEMBlocks.WATER_TROUGH.get()) {
 				break;
 			}
 			if (checkState.getValue(NonParallelBlock.PART) != SWEMBlockStateProperties.TwoWay.LEFT) {
@@ -353,7 +354,9 @@ public class WaterTroughBlock extends NonParallelBlock {
 	@Override
 	public void setPlacedBy(World pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
 		super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
-		this.splitWater(pState, pLevel, pPos);
+		if (pState.getValue(LEVEL) > 0) {
+			this.splitWater(pState, pLevel, pPos);
+		}
 
 	}
 }
