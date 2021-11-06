@@ -47,8 +47,8 @@ public class HungerNeed {
 
 	public HungerNeed(SWEMHorseEntityBase horse) {
 		this.horse = horse;
-		this.setState(HungerState.FULLY_FED);
-		this.tickCounter = 192_000;
+		this.setState(HungerState.HUNGRY);
+		this.tickCounter = 144_000; //192_000;
 	}
 
 
@@ -97,12 +97,12 @@ public class HungerNeed {
 		if (this.state != HungerState.FULLY_FED) {
 			this.points -= this.state.getPointsRequired();
 			HungerState nextState = this.getNextState();
+			this.setStateById(nextState.ordinal());
 			if (nextState == HungerState.FULLY_FED) {
 				this.tickCounter = 192_000;
 			} else {
-				this.tickCounter = nextState.getTickAmountChange();
+				this.tickCounter = getNextState().tickAmountChange;
 			}
-			this.setStateById(nextState.ordinal());
 		}
 	}
 
