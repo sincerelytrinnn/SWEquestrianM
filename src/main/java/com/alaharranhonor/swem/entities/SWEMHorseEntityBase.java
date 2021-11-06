@@ -166,11 +166,11 @@ public class SWEMHorseEntityBase
 	@Override
 	protected void registerGoals() {
 		// TODO: ADD AI TO FOLLOW WHISTLE POSITION AS TOP PRIORITY
-		this.peeGoal = new PeeGoal(this);
+		this.peeGoal = new PeeGoal(this, 4.0d);
 		this.poopGoal = new PoopGoal(this);
 		//this.goalSelector.addGoal(0, new SwimGoal(this));
 		this.goalSelector.addGoal(1, new PanicStraightGoal(this, 4.0D));
-		this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 1.2D));
+		this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 4.0D));
 		//this.goalSelector.addGoal(2, new BreedGoal(this, 1.0d));
 		//this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, TEMPTATION_ITEMS, false));
 		//this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.0D));
@@ -180,8 +180,8 @@ public class SWEMHorseEntityBase
 		this.goalSelector.addGoal(6, new HorseWaterAvoidingRandomWalkingGoal(this, 4.0D)); //Speed 4.0 looks like a good speed, plus it triggers anim.
 		//this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
-		this.goalSelector.addGoal(8, new LookForFoodGoal(this, 4.0d));
-		this.goalSelector.addGoal(8, new LookForWaterGoal(this, 4.0d));
+		//this.goalSelector.addGoal(8, new LookForFoodGoal(this, 4.0d));
+		//this.goalSelector.addGoal(8, new LookForWaterGoal(this, 4.0d));
 		this.goalSelector.addGoal(9, new EatGrassGoal(this));
 	}
 
