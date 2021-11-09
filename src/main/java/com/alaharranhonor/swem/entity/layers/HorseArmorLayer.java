@@ -47,7 +47,7 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 					packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
 			);
 
-			if (armorItem.tier == SWEMHorseArmorItem.HorseArmorTier.AMETHYST) {
+			if (armorItem.tier == SWEMHorseArmorItem.HorseArmorTier.AMETHYST && entitylivingbaseIn.isFlying()) {
 
 				// Check the Client settings for if they want to render the wings or not.
 
