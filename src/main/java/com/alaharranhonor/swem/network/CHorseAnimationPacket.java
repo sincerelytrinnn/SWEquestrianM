@@ -7,49 +7,46 @@ import io.netty.buffer.ByteBufUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
-import org.apache.logging.log4j.core.jmx.Server;
 
-import java.util.UUID;
 import java.util.function.Supplier;
 
-public class SHorseAnimationPacket {
+public class CHorseAnimationPacket {
 	private int entityID;
 	private int action;
 
 	private boolean failed;
 
-	public SHorseAnimationPacket(int entityID, int action) {
+	public CHorseAnimationPacket(int entityID, int action) {
 		this.entityID = entityID;
 		this.action = action;
 		this.failed = false;
 	}
 
-	public SHorseAnimationPacket(boolean failed) {
+	public CHorseAnimationPacket(boolean failed) {
 		this.failed = failed;
 	}
 
-	public static SHorseAnimationPacket decode(ByteBuf buf) {
+	public static CHorseAnimationPacket decode(ByteBuf buf) {
 		try {
 			int entityID = buf.readInt();
 			int action = buf.readInt();
-			return new SHorseAnimationPacket( entityID, action);
+			return new CHorseAnimationPacket( entityID, action);
 		} catch (IndexOutOfBoundsException e) {
-			SWEM.LOGGER.error("SHorseAnimationPacket: Unexpected end of packet.\nMessage: " + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()), e);
-			return new SHorseAnimationPacket(true);
+			SWEM.LOGGER.error("CHorseAnimationPacket: Unexpected end of packet.\nMessage: " + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()), e);
+			return new CHorseAnimationPacket(true);
 		}
 	}
 
-	public static void encode(SHorseAnimationPacket msg, PacketBuffer buffer) {
+	public static void encode(CHorseAnimationPacket msg, PacketBuffer buffer) {
 		buffer.writeInt(msg.entityID);
 		buffer.writeInt(msg.action);
 	}
 
-	public static void handle(SHorseAnimationPacket msg, Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(CHorseAnimationPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			ServerPlayerEntity player = ctx.get().getSender();
+			ClientPlayerEntity player = Minecraft.getInstance().player;
 			Entity entity = player.level.getEntity(msg.entityID);
 			if (!(entity instanceof SWEMHorseEntityBase)) {
 				return;
