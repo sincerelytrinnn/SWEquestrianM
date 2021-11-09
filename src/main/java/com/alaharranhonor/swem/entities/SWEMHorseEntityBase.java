@@ -1971,8 +1971,13 @@ public class SWEMHorseEntityBase
 			this.currentSpeed = HorseSpeed.GALLOP;
 		}
 		else if (oldSpeed == HorseSpeed.TROT) {
-			if (this.needs.getThirst().getState() == ThirstNeed.ThirstState.EXICCOSIS || this.needs.getHunger().getState() == HungerNeed.HungerState.STARVING) {
+			if (this.needs.getThirst().getState() == ThirstNeed.ThirstState.EXICCOSIS) {
 				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)), new ClientStatusMessagePacket(1, 0, new ArrayList<>()));
+				return;
+			}
+
+			if (this.needs.getHunger().getState() == HungerNeed.HungerState.STARVING) {
+				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)), new ClientStatusMessagePacket(3, 0, new ArrayList<>()));
 				return;
 			}
 

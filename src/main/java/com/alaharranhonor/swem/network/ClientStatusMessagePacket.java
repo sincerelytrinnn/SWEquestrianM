@@ -67,6 +67,10 @@ public class ClientStatusMessagePacket {
 					Minecraft.getInstance().player.displayClientMessage(new TranslationTextComponent("swem.status.tack_box_not_bound"), true);
 					break;
 				}
+				case 3: {
+					Minecraft.getInstance().player.displayClientMessage(new TranslationTextComponent("swem.horse.status.too_hungry_to_canter"), true);
+					break;
+				}
 			}
 
 		});
