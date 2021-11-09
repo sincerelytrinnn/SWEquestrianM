@@ -535,8 +535,8 @@
       "swem:whitewash_stairs",
       "swem:whitewash_stairs_plank",
       "swem:whitewash_trapdoor",
-      "swem:whitewash_pasture_fence",
-      "swem:whitewash_western_fence",
+      "swem:pasture_fence_whitewash",
+      "swem:western_fence_whitewash",
       "swem:wire",
       "swem:wood_coil"
     ]
