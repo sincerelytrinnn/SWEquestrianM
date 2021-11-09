@@ -66,8 +66,8 @@ public class DevCommand {
 									if (riding instanceof SWEMHorseEntityBase) {
 										SWEMHorseEntityBase horse = (SWEMHorseEntityBase) riding;
 
-										for (int i = 0; i < 4; i++) {
-											horse.progressionManager.getAffinityLeveling().addXP(10000);
+										for (int i = 0; i < 13; i++) {
+											horse.progressionManager.getAffinityLeveling().addXP(20000);
 											horse.progressionManager.getJumpLeveling().addXP(10000);
 											horse.progressionManager.getHealthLeveling().addXP(10000);
 											horse.progressionManager.getSpeedLeveling().addXP(10000);
