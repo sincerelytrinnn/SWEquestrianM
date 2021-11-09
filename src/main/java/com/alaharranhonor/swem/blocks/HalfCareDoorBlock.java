@@ -73,14 +73,6 @@ public class HalfCareDoorBlock extends Block {
 
 	@Override
 	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		if (facing == Direction.DOWN) {
-			if (facingState == Blocks.AIR.defaultBlockState()) {
-				this.getAllDoorParts(stateIn, currentPos, (World) worldIn, !stateIn.getValue(OPEN)).stream().forEach((blockPos) -> {
-					((World) worldIn).setBlock(blockPos, Blocks.AIR.defaultBlockState(), 3);
-				});
-				return Blocks.AIR.defaultBlockState();
-			}
-		}
 
 		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 	}
