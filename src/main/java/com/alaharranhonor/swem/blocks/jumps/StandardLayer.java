@@ -3,10 +3,11 @@ package com.alaharranhonor.swem.blocks.jumps;
 import com.alaharranhonor.swem.blocks.SWEMBlockStateProperties;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 
 public enum StandardLayer {
 
-	NONE("None", SWEMBlocks.JUMP_STANDARD_NONE.get().defaultBlockState()),
+	NONE("None", Blocks.AIR.defaultBlockState()),
 	SCHOOLING("Schooling", SWEMBlocks.JUMP_STANDARD_SCHOOLING.get().defaultBlockState().setValue(JumpStandardBlock.STANDARD_PIECE, SWEMBlockStateProperties.TripleBlockSide.LEFT), SWEMBlocks.JUMP_STANDARD_SCHOOLING.get().defaultBlockState().setValue(JumpStandardBlock.STANDARD_PIECE, SWEMBlockStateProperties.TripleBlockSide.MIDDLE), SWEMBlocks.JUMP_STANDARD_SCHOOLING.get().defaultBlockState().setValue(JumpStandardBlock.STANDARD_PIECE, SWEMBlockStateProperties.TripleBlockSide.RIGHT)),
 	RADIAL("Radial", SWEMBlocks.JUMP_STANDARD_RADIAL.get().defaultBlockState().setValue(JumpStandardBlock.STANDARD_PIECE, SWEMBlockStateProperties.TripleBlockSide.LEFT), SWEMBlocks.JUMP_STANDARD_RADIAL.get().defaultBlockState().setValue(JumpStandardBlock.STANDARD_PIECE, SWEMBlockStateProperties.TripleBlockSide.MIDDLE), SWEMBlocks.JUMP_STANDARD_RADIAL.get().defaultBlockState().setValue(JumpStandardBlock.STANDARD_PIECE, SWEMBlockStateProperties.TripleBlockSide.RIGHT)),
 	VERTICAL_SLAT("Vertical Slat", SWEMBlocks.JUMP_STANDARD_VERTICAL_SLAT.get().defaultBlockState().setValue(JumpStandardBlock.STANDARD_PIECE, SWEMBlockStateProperties.TripleBlockSide.LEFT), SWEMBlocks.JUMP_STANDARD_VERTICAL_SLAT.get().defaultBlockState().setValue(JumpStandardBlock.STANDARD_PIECE, SWEMBlockStateProperties.TripleBlockSide.MIDDLE), SWEMBlocks.JUMP_STANDARD_VERTICAL_SLAT.get().defaultBlockState().setValue(JumpStandardBlock.STANDARD_PIECE, SWEMBlockStateProperties.TripleBlockSide.RIGHT));

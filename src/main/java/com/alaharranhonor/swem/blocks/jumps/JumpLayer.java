@@ -15,7 +15,7 @@ public enum JumpLayer {
 
 	AIR("Air", Blocks.AIR.defaultBlockState(), 1,1, 5, false, new ArrayList<>()),
 
-	NONE("None", SWEMBlocks.JUMP_NONE.get().defaultBlockState(), 1, 5, 1, false, new ArrayList<>()),
+	NONE("None", Blocks.AIR.defaultBlockState(), 1, 5, 1, false, new ArrayList<>()),
 
 	LOG("Log", SWEMBlocks.JUMP_LOG.get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.LEFT), SWEMBlocks.JUMP_LOG.get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.MIDDLE), 1, 1, 1, false, new ArrayList<>()),
 	CAVALETTI("Cavaletti", SWEMBlocks.CAVALETTIS.get(0).get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.LEFT),SWEMBlocks.CAVALETTIS.get(0).get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.MIDDLE), 1, 1, 1, true, SWEMBlocks.CAVALETTIS),
