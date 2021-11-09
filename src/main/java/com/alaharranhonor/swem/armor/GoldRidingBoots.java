@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -11,10 +12,17 @@ import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.text.Color;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.world.World;
 
 
 import net.minecraft.item.Item.Properties;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class GoldRidingBoots extends IronRidingBoots {
 	public GoldRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
@@ -24,6 +32,11 @@ public class GoldRidingBoots extends IronRidingBoots {
 	@Override
 	public void onCraftedBy(ItemStack stack, World worldIn, PlayerEntity playerIn) {
 		super.onCraftedBy(stack, worldIn, playerIn);
+	}
+
+	@Override
+	public void appendHoverText(ItemStack p_77624_1_, @Nullable World p_77624_2_, List<ITextComponent> p_77624_3_, ITooltipFlag p_77624_4_) {
+		p_77624_3_.add(new StringTextComponent("Ice, Ice baby.").setStyle(Style.EMPTY.withColor(Color.parseColor("#585858"))));
 	}
 
 	@Override
