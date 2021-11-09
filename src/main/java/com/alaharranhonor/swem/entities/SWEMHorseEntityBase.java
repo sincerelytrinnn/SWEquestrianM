@@ -1317,12 +1317,7 @@ public class SWEMHorseEntityBase
 		if (this.isFlying()) {
 			return;
 		} else {
-			if (this.isStanding()
-					&& this.getLastDamageSource() != DamageSource.IN_FIRE
-					&& this.getLastDamageSource() != DamageSource.LAVA
-					&& this.getLastDamageSource() != DamageSource.DROWN
-					&& this.getLastDamageSource() != DamageSource.ON_FIRE
-					&& this.getLastDamageSource() != DamageSource.HOT_FLOOR) return;
+			if (this.isStanding()) return;
 
 
 			if (this.isVehicle() && this.canBeControlledByRider() && this.isHorseSaddled()) {
@@ -2153,6 +2148,9 @@ public class SWEMHorseEntityBase
 
 		if (this.level.isClientSide)
 			SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
+		else {
+			SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new CHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
+		}
 	}
 
 	public boolean isBlanket(ItemStack stack) {
