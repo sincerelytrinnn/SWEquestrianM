@@ -115,6 +115,17 @@ public class RiderEntity implements IAnimatable {
 				}
 			}
 
+			if (horse.isStanding()) {
+				if (anim != null) {
+					if (anim.animationName.equals("RearPlayer") || anim.animationName.equals("BuckPlayer")) {
+						return PlayState.CONTINUE;
+					}
+				}
+				event.getController().setAnimation(new AnimationBuilder().addAnimation(horse.getStandVariant() == 2 ? "BuckPlayer" : "RearPlayer"));
+
+				return PlayState.CONTINUE;
+			}
+
 			float limbSwingAmount = MathHelper.lerp(event.getPartialTick(), horse.animationSpeedOld, horse.animationSpeed);
 
 			boolean isMoving = limbSwingAmount <= -0.15F || limbSwingAmount >= 0.15F;
