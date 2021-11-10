@@ -185,6 +185,10 @@ public class PaddockFeederBlock extends Block {
 				level++;
 				worldIn.setBlock(pos1, state1.setValue(LEVEL, MathHelper.clamp(level, 0, 3)), 3);
 				worldIn.setBlock(posOther, stateOther.setValue(LEVEL, MathHelper.clamp(level, 0, 3)), 3);
+
+				if (!player.isCreative())
+					stack.shrink(1);
+
 				return ActionResultType.CONSUME;
 			} else {
 				return ActionResultType.FAIL;
