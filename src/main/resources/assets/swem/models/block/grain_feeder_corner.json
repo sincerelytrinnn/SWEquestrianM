@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
-		"2": "swem:blocks/transparent_16_16"
+		"2": "swem:blocks/sweet_feed"
 	},
 	"elements": [
 		{
@@ -121,26 +121,13 @@
 				"up": {"uv": [8, 4, 4.5, 3.5], "rotation": 180, "texture": "#0"},
 				"down": {"uv": [8, 4, 4.5, 4.5], "rotation": 180, "texture": "#0"}
 			}
-		},
-		{
-			"from": [1, 6, 1],
-			"to": [8, 7, 8],
-			"rotation": {"angle": 0, "axis": "y", "origin": [4, 6, 5]},
-			"faces": {
-				"north": {"uv": [0, 0, 3.5, 0.5], "texture": "#2"},
-				"east": {"uv": [0, 0, 3.5, 0.5], "texture": "#2"},
-				"south": {"uv": [0, 0, 3.5, 0.5], "texture": "#2"},
-				"west": {"uv": [0, 0, 3.5, 0.5], "texture": "#2"},
-				"up": {"uv": [0, 0, 7, 7], "rotation": 180, "texture": "#2"},
-				"down": {"uv": [0, 0, 3.5, 3.5], "rotation": 180, "texture": "#2"}
-			}
 		}
 	],
 	"groups": [
 		{
 			"name": "grainfeedercorner",
 			"origin": [8, 8, 8],
-			"children": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+			"children": [0, 1, 2, 3, 4, 5, 6, 7, 8]
 		}
 	]
 }
