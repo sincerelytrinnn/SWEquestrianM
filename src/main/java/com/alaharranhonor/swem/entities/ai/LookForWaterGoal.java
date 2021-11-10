@@ -1,9 +1,14 @@
 package com.alaharranhonor.swem.entities.ai;
 
+import com.alaharranhonor.swem.blocks.HalfBarrelBlock;
+import com.alaharranhonor.swem.blocks.WaterTroughBlock;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.ArrayList;
 
 public class LookForWaterGoal extends Goal {
 
@@ -13,9 +18,7 @@ public class LookForWaterGoal extends Goal {
 
 	private BlockPos foundWater;
 
-	private int tickTimer;
-
-	private int timesSearched;
+	private int movingTimer;
 
 	public LookForWaterGoal(SWEMHorseEntityBase entityIn, double speed) {
 	 	this.horse = entityIn;
@@ -29,7 +32,7 @@ public class LookForWaterGoal extends Goal {
 	 */
 	@Override
 	public boolean canUse() {
-		return this.horse.getNeeds().getThirst().getState().getId() < 3;
+		return this.horse.getNeeds().getThirst().getState().getId() < 3 && this.horse.getPassengers().isEmpty() && !this.horse.getNeeds().getThirst().isOnCooldown();
 
 	}
 
@@ -39,7 +42,6 @@ public class LookForWaterGoal extends Goal {
 	@Override
 	public void start() {
 		this.horse.getNavigation().stop();
-		this.tickTimer = 0;
 		SWEMHorseEntityBase.HorseSpeed oldSpeed = this.horse.currentSpeed;
 		this.horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
 		this.horse.updateSelectedSpeed(oldSpeed);
@@ -51,7 +53,7 @@ public class LookForWaterGoal extends Goal {
 	@Override
 	public void stop() {
 		this.foundWater = null;
-		this.tickTimer = 0;
+		this.movingTimer = 0;
 	}
 
 	/**
@@ -59,7 +61,7 @@ public class LookForWaterGoal extends Goal {
 	 */
 	@Override
 	public boolean canContinueToUse() {
-		return this.horse.getNeeds().getThirst().getState().getId() < 3;
+		return this.horse.getNeeds().getThirst().getState().getId() < 3 && this.horse.getPassengers().isEmpty() && !this.horse.getNeeds().getThirst().isOnCooldown();
 	}
 
 	/**
@@ -67,38 +69,69 @@ public class LookForWaterGoal extends Goal {
 	 */
 	@Override
 	public void tick() {
-		if (this.tickTimer % 3600 == 0) {
-			this.timesSearched = 0;
+		if (this.horse.getNeeds().getThirst().isOnCooldown()) {
+			this.stop();
 		}
-		if ((this.tickTimer % 100 == 0 && this.timesSearched < 4) || foundWater != null) {
-			if (foundWater == null) {
-				BlockPos entityPos = this.horse.blockPosition();
-				for (int i = -3; i < 4; i++) { // X Cord.
-					for (int j = -3; j < 4; j++) { // Z Cord
-						for (int k = -1; k < 2; k++) { // k = y
-							BlockPos checkState = entityPos.offset(i, j, k);
-							if (this.horse.level.getBlockState(checkState) == Blocks.WATER.defaultBlockState()) {
-								this.foundWater = checkState;
-								break;
+		if (foundWater == null) {
+
+			ArrayList<BlockPos> waterPools = new ArrayList<>();
+			ArrayList<BlockPos> halfBarrels = new ArrayList<>();
+			ArrayList<BlockPos> waterTroughs = new ArrayList<>();
+			BlockPos entityPos = this.horse.blockPosition();
+			for (int i = -3; i < 4; i++) { // X Cord.
+				for (int j = -3; j < 4; j++) { // Z Cord
+					for (int k = -1; k < 2; k++) { // Y cord
+						BlockPos checkPos = entityPos.offset(i, k, j);
+						BlockState checkState = this.horse.level.getBlockState(checkPos);
+						if (checkState.isAir()) continue;
+
+						if (checkState.getBlock() == Blocks.WATER) {
+							waterPools.add(checkPos);
+						} else if (checkState.getBlock() instanceof HalfBarrelBlock) {
+							if (checkState.getValue(HalfBarrelBlock.LEVEL) > 0) {
+								halfBarrels.add(checkPos);
+							}
+						} else if (checkState.getBlock() instanceof WaterTroughBlock) {
+							if (checkState.getValue(WaterTroughBlock.LEVEL) > 0) {
+								waterTroughs.add(checkPos);
 							}
 						}
 					}
 				}
-				this.timesSearched++;
-				if (foundWater == null) {
-					this.horse.getNavigation().moveTo(entityPos.getX() + this.horse.getRandom().nextInt(14) - 7, entityPos.getY(), this.horse.getRandom().nextInt(14) - 7, this.speed);
-				}
-			} else {
-				if (this.horse.blockPosition().closerThan(this.foundWater, 2)) {
+			}
+
+			this.foundWater = !waterTroughs.isEmpty() ? waterTroughs.get(this.horse.getRandom().nextInt(waterTroughs.size()))
+					: !halfBarrels.isEmpty() ? halfBarrels.get(this.horse.getRandom().nextInt(halfBarrels.size()))
+					: !waterPools.isEmpty() ? waterPools.get(this.horse.getRandom().nextInt(waterPools.size()))
+					: null;
+
+			if (foundWater == null) {
+				this.horse.getNavigation().moveTo(entityPos.getX() + this.horse.getRandom().nextInt(14) - 7, entityPos.getY(), this.horse.getRandom().nextInt(14) - 7, this.speed);
+				this.stop();
+			}
+		} else {
+			this.movingTimer++;
+			if (this.horse.blockPosition().closerThan(this.foundWater, 2)) {
+				BlockState foundState = this.horse.level.getBlockState(this.foundWater);
+				if (foundState.getBlock() instanceof WaterTroughBlock) {
+					((WaterTroughBlock) foundState.getBlock()).setWaterLevel(this.horse.level, this.foundWater, foundState, true);
 					this.horse.getNeeds().getThirst().incrementState();
+				} else if (foundState.getBlock() instanceof HalfBarrelBlock) {
+					((HalfBarrelBlock) foundState.getBlock()).setWaterLevel(this.horse.level, this.foundWater, foundState, foundState.getValue(HalfBarrelBlock.LEVEL) - 1);
+					this.horse.getNeeds().getThirst().incrementState();
+				} else if (foundState.getBlock() == Blocks.WATER) {
+					this.horse.level.setBlock(foundWater, Blocks.AIR.defaultBlockState(), 3);
+					this.horse.getNeeds().getThirst().incrementState();
+				}
+
+				this.stop();
+			} else {
+				if (this.movingTimer >= 200) {
+					this.stop();
 				} else {
 					this.horse.getNavigation().moveTo(foundWater.getX(), foundWater.getY(), foundWater.getZ(), this.speed);
 				}
-
 			}
-			this.tickTimer++;
-		} else {
-			this.tickTimer++;
 		}
 
 	}
