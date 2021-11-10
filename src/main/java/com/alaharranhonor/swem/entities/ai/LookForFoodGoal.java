@@ -37,7 +37,7 @@ public class LookForFoodGoal extends Goal {
 	 */
 	@Override
 	public boolean canUse() {
-		return this.horse.getNeeds().getHunger().getState().getId() < 3;
+		return this.horse.getNeeds().getHunger().getState().getId() < 3 && this.horse.getPassengers().isEmpty();
 
 	}
 
@@ -66,7 +66,7 @@ public class LookForFoodGoal extends Goal {
 	 */
 	@Override
 	public boolean canContinueToUse() {
-		return this.horse.getNeeds().getHunger().getState().getId() < 3;
+		return this.horse.getNeeds().getHunger().getState().getId() < 3 && this.horse.getPassengers().isEmpty();
 	}
 
 	/**
@@ -74,9 +74,6 @@ public class LookForFoodGoal extends Goal {
 	 */
 	@Override
 	public void tick() {
-		if (foundFood != null) {
-			this.movingTimer++;
-		}
 		if (foundFood == null) {
 			ArrayList<BlockPos> grassPos = new ArrayList<>();
 			ArrayList<BlockPos> qualityBalePos = new ArrayList<>();
@@ -121,6 +118,7 @@ public class LookForFoodGoal extends Goal {
 				this.horse.getNavigation().moveTo(entityPos.getX() + this.horse.getRandom().nextInt(14) - 7, entityPos.getY(), this.horse.getRandom().nextInt(14) - 7, this.speed);
 			}
 		} else {
+			this.movingTimer++;
 			if (this.horse.blockPosition().closerThan(this.foundFood, 2)) {
 				BlockState foundState = this.horse.level.getBlockState(this.foundFood);
 				if (foundState.getBlock() == Blocks.GRASS_BLOCK) {
