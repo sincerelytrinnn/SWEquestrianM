@@ -6,6 +6,7 @@ import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.material.PushReaction;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;

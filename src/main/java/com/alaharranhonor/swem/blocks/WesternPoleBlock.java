@@ -3,6 +3,7 @@ package com.alaharranhonor.swem.blocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.material.PushReaction;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -83,5 +84,10 @@ public class WesternPoleBlock extends Block {
 	@Override
 	public boolean canSurvive(BlockState pState, IWorldReader pLevel, BlockPos pPos) {
 		return pLevel.getBlockState(pPos).isAir() && pLevel.getBlockState(pPos.above()).isAir() && pLevel.getBlockState(pPos.above(2)).isAir();
+	}
+
+	@Override
+	public PushReaction getPistonPushReaction(BlockState pState) {
+		return PushReaction.BLOCK;
 	}
 }

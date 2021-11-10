@@ -2,6 +2,7 @@ package com.alaharranhonor.swem.blocks;
 
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.*;
+import net.minecraft.block.material.PushReaction;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.DyeColor;
 import net.minecraft.state.EnumProperty;
@@ -165,6 +166,11 @@ public class NonParallelBlock extends HorizontalBlock {
 		}
 		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 
+	}
+
+	@Override
+	public PushReaction getPistonPushReaction(BlockState pState) {
+		return PushReaction.BLOCK;
 	}
 
 	@Override

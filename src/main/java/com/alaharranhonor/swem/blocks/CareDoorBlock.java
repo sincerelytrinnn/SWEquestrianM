@@ -779,8 +779,9 @@ public class CareDoorBlock extends Block {
 	}
 
 
-	public PushReaction getPushReaction(BlockState state) {
-		return PushReaction.DESTROY;
+	@Override
+	public PushReaction getPistonPushReaction(BlockState pState) {
+		return PushReaction.BLOCK;
 	}
 
 

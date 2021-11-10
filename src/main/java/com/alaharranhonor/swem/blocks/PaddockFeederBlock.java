@@ -94,10 +94,6 @@ public class PaddockFeederBlock extends Block {
 		super.playerWillDestroy(worldIn, pos, state, player);
 		if (!worldIn.isClientSide) {
 
-			this.getAllParts(state, pos, worldIn).stream().forEach((blockPos) -> {
-				worldIn.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 35);
-			});
-
 			BlockState state1 = state;
 			if (state.getValue(HALF) == DoubleBlockHalf.LOWER) {
 				state1 = worldIn.getBlockState(pos.above());
@@ -107,7 +103,14 @@ public class PaddockFeederBlock extends Block {
 				ItemEntity itemEntity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get(), level));
 				worldIn.addFreshEntity(itemEntity);
 			}
+			this.getAllParts(state, pos, worldIn).stream().forEach((blockPos) -> {
+				worldIn.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 35);
+			});
+
 		}
+
+		if (!player.isCreative())
+			dropResources(state, worldIn, pos);
 
 	}
 
@@ -235,11 +238,10 @@ public class PaddockFeederBlock extends Block {
 		});
 	}
 
-
-	public PushReaction getPushReaction(BlockState state) {
-		return PushReaction.DESTROY;
+	@Override
+	public PushReaction getPistonPushReaction(BlockState pState) {
+		return PushReaction.BLOCK;
 	}
-
 
 	public BlockState rotate(BlockState state, Rotation rot) {
 		return state.setValue(FACING, rot.rotate(state.getValue(FACING)));

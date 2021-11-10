@@ -694,7 +694,7 @@ public class HalfCareDoorBlock extends Block {
 
 
 	public PushReaction getPistonPushReaction(BlockState state) {
-		return PushReaction.DESTROY;
+		return PushReaction.BLOCK;
 	}
 
 

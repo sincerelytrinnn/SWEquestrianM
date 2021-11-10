@@ -590,8 +590,9 @@ public class HorseDoorBlock extends Block{
 	}
 
 
-	public PushReaction getPistonPushReaction(BlockState state) {
-		return PushReaction.DESTROY;
+	@Override
+	public PushReaction getPistonPushReaction(BlockState pState) {
+		return PushReaction.BLOCK;
 	}
 
 
