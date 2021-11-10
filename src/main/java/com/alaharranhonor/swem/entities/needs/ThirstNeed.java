@@ -13,6 +13,7 @@ public class ThirstNeed {
 
 	private SWEMHorseEntityBase horse;
 	private int tickCounter;
+	private int drinkingCoolDown;
 
 	public ThirstNeed(SWEMHorseEntityBase horse) {
 		this.horse = horse;
@@ -23,6 +24,8 @@ public class ThirstNeed {
 	public void tick() {
 		if (this.tickCounter == 0) return;
 		this.tickCounter--;
+
+		this.drinkingCoolDown = Math.max(0, this.drinkingCoolDown - 1);
 
 		if (this.tickCounter <= this.state.getTickAmountChange() && this.state != ThirstState.EXICCOSIS) {
 			this.setStateById(this.state.getId() - 1);
@@ -36,9 +39,14 @@ public class ThirstNeed {
 			if (this.state == ThirstState.QUENCHED) {
 				this.tickCounter = 96_000;
 			} else {
-				this.tickCounter = this.state.getTickAmountChange();
+				this.tickCounter = getNextState().getTickAmountChange();
 			}
 		}
+		this.drinkingCoolDown = 100;
+	}
+
+	public boolean isOnCooldown() {
+		return this.drinkingCoolDown > 0;
 	}
 
 	public ThirstState getState() {
@@ -83,7 +91,7 @@ public class ThirstNeed {
 		this.state.setHorse(this.horse);
 	}
 
-	private void setStateById(int id) {
+	public void setStateById(int id) {
 		switch(id) {
 			case 0: {
 				this.setState(ThirstState.EXICCOSIS);
