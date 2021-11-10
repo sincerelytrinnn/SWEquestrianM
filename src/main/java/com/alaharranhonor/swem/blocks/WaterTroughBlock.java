@@ -129,7 +129,7 @@ public class WaterTroughBlock extends NonParallelBlock {
 		System.out.println("Added " + levelToAdd + " water.");
 
 		for (int i = 0; i < states.size(); i++) {
-			worldIn.setBlock(positions.get(i), states.get(i).setValue(LEVEL, MathHelper.clamp(setLevel, 0, 16)), 3);
+			worldIn.setBlock(positions.get(i), states.get(i).setValue(LEVEL, MathHelper.clamp(setLevel, 0, 16)), 19);
 		}
 
 
@@ -241,6 +241,8 @@ public class WaterTroughBlock extends NonParallelBlock {
 			if (checkState.isAir()) {
 				break;
 			}
+			if (!(checkState.getBlock() instanceof WaterTroughBlock)) break;
+			if (checkState.getValue(FACING).getAxis() != state.getValue(FACING).getAxis()) break;
 			if (checkState.getValue(NonParallelBlock.PART) != (fromLeft ? SWEMBlockStateProperties.TwoWay.RIGHT : SWEMBlockStateProperties.TwoWay.LEFT)) {
 				states.add(checkState);
 			} else if (checkState.getValue(NonParallelBlock.PART) == (fromLeft ? SWEMBlockStateProperties.TwoWay.RIGHT : SWEMBlockStateProperties.TwoWay.LEFT)) {
@@ -263,6 +265,8 @@ public class WaterTroughBlock extends NonParallelBlock {
 			if (checkState.isAir()) {
 				break;
 			}
+			if (!(checkState.getBlock() instanceof WaterTroughBlock)) break;
+			if (checkState.getValue(FACING).getAxis() != state.getValue(FACING).getAxis()) break;
 			if (checkState.getValue(NonParallelBlock.PART) != (fromLeft ? SWEMBlockStateProperties.TwoWay.RIGHT : SWEMBlockStateProperties.TwoWay.LEFT)) {
 				positions.add(checkPos);
 			} else if (checkState.getValue(NonParallelBlock.PART) == (fromLeft ? SWEMBlockStateProperties.TwoWay.RIGHT : SWEMBlockStateProperties.TwoWay.LEFT)){
