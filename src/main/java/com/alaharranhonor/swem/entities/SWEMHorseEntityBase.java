@@ -553,7 +553,14 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public void makeMad() {
-		super.makeMad();
+		if (!this.isStanding()) {
+			this.setStanding(true);
+			this.setStandingAnim();
+			SoundEvent soundevent = this.getAngrySound();
+			if (soundevent != null) {
+				this.playSound(soundevent, this.getSoundVolume(), this.getVoicePitch());
+			}
+		}
 	}
 
 	/**
