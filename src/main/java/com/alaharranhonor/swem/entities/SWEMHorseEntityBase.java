@@ -179,7 +179,7 @@ public class SWEMHorseEntityBase
 		this.goalSelector.addGoal(5, this.peeGoal);
 		this.goalSelector.addGoal(6, new HorseWaterAvoidingRandomWalkingGoal(this, 4.0D)); //Speed 4.0 looks like a good speed, plus it triggers anim.
 		this.goalSelector.addGoal(6, new LookForFoodGoal(this, 4.0d));
-		//this.goalSelector.addGoal(6, new LookForWaterGoal(this, 4.0d));
+		this.goalSelector.addGoal(6, new LookForWaterGoal(this, 4.0d));
 		//this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
 		this.goalSelector.addGoal(9, new EatGrassGoal(this));
@@ -1710,8 +1710,10 @@ public class SWEMHorseEntityBase
 
 
 			if (item == Items.WATER_BUCKET) {
-				SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(0, this.getId()));
-				playerEntity.setItemInHand(hand, ((BucketItem) item).getEmptySuccessItem(itemstack, playerEntity));
+				if (!this.level.isClientSide) {
+					this.getNeeds().getThirst().incrementState();
+					playerEntity.setItemInHand(hand, ((BucketItem) item).getEmptySuccessItem(itemstack, playerEntity));
+				}
 				return ActionResultType.sidedSuccess(this.level.isClientSide);
 			}
 
