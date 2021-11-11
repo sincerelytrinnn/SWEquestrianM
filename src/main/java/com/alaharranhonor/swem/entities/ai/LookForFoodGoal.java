@@ -154,7 +154,6 @@ public class LookForFoodGoal extends Goal {
 			if (this.horse.blockPosition().closerThan(this.foundFood, 2)) {
 				BlockState foundState = this.horse.level.getBlockState(this.foundFood);
 				if (foundState.getBlock() == Blocks.GRASS_BLOCK) {
-
 					this.horse.getNeeds().getHunger().addPoints(new ItemStack(Items.GRASS_BLOCK));
 					if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.horse.level, this.horse)) {
 						this.horse.level.levelEvent(2001, foundFood, Block.getId(Blocks.GRASS_BLOCK.defaultBlockState()));
