@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.entities.ai;
 
 import com.alaharranhonor.swem.blocks.GrainFeederBlock;
+import com.alaharranhonor.swem.blocks.PaddockFeederBlock;
 import com.alaharranhonor.swem.blocks.SlowFeederBlock;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
@@ -82,6 +83,7 @@ public class LookForFoodGoal extends Goal {
 			ArrayList<BlockPos> grassPos = new ArrayList<>();
 			ArrayList<BlockPos> qualityBalePos = new ArrayList<>();
 			ArrayList<BlockPos> slowFeederPos = new ArrayList<>();
+			ArrayList<BlockPos> paddockFeederPos = new ArrayList<>();
 			ArrayList<BlockPos> grainFeederPos = new ArrayList<>();
 			BlockPos entityPos = this.horse.blockPosition();
 			for (int i = -3; i < 4; i++) { // X Cord.
@@ -102,6 +104,12 @@ public class LookForFoodGoal extends Goal {
 								}
 
 							}
+						} else if (checkState.getBlock() instanceof PaddockFeederBlock) {
+							if (checkState.getValue(PaddockFeederBlock.LEVEL) > 0) {
+								if (this.horse.getNeeds().getHunger().getTimesFed(this.horse.getNeeds().getHunger().getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get()))) < this.horse.getNeeds().getHunger().getMaxTimesFed(this.horse.getNeeds().getHunger().getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get())))) {
+									paddockFeederPos.add(checkPos);
+								}
+							}
 						} else if (checkState.getBlock() instanceof GrainFeederBlock) {
 							if (checkState.getValue(GrainFeederBlock.OCCUPIED)) {
 								if (this.horse.getNeeds().getHunger().getTimesFed(this.horse.getNeeds().getHunger().getItemIndex(new ItemStack(SWEMItems.SWEET_FEED.get()))) < this.horse.getNeeds().getHunger().getMaxTimesFed(this.horse.getNeeds().getHunger().getItemIndex(new ItemStack(SWEMItems.SWEET_FEED.get())))) {
@@ -116,6 +124,7 @@ public class LookForFoodGoal extends Goal {
 			this.foundFood = !grainFeederPos.isEmpty() ? grainFeederPos.get(this.horse.getRandom().nextInt(grainFeederPos.size()))
 					: !slowFeederPos.isEmpty() ? slowFeederPos.get(this.horse.getRandom().nextInt(slowFeederPos.size()))
 					: !qualityBalePos.isEmpty() ? qualityBalePos.get(this.horse.getRandom().nextInt(qualityBalePos.size()))
+					: !paddockFeederPos.isEmpty() ? paddockFeederPos.get(this.horse.getRandom().nextInt(paddockFeederPos.size()))
 					: !grassPos.isEmpty() ? grassPos.get(this.horse.getRandom().nextInt(grassPos.size()))
 					: null;
 			if (foundFood == null) {
