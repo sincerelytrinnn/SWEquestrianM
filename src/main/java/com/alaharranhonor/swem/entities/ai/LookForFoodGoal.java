@@ -38,7 +38,7 @@ public class LookForFoodGoal extends Goal {
 	 */
 	@Override
 	public boolean canUse() {
-		return this.horse.getNeeds().getHunger().getState().getId() < 3 && this.horse.getPassengers().isEmpty();
+		return this.horse.getNeeds().getHunger().getState().getId() < 3 && this.horse.getPassengers().isEmpty() && this.horse.getLeashHolder() == null;
 
 	}
 
@@ -70,7 +70,7 @@ public class LookForFoodGoal extends Goal {
 	 */
 	@Override
 	public boolean canContinueToUse() {
-		return this.horse.getNeeds().getHunger().getState().getId() < 3 && this.horse.getPassengers().isEmpty();
+		return this.horse.getNeeds().getHunger().getState().getId() < 3 && this.horse.getPassengers().isEmpty() && this.horse.getLeashHolder() == null;
 	}
 
 	/**

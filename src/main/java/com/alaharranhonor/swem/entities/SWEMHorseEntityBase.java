@@ -273,7 +273,9 @@ public class SWEMHorseEntityBase
 		this.standAnimationTick = Math.max(0, this.standAnimationTick - 1);
 		if (!this.level.isClientSide) {
 			// Tick the animation timers.
-
+			if (this.getLeashHolder() instanceof PlayerEntity) {
+				this.getLookControl().setLookAt(this.getLeashHolder(), (float)this.getHeadRotSpeed(), (float)this.getMaxHeadXRot());
+			}
 			if (this.whistlePos != null) {
 				this.getNavigation().moveTo(whistlePos.getX(), whistlePos.getY(), whistlePos.getZ(), this.getSpeed());
 				if (this.blockPosition().closerThan(this.whistlePos, 2)) {
