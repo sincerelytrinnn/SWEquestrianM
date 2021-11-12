@@ -3,7 +3,6 @@ package com.alaharranhonor.swem.entities;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
-import com.alaharranhonor.swem.container.SaddlebagContainer;
 import com.alaharranhonor.swem.entities.ai.*;
 import com.alaharranhonor.swem.entities.needs.HungerNeed;
 import com.alaharranhonor.swem.entities.needs.NeedManager;
@@ -17,6 +16,7 @@ import com.alaharranhonor.swem.entity.coats.SWEMCoatColors;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.network.*;
+import com.alaharranhonor.swem.util.ClientEventHandlers;
 import com.alaharranhonor.swem.util.SWEMUtil;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
@@ -26,8 +26,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.command.impl.SummonCommand;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -41,7 +39,6 @@ import net.minecraft.entity.passive.horse.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
@@ -99,6 +96,7 @@ public class SWEMHorseEntityBase
 	public static final DataParameter<Boolean> JUMPING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<String> OWNER_NAME = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
 	private static final EntitySize JUMPING_SIZE = EntitySize.scalable(1.5f, 1.5f);
+	private static final DataParameter<Boolean> CAMERA_LOCK = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private static Random rand = new Random();
 
 	public final ProgressionManager progressionManager;
@@ -125,6 +123,11 @@ public class SWEMHorseEntityBase
 	private PoopGoal poopGoal;
 
 	private BlockPos whistlePos = null;
+
+	private float lockedXRot;
+	private float lockedYRot;
+	private double lockedXDir;
+	private double lockedZDir;
 
 	// Animation variables.
 	public double jumpHeight;
@@ -449,6 +452,8 @@ public class SWEMHorseEntityBase
 		this.getEntityData().define(isDiving, false);
 		this.entityData.define(PERMISSION_STRING, "ALL");
 		this.entityData.define(TRACKED, false);
+
+		this.entityData.define(CAMERA_LOCK, true);
 
 	}
 
@@ -1214,6 +1219,25 @@ public class SWEMHorseEntityBase
 			}
 
 
+		} else {
+			if (ClientEventHandlers.keyBindings[8].isDown() && this.isCameraLocked()) {
+				SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), false));
+				this.setLockedRotations(this.xRot, this.yRot);
+				float f;
+				float f1;
+				if (this.canBeControlledByRider()) {
+					PlayerEntity livingentity = (PlayerEntity) this.getControllingPassenger();
+					f = livingentity.xxa * 0.5F;
+					f1 = livingentity.zza;
+					this.setLockedDirections(f, f1);
+					System.out.println("I set the locked directions");
+				}
+
+				System.out.println("Unlocking camera");
+			} else if (!ClientEventHandlers.keyBindings[8].isDown() && !this.isCameraLocked()) {
+				SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), true));
+				System.out.println("Locking camera");
+			}
 		}
 		super.tick();
 		if (this.isInWater() && !this.isVehicle()) {
@@ -1332,12 +1356,6 @@ public class SWEMHorseEntityBase
 			if (this.isVehicle() && this.canBeControlledByRider() && this.isHorseSaddled()) {
 				PlayerEntity livingentity = (PlayerEntity) this.getControllingPassenger();
 
-				this.yRot = livingentity.yRot;
-				this.yRotO = this.yRot;
-				this.xRot = livingentity.xRot * 0.5F;
-				this.setRot(this.yRot, this.xRot);
-				this.yBodyRot = this.yRot;
-				this.yHeadRot = this.yBodyRot;
 				float f = livingentity.xxa * 0.5F;
 				float f1 = livingentity.zza;
 				if (f1 <= 0.0F) {
@@ -1420,7 +1438,16 @@ public class SWEMHorseEntityBase
 						// We multiply with a number close to 4, since in the AbstractHorseEntity it slows the backwards movement with * 0.25
 						// So we counter that, by check if it's negative, but still make it a bit slower than regular walking.
 					}
-					super.travel(new Vector3d((double) f, travelVector.y, (double) f1));
+
+					// Check for camera lock here
+
+					if (!this.isCameraLocked()) {
+						livingentity.xxa = (float) this.lockedXDir * 2f;
+						livingentity.zza = (float) this.lockedZDir;
+						super.travel(new Vector3d(this.lockedXDir, travelVector.y, this.lockedZDir));
+					} else {
+						super.travel(new Vector3d((double) f, travelVector.y, (double) f1));
+					}
 				} else if ((livingentity instanceof PlayerEntity)) {
 					this.setDeltaMovement(Vector3d.ZERO);
 				}
@@ -1439,11 +1466,56 @@ public class SWEMHorseEntityBase
 				if ((this.wasEyeInWater || this.fluidOnEyes == FluidTags.LAVA) && !flag && this.getDeltaMovement().y < 0) { // Check if the eyes is in water level, and we don't have a solid block the way we are facing. If not, then apply a inverse force, to float the horse.
 					this.setDeltaMovement(this.getDeltaMovement().multiply(1, -1.9, 1));
 				}
+
+				if (!this.isCameraLocked()) {
+					this.yRot = this.lockedYRot;
+					this.yRotO = this.yRot;
+					this.xRot = this.lockedXRot * 0.5F;
+					this.setRot(this.yRot, this.xRot);
+					this.yBodyRot = this.yRot;
+					this.yHeadRot = this.yBodyRot;
+				}
 			} else {
 				super.travel(travelVector);
 			}
+
+
 		}
 
+	}
+
+
+
+	public boolean isCameraLocked() {
+		return this.entityData.get(CAMERA_LOCK);
+	}
+
+	public void setCameraLock(boolean locked) {
+		this.entityData.set(CAMERA_LOCK, locked);
+		this.setLockedRotations(this.xRot, this.yRot);
+		if (this.canBeControlledByRider()) {
+			PlayerEntity livingentity = (PlayerEntity) this.getControllingPassenger();
+			float f = livingentity.xxa * 0.5F;
+			float f1 = livingentity.zza;
+			this.setLockedDirections(f, f1);
+			System.out.println("I set the locked directions");
+		}
+	}
+
+	public void setLockedRotations(float xRot, float yRot) {
+		this.lockedXRot = xRot;
+		this.lockedYRot = yRot;
+	}
+
+	public void setLockedDirections(double xDir, double zDir) {
+		this.lockedXDir = xDir;
+		this.lockedZDir = zDir;
+	}
+
+	@Override
+	public void moveRelative(float pAmount, Vector3d pRelative) {
+		Vector3d vector3d = getInputVector(pRelative, pAmount, this.isCameraLocked() ? this.yRot : this.lockedYRot);
+		this.setDeltaMovement(this.getDeltaMovement().add(vector3d));
 	}
 
 	@Override

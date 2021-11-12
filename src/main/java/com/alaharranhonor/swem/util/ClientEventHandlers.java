@@ -185,7 +185,7 @@ public class ClientEventHandlers {
 	}
 
 	public static void registerKeybinds() {
-		keyBindings = new KeyBinding[8];
+		keyBindings = new KeyBinding[9];
 
 		keyBindings[0] = new KeyBinding("key.swem.horse.increment", GLFW.GLFW_KEY_H, "key.swem.category");
 		keyBindings[1] = new KeyBinding("key.swem.horse.decrement", GLFW.GLFW_KEY_G, "key.swem.category");
@@ -193,10 +193,11 @@ public class ClientEventHandlers {
 		keyBindings[3] = new KeyBinding("key.swem.horse.toggle_flight", GLFW.GLFW_KEY_J, "key.swem.category");
 		keyBindings[4] = new KeyBinding("key.swem.horse.toggle_wings", GLFW.GLFW_KEY_PERIOD, "key.swem.category");
 		keyBindings[5] = new KeyBinding("key.swem.horse.dive_flight", GLFW.GLFW_KEY_X, "key.swem.category");
+		keyBindings[7] = new KeyBinding("key.swem.horse.toggle_saddlebag", GLFW.GLFW_KEY_L, "key.swem.category");
+		keyBindings[8] = new KeyBinding("key.swem.horse.camera_lock", GLFW.GLFW_KEY_LEFT_ALT, "key.swem.category");
 
 		//TODO: REMOVE ONCE SPEED HAS BEEN CONFIRMED
 		keyBindings[6] = new KeyBinding("key.swem.horse.check_speed", GLFW.GLFW_KEY_N, "key.swem.category");
-		keyBindings[7] = new KeyBinding("key.swem.horse.toggle_saddlebag", GLFW.GLFW_KEY_L, "key.swem.category");
 
 		for (int i = 0; i < keyBindings.length; i++) {
 			ClientRegistry.registerKeyBinding(keyBindings[i]);
