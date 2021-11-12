@@ -133,6 +133,7 @@ public class PeeGoal extends Goal {
 							&& checkState.getBlock() != SWEMBlocks.HORSE_PEE.get()
 							&& belowCheckState.getFluidState().isEmpty()
 							&& checkState.getFluidState().isEmpty()
+							&& belowCheckState.isFaceSturdy(this.entityWorld, belowCheck, Direction.UP)
 					) {
 						peePos.add(newPos);
 					}
