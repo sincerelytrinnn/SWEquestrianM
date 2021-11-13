@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.armor;
 
+import com.alaharranhonor.swem.SWEM;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -13,6 +14,9 @@ import net.minecraft.util.text.Style;
 import net.minecraft.world.World;
 
 import net.minecraft.item.Item.Properties;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -39,6 +43,20 @@ public class AmethystRidingBoots extends DiamondRidingBoots {
 		Vector3d motion = player.getDeltaMovement();
 		if (!player.isOnGround() && motion.y < 0.0D) {
 			player.setDeltaMovement(motion.multiply(1.0D, 0.7D, 1.0D));
+		}
+	}
+
+	@Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+	public static class AmethystRidingBootsEquipped {
+
+		@SubscribeEvent
+		public static void onFall(LivingFallEvent event) {
+			if (event.getEntityLiving() instanceof PlayerEntity) {
+				PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+				if (player.getItemBySlot(EquipmentSlotType.FEET).getItem() instanceof AmethystRidingBoots) {
+					event.setCanceled(true);
+				}
+			}
 		}
 	}
 }

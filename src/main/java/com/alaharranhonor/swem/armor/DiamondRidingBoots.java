@@ -66,12 +66,4 @@ public class DiamondRidingBoots extends GoldRidingBoots {
 		super.onArmorTick(stack, world, player);
 	}
 
-	@Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-	public static class AmethystRidingBootsEquipped {
-
-		@SubscribeEvent
-		public static void onFall(LivingFallEvent event) {
-			event.setCanceled(true);
-		}
-	}
 }
