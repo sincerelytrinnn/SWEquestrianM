@@ -26,6 +26,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -1220,23 +1221,26 @@ public class SWEMHorseEntityBase
 
 
 		} else {
-			if (ClientEventHandlers.keyBindings[8].isDown() && this.isCameraLocked()) {
-				SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), false));
-				this.setLockedRotations(this.xRot, this.yRot);
-				float f;
-				float f1;
-				if (this.canBeControlledByRider()) {
-					PlayerEntity livingentity = (PlayerEntity) this.getControllingPassenger();
-					f = livingentity.xxa * 0.5F;
-					f1 = livingentity.zza;
-					this.setLockedDirections(f, f1);
-					System.out.println("I set the locked directions");
-				}
+			if (Minecraft.getInstance().player.getVehicle() != null && Minecraft.getInstance().player.getVehicle().getUUID().equals(this.getUUID())) {
 
-				System.out.println("Unlocking camera");
-			} else if (!ClientEventHandlers.keyBindings[8].isDown() && !this.isCameraLocked()) {
-				SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), true));
-				System.out.println("Locking camera");
+				if (ClientEventHandlers.keyBindings[8].isDown() && this.isCameraLocked()) {
+					SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), false));
+					this.setLockedRotations(this.xRot, this.yRot);
+					float f;
+					float f1;
+					if (this.canBeControlledByRider()) {
+						PlayerEntity livingentity = (PlayerEntity) this.getControllingPassenger();
+						f = livingentity.xxa * 0.5F;
+						f1 = livingentity.zza;
+						this.setLockedDirections(f, f1);
+						System.out.println("I set the locked directions");
+					}
+
+					System.out.println("Unlocking camera");
+				} else if (!ClientEventHandlers.keyBindings[8].isDown() && !this.isCameraLocked()) {
+					SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), true));
+					System.out.println("Locking camera");
+				}
 			}
 		}
 		super.tick();
