@@ -1226,15 +1226,6 @@ public class SWEMHorseEntityBase
 				if (ClientEventHandlers.keyBindings[8].isDown() && this.isCameraLocked()) {
 					SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), false));
 					this.setLockedRotations(this.xRot, this.yRot);
-					float f;
-					float f1;
-					if (this.canBeControlledByRider()) {
-						PlayerEntity livingentity = (PlayerEntity) this.getControllingPassenger();
-						f = livingentity.xxa * 0.5F;
-						f1 = livingentity.zza;
-						this.setLockedDirections(f, f1);
-						System.out.println("I set the locked directions");
-					}
 
 					System.out.println("Unlocking camera");
 				} else if (!ClientEventHandlers.keyBindings[8].isDown() && !this.isCameraLocked()) {
@@ -1443,15 +1434,10 @@ public class SWEMHorseEntityBase
 						// So we counter that, by check if it's negative, but still make it a bit slower than regular walking.
 					}
 
-					// Check for camera lock here
+					// Check for camera lock her½e
 
-					if (!this.isCameraLocked()) {
-						livingentity.xxa = (float) this.lockedXDir * 2f;
-						livingentity.zza = (float) this.lockedZDir;
-						super.travel(new Vector3d(this.lockedXDir, travelVector.y, this.lockedZDir));
-					} else {
-						super.travel(new Vector3d((double) f, travelVector.y, (double) f1));
-					}
+
+					super.travel(new Vector3d((double) f, travelVector.y, (double) f1));
 				} else if ((livingentity instanceof PlayerEntity)) {
 					this.setDeltaMovement(Vector3d.ZERO);
 				}
@@ -1497,23 +1483,11 @@ public class SWEMHorseEntityBase
 	public void setCameraLock(boolean locked) {
 		this.entityData.set(CAMERA_LOCK, locked);
 		this.setLockedRotations(this.xRot, this.yRot);
-		if (this.canBeControlledByRider()) {
-			PlayerEntity livingentity = (PlayerEntity) this.getControllingPassenger();
-			float f = livingentity.xxa * 0.5F;
-			float f1 = livingentity.zza;
-			this.setLockedDirections(f, f1);
-			System.out.println("I set the locked directions");
-		}
 	}
 
 	public void setLockedRotations(float xRot, float yRot) {
 		this.lockedXRot = xRot;
 		this.lockedYRot = yRot;
-	}
-
-	public void setLockedDirections(double xDir, double zDir) {
-		this.lockedXDir = xDir;
-		this.lockedZDir = zDir;
 	}
 
 	@Override
