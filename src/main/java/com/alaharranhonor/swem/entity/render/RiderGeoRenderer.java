@@ -355,8 +355,8 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 
 		if (!itemstack.isEmpty() || !itemstack1.isEmpty()) {
 			matrixStackIn.pushPose();
-			this.renderArmWithItem(animatable, itemstack1, ItemCameraTransforms.TransformType.THIRD_PERSON_RIGHT_HAND, HandSide.RIGHT, matrixStackIn, renderTypeBuffer, packedLightIn);
-			this.renderArmWithItem(animatable, itemstack, ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND, HandSide.LEFT, matrixStackIn, renderTypeBuffer, packedLightIn);
+			this.renderArmWithItem(animatable, itemstack, ItemCameraTransforms.TransformType.THIRD_PERSON_RIGHT_HAND, HandSide.RIGHT, matrixStackIn, renderTypeBuffer, packedLightIn);
+			this.renderArmWithItem(animatable, itemstack1, ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND, HandSide.LEFT, matrixStackIn, renderTypeBuffer, packedLightIn);
 			matrixStackIn.popPose();
 		}
 	}
