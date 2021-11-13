@@ -40,4 +40,15 @@ public class GalaxyCoatEnchantment extends Enchantment {
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
 		return super.canApplyAtEnchantingTable(stack);
 	}
+
+	@Override
+	public boolean isAllowedOnBooks() {
+		return false;
+	}
+
+	@Override
+	public boolean isDiscoverable() {
+		return super.isDiscoverable();
+	}
 }
+
