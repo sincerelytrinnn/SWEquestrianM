@@ -40,6 +40,8 @@ import net.minecraft.entity.passive.horse.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
@@ -55,7 +57,9 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.*;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -987,7 +991,73 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	@Override
+	public boolean updateFluidHeightAndDoFluidPushing(ITag<Fluid> pFluidTag, double pMotionScale) {
+		AxisAlignedBB axisalignedbb = this.getBoundingBox().deflate(0.001D).contract(0, -1, 0);
+		int i = MathHelper.floor(axisalignedbb.minX);
+		int j = MathHelper.ceil(axisalignedbb.maxX);
+		int k = MathHelper.floor(axisalignedbb.minY);
+		int l = MathHelper.ceil(axisalignedbb.maxY);
+		int i1 = MathHelper.floor(axisalignedbb.minZ);
+		int j1 = MathHelper.ceil(axisalignedbb.maxZ);
+		if (!this.level.hasChunksAt(i, k, i1, j, l, j1)) {
+			return false;
+		} else {
+			double d0 = 0.0D;
+			boolean flag = this.isPushedByFluid();
+			boolean flag1 = false;
+			Vector3d vector3d = Vector3d.ZERO;
+			int k1 = 0;
+			BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
 
+			for(int l1 = i; l1 < j; ++l1) {
+				for(int i2 = k; i2 < l; ++i2) {
+					for(int j2 = i1; j2 < j1; ++j2) {
+						blockpos$mutable.set(l1, i2, j2);
+						FluidState fluidstate = this.level.getFluidState(blockpos$mutable);
+						if (fluidstate.is(pFluidTag)) {
+							double d1 = (double)((float)i2 + fluidstate.getHeight(this.level, blockpos$mutable));
+							if (d1 >= axisalignedbb.minY) {
+								flag1 = true;
+								d0 = Math.max(d1 - axisalignedbb.minY, d0);
+								if (flag) {
+									Vector3d vector3d1 = fluidstate.getFlow(this.level, blockpos$mutable);
+									if (d0 < 0.4D) {
+										vector3d1 = vector3d1.scale(d0);
+									}
+
+									vector3d = vector3d.add(vector3d1);
+									++k1;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			if (vector3d.length() > 0.0D) {
+				if (k1 > 0) {
+					vector3d = vector3d.scale(1.0D / (double)k1);
+				}
+
+
+				vector3d = vector3d.normalize();
+
+
+				Vector3d vector3d2 = this.getDeltaMovement();
+				vector3d = vector3d.scale(pMotionScale * 1.0D);
+				double d2 = 0.003D;
+				if (Math.abs(vector3d2.x) < 0.003D && Math.abs(vector3d2.z) < 0.003D && vector3d.length() < 0.0045000000000000005D) {
+					vector3d = vector3d.normalize().scale(0.0045000000000000005D);
+				}
+
+				this.setDeltaMovement(this.getDeltaMovement().add(vector3d));
+			}
+
+			this.fluidHeight.put(pFluidTag, d0);
+			return flag1;
+		}
+	}
 
 	private void writeSaddlebagInventory(CompoundNBT compound) {
 
