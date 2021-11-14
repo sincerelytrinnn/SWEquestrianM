@@ -1496,9 +1496,10 @@ public class SWEMHorseEntityBase
 				if (this.isControlledByLocalInstance()) {
 					this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
 					if (f1 < 0.0f) { // Backwards movement.
-						if (this.currentSpeed != HorseSpeed.WALK) {
-							SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, this.getId()));
-						}
+						SWEMHorseEntityBase.HorseSpeed oldSpeed = this.currentSpeed;
+						this.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
+						this.updateSelectedSpeed(oldSpeed);
+						System.out.println("Is Client Side: " + this.level.isClientSide + " - Speed: " + this.currentSpeed.name());
 						livingentity.zza *= 3f;
 						// We multiply with a number close to 4, since in the AbstractHorseEntity it slows the backwards movement with * 0.25
 						// So we counter that, by check if it's negative, but still make it a bit slower than regular walking.
