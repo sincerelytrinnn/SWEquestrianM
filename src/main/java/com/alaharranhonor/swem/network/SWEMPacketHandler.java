@@ -39,6 +39,6 @@ public class SWEMPacketHandler {
 		INSTANCE.registerMessage(24, SHorseAnimationPacket.class, SHorseAnimationPacket::encode, SHorseAnimationPacket::decode, SHorseAnimationPacket::handle);
 		INSTANCE.registerMessage(25, SContainerPacket.class, SContainerPacket::encode, SContainerPacket::decode, SContainerPacket::handle);
 		INSTANCE.registerMessage(26, CHorseAnimationPacket.class, CHorseAnimationPacket::encode, CHorseAnimationPacket::decode, CHorseAnimationPacket::handle);
-		INSTANCE.registerMessage(26, CCameraLockPacket.class, CCameraLockPacket::encode, CCameraLockPacket::decode, CCameraLockPacket::handle);
+		INSTANCE.registerMessage(27, CCameraLockPacket.class, CCameraLockPacket::encode, CCameraLockPacket::decode, CCameraLockPacket::handle);
 	}
 }
