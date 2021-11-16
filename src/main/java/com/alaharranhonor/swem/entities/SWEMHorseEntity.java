@@ -124,9 +124,10 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 
 		// No idea why this needs to be up here, but something in the following jump if statement, blocks the code execution when jumping into water.
-		boolean isInWater = horse.level.getBlockStates(horse.getBoundingBox().contract(0, 1, 0)).allMatch((bs) -> bs.getBlock() == Blocks.WATER);
+		boolean isInWater = horse.level.getBlockStates(horse.getBoundingBox().contract(0, 0, 0)).allMatch((bs) -> bs.getBlock() == Blocks.WATER);
 
 		if (!isInWater && horse.getEntityData().get(SWEMHorseEntityBase.JUMPING) && horse.jumpHeight != 0) {
+			System.out.println("Horse is jumping with height: " + horse.jumpHeight);
 			if (horse.jumpHeight > 5.0F) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_5", false));
 				return PlayState.CONTINUE;
