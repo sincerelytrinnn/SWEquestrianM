@@ -1297,10 +1297,8 @@ public class SWEMHorseEntityBase
 					SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), false));
 					this.setLockedRotations(this.xRot, this.yRot);
 
-					System.out.println("Unlocking camera");
 				} else if (!ClientEventHandlers.keyBindings[8].isDown() && !this.isCameraLocked()) {
 					SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), true));
-					System.out.println("Locking camera");
 				}
 			}
 		}
@@ -1499,7 +1497,6 @@ public class SWEMHorseEntityBase
 						SWEMHorseEntityBase.HorseSpeed oldSpeed = this.currentSpeed;
 						this.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
 						this.updateSelectedSpeed(oldSpeed);
-						System.out.println("Is Client Side: " + this.level.isClientSide + " - Speed: " + this.currentSpeed.name());
 						livingentity.zza *= 3f;
 						// We multiply with a number close to 4, since in the AbstractHorseEntity it slows the backwards movement with * 0.25
 						// So we counter that, by check if it's negative, but still make it a bit slower than regular walking.
@@ -1841,7 +1838,7 @@ public class SWEMHorseEntityBase
 			}
 
 			ActionResultType actionresulttype = itemstack.interactLivingEntity(playerEntity, this, hand);
-			System.out.println("Item interaction hit");
+
 			if (actionresulttype.consumesAction()) {
 				if (item instanceof HorseSaddleItem && actionresulttype.consumesAction()) {
 					this.setSWEMSaddled();
