@@ -117,6 +117,7 @@ public class SWEMHorseEntityBase
 	public final static DataParameter<Integer> SPEED_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	public final static DataParameter<String> PERMISSION_STRING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
 	public final static DataParameter<Boolean> TRACKED = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	public final static DataParameter<Integer> STANDING_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	private ArrayList<UUID> allowedList = new ArrayList<>();
 
 	public HorseSpeed currentSpeed;
@@ -140,6 +141,7 @@ public class SWEMHorseEntityBase
 	private int peeAnimationTick;
 	public int standAnimationTick;
 	public int standAnimationVariant;
+	public int standingTimer = 0;
 
 
 
@@ -276,11 +278,13 @@ public class SWEMHorseEntityBase
 	public void aiStep()
 	{
 
+		// Tick the animation timers.
 		this.peeAnimationTick = Math.max(0, this.peeAnimationTick - 1);
 		this.poopAnimationTick = Math.max(0, this.poopAnimationTick - 1);
 		this.standAnimationTick = Math.max(0, this.standAnimationTick - 1);
+		this.standingTimer = Math.max(0, this.standingTimer - 1);
 		if (!this.level.isClientSide) {
-			// Tick the animation timers.
+
 			if (this.getLeashHolder() instanceof PlayerEntity) {
 				this.getLookControl().setLookAt(this.getLeashHolder(), (float)this.getHeadRotSpeed(), (float)this.getMaxHeadXRot());
 			}
@@ -300,6 +304,10 @@ public class SWEMHorseEntityBase
 					}
 				});
 				this.standAnimationVariant = -1;
+			}
+
+			if (this.standAnimationTick == 0 && this.getFlag(32)) {
+				this.setStanding(false);
 			}
 
 			if ((int)(this.level.getDayTime() % 24000L) == 10000) {
@@ -2272,18 +2280,27 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
-		this.setStandingAnim();
+		if (this.standingTimer == 0) {
+			this.setStandingAnim();
+		}
 		return super.hurt(source, amount);
 	}
 
+	public void setStandingTimer(int timeInTicks) {
+		this.standingTimer = timeInTicks;
+	}
+
 	public void setStandingAnim() {
+		System.out.println("Is Client Side: " + this.level.isClientSide + " - Standing Timer: " + this.standingTimer);
 		this.standAnimationTick = 42;
 		this.standAnimationVariant = this.getRandom().nextDouble() > 0.5 ? 2 : 1;
 
-		if (this.level.isClientSide)
+		if (this.level.isClientSide) {
 			SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
-		else {
+			this.standingTimer = 142;
+		} else {
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new CHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
+			this.standingTimer = 142;
 		}
 	}
 

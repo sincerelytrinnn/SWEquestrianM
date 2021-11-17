@@ -52,7 +52,7 @@ public class CHorseAnimationPacket {
 				return;
 			}
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-
+			horse.setStandingTimer(142);
 			switch (msg.action) {
 				case 1: {
 					horse.standAnimationVariant = 1;
