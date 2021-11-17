@@ -34,7 +34,7 @@ public class DataGenerators {
 			// Read the output into a Data Class.
 			// get the Translation array, and then pass it into registerLanguageProviders
 			String api = System.getenv("SWEM_TRANSLATION_API_KEY");
-			URL url = new URL("https://sheets.googleapis.com/v4/spreadsheets/1nIuoznNlkud57_eE_piMSLIQAsQ9XRIiyzTBtwDC2kg/values/A60:H767?key=");
+			URL url = new URL("https://sheets.googleapis.com/v4/spreadsheets/1nIuoznNlkud57_eE_piMSLIQAsQ9XRIiyzTBtwDC2kg/values/A60:Q767?key=");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("GET");
 
@@ -52,6 +52,15 @@ public class DataGenerators {
 		data.addProvider(new Languages(data, SWEM.MOD_ID, "sv_se", values, 5));
 		data.addProvider(new Languages(data, SWEM.MOD_ID, "fr_fr", values, 6));
 		data.addProvider(new Languages(data, SWEM.MOD_ID, "pl_pl", values, 7));
+		data.addProvider(new Languages(data, SWEM.MOD_ID, "de_de", values, 8));
+		data.addProvider(new Languages(data, SWEM.MOD_ID, "de_de", values, 8));
+		data.addProvider(new Languages(data, SWEM.MOD_ID, "ro_ro", values, 9));
+		data.addProvider(new Languages(data, SWEM.MOD_ID, "pt_br", values, 10));
+		data.addProvider(new Languages(data, SWEM.MOD_ID, "pt_pt", values, 11));
+		data.addProvider(new Languages(data, SWEM.MOD_ID, "it_it", values, 12));
+		data.addProvider(new Languages(data, SWEM.MOD_ID, "fi_fi", values, 13));
+		data.addProvider(new Languages(data, SWEM.MOD_ID, "ru_ru", values, 14));
+		data.addProvider(new Languages(data, SWEM.MOD_ID, "ja_jp", values, 16));
 	}
 
 }
