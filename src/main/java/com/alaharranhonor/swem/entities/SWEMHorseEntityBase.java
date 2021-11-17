@@ -2291,7 +2291,6 @@ public class SWEMHorseEntityBase
 	}
 
 	public void setStandingAnim() {
-		System.out.println("Is Client Side: " + this.level.isClientSide + " - Standing Timer: " + this.standingTimer);
 		this.standAnimationTick = 42;
 		this.standAnimationVariant = this.getRandom().nextDouble() > 0.5 ? 2 : 1;
 
