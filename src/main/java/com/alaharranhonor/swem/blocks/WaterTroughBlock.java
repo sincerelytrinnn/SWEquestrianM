@@ -5,6 +5,7 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.FourWayBlock;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.material.PushReaction;
 import net.minecraft.entity.LivingEntity;
@@ -46,8 +47,8 @@ public class WaterTroughBlock extends NonParallelBlock {
 	}
 
 	@Override
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+	public VoxelShape getCollisionShape(BlockState pState, IBlockReader pLevel, BlockPos pPos, ISelectionContext pContext) {
+		return VoxelShapes.box(0.01, 0.01, 0.01, 0.99, 1.5, 0.99);
 	}
 
 	@Override

@@ -43,6 +43,11 @@ public class HalfBarrelBlock extends Block {
 		return VoxelShapes.box(0.01d, 0.01d, 0.01d, 0.99d, 0.75d, 0.99d);
 	}
 
+	@Override
+	public VoxelShape getCollisionShape(BlockState pState, IBlockReader pLevel, BlockPos pPos, ISelectionContext pContext) {
+		return VoxelShapes.box(0.01, 0.01, 0.01, 0.99, 1.5, 0.99);
+	}
+
 
 	@Override
 	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {

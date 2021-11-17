@@ -18,6 +18,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 
@@ -91,6 +92,11 @@ public class GrainFeederBlock extends HorizontalBlock {
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return Block.box(0, 0, 0, 15.99, 15.99, 15.99);
+	}
+
+	@Override
+	public VoxelShape getCollisionShape(BlockState pState, IBlockReader pLevel, BlockPos pPos, ISelectionContext pContext) {
+		return VoxelShapes.box(0.01, 0.01, 0.01, 0.99, 1.5, 0.99);
 	}
 
 	@Override
