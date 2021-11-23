@@ -97,7 +97,7 @@ public class SWEMBlocks {
 
 	public static final RegistryObject<Block> HORSE_POO = BLOCKS.register("pile_of_horse_poo", () -> new HorsePoopBlock(AbstractBlock.Properties.of(Material.GRASS)));
 	public static final RegistryObject<Block> WESTERN_POLE = BLOCKS.register("western_pole", () -> new WesternPoleBlock(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).strength(2.0F, 3.0F)));
-	public static final RegistryObject<Block> INVISIBLE_GLOW_BLOCK = BLOCKS.register("invisible_glow_block", () -> new InvisibleGlowBlock(AbstractBlock.Properties.of(Material.METAL)));
+	public static final RegistryObject<Block> INVISIBLE_GLOW_BLOCK = BLOCKS.register("invisible_glow_block", () -> new InvisibleGlowBlock(AbstractBlock.Properties.of(Material.AIR)));
 	public static final RegistryObject<Block> WESTERN_FENCE_WHITEWASH = register("western_fence_whitewash", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
 	public static final RegistryObject<Block> WESTERN_FENCE_ACACIA = register("western_fence_acacia", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));
 	public static final RegistryObject<Block> WESTERN_FENCE_BIRCH = register("western_fence_birch", () -> new FenceBaseBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F)));

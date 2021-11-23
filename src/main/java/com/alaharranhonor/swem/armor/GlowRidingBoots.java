@@ -66,7 +66,9 @@ public class GlowRidingBoots extends LeatherRidingBoots {
 					CompoundNBT glowBlockData = (CompoundNBT) stackData.get("glowBlockPos");
 					BlockPos oldGlowBlockPos = new BlockPos(glowBlockData.getInt("x"), glowBlockData.getInt("y"), glowBlockData.getInt("z"));
 					if (!glowBlockPos.equals(oldGlowBlockPos)) {
-						world.setBlock(oldGlowBlockPos, Blocks.AIR.defaultBlockState(), 3);
+						if (world.getBlockState(oldGlowBlockPos).getBlock() == SWEMBlocks.INVISIBLE_GLOW_BLOCK.get()) {
+							world.setBlock(oldGlowBlockPos, Blocks.AIR.defaultBlockState(), 3);
+						}
 						glowBlockData.putInt("x", glowBlockPos.getX());
 						glowBlockData.putInt("y", glowBlockPos.getY());
 						glowBlockData.putInt("z", glowBlockPos.getZ());
