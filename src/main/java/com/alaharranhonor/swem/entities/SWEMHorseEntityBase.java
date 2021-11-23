@@ -331,7 +331,9 @@ public class SWEMHorseEntityBase
 				}
 			}
 
-			this.needs.tick();
+			if (this.isTamed()) {
+				this.needs.tick();
+			}
 		}
 		super.aiStep();
 	}
