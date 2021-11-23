@@ -27,6 +27,7 @@ public class RegistryHandler {
         SWEMPaintings.init(modBus);
         SWEMStructure.init(modBus);
         SWEMEnchantments.init(modBus);
+        SWEMLootModifiers.init(modBus);
     }
 
 }
