@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "entries": [
+    "swem:alfalfa_from_grass",
+    "swem:timothy_from_grass",
+    "swem:oat_from_grass"
+  ]
+}
