@@ -105,7 +105,7 @@ public class LookForFoodGoal extends Goal {
 
 							}
 						} else if (checkState.getBlock() instanceof PaddockFeederBlock) {
-							if (checkState.getValue(PaddockFeederBlock.LEVEL) > 0) {
+							if (this.horse.level.getBlockState(checkPos.above()).getValue(PaddockFeederBlock.LEVEL) > 0) {
 								if (this.horse.getNeeds().getHunger().getTimesFed(this.horse.getNeeds().getHunger().getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get()))) < this.horse.getNeeds().getHunger().getMaxTimesFed(this.horse.getNeeds().getHunger().getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get())))) {
 									paddockFeederPos.add(checkPos);
 								}
@@ -176,6 +176,10 @@ public class LookForFoodGoal extends Goal {
 
 					if (this.horse.getNeeds().getHunger().addPoints(new ItemStack(SWEMItems.SWEET_FEED.get()))) {
 						((GrainFeederBlock) this.horse.level.getBlockState(foundFood).getBlock()).eat(this.horse.level, foundFood, this.horse.level.getBlockState(foundFood));
+					}
+				} else if (foundState.getBlock() instanceof PaddockFeederBlock) {
+					if (this.horse.getNeeds().getHunger().addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get()))) {
+						((PaddockFeederBlock) this.horse.level.getBlockState(foundFood).getBlock()).eat(this.horse.level, foundFood, this.horse.level.getBlockState(foundFood));
 					}
 				}
 

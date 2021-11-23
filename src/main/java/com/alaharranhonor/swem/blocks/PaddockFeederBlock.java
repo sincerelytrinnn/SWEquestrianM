@@ -259,4 +259,14 @@ public class PaddockFeederBlock extends Block {
 	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(HALF, FACING, SIDE, LEVEL);
 	}
+
+	public void eat(World level, BlockPos foundFood, BlockState blockState) {
+		getAllParts(blockState, foundFood, level).stream().forEach((pos) -> {
+			BlockState feederState = level.getBlockState(pos);
+			if (feederState.getBlock() instanceof PaddockFeederBlock) {
+				int value = feederState.getValue(LEVEL);
+				level.setBlock(pos, feederState.setValue(LEVEL, Math.max(0, --value)), 3);
+			}
+		});
+	}
 }
