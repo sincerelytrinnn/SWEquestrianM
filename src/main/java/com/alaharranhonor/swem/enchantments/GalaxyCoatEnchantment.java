@@ -38,7 +38,7 @@ public class GalaxyCoatEnchantment extends Enchantment {
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
-		return super.canApplyAtEnchantingTable(stack);
+		return stack.getItem() instanceof Gallaxorium;
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class GalaxyCoatEnchantment extends Enchantment {
 
 	@Override
 	public boolean isDiscoverable() {
-		return super.isDiscoverable();
+		return false;
 	}
 }
 
