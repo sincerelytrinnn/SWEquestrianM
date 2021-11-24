@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "pasture_horse",
+  "group": "pasture_care",
   "pattern":
   [
 	" y ",
