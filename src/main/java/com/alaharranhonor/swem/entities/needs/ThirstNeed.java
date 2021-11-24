@@ -28,8 +28,7 @@ public class ThirstNeed {
 
 		this.drinkingCoolDown = Math.max(0, this.drinkingCoolDown - 1);
 
-		int ticksNeededToChange = this.state.getTickAmountChange() * (ConfigHolder.SERVER.multiplayerHungerThirst.get() ? 72 : 1);
-		if (this.tickCounter <= ticksNeededToChange && this.state != ThirstState.EXICCOSIS) {
+		if (this.tickCounter <= this.state.getTickAmountChange() && this.state != ThirstState.EXICCOSIS) {
 			this.setStateById(this.state.getId() - 1);
 		}
 	}
@@ -86,7 +85,7 @@ public class ThirstNeed {
 		if (nbt.contains("thirstTick")) {
 			int ticks = nbt.getInt("thirstTick");
 			if (ticks == 0 && this.state != ThirstState.EXICCOSIS) {
-				ticks = getNextState().tickAmountChange;
+				ticks = getNextState().getTickAmountChange();
 			}
 			this.tickCounter = ticks;
 		}
@@ -152,7 +151,7 @@ public class ThirstNeed {
 		}
 
 		public int getTickAmountChange() {
-			return tickAmountChange;
+			return tickAmountChange * (ConfigHolder.SERVER.multiplayerHungerThirst.get() ? 72 : 1);
 		}
 
 	}

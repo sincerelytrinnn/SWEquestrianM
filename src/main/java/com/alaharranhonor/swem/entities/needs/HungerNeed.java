@@ -57,8 +57,7 @@ public class HungerNeed {
 	public void tick() {
 		if (this.tickCounter == 0) return;
 		this.tickCounter--;
-		int ticksNeededToChange = this.state.getTickAmountChange() * (ConfigHolder.SERVER.multiplayerHungerThirst.get() ? 72 : 1);
-		if (this.tickCounter <= ticksNeededToChange && this.state != HungerState.STARVING) {
+		if (this.tickCounter <= this.state.getTickAmountChange() && this.state != HungerState.STARVING) {
 			this.setStateById(this.state.getId() - 1);
 		}
 	}
@@ -92,7 +91,7 @@ public class HungerNeed {
 	}
 
 	public boolean checkIncrement() {
-		return this.points >= this.state.getPointsRequired();
+		return this.points >= this.getNextState().getPointsRequired();
 	}
 
 	public void incrementState() {
@@ -103,7 +102,7 @@ public class HungerNeed {
 			if (nextState == HungerState.FULLY_FED) {
 				this.tickCounter = 192_000;
 			} else {
-				this.tickCounter = getNextState().tickAmountChange;
+				this.tickCounter = getNextState().getTickAmountChange();
 			}
 		}
 	}
@@ -262,7 +261,7 @@ public class HungerNeed {
 		}
 
 		public int getTickAmountChange() {
-			return this.tickAmountChange;
+			return this.tickAmountChange * (ConfigHolder.SERVER.multiplayerHungerThirst.get() ? 72 : 1);
 		}
 
 
