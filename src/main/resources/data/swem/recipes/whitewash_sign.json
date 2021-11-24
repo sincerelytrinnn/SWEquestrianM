@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "swem:whitewash_finish"
+    },
+    {
+      "tag": "minecraft:signs"
+    }
+  ],
+  "result": {
+    "item": "swem:whitewash_sign"
+  }
+}
