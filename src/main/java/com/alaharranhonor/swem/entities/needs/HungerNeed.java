@@ -1,6 +1,8 @@
 package com.alaharranhonor.swem.entities.needs;
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.config.ConfigHolder;
+import com.alaharranhonor.swem.config.ServerConfig;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
@@ -55,8 +57,8 @@ public class HungerNeed {
 	public void tick() {
 		if (this.tickCounter == 0) return;
 		this.tickCounter--;
-
-		if (this.tickCounter <= this.state.getTickAmountChange() && this.state != HungerState.STARVING) {
+		int ticksNeededToChange = this.state.getTickAmountChange() * (ConfigHolder.SERVER.multiplayerHungerThirst.get() ? 72 : 1);
+		if (this.tickCounter <= ticksNeededToChange && this.state != HungerState.STARVING) {
 			this.setStateById(this.state.getId() - 1);
 		}
 	}

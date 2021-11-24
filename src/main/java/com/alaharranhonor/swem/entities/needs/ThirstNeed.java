@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.entities.needs;
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
@@ -27,7 +28,8 @@ public class ThirstNeed {
 
 		this.drinkingCoolDown = Math.max(0, this.drinkingCoolDown - 1);
 
-		if (this.tickCounter <= this.state.getTickAmountChange() && this.state != ThirstState.EXICCOSIS) {
+		int ticksNeededToChange = this.state.getTickAmountChange() * (ConfigHolder.SERVER.multiplayerHungerThirst.get() ? 72 : 1);
+		if (this.tickCounter <= ticksNeededToChange && this.state != ThirstState.EXICCOSIS) {
 			this.setStateById(this.state.getId() - 1);
 		}
 	}

@@ -36,6 +36,8 @@ public final class ServerConfig {
 	public final ForgeConfigSpec.BooleanValue riderNeedsGirthStrap;
 	public final ForgeConfigSpec.BooleanValue lapisCycleCoats;
 
+	public final ForgeConfigSpec.BooleanValue multiplayerHungerThirst;
+
 	ServerConfig(ForgeConfigSpec.Builder builder) {
 
 		builder.push("SWEMOreGen");
@@ -70,6 +72,7 @@ public final class ServerConfig {
 		this.serverPeeInterval = builder.comment("Specify in seconds the interval between each pee cycle.").translation("swem.config.peeInterval").defineInRange("peeInterval", 930, 1, 2147483647);
 		builder.comment("Set the option below to true, if you just want a piece of lapis lazuli to cycle the coats.");
 		this.lapisCycleCoats = builder.comment("Enable Lapis Lazuli coat cycling?").translation("swem.config.enableLapisCycle").define("lapisCycle", true);
+		this.multiplayerHungerThirst = builder.comment("Make hunger thirst system base on IRL days? (Preferred option for servers.)").translation("swem.config.multiplayerHungerThirst").define("multiPlayerHungerThirst", false);
 
 			builder.push("Tack Dependencies");
 			this.halterDependency = builder.comment("Enable/Disable the halter, being needed for any other tack.").translation("swem.config.halterDep").define("HalterDependency", true);
