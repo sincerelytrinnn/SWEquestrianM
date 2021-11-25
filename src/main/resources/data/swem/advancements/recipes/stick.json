@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:stick"
+    ]
+  },
+  "criteria": {
+    "has_saplings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "minecraft:saplings"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:stick"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_saplings",
+      "has_the_recipe"
+    ]
+  ]
+}
