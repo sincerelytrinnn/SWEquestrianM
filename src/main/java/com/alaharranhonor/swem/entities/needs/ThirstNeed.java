@@ -38,7 +38,7 @@ public class ThirstNeed {
 			ThirstState nextState = getNextState();
 			this.setStateById(nextState.ordinal());
 			if (this.state == ThirstState.QUENCHED) {
-				this.tickCounter = 96_000;
+				this.tickCounter = 96_000 * (ConfigHolder.SERVER.multiplayerHungerThirst.get() ? 72 : 1);
 			} else {
 				this.tickCounter = getNextState().getTickAmountChange();
 			}
@@ -70,7 +70,7 @@ public class ThirstNeed {
 	public CompoundNBT write(CompoundNBT nbt) {
 		if (this.state != null) {
 			nbt.putInt("thirstStateID", this.state.getId());
-			nbt.putInt("thirstTick", this.tickCounter);
+			nbt.putInt("thirstTick", ConfigHolder.SERVER.multiplayerHungerThirst.get() ? this.tickCounter / 72 : this.tickCounter);
 		}
 		return nbt;
 	}
@@ -87,7 +87,7 @@ public class ThirstNeed {
 			if (ticks == 0 && this.state != ThirstState.EXICCOSIS) {
 				ticks = getNextState().getTickAmountChange();
 			}
-			this.tickCounter = ticks;
+			this.tickCounter = ConfigHolder.SERVER.multiplayerHungerThirst.get() ? ticks * 72 : ticks;
 		}
 		this.state.setHorse(this.horse);
 	}
