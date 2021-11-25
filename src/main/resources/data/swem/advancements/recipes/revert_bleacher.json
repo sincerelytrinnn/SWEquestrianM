@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:revert_bleacher"
+    ]
+  },
+  "criteria": {
+    "has_bleacher": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:bleacher"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:revert_bleacher"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_bleacher",
+      "has_the_recipe"
+    ]
+  ]
+}

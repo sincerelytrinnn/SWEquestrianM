@@ -1,0 +1,57 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:english_fence",
+      "swem:pasture_fence_acacia",
+      "swem:pasture_fence_birch",
+      "swem:pasture_fence_dark_oak",
+      "swem:pasture_fence_jungle",
+      "swem:pasture_fence_oak",
+      "swem:pasture_fence_spruce",
+      "swem:pasture_hitching_post",
+      "swem:stall_care_acacia",
+      "swem:stall_care_birch",
+      "swem:stall_care_dark_oak",
+      "swem:stall_care_jungle",
+      "swem:stall_care_oak",
+      "swem:stall_care_spruce",
+      "swem:stall_horse_acacia",
+      "swem:stall_horse_birch",
+      "swem:stall_horse_dark_oak",
+      "swem:stall_horse_jungle",
+      "swem:stall_horse_oak",
+      "swem:stall_horse_spruce",
+      "swem:western_fence_acacia",
+      "swem:western_fence_birch",
+      "swem:western_fence_dark_oak",
+      "swem:western_fence_jungle",
+      "swem:western_fence_oak",
+      "swem:western_fence_spruce"
+    ]
+  },
+  "criteria": {
+    "has_planks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "minecraft:planks"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:english_fence"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_planks",
+      "has_the_recipe"
+    ]
+  ]
+}

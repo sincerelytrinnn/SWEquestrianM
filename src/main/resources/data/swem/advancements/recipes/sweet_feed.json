@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:sweet_feed"
+    ]
+  },
+  "criteria": {
+    "has_oat_bushel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:oat_bushel"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:sweet_feed"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_oat_bushel",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:compost"
+    ]
+  },
+  "criteria": {
+    "has_wet_compost": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:wet_compost"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:compost"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_wet_compost",
+      "has_the_recipe"
+    ]
+  ]
+}

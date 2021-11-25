@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:gold_scythe"
+    ]
+  },
+  "criteria": {
+    "has_iron_scythe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:iron_scythe"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:gold_scythe"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_iron_scythe",
+      "has_the_recipe"
+    ]
+  ]
+}

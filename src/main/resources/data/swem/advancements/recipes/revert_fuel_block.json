@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:uncraft_fuel_block"
+    ]
+  },
+  "criteria": {
+    "has_fuel_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:fuel_block"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:uncraft_fuel_block"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_fuel_block",
+      "has_the_recipe"
+    ]
+  ]
+}

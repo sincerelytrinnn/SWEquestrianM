@@ -1,0 +1,105 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:fence_tool",
+      "swem:friendly_bar_medium",
+      "swem:friendly_bars_dark",
+      "swem:friendly_bars_light",
+      "swem:halter_black",
+      "swem:halter_blue",
+      "swem:halter_brown",
+      "swem:halter_cyan",
+      "swem:halter_gray",
+      "swem:halter_green",
+      "swem:halter_light_blue",
+      "swem:halter_light_gray",
+      "swem:halter_lime",
+      "swem:halter_magenta",
+      "swem:halter_orange",
+      "swem:halter_pink",
+      "swem:halter_purple",
+      "swem:halter_red",
+      "swem:halter_white",
+      "swem:halter_yellow",
+      "swem:horse_armor_rack",
+      "swem:locker",
+      "swem:metal_grate",
+      "swem:pasture_black_care",
+      "swem:pasture_black_horse",
+      "swem:pasture_blue_care",
+      "swem:pasture_blue_horse",
+      "swem:pasture_brown_care",
+      "swem:pasture_brown_horse",
+      "swem:pasture_cyan_care",
+      "swem:pasture_cyan_horse",
+      "swem:pasture_gray_care",
+      "swem:pasture_gray_horse",
+      "swem:pasture_green_care",
+      "swem:pasture_green_horse",
+      "swem:pasture_light_blue_care",
+      "swem:pasture_light_blue_horse",
+      "swem:pasture_light_gray_care",
+      "swem:pasture_light_gray_horse",
+      "swem:pasture_lime_care",
+      "swem:pasture_lime_horse",
+      "swem:pasture_magenta_care",
+      "swem:pasture_magenta_horse",
+      "swem:pasture_orange_care",
+      "swem:pasture_orange_horse",
+      "swem:pasture_pink_care",
+      "swem:pasture_pink_horse",
+      "swem:pasture_purple_care",
+      "swem:pasture_purple_horse",
+      "swem:pasture_red_care",
+      "swem:pasture_red_horse",
+      "swem:pasture_white_care",
+      "swem:pasture_white_horse",
+      "swem:pasture_yellow_care",
+      "swem:pasture_yellow_horse",
+      "swem:pitchfork",
+      "swem:separator_black",
+      "swem:separator_blue",
+      "swem:separator_brown",
+      "swem:separator_cyan",
+      "swem:separator_gray",
+      "swem:separator_green",
+      "swem:separator_light_blue",
+      "swem:separator_light_gray",
+      "swem:separator_lime",
+      "swem:separator_magenta",
+      "swem:separator_orange",
+      "swem:separator_pink",
+      "swem:separator_purple",
+      "swem:separator_red",
+      "swem:separator_white",
+      "swem:separator_yellow",
+      "swem:iron_plate",
+      "swem:iron_rivet"
+    ]
+  },
+  "criteria": {
+    "has_iron_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:iron_ingot"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:fence_tool"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_iron_ingot",
+      "has_the_recipe"
+    ]
+  ]
+}
