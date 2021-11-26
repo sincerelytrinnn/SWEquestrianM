@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:gold_leggings"
+    ]
+  },
+  "criteria": {
+    "has_iron_leggings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:iron_leggings"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:gold_leggings"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_iron_leggings",
+      "has_the_recipe"
+    ]
+  ]
+}

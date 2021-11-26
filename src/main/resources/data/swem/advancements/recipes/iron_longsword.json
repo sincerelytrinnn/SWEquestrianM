@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:iron_longsword"
+    ]
+  },
+  "criteria": {
+    "has_leather_longsword": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:leather_longsword"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:iron_longsword"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_leather_longsword",
+      "has_the_recipe"
+    ]
+  ]
+}

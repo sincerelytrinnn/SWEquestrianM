@@ -1,0 +1,46 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:half_barrel_black",
+      "swem:half_barrel_blue",
+      "swem:half_barrel_brown",
+      "swem:half_barrel_cyan",
+      "swem:half_barrel_gray",
+      "swem:half_barrel_green",
+      "swem:half_barrel_light_blue",
+      "swem:half_barrel_light_gray",
+      "swem:half_barrel_lime",
+      "swem:half_barrel_magenta",
+      "swem:half_barrel_orange",
+      "swem:half_barrel_pink",
+      "swem:half_barrel_purple",
+      "swem:half_barrel_red",
+      "swem:half_barrel_yellow"
+    ]
+  },
+  "criteria": {
+    "has_half_barrel_white": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:half_barrel_white"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:half_barrel_black"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_half_barrel_white",
+      "has_the_recipe"
+    ]
+  ]
+}

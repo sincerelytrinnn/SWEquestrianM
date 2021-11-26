@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "xyx",
+    "yz ",
+    "x  "
+  ],
+  "key":
+  {
+    "x":
+    {
+      "tag": "minecraft:planks"
+    },
+    "y":
+    {
+      "item": "minecraft:stick"
+    },
+    "z":
+    {
+      "item": "minecraft:coal"
+    }
+  },
+  "result":
+  {
+    "item": "swem:english_fence",
+    "count": 4
+  }
+}

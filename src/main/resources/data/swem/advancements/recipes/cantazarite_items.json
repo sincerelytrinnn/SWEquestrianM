@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:blaze_rod",
+      "swem:cantazarite_anvil",
+      "swem:cantazarite_block",
+      "swem:cantazarite_dye"
+    ]
+  },
+  "criteria": {
+    "has_cantazarite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:cantazarite"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:blaze_rod"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_cantazarite",
+      "has_the_recipe"
+    ]
+  ]
+}

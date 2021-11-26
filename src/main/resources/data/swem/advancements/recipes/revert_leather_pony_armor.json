@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:revert_leather_pony_armor"
+    ]
+  },
+  "criteria": {
+    "has_leather_horse_armor": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:leather_horse_armor"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:revert_leather_pony_armor"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_leather_horse_armor",
+      "has_the_recipe"
+    ]
+  ]
+}

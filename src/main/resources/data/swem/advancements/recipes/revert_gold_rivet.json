@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:revert_gold_rivet"
+    ]
+  },
+  "criteria": {
+    "has_gold_rivet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:gold_rivet"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:revert_gold_rivet"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_gold_rivet",
+      "has_the_recipe"
+    ]
+  ]
+}

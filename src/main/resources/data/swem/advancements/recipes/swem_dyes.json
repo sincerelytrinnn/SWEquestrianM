@@ -1,0 +1,47 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:black_dye",
+      "swem:blue_dye",
+      "swem:brown_dye",
+      "swem:cyan_dye",
+      "swem:gray_dye",
+      "swem:green_dye",
+      "swem:light_blue_dye",
+      "swem:light_gray_dye",
+      "swem:lime_dye",
+      "swem:magenta_dye",
+      "swem:orange_dye",
+      "swem:pink_dye",
+      "swem:purple_dye",
+      "swem:red_dye",
+      "swem:white_dye",
+      "swem:yellow_dye"
+    ]
+  },
+  "criteria": {
+    "has_paint_filler": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:paint_filler"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:black_dye"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_paint_filler",
+      "has_the_recipe"
+    ]
+  ]
+}

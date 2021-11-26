@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:whitewash_plank_log"
+    ]
+  },
+  "criteria": {
+    "has_whitewash_log": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:whitewash_log"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:whitewash_plank_log"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_whitewash_log",
+      "has_the_recipe"
+    ]
+  ]
+}

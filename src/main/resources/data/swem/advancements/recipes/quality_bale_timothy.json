@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:quality_bale"
+    ]
+  },
+  "criteria": {
+    "has_timothy_bushel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:timothy_bushel"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:quality_bale"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_timothy_bushel",
+      "has_the_recipe"
+    ]
+  ]
+}
