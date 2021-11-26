@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:bleacher",
+      "swem:paddock_feeder"
+    ]
+  },
+  "criteria": {
+    "has_iron_bars": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:iron_bars"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:bleacher"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_iron_bars",
+      "has_the_recipe"
+    ]
+  ]
+}

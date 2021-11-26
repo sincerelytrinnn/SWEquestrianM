@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:diamond_rivet"
+    ]
+  },
+  "criteria": {
+    "has_diamond_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:diamond"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:diamond_rivet"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_diamond_ingot",
+      "has_the_recipe"
+    ]
+  ]
+}

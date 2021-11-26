@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:amethyst_riding_boots"
+    ]
+  },
+  "criteria": {
+    "has_diamond_riding_boots": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:diamond_riding_boots"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:amethyst_riding_boots"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_diamond_riding_boots",
+      "has_the_recipe"
+    ]
+  ]
+}

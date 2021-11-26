@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:diamond_shield"
+    ]
+  },
+  "criteria": {
+    "has_gold_shield": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:gold_shield"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:diamond_shield"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_gold_shield",
+      "has_the_recipe"
+    ]
+  ]
+}

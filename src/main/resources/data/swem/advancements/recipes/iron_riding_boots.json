@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:iron_riding_boots"
+    ]
+  },
+  "criteria": {
+    "has_glow_riding_boots": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:glow_riding_boots"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:iron_riding_boots"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_glow_riding_boots",
+      "has_the_recipe"
+    ]
+  ]
+}

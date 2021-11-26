@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:half_barrel_white"
+    ]
+  },
+  "criteria": {
+    "has_barrel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:barrel"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:half_barrel_white"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_barrel",
+      "has_the_recipe"
+    ]
+  ]
+}

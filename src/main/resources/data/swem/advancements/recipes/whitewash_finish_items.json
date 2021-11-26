@@ -1,0 +1,53 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:whitewash_button",
+      "swem:whitewash_door",
+      "swem:whitewash_fence",
+      "swem:whitewash_fence_gate",
+      "swem:whitewash_log",
+      "swem:whitewash_plank",
+      "swem:whitewash_sign",
+      "swem:whitewash_slab",
+      "swem:whitewash_stairs",
+      "swem:whitewash_stall_care_acacia",
+      "swem:whitewash_stall_care_birch",
+      "swem:whitewash_stall_care_dark_oak",
+      "swem:whitewash_stall_care_jungle",
+      "swem:whitewash_stall_care_oak",
+      "swem:whitewash_stall_care_spruce",
+      "swem:whitewash_stall_horse_acacia",
+      "swem:whitewash_stall_horse_birch",
+      "swem:whitewash_stall_horse_dark_oak",
+      "swem:whitewash_stall_horse_jungle",
+      "swem:whitewash_stall_horse_oak",
+      "swem:whitewash_stall_horse_spruce",
+      "swem:whitewash_trapdoor"
+    ]
+  },
+  "criteria": {
+    "has_whitewash_finish": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:whitewash_finish"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:whitewash_button"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_whitewash_finish",
+      "has_the_recipe"
+    ]
+  ]
+}

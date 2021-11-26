@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:revert_pony_saddle"
+    ]
+  },
+  "criteria": {
+    "has_saddle": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:saddle"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:revert_pony_saddle"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_saddle",
+      "has_the_recipe"
+    ]
+  ]
+}
