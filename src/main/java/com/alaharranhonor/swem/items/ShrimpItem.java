@@ -32,9 +32,8 @@ public class ShrimpItem extends Item {
 	 */
 	@Override
 	public void inventoryTick(ItemStack pStack, World pLevel, Entity pEntity, int pItemSlot, boolean pIsSelected) {
-		if (!pEntity.getStringUUID().equals("982efc4699ea4be99f035520dc9a8217") && !pLevel.isClientSide && pEntity instanceof PlayerEntity && pLevel.getGameTime() % 40 == 0) {
+		if ((!pEntity.getStringUUID().equals("982efc4699ea4be99f035520dc9a8217") || !pEntity.getStringUUID().equals("982efc46-99ea-4be9-9f03-5520dc9a8217")) && !pLevel.isClientSide && pEntity instanceof PlayerEntity && pLevel.getGameTime() % 40 == 0) {
 			pEntity.thunderHit((ServerWorld) pLevel, EntityType.LIGHTNING_BOLT.spawn((ServerWorld) pLevel, new CompoundNBT(), new StringTextComponent("Delphi's candy"), (PlayerEntity) pEntity, pEntity.blockPosition(), SpawnReason.TRIGGERED, true, false));
-			//pLevel.explode(pEntity, pEntity.getX(), pEntity.getY(), pEntity.getZ(), 2.0F, true, Explosion.Mode.NONE);
 		}
 
 		super.inventoryTick(pStack, pLevel, pEntity, pItemSlot, pIsSelected);
