@@ -62,7 +62,7 @@ public class HalfDoorBlock extends Block {
 
 
 
-	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
+	public boolean isPathfindable(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
 		switch(type) {
 			case LAND:
 				return state.getValue(OPEN);
