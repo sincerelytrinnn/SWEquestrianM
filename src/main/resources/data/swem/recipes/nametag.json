@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "y  ",
+    "x  ",
+    "z  "
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "minecraft:gold_nugget"
+    },
+    "y":
+    {
+      "item": "minecraft:string"
+    },
+    "z":
+    {
+      "tag": "minecraft:signs"
+    }
+  },
+  "result":
+  {
+    "item": "minecraft:name_tag",
+    "count": 1
+  }
+}

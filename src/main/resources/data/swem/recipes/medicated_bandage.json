@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "medical",
+  "pattern":
+  [
+    "x  ",
+    "y  "
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "swem:salve"
+    },
+    "y":
+    {
+      "item": "swem:bandage"
+    }
+  },
+  "result":
+  {
+    "item": "swem:medicated_bandage",
+    "count": 1
+  }
+}

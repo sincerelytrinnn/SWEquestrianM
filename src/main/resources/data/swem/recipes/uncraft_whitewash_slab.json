@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "whitewash_planks",
+  "pattern":
+  [
+    "x  ",
+    "x  "
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "swem:whitewash_slab"
+    }
+  },
+  "result":
+  {
+    "item": "swem:whitewash_plank",
+    "count": 1
+  }
+}

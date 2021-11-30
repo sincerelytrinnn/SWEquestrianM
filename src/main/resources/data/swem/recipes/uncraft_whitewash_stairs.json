@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "whitewash_planks",
+  "ingredients": [
+    {
+      "item": "swem:whitewash_stairs"
+    }
+  ],
+  "result": {
+    "item": "swem:whitewash_plank",
+    "count": 1
+  }
+}

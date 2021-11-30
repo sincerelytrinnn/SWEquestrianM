@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:medicated_bandage"
+    ]
+  },
+  "criteria": {
+    "has_salve": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:salve"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:medicated_bandage"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_salve",
+      "has_the_recipe"
+    ]
+  ]
+}

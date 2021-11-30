@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "medical",
+  "ingredients": [
+    {
+      "item": "minecraft:honey_bottle"
+    },
+    {
+      "item": "swem:star_worm_goop"
+    }
+  ],
+  "result": {
+    "item": "swem:salve",
+    "count": 1
+  }
+}
