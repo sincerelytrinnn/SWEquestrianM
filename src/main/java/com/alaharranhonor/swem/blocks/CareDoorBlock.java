@@ -91,7 +91,7 @@ public class CareDoorBlock extends Block {
 		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 	}
 
-	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
+	public boolean isPathfindable(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
 		switch(type) {
 			case LAND:
 				return state.getValue(OPEN);

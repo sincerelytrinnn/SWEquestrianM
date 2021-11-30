@@ -52,7 +52,6 @@ public class LookForFoodGoal extends Goal {
 		SWEMHorseEntityBase.HorseSpeed oldSpeed = this.horse.currentSpeed;
 		this.horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
 		this.horse.updateSelectedSpeed(oldSpeed);
-		System.out.println("Started searching for food");
 	}
 
 	/**
@@ -63,7 +62,6 @@ public class LookForFoodGoal extends Goal {
 		this.foundFood = null;
 		this.movingTimer = 0;
 		this.movingToPos = null;
-		System.out.println("Stopped searching for food");
 	}
 
 	/**
@@ -131,16 +129,13 @@ public class LookForFoodGoal extends Goal {
 				this.movingTimer++;
 				if (this.movingToPos == null) {
 					BlockPos goingToPos = new BlockPos(entityPos.getX() + this.horse.getRandom().nextInt(14) - 7, entityPos.getY(), entityPos.getZ() + this.horse.getRandom().nextInt(14) - 7);
-					System.out.println("Couldn't find food, going to " + goingToPos);
 					this.horse.getNavigation().moveTo(goingToPos.getX(), goingToPos.getY(), goingToPos.getZ(), this.speed);
 					this.movingToPos = goingToPos;
 				} else {
 					if (this.horse.blockPosition().closerThan(this.movingToPos, 2)) {
 						this.movingToPos = null;
-						System.out.println("Reached random destination");
 					} else {
 						if (this.movingTimer > 200) {
-							System.out.println("Couldn't reach destination within 10 seconds");
 							this.movingTimer = 0;
 							this.movingToPos = null;
 						} else {

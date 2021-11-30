@@ -367,15 +367,15 @@ public class SWEMHorseEntityBase
 
 		switch (this.progressionManager.getSpeedLeveling().getLevel()) {
 			case 1:
-				return 0.286d;
+				return 0.357d;
 			case 2:
-				return 0.3905d;
+				return 0.408d;
 			case 3:
-				return 0.517d;
+				return 0.452d;
 			case 4:
-				return 0.649d;
+				return 0.5d;
 			default:
-				return 0.1826d;
+				return 0.3096d;
 		}
 	}
 
@@ -1261,16 +1261,13 @@ public class SWEMHorseEntityBase
 						int dist = ((int)Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)));
 						if (dist > 0 && dist < 25) {
 							boolean speedLevelUp = false;
-							if (this.currentSpeed == HorseSpeed.CANTER) {
-								speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist);
-							} else if (this.currentSpeed == HorseSpeed.GALLOP) {
-								speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist * 2);
-							}
+							speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist * this.currentSpeed.getSkillMultiplier());
+
 							if (speedLevelUp) {
 								this.levelUpSpeed();
 							}
 							// Affinity leveling, is not affected by speed. so no matter the speed, just add 1xp per block.
-							this.progressionManager.getAffinityLeveling().addXP(dist);
+							this.progressionManager.getAffinityLeveling().addXP(dist * this.currentSpeed.getSkillMultiplier());
 						}
 
 
@@ -2083,24 +2080,27 @@ public class SWEMHorseEntityBase
 		if (oldSpeed == HorseSpeed.WALK) return;
 		else if (oldSpeed == HorseSpeed.TROT) {
 			this.currentSpeed = HorseSpeed.WALK;
-		} else if (oldSpeed == HorseSpeed.CANTER) {
+		} else if (oldSpeed == HorseSpeed.CANTER_EXT) {
+			this.currentSpeed = HorseSpeed.CANTER;
+		}
+		else if (oldSpeed == HorseSpeed.CANTER) {
 			this.currentSpeed = HorseSpeed.TROT;
 		}
 		else if (oldSpeed == HorseSpeed.GALLOP) {
-			this.currentSpeed = HorseSpeed.CANTER;
+			this.currentSpeed = HorseSpeed.CANTER_EXT;
 			this.setGallopCooldown();
 		}
 		this.updateSelectedSpeed(oldSpeed);
 	}
 
 	public void incrementSpeed() {
-		if (this.getRandom().nextDouble() < this.progressionManager.getAffinityLeveling().getDebuff()) {
+		if (this.getRandom().nextDouble() < (this.progressionManager.getAffinityLeveling().getDebuff() * this.currentSpeed.getSkillMultiplier())) {
 			this.setStandingAnim();
 			return;
 		}
 		HorseSpeed oldSpeed = this.currentSpeed;
 		if (oldSpeed == HorseSpeed.GALLOP) return;
-		else if (oldSpeed == HorseSpeed.CANTER) {
+		else if (oldSpeed == HorseSpeed.CANTER_EXT) {
 			if (this.entityData.get(GALLOP_ON_COOLDOWN)) {
 				ArrayList<String> args = new ArrayList<>();
 				args.add(String.valueOf(Math.round(( this.entityData.get(GALLOP_COOLDOWN_TIMER) - this.entityData.get(GALLOP_TIMER) ) / 20)));
@@ -2108,6 +2108,10 @@ public class SWEMHorseEntityBase
 				return;
 			}
 			this.currentSpeed = HorseSpeed.GALLOP;
+		}
+
+		else if (oldSpeed == HorseSpeed.CANTER) {
+			this.currentSpeed = HorseSpeed.CANTER_EXT;
 		}
 		else if (oldSpeed == HorseSpeed.TROT) {
 			if (this.needs.getThirst().getState() == ThirstNeed.ThirstState.EXICCOSIS) {
@@ -2134,6 +2138,8 @@ public class SWEMHorseEntityBase
 			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.123d);
 		} else if (this.currentSpeed == HorseSpeed.WALK) {
 			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0425d);
+		} else if (this.currentSpeed == HorseSpeed.CANTER) {
+			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.285d);
 		} else {
 			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getAlteredMovementSpeed());
 		}
@@ -2350,15 +2356,18 @@ public class SWEMHorseEntityBase
 		WALK(new AttributeModifier("HORSE_WALK", 0, AttributeModifier.Operation.ADDITION), 0),
 		TROT(new AttributeModifier("HORSE_TROT", 0, AttributeModifier.Operation.ADDITION), 1),
 		 */
-		WALK(new AttributeModifier("HORSE_WALK", 0, AttributeModifier.Operation.ADDITION), 0),
-		TROT(new AttributeModifier("HORSE_TROT", 0, AttributeModifier.Operation.ADDITION), 1),
-		CANTER(new AttributeModifier("HORSE_CANTER", -0.1d, AttributeModifier.Operation.MULTIPLY_TOTAL), 2),
-		GALLOP(new AttributeModifier("HORSE_GALLOP", 0.2d, AttributeModifier.Operation.MULTIPLY_TOTAL), 3);
+		WALK(new AttributeModifier("HORSE_WALK", 0, AttributeModifier.Operation.ADDITION), 0, 0.05f),
+		TROT(new AttributeModifier("HORSE_TROT", 0, AttributeModifier.Operation.ADDITION), 1, 0.1f),
+		CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.ADDITION), 2, 0.5f),
+		CANTER_EXT(new AttributeModifier("HORSE_CANTER_EXT", 0, AttributeModifier.Operation.ADDITION), 3, 0.8f),
+		GALLOP(new AttributeModifier("HORSE_GALLOP", 0.2d, AttributeModifier.Operation.MULTIPLY_TOTAL), 4, 1.0f);
 		private AttributeModifier modifier;
 		private int speedLevel;
-		HorseSpeed(AttributeModifier modifier, int speedLevel) {
+		private float skillMultiplier;
+		HorseSpeed(AttributeModifier modifier, int speedLevel, float skillMultiplier) {
 			this.modifier = modifier;
 			this.speedLevel = speedLevel;
+			this.skillMultiplier = skillMultiplier;
 		}
 
 		public AttributeModifier getModifier() {
@@ -2367,6 +2376,10 @@ public class SWEMHorseEntityBase
 
 		public int getSpeedLevel() {
 			return this.speedLevel;
+		}
+
+		public float getSkillMultiplier() {
+			return this.skillMultiplier;
 		}
 
 	}

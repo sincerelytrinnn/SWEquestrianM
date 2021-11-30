@@ -100,7 +100,7 @@ public class HungerNeed {
 			HungerState nextState = this.getNextState();
 			this.setStateById(nextState.ordinal());
 			if (nextState == HungerState.FULLY_FED) {
-				this.tickCounter = 192_000;
+				this.tickCounter = 192_000 * (ConfigHolder.SERVER.multiplayerHungerThirst.get() ? 72 : 1);
 			} else {
 				this.tickCounter = getNextState().getTickAmountChange();
 			}
@@ -159,7 +159,7 @@ public class HungerNeed {
 	public CompoundNBT write(CompoundNBT nbt) {
 		if (this.state != null) {
 			nbt.putInt("hungerStateID", this.state.getId());
-			nbt.putInt("hungerTick", this.tickCounter);
+			nbt.putInt("hungerTick", ConfigHolder.SERVER.multiplayerHungerThirst.get() ? this.tickCounter/72 : this.tickCounter);
 			nbt.putInt("hungerPoints", this.points);
 			nbt.putInt("hungerTotalTimesFed", this.getTotalTimesFed());
 			nbt.putIntArray("hungerTimesFed", this.TIMES_FED);
@@ -178,9 +178,9 @@ public class HungerNeed {
 		if (nbt.contains("hungerTick")) {
 			int ticks = nbt.getInt("hungerTick");
 			if (ticks == 0 && this.state != HungerState.STARVING) {
-				ticks = getNextState().tickAmountChange;
+				ticks = getNextState().getTickAmountChange();
 			}
-			this.tickCounter = ticks;
+			this.tickCounter = ConfigHolder.SERVER.multiplayerHungerThirst.get() ? ticks * 72 : ticks;
 		}
 		if (nbt.contains("hungerPoints")) {
 			int points = nbt.getInt("hungerPoints");

@@ -74,21 +74,6 @@ public class HorseDoorBlock extends Block{
 		}
 	}
 
-
-
-	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
-		switch(type) {
-			case LAND:
-				return state.getValue(OPEN);
-			case WATER:
-				return false;
-			case AIR:
-				return state.getValue(OPEN);
-			default:
-				return false;
-		}
-	}
-
 	private int getCloseSound() {
 		return this.material == Material.METAL ? 1011 : 1012;
 	}
@@ -110,6 +95,20 @@ public class HorseDoorBlock extends Block{
 		} else {
 			// Check right.
 			return checkAndGetLeftSide(blockpos, direction, context, hinge, false);
+		}
+	}
+
+	@Override
+	public boolean isPathfindable(BlockState pState, IBlockReader pLevel, BlockPos pPos, PathType pType) {
+		switch(pType) {
+			case LAND:
+				return pState.getValue(OPEN);
+			case WATER:
+				return false;
+			case AIR:
+				return pState.getValue(OPEN);
+			default:
+				return false;
 		}
 	}
 
