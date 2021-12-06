@@ -33,6 +33,10 @@ public class ThirstNeed {
 		}
 	}
 
+	public boolean canIncrementState() {
+		return this.state != ThirstState.QUENCHED;
+	}
+
 	public void incrementState() {
 		if (this.state != ThirstState.QUENCHED) {
 			ThirstState nextState = getNextState();

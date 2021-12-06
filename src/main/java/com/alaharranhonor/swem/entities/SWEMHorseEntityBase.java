@@ -95,7 +95,7 @@ public class SWEMHorseEntityBase
 	private static final DataParameter<Integer> HORSE_VARIANT = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 
 	public static final Ingredient TEMPTATION_ITEMS = Ingredient.of(SWEMItems.AMETHYST.get());
-	public static final Ingredient FOOD_ITEMS = Ingredient.of(Items.APPLE, Items.CARROT, SWEMItems.OAT_BUSHEL.get(), SWEMItems.TIMOTHY_BUSHEL.get(), SWEMItems.ALFALFA_BUSHEL.get(), SWEMBlocks.QUALITY_BALE_ITEM.get(), SWEMItems.SUGAR_CUBE.get());
+	public static final Ingredient FOOD_ITEMS = Ingredient.of(Items.APPLE, Items.CARROT, SWEMItems.OAT_BUSHEL.get(), SWEMItems.TIMOTHY_BUSHEL.get(), SWEMItems.ALFALFA_BUSHEL.get(), SWEMBlocks.QUALITY_BALE_ITEM.get(), SWEMItems.SUGAR_CUBE.get(), SWEMItems.SWEET_FEED.get());
 	public static final Ingredient NEGATIVE_FOOD_ITEMS = Ingredient.of(Items.WHEAT, Items.HAY_BLOCK);
 	private static final DataParameter<Boolean> FLYING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public static final DataParameter<Boolean> JUMPING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
@@ -1807,13 +1807,17 @@ public class SWEMHorseEntityBase
 
 			if (NEGATIVE_FOOD_ITEMS.test(itemstack)) {
 				// Emit negative particle effects.
+				if (!this.level.isClientSide) {
+					((ServerWorld) this.level).sendParticles(SWEMParticles.BAD.get(), this.getX(), this.getY() + 2.5, this.getZ(), 4, 0.3D, 0.3D, 0.3D, 0.3D);
+				}
 				return ActionResultType.FAIL;
 			}
 
 			if (FOOD_ITEMS.test(itemstack)) {
 				if (this.getNeeds().getHunger().getTotalTimesFed() == 7) {
 					// Emit negative particle effects.
-					return ActionResultType.FAIL;
+					((ServerWorld) this.level).sendParticles(SWEMParticles.ECH.get(), this.getX(), this.getY() + 2.5, this.getZ(), 6, 0.3D, 0.3D, 0.3D, 0.3D);
+					return ActionResultType.PASS;
 				}
 
 				if (!this.level.isClientSide) {
@@ -1825,15 +1829,18 @@ public class SWEMHorseEntityBase
 							this.progressionManager.getAffinityLeveling().addXP(5.0F);
 						}
 
-						this.level.addParticle(SWEMParticles.YAY.get(), this.getX(), this.getY() + 1.5, this.getZ(), 3.0, 0.3D, 0.3D);
+						((ServerWorld) this.level).sendParticles(SWEMParticles.YAY.get(), this.getX(), this.getY() + 2.5, this.getZ(), 3, 0.3D, 0.3D, 0.3D, 0.3D);
 					} else {
-						this.level.addParticle(SWEMParticles.ECH.get(), this.getX(), this.getY() + 1.5, this.getZ(), 3.0, 0.3D, 0.3D);
-						return ActionResultType.FAIL;
+						((ServerWorld) this.level).sendParticles(SWEMParticles.ECH.get(), this.getX(), this.getY() + 2.5, this.getZ(), 3, 0.3D, 0.3D, 0.3D, 0.3D);
+						// Stop the swing from happening
+						return ActionResultType.SUCCESS;
 					}
 
 
 				}
 
+				// This here, makes the swing anim, when feeding items. on the client side.
+				// Make this fail, if you can't add points.
 				return ActionResultType.sidedSuccess(this.level.isClientSide);
 			}
 
@@ -1844,11 +1851,20 @@ public class SWEMHorseEntityBase
 
 
 			if (item == Items.WATER_BUCKET) {
-				if (!this.level.isClientSide) {
+				if (!this.level.isClientSide && this.getNeeds().getThirst().canIncrementState()) {
 					this.getNeeds().getThirst().incrementState();
 					playerEntity.setItemInHand(hand, ((BucketItem) item).getEmptySuccessItem(itemstack, playerEntity));
+					((ServerWorld) this.level).sendParticles(SWEMParticles.YAY.get(), this.getX(), this.getY() + 2.5, this.getZ(), 4, 0.3D, 0.3D, 0.3D, 0.3D);
+					return ActionResultType.CONSUME;
+				} else if (this.level.isClientSide && !this.getNeeds().getThirst().canIncrementState()) {
+					// Stop the swing from happening
+					return ActionResultType.SUCCESS;
+
+				} else if (!this.level.isClientSide && !this.getNeeds().getThirst().canIncrementState()) {
+					// Stop the swing from happening
+					((ServerWorld) this.level).sendParticles(SWEMParticles.ECH.get(), this.getX(), this.getY() + 2.5, this.getZ(), 3, 0.3D, 0.3D, 0.3D, 0.3D);
+					return ActionResultType.SUCCESS;
 				}
-				return ActionResultType.sidedSuccess(this.level.isClientSide);
 			}
 
 			ActionResultType actionresulttype = itemstack.interactLivingEntity(playerEntity, this, hand);
