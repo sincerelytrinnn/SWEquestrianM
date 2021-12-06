@@ -271,9 +271,13 @@ public class SWEMBlocks {
 			() -> new BlockItemBase(AMETHYST_ORE.get()));
 	public static final RegistryObject<Item> QUALITY_BALE_ITEM = SWEMItems.ITEMS.register("quality_bale",
 			() -> new BlockItemBase(QUALITY_BALE.get()));
-	public static final RegistryObject<Item> DARK_SHAVINGS_ITEM = SWEMItems.ITEMS.register("dark_shavings",
+	public static final RegistryObject<Item> DARK_SHAVINGS_UNOPENED_ITEM = SWEMItems.ITEMS.register("dark_shavings",
+			() -> new ShavingsItem.UnopenedShavingsItem(true));
+	public static final RegistryObject<Item> LIGHT_SHAVINGS_UNOPENED_ITEM = SWEMItems.ITEMS.register("light_shavings",
+			() -> new ShavingsItem.UnopenedShavingsItem(false));
+	public static final RegistryObject<Item> DARK_SHAVINGS_ITEM = SWEMItems.ITEMS.register("dark_shavings_opened",
 			() -> new ShavingsItem(DARK_SHAVINGS.get()));
-	public static final RegistryObject<Item> LIGHT_SHAVINGS_ITEM = SWEMItems.ITEMS.register("light_shavings",
+	public static final RegistryObject<Item> LIGHT_SHAVINGS_ITEM = SWEMItems.ITEMS.register("light_shavings_opened",
 			() -> new ShavingsItem(LIGHT_SHAVINGS.get()));
 	public static final RegistryObject<Item> SOILED_SHAVINGS_ITEM = SWEMItems.ITEMS.register("soiled_shavings",
 			ShavingsItem.SoiledShavingsItem::new);
