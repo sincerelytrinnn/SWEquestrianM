@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "swem:tile/tackbox_white"
+    "all": "swem:blocks/horse_armor_rack_back"
   }
 }

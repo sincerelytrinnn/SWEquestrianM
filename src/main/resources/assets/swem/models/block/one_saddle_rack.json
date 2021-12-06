@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "swem:tile/tackbox_white"
+    "all": "swem:tile/saddle_rack_wall"
   }
 }
