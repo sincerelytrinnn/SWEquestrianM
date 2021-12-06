@@ -2116,7 +2116,7 @@ public class SWEMHorseEntityBase
 	}
 
 	public void incrementSpeed() {
-		if (this.getRandom().nextDouble() < ((this.progressionManager.getAffinityLeveling().getDebuff() * this.currentSpeed.getSkillMultiplier()) * this.standingTimer > 0 ? 0.5 : 1)) {
+		if (this.getRandom().nextDouble() < ((this.progressionManager.getAffinityLeveling().getDebuff() * this.currentSpeed.getSkillMultiplier()) * (this.standingTimer > 0 ? 0.5 : 1))) {
 			this.setStandingAnim();
 			return;
 		}
