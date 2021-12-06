@@ -1,6 +1,7 @@
 package com.alaharranhonor.swem.container;
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.tileentity.TackBoxTE;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
@@ -128,7 +129,7 @@ public class TackBoxContainer extends Container {
 
 			@Override
 			public boolean mayPlace(ItemStack stack) {
-				return false;
+				return stack.getItem() instanceof AdventureSaddleItem;
 			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 13, adventureX, slotStartY + 3 + 18){
@@ -139,7 +140,7 @@ public class TackBoxContainer extends Container {
 
 			@Override
 			public boolean mayPlace(ItemStack stack) {
-				return false;
+				return stack.getItem() instanceof SWEMHorseArmorItem;
 			}
 		});
 		this.addSlot(new Slot(this.tileEntity, 14, adventureX, slotStartY + 6 + 36){
@@ -149,7 +150,7 @@ public class TackBoxContainer extends Container {
 			}
 			@Override
 			public boolean mayPlace(ItemStack stack) {
-				return false;
+				return stack.getItem() instanceof SaddlebagItem;
 			}
 		});
 

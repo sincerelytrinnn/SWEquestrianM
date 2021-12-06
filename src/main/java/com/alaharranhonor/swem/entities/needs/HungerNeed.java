@@ -50,7 +50,7 @@ public class HungerNeed {
 	public HungerNeed(SWEMHorseEntityBase horse) {
 		this.horse = horse;
 		this.setState(HungerState.FULLY_FED);
-		this.tickCounter = 192_000; //192_000;
+		this.tickCounter = 192_000 * (ConfigHolder.SERVER.multiplayerHungerThirst.get() ? 72 : 1); //192_000;
 	}
 
 

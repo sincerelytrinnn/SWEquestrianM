@@ -19,7 +19,7 @@ public class ThirstNeed {
 	public ThirstNeed(SWEMHorseEntityBase horse) {
 		this.horse = horse;
 		this.setState(ThirstState.QUENCHED);
-		this.tickCounter = 96_000;
+		this.tickCounter = 96_000 * (ConfigHolder.SERVER.multiplayerHungerThirst.get() ? 72 : 1);
 	}
 
 	public void tick() {
@@ -31,6 +31,10 @@ public class ThirstNeed {
 		if (this.tickCounter <= this.state.getTickAmountChange() && this.state != ThirstState.EXICCOSIS) {
 			this.setStateById(this.state.getId() - 1);
 		}
+	}
+
+	public boolean canIncrementState() {
+		return this.state != ThirstState.QUENCHED;
 	}
 
 	public void incrementState() {

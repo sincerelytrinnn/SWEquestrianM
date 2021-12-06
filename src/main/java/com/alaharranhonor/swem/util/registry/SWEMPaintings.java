@@ -33,6 +33,7 @@ public class SWEMPaintings {
 	public static final RegistryObject<PaintingType> ZIPPY_CANTER_DARK_OAK = PAINTINGS.register("zippy_canter_dark_oak", () -> new PaintingType(32, 32));
 	public static final RegistryObject<PaintingType> ZIPPY_JUMP_DARK_OAK = PAINTINGS.register("zippy_jump_dark_oak", () -> new PaintingType(64, 48));
 	public static final RegistryObject<PaintingType> ZIPPY_WINNER_DARK_OAK = PAINTINGS.register("zippy_winner_dark_oak", () -> new PaintingType(16, 32));
+	public static final RegistryObject<PaintingType> LADY_IN_MEMORY = PAINTINGS.register("lady_in_memory", () -> new PaintingType(16, 32));
 
 
 
