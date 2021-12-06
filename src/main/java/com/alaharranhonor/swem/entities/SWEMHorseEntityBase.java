@@ -2116,12 +2116,14 @@ public class SWEMHorseEntityBase
 	}
 
 	public void incrementSpeed() {
+		HorseSpeed oldSpeed = this.currentSpeed;
+		if (oldSpeed == HorseSpeed.GALLOP) return; // Return if current gait is already max.
+
 		if (this.getRandom().nextDouble() < ((this.progressionManager.getAffinityLeveling().getDebuff() * this.currentSpeed.getSkillMultiplier()) * (this.standingTimer > 0 ? 0.5 : 1))) {
 			this.setStandingAnim();
 			return;
 		}
-		HorseSpeed oldSpeed = this.currentSpeed;
-		if (oldSpeed == HorseSpeed.GALLOP) return;
+
 		else if (oldSpeed == HorseSpeed.CANTER_EXT) {
 			if (this.entityData.get(GALLOP_ON_COOLDOWN)) {
 				ArrayList<String> args = new ArrayList<>();
