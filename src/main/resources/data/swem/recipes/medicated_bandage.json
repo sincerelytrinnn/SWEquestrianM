@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "saplings",
+  "group": "medical",
   "pattern":
   [
     "x  ",
@@ -10,16 +10,16 @@
   {
     "x":
     {
-      "item": "minecraft:dark_oak_log"
+      "item": "swem:salve"
     },
     "y":
     {
-      "item": "minecraft:dark_oak_leaves"
+      "item": "swem:bandage"
     }
   },
   "result":
   {
-    "item": "minecraft:dark_oak_sapling",
+    "item": "swem:medicated_bandage",
     "count": 1
   }
 }

@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "swem:podzol"
+      "swem:glistening_melon"
     ]
   },
   "criteria": {
-    "has_spruce_leaves": {
+    "has_cantazarite": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "minecraft:spruce_leaves"
+            "item": "swem:cantazarite"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "swem:podzol"
+        "recipe": "swem:glistening_melon"
       }
     }
   },
   "requirements": [
     [
-      "has_spruce_leaves",
+      "has_cantazarite",
       "has_the_recipe"
     ]
   ]

@@ -2,11 +2,11 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "minecraft:quartz_block"
+      "item": "swem:cantazarite_block"
     }
   ],
   "result": {
-    "item": "minecraft:quartz",
-    "count": 4
+    "item": "swem:cantazarite",
+    "count": 9
   }
 }
