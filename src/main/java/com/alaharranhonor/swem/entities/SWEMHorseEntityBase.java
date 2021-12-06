@@ -1539,6 +1539,13 @@ public class SWEMHorseEntityBase
 					this.setRot(this.yRot, this.xRot);
 					this.yBodyRot = this.yRot;
 					this.yHeadRot = this.yBodyRot;
+				} else {
+					this.yRot = livingentity.yRot;
+					this.yRotO = this.yRot;
+					this.xRot = livingentity.xRot * 0.5F;
+					this.setRot(this.yRot, this.xRot);
+					this.yBodyRot = this.yRot;
+					this.yHeadRot = this.yBodyRot;
 				}
 			} else {
 				super.travel(travelVector);
