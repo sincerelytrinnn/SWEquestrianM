@@ -74,7 +74,10 @@ public class PoopEntity extends LivingEntity implements IAnimatable {
 
 	@Override
 	protected void doPush(Entity entityIn) {
-		System.out.println("Horse poop was pushed");
+		if (entityIn instanceof SWEMHorseEntityBase) {
+			this.spawnAtLocation(new ItemStack(SWEMItems.POOP.get()));
+			this.remove();
+		}
 	}
 
 	/**
