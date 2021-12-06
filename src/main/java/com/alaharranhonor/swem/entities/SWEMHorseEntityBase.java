@@ -1794,7 +1794,7 @@ public class SWEMHorseEntityBase
 		Item item = itemstack.getItem();
 
 		if (!itemstack.isEmpty() && item != Items.SADDLE) {
-			if (item == Items.LAPIS_LAZULI) {
+			if (item == Items.LAPIS_LAZULI && playerEntity.getUUID().equals(this.getOwnerUUID())) {
 				if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
 					this.setHorseVariant((this.getHorseVariant() + 1) % (SWEMCoatColors.values().length - 2));
 					ItemStack heldItemCopy = itemstack.copy();
