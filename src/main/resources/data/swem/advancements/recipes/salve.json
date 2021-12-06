@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "swem:torches_coal_block"
+      "swem:salve"
     ]
   },
   "criteria": {
-    "has_coal_block": {
+    "has_star_worm_goop": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "minecraft:coal_block"
+            "item": "swem:star_worm_goop"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "swem:torches_coal_block"
+        "recipe": "swem:salve"
       }
     }
   },
   "requirements": [
     [
-      "has_coal_block",
+      "has_star_worm_goop",
       "has_the_recipe"
     ]
   ]

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "medical",
+  "ingredients": [
+    {
+      "item": "minecraft:glistering_melon_slice"
+    },
+    {
+      "item": "swem:cantazarite"
+    }
+  ],
+  "result": {
+    "item": "swem:glistening_melon",
+    "count": 1
+  }
+}

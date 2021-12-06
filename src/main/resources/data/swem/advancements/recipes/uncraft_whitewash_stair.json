@@ -2,21 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "swem:acacia_sapling",
-      "swem:birch_sapling",
-      "swem:dark_oak_sapling",
-      "swem:jungle_sapling",
-      "swem:oak_sapling",
-      "swem:spruce_sapling"
+      "swem:uncraft_whitewash_stairs"
     ]
   },
   "criteria": {
-    "has_leaves": {
+    "has_whitewash_stairs": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "tag": "minecraft:leaves"
+            "item": "swem:whitewash_stairs"
           }
         ]
       }
@@ -24,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "swem:acacia_sapling"
+        "recipe": "swem:uncraft_whitewash_stairs"
       }
     }
   },
   "requirements": [
     [
-      "has_leaves",
+      "has_whitewash_stairs",
       "has_the_recipe"
     ]
   ]

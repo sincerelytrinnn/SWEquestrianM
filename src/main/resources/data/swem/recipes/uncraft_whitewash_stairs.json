@@ -1,12 +1,13 @@
 {
   "type": "minecraft:crafting_shapeless",
+  "group": "whitewash_planks",
   "ingredients": [
     {
-      "item": "minecraft:charcoal"
+      "item": "swem:whitewash_stairs"
     }
   ],
   "result": {
-    "item": "minecraft:black_dye",
+    "item": "swem:whitewash_plank",
     "count": 1
   }
 }

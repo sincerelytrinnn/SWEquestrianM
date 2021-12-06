@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "swem:diamond"
+      "swem:medicated_bandage"
     ]
   },
   "criteria": {
-    "has_coal_block": {
+    "has_salve": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "minecraft:coal_block"
+            "item": "swem:salve"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "swem:diamond"
+        "recipe": "swem:medicated_bandage"
       }
     }
   },
   "requirements": [
     [
-      "has_coal_block",
+      "has_salve",
       "has_the_recipe"
     ]
   ]
