@@ -191,8 +191,7 @@ public class SWEMHorseEntityBase
 		this.goalSelector.addGoal(7, new LookForFoodGoal(this, 4.0d));
 		this.goalSelector.addGoal(7, new LookForWaterGoal(this, 4.0d));
 		//this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
-		this.goalSelector.addGoal(9, new EatGrassGoal(this));
+		this.goalSelector.addGoal(9, new LookRandomlyGoal(this));
 	}
 
 	// This method is being called from the SEntityStatusPacket, which is fired in the goal's start method, with the broadcastAndSendChanges
