@@ -44,7 +44,7 @@ public class ShavingsItem extends BlockItem {
         private Item shavingItem;
 
         public UnopenedShavingsItem(Item shavingItem) {
-            super(new Item.Properties().tab(SWEM.TAB).stacksTo(64));
+            super(new Item.Properties().tab(SWEM.TAB).stacksTo(16));
             this.shavingItem = shavingItem;
         }
 
