@@ -41,11 +41,11 @@ public class ShavingsItem extends BlockItem {
     }
 
     public static class UnopenedShavingsItem extends Item {
-        private boolean dark;
+        private Item shavingItem;
 
-        public UnopenedShavingsItem(boolean darkShavings) {
+        public UnopenedShavingsItem(Item shavingItem) {
             super(new Item.Properties().tab(SWEM.TAB).stacksTo(64));
-            this.dark = darkShavings;
+            this.shavingItem = shavingItem;
         }
 
         /**
@@ -60,7 +60,7 @@ public class ShavingsItem extends BlockItem {
         public ActionResult<ItemStack> use(World pLevel, PlayerEntity pPlayer, Hand pHand) {
             if (!pLevel.isClientSide) {
                 pPlayer.getItemInHand(pHand).shrink(1);
-                ItemStack shavings = new ItemStack(this.dark ? SWEMBlocks.DARK_SHAVINGS_ITEM.get() : SWEMBlocks.LIGHT_SHAVINGS_ITEM.get());
+                ItemStack shavings = new ItemStack(this.shavingItem);
                 pPlayer.addItem(shavings);
             }
             return super.use(pLevel, pPlayer, pHand);
