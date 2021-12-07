@@ -210,5 +210,9 @@ public class SWEM
         public ItemStack makeIcon() {
             return new ItemStack(SWEMItems.WESTERN_SADDLE_LIGHT_BLUE.get());
         }
-    };
+        @Override
+        public boolean hasSearchBar() {
+            return true;
+        }
+    }.setBackgroundImage(new ResourceLocation("minecraft", "textures/gui/container/creative_inventory/tab_item_search.png"));
 }
