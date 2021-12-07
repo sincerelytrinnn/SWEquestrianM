@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "pattern":
   [
-    "xxx",
+    "xyx",
     " x ",
     "xxx"
   ],
@@ -11,6 +11,10 @@
 	"x":
     {
       "item": "swem:cantazarite"
+    },
+    "y":
+    {
+      "item": "swem:cantazarite_block"
     }
   },
   "result":
