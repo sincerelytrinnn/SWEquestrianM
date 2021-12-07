@@ -1,0 +1,6 @@
+{
+  "variantIdBuilderMethod" : "xaero.common.minimap.render.radar.EntityIconDefinitions.buildVariantIdString",
+  "variants" : {
+    "default" : "normal_sprite:swem_horse.png"
+  }
+}

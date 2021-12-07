@@ -64,6 +64,14 @@ public class CHorseAnimationPacket {
 					horse.standAnimationTick = 42;
 					break;
 				}
+				case 3: {
+					horse.isWalkingBackwards = true;
+					break;
+				}
+				case 4: {
+					horse.isWalkingBackwards = false;
+					break;
+				}
 
 			}
 		});

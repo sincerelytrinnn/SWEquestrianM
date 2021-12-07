@@ -142,6 +142,7 @@ public class SWEMHorseEntityBase
 	public int standAnimationTick;
 	public int standAnimationVariant;
 	public int standingTimer = 0;
+	public boolean isWalkingBackwards = false;
 
 
 
@@ -1506,6 +1507,15 @@ public class SWEMHorseEntityBase
 						livingentity.zza *= 3f;
 						// We multiply with a number close to 4, since in the AbstractHorseEntity it slows the backwards movement with * 0.25
 						// So we counter that, by check if it's negative, but still make it a bit slower than regular walking.
+
+
+						System.out.println(this.level.isClientSide);
+						if (!this.isWalkingBackwards) {
+							SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(this.getId(), 3));
+						}
+
+					} else if (this.isWalkingBackwards) {
+						SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(this.getId(), 4));
 					}
 
 					// Check for camera lock her½e

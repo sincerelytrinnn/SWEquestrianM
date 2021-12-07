@@ -73,6 +73,8 @@ public class SWEMBlocks {
 			() -> new HayBlockBase(AbstractBlock.Properties.copy(Blocks.HAY_BLOCK)));
 	public static final RegistryObject<Block> DARK_SHAVINGS = BLOCKS.register("dark_shavings",
 			() -> new Shavings(AbstractBlock.Properties.of(new Material.Builder(MaterialColor.SNOW).noCollider().notSolidBlocking().nonSolid().destroyOnPush().replaceable().build()).randomTicks().strength(0.1F).requiresCorrectToolForDrops().sound(SoundType.SNOW)));
+	public static final RegistryObject<Block> MEDIUM_SHAVINGS = BLOCKS.register("medium_shavings",
+			() -> new Shavings(AbstractBlock.Properties.of(new Material.Builder(MaterialColor.SNOW).noCollider().notSolidBlocking().nonSolid().destroyOnPush().replaceable().build()).randomTicks().strength(0.1F).requiresCorrectToolForDrops().sound(SoundType.SNOW)));
 	public static final RegistryObject<Block> LIGHT_SHAVINGS = BLOCKS.register("light_shavings",
 			() -> new Shavings(AbstractBlock.Properties.of(new Material.Builder(MaterialColor.SNOW).noCollider().notSolidBlocking().nonSolid().destroyOnPush().replaceable().build()).randomTicks().strength(0.1F).requiresCorrectToolForDrops().sound(SoundType.SNOW)));
 	public static final RegistryObject<Block> SOILED_SHAVINGS = BLOCKS.register("soiled_shavings",
@@ -271,10 +273,19 @@ public class SWEMBlocks {
 			() -> new BlockItemBase(AMETHYST_ORE.get()));
 	public static final RegistryObject<Item> QUALITY_BALE_ITEM = SWEMItems.ITEMS.register("quality_bale",
 			() -> new BlockItemBase(QUALITY_BALE.get()));
-	public static final RegistryObject<Item> DARK_SHAVINGS_ITEM = SWEMItems.ITEMS.register("dark_shavings",
+
+	public static final RegistryObject<Item> DARK_SHAVINGS_ITEM = SWEMItems.ITEMS.register("dark_shavings_opened",
 			() -> new ShavingsItem(DARK_SHAVINGS.get()));
-	public static final RegistryObject<Item> LIGHT_SHAVINGS_ITEM = SWEMItems.ITEMS.register("light_shavings",
+	public static final RegistryObject<Item> MEDIUM_SHAVINGS_ITEM = SWEMItems.ITEMS.register("medium_shavings_opened",
+			() -> new ShavingsItem(MEDIUM_SHAVINGS.get()));
+	public static final RegistryObject<Item> LIGHT_SHAVINGS_ITEM = SWEMItems.ITEMS.register("light_shavings_opened",
 			() -> new ShavingsItem(LIGHT_SHAVINGS.get()));
+	public static final RegistryObject<Item> DARK_SHAVINGS_UNOPENED_ITEM = SWEMItems.ITEMS.register("dark_shavings",
+			() -> new ShavingsItem.UnopenedShavingsItem(DARK_SHAVINGS_ITEM.get()));
+	public static final RegistryObject<Item> MEDIUM_SHAVINGS_UNOPENED_ITEM = SWEMItems.ITEMS.register("medium_shavings",
+			() -> new ShavingsItem.UnopenedShavingsItem(MEDIUM_SHAVINGS_ITEM.get()));
+	public static final RegistryObject<Item> LIGHT_SHAVINGS_UNOPENED_ITEM = SWEMItems.ITEMS.register("light_shavings",
+			() -> new ShavingsItem.UnopenedShavingsItem(LIGHT_SHAVINGS_ITEM.get()));
 	public static final RegistryObject<Item> SOILED_SHAVINGS_ITEM = SWEMItems.ITEMS.register("soiled_shavings",
 			ShavingsItem.SoiledShavingsItem::new);
 	public static final RegistryObject<Item> BLEACHER_SLAB_ITEM = SWEMItems.ITEMS.register("bleacher",

@@ -10,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fml.network.PacketDistributor;
 import org.apache.logging.log4j.core.jmx.Server;
 
 import java.util.UUID;
@@ -67,7 +68,14 @@ public class SHorseAnimationPacket {
 					horse.standAnimationTick = 42;
 					break;
 				}
-
+				case 3: { // Backwards walking packet.
+					SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new CHorseAnimationPacket(horse.getId(), 3));
+					break;
+				}
+				case 4: { // Backwards walking packet.
+					SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new CHorseAnimationPacket(horse.getId(), 4));
+					break;
+				}
 			}
 		});
 		ctx.get().setPacketHandled(true);
