@@ -1638,12 +1638,12 @@ public class SWEMHorseEntityBase
 
 
 	private void startJump(float jumpHeight) {
-		SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), true, jumpHeight));
+		SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), jumpHeight));
 	}
 
 	private void stopJump() {
 		if (this.level.isClientSide) {
-			SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), false, 0.0F));
+			SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), 0.0F));
 		}
 	}
 
