@@ -1,5 +1,20 @@
 package com.alaharranhonor.swem.util;
 
+
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.items.PestleMortarItem;
 import com.google.common.collect.Lists;
@@ -481,6 +496,7 @@ public class SWLRegistryHandler {
 		validUUIDS.add("64aa9724b3054253a7afc3d855f95384");
 		validUUIDS.add("86c03404fcb84d20a11932e69db3519b");
 		validUUIDS.add("a3159268e4e8433b9bae2886a7f03d07");
+		validUUIDS.add("1c70c677ad26421fb52e5f04f5c5bdeb");
 
 
 		String playerUUID = Minecraft.getInstance().getUser().getUuid().replaceAll("-", "");

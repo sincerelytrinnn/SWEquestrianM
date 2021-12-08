@@ -1,5 +1,20 @@
 package com.alaharranhonor.swem;
 
+
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 import com.alaharranhonor.swem.blocks.TimothyGrass;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.PoopEntity;
@@ -17,8 +32,10 @@ import com.alaharranhonor.swem.world.structure.SWEMConfiguredStructures;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.WoodType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.entity.VillagerRenderer;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
@@ -210,5 +227,10 @@ public class SWEM
         public ItemStack makeIcon() {
             return new ItemStack(SWEMItems.WESTERN_SADDLE_LIGHT_BLUE.get());
         }
-    };
+
+        @Override
+        public boolean hasSearchBar() {
+            return super.hasSearchBar();
+        }
+    }.setBackgroundImage(new ResourceLocation("minecraft", "item_search.png"));
 }
