@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 
 #
+# All Rights Reserved
+#
 # Copyright (c) 2021, AlaharranHonor, Legenden.
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR

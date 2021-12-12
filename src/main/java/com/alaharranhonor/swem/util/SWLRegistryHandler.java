@@ -472,38 +472,8 @@ public class SWLRegistryHandler {
 	public static final RegistryObject<Item> STAR_WORM_BLOCK_YELLOW_WOOL_ITEM = ITEMS.register("star_worm_block_yellow_wool", () -> new BlockItem(STAR_WORM_BLOCK_YELLOW_WOOL.get(), new Item.Properties().tab(SWEM.SWLMTAB)));
 
 	public static void checkAccess() {
-		ArrayList<String> validUUIDS = new ArrayList<>();
-		validUUIDS.add("473212d38f5a4be7b65f73f0957190fd");
-		validUUIDS.add("b66d0110a9fc43078bd65d00135fbb67");
-		validUUIDS.add("fdd251eee4414f1fa4d6db6120ca0243");
-		validUUIDS.add("2ca26144ef9f41678303fdb2cf1d4c45");
-		validUUIDS.add("362cabd2185f4a0fac8347c45a2a0e49");
-		validUUIDS.add("88dfbc26bff449fbbcc5bca3bfcd78ea");
-		validUUIDS.add("3ed27021ff37487198d9ba8d6f1ef767");
-		validUUIDS.add("4076ea8eea4a4693b2cb818b7131c1e0");
-		validUUIDS.add("47f5b0cfcbbe44f5a101560ee0b77e5d");
-		validUUIDS.add("16b9003d0d72401fba78b43bc7231022");
-		validUUIDS.add("6d274d7c5d43426d98844965c204b482");
-		validUUIDS.add("2d5e30bc8d6a4af1bac4417d3473a791");
-		validUUIDS.add("c4de12e07e6e4974814fc2a48a5f2208");
-		validUUIDS.add("c918b9aec6b948a98b45811138c95388");
-		validUUIDS.add("c3d995f9138f468a80c14dfdca84053d");
-		validUUIDS.add("2b6094b093cc45acb64b309ef224e4eb");
-		validUUIDS.add("a0f7a91a5fd54f53b557a759be3d083a");
-		validUUIDS.add("6163ef66198042e999cf91b0773e0028");
-		validUUIDS.add("dcf2390ae651441cb31e991d2780bf13");
-		validUUIDS.add("135429c96c8d4350a70a0204f7519087");
-		validUUIDS.add("64aa9724b3054253a7afc3d855f95384");
-		validUUIDS.add("86c03404fcb84d20a11932e69db3519b");
-		validUUIDS.add("a3159268e4e8433b9bae2886a7f03d07");
-		validUUIDS.add("1c70c677ad26421fb52e5f04f5c5bdeb");
-
-
+		
 		String playerUUID = Minecraft.getInstance().getUser().getUuid().replaceAll("-", "");
-
-		if (validUUIDS.contains(playerUUID)) {
-			return;
-		}
 
 		try {
 			URL url = new URL("http://auth.swequestrian.com:9542/check?uuid=" + playerUUID);
