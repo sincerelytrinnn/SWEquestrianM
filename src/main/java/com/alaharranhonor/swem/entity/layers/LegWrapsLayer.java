@@ -18,12 +18,14 @@ package com.alaharranhonor.swem.entity.layers;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.items.tack.LegWrapsItem;
+import com.alaharranhonor.swem.items.tack.WesternLegWraps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.item.IDyeableArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
@@ -41,7 +43,22 @@ public class LegWrapsLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, SWEMHorseEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		ItemStack stack = entitylivingbaseIn.getLegWraps();
 		if (!stack.isEmpty()) {
-			LegWrapsItem legWraps = (LegWrapsItem)stack.getItem();
+			LegWrapsItem legWraps = (LegWrapsItem) stack.getItem();
+			float f, f1, f2;
+			if (stack.getItem() instanceof IDyeableArmorItem) {
+				IDyeableArmorItem dyeArmor = (IDyeableArmorItem) stack.getItem();
+
+				int i = dyeArmor.getColor(stack);
+
+				f = (float)(i >> 16 & 255) / 255.0F;
+				f1 = (float)(i >> 8 & 255) / 255.0F;
+				f2 = (float)(i & 255) / 255.0F;
+
+			} else {
+				f = 1.0F;
+				f1 = 1.0F;
+				f2 = 1.0F;
+			}
 
 			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
 					entitylivingbaseIn,
@@ -50,7 +67,7 @@ public class LegWrapsLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 					matrixStackIn,
 					bufferIn,
 					bufferIn.getBuffer(RenderType.entityCutout(legWraps.getArmorTexture())),
-					packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
+					packedLightIn, OverlayTexture.NO_OVERLAY, f, f1, f2, 1
 			);
 		}
 	}

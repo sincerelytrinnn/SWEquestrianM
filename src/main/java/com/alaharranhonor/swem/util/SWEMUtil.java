@@ -17,8 +17,11 @@ package com.alaharranhonor.swem.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -234,5 +237,37 @@ public class SWEMUtil {
 		} else {
 			return text;
 		}
+	}
+
+
+	public static DyeColor[] COLOURS = {
+		DyeColor.LIGHT_GRAY,
+		DyeColor.CYAN,
+		DyeColor.BLUE,
+		DyeColor.PINK,
+		DyeColor.MAGENTA,
+			DyeColor.PURPLE,
+			DyeColor.YELLOW,
+			DyeColor.YELLOW,
+			DyeColor.RED,
+			DyeColor.LIME,
+			DyeColor.GREEN,
+			DyeColor.BROWN,
+			DyeColor.WHITE,
+			DyeColor.LIGHT_GRAY,
+			DyeColor.GRAY,
+			DyeColor.BLACK
+	};
+
+	private static final DyeColor[] BY_ID = Arrays.stream(COLOURS).sorted(Comparator.comparingInt(DyeColor::getId)).toArray((p_199795_0_) -> {
+		return new DyeColor[p_199795_0_];
+	});
+
+	public static DyeColor logicalById(int pColorId) {
+		if (pColorId < 0 || pColorId >= BY_ID.length) {
+			pColorId = 0;
+		}
+
+		return BY_ID[pColorId];
 	}
 }

@@ -275,6 +275,7 @@ public class SWEMItems {
 	public static final RegistryObject<EnglishGirthStrap> ENGLISH_GIRTH_STRAP_BROWN = ITEMS.register("english_girth_strap_brown", () -> new EnglishGirthStrap("english_girth_strap_brown", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
 
 	// LEG WRAPS
+	public static final RegistryObject<WesternLegWraps> WESTERN_LEG_WRAPS = ITEMS.register("western_leg_wraps", () -> new WesternLegWraps("western_leg_wraps", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<AdventureLegWrapsItem> ADVENTURE_LEG_WRAPS = ITEMS.register("adventure_leg_wraps", () -> new AdventureLegWrapsItem("adventure_leg_wraps", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<WesternLegWraps> WESTERN_LEG_WRAPS_WHITE = ITEMS.register("western_leg_wraps_white", () -> new WesternLegWraps("western_leg_wraps_white", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<WesternLegWraps> WESTERN_LEG_WRAPS_BLACK = ITEMS.register("western_leg_wraps_black", () -> new WesternLegWraps("western_leg_wraps_black", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
@@ -292,6 +293,7 @@ public class SWEMItems {
 	public static final RegistryObject<WesternLegWraps> WESTERN_LEG_WRAPS_PURPLE = ITEMS.register("western_leg_wraps_purple", () -> new WesternLegWraps("western_leg_wraps_purple", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<WesternLegWraps> WESTERN_LEG_WRAPS_RED = ITEMS.register("western_leg_wraps_red", () -> new WesternLegWraps("western_leg_wraps_red", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<WesternLegWraps> WESTERN_LEG_WRAPS_YELLOW = ITEMS.register("western_leg_wraps_yellow", () -> new WesternLegWraps("western_leg_wraps_yellow", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
+	public static final RegistryObject<EnglishLegWraps> ENGLISH_LEG_WRAPS = ITEMS.register("english_leg_wraps", () -> new EnglishLegWraps("english_leg_wraps", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<EnglishLegWraps> ENGLISH_LEG_WRAPS_WHITE = ITEMS.register("english_leg_wraps_white", () -> new EnglishLegWraps("english_leg_wraps_white", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<EnglishLegWraps> ENGLISH_LEG_WRAPS_BLACK = ITEMS.register("english_leg_wraps_black", () -> new EnglishLegWraps("english_leg_wraps_black", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<EnglishLegWraps> ENGLISH_LEG_WRAPS_BROWN = ITEMS.register("english_leg_wraps_brown", () -> new EnglishLegWraps("english_leg_wraps_brown", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));

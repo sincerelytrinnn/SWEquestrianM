@@ -19,6 +19,7 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.ISWEMEquipable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.IDyeableArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResultType;
@@ -31,16 +32,18 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import net.minecraft.item.Item.Properties;
 
-public class LegWrapsItem extends Item {
+public class LegWrapsItem extends Item implements IDyeableArmorItem {
 
 	private final ResourceLocation texture;
+	private final ResourceLocation textureOverlay;
 	public LegWrapsItem(String textureName, Properties properties) {
-		this(new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/leg_wraps/" + textureName + ".png"), properties);
+		this(new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/leg_wraps/" + textureName + ".png"), new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/leg_wraps/" + textureName + "_overlay.png"), properties);
 
 	}
-	public LegWrapsItem(ResourceLocation texture, Properties properties) {
+	public LegWrapsItem(ResourceLocation texture, ResourceLocation textureOverlay, Properties properties) {
 		super(properties);
 		this.texture = texture;
+		this.textureOverlay = textureOverlay;
 	}
 
 	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
@@ -66,5 +69,10 @@ public class LegWrapsItem extends Item {
 	@OnlyIn(Dist.CLIENT)
 	public ResourceLocation getArmorTexture() {
 		return texture;
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public ResourceLocation getArmorTextureOverlay() {
+		return this.textureOverlay;
 	}
 }
