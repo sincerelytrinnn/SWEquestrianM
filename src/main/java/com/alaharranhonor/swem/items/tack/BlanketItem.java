@@ -1,5 +1,20 @@
 package com.alaharranhonor.swem.items.tack;
 
+
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.ISWEMEquipable;
 import net.minecraft.entity.LivingEntity;
@@ -16,7 +31,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import net.minecraft.item.Item.Properties;
 
-public class BlanketItem extends Item {
+public class BlanketItem extends HorseTackItem {
 
 	private final ResourceLocation texture;
 	public BlanketItem(String textureName, Properties properties) {
@@ -35,9 +50,9 @@ public class BlanketItem extends Item {
 				playerIn.displayClientMessage(new StringTextComponent("You need to equip a Halter/Bridle first."), true);
 				return ActionResultType.FAIL;
 			}
-			if (!iequipable.hasBlanket() && iequipable.isSaddleable() && iequipable.hasHalter()) {
+			if ((!iequipable.hasBlanket() || playerIn.isSecondaryUseActive()) && iequipable.isSaddleable(playerIn) && iequipable.hasHalter()) {
 				if (!playerIn.level.isClientSide) {
-					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack);
+					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
 					if (!playerIn.abilities.instabuild)
 						stack.shrink(1);
 				}

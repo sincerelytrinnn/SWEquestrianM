@@ -1,15 +1,35 @@
 package com.alaharranhonor.swem.tools;
 
+
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 import com.alaharranhonor.swem.blocks.EnglishFenceBlock;
 import com.alaharranhonor.swem.blocks.FenceBaseBlock;
 import com.alaharranhonor.swem.blocks.SWEMBlockStateProperties;
 import com.alaharranhonor.swem.items.ItemBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResultType;
 
-public class FenceToolItem extends ItemBase {
+public class FenceToolItem extends Item {
+	public FenceToolItem(Properties pProperties) {
+		super(pProperties);
+	}
+
 	/**
 	 * Called when this item is used when targetting a Block
 	 *

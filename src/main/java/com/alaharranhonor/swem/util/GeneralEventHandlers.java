@@ -1,5 +1,20 @@
 package com.alaharranhonor.swem.util;
 
+
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.AmethystRidingBoots;
 import com.alaharranhonor.swem.commands.DevCommand;
@@ -221,6 +236,7 @@ public class GeneralEventHandlers {
 				}
 
 				if (keyBindings[3].consumeClick()) {
+					/*
 					Entity entity = Minecraft.getInstance().player.getVehicle();
 					if (entity instanceof SWEMHorseEntityBase) {
 						SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
@@ -229,6 +245,7 @@ public class GeneralEventHandlers {
 							SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(10, horse.getId()));
 						}
 					}
+					 */
 				}
 
 				KEY_PRESS_COUNTER = 0;

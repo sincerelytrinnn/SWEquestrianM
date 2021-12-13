@@ -1,5 +1,20 @@
 package com.alaharranhonor.swem.entities;
 
+
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 import com.alaharranhonor.swem.network.SHorseAnimationPacket;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.util.registry.SWEMEntities;
@@ -129,7 +144,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		// No idea why this needs to be up here, but something in the following jump if statement, blocks the code execution when jumping into water.
 		boolean isInWater = horse.level.getBlockStates(horse.getBoundingBox().contract(0, 0, 0)).allMatch((bs) -> bs.getBlock() == Blocks.WATER);
 
-		if (!isInWater && horse.getEntityData().get(SWEMHorseEntityBase.JUMPING) && horse.jumpHeight != 0) {
+		if (!isInWater && horse.jumpHeight != 0) {
 			System.out.println("Horse is jumping with height: " + horse.jumpHeight);
 			if (horse.jumpHeight > 5.0F) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_5", false));

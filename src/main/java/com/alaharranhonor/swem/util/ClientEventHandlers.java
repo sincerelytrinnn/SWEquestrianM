@@ -1,5 +1,20 @@
 package com.alaharranhonor.swem.util;
 
+
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.*;
 import com.alaharranhonor.swem.blocks.HalfBarrelBlock;
@@ -26,9 +41,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemModelsProperties;
+import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.text.Color;
@@ -221,6 +234,13 @@ public class ClientEventHandlers {
 			return reader != null && pos != null ? BiomeColors.getAverageFoliageColor(reader, pos) : FoliageColors.getDefaultColor();
 		}, SWEMBlocks.JUMP_HEDGE.get());
 
+	}
+
+	@SubscribeEvent
+	public static void onRegisterItemColors(ColorHandlerEvent.Item event) {
+		event.getItemColors().register((p_210239_0_, p_210239_1_) -> {
+			return p_210239_1_ > 0 ? -1 : ((IDyeableArmorItem)p_210239_0_.getItem()).getColor(p_210239_0_);
+		}, SWEMItems.WESTERN_LEG_WRAPS.get(), SWEMItems.ENGLISH_LEG_WRAPS.get());
 	}
 
 	@SubscribeEvent

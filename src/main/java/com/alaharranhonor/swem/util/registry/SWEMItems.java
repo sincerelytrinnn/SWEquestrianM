@@ -1,5 +1,20 @@
 package com.alaharranhonor.swem.util.registry;
 
+
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.*;
 import com.alaharranhonor.swem.blocks.BlockItemBase;
@@ -81,7 +96,7 @@ public class SWEMItems {
 			() -> new BlockItemBase(SWEMBlocks.ALFALFA_PLANT.get()));
 	public static final RegistryObject<Item> OAT_SEEDS = ITEMS.register("oat_seeds",
 			() -> new BlockItemBase(SWEMBlocks.OAT_PLANT.get()));
-	public static final RegistryObject<FenceToolItem> FENCE_TOOL = ITEMS.register("fence_tool", FenceToolItem::new);
+	public static final RegistryObject<FenceToolItem> FENCE_TOOL = ITEMS.register("fence_tool", () -> new FenceToolItem(new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<WhistleItem> WHISTLE = ITEMS.register("whistle", WhistleItem::new);
 	public static final RegistryObject<PotionItem> CANTAZARITE_POTION = ITEMS.register("cantazarite_potion", () -> new CantazaritePotionItem(new Item.Properties().stacksTo(1).tab(SWEM.TAB)));
 	public static final RegistryObject<Item> CANTAZARITE_DYE = ITEMS.register("cantazarite_dye", ItemBase::new);
@@ -106,7 +121,7 @@ public class SWEMItems {
 	public static final RegistryObject<SWEMHorseArmorItem> DIAMOND_HORSE_ARMOR = ITEMS.register("diamond_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.DIAMOND, 37, "diamond", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
 	public static final RegistryObject<SWEMHorseArmorItem> AMETHYST_HORSE_ARMOR = ITEMS.register("amethyst_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.AMETHYST, 50, "amethyst", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
 	public static final RegistryObject<SaddlebagItem> SADDLEBAG = ITEMS.register("saddlebag", () -> new SaddlebagItem("saddlebags"));
-	public static final RegistryObject<MeasurementTool> MEASUREMENT_TOOL = ITEMS.register("measurement_tool", MeasurementTool::new);
+	public static final RegistryObject<MeasurementTool> MEASUREMENT_TOOL = ITEMS.register("measurement_tool", () -> new MeasurementTool(new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<PoopItem> POOP = ITEMS.register("poop", PoopItem::new);
 	public static final RegistryObject<TrackerItem> TRACKER = ITEMS.register("tracker", TrackerItem::new);
 	public static final RegistryObject<MedicalHorseItem> BANDAGE = ITEMS.register("bandage", () -> new MedicalHorseItem(new Item.Properties().tab(SWEM.TAB), 2.0f, 15.0f));
@@ -114,7 +129,7 @@ public class SWEMItems {
 	public static final RegistryObject<MedicalHorseItem> MEDICATED_BANDAGE = ITEMS.register("medicated_bandage", () -> new MedicalHorseItem(new Item.Properties().tab(SWEM.TAB), 6.0f, 45.0f));
 	public static final RegistryObject<MedicalHorseItem> GLISTENING_MELON = ITEMS.register("glistening_melon", () -> new MedicalHorseItem(new Item.Properties().tab(SWEM.TAB), 10.0f, 75.0f));
 	public static final RegistryObject<Item> WHITEWASH_FINISH = ITEMS.register("whitewash_finish", () -> new Item(new Item.Properties().tab(SWEM.TAB)));
-	public static final RegistryObject<Item> SWEET_FEED = ITEMS.register("sweet_feed", ItemBase::new);
+	public static final RegistryObject<Item> SWEET_FEED = ITEMS.register("sweet_feed", () -> new Item(new Item.Properties().tab(SWEM.TAB).durability(8)));
 	public static final RegistryObject<Item> REFINED_LEATHER = ITEMS.register("refined_leather", ItemBase::new);
 	public static final RegistryObject<Item> PAINT_FILLER = ITEMS.register("paint_filler", ItemBase::new);
 	public static final RegistryObject<Item> SHRIMP = ITEMS.register("shrimp", () -> new ShrimpItem(new Item.Properties()));
@@ -260,6 +275,7 @@ public class SWEMItems {
 	public static final RegistryObject<EnglishGirthStrap> ENGLISH_GIRTH_STRAP_BROWN = ITEMS.register("english_girth_strap_brown", () -> new EnglishGirthStrap("english_girth_strap_brown", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
 
 	// LEG WRAPS
+	public static final RegistryObject<WesternLegWraps> WESTERN_LEG_WRAPS = ITEMS.register("western_leg_wraps", () -> new WesternLegWraps("western_leg_wraps", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<AdventureLegWrapsItem> ADVENTURE_LEG_WRAPS = ITEMS.register("adventure_leg_wraps", () -> new AdventureLegWrapsItem("adventure_leg_wraps", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<WesternLegWraps> WESTERN_LEG_WRAPS_WHITE = ITEMS.register("western_leg_wraps_white", () -> new WesternLegWraps("western_leg_wraps_white", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<WesternLegWraps> WESTERN_LEG_WRAPS_BLACK = ITEMS.register("western_leg_wraps_black", () -> new WesternLegWraps("western_leg_wraps_black", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
@@ -277,6 +293,7 @@ public class SWEMItems {
 	public static final RegistryObject<WesternLegWraps> WESTERN_LEG_WRAPS_PURPLE = ITEMS.register("western_leg_wraps_purple", () -> new WesternLegWraps("western_leg_wraps_purple", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<WesternLegWraps> WESTERN_LEG_WRAPS_RED = ITEMS.register("western_leg_wraps_red", () -> new WesternLegWraps("western_leg_wraps_red", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<WesternLegWraps> WESTERN_LEG_WRAPS_YELLOW = ITEMS.register("western_leg_wraps_yellow", () -> new WesternLegWraps("western_leg_wraps_yellow", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
+	public static final RegistryObject<EnglishLegWraps> ENGLISH_LEG_WRAPS = ITEMS.register("english_leg_wraps", () -> new EnglishLegWraps("english_leg_wraps", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<EnglishLegWraps> ENGLISH_LEG_WRAPS_WHITE = ITEMS.register("english_leg_wraps_white", () -> new EnglishLegWraps("english_leg_wraps_white", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<EnglishLegWraps> ENGLISH_LEG_WRAPS_BLACK = ITEMS.register("english_leg_wraps_black", () -> new EnglishLegWraps("english_leg_wraps_black", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<EnglishLegWraps> ENGLISH_LEG_WRAPS_BROWN = ITEMS.register("english_leg_wraps_brown", () -> new EnglishLegWraps("english_leg_wraps_brown", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));

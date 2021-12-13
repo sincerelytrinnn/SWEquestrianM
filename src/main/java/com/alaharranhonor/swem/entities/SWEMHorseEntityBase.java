@@ -1,5 +1,20 @@
 package com.alaharranhonor.swem.entities;
 
+
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
@@ -514,44 +529,73 @@ public class SWEMHorseEntityBase
 		}
 	}
 
-
-	public boolean isSaddleable() {
-		return this.isAlive() && !this.isBaby() && this.isTamed();
+	public boolean canAccessHorse(PlayerEntity player) {
+		if (this.getPermissionState() == RidingPermission.NONE) {
+			return player.getUUID().equals(this.getOwnerUUID());
+		} else if (this.getPermissionState() == RidingPermission.TRUST) {
+			return this.isAllowedUUID(player.getUUID()) || player.getUUID().equals(this.getOwnerUUID());
+		} else {
+			return true;
+		}
 	}
 
-	public void equipSaddle(@Nullable SoundCategory p_230266_1_, ItemStack stackIn) {
+	public boolean isSaddleable(PlayerEntity player) {
+		return this.isAlive() && !this.isBaby() && this.isTamed() && this.canAccessHorse(player);
+	}
+
+	public void equipSaddle(@Nullable SoundCategory p_230266_1_, ItemStack stackIn, PlayerEntity player) {
 		ItemStack stack = stackIn.copy();
+		boolean flag = player.isSecondaryUseActive();
 		if (stack.getItem() instanceof HorseSaddleItem) {
+			System.out.println(flag);
+			if (flag) {
+				player.addItem(this.inventory.getItem(2));
+			}
 			this.inventory.setItem(2, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 2, stack));
 			if (p_230266_1_ != null) {
 				this.level.playSound((PlayerEntity)null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof BlanketItem) {
+			if (flag) {
+				player.addItem(this.inventory.getItem(1));
+			}
 			this.inventory.setItem(1, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 1, stack));
 			if (p_230266_1_ != null) {
 				this.level.playSound((PlayerEntity)null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof BreastCollarItem) {
+			if (flag) {
+				player.addItem(this.inventory.getItem(3));
+			}
 			this.inventory.setItem(3, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 3, stack));
 			if (p_230266_1_ != null) {
 				this.level.playSound((PlayerEntity)null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof HalterItem) {
+			if (flag) {
+				player.addItem(this.inventory.getItem(0));
+			}
 			this.inventory.setItem(0, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 0, stack));
 			if (p_230266_1_ != null) {
 				this.level.playSound((PlayerEntity)null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof GirthStrapItem) {
+			if (flag) {
+				player.addItem(this.inventory.getItem(5));
+			}
 			this.inventory.setItem(5, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 5, stack));
 			if (p_230266_1_ != null) {
 				this.level.playSound((PlayerEntity)null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof LegWrapsItem) {
+			if (flag) {
+				player.addItem(this.inventory.getItem(4));
+			}
 			this.inventory.setItem(4, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 4, stack));
 			if (p_230266_1_ != null) {
@@ -984,6 +1028,10 @@ public class SWEMHorseEntityBase
 		if (!this.allowedList.contains(playerUUID)) {
 			this.allowedList.add(playerUUID);
 		}
+	}
+
+	public boolean isAllowedUUID(UUID playerUUID) {
+		return this.allowedList.contains(playerUUID);
 	}
 
 	public void removeAllowedUUID(UUID playerUUID) {
@@ -1638,12 +1686,12 @@ public class SWEMHorseEntityBase
 
 
 	private void startJump(float jumpHeight) {
-		SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), true, jumpHeight));
+		SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), jumpHeight));
 	}
 
 	private void stopJump() {
 		if (this.level.isClientSide) {
-			SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), false, 0.0F));
+			SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), 0.0F));
 		}
 	}
 
@@ -1790,7 +1838,7 @@ public class SWEMHorseEntityBase
 	public ActionResultType mobInteract(PlayerEntity playerEntity, Hand hand) {
 		ItemStack itemstack = playerEntity.getItemInHand(hand);
 		if (!this.isBaby()) {
-			if (this.isTamed() && playerEntity.isSecondaryUseActive() && !(itemstack.getItem() instanceof TrackerItem)) {
+			if (this.isTamed() && playerEntity.isSecondaryUseActive() && !(itemstack.getItem() instanceof TrackerItem) && !(itemstack.getItem() instanceof HorseTackItem)) {
 				this.openInventory(playerEntity);
 				return ActionResultType.sidedSuccess(this.level.isClientSide);
 			}
@@ -1879,7 +1927,7 @@ public class SWEMHorseEntityBase
 			ActionResultType actionresulttype = itemstack.interactLivingEntity(playerEntity, this, hand);
 
 			if (actionresulttype.consumesAction()) {
-				if (item instanceof HorseSaddleItem && actionresulttype.consumesAction()) {
+				if (item instanceof HorseSaddleItem) {
 					this.setSWEMSaddled();
 				}
 				return actionresulttype;

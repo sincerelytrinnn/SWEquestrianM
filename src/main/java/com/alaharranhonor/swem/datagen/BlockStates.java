@@ -1,5 +1,20 @@
 package com.alaharranhonor.swem.datagen;
 
+
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.blocks.GrainFeederBlock;
 import com.alaharranhonor.swem.blocks.NonParallelBlock;
@@ -152,8 +167,6 @@ public class BlockStates extends BlockStateProvider {
 			MultiPartBlockStateBuilder mp = getMultipartBuilder(slow);
 			mp.part().modelFile(models().getExistingFile(new ResourceLocation(SWEM.MOD_ID, "block/full_feeder"))).addModel().condition(SlowFeederBlock.LEVEL, 2);
 			mp.part().modelFile(models().getExistingFile(new ResourceLocation(SWEM.MOD_ID, "block/half_feeder"))).addModel().condition(SlowFeederBlock.LEVEL, 1);
-			mp.part().modelFile(models().getExistingFile(new ResourceLocation(SWEM.MOD_ID, "block/full_feeder_vanilla"))).addModel().condition(SlowFeederBlock.LEVEL_VANILLA, 2);
-			mp.part().modelFile(models().getExistingFile(new ResourceLocation(SWEM.MOD_ID, "block/half_feeder_vanilla"))).addModel().condition(SlowFeederBlock.LEVEL_VANILLA, 1);
 
 			mp.part().modelFile(sfCornerModel).addModel()
 					.condition(SlowFeederBlock.NORTH, true)

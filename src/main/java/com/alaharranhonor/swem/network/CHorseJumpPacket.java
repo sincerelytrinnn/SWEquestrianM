@@ -1,5 +1,20 @@
 package com.alaharranhonor.swem.network;
 
+
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import io.netty.buffer.ByteBuf;
@@ -15,14 +30,12 @@ import java.util.function.Supplier;
 
 public class CHorseJumpPacket {
 	private int entityID;
-	private boolean isJumping;
 	private float jumpHeight;
 
 	private boolean failed;
 
-	public CHorseJumpPacket(int entityID, boolean isJumping, float jumpHeight) {
+	public CHorseJumpPacket(int entityID, float jumpHeight) {
 		this.entityID = entityID;
-		this.isJumping = isJumping;
 		this.jumpHeight = jumpHeight;
 		this.failed = false;
 	}
@@ -34,9 +47,8 @@ public class CHorseJumpPacket {
 	public static CHorseJumpPacket decode(ByteBuf buf) {
 		try {
 			int entityID = buf.readInt();
-			boolean isJumping = buf.readBoolean();
 			float jumpHeight = buf.readFloat();
-			return new CHorseJumpPacket(entityID, isJumping, jumpHeight);
+			return new CHorseJumpPacket(entityID, jumpHeight);
 		} catch (IndexOutOfBoundsException e) {
 			SWEM.LOGGER.error("CHorseJumpPacket: Unexpected end of packet.\nMessage: " + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()), e);
 			return new CHorseJumpPacket(true);
@@ -45,7 +57,6 @@ public class CHorseJumpPacket {
 
 	public static void encode(CHorseJumpPacket msg, PacketBuffer buffer) {
 		buffer.writeInt(msg.entityID);
-		buffer.writeBoolean(msg.isJumping);
 		buffer.writeFloat(msg.jumpHeight);
 	}
 
@@ -58,7 +69,6 @@ public class CHorseJumpPacket {
 			}
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 
-			horse.getEntityData().set(SWEMHorseEntityBase.JUMPING, msg.isJumping);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new SHorseJumpPacket(msg.entityID, msg.jumpHeight));
 		});
 		ctx.get().setPacketHandled(true);

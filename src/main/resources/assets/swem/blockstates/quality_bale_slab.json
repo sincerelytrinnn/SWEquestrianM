@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "swem:block/quality_bale_slab"
+    },
+    "type=double": {
+      "model": "swem:block/quality_bale"
+    },
+    "type=top": {
+      "model": "swem:block/quality_bale_slab_top"
+    }
+  }
+}

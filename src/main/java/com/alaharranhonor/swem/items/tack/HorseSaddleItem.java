@@ -1,5 +1,20 @@
 package com.alaharranhonor.swem.items.tack;
 
+
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.ISWEMEquipable;
 import net.minecraft.entity.LivingEntity;
@@ -19,7 +34,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import net.minecraft.item.Item.Properties;
 
-public class HorseSaddleItem extends Item implements IAnimatable {
+public class HorseSaddleItem extends HorseTackItem implements IAnimatable {
 
 	private ResourceLocation texture;
 	private ResourceLocation saddleRackTexture;
@@ -39,9 +54,9 @@ public class HorseSaddleItem extends Item implements IAnimatable {
 				playerIn.displayClientMessage(new StringTextComponent("You need to equip a Blanket first!"), true);
 				return ActionResultType.FAIL;
 			}
-			if (!iequipable.isHorseSaddled() && iequipable.isSaddleable() && iequipable.canEquipSaddle()) {
+			if ((!iequipable.isHorseSaddled() || playerIn.isSecondaryUseActive()) && iequipable.isSaddleable(playerIn) && iequipable.canEquipSaddle()) {
 				if (!playerIn.level.isClientSide) {
-					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack);
+					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
 					if (!playerIn.abilities.instabuild)
 						stack.shrink(1);
 				}

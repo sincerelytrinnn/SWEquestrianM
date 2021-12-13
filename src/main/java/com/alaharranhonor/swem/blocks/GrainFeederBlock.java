@@ -1,5 +1,20 @@
 package com.alaharranhonor.swem.blocks;
 
+
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.block.*;
@@ -74,7 +89,7 @@ public class GrainFeederBlock extends HorizontalBlock {
 			Item item = itemstack.getItem();
 			if (item == SWEMItems.SWEET_FEED.get()) {
 				if (!player.abilities.instabuild) {
-					player.getItemInHand(handIn).shrink(1);
+					player.getItemInHand(handIn).hurtAndBreak(1, player, playerEntity -> {});
 				}
 				this.occupyBlock(worldIn, pos, state);
 

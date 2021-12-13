@@ -1,5 +1,20 @@
 package com.alaharranhonor.swem.commands;
 
+
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.entities.needs.HungerNeed;
 import com.alaharranhonor.swem.entities.needs.ThirstNeed;
@@ -99,6 +114,23 @@ public class DevCommand {
 									ctx.getSource().sendSuccess(new StringTextComponent("[§bSWEM§f] Your horse's need has been reset sir! (With the accent)"), false);
 									return 1;
 								})
+						)
+						.then(Commands.literal("lowerthirst")
+								.requires((source) -> source.hasPermission(3))
+								.executes(ctx ->  {
+									ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
+
+									Entity riding = player.getVehicle();
+									if (riding instanceof SWEMHorseEntityBase) {
+										SWEMHorseEntityBase horse = (SWEMHorseEntityBase) riding;
+
+										horse.getNeeds().getThirst().setStateById(1);
+									}
+
+									ctx.getSource().sendSuccess(new StringTextComponent("[§bSWEM§f] Your horse's hunger has been lowered! (With the accent)"), false);
+									return 1;
+								})
 						);
+
 	}
 }
