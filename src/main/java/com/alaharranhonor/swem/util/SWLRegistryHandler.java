@@ -472,7 +472,7 @@ public class SWLRegistryHandler {
 	public static final RegistryObject<Item> STAR_WORM_BLOCK_YELLOW_WOOL_ITEM = ITEMS.register("star_worm_block_yellow_wool", () -> new BlockItem(STAR_WORM_BLOCK_YELLOW_WOOL.get(), new Item.Properties().tab(SWEM.SWLMTAB)));
 
 	public static void checkAccess() {
-		
+
 		String playerUUID = Minecraft.getInstance().getUser().getUuid().replaceAll("-", "");
 
 		try {
