@@ -34,7 +34,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import net.minecraft.item.Item.Properties;
 
-public class HorseSaddleItem extends Item implements IAnimatable {
+public class HorseSaddleItem extends HorseTackItem implements IAnimatable {
 
 	private ResourceLocation texture;
 	private ResourceLocation saddleRackTexture;
@@ -56,7 +56,7 @@ public class HorseSaddleItem extends Item implements IAnimatable {
 			}
 			if (!iequipable.isHorseSaddled() && iequipable.isSaddleable() && iequipable.canEquipSaddle()) {
 				if (!playerIn.level.isClientSide) {
-					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack);
+					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
 					if (!playerIn.abilities.instabuild)
 						stack.shrink(1);
 				}

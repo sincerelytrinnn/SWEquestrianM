@@ -167,8 +167,6 @@ public class BlockStates extends BlockStateProvider {
 			MultiPartBlockStateBuilder mp = getMultipartBuilder(slow);
 			mp.part().modelFile(models().getExistingFile(new ResourceLocation(SWEM.MOD_ID, "block/full_feeder"))).addModel().condition(SlowFeederBlock.LEVEL, 2);
 			mp.part().modelFile(models().getExistingFile(new ResourceLocation(SWEM.MOD_ID, "block/half_feeder"))).addModel().condition(SlowFeederBlock.LEVEL, 1);
-			mp.part().modelFile(models().getExistingFile(new ResourceLocation(SWEM.MOD_ID, "block/full_feeder_vanilla"))).addModel().condition(SlowFeederBlock.LEVEL_VANILLA, 2);
-			mp.part().modelFile(models().getExistingFile(new ResourceLocation(SWEM.MOD_ID, "block/half_feeder_vanilla"))).addModel().condition(SlowFeederBlock.LEVEL_VANILLA, 1);
 
 			mp.part().modelFile(sfCornerModel).addModel()
 					.condition(SlowFeederBlock.NORTH, true)

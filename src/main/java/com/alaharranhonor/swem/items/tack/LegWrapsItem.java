@@ -32,7 +32,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import net.minecraft.item.Item.Properties;
 
-public class LegWrapsItem extends Item implements IDyeableArmorItem {
+public class LegWrapsItem extends HorseTackItem implements IDyeableArmorItem {
 
 	private final ResourceLocation texture;
 	private final ResourceLocation textureOverlay;
@@ -55,7 +55,7 @@ public class LegWrapsItem extends Item implements IDyeableArmorItem {
 			}
 			if (!iequipable.hasLegWraps() && iequipable.isSaddleable() && iequipable.hasHalter()) {
 				if (!playerIn.level.isClientSide) {
-					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack);
+					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
 					if (!playerIn.abilities.instabuild)
 						stack.shrink(1);
 				}

@@ -534,39 +534,58 @@ public class SWEMHorseEntityBase
 		return this.isAlive() && !this.isBaby() && this.isTamed();
 	}
 
-	public void equipSaddle(@Nullable SoundCategory p_230266_1_, ItemStack stackIn) {
+	public void equipSaddle(@Nullable SoundCategory p_230266_1_, ItemStack stackIn, PlayerEntity player) {
 		ItemStack stack = stackIn.copy();
+		boolean flag = player.isSecondaryUseActive();
 		if (stack.getItem() instanceof HorseSaddleItem) {
+			if (flag) {
+				player.setItemInHand(player.getUsedItemHand(), this.inventory.getItem(0));
+			}
 			this.inventory.setItem(2, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 2, stack));
 			if (p_230266_1_ != null) {
 				this.level.playSound((PlayerEntity)null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof BlanketItem) {
+			if (flag) {
+				player.setItemInHand(player.getUsedItemHand(), this.inventory.getItem(0));
+			}
 			this.inventory.setItem(1, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 1, stack));
 			if (p_230266_1_ != null) {
 				this.level.playSound((PlayerEntity)null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof BreastCollarItem) {
+			if (flag) {
+				player.setItemInHand(player.getUsedItemHand(), this.inventory.getItem(0));
+			}
 			this.inventory.setItem(3, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 3, stack));
 			if (p_230266_1_ != null) {
 				this.level.playSound((PlayerEntity)null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof HalterItem) {
+			if (flag) {
+				player.setItemInHand(player.getUsedItemHand(), this.inventory.getItem(0));
+			}
 			this.inventory.setItem(0, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 0, stack));
 			if (p_230266_1_ != null) {
 				this.level.playSound((PlayerEntity)null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof GirthStrapItem) {
+			if (flag) {
+				player.setItemInHand(player.getUsedItemHand(), this.inventory.getItem(0));
+			}
 			this.inventory.setItem(5, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 5, stack));
 			if (p_230266_1_ != null) {
 				this.level.playSound((PlayerEntity)null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof LegWrapsItem) {
+			if (flag) {
+				player.setItemInHand(player.getUsedItemHand(), this.inventory.getItem(0));
+			}
 			this.inventory.setItem(4, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 4, stack));
 			if (p_230266_1_ != null) {
@@ -1805,7 +1824,7 @@ public class SWEMHorseEntityBase
 	public ActionResultType mobInteract(PlayerEntity playerEntity, Hand hand) {
 		ItemStack itemstack = playerEntity.getItemInHand(hand);
 		if (!this.isBaby()) {
-			if (this.isTamed() && playerEntity.isSecondaryUseActive() && !(itemstack.getItem() instanceof TrackerItem)) {
+			if (this.isTamed() && playerEntity.isSecondaryUseActive() && !(itemstack.getItem() instanceof TrackerItem) && !(itemstack.getItem() instanceof HorseTackItem)) {
 				this.openInventory(playerEntity);
 				return ActionResultType.sidedSuccess(this.level.isClientSide);
 			}

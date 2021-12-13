@@ -31,7 +31,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import net.minecraft.item.Item.Properties;
 
-public class GirthStrapItem extends Item {
+public class GirthStrapItem extends HorseTackItem {
 
 	private final ResourceLocation texture;
 	public GirthStrapItem(String textureName, Properties properties) {
@@ -52,7 +52,7 @@ public class GirthStrapItem extends Item {
 			}
 			if (!iequipable.hasGirthStrap() && iequipable.isSaddleable() && iequipable.canEquipGirthStrap()) {
 				if (!playerIn.level.isClientSide) {
-					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack);
+					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
 					if (!playerIn.abilities.instabuild)
 						stack.shrink(1);
 				}

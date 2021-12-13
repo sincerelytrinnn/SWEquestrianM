@@ -31,7 +31,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import net.minecraft.item.Item.Properties;
 
-public class BreastCollarItem extends Item {
+public class BreastCollarItem extends HorseTackItem {
 
 	private final ResourceLocation texture;
 	public BreastCollarItem(String textureName, Properties properties) {
@@ -52,7 +52,7 @@ public class BreastCollarItem extends Item {
 			}
 			if (!iequipable.hasBreastCollar() && iequipable.isSaddleable() && iequipable.hasHalter()) {
 				if (!playerIn.level.isClientSide) {
-					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack);
+					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
 					if (!playerIn.abilities.instabuild)
 						stack.shrink(1);
 				}

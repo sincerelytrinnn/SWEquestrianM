@@ -33,7 +33,7 @@ import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class HalterItem extends Item implements IAnimatable {
+public class HalterItem extends HorseTackItem implements IAnimatable {
 
 	private final ResourceLocation texture;
 
@@ -55,9 +55,9 @@ public class HalterItem extends Item implements IAnimatable {
 	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (target instanceof ISWEMEquipable && target.isAlive()) {
 			ISWEMEquipable iequipable = (ISWEMEquipable) target;
-			if (!iequipable.hasHalter() && iequipable.isSaddleable()) {
+			if ((!iequipable.hasHalter() || playerIn.isSecondaryUseActive()) && iequipable.isSaddleable()) {
 				if (!playerIn.level.isClientSide) {
-					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack);
+					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
 					if (!playerIn.abilities.instabuild)
 						stack.shrink(1);
 				}

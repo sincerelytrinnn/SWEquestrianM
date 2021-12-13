@@ -45,7 +45,7 @@ public class SaddlebagItem extends ItemBase implements IAnimatable {
 			ISWEMEquipable iequipable = (ISWEMEquipable)target;
 			if (iequipable.isSaddleable()) {
 				if (!playerIn.level.isClientSide) {
-					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack);
+					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
 					if (!playerIn.abilities.instabuild)
 						stack.shrink(1);
 				}
