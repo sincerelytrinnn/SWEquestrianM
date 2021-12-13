@@ -1,10 +1,10 @@
 {
   "type": "minecraft:smelting",
-  "group": "light_shavings",
+  "group": "dark_shavings",
   "ingredient": {
     "item": "minecraft:spruce_leaves"
   },
-  "result": "swem:light_shavings"
+  "result": "swem:dark_shavings"
   },
   "experience": 0.1,
   "cookingtime": 200

@@ -2,12 +2,12 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "swem:dark_shavings_acacia",
+      "swem:medium_shavings_acacia",
       "swem:dark_shavings_dark_oak",
-      "swem:dark_shavings_jungle",
+      "swem:light_shavings_jungle",
       "swem:light_shavings_birch",
-      "swem:light_shavings_oak",
-      "swem:light_shavings_spruce"
+      "swem:medium_shavings_oak",
+      "swem:dark_shavings_spruce"
     ]
   },
   "criteria": {

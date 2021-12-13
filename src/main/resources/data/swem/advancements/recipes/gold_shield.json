@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_iron_shield": {
+    "has_amethyst_shield_iron": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:iron_shield"
+            "item": "swem:amethyst_shield_iron"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_iron_shield",
+      "has_amethyst_shield_iron",
       "has_the_recipe"
     ]
   ]

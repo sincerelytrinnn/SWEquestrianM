@@ -4,7 +4,7 @@
   "pattern":
   [
     "x  ",
-    " x "
+    "x  "
   ],
   "key":
   {
@@ -16,6 +16,6 @@
   "result":
   {
     "item": "swem:diamond_rivet",
-    "count": 8
+    "count": 16
   }
 }
