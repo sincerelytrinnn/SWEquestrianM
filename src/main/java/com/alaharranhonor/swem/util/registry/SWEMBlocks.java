@@ -21,17 +21,27 @@ import com.alaharranhonor.swem.blocks.BarrelBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpControllerBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpStandardBlock;
+import com.alaharranhonor.swem.util.SWLRegistryHandler;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.*;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -45,6 +55,7 @@ public class SWEMBlocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SWEM.MOD_ID);
 
 	public static void init(IEventBus modBus) {
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> SWEMBlocks::checkAccess);
 		BLOCKS.register(modBus);
 	}
 
@@ -172,6 +183,47 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> WHITEWASH_DOOR = BLOCKS.register("whitewash_door", () -> new DoorBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
 	public static final RegistryObject<Block> WHITEWASH_LOG = register("whitewash_log", () -> new RotatedPillarBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
 	public static final RegistryObject<Block> WHITEWASH_TRAPDOOR = register("whitewash_trapdoor", () -> new TrapDoorBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
+	public static void checkAccess() {
+
+		String playerUUID = Minecraft.getInstance().getUser().getUuid().replaceAll("-", "");
+
+		try {
+			URL url = new URL("http://auth.swequestrian.com:9542/check?uuid=" + playerUUID);
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestMethod("GET");
+
+			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer content = new StringBuffer();
+			while ((inputLine = in.readLine()) != null) {
+				content.append(inputLine);
+			}
+			in.close();
+
+			con.disconnect();
+
+			if (content.toString().equalsIgnoreCase("okay")) {
+				return;
+			}
+
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException exception) {
+			exception.printStackTrace();
+		}
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("\no/\n");
+		sb.append("Hello random person! Your minecraft crashed because you are not on our approved beta-tester list! :)\n");
+		sb.append("If this is a case of redistribution, we very much appreciate your enthusiasm about the mod, however your impatience has banned you from our official servers for a minimum of six months. :(\n");
+		sb.append("We hope this has been a wonderful learning experience in the world of piracy.\n");
+		sb.append("Have a nice day! :D");
+
+		System.out.println(sb.toString());
+
+		System.exit(-1);
+
+	}
 	public static final RegistryObject<CareDoorBlock> WHITEWASH_STALL_CARE = register("whitewash_stall_care", () -> new CareDoorBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().strength(1.0f), DyeColor.BLACK));
 	public static final RegistryObject<HorseDoorBlock> WHITEWASH_STALL_HORSE = register("whitewash_stall_horse", () -> new HorseDoorBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().strength(1.0f), DyeColor.BLACK));
 	public static final RegistryObject<ModdedStandingSignBlock> WHITEWASH_SIGN = BLOCKS.register("whitewash_sign", () -> new ModdedStandingSignBlock(AbstractBlock.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD), SWEM.WHITEWASH_WT));

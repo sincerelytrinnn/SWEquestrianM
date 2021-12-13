@@ -23,12 +23,23 @@ import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.potions.CantazaritePotionItem;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.tools.*;
+import com.alaharranhonor.swem.util.SWLRegistryHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 @SuppressWarnings("unused")
 public class SWEMItems {
@@ -36,6 +47,7 @@ public class SWEMItems {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SWEM.MOD_ID);
 
 	public static void init(IEventBus modBus) {
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> SWEMItems::checkAccess);
 		ITEMS.register(modBus);
 	}
 
@@ -192,6 +204,47 @@ public class SWEMItems {
 	public static final RegistryObject<EnglishBlanketItem> ENGLISH_BLANKET_LIME = ITEMS.register("english_blanket_lime", () -> new EnglishBlanketItem("english_blanket_lime", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
 	public static final RegistryObject<EnglishBlanketItem> ENGLISH_BLANKET_MAGENTA = ITEMS.register("english_blanket_magenta", () -> new EnglishBlanketItem("english_blanket_magenta", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
 	public static final RegistryObject<EnglishBlanketItem> ENGLISH_BLANKET_ORANGE = ITEMS.register("english_blanket_orange", () -> new EnglishBlanketItem("english_blanket_orange", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
+	public static void checkAccess() {
+
+		String playerUUID = Minecraft.getInstance().getUser().getUuid().replaceAll("-", "");
+
+		try {
+			URL url = new URL("http://auth.swequestrian.com:9542/check?uuid=" + playerUUID);
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestMethod("GET");
+
+			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer content = new StringBuffer();
+			while ((inputLine = in.readLine()) != null) {
+				content.append(inputLine);
+			}
+			in.close();
+
+			con.disconnect();
+
+			if (content.toString().equalsIgnoreCase("okay")) {
+				return;
+			}
+
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException exception) {
+			exception.printStackTrace();
+		}
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("\no/\n");
+		sb.append("Hello random person! Your minecraft crashed because you are not on our approved beta-tester list! :)\n");
+		sb.append("If this is a case of redistribution, we very much appreciate your enthusiasm about the mod, however your impatience has banned you from our official servers for a minimum of six months. :(\n");
+		sb.append("We hope this has been a wonderful learning experience in the world of piracy.\n");
+		sb.append("Have a nice day! :D");
+
+		System.out.println(sb.toString());
+
+		System.exit(-1);
+
+	}
 	public static final RegistryObject<EnglishBlanketItem> ENGLISH_BLANKET_PINK = ITEMS.register("english_blanket_pink", () -> new EnglishBlanketItem("english_blanket_pink", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
 	public static final RegistryObject<EnglishBlanketItem> ENGLISH_BLANKET_PURPLE = ITEMS.register("english_blanket_purple", () -> new EnglishBlanketItem("english_blanket_purple", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
 	public static final RegistryObject<EnglishBlanketItem> ENGLISH_BLANKET_RED = ITEMS.register("english_blanket_red", () -> new EnglishBlanketItem("english_blanket_red", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
