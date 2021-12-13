@@ -45,13 +45,11 @@ public class SlowFeederBlock extends Block {
 	public static final BooleanProperty WEST = SixWayBlock.WEST;
 
 	public static final IntegerProperty LEVEL = SWEMBlockStateProperties.LEVEL_0_2;
-	public static final IntegerProperty LEVEL_VANILLA = SWEMBlockStateProperties.LEVEL_0_2_VANILLA;
-
 	private DyeColor colour;
 
 	public SlowFeederBlock(Properties properties, DyeColor colour) {
 		super(properties);
-		this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, Boolean.valueOf(false)).setValue(EAST, Boolean.valueOf(false)).setValue(SOUTH, Boolean.valueOf(false)).setValue(WEST, Boolean.valueOf(false)).setValue(LEVEL, 0).setValue(LEVEL_VANILLA, 0));
+		this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, Boolean.valueOf(false)).setValue(EAST, Boolean.valueOf(false)).setValue(SOUTH, Boolean.valueOf(false)).setValue(WEST, Boolean.valueOf(false)).setValue(LEVEL, 0));
 		this.colour = colour;
 	}
 
@@ -81,22 +79,10 @@ public class SlowFeederBlock extends Block {
 			return ActionResultType.PASS;
 		} else {
 			int level_swem = state.getValue(LEVEL);
-			int level_vanilla = state.getValue(LEVEL_VANILLA);
 			Item item = itemstack.getItem();
-			if (item == SWEMBlocks.QUALITY_BALE_ITEM.get() && level_vanilla == 0) {
+			if (item == SWEMBlocks.QUALITY_BALE_ITEM.get()) {
 				if (level_swem == 0) {
 					this.setHayLevel(worldIn, pos, state, LEVEL, 2);
-					if (!player.isCreative()) {
-						itemstack.shrink(1);
-					}
-					return ActionResultType.sidedSuccess(worldIn.isClientSide);
-				} else {
-					return ActionResultType.PASS;
-				}
-
-			} else if (item == Items.HAY_BLOCK && level_swem == 0) {
-				if (level_vanilla == 0) {
-					this.setHayLevel(worldIn, pos, state, LEVEL_VANILLA, 2);
 					if (!player.isCreative()) {
 						itemstack.shrink(1);
 					}
@@ -120,7 +106,7 @@ public class SlowFeederBlock extends Block {
 	}
 
 	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(NORTH, EAST, WEST, SOUTH, LEVEL, LEVEL_VANILLA);
+		builder.add(NORTH, EAST, WEST, SOUTH, LEVEL);
 	}
 
 	@Override
@@ -149,12 +135,9 @@ public class SlowFeederBlock extends Block {
 
 	public void eat(World worldIn, BlockPos pos, BlockState state) {
 		int level = state.getValue(LEVEL);
-		int level_vanilla = state.getValue(LEVEL_VANILLA);
 
 		if ( level > 0 ) {
 			worldIn.setBlock(pos, state.setValue(LEVEL, Integer.valueOf(MathHelper.clamp(level - 1, 0, 2))), 3);
-		} else if ( level_vanilla > 0 ) {
-			worldIn.setBlock(pos, state.setValue(LEVEL_VANILLA, Integer.valueOf(MathHelper.clamp(level - 1, 0, 2))), 3);
 		}
 	}
 }
