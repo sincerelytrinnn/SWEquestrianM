@@ -93,7 +93,7 @@ public class SlowFeederBlock extends Block {
 
 			} else if (item == SWEMBlocks.QUALITY_BALE_SLAB_ITEM.get()) {
 				if (level_swem < 2) {
-					this.setHayLevel(worldIn, pos, state, 1);
+					this.setHayLevel(worldIn, pos, state, level_swem + 1);
 					if (!player.isCreative()) {
 						itemstack.shrink(1);
 					}
