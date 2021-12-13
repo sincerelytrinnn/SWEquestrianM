@@ -81,6 +81,9 @@ public class HealthLeveling implements ILeveling{
 	}
 
 	public void setXp(float xp) {
+		if (xp < 0) {
+			xp = 0;
+		}
 		this.dataManager.set(XP, xp);
 	}
 
