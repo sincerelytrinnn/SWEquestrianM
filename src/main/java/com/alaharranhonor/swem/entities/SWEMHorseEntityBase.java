@@ -547,8 +547,9 @@ public class SWEMHorseEntityBase
 		ItemStack stack = stackIn.copy();
 		boolean flag = player.isSecondaryUseActive();
 		if (stack.getItem() instanceof HorseSaddleItem) {
+			System.out.println(flag);
 			if (flag) {
-				player.setItemInHand(player.getUsedItemHand(), this.inventory.getItem(0));
+				player.addItem(this.inventory.getItem(2));
 			}
 			this.inventory.setItem(2, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 2, stack));
@@ -557,7 +558,7 @@ public class SWEMHorseEntityBase
 			}
 		} else if (stack.getItem() instanceof BlanketItem) {
 			if (flag) {
-				player.setItemInHand(player.getUsedItemHand(), this.inventory.getItem(0));
+				player.addItem(this.inventory.getItem(1));
 			}
 			this.inventory.setItem(1, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 1, stack));
@@ -566,7 +567,7 @@ public class SWEMHorseEntityBase
 			}
 		} else if (stack.getItem() instanceof BreastCollarItem) {
 			if (flag) {
-				player.setItemInHand(player.getUsedItemHand(), this.inventory.getItem(0));
+				player.addItem(this.inventory.getItem(3));
 			}
 			this.inventory.setItem(3, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 3, stack));
@@ -575,7 +576,7 @@ public class SWEMHorseEntityBase
 			}
 		} else if (stack.getItem() instanceof HalterItem) {
 			if (flag) {
-				player.setItemInHand(player.getUsedItemHand(), this.inventory.getItem(0));
+				player.addItem(this.inventory.getItem(0));
 			}
 			this.inventory.setItem(0, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 0, stack));
@@ -584,7 +585,7 @@ public class SWEMHorseEntityBase
 			}
 		} else if (stack.getItem() instanceof GirthStrapItem) {
 			if (flag) {
-				player.setItemInHand(player.getUsedItemHand(), this.inventory.getItem(0));
+				player.addItem(this.inventory.getItem(5));
 			}
 			this.inventory.setItem(5, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 5, stack));
@@ -593,7 +594,7 @@ public class SWEMHorseEntityBase
 			}
 		} else if (stack.getItem() instanceof LegWrapsItem) {
 			if (flag) {
-				player.setItemInHand(player.getUsedItemHand(), this.inventory.getItem(0));
+				player.addItem(this.inventory.getItem(4));
 			}
 			this.inventory.setItem(4, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 4, stack));
@@ -1926,7 +1927,7 @@ public class SWEMHorseEntityBase
 			ActionResultType actionresulttype = itemstack.interactLivingEntity(playerEntity, this, hand);
 
 			if (actionresulttype.consumesAction()) {
-				if (item instanceof HorseSaddleItem && actionresulttype.consumesAction()) {
+				if (item instanceof HorseSaddleItem) {
 					this.setSWEMSaddled();
 				}
 				return actionresulttype;

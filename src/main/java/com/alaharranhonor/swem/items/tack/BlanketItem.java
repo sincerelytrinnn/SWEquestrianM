@@ -50,7 +50,7 @@ public class BlanketItem extends HorseTackItem {
 				playerIn.displayClientMessage(new StringTextComponent("You need to equip a Halter/Bridle first."), true);
 				return ActionResultType.FAIL;
 			}
-			if (!iequipable.hasBlanket() && iequipable.isSaddleable(playerIn) && iequipable.hasHalter()) {
+			if ((!iequipable.hasBlanket() || playerIn.isSecondaryUseActive()) && iequipable.isSaddleable(playerIn) && iequipable.hasHalter()) {
 				if (!playerIn.level.isClientSide) {
 					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
 					if (!playerIn.abilities.instabuild)
