@@ -3,23 +3,19 @@
   "group": "rivet",
   "pattern":
   [
-    "x",
-    "y"
+    "x  ",
+    "x  "
   ],
   "key":
   {
 	"x":
     {
       "item": "minecraft:iron_ingot"
-    },
-    "y":
-    {
-      "item": "minecraft:iron_nugget"
     }
   },
   "result":
   {
     "item": "swem:iron_rivet",
-    "count": 4
+    "count": 16
   }
 }

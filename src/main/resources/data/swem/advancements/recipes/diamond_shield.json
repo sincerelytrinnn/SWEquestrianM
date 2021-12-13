@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_gold_shield": {
+    "has_amethyst_shield_gold": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:gold_shield"
+            "item": "swem:amethyst_shield_gold"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_gold_shield",
+      "has_amethyst_shield_gold",
       "has_the_recipe"
     ]
   ]
