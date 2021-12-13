@@ -43,7 +43,7 @@ public class SaddlebagItem extends ItemBase implements IAnimatable {
 	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (target instanceof ISWEMEquipable && target.isAlive()) {
 			ISWEMEquipable iequipable = (ISWEMEquipable)target;
-			if (iequipable.isSaddleable()) {
+			if (iequipable.isSaddleable(playerIn)) {
 				if (!playerIn.level.isClientSide) {
 					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
 					if (!playerIn.abilities.instabuild)

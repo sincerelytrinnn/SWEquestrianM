@@ -53,7 +53,7 @@ public class LegWrapsItem extends HorseTackItem implements IDyeableArmorItem {
 				playerIn.displayClientMessage(new StringTextComponent("You need to equip a Halter/Bridle first."), true);
 				return ActionResultType.CONSUME;
 			}
-			if (!iequipable.hasLegWraps() && iequipable.isSaddleable() && iequipable.hasHalter()) {
+			if (!iequipable.hasLegWraps() && iequipable.isSaddleable(playerIn) && iequipable.hasHalter()) {
 				if (!playerIn.level.isClientSide) {
 					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
 					if (!playerIn.abilities.instabuild)

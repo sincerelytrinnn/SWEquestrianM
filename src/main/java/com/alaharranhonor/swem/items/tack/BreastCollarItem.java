@@ -50,7 +50,7 @@ public class BreastCollarItem extends HorseTackItem {
 				playerIn.displayClientMessage(new StringTextComponent("You need to equip a Halter/Bridle first."), true);
 				return ActionResultType.FAIL;
 			}
-			if (!iequipable.hasBreastCollar() && iequipable.isSaddleable() && iequipable.hasHalter()) {
+			if (!iequipable.hasBreastCollar() && iequipable.isSaddleable(playerIn) && iequipable.hasHalter()) {
 				if (!playerIn.level.isClientSide) {
 					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
 					if (!playerIn.abilities.instabuild)

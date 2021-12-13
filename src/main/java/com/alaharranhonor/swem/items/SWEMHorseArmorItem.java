@@ -53,7 +53,7 @@ public class SWEMHorseArmorItem extends HorseArmorItem implements IAnimatable {
 	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (target instanceof ISWEMEquipable && target.isAlive()) {
 			ISWEMEquipable iequipable = (ISWEMEquipable)target;
-			if (iequipable.isSaddleable() && iequipable.canEquipArmor()) {
+			if (iequipable.isSaddleable(playerIn) && iequipable.canEquipArmor()) {
 				if (!playerIn.level.isClientSide) {
 					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
 					if (!playerIn.abilities.instabuild)

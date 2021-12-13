@@ -529,9 +529,18 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	public boolean canAccessHorse(PlayerEntity player) {
+		if (this.getPermissionState() == RidingPermission.NONE) {
+			return player.getUUID().equals(this.getOwnerUUID());
+		} else if (this.getPermissionState() == RidingPermission.TRUST) {
+			return this.isAllowedUUID(player.getUUID()) || player.getUUID().equals(this.getOwnerUUID());
+		} else {
+			return true;
+		}
+	}
 
-	public boolean isSaddleable() {
-		return this.isAlive() && !this.isBaby() && this.isTamed();
+	public boolean isSaddleable(PlayerEntity player) {
+		return this.isAlive() && !this.isBaby() && this.isTamed() && this.canAccessHorse(player);
 	}
 
 	public void equipSaddle(@Nullable SoundCategory p_230266_1_, ItemStack stackIn, PlayerEntity player) {
@@ -1018,6 +1027,10 @@ public class SWEMHorseEntityBase
 		if (!this.allowedList.contains(playerUUID)) {
 			this.allowedList.add(playerUUID);
 		}
+	}
+
+	public boolean isAllowedUUID(UUID playerUUID) {
+		return this.allowedList.contains(playerUUID);
 	}
 
 	public void removeAllowedUUID(UUID playerUUID) {

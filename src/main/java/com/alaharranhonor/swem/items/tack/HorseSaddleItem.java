@@ -54,7 +54,7 @@ public class HorseSaddleItem extends HorseTackItem implements IAnimatable {
 				playerIn.displayClientMessage(new StringTextComponent("You need to equip a Blanket first!"), true);
 				return ActionResultType.FAIL;
 			}
-			if (!iequipable.isHorseSaddled() && iequipable.isSaddleable() && iequipable.canEquipSaddle()) {
+			if (!iequipable.isHorseSaddled() && iequipable.isSaddleable(playerIn) && iequipable.canEquipSaddle()) {
 				if (!playerIn.level.isClientSide) {
 					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
 					if (!playerIn.abilities.instabuild)

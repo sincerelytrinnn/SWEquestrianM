@@ -23,7 +23,7 @@ import net.minecraft.util.SoundCategory;
 import javax.annotation.Nullable;
 
 public interface ISWEMEquipable extends IEquipable {
-	boolean isSaddleable();
+	boolean isSaddleable(PlayerEntity player);
 
 	void equipSaddle(@Nullable SoundCategory p_230266_1_, ItemStack stack, PlayerEntity player);
 

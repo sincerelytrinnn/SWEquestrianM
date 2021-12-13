@@ -50,7 +50,7 @@ public class GirthStrapItem extends HorseTackItem {
 				playerIn.displayClientMessage(new StringTextComponent("You need to equip a Saddle first."), true);
 				return ActionResultType.FAIL;
 			}
-			if (!iequipable.hasGirthStrap() && iequipable.isSaddleable() && iequipable.canEquipGirthStrap()) {
+			if (!iequipable.hasGirthStrap() && iequipable.isSaddleable(playerIn) && iequipable.canEquipGirthStrap()) {
 				if (!playerIn.level.isClientSide) {
 					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
 					if (!playerIn.abilities.instabuild)
