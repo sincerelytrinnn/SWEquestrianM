@@ -96,7 +96,7 @@ public class SWEMItems {
 			() -> new BlockItemBase(SWEMBlocks.ALFALFA_PLANT.get()));
 	public static final RegistryObject<Item> OAT_SEEDS = ITEMS.register("oat_seeds",
 			() -> new BlockItemBase(SWEMBlocks.OAT_PLANT.get()));
-	public static final RegistryObject<FenceToolItem> FENCE_TOOL = ITEMS.register("fence_tool", FenceToolItem::new);
+	public static final RegistryObject<FenceToolItem> FENCE_TOOL = ITEMS.register("fence_tool", () -> new FenceToolItem(new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<WhistleItem> WHISTLE = ITEMS.register("whistle", WhistleItem::new);
 	public static final RegistryObject<PotionItem> CANTAZARITE_POTION = ITEMS.register("cantazarite_potion", () -> new CantazaritePotionItem(new Item.Properties().stacksTo(1).tab(SWEM.TAB)));
 	public static final RegistryObject<Item> CANTAZARITE_DYE = ITEMS.register("cantazarite_dye", ItemBase::new);
@@ -121,7 +121,7 @@ public class SWEMItems {
 	public static final RegistryObject<SWEMHorseArmorItem> DIAMOND_HORSE_ARMOR = ITEMS.register("diamond_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.DIAMOND, 37, "diamond", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
 	public static final RegistryObject<SWEMHorseArmorItem> AMETHYST_HORSE_ARMOR = ITEMS.register("amethyst_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.AMETHYST, 50, "amethyst", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
 	public static final RegistryObject<SaddlebagItem> SADDLEBAG = ITEMS.register("saddlebag", () -> new SaddlebagItem("saddlebags"));
-	public static final RegistryObject<MeasurementTool> MEASUREMENT_TOOL = ITEMS.register("measurement_tool", MeasurementTool::new);
+	public static final RegistryObject<MeasurementTool> MEASUREMENT_TOOL = ITEMS.register("measurement_tool", () -> new MeasurementTool(new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 	public static final RegistryObject<PoopItem> POOP = ITEMS.register("poop", PoopItem::new);
 	public static final RegistryObject<TrackerItem> TRACKER = ITEMS.register("tracker", TrackerItem::new);
 	public static final RegistryObject<MedicalHorseItem> BANDAGE = ITEMS.register("bandage", () -> new MedicalHorseItem(new Item.Properties().tab(SWEM.TAB), 2.0f, 15.0f));

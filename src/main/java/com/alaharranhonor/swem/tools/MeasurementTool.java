@@ -28,6 +28,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
@@ -44,7 +45,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MeasurementTool extends ItemBase {
+public class MeasurementTool extends Item {
+
+	public MeasurementTool(Properties pProperties) {
+		super(pProperties);
+	}
 
 	@Override
 	public ActionResultType useOn(ItemUseContext context) {
