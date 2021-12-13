@@ -74,6 +74,11 @@ public class AffinityLeveling implements ILeveling{
 
 	public void setLevel(int level) {
 		this.dataManager.set(LEVEL, level);
+		if (level == 2) {
+			if (this.horse.progressionManager.getJumpLeveling().getLevel() < 1) {
+				this.horse.progressionManager.getJumpLeveling().levelUp();
+			}
+		}
 	}
 
 
