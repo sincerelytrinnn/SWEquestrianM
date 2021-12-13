@@ -54,11 +54,14 @@ public class LegWrapsLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 				f1 = (float)(i >> 8 & 255) / 255.0F;
 				f2 = (float)(i & 255) / 255.0F;
 
-			} else {
+			}/* else {
 				f = 1.0F;
 				f1 = 1.0F;
 				f2 = 1.0F;
-			}
+			}*/
+			f = 1.0F;
+			f1 = 1.0F;
+			f2 = 1.0F;
 
 			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
 					entitylivingbaseIn,
