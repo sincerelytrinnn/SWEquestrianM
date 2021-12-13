@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "swem:block/quality_bale",
+    "top": "swem:block/quality_bale",
+    "side": "swem:block/quality_bale"
+  }
+}

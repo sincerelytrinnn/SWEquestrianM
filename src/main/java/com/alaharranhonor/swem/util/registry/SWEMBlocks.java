@@ -86,6 +86,8 @@ public class SWEMBlocks {
 			() -> new OatPlant(AbstractBlock.Properties.copy(Blocks.WHEAT)));
 	public static final RegistryObject<Block> QUALITY_BALE = BLOCKS.register("quality_bale",
 			() -> new HayBlockBase(AbstractBlock.Properties.copy(Blocks.HAY_BLOCK)));
+	public static final RegistryObject<Block> QUALITY_BALE_SLAB = BLOCKS.register("quality_bale_slab",
+			() -> new SlabBlock(AbstractBlock.Properties.copy(Blocks.HAY_BLOCK)));
 	public static final RegistryObject<Block> DARK_SHAVINGS = BLOCKS.register("dark_shavings",
 			() -> new Shavings(AbstractBlock.Properties.of(new Material.Builder(MaterialColor.SNOW).noCollider().notSolidBlocking().nonSolid().destroyOnPush().replaceable().build()).randomTicks().strength(0.1F).requiresCorrectToolForDrops().sound(SoundType.SNOW)));
 	public static final RegistryObject<Block> MEDIUM_SHAVINGS = BLOCKS.register("medium_shavings",
@@ -288,7 +290,8 @@ public class SWEMBlocks {
 			() -> new BlockItemBase(AMETHYST_ORE.get()));
 	public static final RegistryObject<Item> QUALITY_BALE_ITEM = SWEMItems.ITEMS.register("quality_bale",
 			() -> new BlockItemBase(QUALITY_BALE.get()));
-
+	public static final RegistryObject<Item> QUALITY_BALE_SLAB_ITEM = SWEMItems.ITEMS.register("quality_bale_slab",
+			() -> new BlockItemBase(QUALITY_BALE_SLAB.get()));
 	public static final RegistryObject<Item> DARK_SHAVINGS_ITEM = SWEMItems.ITEMS.register("dark_shavings_opened",
 			() -> new ShavingsItem(DARK_SHAVINGS.get()));
 	public static final RegistryObject<Item> MEDIUM_SHAVINGS_ITEM = SWEMItems.ITEMS.register("medium_shavings_opened",

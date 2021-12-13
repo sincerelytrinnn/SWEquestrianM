@@ -29,8 +29,4 @@ public class HayBlockBase extends RotatedPillarBlock {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(AXIS, Direction.Axis.Y));
     }
-
-    public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
-        entityIn.causeFallDamage(fallDistance, 0.2F);
-    }
 }

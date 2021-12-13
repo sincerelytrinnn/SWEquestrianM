@@ -24,9 +24,11 @@ import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.SlabBlock;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
@@ -106,7 +108,7 @@ public class LookForFoodGoal extends Goal {
 						BlockState checkState = this.horse.level.getBlockState(checkPos);
 						if (checkState == Blocks.GRASS_BLOCK.defaultBlockState()) {
 							grassPos.add(checkPos);
-						} else if (checkState == SWEMBlocks.QUALITY_BALE.get().defaultBlockState()) {
+						} else if (checkState == SWEMBlocks.QUALITY_BALE.get().defaultBlockState() || checkState == SWEMBlocks.QUALITY_BALE_SLAB.get().defaultBlockState()) {
 							if (this.horse.getNeeds().getHunger().getTimesFed(this.horse.getNeeds().getHunger().getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get()))) < this.horse.getNeeds().getHunger().getMaxTimesFed(this.horse.getNeeds().getHunger().getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get())))) {
 								qualityBalePos.add(checkPos);
 							}
@@ -173,9 +175,17 @@ public class LookForFoodGoal extends Goal {
 				} else if (foundState.getBlock() == SWEMBlocks.QUALITY_BALE.get()) {
 
 					if (this.horse.getNeeds().getHunger().addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get()))) {
-						this.horse.level.setBlock(foundFood, Blocks.AIR.defaultBlockState(), 3);
+						this.horse.level.setBlock(foundFood, SWEMBlocks.QUALITY_BALE_SLAB.get().defaultBlockState(), 3);
 					}
 
+				} else if (foundState.getBlock() == SWEMBlocks.QUALITY_BALE_SLAB.get()) {
+					if (this.horse.getNeeds().getHunger().addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get()))) {
+						if (foundState.getValue(SlabBlock.TYPE) != SlabType.DOUBLE) {
+							this.horse.level.setBlock(foundFood, Blocks.AIR.defaultBlockState(), 3);
+						} else {
+							this.horse.level.setBlock(foundFood, foundState.setValue(SlabBlock.TYPE, SlabType.BOTTOM), 3);
+						}
+					}
 				} else if (foundState.getBlock() instanceof SlowFeederBlock) {
 
 					if (this.horse.getNeeds().getHunger().addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get()))) {
