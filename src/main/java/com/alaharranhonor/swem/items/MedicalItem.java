@@ -32,11 +32,11 @@ import net.minecraft.util.Hand;
 import net.minecraft.item.Item.Properties;
 import net.minecraft.world.World;
 
-public class MedicalHorseItem extends Item {
+public class MedicalItem extends Item {
 	private float heal;
 	private float xp;
 
-	public MedicalHorseItem(Properties properties, float heal, float xp) {
+	public MedicalItem(Properties properties, float heal, float xp) {
 		super(properties);
 		this.heal = heal;
 		this.xp = xp;
