@@ -100,15 +100,20 @@ public class TrackerItem extends ItemBase {
 			StringBuilder builder = new StringBuilder();
 
 			ServerWorld world = (ServerWorld) worldIn;
-
+			int horsesNotFound = 0;
 			for (int i = 0; i < tracked.size(); i++) {
 				UUID uuid = tracked.getUUID(Integer.toString(i));
 				Entity entity = world.getEntity(uuid);
 				if (entity instanceof SWEMHorseEntityBase) {
 					builder.append(entity.getName().getString()).append(" x: ").append(entity.blockPosition().getX()).append(" - y: ").append(entity.blockPosition().getY()).append(" - z: ").append(entity.blockPosition().getZ()).append("\n");
+				} else if (entity == null) {
+					 horsesNotFound++;
 				}
 			}
 
+			if (horsesNotFound > 0) {
+				builder.append(horsesNotFound).append(" horse").append(horsesNotFound > 1 ? "s" : "").append(" was not found.");
+			}
 			playerIn.sendMessage(new StringTextComponent(builder.toString()), Util.NIL_UUID);
 			return ActionResult.consume(stack);
 		}
