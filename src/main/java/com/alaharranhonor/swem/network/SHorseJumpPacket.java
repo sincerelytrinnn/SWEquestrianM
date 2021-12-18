@@ -69,7 +69,6 @@ public class SHorseJumpPacket {
 			}
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 
-			System.out.println("I got jump packet with height: " + msg.jumpHeight);
 			horse.jumpHeight = msg.jumpHeight;
 		});
 		ctx.get().setPacketHandled(true);
