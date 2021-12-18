@@ -277,9 +277,10 @@ public class GeneralEventHandlers {
 			Entity entity = event.getEntityBeingMounted();
 			if (entity instanceof SWEMHorseEntityBase) {
 				SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-
-				if (!horse.canMountPlayer((PlayerEntity) event.getEntityMounting())){
-					event.setCanceled(true);
+				if (event.getEntityMounting() instanceof PlayerEntity) {
+					if (!horse.canMountPlayer((PlayerEntity) event.getEntityMounting())){
+						event.setCanceled(true);
+					}
 				}
 			}
 		}
