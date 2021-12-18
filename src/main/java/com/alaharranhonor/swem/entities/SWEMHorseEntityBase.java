@@ -204,7 +204,7 @@ public class SWEMHorseEntityBase
 		this.goalSelector.addGoal(5, this.poopGoal);
 		this.goalSelector.addGoal(5, this.peeGoal);
 		this.goalSelector.addGoal(6, new HorseWaterAvoidingRandomWalkingGoal(this, 4.0D)); //Speed 4.0 looks like a good speed, plus it triggers anim.
-		//this.goalSelector.addGoal(7, new LookForFoodGoal(this, 4.0d));
+		this.goalSelector.addGoal(7, new LookForFoodGoal(this, 4.0d));
 		this.goalSelector.addGoal(7, new LookForWaterGoal(this, 4.0d));
 		//this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		this.goalSelector.addGoal(9, new LookRandomlyGoal(this));
@@ -1565,8 +1565,6 @@ public class SWEMHorseEntityBase
 						SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(this.getId(), 4));
 					}
 
-					// Check for camera lock her½e
-
 
 					super.travel(new Vector3d((double) f, travelVector.y, (double) f1));
 				} else if ((livingentity instanceof PlayerEntity)) {
@@ -1874,7 +1872,7 @@ public class SWEMHorseEntityBase
 					// Emit negative particle effects.
 					if (!this.level.isClientSide)
 						((ServerWorld) this.level).sendParticles(SWEMParticles.ECH.get(), this.getX(), this.getY() + 2.5, this.getZ(), 6, 0.3D, 0.3D, 0.3D, 0.3D);
-					
+
 					return ActionResultType.PASS;
 				}
 
