@@ -1001,7 +1001,6 @@ public class SWEMHorseEntityBase
 		//this.setFlying(compound.getBoolean("flying"));
 
 		int variant = compound.getInt("HorseVariant");
-		System.out.println("[SWEM] Loaded variant as " + variant);
 		this.setHorseVariant(variant % (SWEMCoatColors.values().length - 2));
 
 		this.setOwnerName(compound.getString("ownerName"));
@@ -1170,7 +1169,6 @@ public class SWEMHorseEntityBase
 	}
 
 	private void setHorseVariant(int id) {
-		System.out.println("Setting coat to: " + id);
 		this.entityData.set(HORSE_VARIANT, id);
 	}
 
@@ -1874,7 +1872,9 @@ public class SWEMHorseEntityBase
 			if (FOOD_ITEMS.test(itemstack)) {
 				if (this.getNeeds().getHunger().getTotalTimesFed() == 7) {
 					// Emit negative particle effects.
-					((ServerWorld) this.level).sendParticles(SWEMParticles.ECH.get(), this.getX(), this.getY() + 2.5, this.getZ(), 6, 0.3D, 0.3D, 0.3D, 0.3D);
+					if (!this.level.isClientSide)
+						((ServerWorld) this.level).sendParticles(SWEMParticles.ECH.get(), this.getX(), this.getY() + 2.5, this.getZ(), 6, 0.3D, 0.3D, 0.3D, 0.3D);
+					
 					return ActionResultType.PASS;
 				}
 
