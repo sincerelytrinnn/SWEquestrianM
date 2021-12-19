@@ -55,6 +55,7 @@ import net.minecraft.entity.passive.horse.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -2380,7 +2381,42 @@ public class SWEMHorseEntityBase
 		if (source.isExplosion()) {
 			amount /= 2;
 		}
+		if (source.getDirectEntity() instanceof AbstractArrowEntity) {
+			amount = this.calculateArrowDamage((AbstractArrowEntity) source.getDirectEntity(), amount);
+		}
 		return super.hurt(source, amount);
+	}
+
+	private float calculateArrowDamage(AbstractArrowEntity arrow, float amount) {
+		if (((SWEMHorseArmorItem)this.getSWEMArmor().getItem()).tier == SWEMHorseArmorItem.HorseArmorTier.IRON) {
+			boolean shouldBlock = this.random.nextFloat() > 0.5;
+			if (shouldBlock && !arrow.isCritArrow()) {
+				amount = 0;
+			} else if (shouldBlock && arrow.isCritArrow()) {
+				amount = 2;
+			}
+		} else if (((SWEMHorseArmorItem)this.getSWEMArmor().getItem()).tier == SWEMHorseArmorItem.HorseArmorTier.GOLD) {
+			boolean shouldBlock = this.random.nextFloat() > 0.5;
+			if (shouldBlock && !arrow.isCritArrow()) {
+				amount = 0;
+			} else if (shouldBlock && arrow.isCritArrow()) {
+				amount = 2;
+			}
+		} else if (((SWEMHorseArmorItem)this.getSWEMArmor().getItem()).tier == SWEMHorseArmorItem.HorseArmorTier.DIAMOND) {
+			boolean shouldBlock = this.random.nextFloat() > 0.25;
+			if (shouldBlock && !arrow.isCritArrow()) {
+				amount = 0;
+			} else if (shouldBlock && arrow.isCritArrow()) {
+				amount = 2;
+			}
+		} else if (((SWEMHorseArmorItem)this.getSWEMArmor().getItem()).tier == SWEMHorseArmorItem.HorseArmorTier.AMETHYST) {
+			if (arrow.isCritArrow())
+				amount = 2;
+			else
+				amount = 0;
+		}
+
+		return amount;
 	}
 
 	public void setStandingTimer(int timeInTicks) {
