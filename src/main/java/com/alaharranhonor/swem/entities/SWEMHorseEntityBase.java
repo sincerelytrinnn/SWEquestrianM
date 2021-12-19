@@ -2377,6 +2377,9 @@ public class SWEMHorseEntityBase
 		if (this.standingTimer == 0) {
 			this.setStandingAnim();
 		}
+		if (source.isExplosion()) {
+			amount /= 2;
+		}
 		return super.hurt(source, amount);
 	}
 
