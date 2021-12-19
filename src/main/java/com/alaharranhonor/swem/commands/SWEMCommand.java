@@ -25,7 +25,9 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.command.impl.SummonCommand;
+import net.minecraft.command.impl.WeatherCommand;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
@@ -89,6 +91,19 @@ public class SWEMCommand {
 								ctx.getSource().sendSuccess(new StringTextComponent("[§bSWEM§f] You have transferred " + riding.getDisplayName().getString() + " to " + player.getDisplayName().getString() + "."), false);
 								return 1;
 							})))
+				).then(Commands.literal("listall")
+					.requires((p_198868_0_) -> p_198868_0_.hasPermission(2))
+					.executes(ctx -> {
+						ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
+
+						player.getLevel().getEntities().forEach((entity) -> {
+							if (entity instanceof SWEMHorseEntityBase) {
+								SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+								player.sendMessage(new StringTextComponent(horse.getDisplayName().getString() + " - Owner: " + horse.getOwnerDisplayName().getString() + " | X: " + horse.getX() + " - Z: " + horse.getZ()), UUID.randomUUID());
+							}
+						});
+						return 1;
+					})
 				);
 
 	}
