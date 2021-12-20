@@ -2388,6 +2388,7 @@ public class SWEMHorseEntityBase
 	}
 
 	private float calculateArrowDamage(AbstractArrowEntity arrow, float amount) {
+		if (!this.isWearingArmor()) return amount;
 		if (((SWEMHorseArmorItem)this.getSWEMArmor().getItem()).tier == SWEMHorseArmorItem.HorseArmorTier.IRON) {
 			boolean shouldBlock = this.random.nextFloat() > 0.5;
 			if (shouldBlock && !arrow.isCritArrow()) {
