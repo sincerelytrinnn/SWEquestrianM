@@ -16,7 +16,6 @@ package com.alaharranhonor.swem.items;
  */
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.MonsterEntity;
