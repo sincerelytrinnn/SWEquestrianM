@@ -56,7 +56,7 @@ public class SWEMCommand {
 									SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new SHorseFriendPacket(player.getUUID(), horse.getId(), 1));
 								}
 
-								ctx.getSource().sendSuccess(new StringTextComponent("[§bSWEM§f] You have added " + player.getDisplayName().getString() + " to your allowed list, on " + riding.getDisplayName().getString() + "."), false);
+								ctx.getSource().sendSuccess(new StringTextComponent("[SWEM] You have added " + player.getDisplayName().getString() + " to your allowed list, on " + riding.getDisplayName().getString() + "."), false);
 								return 1;
 							})))
 
@@ -72,7 +72,7 @@ public class SWEMCommand {
 									SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new SHorseFriendPacket(player.getUUID(), horse.getId(), 2));
 								}
 
-								ctx.getSource().sendSuccess(new StringTextComponent("[§bSWEM§f] You have removed " + player.getDisplayName().getString() + " from your allowed list, on " + riding.getDisplayName().getString() + "."), false);
+								ctx.getSource().sendSuccess(new StringTextComponent("[SWEM] You have removed " + player.getDisplayName().getString() + " from your allowed list, on " + riding.getDisplayName().getString() + "."), false);
 								return 1;
 							})))
 					.then(Commands.literal("transfer")
@@ -83,12 +83,16 @@ public class SWEMCommand {
 								Entity riding = ctx.getSource().getPlayerOrException().getVehicle();
 								if (riding instanceof SWEMHorseEntityBase) {
 									SWEMHorseEntityBase horse = (SWEMHorseEntityBase) riding;
+									if (!horse.getOwnerUUID().equals(riding.getUUID())) {
+										ctx.getSource().sendFailure(new StringTextComponent("[SWEM] You can't transfer other peoples horses." ));
+										return -1;
+									}
 									horse.ejectPassengers();
 									horse.transferHorse(player);
 									SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new SHorseFriendPacket(UUID.randomUUID(), horse.getId(), 3));
 								}
 
-								ctx.getSource().sendSuccess(new StringTextComponent("[§bSWEM§f] You have transferred " + riding.getDisplayName().getString() + " to " + player.getDisplayName().getString() + "."), false);
+								ctx.getSource().sendSuccess(new StringTextComponent("[SWEM] You have transferred " + riding.getDisplayName().getString() + " to " + player.getDisplayName().getString() + "."), false);
 								return 1;
 							})))
 				).then(Commands.literal("listall")
