@@ -234,19 +234,33 @@ public class JumpTE extends TileEntity {
 					case LOG:
 					case POLE_ON_BOX_SMALL:
 					case POLE_ON_BOX_LARGE:
-					case HEDGE:
-					case WALL: {
+					case HEDGE: {
 						if (!layerTypes.containsKey(2) && !layerTypes.containsKey(3) && !layerTypes.containsKey(4) && !layerTypes.containsKey(5)) {
 							layers.add(layer);
 							continue;
 						}
 					}
 
+					case WALL:
+					case WALL_MINI: {
+						boolean shouldAdd = true;
+						for (int i = 1; i < layerNumber; i++) {
+							if (layerTypes.get(i) != JumpLayer.WALL) {
+								shouldAdd = false;
+								break;
+							}
+						}
+						if (shouldAdd) {
+							layers.add(layer);
+						}
+						continue;
+					}
+
 					case BRUSH_BOX:
 					case FLOWER_BOX:
 					case COOP:
 					case ROLL_TOP:
-					case WALL_MINI:
+
 					case GROUND_POLE: {
 						if (layerTypes.containsKey(2)) {
 							if (!JumpLayer.testForRail(layerTypes.get(2)) && !JumpLayer.testForNone(layerTypes.get(2))) {

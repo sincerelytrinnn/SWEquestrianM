@@ -39,7 +39,7 @@ public enum JumpLayer {
 	STAIR_DROP("Stair Drop", SWEMBlocks.JUMP_STAIR_DROP.get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.LEFT),SWEMBlocks.CAVALETTIS.get(0).get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.MIDDLE), 1, 1, 1, false, new ArrayList<>()),
 
 	HEDGE("Hedge", SWEMBlocks.JUMP_HEDGE.get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.LEFT),SWEMBlocks.JUMP_HEDGE.get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.MIDDLE), 1, 1, 2, false, new ArrayList<>()),
-	WALL("Wall", SWEMBlocks.JUMP_WALL.get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.LEFT),SWEMBlocks.JUMP_WALL.get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.MIDDLE), 1, 1, 2, false, new ArrayList<>()),
+	WALL("Wall", SWEMBlocks.JUMP_WALL.get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.LEFT),SWEMBlocks.JUMP_WALL.get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.MIDDLE), 1, 5, 2, false, new ArrayList<>()),
 
 	BRUSH_BOX("Brush Box", SWEMBlocks.JUMP_BRUSH_BOX.get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.LEFT),SWEMBlocks.JUMP_BRUSH_BOX.get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.MIDDLE), 1, 1, 1, false, new ArrayList<>()),
 	FLOWER_BOX("Flower Box", SWEMBlocks.FLOWER_BOXES.get(0).get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.LEFT), SWEMBlocks.FLOWER_BOXES.get(0).get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.MIDDLE), 1, 1, 1, true, SWEMBlocks.FLOWER_BOXES),
