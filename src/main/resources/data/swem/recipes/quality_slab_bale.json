@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "x  ",
+    "x  "
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "swem:quality_bale_slab"
+    }
+  },
+  "result":
+  {
+    "item": "swem:quality_bale",
+    "count": 1
+  }
+}

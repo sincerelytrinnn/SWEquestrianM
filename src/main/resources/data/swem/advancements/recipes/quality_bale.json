@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:quality_slab_bale"
+    ]
+  },
+  "criteria": {
+    "has_quality_bale_slab": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:quality_bale_slab"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:quality_slab_bale"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_quality_bale_slab",
+      "has_the_recipe"
+    ]
+  ]
+}
