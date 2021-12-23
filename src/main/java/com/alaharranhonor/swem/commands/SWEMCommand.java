@@ -25,7 +25,9 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.command.impl.SummonCommand;
+import net.minecraft.command.impl.WeatherCommand;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
@@ -54,7 +56,7 @@ public class SWEMCommand {
 									SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new SHorseFriendPacket(player.getUUID(), horse.getId(), 1));
 								}
 
-								ctx.getSource().sendSuccess(new StringTextComponent("[§bSWEM§f] You have added " + player.getDisplayName().getString() + " to your allowed list, on " + riding.getDisplayName().getString() + "."), false);
+								ctx.getSource().sendSuccess(new StringTextComponent("[SWEM] You have added " + player.getDisplayName().getString() + " to your allowed list, on " + riding.getDisplayName().getString() + "."), false);
 								return 1;
 							})))
 
@@ -70,7 +72,7 @@ public class SWEMCommand {
 									SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new SHorseFriendPacket(player.getUUID(), horse.getId(), 2));
 								}
 
-								ctx.getSource().sendSuccess(new StringTextComponent("[§bSWEM§f] You have removed " + player.getDisplayName().getString() + " from your allowed list, on " + riding.getDisplayName().getString() + "."), false);
+								ctx.getSource().sendSuccess(new StringTextComponent("[SWEM] You have removed " + player.getDisplayName().getString() + " from your allowed list, on " + riding.getDisplayName().getString() + "."), false);
 								return 1;
 							})))
 					.then(Commands.literal("transfer")
@@ -81,14 +83,31 @@ public class SWEMCommand {
 								Entity riding = ctx.getSource().getPlayerOrException().getVehicle();
 								if (riding instanceof SWEMHorseEntityBase) {
 									SWEMHorseEntityBase horse = (SWEMHorseEntityBase) riding;
+									if (!horse.getOwnerUUID().equals(riding.getUUID())) {
+										ctx.getSource().sendFailure(new StringTextComponent("[SWEM] You can't transfer other peoples horses." ));
+										return -1;
+									}
 									horse.ejectPassengers();
 									horse.transferHorse(player);
 									SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new SHorseFriendPacket(UUID.randomUUID(), horse.getId(), 3));
 								}
 
-								ctx.getSource().sendSuccess(new StringTextComponent("[§bSWEM§f] You have transferred " + riding.getDisplayName().getString() + " to " + player.getDisplayName().getString() + "."), false);
+								ctx.getSource().sendSuccess(new StringTextComponent("[SWEM] You have transferred " + riding.getDisplayName().getString() + " to " + player.getDisplayName().getString() + "."), false);
 								return 1;
 							})))
+				).then(Commands.literal("listall")
+					.requires((p_198868_0_) -> p_198868_0_.hasPermission(2))
+					.executes(ctx -> {
+						ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
+
+						player.getLevel().getEntities().forEach((entity) -> {
+							if (entity instanceof SWEMHorseEntityBase) {
+								SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+								player.sendMessage(new StringTextComponent(horse.getDisplayName().getString() + " - Owner: " + horse.getOwnerDisplayName().getString() + " | X: " + horse.getX() + " - Z: " + horse.getZ()), UUID.randomUUID());
+							}
+						});
+						return 1;
+					})
 				);
 
 	}

@@ -67,7 +67,8 @@ public class SWEMHorseInventoryContainer extends Container {
 			 * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1 in the
 			 * case of armor slots)
 			 */
-			public int getSlotStackLimit() {
+			@Override
+			public int getMaxStackSize() {
 				return 1;
 			}
 
@@ -96,7 +97,8 @@ public class SWEMHorseInventoryContainer extends Container {
 			  * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1 in the
 			  * case of armor slots)
 			  */
-			 public int getSlotStackLimit() {
+			 @Override
+			 public int getMaxStackSize() {
 				 return 1;
 			 }
 		});
@@ -120,12 +122,19 @@ public class SWEMHorseInventoryContainer extends Container {
 			}
 
 			/**
+			 * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1 in the case
+			 * of armor slots)
+			 */
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+
+			/**
 			 * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1 in the
 			 * case of armor slots)
 			 */
-			public int getSlotStackLimit() {
-				return 1;
-			}
+
 
 			@Override
 			public void setChanged() {
@@ -172,7 +181,8 @@ public class SWEMHorseInventoryContainer extends Container {
 			 * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1 in the
 			 * case of armor slots)
 			 */
-			public int getSlotStackLimit() {
+			@Override
+			public int getMaxStackSize() {
 				return 1;
 			}
 		});
@@ -199,7 +209,8 @@ public class SWEMHorseInventoryContainer extends Container {
 			 * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1 in the
 			 * case of armor slots)
 			 */
-			public int getSlotStackLimit() {
+			@Override
+			public int getMaxStackSize() {
 				return 1;
 			}
 		});
@@ -226,7 +237,8 @@ public class SWEMHorseInventoryContainer extends Container {
 			 * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1 in the
 			 * case of armor slots)
 			 */
-			public int getSlotStackLimit() {
+			@Override
+			public int getMaxStackSize() {
 				return 1;
 			}
 		});
@@ -253,7 +265,8 @@ public class SWEMHorseInventoryContainer extends Container {
 			 * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1 in the
 			 * case of armor slots)
 			 */
-			public int getSlotStackLimit() {
+			@Override
+			public int getMaxStackSize() {
 				return 1;
 			}
 
@@ -281,7 +294,8 @@ public class SWEMHorseInventoryContainer extends Container {
 			 * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1 in the
 			 * case of armor slots)
 			 */
-			public int getSlotStackLimit() {
+			@Override
+			public int getMaxStackSize() {
 				return 1;
 			}
 
