@@ -139,7 +139,7 @@ public class TackBoxContainer extends Container {
 		this.addSlot(new Slot(this.tileEntity, 12, adventureX, slotStartY){
 			@Override
 			public boolean isActive() {
-				return false;
+				return true;
 			}
 
 			@Override
@@ -150,7 +150,7 @@ public class TackBoxContainer extends Container {
 		this.addSlot(new Slot(this.tileEntity, 13, adventureX, slotStartY + 3 + 18){
 			@Override
 			public boolean isActive() {
-				return false;
+				return true;
 			}
 
 			@Override
@@ -161,7 +161,7 @@ public class TackBoxContainer extends Container {
 		this.addSlot(new Slot(this.tileEntity, 14, adventureX, slotStartY + 6 + 36){
 			@Override
 			public boolean isActive() {
-				return false;
+				return true;
 			}
 			@Override
 			public boolean mayPlace(ItemStack stack) {
