@@ -521,13 +521,7 @@ public class SWEMHorseEntityBase
 				&& this.getLastDamageSource() != DamageSource.ON_FIRE
 				&& this.getLastDamageSource() != DamageSource.HOT_FLOOR) return false;
 		if (!this.isTamed()) return true;
-		if (Objects.equals(this.getOwnerUUID(), player.getUUID())) return true;
-
-		if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.NONE) return false;
-		else if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.ALL) return true;
-		else {
-			return this.allowedList.contains(player.getUUID());
-		}
+		return canAccessHorse(player);
 	}
 
 	public boolean canAccessHorse(PlayerEntity player) {
@@ -1796,6 +1790,11 @@ public class SWEMHorseEntityBase
 	protected SoundEvent getAngrySound() {
 		super.getAngrySound();
 		return SoundEvents.HORSE_ANGRY;
+	}
+
+	@Override
+	public Vector3d getDismountLocationForPassenger(LivingEntity pLivingEntity) {
+		return super.getDismountLocationForPassenger(pLivingEntity);
 	}
 
 	@Override

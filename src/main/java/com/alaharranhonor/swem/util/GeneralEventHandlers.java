@@ -130,22 +130,6 @@ public class GeneralEventHandlers {
 		}
 
 		@SubscribeEvent
-		public static void entityMount(EntityMountEvent event) {
-			if (event.isMounting()) return;
-
-			if (event.getEntityBeingMounted() == null) return;
-
-			Entity entity = event.getEntityBeingMounted();
-
-			if (entity instanceof SWEMHorseEntityBase) {
-				SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-				SWEMHorseEntityBase.HorseSpeed oldSpeed = horse.currentSpeed;
-				horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
-				horse.updateSelectedSpeed(oldSpeed);
-			}
-		}
-
-		@SubscribeEvent
 		public static void registerCommands(RegisterCommandsEvent event) {
 			//event.getDispatcher().register(YeetCommand.register());
 			event.getDispatcher().register(DevCommand.register());
@@ -255,6 +239,25 @@ public class GeneralEventHandlers {
 			}
 		}
 
+
+		// Update horse speed when dismounted, to a walk gait.
+		@SubscribeEvent
+		public static void entityMount(EntityMountEvent event) {
+			if (event.isMounting()) return;
+			if (event.getEntityBeingMounted() == null) return;
+
+			Entity entity = event.getEntityBeingMounted();
+
+			if (entity instanceof SWEMHorseEntityBase) {
+				SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+				SWEMHorseEntityBase.HorseSpeed oldSpeed = horse.currentSpeed;
+				horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
+				horse.updateSelectedSpeed(oldSpeed);
+			}
+		}
+
+		// Doon't dismount player if the player/horse is flying.
+		// This is the cause of desyncing when hitting shift while flying.
 		@SubscribeEvent
 		public static void onEntityMountEvent(EntityMountEvent event) {
 			if (event.isMounting()) return;
@@ -269,6 +272,7 @@ public class GeneralEventHandlers {
 			}
 		}
 
+		// Check if the player can mount the horse.
 		@SubscribeEvent
 		public static void canEntityBeMounted(EntityMountEvent event) {
 			if (!event.isMounting()) return;
