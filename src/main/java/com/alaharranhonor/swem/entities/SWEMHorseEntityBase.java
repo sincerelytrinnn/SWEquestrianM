@@ -717,15 +717,9 @@ public class SWEMHorseEntityBase
 	}
 
 
-
-	@Override
-	protected int calculateFallDamage(float distance, float damageMultiplier) {
-		return 0; //TODO: MAKE THE HORSE GO DOWN TO 3 HEARTS AT MAX.
-	}
-
 	@Override
 	public int getMaxFallDistance() {
-		return 5000;
+		return 3;
 	}
 
 	@Override
@@ -1708,7 +1702,6 @@ public class SWEMHorseEntityBase
 	@Override
 	public boolean isInvulnerableTo(DamageSource source) {
 		if (source == DamageSource.DROWN) return true;
-		if (source == DamageSource.FALL) return true;
 		if (DamageSource.IN_FIRE.equals(source) || DamageSource.ON_FIRE.equals(source) || DamageSource.LAVA.equals(source) || DamageSource.HOT_FLOOR.equals(source)) {
 			ItemStack stack = this.getSWEMArmor();
 			if (!stack.isEmpty() && ((SWEMHorseArmorItem) stack.getItem()).tier.getId() >= 3) {
@@ -2376,6 +2369,13 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
+		if (source == DamageSource.FALL) {
+			if (this.getHealth() <= 6.0F) {
+				amount = 0; // Don't damage the horse, when below 6 HP. Still play hurt anims, and deduct affinity.
+			} else if (this.getHealth() - amount < 6.0f) {
+				amount = this.getHealth() - 6.0f;
+			}
+		}
 		if (this.standingTimer == 0) {
 			this.setStandingAnim();
 		}
