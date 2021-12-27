@@ -74,6 +74,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -253,6 +254,10 @@ public class GeneralEventHandlers {
 				SWEMHorseEntityBase.HorseSpeed oldSpeed = horse.currentSpeed;
 				horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
 				horse.updateSelectedSpeed(oldSpeed);
+
+				if (horse.level.isClientSide) {
+					SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(horse.getId(), 4));
+				}
 			}
 		}
 
