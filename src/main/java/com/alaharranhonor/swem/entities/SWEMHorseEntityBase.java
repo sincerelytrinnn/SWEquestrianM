@@ -2369,6 +2369,11 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
+		if (this.isVehicle() && !this.level.isClientSide) {
+			this.progressionManager.getAffinityLeveling().removeXp(amount * 15);
+		} else if (source.getEntity() != null && source.getEntity().getUUID().equals(this.getOwnerUUID()) && !this.level.isClientSide) {
+			this.progressionManager.getAffinityLeveling().removeXp(amount * 15);
+		}
 		if (source == DamageSource.FALL) {
 			if (this.getHealth() <= 6.0F) {
 				amount = 0; // Don't damage the horse, when below 6 HP. Still play hurt anims, and deduct affinity.

@@ -22,6 +22,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.math.MathHelper;
 
 public class AffinityLeveling implements ILeveling{
 
@@ -51,6 +52,11 @@ public class AffinityLeveling implements ILeveling{
 	}
 
 	@Override
+	public void removeXp(float amount) {
+		this.setXp(this.getXp() - amount);
+	}
+
+	@Override
 	public boolean checkLevelUp() {
 		if (this.getXp() >= this.getRequiredXp() && this.getLevel() < this.getMaxLevel()) {
 			this.levelUp();
@@ -67,13 +73,18 @@ public class AffinityLeveling implements ILeveling{
 		this.setXp(excessXP);
 	}
 
+	private void levelDown(float excessXP) {
+		this.setLevel(this.getLevel() - 1);
+		this.setXp(this.getRequiredXp() + excessXP);
+	}
+
 	@Override
 	public int getLevel() {
 		return this.dataManager.get(LEVEL);
 	}
 
 	public void setLevel(int level) {
-		this.dataManager.set(LEVEL, level);
+		this.dataManager.set(LEVEL, MathHelper.clamp(level, 0, this.getMaxLevel()));
 		if (level == 2) {
 			if (this.horse.progressionManager.getJumpLeveling().getLevel() < 1) {
 				this.horse.progressionManager.getJumpLeveling().levelUp();
@@ -93,10 +104,11 @@ public class AffinityLeveling implements ILeveling{
 	}
 
 	public void setXp(float xp) {
-		if (xp < 0) {
-			xp = 0;
+		if (xp < 0 && this.getLevel() > 0) {
+			this.levelDown(xp);
+			return;
 		}
-		this.dataManager.set(XP, xp);
+		this.dataManager.set(XP, Math.max(xp, 0));
 	}
 
 	@Override

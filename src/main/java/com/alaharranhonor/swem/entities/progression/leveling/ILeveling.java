@@ -18,13 +18,9 @@ package com.alaharranhonor.swem.entities.progression.leveling;
 import net.minecraft.nbt.CompoundNBT;
 
 public interface ILeveling {
-	int level = 0;
-	int maxLevel = 0;
-	float xp = 0.0f;
-	float[] requiredXpArray = new float[0];
-	String[] levelNames = new String[0];
 
 	boolean addXP(float amount);
+	void removeXp(float amount);
 
 	boolean checkLevelUp();
 
