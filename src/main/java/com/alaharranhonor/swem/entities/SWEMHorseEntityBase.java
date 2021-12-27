@@ -1035,6 +1035,7 @@ public class SWEMHorseEntityBase
 	}
 
 	public void removeAllowedUUID(UUID playerUUID) {
+		if (this.getOwnerUUID().equals(playerUUID)) return;
 		this.allowedList.remove(playerUUID);
 	}
 
