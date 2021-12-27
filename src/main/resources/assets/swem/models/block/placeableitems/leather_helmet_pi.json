@@ -1,0 +1,22 @@
+{
+	"credit": "Made with Blockbench",
+	"loader": "placeableitems:rotation",
+	"textures": {
+		"0": "swem:blocks/leather_helmet_pi",
+		"particle": "swem:blocks/leather_helmet_pi"
+	},
+	"elements": [
+		{
+			"from": [4, 0, 5],
+			"to": [12, 5, 10],
+			"faces": {
+				"north": {"uv": [0, 0, 8, 5], "texture": "#0"},
+				"east": {"uv": [0, 0, 5, 5], "texture": "#0"},
+				"south": {"uv": [0, 0, 8, 5], "texture": "#0"},
+				"west": {"uv": [0, 0, 5, 5], "texture": "#0"},
+				"up": {"uv": [0, 0, 8, 5], "texture": "#0"},
+				"down": {"uv": [0, 0, 8, 5], "texture": "#0"}
+			}
+		}
+	]
+}
