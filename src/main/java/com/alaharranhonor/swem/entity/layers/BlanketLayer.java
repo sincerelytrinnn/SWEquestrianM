@@ -42,7 +42,7 @@ public class BlanketLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 	@Override
 	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, SWEMHorseEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		ItemStack stack = entitylivingbaseIn.getBlanket();
-		if (!stack.isEmpty()) {
+		if (!stack.isEmpty() && stack.getItem() instanceof BlanketItem) {
 			BlanketItem blanket = (BlanketItem)stack.getItem();
 			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
 					entitylivingbaseIn,

@@ -47,8 +47,8 @@ public class EnglishSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, SWEMHorseEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		ItemStack stack = entitylivingbaseIn.hasSaddle();
 		if (!stack.isEmpty()) {
-			HorseSaddleItem saddleItem = (HorseSaddleItem) stack.getItem();
 			if (shouldRender(stack, entitylivingbaseIn)) {
+				HorseSaddleItem saddleItem = (HorseSaddleItem) stack.getItem();
 				this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
 						entitylivingbaseIn,
 						partialTicks,
