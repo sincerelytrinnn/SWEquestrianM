@@ -17,6 +17,7 @@ package com.alaharranhonor.swem.blocks;
 
 import com.alaharranhonor.swem.tileentity.CantazariteAnvilTE;
 import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
+import net.minecraft.block.AnvilBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -40,7 +41,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
-public class CantazariteAnvilBlock extends HorizontalBlock {
+public class CantazariteAnvilBlock extends AnvilBlock {
 
 	public CantazariteAnvilBlock(Properties properties) {
 		super(properties);
@@ -73,14 +74,6 @@ public class CantazariteAnvilBlock extends HorizontalBlock {
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		return SWEMTileEntities.CANTAZARITE_ANVIL_TILE_ENTITY.get().create();
-	}
-
-	@Override
-	public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		if (worldIn.getBlockState(pos.below()).canOcclude()) {
-			return true;
-		}
-		return false;
 	}
 
 	@Override
