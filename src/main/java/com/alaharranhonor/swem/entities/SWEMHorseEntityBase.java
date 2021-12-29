@@ -133,7 +133,6 @@ public class SWEMHorseEntityBase
 	public final static DataParameter<Integer> SPEED_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	public final static DataParameter<String> PERMISSION_STRING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
 	public final static DataParameter<Boolean> TRACKED = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
-	public final static DataParameter<Integer> STANDING_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	private ArrayList<UUID> allowedList = new ArrayList<>();
 
 	public HorseSpeed currentSpeed;
@@ -152,6 +151,7 @@ public class SWEMHorseEntityBase
 	private double lockedZDir;
 
 	// Animation variables.
+	public final static DataParameter<Integer> JUMP_ANIM_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	public double jumpHeight;
 	private int poopAnimationTick;
 	private int peeAnimationTick;
@@ -300,6 +300,10 @@ public class SWEMHorseEntityBase
 		this.standAnimationTick = Math.max(0, this.standAnimationTick - 1);
 		this.standingTimer = Math.max(0, this.standingTimer - 1);
 		if (!this.level.isClientSide) {
+
+			// Tick entity data anim timers
+			this.getEntityData().set(JUMP_ANIM_TIMER, Math.max(0, this.getEntityData().get(JUMP_ANIM_TIMER) - 1));
+
 
 			if (this.getLeashHolder() instanceof PlayerEntity) {
 				this.getLookControl().setLookAt(this.getLeashHolder(), (float)this.getHeadRotSpeed(), (float)this.getMaxHeadXRot());
@@ -486,6 +490,8 @@ public class SWEMHorseEntityBase
 
 		this.entityData.define(CAMERA_LOCK, true);
 
+		this.entityData.define(JUMP_ANIM_TIMER, 0);
+
 	}
 
 	public void setTracked(boolean tracked) {
@@ -510,7 +516,8 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public boolean isJumping() {
-		return super.isJumping();
+		int timer = this.getEntityData().get(JUMP_ANIM_TIMER);
+		return this.jumpHeight != 0 || timer > 0;
 	}
 
 	public boolean canMountPlayer(PlayerEntity player) {
@@ -1475,9 +1482,6 @@ public class SWEMHorseEntityBase
 
 
 				// Check if RNG is higher roll, than disobeying debuff, if so, then do the jump.
-
-
-
 				if (this.playerJumpPendingScale > 0.0F && !this.isJumping() && this.onGround) {
 					if (this.getRandom().nextDouble() > this.progressionManager.getAffinityLeveling().getDebuff()) {
 						double d0 = this.getCustomJump() * (double) this.playerJumpPendingScale * (double) this.getBlockJumpFactor();
@@ -1488,7 +1492,7 @@ public class SWEMHorseEntityBase
 							d1 = d0;
 						}
 
-
+						System.out.println(this.getEntityData().get(JUMP_ANIM_TIMER));
 						//if (this.getDisobedienceFactor() > this.progressionManager.getAffinityLeveling().getDebuff()) {
 						Vector3d vector3d = this.getDeltaMovement();
 						this.setDeltaMovement(vector3d.x, d1, vector3d.z);
