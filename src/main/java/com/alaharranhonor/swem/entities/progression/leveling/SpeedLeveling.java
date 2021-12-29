@@ -21,7 +21,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 
-public class SpeedLeveling {
+public class SpeedLeveling implements ILeveling {
 
 	private SWEMHorseEntityBase horse;
 
@@ -40,6 +40,11 @@ public class SpeedLeveling {
 		if (this.getLevel() == this.getMaxLevel()) return false;
 		this.dataManager.set(XP, this.dataManager.get(XP) + amount);
 		return this.checkLevelUp();
+	}
+
+	@Override
+	public void removeXp(float amount) {
+		this.setXp(this.getXp() - amount);
 	}
 
 	public boolean checkLevelUp() {

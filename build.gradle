@@ -34,7 +34,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
 
-version = '1.16.5-0.2.3.13-b'
+version = '1.16.5-0.2.5.12-b'
 group = 'com.alaharranhonor.swem' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'swem'
 
@@ -130,6 +130,13 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.dev"
     }
+
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 dependencies {
@@ -144,6 +151,9 @@ dependencies {
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
     // compile "some.group:artifact:version"
+
+    compileOnly fg.deobf("curse.maven:placableitems-227951:3565979")
+    //runtimeOnly fg.deobf("curse.maven:placableitems-227951:3565979")
 
     // Real examples
     // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env

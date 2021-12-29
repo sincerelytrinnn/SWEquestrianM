@@ -43,31 +43,30 @@ public class WesternBridleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, SWEMHorseEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		ItemStack stack = entitylivingbaseIn.getHalter();
 		if (!stack.isEmpty()) {
-			if (stack.getItem() instanceof BridleItem) {
+			if (shouldRender(stack, entitylivingbaseIn)) {
 				BridleItem bridleItem = (BridleItem)stack.getItem();
-				if (shouldRender(stack, entitylivingbaseIn)) {
-					this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
-							entitylivingbaseIn,
-							partialTicks,
-							RenderType.entityCutoutNoCull(bridleItem.getModelTexture()),
-							matrixStackIn,
-							bufferIn,
-							bufferIn.getBuffer(RenderType.entityCutoutNoCull(bridleItem.getModelTexture())),
-							packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
-					);
+				this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
+						entitylivingbaseIn,
+						partialTicks,
+						RenderType.entityCutoutNoCull(bridleItem.getModelTexture()),
+						matrixStackIn,
+						bufferIn,
+						bufferIn.getBuffer(RenderType.entityCutoutNoCull(bridleItem.getModelTexture())),
+						packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
+				);
 
-					this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
-							entitylivingbaseIn,
-							partialTicks,
-							RenderType.entityCutout(bridleItem.getArmorTexture()),
-							matrixStackIn,
-							bufferIn,
-							bufferIn.getBuffer(RenderType.entityCutout(bridleItem.getArmorTexture())),
-							packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
-					);
+				this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
+						entitylivingbaseIn,
+						partialTicks,
+						RenderType.entityCutout(bridleItem.getArmorTexture()),
+						matrixStackIn,
+						bufferIn,
+						bufferIn.getBuffer(RenderType.entityCutout(bridleItem.getArmorTexture())),
+						packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
+				);
 
-				}
 			}
+
 		}
 
 	}

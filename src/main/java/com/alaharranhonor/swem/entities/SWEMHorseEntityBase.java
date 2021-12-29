@@ -133,7 +133,6 @@ public class SWEMHorseEntityBase
 	public final static DataParameter<Integer> SPEED_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	public final static DataParameter<String> PERMISSION_STRING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
 	public final static DataParameter<Boolean> TRACKED = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
-	public final static DataParameter<Integer> STANDING_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	private ArrayList<UUID> allowedList = new ArrayList<>();
 
 	public HorseSpeed currentSpeed;
@@ -152,6 +151,7 @@ public class SWEMHorseEntityBase
 	private double lockedZDir;
 
 	// Animation variables.
+	public final static DataParameter<Integer> JUMP_ANIM_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	public double jumpHeight;
 	private int poopAnimationTick;
 	private int peeAnimationTick;
@@ -300,6 +300,10 @@ public class SWEMHorseEntityBase
 		this.standAnimationTick = Math.max(0, this.standAnimationTick - 1);
 		this.standingTimer = Math.max(0, this.standingTimer - 1);
 		if (!this.level.isClientSide) {
+
+			// Tick entity data anim timers
+			this.getEntityData().set(JUMP_ANIM_TIMER, Math.max(0, this.getEntityData().get(JUMP_ANIM_TIMER) - 1));
+
 
 			if (this.getLeashHolder() instanceof PlayerEntity) {
 				this.getLookControl().setLookAt(this.getLeashHolder(), (float)this.getHeadRotSpeed(), (float)this.getMaxHeadXRot());
@@ -486,6 +490,8 @@ public class SWEMHorseEntityBase
 
 		this.entityData.define(CAMERA_LOCK, true);
 
+		this.entityData.define(JUMP_ANIM_TIMER, 0);
+
 	}
 
 	public void setTracked(boolean tracked) {
@@ -510,7 +516,8 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public boolean isJumping() {
-		return super.isJumping();
+		int timer = this.getEntityData().get(JUMP_ANIM_TIMER);
+		return this.jumpHeight != 0 || timer > 0;
 	}
 
 	public boolean canMountPlayer(PlayerEntity player) {
@@ -521,13 +528,7 @@ public class SWEMHorseEntityBase
 				&& this.getLastDamageSource() != DamageSource.ON_FIRE
 				&& this.getLastDamageSource() != DamageSource.HOT_FLOOR) return false;
 		if (!this.isTamed()) return true;
-		if (Objects.equals(this.getOwnerUUID(), player.getUUID())) return true;
-
-		if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.NONE) return false;
-		else if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.ALL) return true;
-		else {
-			return this.allowedList.contains(player.getUUID());
-		}
+		return canAccessHorse(player);
 	}
 
 	public boolean canAccessHorse(PlayerEntity player) {
@@ -717,15 +718,9 @@ public class SWEMHorseEntityBase
 	}
 
 
-
-	@Override
-	protected int calculateFallDamage(float distance, float damageMultiplier) {
-		return 0; //TODO: MAKE THE HORSE GO DOWN TO 3 HEARTS AT MAX.
-	}
-
 	@Override
 	public int getMaxFallDistance() {
-		return 5000;
+		return 2;
 	}
 
 	@Override
@@ -1035,6 +1030,7 @@ public class SWEMHorseEntityBase
 	}
 
 	public void removeAllowedUUID(UUID playerUUID) {
+		if (this.getOwnerUUID().equals(playerUUID)) return;
 		this.allowedList.remove(playerUUID);
 	}
 
@@ -1486,9 +1482,6 @@ public class SWEMHorseEntityBase
 
 
 				// Check if RNG is higher roll, than disobeying debuff, if so, then do the jump.
-
-
-
 				if (this.playerJumpPendingScale > 0.0F && !this.isJumping() && this.onGround) {
 					if (this.getRandom().nextDouble() > this.progressionManager.getAffinityLeveling().getDebuff()) {
 						double d0 = this.getCustomJump() * (double) this.playerJumpPendingScale * (double) this.getBlockJumpFactor();
@@ -1499,7 +1492,7 @@ public class SWEMHorseEntityBase
 							d1 = d0;
 						}
 
-
+						System.out.println(this.getEntityData().get(JUMP_ANIM_TIMER));
 						//if (this.getDisobedienceFactor() > this.progressionManager.getAffinityLeveling().getDebuff()) {
 						Vector3d vector3d = this.getDeltaMovement();
 						this.setDeltaMovement(vector3d.x, d1, vector3d.z);
@@ -1707,7 +1700,6 @@ public class SWEMHorseEntityBase
 	@Override
 	public boolean isInvulnerableTo(DamageSource source) {
 		if (source == DamageSource.DROWN) return true;
-		if (source == DamageSource.FALL) return true;
 		if (DamageSource.IN_FIRE.equals(source) || DamageSource.ON_FIRE.equals(source) || DamageSource.LAVA.equals(source) || DamageSource.HOT_FLOOR.equals(source)) {
 			ItemStack stack = this.getSWEMArmor();
 			if (!stack.isEmpty() && ((SWEMHorseArmorItem) stack.getItem()).tier.getId() >= 3) {
@@ -1802,6 +1794,11 @@ public class SWEMHorseEntityBase
 	protected SoundEvent getAngrySound() {
 		super.getAngrySound();
 		return SoundEvents.HORSE_ANGRY;
+	}
+
+	@Override
+	public Vector3d getDismountLocationForPassenger(LivingEntity pLivingEntity) {
+		return super.getDismountLocationForPassenger(pLivingEntity);
 	}
 
 	@Override
@@ -2375,6 +2372,18 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
+		if (this.isVehicle() && !this.level.isClientSide) {
+			this.progressionManager.getAffinityLeveling().removeXp(amount * 15);
+		} else if (source.getEntity() != null && source.getEntity().getUUID().equals(this.getOwnerUUID()) && !this.level.isClientSide) {
+			this.progressionManager.getAffinityLeveling().removeXp(amount * 15);
+		}
+		if (source == DamageSource.FALL) {
+			if (this.getHealth() <= 6.0F) {
+				amount = 0; // Don't damage the horse, when below 6 HP. Still play hurt anims, and deduct affinity.
+			} else if (this.getHealth() - amount < 6.0f) {
+				amount = this.getHealth() - 6.0f;
+			}
+		}
 		if (this.standingTimer == 0) {
 			this.setStandingAnim();
 		}
@@ -2385,6 +2394,11 @@ public class SWEMHorseEntityBase
 			amount = this.calculateArrowDamage((AbstractArrowEntity) source.getDirectEntity(), amount);
 		}
 		return super.hurt(source, amount);
+	}
+
+	@Override
+	protected int calculateFallDamage(float pDistance, float pDamageMultiplier) {
+		return MathHelper.ceil((pDistance * 0.5F - 4.0F) * pDamageMultiplier);
 	}
 
 	private float calculateArrowDamage(AbstractArrowEntity arrow, float amount) {

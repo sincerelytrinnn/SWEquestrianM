@@ -74,6 +74,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -126,22 +127,6 @@ public class GeneralEventHandlers {
 
 			if (event.getCategory() == Biome.Category.PLAINS) {
 				event.getGeneration().getStructures().add(() -> SWEMConfiguredStructures.CONFIGURED_BARN);
-			}
-		}
-
-		@SubscribeEvent
-		public static void entityMount(EntityMountEvent event) {
-			if (event.isMounting()) return;
-
-			if (event.getEntityBeingMounted() == null) return;
-
-			Entity entity = event.getEntityBeingMounted();
-
-			if (entity instanceof SWEMHorseEntityBase) {
-				SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-				SWEMHorseEntityBase.HorseSpeed oldSpeed = horse.currentSpeed;
-				horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
-				horse.updateSelectedSpeed(oldSpeed);
 			}
 		}
 
@@ -255,6 +240,29 @@ public class GeneralEventHandlers {
 			}
 		}
 
+
+		// Update horse speed when dismounted, to a walk gait.
+		@SubscribeEvent
+		public static void entityMount(EntityMountEvent event) {
+			if (event.isMounting()) return;
+			if (event.getEntityBeingMounted() == null) return;
+
+			Entity entity = event.getEntityBeingMounted();
+
+			if (entity instanceof SWEMHorseEntityBase) {
+				SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+				SWEMHorseEntityBase.HorseSpeed oldSpeed = horse.currentSpeed;
+				horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
+				horse.updateSelectedSpeed(oldSpeed);
+
+				if (horse.level.isClientSide) {
+					SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(horse.getId(), 4));
+				}
+			}
+		}
+
+		// Doon't dismount player if the player/horse is flying.
+		// This is the cause of desyncing when hitting shift while flying.
 		@SubscribeEvent
 		public static void onEntityMountEvent(EntityMountEvent event) {
 			if (event.isMounting()) return;
@@ -269,6 +277,7 @@ public class GeneralEventHandlers {
 			}
 		}
 
+		// Check if the player can mount the horse.
 		@SubscribeEvent
 		public static void canEntityBeMounted(EntityMountEvent event) {
 			if (!event.isMounting()) return;

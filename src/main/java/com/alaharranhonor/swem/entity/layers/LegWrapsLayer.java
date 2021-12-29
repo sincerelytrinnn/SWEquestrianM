@@ -42,7 +42,7 @@ public class LegWrapsLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 	@Override
 	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, SWEMHorseEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		ItemStack stack = entitylivingbaseIn.getLegWraps();
-		if (!stack.isEmpty()) {
+		if (!stack.isEmpty() && stack.getItem() instanceof LegWrapsItem) {
 			LegWrapsItem legWraps = (LegWrapsItem) stack.getItem();
 			float f, f1, f2;
 			if (stack.getItem() instanceof IDyeableArmorItem) {

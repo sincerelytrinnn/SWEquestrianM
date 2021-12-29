@@ -30,14 +30,15 @@ public enum SWEMCoatColors {
 	NOBUCKLE(9),
 	WILDANDFREE(10),
 	TALLDARKHANDSOME(11),
-	SWEETBOY(12),
+	SWEETBOI(12),
 	APPY(13),
 	GOLDEN(14),
 	LEOPARD(15),
 	LADY(16),
 	THIS_ESME_JOEY(17),
-	GALAXY(18),
-	RAINBOW(19);
+	VALEGRO(18),
+	GALAXY(19),
+	RAINBOW(20);
 
 	private static final SWEMCoatColors[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(SWEMCoatColors::getId)).toArray(SWEMCoatColors[]::new);
 	private final int id;

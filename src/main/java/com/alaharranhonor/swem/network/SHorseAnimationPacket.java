@@ -87,7 +87,7 @@ public class SHorseAnimationPacket {
 					SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new CHorseAnimationPacket(horse.getId(), 3));
 					break;
 				}
-				case 4: { // Backwards walking packet.
+				case 4: { // Stop Backwards walking packet.
 					SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new CHorseAnimationPacket(horse.getId(), 4));
 					break;
 				}

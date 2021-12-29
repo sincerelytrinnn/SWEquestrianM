@@ -42,6 +42,11 @@ public class HealthLeveling implements ILeveling{
 	}
 
 	@Override
+	public void removeXp(float amount) {
+		this.setXp(this.getXp() - amount);
+	}
+
+	@Override
 	public boolean checkLevelUp() {
 		if (this.getXp() >= this.getRequiredXp() && this.getLevel() < this.getMaxLevel()) {
 			this.levelUp();

@@ -68,6 +68,20 @@ public class CHorseJumpPacket {
 				return;
 			}
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+			if (msg.jumpHeight > 0) {
+				if (msg.jumpHeight > 5) {
+					horse.getEntityData().set(SWEMHorseEntityBase.JUMP_ANIM_TIMER, 36);
+				} else if (msg.jumpHeight > 4) {
+					horse.getEntityData().set(SWEMHorseEntityBase.JUMP_ANIM_TIMER, 28);
+				} else if (msg.jumpHeight > 3) {
+					horse.getEntityData().set(SWEMHorseEntityBase.JUMP_ANIM_TIMER, 24);
+				} else if (msg.jumpHeight > 2) {
+					horse.getEntityData().set(SWEMHorseEntityBase.JUMP_ANIM_TIMER, 30);
+				} else {
+					horse.getEntityData().set(SWEMHorseEntityBase.JUMP_ANIM_TIMER, 21);
+				}
+			}
+
 
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new SHorseJumpPacket(msg.entityID, msg.jumpHeight));
 		});

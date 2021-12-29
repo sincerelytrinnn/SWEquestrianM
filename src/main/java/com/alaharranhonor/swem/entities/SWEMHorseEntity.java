@@ -190,7 +190,8 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 		if (!event.isMoving()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_Idle"));
-		} else {
+			return PlayState.CONTINUE;
+		} else if (event.isMoving()) {
 			if (horse.isWalkingBackwards) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Walking_Backwards"));
 				return PlayState.CONTINUE;
@@ -204,83 +205,12 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			} else if (horse.getEntityData().get(SPEED_LEVEL) == 4) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Gallop"));
 			}
+			return PlayState.CONTINUE;
 		}
+
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Level_3", false));
 		return PlayState.CONTINUE;
-
-
-		/*SWEMHorseEntityBase horse = null;
-		if (event.getAnimatable() instanceof SWEMHorseEntityBase) {
-			horse = (SWEMHorseEntityBase) event.getAnimatable();
-		}
-
-		if (horse != null && horse.isHorseJumping()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("jump"));
-			return PlayState.CONTINUE;
-		}
-
-		if (horse != null && horse.isBeingRidden()) {
-			if (!event.isMoving()) {
-				if (event.getController().getCurrentAnimation() != null) {
-					if (event.getController().getCurrentAnimation().animationName.equals("walk")) {
-						event.getController().setAnimation(new AnimationBuilder().addAnimation("stand_idle"));
-					}
-				}
-				if (horse.ticksExisted % 140 == 0) {
-					int randomNum = horse.getRNG().nextInt(100);
-					if (randomNum < 15) {
-						event.getController().setAnimation(new AnimationBuilder().addAnimation("look_around_left"));
-					} else if (randomNum < 30 && randomNum > 14) {
-						event.getController().setAnimation(new AnimationBuilder().addAnimation("look_around_right"));
-					} else if (randomNum > 29 && randomNum < 40) {
-						event.getController().setAnimation(new AnimationBuilder().addAnimation("hock"));
-					} else {
-						event.getController().setAnimation(new AnimationBuilder().addAnimation("stand_idle"));
-					}
-				}
-
-				return PlayState.CONTINUE;
-			}
-			if (horse.getDataManager().get(SPEED_LEVEL) == 0) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", true));
-				return PlayState.CONTINUE;
-			} else if (horse.getDataManager().get(SPEED_LEVEL) == 1) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("buck", true));
-				return PlayState.CONTINUE;
-			} else if (horse.getDataManager().get(SPEED_LEVEL) == 2) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("canter", true));
-				return PlayState.CONTINUE;
-			} else if (horse.getDataManager().get(SPEED_LEVEL) == 3) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("gallop", true));
-			}
-		}
-
-		if (event.isMoving()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", true));
-			return PlayState.CONTINUE;
-		} else {
-			if (event.getController().getCurrentAnimation() != null) {
-				if (event.getController().getCurrentAnimation().animationName.equals("walk")) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("stand_idle"));
-				}
-			}
-			if (((LivingEntity)event.getAnimatable()).ticksExisted % 140 == 0) {
-				int randomNum = ((LivingEntity)event.getAnimatable()).getRNG().nextInt(100);
-				if (randomNum < 15) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("look_around_left"));
-				} else if (randomNum < 30 && randomNum > 14) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("look_around_right"));
-				} else if (randomNum > 29 && randomNum < 35) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("hock"));
-				} else {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("stand_idle"));
-				}
-			}
-			return PlayState.CONTINUE;
-		}*/
 	}
-
-
-
 
 	/**
 	 *

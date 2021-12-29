@@ -48,7 +48,7 @@ public class TrackerItem extends ItemBase {
 
 			if (playerIn.isShiftKeyDown()) {
 				// Remove tracking status
-				CompoundNBT tracked = stack.getOrCreateTagElement("tracked");
+				CompoundNBT tracked = playerIn.getPersistentData().getCompound("tracked");
 				CompoundNBT trackedNew = new CompoundNBT();
 				boolean removed = false;
 				for (int i = 0; i < tracked.size(); i++) {
@@ -64,11 +64,10 @@ public class TrackerItem extends ItemBase {
 				}
 
 
-				stack.getOrCreateTag().put("tracked", trackedNew);
+				playerIn.getPersistentData().put("tracked", trackedNew);
 			} else {
 				//Add tracking status
-				CompoundNBT nbt = stack.getOrCreateTag();
-				CompoundNBT tracked = stack.getOrCreateTagElement("tracked");
+				CompoundNBT tracked = playerIn.getPersistentData().getCompound("tracked");
 
 				for (int i = 0; i < tracked.size(); i++) {
 					if (tracked.getUUID(String.valueOf(i)).equals(horse.getUUID())) {
@@ -82,7 +81,7 @@ public class TrackerItem extends ItemBase {
 
 				playerIn.displayClientMessage(new StringTextComponent("Horse is now being tracked"), true);
 
-				nbt.put("tracked", tracked);
+				playerIn.getPersistentData().put("tracked", tracked);
 			}
 
 			return ActionResultType.CONSUME;
@@ -93,9 +92,8 @@ public class TrackerItem extends ItemBase {
 	@Override
 	public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
 		if (!worldIn.isClientSide) {
-			ItemStack stack = playerIn.getItemInHand(handIn);
 
-			CompoundNBT tracked = stack.getOrCreateTagElement("tracked");
+			CompoundNBT tracked = playerIn.getPersistentData().getCompound("tracked");
 
 			StringBuilder builder = new StringBuilder();
 
@@ -115,7 +113,7 @@ public class TrackerItem extends ItemBase {
 				builder.append(horsesNotFound).append(" horse").append(horsesNotFound > 1 ? "s" : "").append(" was not found.");
 			}
 			playerIn.sendMessage(new StringTextComponent(builder.toString()), Util.NIL_UUID);
-			return ActionResult.consume(stack);
+			return ActionResult.consume(playerIn.getItemInHand(handIn));
 		}
 
 		return super.use(worldIn, playerIn, handIn);
