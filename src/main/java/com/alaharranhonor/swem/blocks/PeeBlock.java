@@ -43,7 +43,7 @@ public class PeeBlock extends Block {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return VoxelShapes.box(0, 0.01, 0, 0, 0.011, 0);
+		return VoxelShapes.box(0, 0.05, 0, 0, 0.055, 0);
 	}
 
 	@Override
