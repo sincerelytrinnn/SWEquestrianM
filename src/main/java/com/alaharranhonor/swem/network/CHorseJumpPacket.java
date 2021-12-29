@@ -70,15 +70,15 @@ public class CHorseJumpPacket {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 			if (msg.jumpHeight > 0) {
 				if (msg.jumpHeight > 5) {
-					horse.getEntityData().set(SWEMHorseEntityBase.JUMP_ANIM_TIMER, 34);
+					horse.getEntityData().set(SWEMHorseEntityBase.JUMP_ANIM_TIMER, 36);
 				} else if (msg.jumpHeight > 4) {
-					horse.getEntityData().set(SWEMHorseEntityBase.JUMP_ANIM_TIMER, 26);
-				} else if (msg.jumpHeight > 3) {
-					horse.getEntityData().set(SWEMHorseEntityBase.JUMP_ANIM_TIMER, 22);
-				} else if (msg.jumpHeight > 2) {
 					horse.getEntityData().set(SWEMHorseEntityBase.JUMP_ANIM_TIMER, 28);
+				} else if (msg.jumpHeight > 3) {
+					horse.getEntityData().set(SWEMHorseEntityBase.JUMP_ANIM_TIMER, 24);
+				} else if (msg.jumpHeight > 2) {
+					horse.getEntityData().set(SWEMHorseEntityBase.JUMP_ANIM_TIMER, 30);
 				} else {
-					horse.getEntityData().set(SWEMHorseEntityBase.JUMP_ANIM_TIMER, 19);
+					horse.getEntityData().set(SWEMHorseEntityBase.JUMP_ANIM_TIMER, 21);
 				}
 			}
 
