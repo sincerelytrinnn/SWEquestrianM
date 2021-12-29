@@ -18,22 +18,6 @@
     },
     {
       "when": {
-        "level_vanilla": "2"
-      },
-      "apply": {
-        "model": "swem:block/full_feeder_vanilla"
-      }
-    },
-    {
-      "when": {
-        "level_vanilla": "1"
-      },
-      "apply": {
-        "model": "swem:block/half_feeder_vanilla"
-      }
-    },
-    {
-      "when": {
         "north": "true",
         "west": "true",
         "south": "false",
