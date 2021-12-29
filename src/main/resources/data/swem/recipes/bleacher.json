@@ -7,14 +7,20 @@
   ],
   "key":
   {
-	"x":
-    {
-      "item": "minecraft:heavy_weighted_pressure_plate"
-    },
-	"y":
-    {
-      "item": "minecraft:iron_bars"
-    }
+	"x":[
+      {
+        "item": "minecraft:iron_bars"
+      },
+      {
+        "item": "swem:light_friendly_bars"
+      },
+      {
+        "item": "swem:medium_friendly_bars"
+      },
+      {
+        "item": "swem:dark_friendly_bars"
+      }
+    ]
   },
   "result":
   {
