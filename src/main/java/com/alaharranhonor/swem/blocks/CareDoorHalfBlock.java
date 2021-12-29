@@ -49,7 +49,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 
-public class HalfCareDoorBlock extends Block {
+public class CareDoorHalfBlock extends Block {
 	public static final DirectionProperty FACING = HorizontalBlock.FACING;
 	public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 	public static final EnumProperty<DoorHingeSide> HINGE = BlockStateProperties.DOOR_HINGE;
@@ -59,7 +59,7 @@ public class HalfCareDoorBlock extends Block {
 	protected static final VoxelShape WEST_AABB = Block.box(13.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
 	protected static final VoxelShape EAST_AABB = Block.box(0.0D, 0.0D, 0.0D, 3.0D, 16.0D, 16.0D);
 	private DyeColor colour;
-	public HalfCareDoorBlock(AbstractBlock.Properties builder, DyeColor colour) {
+	public CareDoorHalfBlock(AbstractBlock.Properties builder, DyeColor colour) {
 		super(builder);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(OPEN, Boolean.valueOf(false)).setValue(HINGE, DoorHingeSide.LEFT));
 		this.colour = colour;

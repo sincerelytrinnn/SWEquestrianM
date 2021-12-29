@@ -31,7 +31,6 @@ import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.DoorHingeSide;
-import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -48,7 +47,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 
-public class HalfHorseDoorBlock extends Block {
+public class HorseDoorHalfBlock extends Block {
 	public static final DirectionProperty FACING = HorizontalBlock.FACING;
 	public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 	public static final EnumProperty<DoorHingeSide> HINGE = BlockStateProperties.DOOR_HINGE;
@@ -60,7 +59,7 @@ public class HalfHorseDoorBlock extends Block {
 
 	private DyeColor colour;
 
-	public HalfHorseDoorBlock(AbstractBlock.Properties builder, DyeColor colour) {
+	public HorseDoorHalfBlock(AbstractBlock.Properties builder, DyeColor colour) {
 		super(builder);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(OPEN, Boolean.valueOf(false)).setValue(HINGE, DoorHingeSide.LEFT));
 		this.colour = colour;
@@ -292,7 +291,7 @@ public class HalfHorseDoorBlock extends Block {
 					break;
 				}
 			}
-			boolean shouldOpen = openPositions.stream().allMatch((pos1) -> worldIn.getBlockState(pos1) == Blocks.AIR.defaultBlockState());
+			boolean shouldOpen = openPositions.stream().allMatch((pos1) -> worldIn.getBlockState(pos1).getMaterial().isReplaceable());
 			if (shouldOpen) {
 				state = state.cycle(OPEN);
 				boolean open = state.getValue(OPEN);

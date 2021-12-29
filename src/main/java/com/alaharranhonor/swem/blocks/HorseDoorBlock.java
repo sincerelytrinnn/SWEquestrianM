@@ -318,7 +318,7 @@ public class HorseDoorBlock extends Block{
 					break;
 				}
 			}
-			boolean shouldOpen = openPositions.stream().allMatch((pos1) -> worldIn.getBlockState(pos1) == Blocks.AIR.defaultBlockState());
+			boolean shouldOpen = openPositions.stream().allMatch((pos1) -> worldIn.getBlockState(pos1).getMaterial().isReplaceable());
 			if (shouldOpen) {
 				state = state.cycle(OPEN);
 				boolean open = state.getValue(OPEN);
