@@ -720,7 +720,7 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public int getMaxFallDistance() {
-		return 3;
+		return 2;
 	}
 
 	@Override
@@ -2394,6 +2394,11 @@ public class SWEMHorseEntityBase
 			amount = this.calculateArrowDamage((AbstractArrowEntity) source.getDirectEntity(), amount);
 		}
 		return super.hurt(source, amount);
+	}
+
+	@Override
+	protected int calculateFallDamage(float pDistance, float pDamageMultiplier) {
+		return MathHelper.ceil((pDistance * 0.5F - 4.0F) * pDamageMultiplier);
 	}
 
 	private float calculateArrowDamage(AbstractArrowEntity arrow, float amount) {
