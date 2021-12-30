@@ -75,7 +75,8 @@
       "swem:separator_white",
       "swem:separator_yellow",
       "swem:iron_plate",
-      "swem:iron_rivet"
+      "swem:iron_rivet",
+      "swem:hose"
     ]
   },
   "criteria": {
