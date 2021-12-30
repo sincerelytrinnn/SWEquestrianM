@@ -21,7 +21,6 @@ import com.alaharranhonor.swem.blocks.BarrelBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpControllerBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpStandardBlock;
-import com.alaharranhonor.swem.util.SWLRegistryHandler;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
@@ -165,7 +164,7 @@ public class SWEMBlocks {
 	public static final RegistryObject<WaterTroughBlock> WATER_TROUGH = BLOCKS.register("water_trough", () -> new WaterTroughBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().sound(SoundType.METAL).strength(5.0f, 6.0f).harvestTool(ToolType.PICKAXE), DyeColor.BLACK));
 	public static final RegistryObject<Block> WET_COMPOST = BLOCKS.register("wet_compost", () -> new Block(AbstractBlock.Properties.of(Material.GRASS).strength(0.6F).sound(SoundType.WET_GRASS).harvestTool(ToolType.SHOVEL)));
 	public static final RegistryObject<Block> COMPOST = BLOCKS.register("compost", () -> new Block(AbstractBlock.Properties.of(Material.GRASS).sound(SoundType.NETHER_WART).harvestTool(ToolType.SHOVEL).strength(0.6F)));
-	public static final RegistryObject<Block> HORSE_PEE = BLOCKS.register("horse_pee", () -> new PeeBlock(AbstractBlock.Properties.of(Material.GRASS).noOcclusion().isValidSpawn(Blocks::never).isRedstoneConductor(Blocks::never).isSuffocating(Blocks::never).isViewBlocking(Blocks::never)));
+	public static final RegistryObject<Block> HORSE_PEE = BLOCKS.register("horse_pee", () -> new PeeBlock(AbstractBlock.Properties.of(new Material.Builder(MaterialColor.GRASS).noCollider().replaceable().notSolidBlocking().nonSolid().build()).noOcclusion().isValidSpawn(Blocks::never).isRedstoneConductor(Blocks::never).isSuffocating(Blocks::never).isViewBlocking(Blocks::never)));
 	public static final RegistryObject<Block> CANTAZARITE_ANVIL = BLOCKS.register("cantazarite_anvil", () -> new CantazariteAnvilBlock(AbstractBlock.Properties.copy(Blocks.ANVIL).noOcclusion()));
 	public static final RegistryObject<Block> TEARING_MAGMA = BLOCKS.register("tearing_magma", () -> new TearingMagma(AbstractBlock.Properties.of(Material.STONE, MaterialColor.NETHER).requiresCorrectToolForDrops().noOcclusion().randomTicks()));
 	public static final RegistryObject<Block> GLOW_STRING = BLOCKS.register("glow_string", () -> new GlowTripwireBlock((TripWireHookBlock)TRIPWIRE_HOOK, AbstractBlock.Properties.of(Material.DECORATION).noCollission()));
@@ -276,8 +275,8 @@ public class SWEMBlocks {
 	public static final List<RegistryObject<GrainFeederBlock>> GRAIN_FEEDERS = new ArrayList<>();
 	public static final List<RegistryObject<HorseDoorBlock>> PASTURE_GATES_HORSE = new ArrayList<>();
 	public static final List<RegistryObject<CareDoorBlock>> PASTURE_GATES_CARE = new ArrayList<>();
-	public static final List<RegistryObject<HalfCareDoorBlock>> WEB_GUARDS_CARE = new ArrayList<>();
-	public static final List<RegistryObject<HalfHorseDoorBlock>> WEB_GUARDS_HORSE = new ArrayList<>();
+	public static final List<RegistryObject<CareDoorHalfBlock>> WEB_GUARDS_CARE = new ArrayList<>();
+	public static final List<RegistryObject<HorseDoorHalfBlock>> WEB_GUARDS_HORSE = new ArrayList<>();
 	public static final List<RegistryObject<HalfDoorBlock>> WEB_GUARDS_RIDER = new ArrayList<>();
 	public static final List<RegistryObject<HalfBarrelBlock>> HALF_BARRELS = new ArrayList<>();
 
@@ -313,9 +312,9 @@ public class SWEMBlocks {
 					block -> () -> new BlockItemBase(block.get())));
 			PASTURE_GATES_CARE.add(register("pasture_"+color.toString() + "_care", () -> new CareDoorBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().strength(1.0f), color),
 					block -> () -> new BlockItemBase(block.get())));
-			WEB_GUARDS_CARE.add(register("web_guard_"+color.toString() + "_care", () -> new HalfCareDoorBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().strength(1.0f), color),
+			WEB_GUARDS_CARE.add(register("web_guard_"+color.toString() + "_care", () -> new CareDoorHalfBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().strength(1.0f), color),
 					block -> () -> new BlockItemBase(block.get())));
-			WEB_GUARDS_HORSE.add(register("web_guard_"+color.toString() + "_horse", () -> new HalfHorseDoorBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().strength(1.0f), color),
+			WEB_GUARDS_HORSE.add(register("web_guard_"+color.toString() + "_horse", () -> new HorseDoorHalfBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().strength(1.0f), color),
 					block -> () -> new BlockItemBase(block.get())));
 			WEB_GUARDS_RIDER.add(register("web_guard_"+color.toString() + "_rider", () -> new HalfDoorBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().strength(1.0f)),
 					block -> () -> new BlockItemBase(block.get())));

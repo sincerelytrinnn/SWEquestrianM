@@ -49,7 +49,7 @@ public class DataGenerators {
 			// Read the output into a Data Class.
 			// get the Translation array, and then pass it into registerLanguageProviders
 			String api = System.getenv("SWEM_TRANSLATION_API_KEY");
-			URL url = new URL("https://sheets.googleapis.com/v4/spreadsheets/1nIuoznNlkud57_eE_piMSLIQAsQ9XRIiyzTBtwDC2kg/values/A60:W767?key=");
+			URL url = new URL("https://sheets.googleapis.com/v4/spreadsheets/1nIuoznNlkud57_eE_piMSLIQAsQ9XRIiyzTBtwDC2kg/values/A60:W822?key=");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("GET");
 
