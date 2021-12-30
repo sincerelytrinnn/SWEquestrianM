@@ -7,10 +7,20 @@
   ],
   "key":
   {
-	"x":
-    {
-      "item": "minecraft:iron_bars"
-    },
+	"x": [
+      {
+        "item": "minecraft:iron_bars"
+      },
+      {
+        "item": "swem:light_friendly_bars"
+      },
+      {
+        "item": "swem:medium_friendly_bars"
+      },
+      {
+        "item": "swem:dark_friendly_bars"
+      }
+    ],
 	"y":
     {
       "tag": "minecraft:slabs"

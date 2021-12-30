@@ -10,7 +10,9 @@
       "swem:whitewash_fence_plank",
       "swem:whitewash_slab_plank",
       "swem:whitewash_stairs_plank",
-      "swem:whitewash_trapdoor_plank"
+      "swem:whitewash_trapdoor_plank",
+      "swem:whitewash_stall_care",
+      "swem:whitewash_stall_horse"
     ]
   },
   "criteria": {

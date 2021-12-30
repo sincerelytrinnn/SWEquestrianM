@@ -2,7 +2,7 @@
   "type": "minecraft:smelting",
   "group": "medium_shavings",
   "ingredient": {
-    "item": "minecraft:jungle_leaves"
+    "item": "minecraft:oak_leaves"
   },
   "result": "swem:medium_shavings"
   },

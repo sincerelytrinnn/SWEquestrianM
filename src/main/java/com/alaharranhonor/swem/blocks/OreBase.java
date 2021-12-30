@@ -15,34 +15,40 @@ package com.alaharranhonor.swem.blocks;
  * THE SOFTWARE.
  */
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
 
-import net.minecraft.block.AbstractBlock;
+import java.util.Random;
 
-public class OreBase extends Block {
-     public OreBase() {
-            super(AbstractBlock.Properties.of(Material.METAL)
-                    .strength(4.0f, 4.0f)
-                    .sound(SoundType.STONE)
-                    .harvestLevel(2)
-                    .harvestTool(ToolType.PICKAXE)
-            );
-     }
-
-    @Override
-    public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
-        return super.getExpDrop(state, reader, pos, fortune, silktouch);
+public class OreBase extends OreBlock {
+    public OreBase(Properties p_i48357_1_) {
+        super(p_i48357_1_);
     }
 
     @Override
-    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
-        return 5;
+    public int xpOnDrop(Random p_220281_1_) {
+        if (this == SWEMBlocks.CANTAZARITE_ORE.get()) {
+            return MathHelper.nextInt(p_220281_1_, 2, 5);
+        } else {
+            return this == SWEMBlocks.AMETHYST_ORE.get() ? MathHelper.nextInt(p_220281_1_, 3, 7) : 0;
+        }
+    }
+
+    public void spawnAfterBreak(BlockState pState, ServerWorld pLevel, BlockPos pPos, ItemStack pStack) {
+        super.spawnAfterBreak(pState, pLevel, pPos, pStack);
+    }
+
+    @Override
+    public int getExpDrop (BlockState state, net.minecraft.world.IWorldReader reader, BlockPos pos,int fortune, int silktouch){
+        return silktouch == 0 ? this.xpOnDrop(RANDOM) : 0;
     }
 }
+

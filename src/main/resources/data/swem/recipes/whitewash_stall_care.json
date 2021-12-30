@@ -1,15 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "stall_door_horse",
+  "group": "stall_door_care",
   "pattern":
   [
-    "xx ",
-    "yy ",
-    "yy "
+    "xxx",
+    "yyy",
+    "yyy"
   ],
   "key":
   {
-	"x":[
+    "x":[
       {
         "item": "minecraft:iron_bars"
       },
@@ -23,14 +23,14 @@
         "item": "swem:dark_friendly_bars"
       }
     ],
-	"y":
+    "y":
     {
-      "item": "minecraft:jungle_planks"
+      "item": "swem:whitewash_plank"
     }
   },
   "result":
   {
-    "item": "swem:jungle_stall_horse",
+    "item": "swem:whitewash_stall_care",
     "count": 2
   }
 }

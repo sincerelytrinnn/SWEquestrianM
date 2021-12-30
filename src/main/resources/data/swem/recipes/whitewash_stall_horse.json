@@ -9,7 +9,7 @@
   ],
   "key":
   {
-	"x":[
+    "x":[
       {
         "item": "minecraft:iron_bars"
       },
@@ -23,14 +23,14 @@
         "item": "swem:dark_friendly_bars"
       }
     ],
-	"y":
+    "y":
     {
-      "item": "minecraft:jungle_planks"
+      "item": "swem:whitewash_plank"
     }
   },
   "result":
   {
-    "item": "swem:jungle_stall_horse",
+    "item": "swem:whitewash_stall_horse",
     "count": 2
   }
 }
