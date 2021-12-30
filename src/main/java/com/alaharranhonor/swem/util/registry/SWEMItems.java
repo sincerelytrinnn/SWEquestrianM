@@ -24,6 +24,7 @@ import com.alaharranhonor.swem.items.potions.CantazaritePotionItem;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.tools.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraftforge.api.distmarker.Dist;
@@ -49,6 +50,8 @@ public class SWEMItems {
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> SWEMItems::checkAccess);
 		ITEMS.register(modBus);
 	}
+
+
 
 
 	public static final RegistryObject<Item> DIAMOND_PLATE = ITEMS.register("diamond_plate", ItemBase::new);
@@ -124,8 +127,7 @@ public class SWEMItems {
 	public static final RegistryObject<HorseXPBottle> AFFINITY_XP_BOTTLE = ITEMS.register("affinity_xp_bottle", () -> new HorseXPBottle("affinity"));
 	public static final RegistryObject<HorseXPBottle> HEALTH_XP_BOTTLE = ITEMS.register("health_xp_bottle", () -> new HorseXPBottle("health"));
 	public static final RegistryObject<HorseXPBottle> ALL_XP_BOTTLE = ITEMS.register("all_xp_bottle", () -> new HorseXPBottle("all"));
-	//public static final RegistryObject<HoseItem> HOSE = ITEMS.register("hose", () -> new HoseItem(() -> Fluids.EMPTY, new Item.Properties().tab(SWEM.TAB).stacksTo()(1)));
-	//public static final RegistryObject<HoseItem> HOSE_WATER = ITEMS.register("hose_water", () -> new HoseItem(() -> Fluids.WATER, new Item.Properties().tab(SWEM.TAB).stacksTo()(1)));
+	public static final RegistryObject<HoseItem> HOSE = ITEMS.register("hose", () -> new HoseItem(new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
 	public static final RegistryObject<SWEMHorseArmorItem> CLOTH_HORSE_ARMOR = ITEMS.register("cloth_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.CLOTH, 10, "cloth", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
 	public static final RegistryObject<SWEMHorseArmorItem> IRON_HORSE_ARMOR = ITEMS.register("iron_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.IRON, 30, "iron", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
 	public static final RegistryObject<SWEMHorseArmorItem> GOLD_HORSE_ARMOR = ITEMS.register("gold_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.GOLD, 32, "gold", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
