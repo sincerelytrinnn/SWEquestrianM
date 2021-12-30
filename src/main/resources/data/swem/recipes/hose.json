@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    " x ",
+    "yyy",
+    "yyy"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    "y":
+    {
+      "tag": "minecraft:wool"
+    }
+  },
+  "result":
+  {
+    "item": "swem:hose",
+    "count": 1
+  }
+}
