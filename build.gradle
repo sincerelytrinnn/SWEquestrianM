@@ -34,7 +34,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
 
-version = '1.16.5-0.2.5.12-b'
+version = '1.16.5-0.2.5.13-b'
 group = 'com.alaharranhonor.swem' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'swem'
 
@@ -69,7 +69,7 @@ minecraft {
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
-            //args "--username", "legendenv2", "--uuid", "0feef6f9-04c1-47e5-bd9a-a06cfb693da5"
+            args "--username", "legendenv2", "--uuid", "0feef6f9-04c1-47e5-bd9a-a06cfb693da5"
 
             jvmArgs "-Xms2G", "-Xmx8G"
 

@@ -52,19 +52,19 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.vector.Quaternion;
-import net.minecraft.util.text.Color;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.*;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -77,6 +77,8 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nullable;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -313,6 +315,21 @@ public class GeneralEventHandlers {
 			ItemStack stack = player.getItemBySlot(EquipmentSlotType.FEET);
 			if (stack.getItem() instanceof AmethystRidingBoots) {
 				event.setAmount(-1);
+			}
+		}
+
+		@SubscribeEvent
+		public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
+			if (event.getEntity() instanceof PlayerEntity && event.getEntity().level.isClientSide) {
+				LocalDateTime time = LocalDateTime.now();
+				if (time.getMonth() == Month.DECEMBER && time.getDayOfMonth() == 31) {
+
+					IFormattableTextComponent hi = new StringTextComponent("[SWEM] Hi " + event.getEntity().getName().getString()).withStyle(TextFormatting.RED);
+					IFormattableTextComponent content = new StringTextComponent("\n Us here at the SWEM team, hope you have a good new years! We hope you get a good start on 2022, and we thank you for helping out the project become a reality! Thank you for supporting us and happy new years! //legenden").setStyle(Style.EMPTY.withColor(Color.parseColor("#FF7F7F")));
+					IFormattableTextComponent fireworks = new StringTextComponent("\n Now go out and set off some pretty fireworks!").setStyle(Style.EMPTY.withColor(Color.parseColor("#545454")));
+
+					event.getEntity().sendMessage(hi.append(content).append(fireworks), Util.NIL_UUID);
+				}
 			}
 		}
 
