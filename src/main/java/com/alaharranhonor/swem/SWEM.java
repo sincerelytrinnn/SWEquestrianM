@@ -220,14 +220,6 @@ public class SWEM
         }
     }
 
-
-    public static final ItemGroup SWLMTAB = new ItemGroup("SWLMTab") {
-        @Override
-        public ItemStack makeIcon() {
-            return new ItemStack(SWLRegistryHandler.STAR_WORM.get());
-        }
-    };
-
     public static final ItemGroup TAB = new ItemGroup("SWEMTab") {
         @Override
         public ItemStack makeIcon() {

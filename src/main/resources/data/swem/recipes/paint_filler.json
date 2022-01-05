@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "swem:star_worm_goop"
+      "item": "swlm:star_worm_goop"
     },
     {
       "item": "minecraft:water_bucket"
