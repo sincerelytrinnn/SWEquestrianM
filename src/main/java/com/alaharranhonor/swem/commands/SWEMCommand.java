@@ -83,7 +83,7 @@ public class SWEMCommand {
 								Entity riding = ctx.getSource().getPlayerOrException().getVehicle();
 								if (riding instanceof SWEMHorseEntityBase) {
 									SWEMHorseEntityBase horse = (SWEMHorseEntityBase) riding;
-									if (!horse.getOwnerUUID().equals(riding.getUUID())) {
+									if (!horse.getOwnerUUID().equals(player.getUUID()) && !player.hasPermissions(2)) {
 										ctx.getSource().sendFailure(new StringTextComponent("[SWEM] You can't transfer other peoples horses." ));
 										return -1;
 									}

@@ -90,7 +90,10 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.fml.network.PacketDistributor;
@@ -302,7 +305,7 @@ public class SWEMHorseEntityBase
 		if (!this.level.isClientSide) {
 
 			// Tick entity data anim timers
-			this.getEntityData().set(JUMP_ANIM_TIMER, Math.max(0, this.getEntityData().get(JUMP_ANIM_TIMER) - 1));
+			this.getEntityData().set(JUMP_ANIM_TIMER, Math.max(-1, this.getEntityData().get(JUMP_ANIM_TIMER) - 1));
 
 
 			if (this.getLeashHolder() instanceof PlayerEntity) {
@@ -815,7 +818,7 @@ public class SWEMHorseEntityBase
 
 		this.inventory.addListener(this::onHorseInventoryChanged);
 		this.updateContainerEquipment();
-		this.itemHandler = net.minecraftforge.common.util.LazyOptional.of(() -> new net.minecraftforge.items.wrapper.InvWrapper(this.inventory));
+		this.itemHandler = LazyOptional.of(() -> new InvWrapper(this.inventory));
 	}
 
 	public Inventory getHorseInventory() {
@@ -838,7 +841,7 @@ public class SWEMHorseEntityBase
 		}
 
 		this.saddlebagInventory.addListener(this::containerChanged);
-		this.saddlebagItemHandler = net.minecraftforge.common.util.LazyOptional.of(() -> new net.minecraftforge.items.wrapper.InvWrapper(this.saddlebagInventory));
+		this.saddlebagItemHandler = LazyOptional.of(() -> new InvWrapper(this.saddlebagInventory));
 	}
 
 	public Inventory getSaddlebagInventory() {
@@ -861,7 +864,7 @@ public class SWEMHorseEntityBase
 		}
 
 		this.bedrollInventory.addListener(this::containerChanged);
-		this.bedrollItemHandler = net.minecraftforge.common.util.LazyOptional.of(() -> new net.minecraftforge.items.wrapper.InvWrapper(this.bedrollInventory));
+		this.bedrollItemHandler = LazyOptional.of(() -> new InvWrapper(this.bedrollInventory));
 	}
 
 	public Inventory getBedrollInventory() {
@@ -1402,7 +1405,7 @@ public class SWEMHorseEntityBase
 					if (blockstate1.isAir(level, blockpos$mutable)) {
 						BlockState blockstate2 = level.getBlockState(blockpos);
 						boolean isFull = blockstate2.getBlock() == Blocks.WATER && blockstate2.getValue(FlowingFluidBlock.LEVEL) == 0; //TODO: Forge, modded waters?
-						if (blockstate2.getMaterial() == Material.WATER && isFull && blockstate.canSurvive(level, blockpos) && level.isUnobstructed(blockstate, blockpos, ISelectionContext.empty()) && !net.minecraftforge.event.ForgeEventFactory.onBlockPlace(this, net.minecraftforge.common.util.BlockSnapshot.create(level.dimension(), level, blockpos), net.minecraft.util.Direction.UP)) {
+						if (blockstate2.getMaterial() == Material.WATER && isFull && blockstate.canSurvive(level, blockpos) && level.isUnobstructed(blockstate, blockpos, ISelectionContext.empty()) && !ForgeEventFactory.onBlockPlace(this, BlockSnapshot.create(level.dimension(), level, blockpos), Direction.UP)) {
 							level.setBlock(blockpos, blockstate, 3);
 							level.getBlockTicks().scheduleTick(blockpos, Blocks.FROSTED_ICE, 20);
 						}
@@ -1428,7 +1431,7 @@ public class SWEMHorseEntityBase
 					if (blockstate1.isAir(level, blockpos$mutable)) {
 						BlockState blockstate2 = level.getBlockState(blockpos);
 						boolean isFull = blockstate2.getBlock() == Blocks.LAVA && blockstate2.getValue(FlowingFluidBlock.LEVEL) == 0; //TODO: Forge, modded waters?
-						if (blockstate2.getMaterial() == Material.LAVA && isFull && blockstate.canSurvive(level, blockpos) && level.isUnobstructed(blockstate, blockpos, ISelectionContext.empty()) && !net.minecraftforge.event.ForgeEventFactory.onBlockPlace(this, net.minecraftforge.common.util.BlockSnapshot.create(level.dimension(), level, blockpos), net.minecraft.util.Direction.UP)) {
+						if (blockstate2.getMaterial() == Material.LAVA && isFull && blockstate.canSurvive(level, blockpos) && level.isUnobstructed(blockstate, blockpos, ISelectionContext.empty()) && !ForgeEventFactory.onBlockPlace(this, BlockSnapshot.create(level.dimension(), level, blockpos), Direction.UP)) {
 							level.setBlock(blockpos, blockstate, 3);
 							level.getBlockTicks().scheduleTick(blockpos, SWEMBlocks.TEARING_MAGMA.get(), 20);
 						}
@@ -1519,7 +1522,7 @@ public class SWEMHorseEntityBase
 
 
 						this.hasImpulse = true;
-						net.minecraftforge.common.ForgeHooks.onLivingJump(this);
+						ForgeHooks.onLivingJump(this);
 						if (f1 > 0.0F) {
 							float f2 = MathHelper.sin(this.yRot * ((float) Math.PI / 180F));
 							float f3 = MathHelper.cos(this.yRot * ((float) Math.PI / 180F));
@@ -1542,8 +1545,8 @@ public class SWEMHorseEntityBase
 				if (this.isControlledByLocalInstance()) {
 					this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
 					if (f1 < 0.0f) { // Backwards movement.
-						SWEMHorseEntityBase.HorseSpeed oldSpeed = this.currentSpeed;
-						this.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
+						HorseSpeed oldSpeed = this.currentSpeed;
+						this.currentSpeed = HorseSpeed.WALK;
 						this.updateSelectedSpeed(oldSpeed);
 						livingentity.zza *= 3f;
 						// We multiply with a number close to 4, since in the AbstractHorseEntity it slows the backwards movement with * 0.25
@@ -2099,11 +2102,11 @@ public class SWEMHorseEntityBase
 	@Nullable
 	public ILivingEntityData finalizeSpawn(IServerWorld levelIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
 		SWEMCoatColors coatcolors;
-		if (spawnDataIn instanceof SWEMHorseEntityBase.SWEMHorseData) {
-			coatcolors = ((SWEMHorseEntityBase.SWEMHorseData)spawnDataIn).variant;
+		if (spawnDataIn instanceof SWEMHorseData) {
+			coatcolors = ((SWEMHorseData)spawnDataIn).variant;
 		} else {
 			coatcolors = SWEMCoatColors.values()[this.rand.nextInt(SWEMCoatColors.values().length - 2)];
-			spawnDataIn = new SWEMHorseEntityBase.SWEMHorseData(coatcolors);
+			spawnDataIn = new SWEMHorseData(coatcolors);
 		}
 
 		this.setHorseVariant(coatcolors.getId());
@@ -2531,7 +2534,7 @@ public class SWEMHorseEntityBase
 		ALL;
 	}
 
-	public static class SWEMHorseData extends AgeableEntity.AgeableData {
+	public static class SWEMHorseData extends AgeableData {
 		public final SWEMCoatColors variant;
 
 		public SWEMHorseData(SWEMCoatColors p_i231557_1_) {
