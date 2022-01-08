@@ -28,6 +28,11 @@ public class HorseAvoidEntityGoal<T extends LivingEntity> extends AvoidEntityGoa
 	}
 
 	@Override
+	public boolean canUse() {
+		return super.canUse() && this.horse.isControlledByLocalInstance();
+	}
+
+	@Override
 	public void start() {
 		super.start();
 		SWEMHorseEntityBase.HorseSpeed oldSpeed = this.horse.currentSpeed;
