@@ -87,6 +87,13 @@ public class SlowFeederBlock extends Block {
 						itemstack.shrink(1);
 					}
 					return ActionResultType.sidedSuccess(worldIn.isClientSide);
+				} else if (level_swem == 1) {
+					this.setHayLevel(worldIn, pos, state, level_swem + 1);
+					if (!player.isCreative()) {
+						itemstack.shrink(1);
+						player.addItem(new ItemStack(SWEMBlocks.QUALITY_BALE_SLAB_ITEM.get()));
+					}
+					return ActionResultType.sidedSuccess(worldIn.isClientSide);
 				} else {
 					return ActionResultType.PASS;
 				}
