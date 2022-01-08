@@ -37,7 +37,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.LightType;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.geo.render.built.GeoBone;
+import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 import java.util.Map;
@@ -45,7 +47,7 @@ import java.util.Map;
 public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity> {
 
     protected static final ResourceLocation TEXTURE = new ResourceLocation(SWEM.MOD_ID, "textures/entity/swem_horse.png");
-
+    private static int LAST_ARMOR_TIER = -1;
 
     public SWEMHorseRender(EntityRendererManager renderManagerIn) {
         super(renderManagerIn, new SWEMHorseModel());
@@ -80,19 +82,55 @@ public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity> {
     public void render(SWEMHorseEntity entity, float entityYaw, float partialTicks, MatrixStack stack, IRenderTypeBuffer bufferIn, int packedLightIn) {
         Entity leashHolder = entity.getLeashHolder();
 
-        ItemStack armor = entity.getSWEMArmor();
-        if (entity.isSWEMArmor(armor)) {
-            SWEMHorseArmorItem armorItem = (SWEMHorseArmorItem) armor.getItem();
-            if (armorItem.tier.getId() < 4) { // Hide Amethyst armor bones.
-                
-            }
-        }
-
         if (leashHolder != null) {
             this.renderLeash(entity, partialTicks, stack, bufferIn, leashHolder);
         }
         super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
 
+    }
+
+    @Override
+    public void render(GeoModel model, SWEMHorseEntity animatable, float partialTicks, RenderType type, MatrixStack matrixStackIn, @Nullable IRenderTypeBuffer renderTypeBuffer, @Nullable IVertexBuilder vertexBuilder, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        /*ItemStack armor = animatable.getSWEMArmor();
+        if (animatable.isSWEMArmor(armor)) {
+            SWEMHorseArmorItem armorItem = (SWEMHorseArmorItem) armor.getItem();
+            if (armorItem.tier.getId() != LAST_ARMOR_TIER) {
+                LAST_ARMOR_TIER = armorItem.tier.getId();
+
+                if (armorItem.tier.getId() > 0) {
+                    model.getBone("headarmor2").get().setHidden(false);
+                    model.getBone("ironleftshoulder").get().setHidden(false);
+                    model.getBone("ironrightshoulder").get().setHidden(false);
+                    model.getBone("ironbutt").get().setHidden(false);
+                } else {
+                    model.getBone("headarmor2").get().setHidden(true);
+                    model.getBone("ironleftshoulder").get().setHidden(true);
+                    model.getBone("ironrightshoulder").get().setHidden(true);
+                    model.getBone("ironbutt").get().setHidden(true);
+                }
+
+                // No gold bones.
+
+                if (armorItem.tier.getId() > 2) {
+                    // Show Diamond armor bones.
+                    model.getBone("neckarmor").get().setHidden(false);
+                    model.getBone("diamondbutt").get().setHidden(false);
+                } else {
+                    model.getBone("neckarmor").get().setHidden(true);
+                    model.getBone("diamondbutt").get().setHidden(true);
+                }
+
+                if (armorItem.tier.getId() > 3) {
+                    // Show Amethyst armor bones.
+                    model.getBone("frontrightshoulder").get().setHidden(false);
+                    model.getBone("leftrightshoulder").get().setHidden(false);
+                } else {
+                    model.getBone("frontrightshoulder").get().setHidden(true);
+                    model.getBone("leftrightshoulder").get().setHidden(true);
+                }
+            }
+        }*/
+        super.render(model, animatable, partialTicks, type, matrixStackIn, renderTypeBuffer, vertexBuilder, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 
     public void renderLeash(SWEMHorseEntity entityLivingIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Entity leashHolder) {

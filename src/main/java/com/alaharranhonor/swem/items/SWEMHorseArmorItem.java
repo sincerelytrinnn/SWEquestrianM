@@ -44,10 +44,10 @@ public class SWEMHorseArmorItem extends HorseArmorItem implements IAnimatable {
 
 
 	public SWEMHorseArmorItem(HorseArmorTier tier, int armorValue, String texture, Properties builder) {
-		super(armorValue, new ResourceLocation(SWEM.MOD_ID, "textures/finished/" + texture + ".png"), builder);
+		super(armorValue, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + texture + ".png"), builder);
 		this.type = texture;
 		this.tier = tier;
-		this.rackTexture = new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + texture + ".png");
+		this.rackTexture = new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + texture + "_rack.png");
 	}
 
 	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
