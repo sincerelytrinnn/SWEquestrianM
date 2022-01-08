@@ -31,6 +31,7 @@ import com.alaharranhonor.swem.util.registry.SWEMItems;
 import com.alaharranhonor.swem.util.registry.SWEMStructure;
 import com.alaharranhonor.swem.world.structure.SWEMConfiguredStructures;
 import com.mojang.serialization.Codec;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.WoodType;
 import net.minecraft.client.Minecraft;
@@ -150,6 +151,8 @@ public class SWEM
             ComposterBlock.COMPOSTABLES.put(SWEMBlocks.QUALITY_BALE_ITEM.get(), 0.85F);
             ComposterBlock.COMPOSTABLES.put(SWEMBlocks.WET_COMPOST_ITEM.get(), 0.85F);
             ComposterBlock.COMPOSTABLES.put(SWEMBlocks.COMPOST_ITEM.get(), 0.85F);
+
+            ShovelItem.FLATTENABLES.put(Blocks.SANDSTONE, SWEMBlocks.METER_POINT.get().defaultBlockState());
 
             SWEMStructure.setupStructures();
             SWEMConfiguredStructures.registerConfiguredStructures();
