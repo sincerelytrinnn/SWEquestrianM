@@ -34,7 +34,7 @@ public class DesensitizingItem extends ItemBase {
 
 	@Override
 	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-		if (target instanceof SWEMHorseEntityBase) {
+		if (target instanceof SWEMHorseEntityBase && target.level.isClientSide) {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
 			switch (this.id) {
 				case 0: {

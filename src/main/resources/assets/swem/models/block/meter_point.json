@@ -1,0 +1,6 @@
+{
+  "parent": "swem:block/meter_point_template",
+  "textures": {
+    "texture": "swem:blocks/meter_point_sandstone"
+  }
+}
