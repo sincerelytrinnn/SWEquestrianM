@@ -143,6 +143,7 @@ public class SWEMItems {
 	public static final RegistryObject<MedicalItem> GLISTENING_MELON = ITEMS.register("glistening_melon", () -> new MedicalItem(new Item.Properties().tab(SWEM.TAB), 10.0f, 75.0f));
 	public static final RegistryObject<Item> WHITEWASH_FINISH = ITEMS.register("whitewash_finish", () -> new Item(new Item.Properties().tab(SWEM.TAB)));
 	public static final RegistryObject<Item> SWEET_FEED = ITEMS.register("sweet_feed", () -> new Item(new Item.Properties().tab(SWEM.TAB).durability(8)));
+	public static final RegistryObject<Item> SWEET_FEED_OPENED = ITEMS.register("sweet_feed_open", () -> new Item(new Item.Properties().tab(SWEM.TAB).durability(8)));
 	public static final RegistryObject<Item> REFINED_LEATHER = ITEMS.register("refined_leather", ItemBase::new);
 	public static final RegistryObject<Item> PAINT_FILLER = ITEMS.register("paint_filler", ItemBase::new);
 	public static final RegistryObject<Item> SHRIMP = ITEMS.register("shrimp", () -> new ShrimpItem(new Item.Properties()));
