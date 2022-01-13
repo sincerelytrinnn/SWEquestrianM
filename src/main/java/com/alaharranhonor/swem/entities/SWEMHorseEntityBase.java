@@ -1466,7 +1466,10 @@ public class SWEMHorseEntityBase
 		if (this.isFlying()) {
 			return;
 		} else {
-			if (this.isStanding()) return;
+			if (this.isStanding()) {
+				this.setDeltaMovement(0, 0, 0);
+				return;
+			}
 
 
 			if (this.isVehicle() && this.canBeControlledByRider() && this.isHorseSaddled()) {
