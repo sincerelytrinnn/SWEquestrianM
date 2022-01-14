@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "swem:whitewash_wood"
+          "name": "swem:whitewash_log"
         }
       ],
       "conditions": [
