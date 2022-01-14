@@ -20,6 +20,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SlabBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.Direction;
@@ -32,6 +34,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 public class BleacherWireframeBase extends SlabBlock {
@@ -110,5 +113,14 @@ public class BleacherWireframeBase extends SlabBlock {
 		return stateIn;
 	}
 
-
+	@Override
+	public List<ItemStack> getDrops(BlockState p_220076_1_, LootContext.Builder p_220076_2_) {
+		List<ItemStack> stacks = super.getDrops(p_220076_1_, p_220076_2_);
+		ItemStack stack = new ItemStack(SWEMBlocks.BLEACHER_SLAB_ITEM.get());
+		if (p_220076_1_.getValue(TYPE) == SlabType.DOUBLE) {
+			stack.setCount(2);
+		}
+		stacks.add(stack);
+		return stacks;
+	}
 }
