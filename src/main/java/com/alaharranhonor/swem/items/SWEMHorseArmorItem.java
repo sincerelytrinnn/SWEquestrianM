@@ -50,7 +50,7 @@ public class SWEMHorseArmorItem extends HorseArmorItem implements IAnimatable {
 		this.rackTexture = new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + texture + "_rack.png");
 	}
 
-	public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (target instanceof ISWEMEquipable && target.isAlive()) {
 			ISWEMEquipable iequipable = (ISWEMEquipable)target;
 			if (iequipable.isSaddleable(playerIn) && iequipable.canEquipArmor()) {

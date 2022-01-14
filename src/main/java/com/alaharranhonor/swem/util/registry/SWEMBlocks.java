@@ -109,7 +109,7 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> BLEACHER_SLAB = BLOCKS.register("bleacher",
 			() -> new BleacherBase(AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(2.5F, 2.5F)));
 	public static final RegistryObject<Block> BLEACHER_WIREFRAME = BLOCKS.register("bleacher_wireframe",
-			() -> new BleacherWireframeBase(AbstractBlock.Properties.of(Material.METAL)));
+			() -> new BleacherWireframeBase(AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(2.5F, 2.5F)));
 	public static final RegistryObject<Block> WESTERN_HITCHING_POST = BLOCKS.register("western_hitching_post",
 			() -> new HitchingPostBase(HitchingPostBase.HitchingPostType.WESTERN, AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).strength(2.0F, 3.0F)));
 	public static final RegistryObject<Block> ENGLISH_HITCHING_POST = BLOCKS.register("english_hitching_post",
