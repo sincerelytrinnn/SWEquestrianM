@@ -91,7 +91,7 @@ public class CMountEntityPacket {
 			// If passenger is mounted, mount the target behind you.
 			if (player.isPassenger()) {
 				Entity mount = player.getVehicle();
-				if (mount instanceof SWEMHorseEntityBase) {
+				if (mount instanceof SWEMHorseEntityBase && !(target instanceof SWEMHorseEntityBase)) { // Only works on SWEM Horses, but can't mount other swem horses.
 					if (tryMounting(target, mount))
 						return;
 				}
