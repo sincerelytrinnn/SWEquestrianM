@@ -16,6 +16,7 @@ package com.alaharranhonor.swem.container;
  */
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.items.tack.HorseSaddleItem;
 import com.alaharranhonor.swem.util.registry.SWEMContainers;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -84,16 +85,12 @@ public class SWEMHorseInventoryContainer extends Container {
 				 return horse.isBlanket(stack) && horse.hasHalter();
 			 }
 
-			 /**
-			  * Actualy only call when we want to render the white square effect over the slots. Return always True, except
-			  * for the armor slot of the Donkey/Mule (we can't interact with the Undead and Skeleton horses)
-			  */
-			 @OnlyIn(Dist.CLIENT)
-			 public boolean isEnabled() {
-				 return horse.canWearArmor();
-			 }
+			@Override
+			public boolean mayPickup(PlayerEntity p_82869_1_) {
+				return !(horse.hasSaddle().getItem() instanceof HorseSaddleItem);
+			}
 
-			 /**
+			/**
 			  * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1 in the
 			  * case of armor slots)
 			  */
