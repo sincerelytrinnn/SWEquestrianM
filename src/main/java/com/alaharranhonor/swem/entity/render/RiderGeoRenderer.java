@@ -100,7 +100,7 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 	@Override
 	public void render(GeoModel model, T animatable, float partialTicks, RenderType type, MatrixStack matrixStackIn, @Nullable IRenderTypeBuffer renderTypeBuffer, @Nullable IVertexBuilder vertexBuilder, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		Entity entity = animatable.getPlayer().getVehicle();
-		if (entity instanceof SWEMHorseEntityBase) {
+		if (entity instanceof SWEMHorseEntityBase && !animatable.getPlayer().isInvisible()) {
 
 			AnimationEvent<T> predicate = new AnimationEvent((IAnimatable)entity, 0.0f, 0.0f, partialTicks, 0.0f <= -0.15F || 0.0f >= 0.15F, Collections.singletonList(new EntityModelData()));
 			this.riderModel.setLivingAnimations(animatable, this.getUniqueID(animatable), predicate);
