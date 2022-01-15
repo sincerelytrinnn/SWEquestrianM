@@ -71,6 +71,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.network.play.server.SEntityPacket;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ITag;
@@ -552,7 +553,6 @@ public class SWEMHorseEntityBase
 		ItemStack stack = stackIn.copy();
 		boolean flag = player.isSecondaryUseActive() && !player.isCreative();
 		if (stack.getItem() instanceof HorseSaddleItem) {
-			System.out.println(flag);
 			if (flag) {
 				player.addItem(this.inventory.getItem(2));
 			}
@@ -1350,6 +1350,7 @@ public class SWEMHorseEntityBase
 					SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), false));
 					this.setLockedRotations(this.xRot, this.yRot);
 
+
 				} else if (!ClientEventHandlers.keyBindings[8].isDown() && !this.isCameraLocked()) {
 					SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), true));
 				}
@@ -1498,7 +1499,6 @@ public class SWEMHorseEntityBase
 							d1 = d0;
 						}
 
-						System.out.println(this.getEntityData().get(JUMP_ANIM_TIMER));
 						//if (this.getDisobedienceFactor() > this.progressionManager.getAffinityLeveling().getDebuff()) {
 						Vector3d vector3d = this.getDeltaMovement();
 						this.setDeltaMovement(vector3d.x, d1, vector3d.z);
@@ -1556,7 +1556,6 @@ public class SWEMHorseEntityBase
 						// So we counter that, by check if it's negative, but still make it a bit slower than regular walking.
 
 
-						System.out.println(this.level.isClientSide);
 						if (!this.isWalkingBackwards) {
 							SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(this.getId(), 3));
 						}

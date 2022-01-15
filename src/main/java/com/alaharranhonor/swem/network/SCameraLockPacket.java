@@ -4,7 +4,7 @@ package com.alaharranhonor.swem.network;
 /*
  * All Rights Reserved
  *
- * Copyright (c) 2021, AlaharranHonor, Legenden.
+ * Copyright (c) 2022, AlaharranHonor, Legenden.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,9 +20,9 @@ import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -31,50 +31,51 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public class CCameraLockPacket {
-	private UUID horseUUID;
-	private boolean locked;
+public class SCameraLockPacket {
+	private int horseId;
+	private float yRot;
+	private float xRot;
 	private boolean failed;
 
-	public CCameraLockPacket(UUID horseUUID, boolean locked) {
-		this.horseUUID = horseUUID;
-		this.locked = locked;
+	public SCameraLockPacket(int horseId, float yRot, float xRot) {
+		this.horseId = horseId;
+		this.yRot = yRot;
+		this.xRot = xRot;
 		this.failed = false;
 	}
 
-	public CCameraLockPacket(boolean failed) {
+	public SCameraLockPacket(boolean failed) {
 		this.failed = failed;
 	}
 
-	public static CCameraLockPacket decode(ByteBuf buf) {
+	public static SCameraLockPacket decode(ByteBuf buf) {
 		try {
-			UUID horseUUID = ((PacketBuffer) buf).readUUID();
-			boolean locked = buf.readBoolean();
+			int horseUUID = buf.readInt();
+			float yRot = buf.readFloat();
+			float xRot = buf.readFloat();
 
-			return new CCameraLockPacket(horseUUID, locked);
+			return new SCameraLockPacket(horseUUID, yRot, xRot);
 		} catch (IndexOutOfBoundsException e) {
-			SWEM.LOGGER.error("CCameraLockPacket: Unexpected end of packet.\nMessage: " + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()), e);
-			return new CCameraLockPacket(true);
+			SWEM.LOGGER.error("SCameraLockPacket: Unexpected end of packet.\nMessage: " + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()), e);
+			return new SCameraLockPacket(true);
 		}
 	}
 
-	public static void encode(CCameraLockPacket msg, PacketBuffer buffer) {
-		buffer.writeUUID(msg.horseUUID);
-		buffer.writeBoolean(msg.locked);
+	public static void encode(SCameraLockPacket msg, PacketBuffer buffer) {
+		buffer.writeInt(msg.horseId);
+		buffer.writeFloat(msg.yRot);
+		buffer.writeFloat(msg.xRot);
 	}
 
-	public static void handle(CCameraLockPacket msg, Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(SCameraLockPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			ServerPlayerEntity player = ctx.get().getSender();
-
-			Entity entity = ((ServerWorld)player.level).getEntity(msg.horseUUID);
+			Entity entity = Minecraft.getInstance().level.getEntity(msg.horseId);
 			if (!(entity instanceof SWEMHorseEntityBase)) {
 				return;
 			}
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 
-			horse.setCameraLock(msg.locked);
-			SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new SCameraLockPacket(horse.getId(), horse.yRot, horse.xRot));
+			horse.setLockedRotations(msg.xRot, msg.yRot);
 		});
 		ctx.get().setPacketHandled(true);
 	}
