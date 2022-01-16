@@ -162,6 +162,7 @@ public class HalfDoorBlock extends Block {
 		return true;
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	@Override
 	public boolean addDestroyEffects(BlockState state, World world, BlockPos pos, ParticleManager manager) {
 		return true;

@@ -698,6 +698,7 @@ public class CareDoorHalfBlock extends Block {
 		});
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	@Override
 	public boolean addDestroyEffects(BlockState state, World world, BlockPos pos, ParticleManager manager) {
 		return true;

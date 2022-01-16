@@ -31,6 +31,7 @@ import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -117,6 +118,11 @@ public class HitchingPostBase extends Block {
 		} else if (p_176208_3_.getValue(PART) == PostPart.UPPER) {
 			p_176208_1_.setBlock(p_176208_2_.below(), Blocks.AIR.defaultBlockState(), 3);
 		}
+	}
+
+	@Override
+	public void onBlockExploded(BlockState state, World world, BlockPos pos, Explosion explosion) {
+		super.onBlockExploded(state, world, pos, explosion);
 	}
 
 	public enum HitchingPostType {
