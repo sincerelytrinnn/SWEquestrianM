@@ -25,7 +25,7 @@ import net.minecraft.world.World;
 public class RainbowDryFeedItem extends ItemBase {
 
 	private int counter = 0;
-
+	/*
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		if (!isSelected) return;
@@ -37,4 +37,5 @@ public class RainbowDryFeedItem extends ItemBase {
 			entity.setItemInHand(Hand.MAIN_HAND, din);
 		}
 	}
+	*/
 }

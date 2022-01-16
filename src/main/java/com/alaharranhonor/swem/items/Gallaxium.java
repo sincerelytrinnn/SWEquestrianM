@@ -31,6 +31,6 @@ public class Gallaxium extends ItemBase {
 
 		PlayerEntity player = (PlayerEntity) p_77663_3_;
 		player.inventory.removeItem(p_77663_1_);
-		player.inventory.add(new ItemStack(SWEMItems.GALLAXIA.get()));
+		//player.inventory.add(new ItemStack(SWEMItems.GALLAXIA.get()));
 	}
 }
