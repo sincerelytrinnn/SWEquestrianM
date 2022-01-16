@@ -87,7 +87,7 @@ public class GrainFeederBlock extends HorizontalBlock {
 			return ActionResultType.PASS;
 		} else {
 			Item item = itemstack.getItem();
-			if (item == SWEMItems.SWEET_FEED.get()) {
+			if (item == SWEMItems.SWEET_FEED_OPENED.get()) {
 				if (!player.abilities.instabuild) {
 					player.getItemInHand(handIn).hurtAndBreak(1, player, playerEntity -> {});
 				}

@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "swem:block/spigot", "y": 180},
+    "facing=south": { "model": "swem:block/spigot"},
+    "facing=west":  { "model": "swem:block/spigot","y": 90},
+    "facing=east":  { "model": "swem:block/spigot","y": -90}
+  }
+}
