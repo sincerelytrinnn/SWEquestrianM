@@ -35,6 +35,7 @@ public class HorseXPBottle extends ItemBase {
 	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 		if (target instanceof SWEMHorseEntityBase) {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
+			stack.shrink(1);
 			if (this.leveler.equals("affinity")) {
 				horse.progressionManager.getAffinityLeveling().addXP(50);
 				return ActionResultType.sidedSuccess(playerIn.getCommandSenderWorld().isClientSide);
