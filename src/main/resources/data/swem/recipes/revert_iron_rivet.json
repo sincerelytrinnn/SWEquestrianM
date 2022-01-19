@@ -1,20 +1,34 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "minecraft:crafting_shapeless",
   "group": "revert_rivet",
-  "pattern":
-  [
-    "x  "
-  ],
-  "key":
-  {
-	"x":
+  "ingredients": [
+    {
+      "item": "swem:iron_rivet"
+    },
+    {
+      "item": "swem:iron_rivet"
+    },
+    {
+      "item": "swem:iron_rivet"
+    },
+    {
+      "item": "swem:iron_rivet"
+    },
+    {
+      "item": "swem:iron_rivet"
+    },
+    {
+      "item": "swem:iron_rivet"
+    },
+    {
+      "item": "swem:iron_rivet"
+    },
     {
       "item": "swem:iron_rivet"
     }
-  },
-  "result":
-  {
-    "item": "minecraft:iron_nugget",
-    "count": 2
+  ],
+  "result": {
+    "item": "minecraft:iron_ingot",
+    "count": 1
   }
 }
