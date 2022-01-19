@@ -1,20 +1,33 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "minecraft:crafting_shapeless",
   "group": "revert_rivet",
-  "pattern":
-  [
-    "xx ",
-	"xx "
-  ],
-  "key":
-  {
-	"x":
+  "ingredients": [
+    {
+      "item": "swem:leather_rivet"
+    },
+    {
+      "item": "swem:leather_rivet"
+    },
+    {
+      "item": "swem:leather_rivet"
+    },
+    {
+      "item": "swem:leather_rivet"
+    },
+    {
+      "item": "swem:leather_rivet"
+    },
+    {
+      "item": "swem:leather_rivet"
+    },
+    {
+      "item": "swem:leather_rivet"
+    },
     {
       "item": "swem:leather_rivet"
     }
-  },
-  "result":
-  {
+  ],
+  "result": {
     "item": "minecraft:leather",
     "count": 1
   }
