@@ -20,6 +20,8 @@ import com.alaharranhonor.swem.network.SHorseFriendPacket;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
 import com.mojang.brigadier.arguments.ArgumentType;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
@@ -31,9 +33,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.server.command.EnumArgument;
 
 import java.util.List;
 import java.util.UUID;
@@ -108,7 +112,88 @@ public class SWEMCommand {
 						});
 						return 1;
 					})
+				).then(Commands.literal("lowerlevel")
+					.requires((player) -> player.hasPermission(2))
+					.then(Commands.argument("levelToSet", IntegerArgumentType.integer())
+						.then(Commands.argument("skill", EnumArgument.enumArgument(Skills.class))
+							.executes((ctx) -> {
+								Entity vehicle = ctx.getSource().getPlayerOrException().getVehicle();
+								if (vehicle instanceof SWEMHorseEntityBase) {
+									SWEMHorseEntityBase horse = (SWEMHorseEntityBase) vehicle;
+									int levelToSet = IntegerArgumentType.getInteger(ctx, "levelToSet") - 1;
+									Skills skill = ctx.getArgument("skill", Skills.class);
+
+									switch (skill) {
+										case JUMP: {
+											if (levelToSet > -1 && levelToSet < 6) {
+												horse.progressionManager.getJumpLeveling().setXp(0);
+												horse.progressionManager.getJumpLeveling().setLevel(levelToSet);
+												ctx.getSource().sendSuccess(new StringTextComponent("The jump level on the horse has been set to: " + levelToSet), false);
+											} else
+												ctx.getSource().sendSuccess(new StringTextComponent("Incorrect level range."), false);
+
+											break;
+										}
+										case SPEED: {
+											if (levelToSet > -1 && levelToSet < 6) {
+												horse.progressionManager.getSpeedLeveling().setXp(0);
+												horse.progressionManager.getSpeedLeveling().setLevel(levelToSet);
+												ctx.getSource().sendSuccess(new StringTextComponent("The speed level on the horse has been set to: " + levelToSet), false);
+											} else
+												ctx.getSource().sendSuccess(new StringTextComponent("Incorrect level range."), false);
+
+											break;
+										}
+										case HEALTH: {
+											if (levelToSet > -1 && levelToSet < 6) {
+												horse.progressionManager.getHealthLeveling().setXp(0);
+												horse.progressionManager.getHealthLeveling().setLevel(levelToSet);
+												ctx.getSource().sendSuccess(new StringTextComponent("The health level on the horse has been set to: " + levelToSet), false);
+											} else
+												ctx.getSource().sendSuccess(new StringTextComponent("Incorrect level range."), false);
+
+											break;
+										}
+
+										case AFFINITY: {
+											if (levelToSet > -1 && levelToSet < 12) {
+												horse.progressionManager.getAffinityLeveling().setXp(0);
+												horse.progressionManager.getAffinityLeveling().setLevel(levelToSet);
+												ctx.getSource().sendSuccess(new StringTextComponent("The affinity level on the horse has been set to: " + levelToSet), false);
+											} else
+												ctx.getSource().sendSuccess(new StringTextComponent("Incorrect level range."), false);
+
+											break;
+										}
+
+										default: {
+											ctx.getSource().sendFailure(new StringTextComponent("Command failed"));
+											return -1;
+										}
+									}
+
+								}
+
+								return 1;
+							})
+
+
+						)
+
+					)
+
+
 				);
 
+
+
+
 	}
+	public enum Skills {
+		SPEED,
+		JUMP,
+		HEALTH,
+		AFFINITY;
+	}
+
 }
