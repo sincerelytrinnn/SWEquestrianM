@@ -148,6 +148,9 @@ public class SWEMItems {
 	public static final RegistryObject<Item> REFINED_LEATHER = ITEMS.register("refined_leather", ItemBase::new);
 	public static final RegistryObject<Item> PAINT_FILLER = ITEMS.register("paint_filler", ItemBase::new);
 	public static final RegistryObject<Item> SHRIMP = ITEMS.register("shrimp", () -> new ShrimpItem(new Item.Properties()));
+	public static final RegistryObject<Item> STAR_WORM = ITEMS.register("star_worm", ItemBase::new);
+	public static final RegistryObject<Item> STAR_WORM_GOOP = ITEMS.register("star_worm_goop", ItemBase::new);
+	public static final RegistryObject<Item> PESTLE_MORTAR = ITEMS.register("pestle_mortar", ItemBase::new);
 
 
 
