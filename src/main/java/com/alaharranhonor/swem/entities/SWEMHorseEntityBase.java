@@ -364,7 +364,7 @@ public class SWEMHorseEntityBase
 
 	private void resetDaily() {
 		this.needs.getHunger().resetDaily();
-		this.progressionManager.getAffinityLeveling().resetCurrentSwipes();
+		this.progressionManager.getAffinityLeveling().resetDaily();
 	}
 
 
@@ -1965,6 +1965,26 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	public void emitBadParticles(ServerWorld world, int count) {
+		world.sendParticles(SWEMParticles.BAD.get(), this.getX(), this.getY() + 2.5, this.getZ(), count, 0.3D, 0.3D, 0.3D, 0.3D);;
+	}
+
+	public void emitEchParticles(ServerWorld world, int count) {
+		world.sendParticles(SWEMParticles.ECH.get(), this.getX(), this.getY() + 2.5, this.getZ(), count, 0.3D, 0.3D, 0.3D, 0.3D);;
+	}
+
+	public void emitMehParticles(ServerWorld world, int count) {
+		world.sendParticles(SWEMParticles.MEH.get(), this.getX(), this.getY() + 2.5, this.getZ(), count, 0.3D, 0.3D, 0.3D, 0.3D);;
+	}
+
+	public void emitYayParticles(ServerWorld world, int count) {
+		world.sendParticles(SWEMParticles.YAY.get(), this.getX(), this.getY() + 2.5, this.getZ(), count, 0.3D, 0.3D, 0.3D, 0.3D);;
+	}
+
+	public void emitWootParticles(ServerWorld world, int count) {
+		world.sendParticles(SWEMParticles.WOOT.get(), this.getX(), this.getY() + 2.5, this.getZ(), count, 0.3D, 0.3D, 0.3D, 0.3D);;
+	}
+
 
 
 	@Override
@@ -2266,8 +2286,7 @@ public class SWEMHorseEntityBase
 	}
 
 	public void brush() {
-
-		this.progressionManager.getAffinityLeveling().addXP(10);
+		this.progressionManager.getAffinityLeveling().brush();
 	}
 
 
