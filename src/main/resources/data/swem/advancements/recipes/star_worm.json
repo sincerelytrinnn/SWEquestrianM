@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:star_worm"
+    ]
+  },
+  "criteria": {
+    "has_star_worm_cobble": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "swem:star_worm_cobble"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:star_worm"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_star_worm_cobble",
+      "has_the_recipe"
+    ]
+  ]
+}

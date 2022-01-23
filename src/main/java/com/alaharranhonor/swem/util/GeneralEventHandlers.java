@@ -99,6 +99,9 @@ public class GeneralEventHandlers {
 				if (SWEMOreGen.CANTAZARITE_ORE == null) {
 					SWEMOreGen.CANTAZARITE_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.CANTAZARITE_ORE.get().defaultBlockState());
 				}
+				if (SWEMOreGen.SWEM_COBBLE_ORE == null) {
+					SWEMOreGen.SWEM_COBBLE_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.STAR_WORM_COBBLE.get().defaultBlockState());
+				}
 
 				ConfigHelper.bakeServer(config);
 			}

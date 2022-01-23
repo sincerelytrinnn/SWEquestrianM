@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "swem:pestle_mortar"
+    },
+    {
+      "id": "swlm:pestle_mortar",
+      "required": false
+    }
+  ]
+
+}

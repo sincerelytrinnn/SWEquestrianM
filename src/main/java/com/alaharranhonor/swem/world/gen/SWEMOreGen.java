@@ -25,6 +25,7 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 public class SWEMOreGen {
 	public static ConfiguredFeature<?, ?> AMETHYST_ORE;
 	public static ConfiguredFeature<?, ?> CANTAZARITE_ORE;
+	public static ConfiguredFeature<?, ?> SWEM_COBBLE_ORE;
 
 	public static boolean checkAndInitBiome(BiomeLoadingEvent event) {
 		if (event.getCategory() == Biome.Category.NETHER) {
@@ -45,10 +46,14 @@ public class SWEMOreGen {
 		if (CANTAZARITE_ORE == null) {
 			CANTAZARITE_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.CANTAZARITE_ORE.get().defaultBlockState());
 		}
+		if (SWEM_COBBLE_ORE == null) {
+			SWEM_COBBLE_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.STAR_WORM_COBBLE.get().defaultBlockState());
+		}
 	}
 
 	public static void generateOverworldOres(BiomeLoadingEvent event) {
 		event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, AMETHYST_ORE);
 		event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, CANTAZARITE_ORE);
+		event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, SWEM_COBBLE_ORE);
 	}
 }

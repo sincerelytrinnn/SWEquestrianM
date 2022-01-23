@@ -49,5 +49,15 @@ public final class ConfigHelper {
 		// Maximum Height the ore can spawn.
 		((TopSolidRangeConfig)((DecoratedPlacementConfig)((DecoratedFeatureConfig)((DecoratedFeatureConfig) SWEMOreGen.CANTAZARITE_ORE.config).feature.get().config).decorator.config).inner.config).maximum = ConfigHolder.SERVER.serverCantazariteMaxHeight.get();
 
-		}
+
+		// Vein Size
+		((OreFeatureConfig)((DecoratedFeatureConfig)((DecoratedFeatureConfig) SWEMOreGen.SWEM_COBBLE_ORE.config).feature.get().config).feature.get().config).size = ConfigHolder.SERVER.serverSWEMCobbleVeinSize.get();
+		// Vein Count
+		((FeatureSpreadConfig)((DecoratedFeatureConfig) SWEMOreGen.SWEM_COBBLE_ORE.config).decorator.config).count().baseValue = ConfigHolder.SERVER.serverSWEMCobbleVeinCount.get();
+		// Minimum Height the ore can spawn
+		((TopSolidRangeConfig)((DecoratedPlacementConfig)((DecoratedFeatureConfig)((DecoratedFeatureConfig) SWEMOreGen.SWEM_COBBLE_ORE.config).feature.get().config).decorator.config).inner.config).bottomOffset = ConfigHolder.SERVER.serverSWEMCobbleBottomHeight.get();
+		// Maximum Height the ore can spawn.
+		((TopSolidRangeConfig)((DecoratedPlacementConfig)((DecoratedFeatureConfig)((DecoratedFeatureConfig) SWEMOreGen.SWEM_COBBLE_ORE.config).feature.get().config).decorator.config).inner.config).maximum = ConfigHolder.SERVER.serverSWEMCobbleMaxHeight.get();
+
+	}
 }
