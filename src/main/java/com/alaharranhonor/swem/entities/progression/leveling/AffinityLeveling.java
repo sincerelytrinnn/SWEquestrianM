@@ -23,6 +23,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.server.ServerWorld;
 
 public class AffinityLeveling implements ILeveling{
 
@@ -37,6 +38,7 @@ public class AffinityLeveling implements ILeveling{
 	public static final DataParameter<ItemStack> CURRENT_DESENSITIZING_ITEM = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.ITEM_STACK);
 	private int currentSwipes = 0;
 	private int[] daysSwiped = new int[5];
+	private int timesBrushed = 0;
 
 
 
@@ -44,6 +46,24 @@ public class AffinityLeveling implements ILeveling{
 		this.horse = horse;
 		this.dataManager = this.horse.getEntityData();
 	}
+
+	public boolean brush() {
+		if (this.timesBrushed < 7) {
+			if (this.timesBrushed >= 5) {
+				horse.emitMehParticles((ServerWorld) horse.level, 4);
+			} else if (this.timesBrushed >= 3) {
+				horse.emitYayParticles((ServerWorld) horse.level, 4);
+			} else {
+				horse.emitWootParticles((ServerWorld) horse.level, 4);
+			}
+			this.timesBrushed++;
+			this.addXP(10 - timesBrushed);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	@Override
 	public boolean addXP(float amount) {
 		if (this.getLevel() == this.getMaxLevel()) return false;
@@ -136,8 +156,9 @@ public class AffinityLeveling implements ILeveling{
 		this.dataManager.set(CURRENT_DESENSITIZING_ITEM, stack);
 	}
 
-	public void resetCurrentSwipes() {
+	public void resetDaily() {
 		this.currentSwipes = 0;
+		this.timesBrushed = 0;
 	}
 
 	public void desensitize(ItemStack stack) {

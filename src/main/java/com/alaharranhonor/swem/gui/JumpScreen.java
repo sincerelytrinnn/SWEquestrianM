@@ -148,6 +148,8 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 		this.layerColors = colors;
 		this.currentStandard = standard;
 		this.removeAndReInit();
+		this.addLayerButton.active = true;
+		this.deleteLayerButton.active = true;
 		this.checkLayerButtons();
 	}
 

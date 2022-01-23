@@ -21,6 +21,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
@@ -57,7 +59,8 @@ public class AmethystRidingBoots extends DiamondRidingBoots {
 		if (player.isCrouching()) return;
 		Vector3d motion = player.getDeltaMovement();
 		if (!player.isOnGround() && motion.y < 0.0D) {
-			player.setDeltaMovement(motion.multiply(1.0D, 0.7D, 1.0D));
+			player.addEffect(new EffectInstance(Effects.SLOW_FALLING, 1, 1, false, false, true));
+			//player.setDeltaMovement(motion.multiply(1.0D, 0.7D, 1.0D));
 		}
 	}
 

@@ -34,6 +34,8 @@ public class AddLayerButton extends Button {
 		@Override
 		public void onPress(Button p_onPress_1_) {
 			AddLayerButton btn = (AddLayerButton) p_onPress_1_;
+			btn.active = false;
+			btn.screen.deleteLayerButton.active = false;
 			SWEMPacketHandler.INSTANCE.sendToServer(new CAddLayerPacket(btn.screen.controllerPos, btn.screen.layerAmount + 1));
 		}
 	}

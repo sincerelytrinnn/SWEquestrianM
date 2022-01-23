@@ -37,6 +37,8 @@ public class DeleteLayerButton extends Button {
 		public void onPress(Button p_onPress_1_) {
 			DeleteLayerButton btn = (DeleteLayerButton) p_onPress_1_;
 			int layerToRemove = btn.screen.layerAmount;
+			btn.active = false;
+			btn.screen.addLayerButton.active = false;
 			SWEMPacketHandler.INSTANCE.sendToServer(new CRemoveLayerPacket(btn.screen.controllerPos, layerToRemove));
 		}
 	}
