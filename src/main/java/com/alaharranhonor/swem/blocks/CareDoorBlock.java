@@ -99,6 +99,7 @@ public class CareDoorBlock extends Block {
 					this.getAllDoorParts(stateIn, currentPos, (World) worldIn, !stateIn.getValue(OPEN)).stream().forEach((blockPos) -> {
 						((World) worldIn).setBlock(blockPos, Blocks.AIR.defaultBlockState(), 3);
 					});
+					dropResources(stateIn, (World) worldIn, currentPos);
 					return Blocks.AIR.defaultBlockState();
 				}
 			}

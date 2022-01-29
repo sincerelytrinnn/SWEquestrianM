@@ -41,6 +41,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -180,6 +181,22 @@ public class HorseDoorBlock extends Block{
 			dropResources(state, worldIn, pos);
 
 		super.playerWillDestroy(worldIn, pos, state, player);
+	}
+
+	@Override
+	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+		if (stateIn.getValue(HALF) == DoubleBlockHalf.LOWER) {
+			if (facing == Direction.DOWN) {
+				if (facingState == Blocks.AIR.defaultBlockState()) {
+					this.getAllDoorParts(stateIn, currentPos, (World) worldIn, !stateIn.getValue(OPEN)).stream().forEach((blockPos) -> {
+						((World) worldIn).setBlock(blockPos, Blocks.AIR.defaultBlockState(), 3);
+					});
+					dropResources(stateIn, (World) worldIn, currentPos);
+					return Blocks.AIR.defaultBlockState();
+				}
+			}
+		}
+		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 	}
 
 	/**
