@@ -183,6 +183,7 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> WHITEWASH_LOG = register("whitewash_log", () -> new RotatedPillarBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
 	public static final RegistryObject<Block> WHITEWASH_TRAPDOOR = register("whitewash_trapdoor", () -> new TrapDoorBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
 	public static final RegistryObject<Block> SPIGOT = BLOCKS.register("spigot", () -> new Spigot(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).strength(1.5f, 6.0f)));
+	public static final RegistryObject<Block> STAR_WORM_COBBLE = BLOCKS.register("star_worm_cobble", () -> new Block(Block.Properties.copy(Blocks.STONE).lightLevel((state) -> 7)));
 
 	public static void checkAccess() {
 
@@ -412,4 +413,6 @@ public class SWEMBlocks {
 	public static final RegistryObject<Item> WHITEWASH_DOOR_ITEM = SWEMItems.ITEMS.register("whitewash_door", () -> new BlockItemBase(WHITEWASH_DOOR.get()));
 	public static final RegistryObject<SignItem> WHITEWASH_SIGN_ITEM = SWEMItems.ITEMS.register("whitewash_sign", () -> new SignItem(new Item.Properties().stacksTo(16).tab(SWEM.TAB), WHITEWASH_SIGN.get(), WHITEWASH_WALL_SIGN.get()));
 	public static final RegistryObject<Item> SPIGOT_ITEM = SWEMItems.ITEMS.register("spigot", () -> new BlockItemBase(SPIGOT.get()));
+	public static final RegistryObject<Item> STAR_WORM_COBBLE_ITEM = SWEMItems.ITEMS.register("star_worm_cobble", () -> new BlockItem(STAR_WORM_COBBLE.get(), new Item.Properties().tab(SWEM.TAB)));
+
 }

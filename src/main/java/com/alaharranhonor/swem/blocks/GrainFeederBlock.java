@@ -106,7 +106,7 @@ public class GrainFeederBlock extends HorizontalBlock {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return Block.box(0, 0, 0, 15.99, 15.99, 15.99);
+		return Block.box(0, 0, 0, 15.99, 10, 15.99);
 	}
 
 	@Override

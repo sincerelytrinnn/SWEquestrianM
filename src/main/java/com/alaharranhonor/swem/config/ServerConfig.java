@@ -31,6 +31,12 @@ public final class ServerConfig {
 	final ForgeConfigSpec.IntValue serverCantazariteBottomHeight;
 	final ForgeConfigSpec.IntValue serverCantazariteMaxHeight;
 
+	final ForgeConfigSpec.BooleanValue serverEnableSWEMCobbleOre;
+	final ForgeConfigSpec.IntValue serverSWEMCobbleVeinSize;
+	final ForgeConfigSpec.IntValue serverSWEMCobbleVeinCount;
+	final ForgeConfigSpec.IntValue serverSWEMCobbleBottomHeight;
+	final ForgeConfigSpec.IntValue serverSWEMCobbleMaxHeight;
+
 	public final ForgeConfigSpec.BooleanValue serverTickFoodNeed;
 	public final ForgeConfigSpec.BooleanValue serverTickWaterNeed;
 	public final ForgeConfigSpec.BooleanValue serverTickPoopNeed;
@@ -52,6 +58,7 @@ public final class ServerConfig {
 		builder.push("SWEMOreGen");
 		this.serverEnableAmethystOre = builder.comment("Enable amethyst ore generation?").translation("swem.config.enableAmethystOre").define("EnableAmethystOre", true);
 		this.serverEnableCantazariteOre = builder.comment("Enable cantazarite ore generation?").translation("swem.config.enableCantazariteOre").define("EnableCantazariteOre", true);
+		this.serverEnableSWEMCobbleOre = builder.comment("Enable SWEMCobble ore generation?").translation("swem.config.enableSWEMCobbleOre").define("EnableSWEMCobbleOre", true);
 
 		this.serverAmethystVeinSize = builder.comment("Amethyst ore vein size").translation("swem.config.serverAmethystVeinSize").defineInRange("AmethystVeinSize", 8, 1, 2147483647);
 		this.serverAmethystVeinCount = builder.comment("Amethyst ore vein count per chunk").translation("swem.config.serverAmethystVeinCount").defineInRange("AmethystVeinCount", 2, 1, 2147483647);
@@ -62,6 +69,12 @@ public final class ServerConfig {
 		this.serverCantazariteVeinCount = builder.comment("Cantazarite ore vein count per chunk").translation("swem.config.serverCantazariteVeinCount").defineInRange("CantazariteVeinCount", 6, 1, 2147483647);
 		this.serverCantazariteBottomHeight = builder.comment("Cantazarite ore minimum height").translation("swem.config.serverCantazariteBottomHeight").defineInRange("CantazariteBottomHeight", 0, 0, 2147483647);
 		this.serverCantazariteMaxHeight = builder.comment("Cantazarite ore maximum height").translation("swem.config.serverCantazariteMaxHeight").defineInRange("CantazariteMaxHeight", 30, 1, 2147483647);
+
+		this.serverSWEMCobbleVeinSize = builder.comment("SWEMCobble ore vein size").translation("swem.config.serverSWEMCobbleVeinSize").defineInRange("SWEMCobbleVeinSize", 7, 1, 2147483647);
+		this.serverSWEMCobbleVeinCount = builder.comment("SWEMCobble ore vein count per chunk").translation("swem.config.serverSWEMCobbleVeinCount").defineInRange("SWEMCobbleVeinCount", 12, 1, 2147483647);
+		this.serverSWEMCobbleBottomHeight = builder.comment("SWEMCobble ore minimum height").translation("swem.config.serverSWEMCobbleBottomHeight").defineInRange("SWEMCobbleBottomHeight", 50, 1, 2147483647);
+		this.serverSWEMCobbleMaxHeight = builder.comment("SWEMCobble ore maximum height").translation("swem.config.serverSWEMCobbleMaxHeight").defineInRange("SWEMCobbleMaxHeight", 128, 1, 2147483647);
+
 		builder.pop();
 
 		builder.push("Config");

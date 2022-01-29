@@ -150,9 +150,8 @@ public class SWEMItems {
 	public static final RegistryObject<Item> SHRIMP = ITEMS.register("shrimp", () -> new ShrimpItem(new Item.Properties()));
 	public static final RegistryObject<Item> STAR_WORM = ITEMS.register("star_worm", ItemBase::new);
 	public static final RegistryObject<Item> STAR_WORM_GOOP = ITEMS.register("star_worm_goop", ItemBase::new);
-	public static final RegistryObject<Item> PESTLE_MORTAR = ITEMS.register("pestle_mortar", ItemBase::new);
-	public static final RegistryObject<Item> BRUSH = ITEMS.register("brush", BrushItem::new);
-
+	public static final RegistryObject<Item> PESTLE_MORTAR = ITEMS.register("pestle_mortar", () -> new PestleMortarItem(new Item.Properties().stacksTo(1).tab(SWEM.TAB)));
+	public static final RegistryObject<Item> BONE_MEAL_COMPOST = ITEMS.register("bone_meal_compost", () -> new BoneMealItem(new Item.Properties().tab(SWEM.TAB)));
 
 
 	// Rainbow Horse recipe items.

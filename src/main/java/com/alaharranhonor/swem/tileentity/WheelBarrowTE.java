@@ -18,6 +18,7 @@ package com.alaharranhonor.swem.tileentity;
 import com.alaharranhonor.swem.blocks.ShavingsItem;
 import com.alaharranhonor.swem.blocks.WheelBarrowBlock;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMItems;
 import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
@@ -184,7 +185,7 @@ public class WheelBarrowTE extends TileEntity implements ITickableTileEntity {
 
 	private void dropCompost() {
 		this.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
-		ItemStack stack = new ItemStack(SWEMBlocks.WET_COMPOST_ITEM.get());
+		ItemStack stack = new ItemStack(SWEMItems.BONE_MEAL_COMPOST.get());
 		ItemEntity itemEntity = new ItemEntity(this.level, this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), stack);
 		this.level.addFreshEntity(itemEntity);
 
