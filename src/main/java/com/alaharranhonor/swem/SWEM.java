@@ -87,7 +87,7 @@ public class SWEM
     public static WoodType WHITEWASH_WT;
 
     static {
-        GeckoLibMod.DISABLE_IN_DEV = true;
+        GeckoLibMod.DISABLE_IN_DEV = false;
     }
 
     public SWEM() {
