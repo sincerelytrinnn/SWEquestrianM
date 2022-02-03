@@ -120,7 +120,6 @@ public class SWEMHorseEntityBase
 	private static final DataParameter<Boolean> FLYING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public static final DataParameter<Boolean> JUMPING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<String> OWNER_NAME = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
-	private static final EntitySize JUMPING_SIZE = EntitySize.scalable(1.5f, 1.5f);
 	private static final DataParameter<Boolean> CAMERA_LOCK = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private static Random rand = new Random();
 
@@ -520,7 +519,10 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public boolean isJumping() {
-		int timer = this.getEntityData().get(JUMP_ANIM_TIMER);
+		int timer = 0;
+		if (this.getEntityData() != null) {
+			timer = this.getEntityData().get(JUMP_ANIM_TIMER);
+		}
 		return this.jumpHeight != 0 || timer > 0;
 	}
 
@@ -1450,17 +1452,6 @@ public class SWEMHorseEntityBase
 
 	}
 
-
-	@Override
-	public EntitySize getDimensions(Pose poseIn) {
-		return super.getDimensions(poseIn);
-		/*if (this.isJumping()) {
-			return JUMPING_SIZE;
-		} else {
-			return super.getDimensions(poseIn);
-		}*/
-	}
-
 	@Override
 	public void travel(Vector3d travelVector) {
 
@@ -1854,6 +1845,17 @@ public class SWEMHorseEntityBase
 			if (item == Items.LAPIS_LAZULI && playerEntity.getUUID().equals(this.getOwnerUUID())) {
 				if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
 					this.setHorseVariant((this.getHorseVariant() + 1) % (SWEMCoatColors.values().length - 2));
+					ItemStack heldItemCopy = itemstack.copy();
+					if (!playerEntity.abilities.instabuild)
+						heldItemCopy.shrink(1);
+					playerEntity.setItemInHand(hand, heldItemCopy);
+					return ActionResultType.SUCCESS;
+				}
+			}
+
+			if (item == Items.REDSTONE && playerEntity.getUUID().equals(this.getOwnerUUID())) {
+				if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
+					this.setHorseVariant((this.getHorseVariant() - 1) % (SWEMCoatColors.values().length - 2));
 					ItemStack heldItemCopy = itemstack.copy();
 					if (!playerEntity.abilities.instabuild)
 						heldItemCopy.shrink(1);
