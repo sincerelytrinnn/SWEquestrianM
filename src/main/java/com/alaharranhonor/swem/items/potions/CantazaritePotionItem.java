@@ -27,10 +27,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PotionItem;
 import net.minecraft.item.UseAction;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -54,6 +51,7 @@ public class CantazaritePotionItem extends PotionItem {
 
 			if (!playerIn.level.isClientSide) {
 				BlockPos targetPos = target.blockPosition();
+				if (net.minecraftforge.common.ForgeHooks.onLivingDeath(target, DamageSource.GENERIC)) return ActionResultType.PASS;
 				target.remove();
 				SWEMHorseEntity horse1 = (SWEMHorseEntity) SWEMEntities.SWEM_HORSE_ENTITY.get().spawn((ServerWorld) playerIn.level, null, playerIn, targetPos, SpawnReason.MOB_SUMMONED, true, false);
 				horse1.calculatePotionCoat(vanillaCoat);
