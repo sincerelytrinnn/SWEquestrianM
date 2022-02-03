@@ -39,26 +39,26 @@ public class DesensitizingItem extends ItemBase {
 			switch (this.id) {
 				case 0: {
 					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(1, horse.getId()));
-					return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
+					return ActionResultType.CONSUME;
 				}
 				case 1: {
 					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(2, horse.getId()));
-					return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
+					return ActionResultType.CONSUME;
 				}
 				case 2: {
 					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(3, horse.getId()));
-					return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
+					return ActionResultType.CONSUME;
 				}
 				case 3: {
 					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(4, horse.getId()));
-					return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
+					return ActionResultType.CONSUME;
 				}
 				case 4: {
 					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(5, horse.getId()));
-					return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
+					return ActionResultType.CONSUME;
 				}
 			}
 		}
-		return super.interactLivingEntity(stack, playerIn, target, hand);
+		return ActionResultType.CONSUME;
 	}
 }
