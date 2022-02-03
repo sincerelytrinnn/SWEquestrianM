@@ -553,7 +553,8 @@ public class SWEMHorseEntityBase
 
 	public void equipSaddle(@Nullable SoundCategory p_230266_1_, ItemStack stackIn, PlayerEntity player) {
 		ItemStack stack = stackIn.copy();
-		boolean flag = player.isSecondaryUseActive() && !player.isCreative();
+		stack.setCount(1);
+		boolean flag = player.isSecondaryUseActive();
 		if (stack.getItem() instanceof HorseSaddleItem) {
 			if (flag) {
 				player.addItem(this.inventory.getItem(2));
