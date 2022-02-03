@@ -47,8 +47,14 @@ public class SaddlebagLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, SWEMHorseEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		ItemStack stack = entitylivingbaseIn.getSaddlebag();
 		if (!stack.isEmpty() && stack.getItem() instanceof SaddlebagItem) {
+
+			GeoModel horseModel = getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json"));
+			// Hide unneeded bones for performance improvement.
+			horseModel.getBone("saddlebag").get().setHidden(false);
+			horseModel.getBone("bedroll").get().setHidden(false);
+
 			SaddlebagItem bagItem = (SaddlebagItem)stack.getItem();
-			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
+			this.entityRenderer.render(horseModel,
 					entitylivingbaseIn,
 					partialTicks,
 					RenderType.entityCutout(bagItem.getArmorTexture()),
@@ -57,6 +63,9 @@ public class SaddlebagLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 					bufferIn.getBuffer(RenderType.entityCutout(bagItem.getArmorTexture())),
 					packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
 			);
+
+			horseModel.getBone("saddlebag").get().setHidden(true);
+			horseModel.getBone("bedroll").get().setHidden(true);
 		}
 	}
 }

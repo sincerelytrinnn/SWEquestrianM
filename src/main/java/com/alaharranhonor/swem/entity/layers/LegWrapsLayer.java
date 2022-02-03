@@ -28,6 +28,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.IDyeableArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
 import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 
@@ -63,7 +64,11 @@ public class LegWrapsLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 			f1 = 1.0F;
 			f2 = 1.0F;
 
-			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
+			GeoModel horseModel = getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json"));
+			// Hide unneeded bones for performance improvement.
+			horseModel.getBone("main").get().setHidden(false);
+
+			this.entityRenderer.render(horseModel,
 					entitylivingbaseIn,
 					partialTicks,
 					RenderType.entityCutout(legWraps.getArmorTexture()),
@@ -72,6 +77,9 @@ public class LegWrapsLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 					bufferIn.getBuffer(RenderType.entityCutout(legWraps.getArmorTexture())),
 					packedLightIn, OverlayTexture.NO_OVERLAY, f, f1, f2, 1
 			);
+
+			horseModel.getBone("main").get().setHidden(true);
+
 		}
 	}
 }

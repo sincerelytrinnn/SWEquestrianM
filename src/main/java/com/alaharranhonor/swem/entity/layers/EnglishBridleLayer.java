@@ -28,6 +28,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Quaternion;
+import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
 import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 
@@ -44,8 +45,15 @@ public class EnglishBridleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 		ItemStack stack = entitylivingbaseIn.getHalter();
 		if (!stack.isEmpty()) {
 			if (shouldRender(stack, entitylivingbaseIn)) {
+
+				GeoModel horseModel = getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json"));
+				// Hide unneeded bones for performance improvement.
+				horseModel.getBone("main").get().setHidden(false);
+				horseModel.getBone("englishbridle").get().setHidden(false);
+
+
 				BridleItem bridleItem = (BridleItem)stack.getItem();
-				this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
+				this.entityRenderer.render(horseModel,
 						entitylivingbaseIn,
 						partialTicks,
 						RenderType.entityCutoutNoCull(bridleItem.getModelTexture()),
@@ -55,7 +63,7 @@ public class EnglishBridleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 						packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
 				);
 
-				this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
+				this.entityRenderer.render(horseModel,
 						entitylivingbaseIn,
 						partialTicks,
 						RenderType.entityCutout(bridleItem.getArmorTexture()),
@@ -64,6 +72,9 @@ public class EnglishBridleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 						bufferIn.getBuffer(RenderType.entityCutout(bridleItem.getArmorTexture())),
 						packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
 				);
+
+				horseModel.getBone("main").get().setHidden(true);
+				horseModel.getBone("englishbridle").get().setHidden(true);
 
 			}
 		}

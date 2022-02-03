@@ -85,7 +85,26 @@ public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity> {
         if (leashHolder != null) {
             this.renderLeash(entity, partialTicks, stack, bufferIn, leashHolder);
         }
+
+        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("main").ifPresent((bone) -> bone.setHidden(false));
+        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("western_bridle").ifPresent((bone) -> bone.setHidden(true));
+        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("western_saddle").ifPresent((bone) -> bone.setHidden(true));
+        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("saddlebag").ifPresent((bone) -> bone.setHidden(true));
+        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("bedroll").ifPresent((bone) -> bone.setHidden(true));
+        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("englishbridle").ifPresent((bone) -> bone.setHidden(true));
+        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("english_saddle").ifPresent((bone) -> bone.setHidden(true));
+        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("adventure_saddle").ifPresent((bone) -> bone.setHidden(true));
+        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("cloth_armor").ifPresent((bone) -> bone.setHidden(true));
+        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("iron_armor").ifPresent((bone) -> bone.setHidden(true));
+        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("gold_armor").ifPresent((bone) -> bone.setHidden(true));
+        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("diamond_armor").ifPresent((bone) -> bone.setHidden(true));
+        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("amethst_armor").ifPresent((bone) -> bone.setHidden(true));
+        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("Scapular").ifPresent((bone) -> bone.setHidden(true));
+        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("Scapular2").ifPresent((bone) -> bone.setHidden(true));
+
         super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
+
+        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("main").ifPresent((bone) -> bone.setHidden(true));
 
     }
 
@@ -98,35 +117,35 @@ public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity> {
                 LAST_ARMOR_TIER = armorItem.tier.getId();
 
                 if (armorItem.tier.getId() > 0) {
-                    model.getBone("headarmor2").get().setHidden(false);
-                    model.getBone("ironleftshoulder").get().setHidden(false);
-                    model.getBone("ironrightshoulder").get().setHidden(false);
-                    model.getBone("ironbutt").get().setHidden(false);
+                    model.getBone("headarmor2").ifPresent((bone) -> bone.setHidden(true.s
+                    model.getBone("ironleftshoulder").ifPresent((bone) -> bone.setHidden(true.s
+                    model.getBone("ironrightshoulder").ifPresent((bone) -> bone.setHidden(true.s
+                    model.getBone("ironbutt").ifPresent((bone) -> bone.setHidden(true.s
                 } else {
-                    model.getBone("headarmor2").get().setHidden(true);
-                    model.getBone("ironleftshoulder").get().setHidden(true);
-                    model.getBone("ironrightshoulder").get().setHidden(true);
-                    model.getBone("ironbutt").get().setHidden(true);
+                    model.getBone("headarmor2").ifPresent((bone) -> bone.setHidden(true.s
+                    model.getBone("ironleftshoulder").ifPresent((bone) -> bone.setHidden(true.s
+                    model.getBone("ironrightshoulder").ifPresent((bone) -> bone.setHidden(true.s
+                    model.getBone("ironbutt").ifPresent((bone) -> bone.setHidden(true.s
                 }
 
                 // No gold bones.
 
                 if (armorItem.tier.getId() > 2) {
                     // Show Diamond armor bones.
-                    model.getBone("neckarmor").get().setHidden(false);
-                    model.getBone("diamondbutt").get().setHidden(false);
+                    model.getBone("neckarmor").ifPresent((bone) -> bone.setHidden(true.s
+                    model.getBone("diamondbutt").ifPresent((bone) -> bone.setHidden(true.s
                 } else {
-                    model.getBone("neckarmor").get().setHidden(true);
-                    model.getBone("diamondbutt").get().setHidden(true);
+                    model.getBone("neckarmor").ifPresent((bone) -> bone.setHidden(true.s
+                    model.getBone("diamondbutt").ifPresent((bone) -> bone.setHidden(true.s
                 }
 
                 if (armorItem.tier.getId() > 3) {
                     // Show Amethyst armor bones.
-                    model.getBone("frontrightshoulder").get().setHidden(false);
-                    model.getBone("leftrightshoulder").get().setHidden(false);
+                    model.getBone("frontrightshoulder").ifPresent((bone) -> bone.setHidden(true.s
+                    model.getBone("leftrightshoulder").ifPresent((bone) -> bone.setHidden(true.s
                 } else {
-                    model.getBone("frontrightshoulder").get().setHidden(true);
-                    model.getBone("leftrightshoulder").get().setHidden(true);
+                    model.getBone("frontrightshoulder").ifPresent((bone) -> bone.setHidden(true.s
+                    model.getBone("leftrightshoulder").ifPresent((bone) -> bone.setHidden(true.s
                 }
             }
         }*/

@@ -26,6 +26,7 @@ import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
 import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 
@@ -43,8 +44,13 @@ public class BlanketLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, SWEMHorseEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		ItemStack stack = entitylivingbaseIn.getBlanket();
 		if (!stack.isEmpty() && stack.getItem() instanceof BlanketItem) {
+
+			GeoModel horseModel = getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json"));
+			// Hide unneeded bones for performance improvement.
+			horseModel.getBone("main").get().setHidden(false);
+
 			BlanketItem blanket = (BlanketItem)stack.getItem();
-			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
+			this.entityRenderer.render(horseModel,
 					entitylivingbaseIn,
 					partialTicks,
 					RenderType.entityCutout(blanket.getArmorTexture()),
@@ -53,6 +59,8 @@ public class BlanketLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 					bufferIn.getBuffer(RenderType.entityCutout(blanket.getArmorTexture())),
 					packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
 			);
+
+			horseModel.getBone("main").get().setHidden(true);
 		}
 	}
 }

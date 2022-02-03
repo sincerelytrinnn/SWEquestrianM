@@ -48,8 +48,13 @@ public class EnglishSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 		ItemStack stack = entitylivingbaseIn.hasSaddle();
 		if (!stack.isEmpty()) {
 			if (shouldRender(stack, entitylivingbaseIn)) {
+
+				GeoModel horseModel = getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json"));
+				// Hide unneeded bones for performance improvement.
+				horseModel.getBone("english_saddle").get().setHidden(false);
+
 				HorseSaddleItem saddleItem = (HorseSaddleItem) stack.getItem();
-				this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
+				this.entityRenderer.render(horseModel,
 						entitylivingbaseIn,
 						partialTicks,
 						RenderType.entityCutout(saddleItem.getTexture()),
@@ -58,6 +63,8 @@ public class EnglishSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 						bufferIn.getBuffer(RenderType.entityCutout(saddleItem.getTexture())),
 						packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
 				);
+
+				horseModel.getBone("english_saddle").get().setHidden(false);
 			}
 		}
 

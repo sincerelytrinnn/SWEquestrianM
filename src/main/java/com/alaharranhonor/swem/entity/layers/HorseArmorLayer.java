@@ -50,9 +50,16 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, SWEMHorseEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		ItemStack stack = entitylivingbaseIn.getSWEMArmor();
 		if (!stack.isEmpty() && stack.getItem() instanceof SWEMHorseArmorItem) {
+			GeoModel horseModel = getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json"));
+			// Hide unneeded bones for performance improvement.
+			horseModel.getBone("amethyst_armor").get().setHidden(false);
+			horseModel.getBone("diamond_armor").get().setHidden(false);
+			horseModel.getBone("gold_armor").get().setHidden(false);
+			horseModel.getBone("iron_armor").get().setHidden(false);
+			horseModel.getBone("cloth_armor").get().setHidden(false);
 
 			SWEMHorseArmorItem armorItem = (SWEMHorseArmorItem)stack.getItem();
-			this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
+			this.entityRenderer.render(horseModel,
 					entitylivingbaseIn,
 					partialTicks,
 					RenderType.entityCutout(armorItem.getTexture()),
@@ -65,8 +72,10 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 			if (armorItem.tier == SWEMHorseArmorItem.HorseArmorTier.AMETHYST && entitylivingbaseIn.isFlying()) {
 
 				// Check the Client settings for if they want to render the wings or not.
+				horseModel.getBone("Scapular").get().setHidden(false);
+				horseModel.getBone("Scapular2").get().setHidden(false);
 
-				this.entityRenderer.render(getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json")),
+				this.entityRenderer.render(horseModel,
 						entitylivingbaseIn,
 						partialTicks,
 						RenderType.entityTranslucent(new ResourceLocation(SWEM.MOD_ID, "textures/finished/amethyst_wings.png")),
@@ -75,6 +84,14 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 						bufferIn.getBuffer(RenderType.entityTranslucent(new ResourceLocation(SWEM.MOD_ID, "textures/finished/amethyst_wings.png"))),
 						packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, ((float) ConfigHolder.CLIENT.wingsTransparency.get()) * 0.5f);
 			}
+
+			horseModel.getBone("amethyst_armor").get().setHidden(true);
+			horseModel.getBone("diamond_armor").get().setHidden(true);
+			horseModel.getBone("gold_armor").get().setHidden(true);
+			horseModel.getBone("iron_armor").get().setHidden(true);
+			horseModel.getBone("cloth_armor").get().setHidden(true);
+			horseModel.getBone("Scapular").get().setHidden(true);
+			horseModel.getBone("Scapular2").get().setHidden(true);
 
 
 
