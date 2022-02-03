@@ -1,6 +1,27 @@
 {
   "variantIdBuilderMethod" : "xaero.common.minimap.render.radar.EntityIconDefinitions.buildVariantIdString",
   "variants" : {
-    "default" : "normal_sprite:swem_horse.png"
+    "swem:textures/entity/horse/coats/white.png" : "normal_sprite:white.png",
+    "swem:textures/entity/horse/coats/gray.png" : "normal_sprite:gray.png",
+    "swem:textures/entity/horse/coats/black.png" : "normal_sprite:black.png",
+    "swem:textures/entity/horse/coats/chestnut.png" : "normal_sprite:chestnut.png",
+    "swem:textures/entity/horse/coats/brown.png" : "normal_sprite:brown.png",
+    "swem:textures/entity/horse/coats/red_roan.png" : "normal_sprite:red_roan.png",
+    "swem:textures/entity/horse/coats/buckskin.png" : "normal_sprite:buckskin.png",
+    "swem:textures/entity/horse/coats/paint.png" : "normal_sprite:paint.png",
+    "swem:textures/entity/horse/coats/palomino.png" : "normal_sprite:palomino.png",
+    "swem:textures/entity/horse/coats/nobuckle.png" : "normal_sprite:nobuckle.png",
+    "swem:textures/entity/horse/coats/sweet_boi.png" : "normal_sprite:sweet_boi.png",
+    "swem:textures/entity/horse/coats/wild_and_free.png" : "normal_sprite:wild_and_free.png",
+    "swem:textures/entity/horse/coats/tall_dark_and_handsome.png" : "normal_sprite:tall_dark_and_handsome.png",
+    "swem:textures/entity/horse/coats/appy.png" : "normal_sprite:appy.png",
+    "swem:textures/entity/horse/coats/golden.png" : "normal_sprite:golden.png",
+    "swem:textures/entity/horse/coats/leopard.png" : "normal_sprite:leopard.png",
+    "swem:textures/entity/horse/coats/frank.png" : "normal_sprite:frank.png",
+    "swem:textures/entity/horse/coats/this_esme_joey.png" : "normal_sprite:this_esme_joey.png",
+    "swem:textures/entity/horse/coats/valegro.png" : "normal_sprite:valegro.png",
+    "swem:textures/entity/horse/coats/sergeant_reckless.png" : "normal_sprite:sergeant_reckless.png",
+    "swem:textures/entity/horse/coats/galaxy.png" : "normal_sprite:galaxy.png",
+    "swem:textures/entity/horse/coats/rainbow.png" : "normal_sprite:rainbow.png"
   }
 }
