@@ -83,21 +83,21 @@ public class SWEMCommand {
 					.then(Commands.literal("transfer")
 						.then(Commands.argument("player", EntityArgument.player())
 							.executes(ctx -> {
-								ServerPlayerEntity player = EntityArgument.getPlayer(ctx, "player");
-
+								ServerPlayerEntity transferTo = EntityArgument.getPlayer(ctx, "player");
+								ServerPlayerEntity executor = ctx.getSource().getPlayerOrException();
 								Entity riding = ctx.getSource().getPlayerOrException().getVehicle();
 								if (riding instanceof SWEMHorseEntityBase) {
 									SWEMHorseEntityBase horse = (SWEMHorseEntityBase) riding;
-									if (!horse.getOwnerUUID().equals(player.getUUID()) && !player.hasPermissions(2)) {
+									if (!horse.getOwnerUUID().equals(executor.getUUID()) && !executor.hasPermissions(2)) {
 										ctx.getSource().sendFailure(new StringTextComponent("[SWEM] You can't transfer other peoples horses."));
 										return -1;
 									}
 									horse.ejectPassengers();
-									horse.transferHorse(player);
+									horse.transferHorse(transferTo);
 									SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new SHorseFriendPacket(UUID.randomUUID(), horse.getId(), 3));
 								}
 
-								ctx.getSource().sendSuccess(new StringTextComponent("[SWEM] You have transferred " + riding.getDisplayName().getString() + " to " + player.getDisplayName().getString() + "."), false);
+								ctx.getSource().sendSuccess(new StringTextComponent("[SWEM] You have transferred " + riding.getDisplayName().getString() + " to " + transferTo.getDisplayName().getString() + "."), false);
 								return 1;
 							})))
 				).then(Commands.literal("listall")
