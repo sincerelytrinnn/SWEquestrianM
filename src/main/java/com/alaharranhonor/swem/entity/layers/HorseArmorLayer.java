@@ -18,6 +18,7 @@ package com.alaharranhonor.swem.entity.layers;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
+import com.alaharranhonor.swem.entity.coats.SWEMCoatColors;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -59,7 +60,8 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 			horseModel.getBone("cloth_armor").get().setHidden(false);
 
 			SWEMHorseArmorItem armorItem = (SWEMHorseArmorItem)stack.getItem();
-			this.entityRenderer.render(horseModel,
+			if (shouldRenderArmour(entitylivingbaseIn)) {
+				this.entityRenderer.render(horseModel,
 					entitylivingbaseIn,
 					partialTicks,
 					RenderType.entityCutout(armorItem.getTexture()),
@@ -67,21 +69,24 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 					bufferIn,
 					bufferIn.getBuffer(RenderType.entityCutout(armorItem.getTexture())),
 					packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
-			);
+				);
+			}
 
-			if (armorItem.tier == SWEMHorseArmorItem.HorseArmorTier.AMETHYST && entitylivingbaseIn.isFlying()) {
+
+			if (armorItem.tier == SWEMHorseArmorItem.HorseArmorTier.AMETHYST ) {
 
 				// Check the Client settings for if they want to render the wings or not.
 				horseModel.getBone("Scapular").get().setHidden(false);
 				horseModel.getBone("Scapular2").get().setHidden(false);
 
+				ResourceLocation wingTexture = getWingTexture(entitylivingbaseIn);
 				this.entityRenderer.render(horseModel,
 						entitylivingbaseIn,
 						partialTicks,
-						RenderType.entityTranslucent(new ResourceLocation(SWEM.MOD_ID, "textures/finished/amethyst_wings.png")),
+						RenderType.entityTranslucent(wingTexture),
 						matrixStackIn,
 						bufferIn,
-						bufferIn.getBuffer(RenderType.entityTranslucent(new ResourceLocation(SWEM.MOD_ID, "textures/finished/amethyst_wings.png"))),
+						bufferIn.getBuffer(RenderType.entityTranslucent(wingTexture)),
 						packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, ((float) ConfigHolder.CLIENT.wingsTransparency.get()) * 0.5f);
 			}
 
@@ -96,5 +101,22 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
 
 		}
+	}
+
+	public boolean shouldRenderArmour(SWEMHorseEntity horse) {
+		if (horse.getCoatColor() == SWEMCoatColors.SWIFT_WIND_SHE_RA) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public ResourceLocation getWingTexture(SWEMHorseEntity horse) {
+		if (horse.getCoatColor() == SWEMCoatColors.SWIFT_WIND_SHE_RA) {
+			return new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/wings/swift_wind_she_ra.png");
+		}
+
+
+		return new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/wings/amethyst_wings.png");
 	}
 }

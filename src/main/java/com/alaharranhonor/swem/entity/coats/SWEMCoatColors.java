@@ -39,7 +39,14 @@ public enum SWEMCoatColors {
 	VALEGRO(18),
 	SERGEANT_RECKLESS(19),
 	GALAXY(20),
-	RAINBOW(21);
+	RAINBOW(21),
+	EPONA_ZELDA(22),
+	ROACH_WITCHER(23),
+	AGRO_SOC(24),
+	SHADOWMERE_OBLIVION(25),
+	RAPIDASH_POKEMON(26),
+	SWIFT_WIND_SHE_RA(27),
+	BOB_FREE_REIN(28);
 
 	private static final SWEMCoatColors[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(SWEMCoatColors::getId)).toArray(SWEMCoatColors[]::new);
 	private final int id;

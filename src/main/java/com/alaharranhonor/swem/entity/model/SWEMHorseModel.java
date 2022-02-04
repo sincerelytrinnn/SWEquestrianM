@@ -51,6 +51,13 @@ public class SWEMHorseModel extends AnimatedGeoModel<SWEMHorseEntity> {
         iter.put(SWEMCoatColors.SERGEANT_RECKLESS, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/sergeant_reckless.png"));
         iter.put(SWEMCoatColors.GALAXY, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/galaxy.png"));
         iter.put(SWEMCoatColors.RAINBOW, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/rainbow.png"));
+        iter.put(SWEMCoatColors.EPONA_ZELDA, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/epona_zelda.png"));
+        iter.put(SWEMCoatColors.ROACH_WITCHER, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/roach_witcher.png"));
+        iter.put(SWEMCoatColors.AGRO_SOC, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/agro_soc.png"));
+        iter.put(SWEMCoatColors.SHADOWMERE_OBLIVION, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/shadowmere_oblivion.png"));
+        iter.put(SWEMCoatColors.RAPIDASH_POKEMON, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/rapidash_pokemon.png"));
+        iter.put(SWEMCoatColors.SWIFT_WIND_SHE_RA, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/swift_wind_she_ra.png"));
+        iter.put(SWEMCoatColors.BOB_FREE_REIN, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/bob_free_rein.png"));
     });
 
 

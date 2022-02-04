@@ -136,6 +136,10 @@ public class SWEMHorseEntityBase
 	public final static DataParameter<Integer> SPEED_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	public final static DataParameter<String> PERMISSION_STRING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
 	public final static DataParameter<Boolean> TRACKED = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	public final static DataParameter<Boolean> RENDER_SADDLE = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	public final static DataParameter<Boolean> RENDER_BRIDLE = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	public final static DataParameter<Boolean> RENDER_BLANKET = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	public final static DataParameter<Boolean> RENDER_GIRTH_STRAP = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private ArrayList<UUID> allowedList = new ArrayList<>();
 
 	public HorseSpeed currentSpeed;
@@ -494,6 +498,11 @@ public class SWEMHorseEntityBase
 		this.entityData.define(CAMERA_LOCK, true);
 
 		this.entityData.define(JUMP_ANIM_TIMER, 0);
+
+		this.entityData.define(RENDER_SADDLE, true);
+		this.entityData.define(RENDER_BLANKET, true);
+		this.entityData.define(RENDER_BRIDLE, true);
+		this.entityData.define(RENDER_GIRTH_STRAP, true);
 
 	}
 
@@ -1003,7 +1012,7 @@ public class SWEMHorseEntityBase
 		//this.setFlying(compound.getBoolean("flying"));
 
 		int variant = compound.getInt("HorseVariant");
-		this.setHorseVariant(variant % (SWEMCoatColors.values().length - 2));
+		this.setHorseVariant(variant % (SWEMCoatColors.values().length - 9));
 
 		this.setOwnerName(compound.getString("ownerName"));
 
@@ -1823,6 +1832,41 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	public boolean checkIsTransformItem(PlayerEntity playerEntity, ItemStack stack) {
+		if (stack.getItem() == SWEMItems.WHISTLE.get() && stack.getStack().getHoverName().getString().equals("Ocarina")) {
+			stack.shrink(1);
+			playerEntity.addItem(new ItemStack(SWEMItems.WHISTLE.get()));
+			this.setHorseVariant(22);
+			return true;
+		} else if (stack.getItem() == Items.IRON_NUGGET && stack.getStack().getHoverName().getString().equals("Coin")) {
+			stack.shrink(1);
+			this.setHorseVariant(23);
+			return true;
+		} else if (stack.getItem() == Items.LILY_OF_THE_VALLEY && stack.getStack().getHoverName().getString().equals("Mono")) {
+			stack.shrink(1);
+			this.setHorseVariant(24);
+			return true;
+		} else if (stack.getItem() == Items.IRON_SWORD && stack.getStack().getHoverName().getString().equals("Sithus")) {
+			stack.shrink(1);
+			this.setHorseVariant(25);
+			return true;
+		} else if (stack.getItem() == Items.BLAZE_ROD && stack.getStack().getHoverName().getString().equals("Ponyta")) {
+			stack.shrink(1);
+			this.setHorseVariant(26);
+			return true;
+		} else if (stack.getItem() == Items.DIAMOND && stack.getStack().getHoverName().getString().equals("Power of Grayskull")) {
+			stack.shrink(1);
+			this.setHorseVariant(27);
+			return true;
+		} else if (stack.getItem() == SWEMItems.ENGLISH_BRIDLE_BLACK.get() && stack.getStack().getHoverName().getString().equals("Becky")) {
+			stack.shrink(1);
+			this.setHorseVariant(28);
+			return true;
+		}
+
+		return false;
+	}
+
 
 
 	// Item interaction with horse.
@@ -1842,10 +1886,14 @@ public class SWEMHorseEntityBase
 
 		Item item = itemstack.getItem();
 
+		if (checkIsTransformItem(playerEntity, itemstack)) {
+			return ActionResultType.SUCCESS;
+		}
+
 		if (!itemstack.isEmpty() && item != Items.SADDLE) {
 			if (item == Items.LAPIS_LAZULI && playerEntity.getUUID().equals(this.getOwnerUUID())) {
 				if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
-					this.setHorseVariant((this.getHorseVariant() + 1) % (SWEMCoatColors.values().length - 2));
+					this.setHorseVariant((this.getHorseVariant() + 1) % (SWEMCoatColors.values().length - 9));
 					ItemStack heldItemCopy = itemstack.copy();
 					if (!playerEntity.abilities.instabuild)
 						heldItemCopy.shrink(1);
@@ -1856,7 +1904,7 @@ public class SWEMHorseEntityBase
 
 			if (item == Items.REDSTONE && playerEntity.getUUID().equals(this.getOwnerUUID())) {
 				if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
-					this.setHorseVariant((this.getHorseVariant() - 1) % (SWEMCoatColors.values().length - 2));
+					this.setHorseVariant((this.getHorseVariant() - 1) % (SWEMCoatColors.values().length - 9));
 					ItemStack heldItemCopy = itemstack.copy();
 					if (!playerEntity.abilities.instabuild)
 						heldItemCopy.shrink(1);

@@ -17,6 +17,7 @@ package com.alaharranhonor.swem.entity.layers;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
+import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.items.tack.HorseSaddleItem;
 import com.alaharranhonor.swem.items.tack.WesternSaddleItem;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -66,6 +67,6 @@ public class WesternSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 	}
 
 	public boolean shouldRender(ItemStack stack, SWEMHorseEntity entity) {
-		return stack.getItem() instanceof WesternSaddleItem;
+		return stack.getItem() instanceof WesternSaddleItem && entity.getEntityData().get(SWEMHorseEntityBase.RENDER_SADDLE);
 	}
 }

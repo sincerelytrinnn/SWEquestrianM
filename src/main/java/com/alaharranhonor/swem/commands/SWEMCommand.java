@@ -23,6 +23,7 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
@@ -88,7 +89,7 @@ public class SWEMCommand {
 								if (riding instanceof SWEMHorseEntityBase) {
 									SWEMHorseEntityBase horse = (SWEMHorseEntityBase) riding;
 									if (!horse.getOwnerUUID().equals(player.getUUID()) && !player.hasPermissions(2)) {
-										ctx.getSource().sendFailure(new StringTextComponent("[SWEM] You can't transfer other peoples horses." ));
+										ctx.getSource().sendFailure(new StringTextComponent("[SWEM] You can't transfer other peoples horses."));
 										return -1;
 									}
 									horse.ejectPassengers();
@@ -183,12 +184,138 @@ public class SWEMCommand {
 					)
 
 
+				)
+				.then(Commands.literal("render")
+					.requires((player) -> player.hasPermission(2))
+					.then(Commands.literal("saddle")
+						.executes((ctx) -> {
+							try {
+								ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
+								Entity entity = player.getVehicle();
+								if (entity == null) {
+									player.sendMessage(new StringTextComponent("You must be on a SWEM horse"), Util.NIL_UUID);
+									return 0;
+								}
+
+								if (!(entity instanceof SWEMHorseEntityBase)) {
+									player.sendMessage(new StringTextComponent("You must be on a SWEM horse"), Util.NIL_UUID);
+									return 0;
+								}
+
+								SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+								boolean value = horse.getEntityData().get(SWEMHorseEntityBase.RENDER_SADDLE);
+								horse.getEntityData().set(SWEMHorseEntityBase.RENDER_SADDLE, !value);
+								if (value) {
+									player.sendMessage(new StringTextComponent("The saddle has now been hidden."), Util.NIL_UUID);
+								} else {
+									player.sendMessage(new StringTextComponent("The saddle is now showing."), Util.NIL_UUID);
+								}
+								return 1;
+
+							} catch (CommandSyntaxException ex) {
+								ctx.getSource().sendFailure(new StringTextComponent("A player must execute this command."));
+							}
+							return 0;
+						})
+					)
+					.then(Commands.literal("bridle")
+						.executes((ctx) -> {
+							try {
+								ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
+								Entity entity = player.getVehicle();
+								if (entity == null) {
+									player.sendMessage(new StringTextComponent("You must be on a SWEM horse"), Util.NIL_UUID);
+									return 0;
+								}
+
+								if (!(entity instanceof SWEMHorseEntityBase)) {
+									player.sendMessage(new StringTextComponent("You must be on a SWEM horse"), Util.NIL_UUID);
+									return 0;
+								}
+
+								SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+								boolean value = horse.getEntityData().get(SWEMHorseEntityBase.RENDER_BRIDLE);
+								horse.getEntityData().set(SWEMHorseEntityBase.RENDER_BRIDLE, !value);
+								if (value) {
+									player.sendMessage(new StringTextComponent("The bridle has now been hidden."), Util.NIL_UUID);
+								} else {
+									player.sendMessage(new StringTextComponent("The bridle is now showing."), Util.NIL_UUID);
+								}
+								return 1;
+
+							} catch (CommandSyntaxException ex) {
+								ctx.getSource().sendFailure(new StringTextComponent("A player must execute this command."));
+							}
+							return 0;
+						})
+					)
+					.then(Commands.literal("blanket")
+						.executes((ctx) -> {
+							try {
+								ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
+								Entity entity = player.getVehicle();
+								if (entity == null) {
+									player.sendMessage(new StringTextComponent("You must be on a SWEM horse"), Util.NIL_UUID);
+									return 0;
+								}
+
+								if (!(entity instanceof SWEMHorseEntityBase)) {
+									player.sendMessage(new StringTextComponent("You must be on a SWEM horse"), Util.NIL_UUID);
+									return 0;
+								}
+
+								SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+								boolean value = horse.getEntityData().get(SWEMHorseEntityBase.RENDER_BLANKET);
+								horse.getEntityData().set(SWEMHorseEntityBase.RENDER_BLANKET, !value);
+								if (value) {
+									player.sendMessage(new StringTextComponent("The blanket has now been hidden."), Util.NIL_UUID);
+								} else {
+									player.sendMessage(new StringTextComponent("The blanket is now showing."), Util.NIL_UUID);
+								}
+								return 1;
+
+							} catch (CommandSyntaxException ex) {
+								ctx.getSource().sendFailure(new StringTextComponent("A player must execute this command."));
+							}
+							return 0;
+						})
+					)
+					.then(Commands.literal("girth_strap")
+						.executes((ctx) -> {
+							try {
+								ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
+								Entity entity = player.getVehicle();
+								if (entity == null) {
+									player.sendMessage(new StringTextComponent("You must be on a SWEM horse"), Util.NIL_UUID);
+									return 0;
+								}
+
+								if (!(entity instanceof SWEMHorseEntityBase)) {
+									player.sendMessage(new StringTextComponent("You must be on a SWEM horse"), Util.NIL_UUID);
+									return 0;
+								}
+
+								SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+								boolean value = horse.getEntityData().get(SWEMHorseEntityBase.RENDER_GIRTH_STRAP);
+								horse.getEntityData().set(SWEMHorseEntityBase.RENDER_GIRTH_STRAP, !value);
+								if (value) {
+									player.sendMessage(new StringTextComponent("The girth strap has now been hidden."), Util.NIL_UUID);
+								} else {
+									player.sendMessage(new StringTextComponent("The girth strap is now showing."), Util.NIL_UUID);
+								}
+								return 1;
+
+							} catch (CommandSyntaxException ex) {
+								ctx.getSource().sendFailure(new StringTextComponent("A player must execute this command."));
+							}
+							return 0;
+						})
+					)
 				);
 
 
-
-
 	}
+
 	public enum Skills {
 		SPEED,
 		JUMP,

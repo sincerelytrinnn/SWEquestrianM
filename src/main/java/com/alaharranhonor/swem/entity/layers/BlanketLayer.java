@@ -17,6 +17,7 @@ package com.alaharranhonor.swem.entity.layers;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
+import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.items.tack.BlanketItem;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -43,7 +44,7 @@ public class BlanketLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 	@Override
 	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, SWEMHorseEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		ItemStack stack = entitylivingbaseIn.getBlanket();
-		if (!stack.isEmpty() && stack.getItem() instanceof BlanketItem) {
+		if (!stack.isEmpty() && stack.getItem() instanceof BlanketItem && entitylivingbaseIn.getEntityData().get(SWEMHorseEntityBase.RENDER_BLANKET)) {
 
 			GeoModel horseModel = getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json"));
 			// Hide unneeded bones for performance improvement.
