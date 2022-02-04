@@ -60,6 +60,7 @@ public class AffinityLeveling implements ILeveling{
 			this.addXP(10 - timesBrushed);
 			return true;
 		} else {
+			horse.emitBadParticles((ServerWorld) horse.level, 4);
 			return false;
 		}
 	}
