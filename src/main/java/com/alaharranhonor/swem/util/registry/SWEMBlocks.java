@@ -359,7 +359,7 @@ public class SWEMBlocks {
 	public static final RegistryObject<Item> LIGHT_SHAVINGS_UNOPENED_ITEM = SWEMItems.ITEMS.register("light_shavings",
 			() -> new ShavingsItem.UnopenedShavingsItem(LIGHT_SHAVINGS_ITEM.get()));
 	public static final RegistryObject<Item> SOILED_SHAVINGS_ITEM = SWEMItems.ITEMS.register("soiled_shavings",
-			ShavingsItem.SoiledShavingsItem::new);
+		() -> new ShavingsItem.SoiledShavingsItem(SOILED_SHAVINGS.get()));
 	public static final RegistryObject<Item> BLEACHER_SLAB_ITEM = SWEMItems.ITEMS.register("bleacher",
 			() -> new BlockItemBase(BLEACHER_SLAB.get()));
 	public static final RegistryObject<Item> WESTERN_HITCHING_POST_ITEM = SWEMItems.ITEMS.register("western_hitching_post",
