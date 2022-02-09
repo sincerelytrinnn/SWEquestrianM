@@ -80,7 +80,7 @@ public class SWEMBlocks {
 		return () -> new BlockItem(block.get(), new Item.Properties().tab(itemGroup));
 	}
 
-	public static final RegistryObject<Block> CHARCOAL_BLOCK = BLOCKS.register("charcoal_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.COAL_BLOCK)));
+	public static final RegistryObject<Block> CHARCOAL_BLOCK = BLOCKS.register("charcoal_block", FuelBlock::new);
 	public static final RegistryObject<Block> FUEL_BLOCK = BLOCKS.register("fuel_block", FuelBlock::new);
 	public static final RegistryObject<Block> DARK_RUBBER_MAT = BLOCKS.register("dark_rubber_mat", RubberMatBase::new);
 	public static final RegistryObject<Block> LIGHT_RUBBER_MAT = BLOCKS.register("light_rubber_mat", RubberMatBase::new);
@@ -399,7 +399,8 @@ public class SWEMBlocks {
 	public static final RegistryObject<Item> WET_COMPOST_ITEM = SWEMItems.ITEMS.register("wet_compost", () -> new BlockItemBase(WET_COMPOST.get()));
 	public static final RegistryObject<Item> COMPOST_ITEM = SWEMItems.ITEMS.register("compost", () -> new BonemealBlockItem(COMPOST.get()));
 	public static final RegistryObject<Item> CANTAZARITE_ANVIL_ITEM = SWEMItems.ITEMS.register("cantazarite_anvil", () -> new BlockItemBase(CANTAZARITE_ANVIL.get()));
-	public static final RegistryObject<Item> CHARCOAL_BLOCK_ITEM = SWEMItems.ITEMS.register("charcoal_block", () -> new BlockItemBase(CHARCOAL_BLOCK.get()));
+	public static final RegistryObject<Item> CHARCOAL_BLOCK_ITEM = SWEMItems.ITEMS.register("charcoal_block",
+			() -> new FuelBlockItemBase(CHARCOAL_BLOCK.get(), 16000));
 	public static final RegistryObject<Item> LOCKER_ITEM = SWEMItems.ITEMS.register("locker", () -> new BlockItemBase(LOCKER.get()));
 	public static final RegistryObject<Item> PADDOCK_FEEDER_ITEM = SWEMItems.ITEMS.register("paddock_feeder", () -> new BlockItemBase(PADDOCK_FEEDER.get()));
 	public static final RegistryObject<Item> HORSE_ARMOR_RACK_ITEM = SWEMItems.ITEMS.register("horse_armor_rack", () -> new BlockItemBase(HORSE_ARMOR_RACK.get()));
