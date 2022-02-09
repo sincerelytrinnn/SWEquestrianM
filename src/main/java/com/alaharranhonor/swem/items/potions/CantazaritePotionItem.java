@@ -52,6 +52,7 @@ public class CantazaritePotionItem extends PotionItem {
 			if (!playerIn.level.isClientSide) {
 				BlockPos targetPos = target.blockPosition();
 				if (net.minecraftforge.common.ForgeHooks.onLivingDeath(target, DamageSource.GENERIC)) return ActionResultType.PASS;
+				horseEntity.dropEquipment();
 				target.remove();
 				SWEMHorseEntity horse1 = (SWEMHorseEntity) SWEMEntities.SWEM_HORSE_ENTITY.get().spawn((ServerWorld) playerIn.level, null, playerIn, targetPos, SpawnReason.MOB_SUMMONED, true, false);
 				horse1.calculatePotionCoat(vanillaCoat);

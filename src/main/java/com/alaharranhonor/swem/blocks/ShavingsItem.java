@@ -46,13 +46,16 @@ public class ShavingsItem extends BlockItem {
         return false;
     }
 
-    public static class SoiledShavingsItem extends Item {
+    public static class SoiledShavingsItem extends BlockItem {
 
-        public SoiledShavingsItem() {
-            super(new Item.Properties().tab(SWEM.TAB).stacksTo(16));
+        public SoiledShavingsItem(Block block) {
+            super(block, new Item.Properties().tab(SWEM.TAB).stacksTo(16));
         }
 
-
+        @Override
+        public ActionResultType place(BlockItemUseContext pContext) {
+            return ActionResultType.PASS;
+        }
     }
 
     public static class UnopenedShavingsItem extends Item {

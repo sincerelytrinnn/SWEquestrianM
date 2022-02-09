@@ -24,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.fml.RegistryObject;
 
@@ -33,13 +34,13 @@ import java.util.List;
 
 import net.minecraft.item.Item.Properties;
 
-public class SWEMSpawnEggItem extends SpawnEggItem {
+public class SWEMSpawnEggItem extends ForgeSpawnEggItem {
 	protected static final List<SWEMSpawnEggItem> UNADDED_EGGS = new ArrayList<>();
 
 	private final Lazy<? extends EntityType<?>> entityTypeSupplier;
 
 	public SWEMSpawnEggItem(final RegistryObject<? extends EntityType<?>> entityTypeSupplier, int primaryColorIn, int secondaryColorIn, Properties builder) {
-		super(null, primaryColorIn, secondaryColorIn, builder);
+		super(entityTypeSupplier, primaryColorIn, secondaryColorIn, builder);
 		this.entityTypeSupplier = Lazy.of(entityTypeSupplier::get);
 		UNADDED_EGGS.add(this);
 	}
