@@ -72,6 +72,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SEntityPacket;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ITag;
@@ -1459,7 +1460,12 @@ public class SWEMHorseEntityBase
 	}
 
 	private void tickAmethystArmor() {
+		this.addEffect(new EffectInstance(Effects.SLOW_FALLING, 10, 10, false, false, false));
+	}
 
+	@Override
+	public AxisAlignedBB getBoundingBox() {
+		return super.getBoundingBox();
 	}
 
 	@Override
