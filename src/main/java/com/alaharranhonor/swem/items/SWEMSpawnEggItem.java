@@ -40,7 +40,7 @@ public class SWEMSpawnEggItem extends ForgeSpawnEggItem {
 	private final Lazy<? extends EntityType<?>> entityTypeSupplier;
 
 	public SWEMSpawnEggItem(final RegistryObject<? extends EntityType<?>> entityTypeSupplier, int primaryColorIn, int secondaryColorIn, Properties builder) {
-		super(null, primaryColorIn, secondaryColorIn, builder);
+		super(entityTypeSupplier, primaryColorIn, secondaryColorIn, builder);
 		this.entityTypeSupplier = Lazy.of(entityTypeSupplier::get);
 		UNADDED_EGGS.add(this);
 	}
