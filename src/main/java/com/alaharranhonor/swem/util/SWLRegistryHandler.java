@@ -86,7 +86,7 @@ public class SWLRegistryHandler {
 		sb.append("We hope this has been a wonderful learning experience in the world of piracy.\n");
 		sb.append("Have a nice day! :D");
 
-		System.out.println(sb.toString());
+		SWEM.LOGGER.error(sb);
 
 		System.exit(-1);
 

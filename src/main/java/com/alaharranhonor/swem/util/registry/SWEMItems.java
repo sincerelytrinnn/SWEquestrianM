@@ -18,14 +18,11 @@ package com.alaharranhonor.swem.util.registry;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.*;
 import com.alaharranhonor.swem.blocks.BlockItemBase;
-import com.alaharranhonor.swem.blocks.ShavingsItem;
-import com.alaharranhonor.swem.entity.coats.SWEMCoatColors;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.potions.CantazaritePotionItem;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.tools.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraftforge.api.distmarker.Dist;
@@ -251,7 +248,7 @@ public class SWEMItems {
 		sb.append("We hope this has been a wonderful learning experience in the world of piracy.\n");
 		sb.append("Have a nice day! :D");
 
-		System.out.println(sb.toString());
+		SWEM.LOGGER.error(sb);
 
 		System.exit(-1);
 
