@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "xxx",
+    "x x",
+    "xxx"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "minecraft:dried_kelp"
+    }
+  },
+  "result":
+  {
+    "item": "swem:western_barrel",
+    "count": 1
+  }
+}
