@@ -153,7 +153,7 @@ public class SWEMItems {
 	public static final RegistryObject<Item> PESTLE_MORTAR = ITEMS.register("pestle_mortar", () -> new PestleMortarItem(new Item.Properties().stacksTo(1).tab(SWEM.TAB)));
 	public static final RegistryObject<Item> BONE_MEAL_COMPOST = ITEMS.register("bone_meal_compost", () -> new BoneMealItem(new Item.Properties().tab(SWEM.TAB)));
 	public static final RegistryObject<Item> BRUSH = ITEMS.register("brush", BrushItem::new);
-
+	public static final RegistryObject<Item> MERCY_BLADE = ITEMS.register("mercy_blade", ItemBase::new);
 
 	// Rainbow Horse recipe items.
 	/*
@@ -409,4 +409,5 @@ public class SWEMItems {
 	public static final RegistryObject<ShieldItem> AMETHYST_SHIELD = ITEMS.register("amethyst_shield", () ->
 			new AmethystShield(new Item.Properties().tab(SWEM.TAB))
 	);
+
 }

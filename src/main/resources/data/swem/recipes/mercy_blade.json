@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    " y ",
+    "x  "
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "minecraft:poppy"
+    },
+    "y":
+    {
+      "item": "minecraft:bone"
+    }
+  },
+  "result":
+  {
+    "item": "swem:mercy",
+    "count": 1
+  }
+}
