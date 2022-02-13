@@ -37,10 +37,14 @@ public enum SWEMCoatColor {
 	APPY(14, true),
 	GOLDEN(15, true),
 	LEOPARD(16, true),
+	SECRETARIAT(18, true),
 	SERGEANT_RECKLESS(19, true),
 	VALEGRO(20, true),
+	TRIGGER_ROY_ROGERS(22, true),
 	MR_ED(23, true),
+	SHWOOMPL_MARKIPLIER(25, true),
 	THIS_ESME_JOEY(27, true),
+	GOOSEBERRY_JUSTPEACHY(28, true),
 	GALAXY(29, false),
 	RAINBOW(30, false),
 	EPONA_ZELDA(31, false),
@@ -54,7 +58,8 @@ public enum SWEMCoatColor {
 	EL_CAZADOR_MALLI(46, true),
 	NERO_STARDUST(49, true),
 	FRANK_STEVECV(51, true),
-	KODIAK_DELPHI(53, true);
+	KODIAK_DELPHI(53, true),
+	ANNIE_LACE(54, true);
 
 	private static final SWEMCoatColor[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(SWEMCoatColor::getId)).toArray(SWEMCoatColor[]::new);
 	private final int id;

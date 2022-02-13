@@ -18,10 +18,14 @@
     "swem:textures/entity/horse/coats/14_m_appy.png" : "normal_sprite:14_m_appy.png",
     "swem:textures/entity/horse/coats/15_m_golden.png" : "normal_sprite:15_m_golden.png",
     "swem:textures/entity/horse/coats/16_m_leopard.png" : "normal_sprite:16_m_leopard.png",
+    "swem:textures/entity/horse/coats/secretariat.png" : "normal_sprite:secretariat.png",
     "swem:textures/entity/horse/coats/sergeant_reckless.png" : "normal_sprite:sergeant_reckless.png",
     "swem:textures/entity/horse/coats/valegro.png" : "normal_sprite:valegro.png",
+    "swem:textures/entity/horse/coats/trigger_roy_rogers.png" : "normal_sprite:trigger_roy_rogers.png",
     "swem:textures/entity/horse/coats/mr_ed.png" : "normal_sprite:mr_ed.png",
+    "swem:textures/entity/horse/coats/shwoompl_markiplier.png" : "normal_sprite:shwoompl_markiplier.png",
     "swem:textures/entity/horse/coats/this_esme_joey.png" : "normal_sprite:this_esme_joey.png",
+    "swem:textures/entity/horse/coats/gooseberry_justpeachy.png" : "normal_sprite:gooseberry_justpeachy.png",
     "swem:textures/entity/horse/coats/17_m_galaxy.png" : "normal_sprite:17_m_galaxy.png",
     "swem:textures/entity/horse/coats/18_m_rainbow.png" : "normal_sprite:18_m_rainbow.png",
     "swem:textures/entity/horse/coats/epona_zelda.png" : "normal_sprite:epona_zelda.png",
@@ -35,6 +39,7 @@
     "swem:textures/entity/horse/coats/el_cazador_malli.png" : "normal_sprite:el_cazador_malli.png",
     "swem:textures/entity/horse/coats/nero_stardust.png" : "normal_sprite:nero_stardust.png",
     "swem:textures/entity/horse/coats/frank_stevecv.png" : "normal_sprite:frank_stevecv.png",
-    "swem:textures/entity/horse/coats/kodiak_delphi.png" : "normal_sprite:kodiak_delphi.png"
+    "swem:textures/entity/horse/coats/kodiak_delphi.png" : "normal_sprite:kodiak_delphi.png",
+    "swem:textures/entity/horse/coats/annie_lace.png" : "normal_sprite:annie_lace.png"
   }
 }

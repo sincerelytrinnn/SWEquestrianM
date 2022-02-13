@@ -46,10 +46,14 @@ public class SWEMHorseModel extends AnimatedGeoModel<SWEMHorseEntity> {
         iter.put(SWEMCoatColor.APPY, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/14_m_appy.png"));
         iter.put(SWEMCoatColor.GOLDEN, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/15_m_golden.png"));
         iter.put(SWEMCoatColor.LEOPARD, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/16_m_leopard.png"));
+        iter.put(SWEMCoatColor.SECRETARIAT, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/secretariat.png"));
         iter.put(SWEMCoatColor.SERGEANT_RECKLESS, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/sergeant_reckless.png"));
         iter.put(SWEMCoatColor.VALEGRO, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/valegro.png"));
+        iter.put(SWEMCoatColor.TRIGGER_ROY_ROGERS, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/trigger_roy_rogers.png"));
         iter.put(SWEMCoatColor.MR_ED, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/mr_ed.png"));
+        iter.put(SWEMCoatColor.SHWOOMPL_MARKIPLIER, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/shwoompl_markiplier.png"));
         iter.put(SWEMCoatColor.THIS_ESME_JOEY, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/this_esme_joey.png"));
+        iter.put(SWEMCoatColor.GOOSEBERRY_JUSTPEACHY, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/gooseberry_justpeachy.png"));
         iter.put(SWEMCoatColor.GALAXY, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/17_m_galaxy.png"));
         iter.put(SWEMCoatColor.RAINBOW, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/18_m_rainbow.png"));
         iter.put(SWEMCoatColor.EPONA_ZELDA, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/epona_zelda.png"));
@@ -64,6 +68,7 @@ public class SWEMHorseModel extends AnimatedGeoModel<SWEMHorseEntity> {
         iter.put(SWEMCoatColor.NERO_STARDUST, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/nero_stardust.png"));
         iter.put(SWEMCoatColor.FRANK_STEVECV, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/frank_stevecv.png"));
         iter.put(SWEMCoatColor.KODIAK_DELPHI, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/kodiak_delphi.png"));
+        iter.put(SWEMCoatColor.ANNIE_LACE, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/annie_lace.png"));
     });
 
 

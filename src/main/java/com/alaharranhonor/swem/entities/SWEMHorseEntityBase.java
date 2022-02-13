@@ -1197,66 +1197,152 @@ public class SWEMHorseEntityBase
 		int randomNum = rand.nextInt(100) + 1;
 		switch (vanillaCoat) {
 			case BLACK: {
-				if (randomNum <= 65)
-					this.setHorseVariant(2);
-				else if (randomNum <= 95)
-					this.setHorseVariant(12);
+				if (randomNum < 20)
+					this.setCoatColour(SWEMCoatColor.BLACK);
+				else if (randomNum <= 40)
+					this.setCoatColour(SWEMCoatColor.TALLDARKHANDSOME);
+				else if (randomNum <= 51)
+					this.setCoatColour(SWEMCoatColor.SWEETBOI);
+				else if (randomNum <= 66)
+					this.setCoatColour(SWEMCoatColor.LEOPARD);
+				else if (randomNum <= 76)
+					this.setCoatColour(SWEMCoatColor.VALEGRO);
+				else if (randomNum <= 86)
+					this.setCoatColour(SWEMCoatColor.SHWOOMPL_MARKIPLIER);
+				else if (randomNum <= 91)
+					this.setCoatColour(SWEMCoatColor.BLACK); // TODO: CHANGE TO LUNAR_ARISHANT
 				else
-					this.setHorseVariant(11);
+					this.setCoatColour(SWEMCoatColor.FRANK_STEVECV);
 				break;
 			}
 			case GRAY: {
-				if (randomNum <= 7)
-					this.setHorseVariant(11);
-				else if (randomNum <= 97)
-					this.setHorseVariant(1);
+				if (randomNum < 7)
+					this.setCoatColour(SWEMCoatColor.WHITE);
+				else if (randomNum <= 32)
+					this.setCoatColour(SWEMCoatColor.GRAY);
+				else if (randomNum <= 39)
+					this.setCoatColour(SWEMCoatColor.TALLDARKHANDSOME);
+				else if (randomNum <= 49)
+					this.setCoatColour(SWEMCoatColor.SWEETBOI);
+				else if (randomNum <= 59)
+					this.setCoatColour(SWEMCoatColor.VALEGRO);
+				else if (randomNum <= 66)
+					this.setCoatColour(SWEMCoatColor.SHWOOMPL_MARKIPLIER);
+				else if (randomNum <= 76)
+					this.setCoatColour(SWEMCoatColor.GRAY); //TODO: CHANGE TO FINBAR
+				else if (randomNum <= 86)
+					this.setCoatColour(SWEMCoatColor.THIS_ESME_JOEY);
+				else if (randomNum <= 93)
+					this.setCoatColour(SWEMCoatColor.GOOSEBERRY_JUSTPEACHY);
 				else
-					this.setHorseVariant(0);
+					this.setCoatColour(SWEMCoatColor.GRAY); // TODO: CHANGE TO TOOTHBRUSH
 				break;
 			}
 			case WHITE: {
-				if (randomNum <= 10)
-					this.setHorseVariant(15);
-				else if (randomNum <= 25)
-					this.setHorseVariant(1);
+				if (randomNum < 25)
+					this.setCoatColour(SWEMCoatColor.WHITE);
+				else if (randomNum <= 34)
+					this.setCoatColour(SWEMCoatColor.GRAY);
+				else if (randomNum <= 43)
+					this.setCoatColour(SWEMCoatColor.ROAN);
+				else if (randomNum <= 54)
+					this.setCoatColour(SWEMCoatColor.PAINT);
+				else if (randomNum <= 61)
+					this.setCoatColour(SWEMCoatColor.SWEETBOI);
+				else if (randomNum <= 70)
+					this.setCoatColour(SWEMCoatColor.LEOPARD);
+				else if (randomNum <= 77)
+					this.setCoatColour(SWEMCoatColor.ARIALS_MALLI);
+				else if (randomNum <= 84)
+					this.setCoatColour(SWEMCoatColor.NERO_STARDUST);
+				else if (randomNum <= 93)
+					this.setCoatColour(SWEMCoatColor.FRANK_STEVECV);
 				else
-					this.setHorseVariant(0);
+					this.setCoatColour(SWEMCoatColor.WHITE); //TODO: CHANGE TO TOOTHBRUSH
 				break;
 			}
 			case CHESTNUT: {
-				if (randomNum <= 30)
-					this.setHorseVariant(13);
-				else if (randomNum <= 90)
-					this.setHorseVariant(10);
+				if (randomNum < 25)
+					this.setCoatColour(SWEMCoatColor.CHESTNUT);
+				else if (randomNum <= 32)
+					this.setCoatColour(SWEMCoatColor.ROAN);
+				else if (randomNum <= 39)
+					this.setCoatColour(SWEMCoatColor.NOBUCKLE);
+				else if (randomNum <= 50)
+					this.setCoatColour(SWEMCoatColor.WILDANDFREE);
+				else if (randomNum <= 55)
+					this.setCoatColour(SWEMCoatColor.CHESTNUT); //TODO: Change to MANOWAR
+				else if (randomNum <= 60)
+					this.setCoatColour(SWEMCoatColor.SECRETARIAT);
+				else if (randomNum <= 65)
+					this.setCoatColour(SWEMCoatColor.SERGEANT_RECKLESS);
+				else if (randomNum <= 75)
+					this.setCoatColour(SWEMCoatColor.CHESTNUT); // TODO: CHANGE TO DOLLOR JOHN
+				else if (randomNum <= 85)
+					this.setCoatColour(SWEMCoatColor.ARIALS_MALLI);
+				else if (randomNum <= 95)
+					this.setCoatColour(SWEMCoatColor.EL_CAZADOR_MALLI);
 				else
-					this.setHorseVariant(5);
+					this.setCoatColour(SWEMCoatColor.ANNIE_LACE);
 				break;
 			}
 			case CREAMY: {
-				if (randomNum <= 49)
-					this.setHorseVariant(6);
-				else if (randomNum <= 98)
-					this.setHorseVariant(8);
+				if (randomNum < 25)
+					this.setCoatColour(SWEMCoatColor.BUCKSKIN);
+				else if (randomNum <= 40)
+					this.setCoatColour(SWEMCoatColor.PALOMINO);
+				else if (randomNum <= 55)
+					this.setCoatColour(SWEMCoatColor.GOLDEN);
+				else if (randomNum <= 66)
+					this.setCoatColour(SWEMCoatColor.TRIGGER_ROY_ROGERS);
+				else if (randomNum <= 76)
+					this.setCoatColour(SWEMCoatColor.MR_ED);
+				else if (randomNum <= 88)
+					this.setCoatColour(SWEMCoatColor.NERO_STARDUST);
 				else
-					this.setHorseVariant(14);
+					this.setCoatColour(SWEMCoatColor.KODIAK_DELPHI);
 				break;
 			}
 			case BROWN: {
-				if (randomNum <= 20)
-					this.setHorseVariant(7);
-				else if (randomNum <= 29)
-					this.setHorseVariant(6);
+				if (randomNum < 20)
+					this.setCoatColour(SWEMCoatColor.BROWN);
+				else if (randomNum <= 30)
+					this.setCoatColour(SWEMCoatColor.BUCKSKIN);
+				else if (randomNum <= 45)
+					this.setCoatColour(SWEMCoatColor.PAINT);
+				else if (randomNum <= 55)
+					this.setCoatColour(SWEMCoatColor.NOBUCKLE);
+				else if (randomNum <= 65)
+					this.setCoatColour(SWEMCoatColor.WILDANDFREE);
+				else if (randomNum <= 75)
+					this.setCoatColour(SWEMCoatColor.APPY);
+				else if (randomNum <= 82)
+					this.setCoatColour(SWEMCoatColor.ARIALS_MALLI);
+				else if (randomNum <= 83)
+					this.setCoatColour(SWEMCoatColor.FRANK_STEVECV);
 				else
-					this.setHorseVariant(4);
+					this.setCoatColour(SWEMCoatColor.KODIAK_DELPHI);
 				break;
 			}
 			case DARKBROWN: {
-				if (randomNum <= 80)
-					this.setHorseVariant(3);
-				else if (randomNum <= 85)
-					this.setHorseVariant(9);
+				if (randomNum < 20)
+					this.setCoatColour(SWEMCoatColor.BROWN);
+				else if (randomNum <= 35)
+					this.setCoatColour(SWEMCoatColor.PAINT);
+				else if (randomNum <= 45)
+					this.setCoatColour(SWEMCoatColor.WILDANDFREE);
+				else if (randomNum <= 55)
+					this.setCoatColour(SWEMCoatColor.TALLDARKHANDSOME);
+				else if (randomNum <= 65)
+					this.setCoatColour(SWEMCoatColor.APPY);
+				else if (randomNum <= 72)
+					this.setCoatColour(SWEMCoatColor.VALEGRO);
+				else if (randomNum <= 79)
+					this.setCoatColour(SWEMCoatColor.BROWN); // TODO: Change to Joergen
+				else if (randomNum <= 89)
+					this.setCoatColour(SWEMCoatColor.EL_CAZADOR_MALLI);
 				else
-					this.setHorseVariant(7);
+					this.setCoatColour(SWEMCoatColor.FRANK_STEVECV);
 				break;
 			}
 		}
