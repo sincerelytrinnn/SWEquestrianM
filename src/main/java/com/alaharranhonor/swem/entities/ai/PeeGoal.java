@@ -57,7 +57,7 @@ public class PeeGoal extends Goal {
 	 */
 	@Override
 	public boolean canUse() {
-		return this.peeEntity.level.getGameTime() % (ConfigHolder.SERVER.serverPeeInterval.get() * 20) == 0 && this.peeEntity.getPassengers().isEmpty() && ConfigHolder.SERVER.serverTickPeeNeed.get();
+		return this.peeEntity.level.getGameTime() % (ConfigHolder.SERVER.serverPeeInterval.get() * 20 + peeEntity.getId()) == 0 && this.peeEntity.getPassengers().isEmpty() && ConfigHolder.SERVER.serverTickPeeNeed.get();
 	}
 
 	/**

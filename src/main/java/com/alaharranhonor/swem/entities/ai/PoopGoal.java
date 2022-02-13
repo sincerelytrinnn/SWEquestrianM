@@ -44,7 +44,7 @@ public class PoopGoal extends Goal {
 	 */
 	@Override
 	public boolean canUse() {
-		return this.pooperEntity.level.getGameTime() % (ConfigHolder.SERVER.serverPoopInterval.get() * 20) == 0 && this.pooperEntity.getPassengers().isEmpty() && ConfigHolder.SERVER.serverTickPoopNeed.get();
+		return this.pooperEntity.level.getGameTime() % (ConfigHolder.SERVER.serverPoopInterval.get() * 20 + pooperEntity.getId()) == 0 && this.pooperEntity.getPassengers().isEmpty() && ConfigHolder.SERVER.serverTickPoopNeed.get();
 	}
 
 	/**
