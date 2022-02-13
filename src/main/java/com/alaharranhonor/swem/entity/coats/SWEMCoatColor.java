@@ -62,6 +62,8 @@ public enum SWEMCoatColors {
 		return VALUES[id % VALUES.length];
 	}
 
+	public static SWEMCoat
+
 
 
 }
