@@ -16,7 +16,7 @@ package com.alaharranhonor.swem.items;
  */
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.entity.coats.SWEMCoatColors;
+import com.alaharranhonor.swem.entity.coats.SWEMCoatColor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -27,9 +27,9 @@ import net.minecraft.util.math.BlockPos;
 
 public class HorseTransformItem extends Item {
 
-	private SWEMCoatColors coat;
+	private SWEMCoatColor coat;
 
-	public HorseTransformItem(SWEMCoatColors coat) {
+	public HorseTransformItem(SWEMCoatColor coat) {
 		super(new Item.Properties());
 		this.coat = coat;
 	}

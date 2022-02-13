@@ -27,7 +27,7 @@ import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
-import com.alaharranhonor.swem.entity.coats.SWEMCoatColors;
+import com.alaharranhonor.swem.entity.coats.SWEMCoatColor;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.network.*;
@@ -71,7 +71,6 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.network.play.server.SEntityPacket;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.FluidTags;
@@ -478,7 +477,7 @@ public class SWEMHorseEntityBase
 		this.entityData.define(HungerNeed.TOTAL_TIMES_FED, 0);
 
 		this.entityData.define(AffinityLeveling.CURRENT_DESENSITIZING_ITEM, ItemStack.EMPTY);
-		this.entityData.define(HORSE_VARIANT, this.random.nextInt(SWEMCoatColors.values().length - 2));
+		this.entityData.define(HORSE_VARIANT, SWEMCoatColor.getRandomLapisObtainableCoat().getId());
 		this.entityData.define(FLYING, false);
 		this.entityData.define(JUMPING, false);
 		this.entityData.define(OWNER_NAME, "");
@@ -886,7 +885,6 @@ public class SWEMHorseEntityBase
 
 	public void addAdditionalSaveData(CompoundNBT compound) {
 		super.addAdditionalSaveData(compound);
-//		compound.putInt("Variant", this.getHorseVariant());
 		if (!this.inventory.getItem(0).isEmpty()) {
 			compound.put("BridleItem", this.inventory.getItem(0).save(new CompoundNBT()));
 		}
@@ -950,7 +948,6 @@ public class SWEMHorseEntityBase
 	 */
 	public void readAdditionalSaveData(CompoundNBT compound) {
 		super.readAdditionalSaveData(compound);
-//		this.setTypeVariant(compound.getInt("Variant"));
 		if (compound.contains("BridleItem", 10)) {
 			ItemStack itemstack = ItemStack.of(compound.getCompound("BridleItem"));
 			if (!itemstack.isEmpty() && this.isHalter(itemstack)) {
@@ -1011,9 +1008,7 @@ public class SWEMHorseEntityBase
 		this.updateContainerEquipment();
 
 		//this.setFlying(compound.getBoolean("flying"));
-
-		int variant = compound.getInt("HorseVariant");
-		this.setHorseVariant(variant % (SWEMCoatColors.values().length - 9));
+		this.setCoatColour(SWEMCoatColor.getById(compound.getInt("HorseVariant")));
 
 		this.setOwnerName(compound.getString("ownerName"));
 
@@ -1190,8 +1185,8 @@ public class SWEMHorseEntityBase
 //		this.setTypeVariant(p_234238_1_.getId() & 255 | p_234238_2_.getId() << 8 & '\uff00');
 	}
 
-	public SWEMCoatColors getCoatColor() {
-		return SWEMCoatColors.getById(this.getHorseVariant() & 255);
+	public SWEMCoatColor getCoatColor() {
+		return SWEMCoatColor.getById(this.getHorseVariant() & 255);
 	}
 
 	private int getHorseVariant() {
@@ -1267,7 +1262,7 @@ public class SWEMHorseEntityBase
 		}
 	}
 
-	public void setCoatColour(SWEMCoatColors coat) {
+	public void setCoatColour(SWEMCoatColor coat) {
 		this.setHorseVariant(coat.getId());
 	}
 
@@ -1838,35 +1833,39 @@ public class SWEMHorseEntityBase
 		}
 	}
 
-	public boolean checkIsTransformItem(PlayerEntity playerEntity, ItemStack stack) {
+	public boolean checkIsCoatTransformItem(PlayerEntity playerEntity, ItemStack stack) {
 		if (stack.getItem() == SWEMItems.WHISTLE.get() && stack.getStack().getHoverName().getString().equals("Ocarina")) {
 			stack.shrink(1);
 			playerEntity.addItem(new ItemStack(SWEMItems.WHISTLE.get()));
-			this.setHorseVariant(22);
+			this.setCoatColour(SWEMCoatColor.EPONA_ZELDA);
 			return true;
 		} else if (stack.getItem() == Items.IRON_NUGGET && stack.getStack().getHoverName().getString().equals("Coin")) {
 			stack.shrink(1);
-			this.setHorseVariant(23);
+			this.setCoatColour(SWEMCoatColor.ROACH_WITCHER);
 			return true;
 		} else if (stack.getItem() == Items.LILY_OF_THE_VALLEY && stack.getStack().getHoverName().getString().equals("Mono")) {
 			stack.shrink(1);
-			this.setHorseVariant(24);
+			this.setCoatColour(SWEMCoatColor.AGRO_SOC);
 			return true;
 		} else if (stack.getItem() == Items.IRON_SWORD && stack.getStack().getHoverName().getString().equals("Sithus")) {
 			stack.shrink(1);
-			this.setHorseVariant(25);
+			this.setCoatColour(SWEMCoatColor.SHADOWMERE_OBLIVION);
 			return true;
 		} else if (stack.getItem() == Items.BLAZE_ROD && stack.getStack().getHoverName().getString().equals("Ponyta")) {
 			stack.shrink(1);
-			this.setHorseVariant(26);
+			this.setCoatColour(SWEMCoatColor.RAPIDASH_POKEMON);
 			return true;
 		} else if (stack.getItem() == Items.DIAMOND && stack.getStack().getHoverName().getString().equals("Power of Grayskull")) {
 			stack.shrink(1);
-			this.setHorseVariant(27);
+			this.setCoatColour(SWEMCoatColor.SWIFT_WIND_SHE_RA);
 			return true;
 		} else if (stack.getItem() == SWEMItems.ENGLISH_BRIDLE_BLACK.get() && stack.getStack().getHoverName().getString().equals("Becky")) {
 			stack.shrink(1);
-			this.setHorseVariant(28);
+			this.setCoatColour(SWEMCoatColor.BOB_FREE_REIN);
+			return true;
+		} else if (stack.getItem() == Items.NETHER_STAR && stack.getHoverName().getString().equals("Lady In Memory")) {
+			stack.shrink(1);
+			this.setCoatColour(SWEMCoatColor.LADY_JENNY);
 			return true;
 		}
 
@@ -1892,14 +1891,14 @@ public class SWEMHorseEntityBase
 
 		Item item = itemstack.getItem();
 
-		if (checkIsTransformItem(playerEntity, itemstack)) {
+		if (checkIsCoatTransformItem(playerEntity, itemstack)) {
 			return ActionResultType.SUCCESS;
 		}
 
 		if (!itemstack.isEmpty() && item != Items.SADDLE) {
 			if (item == Items.LAPIS_LAZULI && playerEntity.getUUID().equals(this.getOwnerUUID())) {
 				if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
-					this.setHorseVariant((this.getHorseVariant() + 1) % (SWEMCoatColors.values().length - 9));
+					this.setHorseVariant(SWEMCoatColor.getNextCyclableCoat(this.getHorseVariant() & 255).getId());
 					ItemStack heldItemCopy = itemstack.copy();
 					if (!playerEntity.abilities.instabuild)
 						heldItemCopy.shrink(1);
@@ -1910,7 +1909,7 @@ public class SWEMHorseEntityBase
 
 			if (item == Items.REDSTONE && playerEntity.getUUID().equals(this.getOwnerUUID())) {
 				if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
-					this.setHorseVariant((this.getHorseVariant() - 1) % (SWEMCoatColors.values().length - 9));
+					this.setHorseVariant(SWEMCoatColor.getPreviousCyclableCoat(this.getHorseVariant() & 255).getId());
 					ItemStack heldItemCopy = itemstack.copy();
 					if (!playerEntity.abilities.instabuild)
 						heldItemCopy.shrink(1);
@@ -2180,11 +2179,11 @@ public class SWEMHorseEntityBase
 
 	@Nullable
 	public ILivingEntityData finalizeSpawn(IServerWorld levelIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
-		SWEMCoatColors coatcolors;
+		SWEMCoatColor coatcolors;
 		if (spawnDataIn instanceof SWEMHorseData) {
 			coatcolors = ((SWEMHorseData)spawnDataIn).variant;
 		} else {
-			coatcolors = SWEMCoatColors.values()[this.rand.nextInt(SWEMCoatColors.values().length - 2)];
+			coatcolors = SWEMCoatColor.getRandomLapisObtainableCoat();
 			spawnDataIn = new SWEMHorseData(coatcolors);
 		}
 
@@ -2613,9 +2612,9 @@ public class SWEMHorseEntityBase
 	}
 
 	public static class SWEMHorseData extends AgeableData {
-		public final SWEMCoatColors variant;
+		public final SWEMCoatColor variant;
 
-		public SWEMHorseData(SWEMCoatColors p_i231557_1_) {
+		public SWEMHorseData(SWEMCoatColor p_i231557_1_) {
 			super(false);
 			this.variant = p_i231557_1_;
 		}

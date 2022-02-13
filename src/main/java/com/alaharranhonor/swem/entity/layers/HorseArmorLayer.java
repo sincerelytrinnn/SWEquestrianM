@@ -18,24 +18,17 @@ package com.alaharranhonor.swem.entity.layers;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
-import com.alaharranhonor.swem.entity.coats.SWEMCoatColors;
+import com.alaharranhonor.swem.entity.coats.SWEMCoatColor;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.SlimeRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Quaternion;
-import software.bernie.geckolib3.geo.render.built.GeoBone;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
 import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
-
-import java.util.Iterator;
 
 public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 	private final IGeoRenderer<SWEMHorseEntity> entityRenderer;
@@ -104,7 +97,7 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 	}
 
 	public boolean shouldRenderArmour(SWEMHorseEntity horse) {
-		if (horse.getCoatColor() == SWEMCoatColors.SWIFT_WIND_SHE_RA) {
+		if (horse.getCoatColor() == SWEMCoatColor.SWIFT_WIND_SHE_RA) {
 			return false;
 		}
 
@@ -112,7 +105,7 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 	}
 
 	public ResourceLocation getWingTexture(SWEMHorseEntity horse) {
-		if (horse.getCoatColor() == SWEMCoatColors.SWIFT_WIND_SHE_RA) {
+		if (horse.getCoatColor() == SWEMCoatColor.SWIFT_WIND_SHE_RA) {
 			return new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/wings/swift_wind_she_ra.png");
 		}
 
