@@ -2385,7 +2385,7 @@ public class SWEMHorseEntityBase
 		} else if (this.currentSpeed == HorseSpeed.WALK) {
 			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0425d);
 		} else if (this.currentSpeed == HorseSpeed.CANTER) {
-			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.285d);
+			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.261d);
 		} else {
 			this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getAlteredMovementSpeed());
 		}
