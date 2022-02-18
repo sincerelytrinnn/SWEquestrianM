@@ -112,6 +112,9 @@ public class HungerNeed {
 	public void incrementState() {
 		if (this.state != HungerState.FULLY_FED) {
 			this.points -= this.state.getPointsRequired();
+			if (this.points < 0) {
+				this.points = 0;
+			}
 			HungerState nextState = this.getNextState();
 			this.setStateById(nextState.ordinal());
 			if (nextState == HungerState.FULLY_FED) {
@@ -211,7 +214,7 @@ public class HungerNeed {
 		this.state.setHorse(this.horse);
 	}
 
-	private void setStateById(int id) {
+	public void setStateById(int id) {
 		switch(id) {
 			case 0: {
 				this.setState(HungerState.STARVING);
