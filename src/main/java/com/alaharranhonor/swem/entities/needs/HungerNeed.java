@@ -214,7 +214,7 @@ public class HungerNeed {
 		this.state.setHorse(this.horse);
 	}
 
-	public void setStateById(int id) {
+	private void setStateById(int id) {
 		switch(id) {
 			case 0: {
 				this.setState(HungerState.STARVING);
