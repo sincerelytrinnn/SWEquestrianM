@@ -17,6 +17,7 @@ package com.alaharranhonor.swem.entities;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entity.render.RiderGeoRenderer;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.entity.player.RemoteClientPlayerEntity;
@@ -108,8 +109,51 @@ public class RiderEntity implements IAnimatable {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 
 
+			if (horse.isFlying()) {
 
+				if (horse.getEntityData().get(HorseFlightController.isTurning)) {
+					if (event.getController().getCurrentAnimation().animationName.equals("Turn_Cycle")) {
+						return PlayState.CONTINUE;
+					}
+					if (horse.getEntityData().get(HorseFlightController.isTurningLeft)) {
+						if (!event.getController().getCurrentAnimation().animationName.equals("Turn")) {
+							event.getController().setAnimation(new AnimationBuilder().addAnimation("Turn", false).addAnimation("Turn_Cycle", true));
+							return PlayState.CONTINUE;
+						}
 
+					}
+
+					if (event.getController().getCurrentAnimation().animationName.equals("Turn")) {
+						return PlayState.CONTINUE;
+					}
+
+				}
+
+				if (horse.getEntityData().get(HorseFlightController.isLaunching)) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Launch"));
+					return PlayState.CONTINUE;
+				}
+				if (horse.getEntityData().get(HorseFlightController.isDiving)) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Dive"));
+					return PlayState.CONTINUE;
+				}
+				if (horse.getEntityData().get(HorseFlightController.didFlap)) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Going_Up"));
+					return PlayState.CONTINUE;
+				} else if (horse.getEntityData().get(HorseFlightController.isSlowingDown)) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Slow_Down"));
+					return PlayState.CONTINUE;
+				} else if (horse.getEntityData().get(HorseFlightController.isFloating)) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Float_Down"));
+					return PlayState.CONTINUE;
+				} else if (horse.getEntityData().get(HorseFlightController.isAccelerating)) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Speed_Up"));
+					return PlayState.CONTINUE;
+				}
+			}
+
+			// No idea why this needs to be up here, but something in the following jump if statement, blocks the code execution when jumping into water.
+			boolean isInWater = horse.level.getBlockStates(horse.getBoundingBox().contract(0, 0, 0)).allMatch((bs) -> bs.getBlock() == Blocks.WATER);
 
 			if (horse.jumpHeight != 0) {
 				if (horse.jumpHeight > 5.0F) {
@@ -138,6 +182,11 @@ public class RiderEntity implements IAnimatable {
 				}
 				event.getController().setAnimation(new AnimationBuilder().addAnimation(horse.getStandVariant() == 2 ? "BuckPlayer" : "RearPlayer"));
 
+				return PlayState.CONTINUE;
+			}
+
+			if (horse.isInWater() || isInWater) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("SwimPlayer"));
 				return PlayState.CONTINUE;
 			}
 
