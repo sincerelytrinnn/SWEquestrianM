@@ -651,7 +651,7 @@ public class SWEMHorseEntityBase
 	 */
 	@Override
 	public double getPassengersRidingOffset() {
-		double def = (double)(this.getDimensions(this.getPose()).height * 0.75D);
+		double def = (double)(super.getDimensions(this.getPose()).height * 0.75D);
 		def += 0.3D;
 		return def;
 	}
@@ -696,7 +696,7 @@ public class SWEMHorseEntityBase
 
 	@Override
 	protected boolean canAddPassenger(Entity passenger) {
-		if (!passenger.getType().getCategory().isFriendly()) return false;
+		if (!passenger.getType().getCategory().isFriendly() && passenger.getType() != EntityType.PLAYER) return false;
 
 		if (passenger instanceof WaterMobEntity) return false;
 
@@ -1545,9 +1545,32 @@ public class SWEMHorseEntityBase
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox() {
-		return super.getBoundingBox();
+	public EntitySize getDimensions(Pose pPose) {
+		if (this.isJumping() && !this.onGround) {
+			return super.getDimensions(pPose).scale(1, 0.5f);
+		}
+		return super.getDimensions(pPose);
 	}
+
+	/*
+	@Override
+	public void refreshDimensions() {
+		if (this.isJumping() && !this.onGround) {
+			EntitySize entitysize = this.getDimensions(this.getPose());
+			Pose pose = this.getPose();
+			EntitySize entitysize1 = this.getDimensions(pose);
+			net.minecraftforge.event.entity.EntityEvent.Size sizeEvent = net.minecraftforge.event.ForgeEventFactory.getEntitySizeForge(this, pose, entitysize, entitysize1, this.getEyeHeight(pose, entitysize1));
+			entitysize1 = sizeEvent.getNewSize();
+			AxisAlignedBB axisalignedbb = this.getBoundingBox();
+			System.out.println("Before move: " + axisalignedbb);
+			axisalignedbb = axisalignedbb.move(0, 10, 0);
+			System.out.println("After move: " + axisalignedbb);
+			this.setBoundingBox(new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.minX + (double)entitysize1.width, axisalignedbb.minY + (double)entitysize1.height, axisalignedbb.minZ + (double)entitysize1.width));
+		} else {
+			super.refreshDimensions();
+		}
+	}
+	 */
 
 	@Override
 	public void travel(Vector3d travelVector) {
@@ -1971,6 +1994,7 @@ public class SWEMHorseEntityBase
 			}
 
 			if (this.isVehicle()) {
+				this.doPlayerRide(playerEntity);
 				return super.mobInteract(playerEntity, hand);
 			}
 		}
