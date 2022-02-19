@@ -6,5 +6,8 @@
   "mixins": [
     "AbstractHorseEntityMixin"
   ],
+  "client": [
+    "ClientPlayerEntityMixin"
+  ],
   "minVersion": "0.8"
 }
