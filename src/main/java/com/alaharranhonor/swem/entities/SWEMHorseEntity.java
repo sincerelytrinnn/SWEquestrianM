@@ -200,15 +200,17 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Walk"));
 			} else if (horse.getEntityData().get(SPEED_LEVEL) == 1) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Trot"));
-			} else if (horse.getEntityData().get(SPEED_LEVEL) == 2 || horse.getEntityData().get(SPEED_LEVEL) == 3) {
+			} else if (horse.getEntityData().get(SPEED_LEVEL) == 2) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Canter"));
+			} else if ( horse.getEntityData().get(SPEED_LEVEL) == 3) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Extended_Canter"));
 			} else if (horse.getEntityData().get(SPEED_LEVEL) == 4) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Gallop"));
 			}
 			return PlayState.CONTINUE;
 		}
 
-		event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Level_3", false));
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_Idle", false));
 		return PlayState.CONTINUE;
 	}
 
