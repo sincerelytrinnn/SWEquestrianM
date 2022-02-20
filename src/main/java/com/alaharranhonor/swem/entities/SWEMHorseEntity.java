@@ -189,6 +189,21 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 
 		if (!event.isMoving()) {
+			if (anim != null && anim.animationName.equals("Stand_Idle") && horse.level.getGameTime() % 60 == 0) {
+				float random = horse.getRandom().nextFloat();
+				System.out.println(random);
+				if (random <= 0.1f) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Tail_Swish"));
+					return PlayState.CONTINUE;
+				} else if (random <= 0.2f) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Tail_Swish"));
+					return PlayState.CONTINUE;
+				} else if (random <= 0.3f) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Tail_Swish"));
+					return PlayState.CONTINUE;
+				}
+				return PlayState.CONTINUE;
+			}
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_Idle"));
 			return PlayState.CONTINUE;
 		} else if (event.isMoving()) {
