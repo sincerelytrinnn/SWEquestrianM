@@ -374,6 +374,10 @@ public class SWEMHorseEntityBase
 			if (this.isTamed()) {
 				this.needs.tick();
 			}
+
+			if (!this.isVehicle() && !this.isCameraLocked()) {
+				this.setCameraLock(true);
+			}
 		}
 		super.aiStep();
 	}
