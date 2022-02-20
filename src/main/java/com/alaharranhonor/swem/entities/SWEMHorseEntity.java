@@ -41,6 +41,7 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 
 public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable {
 
@@ -189,22 +190,23 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 
 		if (!event.isMoving()) {
-			if (anim != null && anim.animationName.equals("Stand_Idle") && horse.level.getGameTime() % 60 == 0) {
+			if ( anim != null && Arrays.asList("Tail_Swish", "Sratch", "Shake").contains(anim.animationName)) {
+				return PlayState.CONTINUE;
+			}
+			if (anim != null && anim.animationName.equals("Stand_Idle")) {
 				float random = horse.getRandom().nextFloat();
 				System.out.println(random);
 				if (random <= 0.1f) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Tail_Swish"));
-					return PlayState.CONTINUE;
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Tail_Swish", false).addAnimation("Stand_Idle", false));
 				} else if (random <= 0.2f) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Tail_Swish"));
-					return PlayState.CONTINUE;
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Scratch", false).addAnimation("Stand_Idle", false));
 				} else if (random <= 0.3f) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Tail_Swish"));
-					return PlayState.CONTINUE;
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Shake", false).addAnimation("Stand_Idle", false));
 				}
 				return PlayState.CONTINUE;
+			} else {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_Idle"));
 			}
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_Idle"));
 			return PlayState.CONTINUE;
 		} else if (event.isMoving()) {
 			if (horse.isWalkingBackwards) {
