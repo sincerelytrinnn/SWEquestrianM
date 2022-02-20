@@ -21,13 +21,10 @@ import net.minecraft.nbt.CompoundNBT;
 
 public class NeedManager {
 
-	private ThirstNeed thirst;
-	private HungerNeed hunger;
-
-	private SWEMHorseEntityBase horse;
+	private final ThirstNeed thirst;
+	private final HungerNeed hunger;
 
 	public NeedManager(SWEMHorseEntityBase horse) {
-		this.horse = horse;
 		this.thirst = new ThirstNeed(horse);
 		this.hunger = new HungerNeed(horse);
 

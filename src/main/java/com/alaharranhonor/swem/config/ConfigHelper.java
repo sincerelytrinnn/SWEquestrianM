@@ -16,19 +16,16 @@ package com.alaharranhonor.swem.config;
  */
 
 import com.alaharranhonor.swem.world.gen.SWEMOreGen;
-import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
+import net.minecraft.world.gen.feature.FeatureSpreadConfig;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.placement.DecoratedPlacementConfig;
 import net.minecraft.world.gen.placement.TopSolidRangeConfig;
-import net.minecraftforge.fml.config.ModConfig;
 
 public final class ConfigHelper {
 
 
-	public static void bakeClient(final ModConfig config) {
-		//
-	}
-
-	public static void bakeServer(final ModConfig config) {
+	public static void bakeServer() {
 
 		// Vein Size
 		((OreFeatureConfig)((DecoratedFeatureConfig)((DecoratedFeatureConfig) SWEMOreGen.AMETHYST_ORE.config).feature.get().config).feature.get().config).size = ConfigHolder.SERVER.serverAmethystVeinSize.get();

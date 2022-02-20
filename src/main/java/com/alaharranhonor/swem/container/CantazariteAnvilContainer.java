@@ -80,9 +80,7 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 		}
 
 		this.maximumCost.set(0);
-		this.access.execute((p_234633_1_, p_234633_2_) -> {
-				p_234633_1_.levelEvent(1030, p_234633_2_, 0);
-		});
+		this.access.execute((p_234633_1_, p_234633_2_) -> p_234633_1_.levelEvent(1030, p_234633_2_, 0));
 
 
 		return p_230301_2_;
@@ -289,7 +287,4 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 		return this.maximumCost.get();
 	}
 
-	public void setMaximumCost(int value) {
-		this.maximumCost.set(value);
-	}
 }

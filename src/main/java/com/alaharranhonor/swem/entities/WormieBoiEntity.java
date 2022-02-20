@@ -38,7 +38,7 @@ import javax.annotation.Nullable;
 
 public class WormieBoiEntity extends SheepEntity implements IAnimatable {
 
-	private AnimationFactory factory = new AnimationFactory(this);
+	private final AnimationFactory factory = new AnimationFactory(this);
 
 	public WormieBoiEntity(EntityType<? extends SheepEntity> type, World worldIn) {
 		super(type, worldIn);
@@ -89,7 +89,7 @@ public class WormieBoiEntity extends SheepEntity implements IAnimatable {
 
 	@Override
 	public void registerControllers(AnimationData animationData) {
-		animationData.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+		animationData.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
 	}
 
 	@Override

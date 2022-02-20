@@ -27,8 +27,6 @@ import net.minecraft.util.DamageSource;
 import java.util.Map;
 import java.util.Random;
 
-import net.minecraft.enchantment.Enchantment.Rarity;
-
 public class DestrierEnchantment extends Enchantment {
 	public DestrierEnchantment(Rarity rarityIn, EnchantmentType typeIn, EquipmentSlotType[] slots) {
 		super(rarityIn, typeIn, slots);
@@ -53,23 +51,19 @@ public class DestrierEnchantment extends Enchantment {
 	/**
 	 * Whenever an entity that has this enchantment on one of its associated items is damaged this method will be called.
 	 *
-	 * @param user
-	 * @param attacker
-	 * @param level
+	 * @param pUser     The user of the enchantment.
+	 * @param pAttacker The entity that attacked the user.
+	 * @param pLevel    The level of the enchantment.
 	 */
 	@Override
-	public void doPostHurt(LivingEntity user, Entity attacker, int level) {
-		Random random = user.getRandom();
-		Map.Entry<EquipmentSlotType, ItemStack> entry = EnchantmentHelper.getRandomItemWith(this, user);
+	public void doPostHurt(LivingEntity pUser, Entity pAttacker, int pLevel) {
+		Random random = pUser.getRandom();
+		Map.Entry<EquipmentSlotType, ItemStack> entry = EnchantmentHelper.getRandomItemWith(this, pUser);
 		if (shouldHit(random)) {
-			if (attacker != null) {
-				attacker.hurt(DamageSource.thorns(user), (float)getDamage( random));
-			}
+			pAttacker.hurt(DamageSource.thorns(pUser), (float)getDamage( random));
 
 			if (entry != null) {
-				entry.getValue().hurtAndBreak(2, user, (livingEntity) -> {
-					livingEntity.broadcastBreakEvent(entry.getKey());
-				});
+				entry.getValue().hurtAndBreak(2, pUser, (livingEntity) -> livingEntity.broadcastBreakEvent(entry.getKey()));
 			}
 		}
 	}
@@ -77,31 +71,32 @@ public class DestrierEnchantment extends Enchantment {
 	/**
 	 * Calculates the damage protection of the enchantment based on level and damage source passed.
 	 *
-	 * @param level
-	 * @param source
+	 * @param pLevel  The level of the enchantment being used.
+	 * @param pSource The source of the damage.
 	 */
 	@Override
-	public int getDamageProtection(int level, DamageSource source) {
+	public int getDamageProtection(int pLevel, DamageSource pSource) {
 		int actualLevel = 2;
 		int actualDamagerModifier = actualLevel;
-		if (source.isBypassInvul())
+		if (pSource.isBypassInvul())
 		{
 			return 0;
 
 		}
 		// Since we have Blast Protection;
-		if (source.isExplosion())
+		if (pSource.isExplosion())
 		{
 			actualDamagerModifier += actualLevel * 2;
 		}
 		// Since we have Projectile Protection
-		if (source.isProjectile())
+		if (pSource.isProjectile())
 		{
 			actualDamagerModifier += actualLevel * 2;
 		}
 
 		return actualDamagerModifier;
 	}
+
 
 	public static boolean shouldHit(Random rnd) {
 		return rnd.nextFloat() < 0.15F;

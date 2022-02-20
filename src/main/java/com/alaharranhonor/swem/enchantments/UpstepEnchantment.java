@@ -26,7 +26,6 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import net.minecraft.enchantment.Enchantment.Rarity;
 
 public class UpstepEnchantment extends Enchantment {
 	public UpstepEnchantment(Rarity rarityIn, EnchantmentType typeIn, EquipmentSlotType[] slots) {
@@ -54,14 +53,12 @@ public class UpstepEnchantment extends Enchantment {
 	/**
 	 * Determines if this enchantment can be applied to a specific ItemStack.
 	 *
-	 * @param stack
+	 * @param pStack The ItemStack to test.
 	 */
 	@Override
-	public boolean canEnchant(ItemStack stack) {
+	public boolean canEnchant(ItemStack pStack) {
 		return false;
 	}
-
-
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {

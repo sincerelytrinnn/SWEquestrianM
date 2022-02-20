@@ -19,7 +19,7 @@ import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 
 public class HorseWaterAvoidingRandomWalkingGoal extends WaterAvoidingRandomWalkingGoal {
-	private SWEMHorseEntityBase horse;
+	private final SWEMHorseEntityBase horse;
 	public HorseWaterAvoidingRandomWalkingGoal(SWEMHorseEntityBase p_i47301_1_, double p_i47301_2_) {
 		super(p_i47301_1_, p_i47301_2_);
 		this.horse = p_i47301_1_;
