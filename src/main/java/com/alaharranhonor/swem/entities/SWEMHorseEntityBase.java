@@ -1480,12 +1480,12 @@ public class SWEMHorseEntityBase
 		} else {
 			if (Minecraft.getInstance().player != null && Minecraft.getInstance().player.getVehicle() != null && Minecraft.getInstance().player.getVehicle().getUUID().equals(this.getUUID())) {
 
-				if (ClientEventHandlers.keyBindings[8].isDown() && this.isCameraLocked()) {
+				if (ClientEventHandlers.keyBindings[8].isDown() && this.isCameraLocked() && this.getPassengers().get(0) == Minecraft.getInstance().player) {
 					SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), false));
 					this.setLockedRotations(this.xRot, this.yRot);
 
 
-				} else if (!ClientEventHandlers.keyBindings[8].isDown() && !this.isCameraLocked()) {
+				} else if (!ClientEventHandlers.keyBindings[8].isDown() && !this.isCameraLocked() && this.getPassengers().get(0) == Minecraft.getInstance().player) {
 					SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), true));
 				}
 			}
