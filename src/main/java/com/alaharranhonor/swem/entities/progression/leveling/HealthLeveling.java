@@ -16,7 +16,6 @@ package com.alaharranhonor.swem.entities.progression.leveling;
  */
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -24,12 +23,12 @@ import net.minecraft.network.datasync.EntityDataManager;
 
 public class HealthLeveling implements ILeveling{
 
-	private SWEMHorseEntityBase horse;
-	private EntityDataManager dataManager;
+	private final SWEMHorseEntityBase horse;
+	private final EntityDataManager dataManager;
 	public static final DataParameter<Integer> LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	public static final DataParameter<Float> XP = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
-	private float[] requiredXpArray = new float[]{500, 2000, 4000, 7000};
-	private String[] levelNames = new String[] {"Health I", "Health II", "Health III", "Health IV", "Health V"};
+	private final float[] requiredXpArray = new float[]{500, 2000, 4000, 7000};
+	private final String[] levelNames = new String[] {"Health I", "Health II", "Health III", "Health IV", "Health V"};
 	public HealthLeveling(SWEMHorseEntityBase horse) {
 		this.horse = horse;
 		this.dataManager = this.horse.getEntityData();

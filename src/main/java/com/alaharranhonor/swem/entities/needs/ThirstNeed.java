@@ -15,7 +15,6 @@ package com.alaharranhonor.swem.entities.needs;
  * THE SOFTWARE.
  */
 
-import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import net.minecraft.nbt.CompoundNBT;
@@ -27,7 +26,7 @@ public class ThirstNeed {
 
 	private ThirstState state;
 
-	private SWEMHorseEntityBase horse;
+	private final SWEMHorseEntityBase horse;
 	private int tickCounter;
 	private int drinkingCoolDown;
 
@@ -155,7 +154,7 @@ public class ThirstNeed {
 		QUENCHED(90000);
 
 		public static final DataParameter<Integer> ID = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
-		private int tickAmountChange;
+		private final int tickAmountChange;
 		private SWEMHorseEntityBase horse;
 		ThirstState(int tickAmountChange) {
 			this.tickAmountChange = tickAmountChange;

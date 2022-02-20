@@ -20,16 +20,10 @@ import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.*;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.fluid.WaterFluid;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 
@@ -41,7 +35,7 @@ public class PeeGoal extends Goal {
 	private final int radius = 3;
 
 	private int peeTimer;
-	private double speed;
+	private final double speed;
 	private BlockPos peeSpot;
 
 	public PeeGoal(SWEMHorseEntityBase peeEntity, double speed) {
@@ -130,9 +124,7 @@ public class PeeGoal extends Goal {
 				BlockPos belowCheck = newPos.below();
 				BlockState checkState = this.entityWorld.getBlockState(newPos);
 				BlockState belowCheckState = this.entityWorld.getBlockState(belowCheck);
-				boolean flag = true;
-				if (checkState != Blocks.AIR.defaultBlockState() || checkState.getBlock() == SWEMBlocks.HORSE_PEE.get())
-					flag = false;
+				boolean flag = checkState == Blocks.AIR.defaultBlockState() && checkState.getBlock() != SWEMBlocks.HORSE_PEE.get();
 
 				if (checkState.getBlock() instanceof Shavings && checkState.getBlock() != SWEMBlocks.SOILED_SHAVINGS.get()) {
 					shavingsPos.add(newPos);

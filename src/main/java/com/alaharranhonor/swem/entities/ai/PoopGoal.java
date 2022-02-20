@@ -19,7 +19,6 @@ import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.PoopEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMEntities;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -88,8 +87,10 @@ public class PoopGoal extends Goal {
 			BlockPos blockpos = this.pooperEntity.blockPosition();
 			PoopEntity poop = SWEMEntities.HORSE_POOP_ENTITY.get().create(this.entityWorld);
 			BlockPos posToPoop = blockpos.offset(0, 1.5d, 0).relative(this.pooperEntity.getDirection().getOpposite());
-			poop.setPos(posToPoop.getX(), posToPoop.getY(), posToPoop.getZ());
-			this.entityWorld.addFreshEntity(poop);
+			if (poop != null) {
+				poop.setPos(posToPoop.getX(), posToPoop.getY(), posToPoop.getZ());
+				this.entityWorld.addFreshEntity(poop);
+			}
 		}
 	}
 }

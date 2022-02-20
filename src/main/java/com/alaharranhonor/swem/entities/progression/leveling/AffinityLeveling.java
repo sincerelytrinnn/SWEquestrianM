@@ -27,13 +27,13 @@ import net.minecraft.world.server.ServerWorld;
 
 public class AffinityLeveling implements ILeveling{
 
-	private SWEMHorseEntityBase horse;
-	private EntityDataManager dataManager;
+	private final SWEMHorseEntityBase horse;
+	private final EntityDataManager dataManager;
 	public static final DataParameter<Integer> LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	public static final DataParameter<Float> XP = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
-	private float[] requiredXpArray = new float[]{100, 500, 1000, 1500, 2000, 3000, 4000, 5000, 7000, 10000, 13000, 17000};
-	private String[] levelNames = new String[] {"Unwilling", "Reluctant", "Tolerant", "Indifferent", "Accepting",  "Willing",  "Committed", "Trusted",  "Friends",  "Best Friends", "Inseparable", "Bonded", };
-	private float[] obeyDebuff = new float[] {1.0f, 0.9f, 0.75f, 0.65f, 0.5f, 0.4f, 0.35f, 0.3f, 0.25f, 0.2f, 0.1f, 0};
+	private final float[] requiredXpArray = new float[]{100, 500, 1000, 1500, 2000, 3000, 4000, 5000, 7000, 10000, 13000, 17000};
+	private final String[] levelNames = new String[] {"Unwilling", "Reluctant", "Tolerant", "Indifferent", "Accepting",  "Willing",  "Committed", "Trusted",  "Friends",  "Best Friends", "Inseparable", "Bonded", };
+	private final float[] obeyDebuff = new float[] {1.0f, 0.9f, 0.75f, 0.65f, 0.5f, 0.4f, 0.35f, 0.3f, 0.25f, 0.2f, 0.1f, 0};
 
 	public static final DataParameter<ItemStack> CURRENT_DESENSITIZING_ITEM = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.ITEM_STACK);
 	private int currentSwipes = 0;

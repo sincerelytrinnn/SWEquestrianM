@@ -57,30 +57,28 @@ public class RiderEntity implements IAnimatable {
 
 	@Override
 	public void registerControllers(AnimationData animationData) {
-		AnimationController<RiderEntity> controller = new AnimationController(this, "controller", 2, this::predicate);
-		AnimationController.addModelFetcher((animatable) -> {
-			return new IAnimatableModel() {
-				@Override
-				public void setLivingAnimations(Object o, Integer integer, AnimationEvent animationEvent) {
+		AnimationController<RiderEntity> controller = new AnimationController<>(this, "controller", 2, this::predicate);
+		AnimationController.addModelFetcher((animatable) -> new IAnimatableModel() {
+			@Override
+			public void setLivingAnimations(Object o, Integer integer, AnimationEvent animationEvent) {
 
-				}
+			}
 
-				@Override
-				public AnimationProcessor getAnimationProcessor() {
-					return null;
-				}
+			@Override
+			public AnimationProcessor getAnimationProcessor() {
+				return null;
+			}
 
-				@Override
-				public Animation getAnimation(String s, IAnimatable iAnimatable) {
-					return new AnimationFileLoader().loadAllAnimations(GeckoLibCache.getInstance().parser, new ResourceLocation(SWEM.MOD_ID, "animations/rider_" + (((AbstractClientPlayerEntity) player).getModelName().equals("default") ? "steve" : "alex") + ".animation.json"), Minecraft.getInstance().getResourceManager()).getAnimation(s);
-				}
+			@Override
+			public Animation getAnimation(String s, IAnimatable iAnimatable) {
+				return new AnimationFileLoader().loadAllAnimations(GeckoLibCache.getInstance().parser, new ResourceLocation(SWEM.MOD_ID, "animations/rider_" + (player.getModelName().equals("default") ? "steve" : "alex") + ".animation.json"), Minecraft.getInstance().getResourceManager()).getAnimation(s);
+			}
 
-				@Override
-				public void setMolangQueries(IAnimatable iAnimatable, double v) {
+			@Override
+			public void setMolangQueries(IAnimatable iAnimatable, double v) {
 
-				}
+			}
 
-			};
 		});
 
 		animationData.addAnimationController(controller);

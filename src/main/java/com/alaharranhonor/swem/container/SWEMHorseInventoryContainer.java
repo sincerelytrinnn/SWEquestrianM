@@ -222,12 +222,12 @@ public class SWEMHorseInventoryContainer extends Container {
 			}
 
 			/**
-			 * Actualy only call when we want to render the white square effect over the slots. Return always True, except
-			 * for the armor slot of the Donkey/Mule (we can't interact with the Undead and Skeleton horses)
+			 * Actualy only call when we want to render the white square effect over the slots. Return always True, except for
+			 * the armor slot of the Donkey/Mule (we can't interact with the Undead and Skeleton horses)
 			 */
-			@OnlyIn(Dist.CLIENT)
-			public boolean isEnabled() {
-				return horse.canWearArmor();
+			@Override
+			public boolean isActive() {
+				return super.isActive();
 			}
 
 			/**

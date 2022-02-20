@@ -254,7 +254,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 	@Override
 	public void registerControllers(AnimationData animationData) {
-		animationData.addAnimationController(new AnimationController(this, "controller", 2, this::predicate));
+		animationData.addAnimationController(new AnimationController<>(this, "controller", 2, this::predicate));
 	}
 
 	@Override

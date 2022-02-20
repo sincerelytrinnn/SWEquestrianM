@@ -27,9 +27,9 @@ import java.util.ArrayList;
 
 public class LookForWaterGoal extends Goal {
 
-	private SWEMHorseEntityBase horse;
+	private final SWEMHorseEntityBase horse;
 
-	private double speed;
+	private final double speed;
 
 	private BlockPos foundWater;
 
@@ -89,7 +89,6 @@ public class LookForWaterGoal extends Goal {
 		if (this.horse.getNeeds().getThirst().isOnCooldown()) {
 			this.stop();
 		}
-
 
 		if (foundWater == null) {
 

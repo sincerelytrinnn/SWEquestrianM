@@ -35,9 +35,9 @@ import java.util.ArrayList;
 
 public class LookForFoodGoal extends Goal {
 
-	private SWEMHorseEntityBase horse;
+	private final SWEMHorseEntityBase horse;
 
-	private double speed;
+	private final double speed;
 
 	private BlockPos foundFood;
 

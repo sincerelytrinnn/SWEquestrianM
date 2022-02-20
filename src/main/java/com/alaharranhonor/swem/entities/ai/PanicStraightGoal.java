@@ -16,14 +16,13 @@ package com.alaharranhonor.swem.entities.ai;
  */
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.ai.goal.PanicGoal;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3i;
 
 public class PanicStraightGoal extends PanicGoal {
-	private SWEMHorseEntityBase horse;
+	private final SWEMHorseEntityBase horse;
 	public PanicStraightGoal(SWEMHorseEntityBase creature, double speedIn) {
 		super(creature, speedIn);
 		this.horse = creature;

@@ -32,7 +32,7 @@ import java.util.Objects;
 public class LockerContainer extends Container {
 	public final LockerTE tileEntity;
 	private final IWorldPosCallable canInteractWithCallable;
-	private boolean leftSideOpened;
+	private final boolean leftSideOpened;
 
 	public LockerContainer(final int id, final PlayerInventory playerInventory, final PacketBuffer data) {
 		this(id, playerInventory, getTileEntity(playerInventory, data), data.readBoolean());

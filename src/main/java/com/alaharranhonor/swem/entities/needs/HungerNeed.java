@@ -15,9 +15,7 @@ package com.alaharranhonor.swem.entities.needs;
  * THE SOFTWARE.
  */
 
-import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.config.ConfigHolder;
-import com.alaharranhonor.swem.config.ServerConfig;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
@@ -38,24 +36,24 @@ public class HungerNeed {
 
 	private HungerState state;
 
-	private SWEMHorseEntityBase horse;
+	private final SWEMHorseEntityBase horse;
 
-	private ArrayList<Ingredient> FEEDS = new ArrayList<Ingredient>(
-			Stream.of(
-					Ingredient.of(Items.CARROT),
-					Ingredient.of(Items.APPLE),
-					Ingredient.of(SWEMItems.OAT_BUSHEL.get()),
-					Ingredient.of(SWEMItems.TIMOTHY_BUSHEL.get()),
-					Ingredient.of(SWEMItems.ALFALFA_BUSHEL.get()),
-					Ingredient.of(SWEMBlocks.QUALITY_BALE_ITEM.get()),
-					Ingredient.of(Items.GRASS_BLOCK),
-					Ingredient.of(SWEMItems.SUGAR_CUBE.get()),
-					Ingredient.of(SWEMItems.SWEET_FEED.get())
-			).collect(Collectors.toList()));
+	private final ArrayList<Ingredient> FEEDS = new ArrayList<>(
+		Stream.of(
+			Ingredient.of(Items.CARROT),
+			Ingredient.of(Items.APPLE),
+			Ingredient.of(SWEMItems.OAT_BUSHEL.get()),
+			Ingredient.of(SWEMItems.TIMOTHY_BUSHEL.get()),
+			Ingredient.of(SWEMItems.ALFALFA_BUSHEL.get()),
+			Ingredient.of(SWEMBlocks.QUALITY_BALE_ITEM.get()),
+			Ingredient.of(Items.GRASS_BLOCK),
+			Ingredient.of(SWEMItems.SUGAR_CUBE.get()),
+			Ingredient.of(SWEMItems.SWEET_FEED.get())
+		).collect(Collectors.toList()));
 
-	private int[] POINTS_GIVEN = {1, 1, 5, 5, 5, 15, 1, 1, 15};
+	private final int[] POINTS_GIVEN = {1, 1, 5, 5, 5, 15, 1, 1, 15};
 	private int[] TIMES_FED = new int[9];
-	private int[] MAX_TIMES = {1, 1, 1, 4, 4, 1, -1, 1, 1};
+	private final int[] MAX_TIMES = {1, 1, 1, 4, 4, 1, -1, 1, 1};
 
 	private int tickCounter;
 	private int points;
@@ -201,8 +199,7 @@ public class HungerNeed {
 			this.tickCounter = ConfigHolder.SERVER.multiplayerHungerThirst.get() ? ticks * 72 : ticks;
 		}
 		if (nbt.contains("hungerPoints")) {
-			int points = nbt.getInt("hungerPoints");
-			this.points = points;
+			this.points = nbt.getInt("hungerPoints");
 		}
 		if (nbt.contains("hungerTotalTimesFed")) {
 			int totalTimesFed = nbt.getInt("hungerTotalTimesFed");
@@ -262,8 +259,8 @@ public class HungerNeed {
 		FULLY_FED(180_000, -1);
 
 		public static final DataParameter<Integer> ID = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
-		private int tickAmountChange;
-		private int pointsRequired;
+		private final int tickAmountChange;
+		private final int pointsRequired;
 		private SWEMHorseEntityBase horse;
 		HungerState(int tickAmountChange, int pointsRequired) {
 			this.tickAmountChange = tickAmountChange;

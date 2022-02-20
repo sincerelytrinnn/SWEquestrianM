@@ -21,10 +21,7 @@ import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -68,11 +65,7 @@ public class ShavingsItem extends BlockItem {
 
         /**
          * Called to trigger the item's "innate" right click behavior. To handle when this item is used on a Block, see
-         * {@link #onItemUse}.
-         *
-         * @param pLevel
-         * @param pPlayer
-         * @param pHand
+         * {@link #useOn(ItemUseContext)}.
          */
         @Override
         public ActionResult<ItemStack> use(World pLevel, PlayerEntity pPlayer, Hand pHand) {

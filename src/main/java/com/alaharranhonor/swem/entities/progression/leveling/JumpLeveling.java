@@ -23,12 +23,12 @@ import net.minecraft.network.datasync.EntityDataManager;
 
 public class JumpLeveling implements ILeveling{
 
-	private SWEMHorseEntityBase horse;
-	private EntityDataManager dataManager;
+	private final SWEMHorseEntityBase horse;
+	private final EntityDataManager dataManager;
 	public static final DataParameter<Integer> LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	public static final DataParameter<Float> XP = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
-	private float[] requiredXpArray = new float[]{500, 2000, 4000, 7000};
-	private String[] levelNames = new String[] {"Jump I", "Jump II", "Jump III", "Jump IV", "Jump V"};
+	private final float[] requiredXpArray = new float[]{500, 2000, 4000, 7000};
+	private final String[] levelNames = new String[] {"Jump I", "Jump II", "Jump III", "Jump IV", "Jump V"};
 	public JumpLeveling(SWEMHorseEntityBase horse) {
 		this.horse = horse;
 		this.dataManager = this.horse.getEntityData();
