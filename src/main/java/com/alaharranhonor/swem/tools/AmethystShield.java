@@ -65,10 +65,6 @@ public class AmethystShield extends ShieldItem {
 			if (!(event.getEntityLiving() instanceof PlayerEntity)) return;
 			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
 
-			if (event.getFrom().getItem() instanceof AmethystShield && event.getTo().getItem() instanceof AmethystShield) {
-				return;
-			}
-
 			if ((event.getFrom().getItem() instanceof AmethystShield)) {
 				// Apply 10 extra max health hearts
 				player.getAttribute(Attributes.MAX_HEALTH).removeModifier(MODIFIER_UUID);
