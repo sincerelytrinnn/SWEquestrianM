@@ -19,7 +19,7 @@
       },
       "apply": {
         "model": "swem:block/grain_feeder_corner_purple",
-        "y": -90
+        "y": -180
       }
     },
     {
@@ -51,7 +51,8 @@
         "facing": "east"
       },
       "apply": {
-        "model": "swem:block/grain_feeder_corner_purple"
+        "model": "swem:block/grain_feeder_corner_purple",
+        "y": -90
       }
     },
     {
@@ -83,8 +84,7 @@
         "facing": "south"
       },
       "apply": {
-        "model": "swem:block/grain_feeder_corner_purple",
-        "y":  90
+        "model": "swem:block/grain_feeder_corner_purple"
       }
     },
     {
@@ -118,7 +118,7 @@
       },
       "apply": {
         "model": "swem:block/grain_feeder_corner_purple",
-        "y": 180
+        "y": 90
       }
     },
     {
@@ -190,7 +190,7 @@
       },
       "apply": {
         "model": "swem:block/sweet_feed_corner",
-        "y": -90
+        "y": -180
       }
     },
     {
@@ -201,7 +201,8 @@
         "facing": "east"
       },
       "apply": {
-        "model": "swem:block/sweet_feed_corner"
+        "model": "swem:block/sweet_feed_corner",
+        "y": -90
       }
     },
     {
@@ -212,8 +213,7 @@
         "facing": "south"
       },
       "apply": {
-        "model": "swem:block/sweet_feed_corner",
-        "y": 90
+        "model": "swem:block/sweet_feed_corner"
       }
     },
     {
@@ -225,7 +225,7 @@
       },
       "apply": {
         "model": "swem:block/sweet_feed_corner",
-        "y": 180
+        "y": 90
       }
     },
 
