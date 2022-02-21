@@ -15,6 +15,7 @@ package com.alaharranhonor.swem.blocks;
  * THE SOFTWARE.
  */
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.items.PoopItem;
 import com.alaharranhonor.swem.tileentity.WheelBarrowTE;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
@@ -47,7 +48,7 @@ public class WheelBarrowBlock extends HorizontalBlock {
 
 	public static final IntegerProperty LEVEL = IntegerProperty.create("level", 0, 4);
 
-	private DyeColor colour;
+	private final DyeColor colour;
 
 	public WheelBarrowBlock(Properties properties, DyeColor colour) {
 		super(properties);
@@ -63,10 +64,9 @@ public class WheelBarrowBlock extends HorizontalBlock {
 	@Override
 	public VoxelShape getShape(BlockState p_220053_1_, IBlockReader p_220053_2_, BlockPos p_220053_3_, ISelectionContext p_220053_4_) {
 		if (p_220053_1_.getValue(FACING).getAxis() == Direction.Axis.Z) {
-			// p_220053_1_.getValue(FACING).getStepZ() == -1 ?
-			return VoxelShapes.box(0.125d, 0.01d,  p_220053_1_.getValue(FACING).getStepZ() == 1 ? -0.375d : -0.5d, 0.875d, 0.875d, p_220053_1_.getValue(FACING).getStepZ() == 1 ? 1.5d : 1.375d);
+			return VoxelShapes.box(0.1875d, 0.01d,  p_220053_1_.getValue(FACING).getStepZ() == 1 ? 0 : -0.3125d, 0.8225d, 0.625d, p_220053_1_.getValue(FACING).getStepZ() == 1 ? 1.3125d : 1d);
 		} else {
-			return VoxelShapes.box(p_220053_1_.getValue(FACING).getStepX() == 1 ? -0.375d : -0.5d, 0.01d, 0.125d, p_220053_1_.getValue(FACING).getStepX() == 1 ? 1.5d : 1.375d, 0.875d, 0.875d);
+			return VoxelShapes.box(p_220053_1_.getValue(FACING).getStepX() == 1 ? 0 : -0.3125d, 0.01d, 0.1875d, p_220053_1_.getValue(FACING).getStepX() == 1 ? 1.3125d : 1d, 0.625d, 0.8225d);
 		}
 	}
 
@@ -74,6 +74,10 @@ public class WheelBarrowBlock extends HorizontalBlock {
 	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
 			TileEntity tile = worldIn.getBlockEntity(pos);
+			if (!(tile instanceof WheelBarrowTE)) {
+				SWEM.LOGGER.error("Was not given a TE of type WheelBarrowTE for WheelBarrowBlock#use");
+				return ActionResultType.FAIL;
+			}
 			WheelBarrowTE te = (WheelBarrowTE) tile;
 			if ((player.getItemInHand(handIn).getItem() instanceof ShavingsItem.SoiledShavingsItem || player.getItemInHand(handIn).getItem() instanceof PoopItem) && te.itemHandler.getStackInSlot(0).getCount() < 8) {
 
@@ -91,7 +95,7 @@ public class WheelBarrowBlock extends HorizontalBlock {
 				} else {
 					te.itemHandler.insertItem(0, layer, false);
 				}
-				worldIn.setBlock(pos, state.setValue(LEVEL, (int) Math.floor(te.itemHandler.getStackInSlot(0).getCount() / 2) ), 3);
+				worldIn.setBlock(pos, state.setValue(LEVEL, (int) Math.floor(te.itemHandler.getStackInSlot(0).getCount() / 2.0) ), 3);
 				if (te.itemHandler.getStackInSlot(0).getCount() == 8)
 					te.startTicking();
 
