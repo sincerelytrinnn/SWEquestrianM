@@ -106,6 +106,44 @@ public class GrainFeederBlock extends HorizontalBlock {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		switch (state.getValue(FACING)) {
+			case EAST: {
+				if (state.getValue(LEFT)) {
+					return Block.box(2, 0, 0, 16, 9, 14);
+				} else if (state.getValue(RIGHT)) {
+					return Block.box(2, 0, 2, 16, 9, 16);
+				} else {
+					return Block.box(2, 0, 1.5, 16, 9, 14.5);
+				}
+			}
+			case SOUTH: {
+				if (state.getValue(LEFT)) {
+					return Block.box(2, 0, 2, 16, 9, 16);
+				} else if (state.getValue(RIGHT)) {
+					return Block.box(0, 0, 2, 14, 9, 16);
+				} else {
+					return Block.box(1.5, 0, 2, 14.5, 9, 16);
+				}
+			}
+			case WEST: {
+				if (state.getValue(LEFT)) {
+					return Block.box(0, 0, 2, 14, 9, 16);
+				} else if (state.getValue(RIGHT)) {
+					return Block.box(0, 0, 0, 14, 9, 14);
+				} else {
+					return Block.box(0, 0, 1.5, 14, 9, 14.5);
+				}
+			}
+			case NORTH: {
+				if (state.getValue(LEFT)) {
+					return Block.box(0, 0, 0, 14, 9, 14);
+				} else if (state.getValue(RIGHT)) {
+					return Block.box(2, 0, 0, 16, 9, 14);
+				} else {
+					return Block.box(1.5, 0, 0, 14.5, 9, 14);
+				}
+			}
+		}
 		return Block.box(0, 0, 0, 15.99, 10, 15.99);
 	}
 
