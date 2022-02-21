@@ -23,6 +23,7 @@ import com.alaharranhonor.swem.config.ConfigHelper;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.network.*;
+import com.alaharranhonor.swem.tools.AmethystSword;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import com.alaharranhonor.swem.world.gen.OreGenUtils;
 import com.alaharranhonor.swem.world.gen.SWEMOreGen;
@@ -289,6 +290,16 @@ public class GeneralEventHandlers {
 			ItemStack stack = player.getItemBySlot(EquipmentSlotType.FEET);
 			if (stack.getItem() instanceof AmethystRidingBoots) {
 				event.setAmount(-1);
+			}
+		}
+
+		@SubscribeEvent
+		public static void onHorseHurt(LivingHurtEvent event) {
+			if (!(event.getEntityLiving() instanceof SWEMHorseEntityBase)) return;
+			if (!(event.getSource().getEntity() instanceof PlayerEntity)) return;
+			PlayerEntity player = (PlayerEntity) event.getSource().getEntity();
+			if (player.getMainHandItem().getItem() instanceof AmethystSword || player.getOffhandItem().getItem() instanceof AmethystSword) {
+				event.setAmount(event.getAmount() * 0.25f);
 			}
 		}
 
