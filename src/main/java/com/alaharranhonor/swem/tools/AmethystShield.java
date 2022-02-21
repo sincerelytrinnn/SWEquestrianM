@@ -49,7 +49,7 @@ public class AmethystShield extends ShieldItem {
 			PlayerEntity player = (PlayerEntity) pEntity;
 			// If the player hasn't taken any damage in the last 5 seconds, regain half a heart every 10 seconds.
 			if (player.lastDamageStamp < pLevel.getGameTime() - (5 * 20) && pLevel.getGameTime() % 200 == 0) {
-				player.heal(0.5f);
+				player.heal(1f);
 			}
 		}
 		super.inventoryTick(pStack, pLevel, pEntity, pItemSlot, pIsSelected);
