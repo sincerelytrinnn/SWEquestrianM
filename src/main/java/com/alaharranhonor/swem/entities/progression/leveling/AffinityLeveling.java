@@ -140,7 +140,7 @@ public class AffinityLeveling implements ILeveling{
 	@Override
 	public String getLevelName() {
 		if (this.getLevel() == this.getMaxLevel()) {
-			return this.levelNames[this.getMaxLevel() - 1];
+			return this.levelNames[this.levelNames.length - 1];
 		}
 		return this.levelNames[this.dataManager.get(LEVEL)];
 	}
