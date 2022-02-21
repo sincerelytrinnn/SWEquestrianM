@@ -21,49 +21,26 @@ import com.alaharranhonor.swem.commands.DevCommand;
 import com.alaharranhonor.swem.commands.SWEMCommand;
 import com.alaharranhonor.swem.config.ConfigHelper;
 import com.alaharranhonor.swem.config.ConfigHolder;
-import com.alaharranhonor.swem.container.SaddlebagContainer;
-import com.alaharranhonor.swem.entities.RiderEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.entity.render.RiderGeoRenderer;
-import com.alaharranhonor.swem.items.SWEMSpawnEggItem;
 import com.alaharranhonor.swem.network.*;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
-import com.alaharranhonor.swem.util.registry.SWEMEntities;
 import com.alaharranhonor.swem.world.gen.OreGenUtils;
 import com.alaharranhonor.swem.world.gen.SWEMOreGen;
 import com.alaharranhonor.swem.world.structure.SWEMConfiguredStructures;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.text.*;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -73,13 +50,9 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.network.NetworkHooks;
-import net.minecraftforge.fml.network.PacketDistributor;
 
-import javax.annotation.Nullable;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -103,7 +76,7 @@ public class GeneralEventHandlers {
 					SWEMOreGen.SWEM_COBBLE_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.STAR_WORM_COBBLE.get().defaultBlockState());
 				}
 
-				ConfigHelper.bakeServer(config);
+				ConfigHelper.bakeServer();
 			}
 		}
 	}
