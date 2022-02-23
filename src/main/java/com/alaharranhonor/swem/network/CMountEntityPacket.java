@@ -101,11 +101,10 @@ public class CMountEntityPacket {
 			// If player is not passenger, dismount all passengers.
 			if (target instanceof SWEMHorseEntityBase) {
 				for (Entity passenger : target.getPassengers()) {
-					if (passenger instanceof PlayerEntity && passenger != player)
-						return;
-
+					if (passenger instanceof PlayerEntity && passenger == player)
+						continue;
+					passenger.stopRiding();
 				}
-				target.ejectPassengers();
 			}
 
 

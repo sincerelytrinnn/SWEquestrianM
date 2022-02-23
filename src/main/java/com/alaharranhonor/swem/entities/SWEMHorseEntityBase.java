@@ -723,6 +723,8 @@ public class SWEMHorseEntityBase
 		if (this.getPassengers().size() > 1) {
 			int i = this.getPassengers().indexOf(entity);
 			xzOffset = i == 0 ? 0.1f : -0.5f;
+		} else if (this.getPassengers().size() > 0 && !(this.getPassengers().get(0) instanceof PlayerEntity)) {
+			xzOffset = -0.5f;
 		}
 
 		double yOffset = entity.getMyRidingOffset() + this.getPassengersRidingOffset();
@@ -730,7 +732,7 @@ public class SWEMHorseEntityBase
 		Vector3d vec3 = new Vector3d(xzOffset, 0, 0).yRot(-this.yBodyRot * ((float) Math.PI / 180f) - ((float) Math.PI / 2F));
 		entity.setPos(this.getX() + vec3.x, this.getY() + yOffset, this.getZ() + vec3.z);
 		this.applyYaw(entity);
-		if (entity instanceof AnimalEntity && this.getPassengers().size() > 1) {
+		if (entity instanceof AnimalEntity) {
 			int degrees = entity.getId() % 2 == 0 ? 90 : 270;
 			entity.setYBodyRot(((AnimalEntity) entity).yBodyRot + (float) degrees);
 			entity.setYHeadRot(entity.getYHeadRot() + (float) degrees);
@@ -1480,12 +1482,12 @@ public class SWEMHorseEntityBase
 		} else {
 			if (Minecraft.getInstance().player != null && Minecraft.getInstance().player.getVehicle() != null && Minecraft.getInstance().player.getVehicle().getUUID().equals(this.getUUID())) {
 
-				if (ClientEventHandlers.keyBindings[8].isDown() && this.isCameraLocked()) {
+				if (ClientEventHandlers.keyBindings[8].isDown() && this.isCameraLocked() && this.getPassengers().get(0) == Minecraft.getInstance().player) {
 					SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), false));
 					this.setLockedRotations(this.xRot, this.yRot);
 
 
-				} else if (!ClientEventHandlers.keyBindings[8].isDown() && !this.isCameraLocked()) {
+				} else if (!ClientEventHandlers.keyBindings[8].isDown() && !this.isCameraLocked() && this.getPassengers().get(0) == Minecraft.getInstance().player) {
 					SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), true));
 				}
 			}

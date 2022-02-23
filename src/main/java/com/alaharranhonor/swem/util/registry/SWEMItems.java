@@ -394,7 +394,7 @@ public class SWEMItems {
 	public static final RegistryObject<EnglishBreastCollar> ENGLISH_BREAST_COLLAR_BROWN = ITEMS.register("english_breast_collar_brown", () -> new EnglishBreastCollar("english_breast_collar_brown", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
 
 	// Tools
-	public static final RegistryObject<SwordItem> AMETHYST_LONGSWORD = ITEMS.register("amethyst_longsword", () ->
+	public static final RegistryObject<SwordItem> AMETHYST_SWORD = ITEMS.register("amethyst_sword", () ->
 			new AmethystSword(SWEMItemTier.AMETHYST, 4, 2F, new Item.Properties().tab(SWEM.TAB))
 	);
 	public static final RegistryObject<BowItem> AMETHYST_BOW = ITEMS.register("amethyst_bow", () ->

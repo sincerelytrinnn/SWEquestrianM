@@ -23,9 +23,7 @@ import java.util.function.Supplier;
 
 public enum SWEMItemTier implements IItemTier {
 
-    AMETHYST(4, 10000, 8, 15.0F, 0, () ->{
-        return Ingredient.of(SWEMItems.AMETHYST_LONGSWORD.get());
-    });
+    AMETHYST(4, 10000, 8, 13.0F, 0, () -> Ingredient.of(SWEMItems.AMETHYST_SWORD.get()));
 
     private final int harvestLevel;
     private final int maxUses;
