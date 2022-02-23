@@ -20,11 +20,13 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.IPacket;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.controller.AnimationController;
@@ -43,6 +45,7 @@ public class PoopEntity extends LivingEntity implements IAnimatable {
 		super(p_i50225_1_, world);
 		this.maxUpStep = 0.0F;
 		this.noCulling = true;
+		this.setYBodyRot(this.getRandom().nextFloat());
 	}
 
 	@Override
@@ -58,6 +61,12 @@ public class PoopEntity extends LivingEntity implements IAnimatable {
 	@Override
 	public void setItemSlot(EquipmentSlotType slotIn, ItemStack stack) {
 
+	}
+
+	@Override
+	public IPacket<?> getAddEntityPacket() {
+		this.setRot((float)this.getRandom().nextInt(360), this.getRotationVector().x);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -113,9 +122,9 @@ public class PoopEntity extends LivingEntity implements IAnimatable {
 			this.washedAway++;
 		}
 
-
-
 	}
+
+
 
 	@Override
 	public boolean attackable() {
