@@ -67,7 +67,6 @@ public class BarrelBlock extends Block {
 				worldIn.setBlock(pos.above(), Blocks.AIR.defaultBlockState(), 3);
 			} else if (state.getValue(PART) == HitchingPostBase.PostPart.UPPER) {
 				worldIn.setBlock(pos.below(), Blocks.AIR.defaultBlockState(), 3);
-
 			}
 
 			ItemEntity entity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(SWEMBlocks.HALF_BARRELS.get(DyeColor.WHITE.getId()).get()));

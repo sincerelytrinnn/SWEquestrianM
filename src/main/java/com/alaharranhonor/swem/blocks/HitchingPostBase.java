@@ -15,8 +15,10 @@ package com.alaharranhonor.swem.blocks;
  * THE SOFTWARE.
  */
 
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.*;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.state.DirectionProperty;
@@ -84,8 +86,38 @@ public class HitchingPostBase extends Block {
 
 
 	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		ItemStack itemstack = player.getItemInHand(handIn);
+		if (itemstack.getItem() == Items.SHEARS) {
+			itemstack.hurtAndBreak(1, player, (entity) -> entity.broadcastBreakEvent(handIn));
+
+			// Destroy both parts of the barrel.
+			worldIn.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+			if (state.getValue(PART) == HitchingPostBase.PostPart.LOWER) {
+				worldIn.setBlock(pos.above(), Blocks.AIR.defaultBlockState(), 3);
+			} else if (state.getValue(PART) == HitchingPostBase.PostPart.UPPER) {
+				worldIn.setBlock(pos.below(), Blocks.AIR.defaultBlockState(), 3);
+			}
+
+			Item miniHitching = SWEMBlocks.PASTURE_HITCHING_POST_ITEM.get();
+			switch (this.type) {
+				case ENGLISH: {
+					miniHitching = SWEMBlocks.ENGLISH_HITCHING_POST_MINI_ITEM.get();
+					break;
+				}
+				case WESTERN: {
+					miniHitching = SWEMBlocks.WESTERN_HITCHING_POST_MINI_ITEM.get();
+					break;
+				}
+			}
+
+			ItemEntity entity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(miniHitching));
+			ItemEntity entity1 = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(miniHitching));
+
+			worldIn.addFreshEntity(entity);
+			worldIn.addFreshEntity(entity1);
+			return ActionResultType.SUCCESS;
+		}
 		if (worldIn.isClientSide) {
-			ItemStack itemstack = player.getItemInHand(handIn);
 			return itemstack.getItem() == Items.LEAD ? ActionResultType.SUCCESS : ActionResultType.PASS;
 		} else {
 			return LeadItem.bindPlayerMobs(player, worldIn, state.getValue(PART) == PostPart.LOWER ? pos.above() : pos);
