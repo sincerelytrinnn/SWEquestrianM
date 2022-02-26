@@ -48,6 +48,7 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.item.LeashKnotEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.entity.passive.WaterMobEntity;
@@ -295,6 +296,24 @@ public class SWEMHorseEntityBase
 
 	public void setOwnerName(String ownerName) {
 		this.entityData.set(OWNER_NAME, ownerName);
+	}
+
+	/**
+	 * Sets the entity to be leashed to.
+	 *
+	 * @param pEntity
+	 * @param pSendAttachNotification
+	 */
+	@Override
+	public void setLeashedTo(Entity pEntity, boolean pSendAttachNotification) {
+		if (pEntity instanceof LeashKnotEntity) {
+			pEntity.setInvisible(true);
+			System.out.println(pEntity.level.isClientSide);
+			System.out.println(pEntity);
+			BlockState state = pEntity.level.getBlockState(new BlockPos(pEntity.position()));
+			System.out.println("I got the blockstate: " + state + " at " + pEntity.position());
+		}
+		super.setLeashedTo(pEntity, pSendAttachNotification);
 	}
 
 	/**
