@@ -1268,7 +1268,7 @@ public class SWEMHorseEntityBase
 				else if (randomNum <= 86)
 					this.setCoatColour(SWEMCoatColor.SHWOOMPL_MARKIPLIER);
 				else if (randomNum <= 91)
-					this.setCoatColour(SWEMCoatColor.BLACK); // TODO: CHANGE TO LUNAR_ARISHANT
+					this.setCoatColour(SWEMCoatColor.LUNAR_ARISHANT);
 				else
 					this.setCoatColour(SWEMCoatColor.FRANK_STEVECV);
 				break;
@@ -1396,7 +1396,7 @@ public class SWEMHorseEntityBase
 				else if (randomNum <= 72)
 					this.setCoatColour(SWEMCoatColor.VALEGRO);
 				else if (randomNum <= 79)
-					this.setCoatColour(SWEMCoatColor.BROWN); // TODO: Change to Joergen
+					this.setCoatColour(SWEMCoatColor.JOERGEN_PEWDIEPIE);
 				else if (randomNum <= 89)
 					this.setCoatColour(SWEMCoatColor.EL_CAZADOR_MALLI);
 				else

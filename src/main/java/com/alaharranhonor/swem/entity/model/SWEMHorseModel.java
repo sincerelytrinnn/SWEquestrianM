@@ -51,6 +51,7 @@ public class SWEMHorseModel extends AnimatedGeoModel<SWEMHorseEntity> {
         iter.put(SWEMCoatColor.VALEGRO, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/valegro.png"));
         iter.put(SWEMCoatColor.TRIGGER_ROY_ROGERS, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/trigger_roy_rogers.png"));
         iter.put(SWEMCoatColor.MR_ED, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/mr_ed.png"));
+        iter.put(SWEMCoatColor.JOERGEN_PEWDIEPIE, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/joergen_pewdiepie.png"));
         iter.put(SWEMCoatColor.SHWOOMPL_MARKIPLIER, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/shwoompl_markiplier.png"));
         iter.put(SWEMCoatColor.THIS_ESME_JOEY, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/this_esme_joey.png"));
         iter.put(SWEMCoatColor.GOOSEBERRY_JUSTPEACHY, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/gooseberry_justpeachy.png"));
@@ -65,6 +66,7 @@ public class SWEMHorseModel extends AnimatedGeoModel<SWEMHorseEntity> {
         iter.put(SWEMCoatColor.BOB_FREE_REIN, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/bob_free_rein.png"));
         iter.put(SWEMCoatColor.ARIALS_MALLI, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/arials_malli.png"));
         iter.put(SWEMCoatColor.EL_CAZADOR_MALLI, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/el_cazador_malli.png"));
+        iter.put(SWEMCoatColor.LUNAR_ARISHANT, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/lunar_arishant.png"));
         iter.put(SWEMCoatColor.NERO_STARDUST, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/nero_stardust.png"));
         iter.put(SWEMCoatColor.FRANK_STEVECV, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/frank_stevecv.png"));
         iter.put(SWEMCoatColor.KODIAK_DELPHI, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/kodiak_delphi.png"));
