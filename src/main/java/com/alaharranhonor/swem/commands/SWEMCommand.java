@@ -113,7 +113,7 @@ public class SWEMCommand {
 						});
 						return 1;
 					})
-				).then(Commands.literal("lowerlevel")
+				).then(Commands.literal("setlevel")
 					.requires((player) -> player.hasPermission(2))
 					.then(Commands.argument("levelToSet", IntegerArgumentType.integer())
 						.then(Commands.argument("skill", EnumArgument.enumArgument(Skills.class))
