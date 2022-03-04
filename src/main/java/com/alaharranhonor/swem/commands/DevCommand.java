@@ -72,27 +72,6 @@ public class DevCommand {
 									return 1;
 								})
 						)
-						.then(Commands.literal("maxlevel")
-								.requires((source) -> source.hasPermission(3))
-								.executes(ctx ->  {
-									ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
-
-									Entity riding = player.getVehicle();
-									if (riding instanceof SWEMHorseEntityBase) {
-										SWEMHorseEntityBase horse = (SWEMHorseEntityBase) riding;
-
-										for (int i = 0; i < 13; i++) {
-											horse.progressionManager.getAffinityLeveling().addXP(20000);
-											horse.progressionManager.getJumpLeveling().addXP(10000);
-											horse.progressionManager.getHealthLeveling().addXP(10000);
-											horse.progressionManager.getSpeedLeveling().addXP(10000);
-										}
-									}
-
-									ctx.getSource().sendSuccess(new StringTextComponent("[§bSWEM§f] Your horse has been maxed out sir! (With the accent)"), false);
-									return 1;
-								})
-						)
 						.then(Commands.literal("resetneeds")
 								.requires((source) -> source.hasPermission(3))
 								.executes(ctx ->  {
