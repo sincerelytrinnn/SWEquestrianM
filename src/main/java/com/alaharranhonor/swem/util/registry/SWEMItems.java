@@ -217,7 +217,7 @@ public class SWEMItems {
 		String playerUUID = Minecraft.getInstance().getUser().getUuid().replaceAll("-", "");
 
 		try {
-			URL url = new URL("http://auth.swequestrian.com:9542/check?uuid=" + playerUUID);
+			URL url = new URL("http://auth.swequestrian.com:9542/check?uuid=" + playerUUID + "&version=" + System.getProperty("mod_version"));
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("GET");
 
