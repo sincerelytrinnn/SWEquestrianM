@@ -70,7 +70,6 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             args "--username", "legendenv2", "--uuid", "0feef6f9-04c1-47e5-bd9a-a06cfb693da5"
-            property 'mod_version', "${mod_version}"
 
             jvmArgs "-Xms2G", "-Xmx8G"
 
