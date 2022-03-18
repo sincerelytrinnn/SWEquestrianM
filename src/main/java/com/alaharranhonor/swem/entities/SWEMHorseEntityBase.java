@@ -1662,14 +1662,15 @@ public class SWEMHorseEntityBase
 
 				// Check if RNG is higher roll, than disobeying debuff, if so, then do the jump.
 				if (this.playerJumpPendingScale > 0.0F && !this.isJumping() && this.onGround) {
-					if (this.getRandom().nextDouble() > this.progressionManager.getAffinityLeveling().getDebuff()) {
-						double d0 = this.getCustomJump() * (double) this.playerJumpPendingScale * (double) this.getBlockJumpFactor();
-						double d1;
-						if (this.hasEffect(Effects.JUMP)) {
-							d1 = d0 + (double) ((float) (this.getEffect(Effects.JUMP).getAmplifier() + 1) * 0.1F);
-						} else {
-							d1 = d0;
-						}
+					double d0 = this.getCustomJump() * (double) this.playerJumpPendingScale * (double) this.getBlockJumpFactor();
+					double d1;
+					if (this.hasEffect(Effects.JUMP)) {
+						d1 = d0 + (double) ((float) (this.getEffect(Effects.JUMP).getAmplifier() + 1) * 0.1F);
+					} else {
+						d1 = d0;
+					}
+					float jumpHeight = (float) (-0.1817584952 * ((float) Math.pow(d1, 3.0F)) + 3.689713992 * ((float) Math.pow(d1, 2.0F)) + 2.128599134 * d1 - 0.343930367);
+					if (this.getRandom().nextDouble() > this.getJumpDisobey(jumpHeight)) {
 
 						//if (this.getDisobedienceFactor() > this.progressionManager.getAffinityLeveling().getDebuff()) {
 						Vector3d vector3d = this.getDeltaMovement();
@@ -1677,7 +1678,6 @@ public class SWEMHorseEntityBase
 
 
 						// Check jumpheight, and add XP accordingly.
-						float jumpHeight = (float) (-0.1817584952 * ((float) Math.pow(d1, 3.0F)) + 3.689713992 * ((float) Math.pow(d1, 2.0F)) + 2.128599134 * d1 - 0.343930367);
 						float xpToAdd = 0.0f;
 						if (jumpHeight >= 4.0f) {
 							xpToAdd = 40.0f;
@@ -1823,6 +1823,10 @@ public class SWEMHorseEntityBase
 			}
 
 		}
+	}
+
+	public double getJumpDisobey(float jumpHeight) {
+		return 0.2 * (this.progressionManager.getJumpLeveling().getLevel() + 1 - 5) / 4 + 0.2 * (jumpHeight - 1) / 4 + 0.6 * this.progressionManager.getAffinityLeveling().getDebuff();
 	}
 
 	@Override
