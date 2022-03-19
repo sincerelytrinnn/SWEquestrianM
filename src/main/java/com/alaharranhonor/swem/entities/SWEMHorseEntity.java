@@ -41,6 +41,7 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 
 public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable {
 
@@ -165,10 +166,6 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		}
 
 
-		if (horse.isPooping() || horse.isPeeing()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("Poop"));
-			return PlayState.CONTINUE;
-		}
 
 		if (horse.isStanding()) {
 			if (anim != null) {
@@ -200,8 +197,10 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Walk"));
 			} else if (horse.getEntityData().get(SPEED_LEVEL) == 1) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Trot"));
-			} else if (horse.getEntityData().get(SPEED_LEVEL) == 2 || horse.getEntityData().get(SPEED_LEVEL) == 3) {
+			} else if (horse.getEntityData().get(SPEED_LEVEL) == 2) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Canter"));
+			} else if ( horse.getEntityData().get(SPEED_LEVEL) == 3) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Extended_Canter"));
 			} else if (horse.getEntityData().get(SPEED_LEVEL) == 4) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Gallop"));
 			}
