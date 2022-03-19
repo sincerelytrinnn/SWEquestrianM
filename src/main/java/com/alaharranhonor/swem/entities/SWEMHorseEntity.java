@@ -100,7 +100,6 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		if (horse.isFlying()) {
 
 			if (horse.getEntityData().get(HorseFlightController.isTurning)) {
-				System.out.println("State: " + event.getController().getAnimationState().name());
 				if (event.getController().getCurrentAnimation().animationName.equals("Turn_Cycle")) {
 					return PlayState.CONTINUE;
 				}
@@ -146,7 +145,6 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		boolean isInWater = horse.level.getBlockStates(horse.getBoundingBox().contract(0, 0, 0)).allMatch((bs) -> bs.getBlock() == Blocks.WATER);
 
 		if (!isInWater && horse.jumpHeight != 0) {
-			System.out.println("Horse is jumping with height: " + horse.jumpHeight);
 			if (horse.jumpHeight > 5.0F) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_5", false));
 				return PlayState.CONTINUE;

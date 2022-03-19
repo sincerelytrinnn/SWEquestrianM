@@ -123,7 +123,6 @@ public class MeasurementTool extends Item {
 
 
 
-			System.out.println(firstPos.toString() + " | " + pos.toString());
 			ArrayList<BlockPos> blockPositions = new ArrayList<>();
 			BlockPos.betweenClosed(firstPos, pos).forEach((ps) -> {
 				BlockPos pos1 = ps.immutable();

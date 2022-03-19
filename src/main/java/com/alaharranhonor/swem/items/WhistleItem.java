@@ -90,8 +90,6 @@ public class WhistleItem extends Item {
 		UUID horseOwnerId = horse.getOwnerUUID();
 		UUID playerId = playerIn.getUUID();
 
-		System.out.println(horseOwnerId);
-		System.out.println(playerId);
 
 		if (!Objects.equals(playerId,horseOwnerId)) {
 			return ActionResultType.FAIL;

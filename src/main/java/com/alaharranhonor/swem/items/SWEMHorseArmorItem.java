@@ -71,7 +71,6 @@ public class SWEMHorseArmorItem extends HorseArmorItem implements IAnimatable {
 	}
 
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		System.out.println(event.getAnimatable().getClass().toString());
 		return PlayState.CONTINUE;
 	}
 

@@ -44,7 +44,6 @@ public class LockerContainer extends Container {
 		this.tileEntity = tileEntity;
 		this.leftSideOpened = leftSideOpened;
 		this.canInteractWithCallable = IWorldPosCallable.create(tileEntity.getLevel(), tileEntity.getBlockPos());
-		System.out.println(leftSideOpened);
 		this.initSlots(playerInventory);
 	}
 

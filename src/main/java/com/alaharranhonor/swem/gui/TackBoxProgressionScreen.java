@@ -69,10 +69,6 @@ public class TackBoxProgressionScreen extends Screen {
 		super.init(minecraft, width, height);
 		this.guiLeft = (this.width - this.xSize) / 2;
 		this.guiTop = (this.height - this.ySize) / 2;
-		for (Advancement adv : Minecraft.getInstance().player.connection.getAdvancements().getAdvancements().getAllAdvancements()) {
-			if (adv.getId().getNamespace().equals("swem"))
-				System.out.println(adv.getId());
-		}
 	}
 
 	@Override

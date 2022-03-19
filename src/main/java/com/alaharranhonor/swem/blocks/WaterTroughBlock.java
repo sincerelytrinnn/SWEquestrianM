@@ -142,7 +142,6 @@ public class WaterTroughBlock extends NonParallelBlock {
 
 		setLevel += removeWater ? -levelToAdd : levelToAdd;
 
-		System.out.println("Added " + levelToAdd + " water.");
 
 		for (int i = 0; i < states.size(); i++) {
 			worldIn.setBlock(positions.get(i), states.get(i).setValue(LEVEL, MathHelper.clamp(setLevel, 0, 16)), 19);
@@ -216,7 +215,6 @@ public class WaterTroughBlock extends NonParallelBlock {
 				break;
 			}
 		}
-		System.out.println(connections);
 		return connections;
 
 	}
@@ -315,7 +313,6 @@ public class WaterTroughBlock extends NonParallelBlock {
 			}
 		}
 
-		System.out.println(connections);
 		return connections;
 
 	}

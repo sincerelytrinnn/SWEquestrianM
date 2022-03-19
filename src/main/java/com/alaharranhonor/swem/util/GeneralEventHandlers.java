@@ -126,7 +126,6 @@ public class GeneralEventHandlers {
 						executor.schedule(new Runnable() {
 							@Override
 							public void run() {
-								System.out.println("Running scheduled");
 								if (Minecraft.getInstance().options.keyUp.isDown()) {
 									return;
 								} else {

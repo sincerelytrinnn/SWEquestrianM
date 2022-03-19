@@ -32,8 +32,6 @@ public class PeeGoal extends Goal {
 	private final SWEMHorseEntityBase peeEntity;
 	private final World entityWorld;
 
-	private final int radius = 3;
-
 	private int peeTimer;
 	private final double speed;
 	private BlockPos peeSpot;
@@ -117,6 +115,7 @@ public class PeeGoal extends Goal {
 		ArrayList<BlockPos> grassBlocks = new ArrayList<>();
 		ArrayList<BlockPos> sandBlocks = new ArrayList<>();
 		ArrayList<BlockPos> dirtblocks = new ArrayList<>();
+		int radius = 3;
 		for (int x = -radius; x <= radius; x++) {
 			for (int z = -radius; z <= radius; z++) {
 
@@ -157,7 +156,6 @@ public class PeeGoal extends Goal {
 	}
 
 	private void pee(BlockPos posToPee) {
-		System.out.println(posToPee);
 		BlockState state = this.entityWorld.getBlockState(posToPee);
 		if (state.getBlock() instanceof Shavings) {
 			int layers = state.getValue(Shavings.LAYERS);

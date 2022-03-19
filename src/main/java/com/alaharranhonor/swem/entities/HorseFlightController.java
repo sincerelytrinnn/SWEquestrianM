@@ -31,7 +31,7 @@ import java.util.Scanner;
 
 public class HorseFlightController {
 
-	private SWEMHorseEntityBase horse;
+	private final SWEMHorseEntityBase horse;
 
 	private BlockPos launchPos;
 
@@ -99,8 +99,6 @@ public class HorseFlightController {
 				}
 				horse.move(MoverType.SELF, horse.getDeltaMovement());
 				horse.hasImpulse = true;
-				System.out.println("Movement: " + horse.getDeltaMovement());
-				System.out.println("Y: " + horse.getY());
 				horse.baseTick();
 				if (++launchCounter >= 37) {
 					horse.hasImpulse = false;
@@ -202,7 +200,7 @@ public class HorseFlightController {
 		horse.move(MoverType.SELF, horse.getDeltaMovement());
 
 		horse.baseTick();
-	};
+	}
 
 	private void clientTravel() {
 
@@ -246,7 +244,7 @@ public class HorseFlightController {
 		// If KEY WE SAY is pressed, set isDiving = true.
 
 
-	};
+	}
 
 
 	public void launchFlight() {

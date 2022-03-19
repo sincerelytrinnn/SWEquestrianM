@@ -307,11 +307,8 @@ public class SWEMHorseEntityBase
 	@Override
 	public void setLeashedTo(Entity pEntity, boolean pSendAttachNotification) {
 		if (pEntity instanceof LeashKnotEntity) {
-			pEntity.setInvisible(true);
-			System.out.println(pEntity.level.isClientSide);
-			System.out.println(pEntity);
+			//pEntity.setInvisible(true);
 			BlockState state = pEntity.level.getBlockState(new BlockPos(pEntity.position()));
-			System.out.println("I got the blockstate: " + state + " at " + pEntity.position());
 		}
 		super.setLeashedTo(pEntity, pSendAttachNotification);
 	}
