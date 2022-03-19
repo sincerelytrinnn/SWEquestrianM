@@ -80518,7 +80518,7 @@
 				}
 			}
 		},
-		"Extended _Canter": {
+		"Extended_Canter": {
 			"loop": true,
 			"animation_length": 0.74,
 			"bones": {
