@@ -343,6 +343,14 @@ public class SWEMHorseEntityBase
 			// Tick entity data anim timers
 			this.getEntityData().set(JUMP_ANIM_TIMER, Math.max(-1, this.getEntityData().get(JUMP_ANIM_TIMER) - 1));
 
+			if (this.isInWater()) {
+				if (this.currentSpeed != HorseSpeed.WALK) {
+					HorseSpeed old = this.currentSpeed;
+					this.currentSpeed = HorseSpeed.WALK;
+					this.updateSelectedSpeed(old);
+				}
+			}
+
 
 			if (this.getLeashHolder() instanceof PlayerEntity) {
 				this.getLookControl().setLookAt(this.getLeashHolder(), (float)this.getHeadRotSpeed(), (float)this.getMaxHeadXRot());
@@ -1705,7 +1713,6 @@ public class SWEMHorseEntityBase
 						}
 					} else {
 						this.setStandingAnim();
-						SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, this.getId()));
 					}
 
 					this.playerJumpPendingScale = 0.0F;
@@ -1752,11 +1759,6 @@ public class SWEMHorseEntityBase
 				// Handles the swimming. Travel is only called when player is riding the entity.
 				if ((this.wasEyeInWater || this.fluidOnEyes == FluidTags.LAVA) && !flag && this.getDeltaMovement().y < 0) { // Check if the eyes is in water level, and we don't have a solid block the way we are facing. If not, then apply an inverse force, to float the horse.
 					this.setDeltaMovement(this.getDeltaMovement().multiply(1, -1.9, 1));
-					if (this.currentSpeed != HorseSpeed.WALK) {
-						HorseSpeed old = this.currentSpeed;
-						this.currentSpeed = HorseSpeed.WALK;
-						this.updateSelectedSpeed(old);
-					}
 				}
 
 				if (!this.isCameraLocked()) {
@@ -2683,6 +2685,7 @@ public class SWEMHorseEntityBase
 
 		if (this.level.isClientSide) {
 			SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
+			SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, this.getId()));
 		} else {
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new CHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
 		}
