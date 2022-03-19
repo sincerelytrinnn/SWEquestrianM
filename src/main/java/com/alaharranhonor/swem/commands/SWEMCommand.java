@@ -197,6 +197,9 @@ public class SWEMCommand {
 											return -1;
 										}
 									}
+									horse.levelUpJump();
+									horse.levelUpSpeed();
+									horse.levelUpHealth();
 
 								}
 
