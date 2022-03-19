@@ -63,16 +63,20 @@ public class SendHorseSpeedChange {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			Entity entity = player.level.getEntity(msg.entityID);
-			if (entity instanceof SWEMHorseEntityBase) {
+			if (entity instanceof SWEMHorseEntityBase && player.getVehicle().equals(entity)) {
 				SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 				if (msg.action == 2) {
 					SWEMHorseEntityBase.HorseSpeed oldSpeed = horse.currentSpeed;
 					horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
 					horse.updateSelectedSpeed(oldSpeed);
 				} else if (msg.action == 1) {
-					horse.incrementSpeed();
+					if (!horse.isInWater()) {
+						horse.incrementSpeed();
+					}
 				} else if (msg.action == 0) {
-					horse.decrementSpeed();
+					if (!horse.isInWater()) {
+						horse.decrementSpeed();
+					}
 				}
 			}
 		});
