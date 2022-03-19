@@ -33,6 +33,7 @@ import com.alaharranhonor.swem.network.*;
 import com.alaharranhonor.swem.util.ClientEventHandlers;
 import com.alaharranhonor.swem.util.SWEMUtil;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMEntities;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
 import com.alaharranhonor.swem.util.registry.SWEMParticles;
 import net.minecraft.block.BlockState;
@@ -204,9 +205,9 @@ public class SWEMHorseEntityBase
 		//this.goalSelector.addGoal(0, new SwimGoal(this));
 		this.goalSelector.addGoal(1, new PanicStraightGoal(this, 4.0D));
 		this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 4.0D));
-		//this.goalSelector.addGoal(2, new BreedGoal(this, 1.0d));
+		this.goalSelector.addGoal(2, new BreedGoal(this, 1.0d));
 		//this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, TEMPTATION_ITEMS, false));
-		//this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.0D));
+		this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.0D));
 		this.goalSelector.addGoal(2, new HorseAvoidEntityGoal<>(this, PigEntity.class, 12.0f, 4.0d, 5.5d));
 		this.goalSelector.addGoal(5, this.poopGoal);
 		this.goalSelector.addGoal(5, this.peeGoal);
@@ -2072,6 +2073,10 @@ public class SWEMHorseEntityBase
 
 		Item item = itemstack.getItem();
 
+		if (this.isFood(itemstack)) {
+			this.fedFood(playerEntity, itemstack);
+		}
+
 		if (checkIsCoatTransformItem(playerEntity, itemstack)) {
 			return ActionResultType.SUCCESS;
 		}
@@ -2308,49 +2313,34 @@ public class SWEMHorseEntityBase
 	/**
 	 * Returns true if the mob is currently able to mate with the specified mob.
 	 */
-//	public boolean canMateWith(AnimalEntity otherAnimal) {
-//		if (otherAnimal == this) {
-//			return false;
-//		} else if (!(otherAnimal instanceof DonkeyEntity) && !(otherAnimal instanceof HorseEntity)) {
-//			return false;
-//		} else {
-//			return this.canMate() && ((AbstractHorseEntity)otherAnimal).canMate();
-//		}
-//	}
+	@Override
+	public boolean canMate(AnimalEntity pOtherAnimal) {
+		if (pOtherAnimal == this) {
+			return false;
+		} else if (pOtherAnimal.getClass() != this.getClass()) {
+			return false;
+		} else {
+			return this.isInLove() && pOtherAnimal.isInLove();
+		}
+	}
 
 	public NeedManager getNeeds() {
 		return this.needs;
 	}
 
-	// createChild method
-	public AgeableEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
-		AbstractHorseEntity abstracthorseentity;
-		HorseEntity horseentity = (HorseEntity)p_241840_2_;
-		abstracthorseentity = EntityType.HORSE.create(p_241840_1_);
+
+
+	public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity partner) {
+		SWEMHorseEntityBase swemHorseEntityBase = SWEMEntities.SWEM_HORSE_ENTITY.get().create(world);
+		SWEMHorseEntity swemPartner = (SWEMHorseEntity) partner;
 		int i = this.getRandom().nextInt(9);
-		CoatColors coatcolors;
-		if (i < 4) {
-//				coatcolors = this.getVariant();
-		} else if (i < 8) {
-			coatcolors = horseentity.getVariant();
-		} else {
-			coatcolors = Util.getRandom(CoatColors.values(), this.getRandom());
-		}
+		SWEMCoatColor coatColor = Util.getRandom(SWEMCoatColor.values(), this.getRandom());
 
-		int j = this.getRandom().nextInt(5);
-		CoatTypes coattypes;
-		if (j < 2) {
-//				coattypes = this.getMarkings();
-		} else if (j < 4) {
-			coattypes = horseentity.getMarkings();
-		} else {
-			coattypes = Util.getRandom(CoatTypes.values(), this.getRandom());
-		}
 
-//			((SWEMHorseEntityBase)abstracthorseentity).setVariantAndMarkings(coatcolors, coattypes);
 
-		this.setOffspringAttributes(p_241840_2_, abstracthorseentity);
-		return abstracthorseentity;
+		swemHorseEntityBase.setCoatColour(coatColor);
+
+		return swemHorseEntityBase;
 	}
 
 	public boolean canWearArmor() {

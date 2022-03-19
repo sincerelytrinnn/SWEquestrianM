@@ -76,16 +76,25 @@ public class SWEMHorseModel extends AnimatedGeoModel<SWEMHorseEntity> {
 
     @Override
     public ResourceLocation getModelLocation(SWEMHorseEntity swemHorseEntity) {
+        if (swemHorseEntity.isBaby()) {
+            return new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse_foal.geo.json");
+        }
         return new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureLocation(SWEMHorseEntity swemHorseEntity) {
+        if (swemHorseEntity.isBaby()) {
+            return new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/baby/texture.png");
+        }
         return VARIANTS.get(swemHorseEntity.getCoatColor());
     }
 
     @Override
     public ResourceLocation getAnimationFileLocation(SWEMHorseEntity swemHorseEntity) {
+        if (swemHorseEntity.isBaby()) {
+            return new ResourceLocation(SWEM.MOD_ID, "animations/swem_horse_foal.json");
+        }
         return new ResourceLocation(SWEM.MOD_ID, "animations/swem_horse.json");
     }
 }

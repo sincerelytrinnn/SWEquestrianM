@@ -66,11 +66,6 @@ public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity> {
 
 
     @Override
-    public ResourceLocation getTextureLocation(SWEMHorseEntity entity) {
-        return SWEMHorseModel.VARIANTS.get(entity.getCoatColor());
-    }
-
-    @Override
     public void render(SWEMHorseEntity entity, float entityYaw, float partialTicks, MatrixStack stack, IRenderTypeBuffer bufferIn, int packedLightIn) {
         Entity leashHolder = entity.getLeashHolder();
 
@@ -78,25 +73,28 @@ public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity> {
             this.renderLeash(entity, partialTicks, stack, bufferIn, leashHolder);
         }
 
-        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("main").ifPresent((bone) -> bone.setHidden(false));
-        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("western_bridle").ifPresent((bone) -> bone.setHidden(true));
-        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("western_saddle").ifPresent((bone) -> bone.setHidden(true));
-        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("saddlebag").ifPresent((bone) -> bone.setHidden(true));
-        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("bedroll").ifPresent((bone) -> bone.setHidden(true));
-        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("englishbridle").ifPresent((bone) -> bone.setHidden(true));
-        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("english_saddle").ifPresent((bone) -> bone.setHidden(true));
-        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("adventure_saddle").ifPresent((bone) -> bone.setHidden(true));
-        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("cloth_armor").ifPresent((bone) -> bone.setHidden(true));
-        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("iron_armor").ifPresent((bone) -> bone.setHidden(true));
-        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("gold_armor").ifPresent((bone) -> bone.setHidden(true));
-        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("diamond_armor").ifPresent((bone) -> bone.setHidden(true));
-        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("amethst_armor").ifPresent((bone) -> bone.setHidden(true));
-        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("Scapular").ifPresent((bone) -> bone.setHidden(true));
-        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("Scapular2").ifPresent((bone) -> bone.setHidden(true));
+        if (!entity.isBaby()) {
+            this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("main").ifPresent((bone) -> bone.setHidden(false));
+            this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("western_bridle").ifPresent((bone) -> bone.setHidden(true));
+            this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("western_saddle").ifPresent((bone) -> bone.setHidden(true));
+            this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("saddlebag").ifPresent((bone) -> bone.setHidden(true));
+            this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("bedroll").ifPresent((bone) -> bone.setHidden(true));
+            this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("englishbridle").ifPresent((bone) -> bone.setHidden(true));
+            this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("english_saddle").ifPresent((bone) -> bone.setHidden(true));
+            this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("adventure_saddle").ifPresent((bone) -> bone.setHidden(true));
+            this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("cloth_armor").ifPresent((bone) -> bone.setHidden(true));
+            this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("iron_armor").ifPresent((bone) -> bone.setHidden(true));
+            this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("gold_armor").ifPresent((bone) -> bone.setHidden(true));
+            this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("diamond_armor").ifPresent((bone) -> bone.setHidden(true));
+            this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("amethst_armor").ifPresent((bone) -> bone.setHidden(true));
+            this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("Scapular").ifPresent((bone) -> bone.setHidden(true));
+            this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("Scapular2").ifPresent((bone) -> bone.setHidden(true));
+
+        }
 
         super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
-
-        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("main").ifPresent((bone) -> bone.setHidden(true));
+        if (!entity.isBaby())
+            this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("main").ifPresent((bone) -> bone.setHidden(true));
 
     }
 

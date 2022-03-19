@@ -52,19 +52,11 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		this.noCulling = true;
 	}
 
-	// createChild method
-	@Nullable
-	@Override
-	public AgeableEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_)
-	{
-		return SWEMEntities.SWEM_HORSE_ENTITY.get().create(this.level);
-	}
-
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
 	{
 
 		SWEMHorseEntityBase horse = (SWEMHorseEntityBase) event.getAnimatable();
-
+		if (horse.isBaby()) return PlayState.STOP;
 		// Rearing happens on all jumps, because minecraft internally uses the Rear animation for jump animation while pushing the enitity
 		// into the sky. So find another check, maybe for like isAngry or some of the sort, to play rear animation instead, of isRearing.
 		// This is called from AbstractHorseEntity#handleStartJump()
