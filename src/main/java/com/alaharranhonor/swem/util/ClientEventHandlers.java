@@ -45,6 +45,7 @@ import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.text.Color;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.FoliageColors;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraft.world.biome.BiomeRegistry;
@@ -59,6 +60,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.server.command.TextComponentHelper;
 import org.lwjgl.glfw.GLFW;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
@@ -262,7 +264,6 @@ public class ClientEventHandlers {
 		private static final HashMap<PlayerEntity, RiderEntity> animatedPlayers = new HashMap<>();
 
 
-		@OnlyIn(Dist.CLIENT)
 		@SubscribeEvent
 		public static void onRenderHorseJumpBar(RenderGameOverlayEvent.Pre event) {
 			if (event.getType() != RenderGameOverlayEvent.ElementType.JUMPBAR) return;
@@ -293,7 +294,18 @@ public class ClientEventHandlers {
 			if (j > 0) {
 				Minecraft.getInstance().gui.blit(stack, xPosition + 1, k, 201 - ((level + 1) * 40), 25, amountToDraw, 5, 201, 30);
 			}
+		}
 
+		@SubscribeEvent
+		public static void onUIRender(RenderGameOverlayEvent.Post event) {
+			if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
+
+			if (Minecraft.getInstance().player.getVehicle() instanceof SWEMHorseEntityBase) {
+				String gait = SWEMHorseEntityBase.HorseSpeed.values()[Minecraft.getInstance().player.getVehicle().getEntityData().get(SWEMHorseEntityBase.SPEED_LEVEL)].getText();
+				float xPos = event.getWindow().getGuiScaledWidth() / 2.0f + (4.5f * 20) + 4;
+				float yPos = event.getWindow().getGuiScaledHeight() - 14;
+				Minecraft.getInstance().font.draw(event.getMatrixStack(), gait, xPos, yPos, TextFormatting.WHITE.getColor());
+			}
 		}
 
 		@SubscribeEvent

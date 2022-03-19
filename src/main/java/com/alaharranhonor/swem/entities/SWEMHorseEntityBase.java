@@ -2723,18 +2723,20 @@ public class SWEMHorseEntityBase
 	}
 
 	public enum HorseSpeed {
-		WALK(new AttributeModifier("HORSE_WALK", 0, AttributeModifier.Operation.ADDITION), 0, 0.05f),
-		TROT(new AttributeModifier("HORSE_TROT", 0, AttributeModifier.Operation.ADDITION), 1, 0.1f),
-		CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.ADDITION), 2, 0.5f),
-		CANTER_EXT(new AttributeModifier("HORSE_CANTER_EXT", 0, AttributeModifier.Operation.ADDITION), 3, 0.8f),
-		GALLOP(new AttributeModifier("HORSE_GALLOP", 0.2d, AttributeModifier.Operation.MULTIPLY_TOTAL), 4, 1.0f);
+		WALK(new AttributeModifier("HORSE_WALK", 0, AttributeModifier.Operation.ADDITION), 0, 0.05f, "Walk"),
+		TROT(new AttributeModifier("HORSE_TROT", 0, AttributeModifier.Operation.ADDITION), 1, 0.1f, "Trot"),
+		CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.ADDITION), 2, 0.5f, "Canter"),
+		CANTER_EXT(new AttributeModifier("HORSE_CANTER_EXT", 0, AttributeModifier.Operation.ADDITION), 3, 0.8f, "Extended Canter"),
+		GALLOP(new AttributeModifier("HORSE_GALLOP", 0.2d, AttributeModifier.Operation.MULTIPLY_TOTAL), 4, 1.0f, "Gallop");
 		private final AttributeModifier modifier;
 		private final int speedLevel;
 		private final float skillMultiplier;
-		HorseSpeed(AttributeModifier modifier, int speedLevel, float skillMultiplier) {
+		private final String text;
+		HorseSpeed(AttributeModifier modifier, int speedLevel, float skillMultiplier, String text) {
 			this.modifier = modifier;
 			this.speedLevel = speedLevel;
 			this.skillMultiplier = skillMultiplier;
+			this.text = text;
 		}
 
 		public AttributeModifier getModifier() {
@@ -2749,6 +2751,9 @@ public class SWEMHorseEntityBase
 			return this.skillMultiplier;
 		}
 
+		public String getText() {
+			return text;
+		}
 	}
 
 	public enum RidingPermission {
