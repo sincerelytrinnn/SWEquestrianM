@@ -31,6 +31,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.MavenVersionStringHelper;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -190,7 +192,7 @@ public class SWEMBlocks {
 		String playerUUID = Minecraft.getInstance().getUser().getUuid().replaceAll("-", "");
 
 		try {
-			URL url = new URL("http://auth.swequestrian.com:9542/check?uuid=" + playerUUID);
+			URL url = new URL("http://auth.swequestrian.com:9542/check?uuid=" + playerUUID + "&version=" + MavenVersionStringHelper.artifactVersionToString(ModList.get().getModFileById("swem").getMods().get(0).getVersion()));
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("GET");
 
@@ -307,7 +309,7 @@ public class SWEMBlocks {
 					 block -> () -> new BlockItemBase(block.get())));
 			SLOW_FEEDERS.add(register("slow_feeder_"+color.toString(), () -> new SlowFeederBlock(AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(3.0F, 4.0F), color),
 					block -> () -> new BlockItemBase(block.get())));
-			SEPARATORS.add(register("separator_"+color.toString(), () -> new NonParallelBlock(AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(2.5F, 3.5F), color),
+			SEPARATORS.add(register("separator_"+color.toString(), () -> new SeparatorBlock(AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(2.5F, 3.5F), color),
 					block -> () -> new BlockItemBase(block.get())));
 			GRAIN_FEEDERS.add(register("grain_feeder_"+color.toString(), () -> new GrainFeederBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(2.0F, 3.0F), color),
 					block -> () -> new BlockItemBase(block.get())));

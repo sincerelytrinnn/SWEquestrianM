@@ -28,6 +28,8 @@ import net.minecraft.item.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.MavenVersionStringHelper;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -217,7 +219,7 @@ public class SWEMItems {
 		String playerUUID = Minecraft.getInstance().getUser().getUuid().replaceAll("-", "");
 
 		try {
-			URL url = new URL("http://auth.swequestrian.com:9542/check?uuid=" + playerUUID);
+			URL url = new URL("http://auth.swequestrian.com:9542/check?uuid=" + playerUUID + "&version=" + MavenVersionStringHelper.artifactVersionToString(ModList.get().getModFileById("swem").getMods().get(0).getVersion()));
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("GET");
 

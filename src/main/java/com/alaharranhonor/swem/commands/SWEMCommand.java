@@ -113,25 +113,50 @@ public class SWEMCommand {
 						});
 						return 1;
 					})
-				).then(Commands.literal("lowerlevel")
+				).then(Commands.literal("setlevel")
 					.requires((player) -> player.hasPermission(2))
-					.then(Commands.argument("levelToSet", IntegerArgumentType.integer())
-						.then(Commands.argument("skill", EnumArgument.enumArgument(Skills.class))
+					.then(Commands.argument("skill", EnumArgument.enumArgument(Skills.class))
+						.then(Commands.argument("levelToSet", IntegerArgumentType.integer())
 							.executes((ctx) -> {
 								Entity vehicle = ctx.getSource().getPlayerOrException().getVehicle();
 								if (vehicle instanceof SWEMHorseEntityBase) {
 									SWEMHorseEntityBase horse = (SWEMHorseEntityBase) vehicle;
 									int levelToSet = IntegerArgumentType.getInteger(ctx, "levelToSet") - 1;
+									int levelToSetMessage = levelToSet + 1;
 									Skills skill = ctx.getArgument("skill", Skills.class);
 
 									switch (skill) {
+										case ALL: {
+											if (levelToSet > -1 && levelToSet < 6) {
+												horse.progressionManager.getSpeedLeveling().setXp(0);
+												horse.progressionManager.getSpeedLeveling().setLevel(levelToSet);
+												horse.progressionManager.getJumpLeveling().setXp(0);
+												horse.progressionManager.getJumpLeveling().setLevel(levelToSet);
+												horse.progressionManager.getHealthLeveling().setXp(0);
+												horse.progressionManager.getHealthLeveling().setLevel(levelToSet);
+												horse.progressionManager.getAffinityLeveling().setXp(0);
+												horse.progressionManager.getAffinityLeveling().setLevel(levelToSet);
+												ctx.getSource().sendSuccess(new StringTextComponent("All the stats have been set to level: " + levelToSetMessage), true);
+											} else {
+												horse.progressionManager.getSpeedLeveling().setXp(0);
+												horse.progressionManager.getSpeedLeveling().setLevel(4);
+												horse.progressionManager.getJumpLeveling().setXp(0);
+												horse.progressionManager.getJumpLeveling().setLevel(4);
+												horse.progressionManager.getHealthLeveling().setXp(0);
+												horse.progressionManager.getHealthLeveling().setLevel(4);
+												horse.progressionManager.getAffinityLeveling().setXp(0);
+												horse.progressionManager.getAffinityLeveling().setLevel(levelToSet);
+												ctx.getSource().sendSuccess(new StringTextComponent("Speed, Jump and Health is maxed and the affinity level is now: " + levelToSetMessage), true);
+											}
+											break;
+										}
 										case JUMP: {
 											if (levelToSet > -1 && levelToSet < 6) {
 												horse.progressionManager.getJumpLeveling().setXp(0);
 												horse.progressionManager.getJumpLeveling().setLevel(levelToSet);
-												ctx.getSource().sendSuccess(new StringTextComponent("The jump level on the horse has been set to: " + levelToSet), false);
+												ctx.getSource().sendSuccess(new StringTextComponent("The jump level on the horse has been set to: " + levelToSetMessage), false);
 											} else
-												ctx.getSource().sendSuccess(new StringTextComponent("Incorrect level range."), false);
+												ctx.getSource().sendFailure(new StringTextComponent("Incorrect level range."));
 
 											break;
 										}
@@ -139,9 +164,9 @@ public class SWEMCommand {
 											if (levelToSet > -1 && levelToSet < 6) {
 												horse.progressionManager.getSpeedLeveling().setXp(0);
 												horse.progressionManager.getSpeedLeveling().setLevel(levelToSet);
-												ctx.getSource().sendSuccess(new StringTextComponent("The speed level on the horse has been set to: " + levelToSet), false);
+												ctx.getSource().sendSuccess(new StringTextComponent("The speed level on the horse has been set to: " + levelToSetMessage), false);
 											} else
-												ctx.getSource().sendSuccess(new StringTextComponent("Incorrect level range."), false);
+												ctx.getSource().sendFailure(new StringTextComponent("Incorrect level range."));
 
 											break;
 										}
@@ -149,9 +174,9 @@ public class SWEMCommand {
 											if (levelToSet > -1 && levelToSet < 6) {
 												horse.progressionManager.getHealthLeveling().setXp(0);
 												horse.progressionManager.getHealthLeveling().setLevel(levelToSet);
-												ctx.getSource().sendSuccess(new StringTextComponent("The health level on the horse has been set to: " + levelToSet), false);
+												ctx.getSource().sendSuccess(new StringTextComponent("The health level on the horse has been set to: " + levelToSetMessage), false);
 											} else
-												ctx.getSource().sendSuccess(new StringTextComponent("Incorrect level range."), false);
+												ctx.getSource().sendFailure(new StringTextComponent("Incorrect level range."));
 
 											break;
 										}
@@ -160,9 +185,9 @@ public class SWEMCommand {
 											if (levelToSet > -1 && levelToSet < 12) {
 												horse.progressionManager.getAffinityLeveling().setXp(0);
 												horse.progressionManager.getAffinityLeveling().setLevel(levelToSet);
-												ctx.getSource().sendSuccess(new StringTextComponent("The affinity level on the horse has been set to: " + levelToSet), false);
+												ctx.getSource().sendSuccess(new StringTextComponent("The affinity level on the horse has been set to: " + levelToSetMessage), false);
 											} else
-												ctx.getSource().sendSuccess(new StringTextComponent("Incorrect level range."), false);
+												ctx.getSource().sendFailure(new StringTextComponent("Incorrect level range."));
 
 											break;
 										}
@@ -317,6 +342,7 @@ public class SWEMCommand {
 	}
 
 	public enum Skills {
+		ALL,
 		SPEED,
 		JUMP,
 		HEALTH,

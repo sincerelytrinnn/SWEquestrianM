@@ -15,9 +15,7 @@ package com.alaharranhonor.swem.tools;
  * THE SOFTWARE.
  */
 
-import com.alaharranhonor.swem.blocks.EnglishFenceBlock;
-import com.alaharranhonor.swem.blocks.FenceBaseBlock;
-import com.alaharranhonor.swem.blocks.SWEMBlockStateProperties;
+import com.alaharranhonor.swem.blocks.*;
 import com.alaharranhonor.swem.items.ItemBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -50,6 +48,10 @@ public class FenceToolItem extends Item {
 			} else {
 				context.getLevel().setBlock(context.getClickedPos(), targetState.cycle(EnglishFenceBlock.PART), 3);
 			}
+			return ActionResultType.CONSUME;
+		}
+		if (target instanceof SeparatorBlock) {
+			context.getLevel().setBlock(context.getClickedPos(), targetState.cycle(NonParallelBlock.PART), 3);
 			return ActionResultType.CONSUME;
 		}
 		return ActionResultType.PASS;
