@@ -1514,9 +1514,9 @@ public class SWEMHorseEntityBase
 		super.tick();
 		if (this.isInWater() && !this.isVehicle()) {
 			if (this.wasEyeInWater) {
-				this.setDeltaMovement(this.getDeltaMovement().x, .05, this.getDeltaMovement().z); // Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until wasEyeInWater returns true.
+				this.setDeltaMovement(this.getDeltaMovement().x, .05, this.getDeltaMovement().z); // Set the motion on y with a positive force, because the horse is floating to the top, pull it down, until wasEyeInWater returns true.
 			} else {
-				this.setDeltaMovement(this.getDeltaMovement().x, -.05, this.getDeltaMovement().z); // Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until wasEyeInWater returns true.
+				this.setDeltaMovement(this.getDeltaMovement().x, -.05, this.getDeltaMovement().z); // Set the motion on y with a negative force, because the horse is floating to the top, pull it down, until wasEyeInWater returns false.
 
 			}
 
@@ -1750,8 +1750,13 @@ public class SWEMHorseEntityBase
 				boolean flag = this.level.getBlockState(this.blockPosition().offset(this.getDirection().getNormal())).canOcclude();
 
 				// Handles the swimming. Travel is only called when player is riding the entity.
-				if ((this.wasEyeInWater || this.fluidOnEyes == FluidTags.LAVA) && !flag && this.getDeltaMovement().y < 0) { // Check if the eyes is in water level, and we don't have a solid block the way we are facing. If not, then apply a inverse force, to float the horse.
+				if ((this.wasEyeInWater || this.fluidOnEyes == FluidTags.LAVA) && !flag && this.getDeltaMovement().y < 0) { // Check if the eyes is in water level, and we don't have a solid block the way we are facing. If not, then apply an inverse force, to float the horse.
 					this.setDeltaMovement(this.getDeltaMovement().multiply(1, -1.9, 1));
+					if (this.currentSpeed != HorseSpeed.WALK) {
+						HorseSpeed old = this.currentSpeed;
+						this.currentSpeed = HorseSpeed.WALK;
+						this.updateSelectedSpeed(old);
+					}
 				}
 
 				if (!this.isCameraLocked()) {
