@@ -19,6 +19,7 @@ import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
@@ -26,6 +27,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -100,6 +103,9 @@ public class HungerNeed {
 		}
 
 		horse.progressionManager.getHealthLeveling().addXP(points);
+		if (!horse.isSilent()) {
+			horse.playSound(SoundEvents.HORSE_EAT, 1.0F, 1.0F + (horse.getRandom().nextFloat() - horse.getRandom().nextFloat()) * 0.2F);
+		}
 		return true;
 	}
 
