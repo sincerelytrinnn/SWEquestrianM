@@ -110,42 +110,42 @@ public class RiderEntity implements IAnimatable {
 			if (horse.isFlying()) {
 
 				if (horse.getEntityData().get(HorseFlightController.isTurning)) {
-					if (event.getController().getCurrentAnimation().animationName.equals("Turn_Cycle")) {
+					if (event.getController().getCurrentAnimation().animationName.equals("TurnLeftcyclePlayer")) {
 						return PlayState.CONTINUE;
 					}
 					if (horse.getEntityData().get(HorseFlightController.isTurningLeft)) {
-						if (!event.getController().getCurrentAnimation().animationName.equals("Turn")) {
-							event.getController().setAnimation(new AnimationBuilder().addAnimation("Turn", false).addAnimation("Turn_Cycle", true));
+						if (!event.getController().getCurrentAnimation().animationName.equals("TurnLeftPlayer")) {
+							event.getController().setAnimation(new AnimationBuilder().addAnimation("TurnLeftPlayer", false).addAnimation("TurnLeftcyclePlayer", true));
 							return PlayState.CONTINUE;
 						}
 
 					}
 
-					if (event.getController().getCurrentAnimation().animationName.equals("Turn")) {
+					if (event.getController().getCurrentAnimation().animationName.equals("TurnLeftPlayer")) {
 						return PlayState.CONTINUE;
 					}
 
 				}
 
 				if (horse.getEntityData().get(HorseFlightController.isLaunching)) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Launch"));
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("LaunchPlayer"));
 					return PlayState.CONTINUE;
 				}
 				if (horse.getEntityData().get(HorseFlightController.isDiving)) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Dive"));
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("DivePlayer"));
 					return PlayState.CONTINUE;
 				}
 				if (horse.getEntityData().get(HorseFlightController.didFlap)) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Going_Up"));
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("GoingUpPlayer"));
 					return PlayState.CONTINUE;
 				} else if (horse.getEntityData().get(HorseFlightController.isSlowingDown)) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Slow_Down"));
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("SlowDownPlayer"));
 					return PlayState.CONTINUE;
 				} else if (horse.getEntityData().get(HorseFlightController.isFloating)) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Float_Down"));
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("FloatDownPlayer"));
 					return PlayState.CONTINUE;
 				} else if (horse.getEntityData().get(HorseFlightController.isAccelerating)) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Speed_Up"));
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("SpeedUpPlayer"));
 					return PlayState.CONTINUE;
 				}
 			}
@@ -155,19 +155,19 @@ public class RiderEntity implements IAnimatable {
 
 			if (horse.jumpHeight != 0) {
 				if (horse.jumpHeight > 5.0F) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_5Player", false));
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("JumpLvl5Player", false));
 					return PlayState.CONTINUE;
 				} else if (horse.jumpHeight > 4.0F) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_4Player", false));
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("JumpLvl4Player", false));
 					return PlayState.CONTINUE;
 				} else if (horse.jumpHeight > 3.0F) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_3Player", false));
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("JumpLvl3Player", false));
 					return PlayState.CONTINUE;
 				} else if (horse.jumpHeight > 2.0F) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_2Player", false));
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("JumpLvl2Player", false));
 					return PlayState.CONTINUE;
 				} else {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_1Player", false));
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("JumpLvl1Player", false));
 					return PlayState.CONTINUE;
 				}
 			}
@@ -195,12 +195,18 @@ public class RiderEntity implements IAnimatable {
 			if (!isMoving) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("IdlePlayer"));
 			} else {
+				if (horse.isWalkingBackwards) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("WalkingBackwardsPlayer"));
+					return PlayState.CONTINUE;
+				}
 				if (horse.getEntityData().get(SPEED_LEVEL) == 0) {
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("WalkPlayer"));
 				} else if (horse.getEntityData().get(SPEED_LEVEL) == 1) {
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("TrotPlayer"));
-				} else if (horse.getEntityData().get(SPEED_LEVEL) == 2 || horse.getEntityData().get(SPEED_LEVEL) == 3) {
+				} else if (horse.getEntityData().get(SPEED_LEVEL) == 2 ) {
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("CanterPlayer"));
+				} else if (horse.getEntityData().get(SPEED_LEVEL) == 3) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("ExtendedCanterPlayer"));
 				} else if (horse.getEntityData().get(SPEED_LEVEL) == 4) {
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("GallopPlayer"));
 				}
