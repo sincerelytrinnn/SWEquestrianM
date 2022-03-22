@@ -47,10 +47,6 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 			GeoModel horseModel = getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json"));
 			// Hide unneeded bones for performance improvement.
 			horseModel.getBone("amethyst_armor").get().setHidden(false);
-			horseModel.getBone("diamond_armor").get().setHidden(false);
-			horseModel.getBone("gold_armor").get().setHidden(false);
-			horseModel.getBone("iron_armor").get().setHidden(false);
-			horseModel.getBone("cloth_armor").get().setHidden(false);
 
 			SWEMHorseArmorItem armorItem = (SWEMHorseArmorItem)stack.getItem();
 			if (shouldRenderArmour(entitylivingbaseIn)) {
@@ -69,8 +65,8 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 			if (armorItem.tier == SWEMHorseArmorItem.HorseArmorTier.AMETHYST ) {
 
 				// Check the Client settings for if they want to render the wings or not.
-				horseModel.getBone("Scapular").get().setHidden(false);
-				horseModel.getBone("Scapular2").get().setHidden(false);
+				horseModel.getBone("ScapularLeft").get().setHidden(false);
+				horseModel.getBone("ScapularRight").get().setHidden(false);
 
 				ResourceLocation wingTexture = getWingTexture(entitylivingbaseIn);
 				this.entityRenderer.render(horseModel,
@@ -84,12 +80,8 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 			}
 
 			horseModel.getBone("amethyst_armor").get().setHidden(true);
-			horseModel.getBone("diamond_armor").get().setHidden(true);
-			horseModel.getBone("gold_armor").get().setHidden(true);
-			horseModel.getBone("iron_armor").get().setHidden(true);
-			horseModel.getBone("cloth_armor").get().setHidden(true);
-			horseModel.getBone("Scapular").get().setHidden(true);
-			horseModel.getBone("Scapular2").get().setHidden(true);
+			horseModel.getBone("ScapularLeft").get().setHidden(true);
+			horseModel.getBone("ScapularRight").get().setHidden(true);
 
 
 
