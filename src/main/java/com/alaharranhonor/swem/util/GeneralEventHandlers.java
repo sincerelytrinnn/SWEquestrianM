@@ -36,6 +36,7 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.*;
@@ -293,7 +294,7 @@ public class GeneralEventHandlers {
 		}
 
 		@SubscribeEvent
-		public static void onHorseHurt(LivingHurtEvent event) {
+		public static void amethystSwordReducedDamage(LivingHurtEvent event) {
 			if (!(event.getEntityLiving() instanceof SWEMHorseEntityBase)) return;
 			if (!(event.getSource().getEntity() instanceof PlayerEntity)) return;
 			PlayerEntity player = (PlayerEntity) event.getSource().getEntity();
@@ -301,6 +302,20 @@ public class GeneralEventHandlers {
 				event.setAmount(event.getAmount() * 0.25f);
 			}
 		}
+
+		@SubscribeEvent
+		public static void leadWithBridleReins(PlayerInteractEvent.EntityInteract event) {
+			if (!(event.getTarget() instanceof SWEMHorseEntityBase)) return;
+			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) event.getTarget();
+			if (horse.getLeashHolder() == event.getPlayer() && horse.isBridleLeashed()) {
+				horse.setBridleLeashed(false);
+				horse.dropLeash(true, false);
+				event.setCancellationResult(ActionResultType.CONSUME);
+				event.setCanceled(true);
+				return;
+			}
+		}
+
 
 		@SubscribeEvent
 		public static void onEntityJoinWorld(EntityJoinWorldEvent event) {

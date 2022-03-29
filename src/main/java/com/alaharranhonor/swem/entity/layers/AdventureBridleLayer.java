@@ -55,15 +55,16 @@ public class AdventureBridleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 				horseModel.getBone("western_bridle").get().setHidden(false);
 
 				BridleItem bridleItem = (BridleItem)stack.getItem();
-				this.entityRenderer.render(horseModel,
-						entitylivingbaseIn,
-						partialTicks,
-						RenderType.entityCutoutNoCull(bridleItem.getModelTexture()),
-						matrixStackIn,
-						bufferIn,
-						bufferIn.getBuffer(RenderType.entityCutoutNoCull(bridleItem.getModelTexture())),
-						packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
-				);
+				if (!entitylivingbaseIn.isBridleLeashed())
+					this.entityRenderer.render(horseModel,
+							entitylivingbaseIn,
+							partialTicks,
+							RenderType.entityCutoutNoCull(bridleItem.getModelTexture()),
+							matrixStackIn,
+							bufferIn,
+							bufferIn.getBuffer(RenderType.entityCutoutNoCull(bridleItem.getModelTexture())),
+							packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
+					);
 
 				this.entityRenderer.render(horseModel,
 						entitylivingbaseIn,

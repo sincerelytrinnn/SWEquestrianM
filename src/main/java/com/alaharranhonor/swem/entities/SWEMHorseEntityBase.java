@@ -142,6 +142,7 @@ public class SWEMHorseEntityBase
 	public final static DataParameter<Boolean> RENDER_BRIDLE = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public final static DataParameter<Boolean> RENDER_BLANKET = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public final static DataParameter<Boolean> RENDER_GIRTH_STRAP = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	public final static DataParameter<Boolean> IS_BRIDLE_LEASHED = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	private final ArrayList<UUID> allowedList = new ArrayList<>();
 
 	public HorseSpeed currentSpeed;
@@ -552,6 +553,8 @@ public class SWEMHorseEntityBase
 		this.entityData.define(RENDER_BRIDLE, true);
 		this.entityData.define(RENDER_GIRTH_STRAP, true);
 
+		this.entityData.define(IS_BRIDLE_LEASHED, false);
+
 	}
 
 	/**
@@ -569,6 +572,13 @@ public class SWEMHorseEntityBase
 		return this.entityData.get(TRACKED);
 	}
 
+	public boolean isBridleLeashed() {
+		return this.entityData.get(IS_BRIDLE_LEASHED);
+	}
+
+	public void setBridleLeashed(boolean bridleLeashed) {
+		this.entityData.set(IS_BRIDLE_LEASHED, bridleLeashed);
+	}
 
 	/**
 	 * Set the owner uuid.
@@ -2055,6 +2065,8 @@ public class SWEMHorseEntityBase
 
 
 
+
+
 	// Item interaction with horse.
 	@Override
 	public ActionResultType mobInteract(PlayerEntity playerEntity, Hand hand) {
@@ -2549,7 +2561,7 @@ public class SWEMHorseEntityBase
 		return this.inventory.getItem(5);
 	}
 
-	private boolean hasBridle() {
+	public boolean hasBridle() {
 		return this.inventory.getItem(0).getItem() instanceof BridleItem;
 	}
 
@@ -2600,6 +2612,24 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
+		if (source.getEntity() instanceof PlayerEntity) {
+			PlayerEntity player = (PlayerEntity) source.getEntity();
+			if (this.hasBridle()) {
+				if (this.canBeLeashed(player) && player.isShiftKeyDown()) {
+					this.setBridleLeashed(true);
+					this.setLeashedTo(player, true);
+					return false;
+				}
+
+				if (this.isLeashed() && this.isBridleLeashed() && player.isShiftKeyDown()) {
+					this.setBridleLeashed(false);
+					this.dropLeash(true, false);
+					return false;
+				}
+			}
+		}
+
+
 		if (this.isVehicle() && !this.level.isClientSide) {
 			this.progressionManager.getAffinityLeveling().removeXp(amount * 15);
 		} else if (source.getEntity() != null && source.getEntity().getUUID().equals(this.getOwnerUUID()) && !this.level.isClientSide) {
@@ -2672,7 +2702,8 @@ public class SWEMHorseEntityBase
 
 		if (this.level.isClientSide) {
 			SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
-			SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, this.getId()));
+			if (this.entityData.get(SPEED_LEVEL) != 0)
+				SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, this.getId()));
 		} else {
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new CHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
 		}
