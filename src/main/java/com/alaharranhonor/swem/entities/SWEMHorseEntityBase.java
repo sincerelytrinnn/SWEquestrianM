@@ -216,7 +216,7 @@ public class SWEMHorseEntityBase
 		this.goalSelector.addGoal(7, new LookForFoodGoal(this, 4.0d));
 		this.goalSelector.addGoal(7, new LookForWaterGoal(this, 4.0d));
 		//this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-		this.goalSelector.addGoal(9, new LookRandomlyGoal(this));
+		this.goalSelector.addGoal(9, new CustomLookRandomlyGoal(this));
 	}
 
 
