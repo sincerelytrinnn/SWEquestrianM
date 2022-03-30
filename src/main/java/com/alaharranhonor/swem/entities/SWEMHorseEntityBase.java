@@ -350,7 +350,6 @@ public class SWEMHorseEntityBase
 				}
 			}
 
-
 			if (this.getLeashHolder() instanceof PlayerEntity) {
 				this.getLookControl().setLookAt(this.getLeashHolder(), (float)this.getHeadRotSpeed(), (float)this.getMaxHeadXRot());
 			}
@@ -1260,7 +1259,7 @@ public class SWEMHorseEntityBase
 	}
 
 	public SWEMCoatColor getCoatColor() {
-		return SWEMCoatColor.getById(this.getHorseVariant() & 255);
+		return SWEMCoatColor.getById(this.getHorseVariant());
 	}
 
 	private int getHorseVariant() {
@@ -2096,7 +2095,7 @@ public class SWEMHorseEntityBase
 		if (!itemstack.isEmpty() && item != Items.SADDLE) {
 			if (item == Items.LAPIS_LAZULI && playerEntity.getUUID().equals(this.getOwnerUUID())) {
 				if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
-					this.setHorseVariant(SWEMCoatColor.getNextCyclableCoat(this.getHorseVariant() & 255).getId());
+					this.setHorseVariant(SWEMCoatColor.getNextCyclableCoat(this.getHorseVariant()).getId());
 					ItemStack heldItemCopy = itemstack.copy();
 					if (!playerEntity.abilities.instabuild)
 						heldItemCopy.shrink(1);
@@ -2107,7 +2106,7 @@ public class SWEMHorseEntityBase
 
 			if (item == Items.REDSTONE && playerEntity.getUUID().equals(this.getOwnerUUID())) {
 				if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
-					this.setHorseVariant(SWEMCoatColor.getPreviousCyclableCoat(this.getHorseVariant() & 255).getId());
+					this.setHorseVariant(SWEMCoatColor.getPreviousCyclableCoat(this.getHorseVariant()).getId());
 					ItemStack heldItemCopy = itemstack.copy();
 					if (!playerEntity.abilities.instabuild)
 						heldItemCopy.shrink(1);
@@ -2341,18 +2340,31 @@ public class SWEMHorseEntityBase
 	}
 
 
+	@Override
+	protected void ageBoundaryReached() {
+		this.setCoatColour(SWEMCoatColor.foalToParentCoat(this.getCoatColor()));
+	}
 
 	public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity partner) {
-		SWEMHorseEntityBase swemHorseEntityBase = SWEMEntities.SWEM_HORSE_ENTITY.get().create(world);
+		SWEMHorseEntityBase foal = SWEMEntities.SWEM_HORSE_ENTITY.get().create(world);
+		if (foal == null) {
+			SWEM.LOGGER.error("Uh oh - A foal could not be spawned, something went wrong.\nPartner 1: " + this + "\nPartner 2: " + partner);
+			return null;
+		}
 		SWEMHorseEntity swemPartner = (SWEMHorseEntity) partner;
 		int i = this.getRandom().nextInt(9);
-		SWEMCoatColor coatColor = Util.getRandom(SWEMCoatColor.values(), this.getRandom());
+		SWEMCoatColor coatColor;
+		if (i < 4) {
+			coatColor = SWEMCoatColor.parentToFoalCoat(this.getCoatColor());
+		} else if (i < 8) {
+			coatColor = SWEMCoatColor.parentToFoalCoat(swemPartner.getCoatColor());
+		} else {
+			coatColor = SWEMCoatColor.getRandomFoalCoat();
+		}
 
+		foal.setCoatColour(coatColor);
 
-
-		swemHorseEntityBase.setCoatColour(coatColor);
-
-		return swemHorseEntityBase;
+		return foal;
 	}
 
 	public boolean canWearArmor() {

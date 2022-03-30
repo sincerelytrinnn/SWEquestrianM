@@ -18,6 +18,7 @@ package com.alaharranhonor.swem.entity.coats;
 import com.alaharranhonor.swem.SWEM;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public enum SWEMCoatColor {
 	LADY_JENNY(0, false),
@@ -61,7 +62,14 @@ public enum SWEMCoatColor {
 	NERO_STARDUST(49, true),
 	FRANK_STEVECV(51, true),
 	KODIAK_DELPHI(53, true),
-	ANNIE_LACE(54, true);
+	ANNIE_LACE(54, true),
+	FOAL_BLACK(70000, false),
+	FOAL_BROWN(70001, false),
+	FOAL_CHESTNUT(70002, false),
+	FOAL_CREAMY(70003, false),
+	FOAL_DARK_BROWN(70004, false),
+	FOAL_GRAY(70005, false),
+	FOAL_WHITE(70006, false);
 
 	private static final SWEMCoatColor[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(SWEMCoatColor::getId)).toArray(SWEMCoatColor[]::new);
 	private final int id;
@@ -99,11 +107,11 @@ public enum SWEMCoatColor {
 		return SWEMCoatColor.WHITE;
 	}
 
-	public static SWEMCoatColor getNextCoat(int prevId) {
+	private static SWEMCoatColor getNextCoat(int prevId) {
 		return VALUES[(prevId + 1) % VALUES.length];
 	}
 
-	public static SWEMCoatColor getPreviousCoat(int prevId) {
+	private static SWEMCoatColor getPreviousCoat(int prevId) {
 		int index = prevId - 1;
 		if (index < 0) {
 			index += VALUES.length;
@@ -128,7 +136,7 @@ public enum SWEMCoatColor {
 		return color;
 	}
 
-	public static SWEMCoatColor getRandomCoat() {
+	private static SWEMCoatColor getRandomCoat() {
 		Random random = new Random();
 		return VALUES[random.nextInt(VALUES.length)];
 	}
@@ -140,6 +148,32 @@ public enum SWEMCoatColor {
 		}
 
 		return color;
+	}
+
+	/**
+	 * Retrieves a random foal coat.
+	 * Foal coats are defined as having id's of 70000 or above.
+	 * @return The random foal coat to use.
+	 */
+	public static SWEMCoatColor getRandomFoalCoat() {
+		List<SWEMCoatColor> foalCoats = Arrays.stream(VALUES).filter((coat) -> coat.getId() >= 70000).collect(Collectors.toList());
+		Collections.shuffle(foalCoats);
+
+		return foalCoats.get(0);
+	}
+
+	/**
+	 * Wrapper method for {@link CoatMapper#parentToFoalCoat(SWEMCoatColor)}
+	 */
+	public static SWEMCoatColor parentToFoalCoat(SWEMCoatColor parent) {
+		return CoatMapper.parentToFoalCoat(parent);
+	}
+
+	/**
+	 * Wrapper method for {@link CoatMapper#foalToParentCoat(SWEMCoatColor)}
+	 */
+	public static SWEMCoatColor foalToParentCoat(SWEMCoatColor foal) {
+		return CoatMapper.foalToParentCoat(foal);
 	}
 
 

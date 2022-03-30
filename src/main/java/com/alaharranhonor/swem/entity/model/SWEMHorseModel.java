@@ -71,6 +71,13 @@ public class SWEMHorseModel extends AnimatedGeoModel<SWEMHorseEntity> {
         iter.put(SWEMCoatColor.FRANK_STEVECV, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/frank_stevecv.png"));
         iter.put(SWEMCoatColor.KODIAK_DELPHI, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/kodiak_delphi.png"));
         iter.put(SWEMCoatColor.ANNIE_LACE, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/annie_lace.png"));
+        iter.put(SWEMCoatColor.FOAL_BLACK, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/foal/black.png"));
+        iter.put(SWEMCoatColor.FOAL_BROWN, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/foal/brown.png"));
+        iter.put(SWEMCoatColor.FOAL_CHESTNUT, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/foal/chestnut.png"));
+        iter.put(SWEMCoatColor.FOAL_CREAMY, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/foal/creamy.png"));
+        iter.put(SWEMCoatColor.FOAL_DARK_BROWN, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/foal/dark_brown.png"));
+        iter.put(SWEMCoatColor.FOAL_GRAY, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/foal/gray.png"));
+        iter.put(SWEMCoatColor.FOAL_WHITE, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/foal/white.png"));
     });
 
 
@@ -84,9 +91,6 @@ public class SWEMHorseModel extends AnimatedGeoModel<SWEMHorseEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(SWEMHorseEntity swemHorseEntity) {
-        if (swemHorseEntity.isBaby()) {
-            return new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/baby/texture.png");
-        }
         return VARIANTS.get(swemHorseEntity.getCoatColor());
     }
 
