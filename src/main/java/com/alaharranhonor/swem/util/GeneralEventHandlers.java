@@ -17,6 +17,7 @@ package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.AmethystRidingBoots;
+import com.alaharranhonor.swem.blocks.HitchingPostBase;
 import com.alaharranhonor.swem.commands.DevCommand;
 import com.alaharranhonor.swem.commands.SWEMCommand;
 import com.alaharranhonor.swem.config.ConfigHelper;
@@ -33,6 +34,7 @@ import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.item.LeashKnotEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
@@ -316,9 +318,17 @@ public class GeneralEventHandlers {
 			}
 		}
 
+		@SubscribeEvent
+		public static void resetHitchingPostCustomKnot(PlayerInteractEvent.EntityInteract event) {
+			if (!(event.getTarget() instanceof LeashKnotEntity)) return;
+			if (event.getWorld().getBlockState(event.getPos()).getBlock() instanceof HitchingPostBase) {
+				event.getWorld().setBlock(event.getPos(), event.getWorld().getBlockState(event.getPos()).setValue(HitchingPostBase.CUSTOM_LEAD, false), 3);
+			}
+		}
+
 
 		@SubscribeEvent
-		public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
+		public static void newYearMessage(EntityJoinWorldEvent event) {
 			if (event.getEntity() instanceof PlayerEntity && event.getEntity().level.isClientSide) {
 				LocalDateTime time = LocalDateTime.now();
 				if (time.getMonth() == Month.DECEMBER && time.getDayOfMonth() == 31) {
@@ -328,6 +338,15 @@ public class GeneralEventHandlers {
 					IFormattableTextComponent fireworks = new StringTextComponent("\n Now go out and set off some pretty fireworks!").setStyle(Style.EMPTY.withColor(Color.parseColor("#545454")));
 
 					event.getEntity().sendMessage(hi.append(content).append(fireworks), Util.NIL_UUID);
+				}
+			}
+		}
+
+		@SubscribeEvent
+		public static void hideLeadKnotEntity(EntityJoinWorldEvent event) {
+			if (event.getEntity() instanceof LeashKnotEntity && !event.getEntity().level.isClientSide) {
+				if (event.getWorld().getBlockState(event.getEntity().blockPosition()).getBlock() instanceof HitchingPostBase) {
+					event.getEntity().setInvisible(true);
 				}
 			}
 		}

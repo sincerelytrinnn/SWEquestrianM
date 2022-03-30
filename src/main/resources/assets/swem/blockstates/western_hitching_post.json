@@ -77,6 +77,49 @@
         "model": "swem:block/western_hitching_post_upper",
         "y": 270
       }
+    },
+    {
+      "when": {
+        "enabled": true,
+        "post_part": "upper",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "swem:block/rope_knot"
+      }
+    },
+    {
+      "when": {
+        "enabled": true,
+        "post_part": "upper",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "swem:block/rope_knot",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "enabled": true,
+        "post_part": "upper",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "swem:block/rope_knot",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "enabled": true,
+        "post_part": "upper",
+        "facing": "west"
+      },
+      "apply": {
+        "model": "swem:block/rope_knot",
+        "y": 270
+      }
     }
   ]
 }

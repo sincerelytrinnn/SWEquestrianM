@@ -15,18 +15,24 @@ package com.alaharranhonor.swem.blocks;
  * THE SOFTWARE.
  */
 
+import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.*;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.item.LeashKnotEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.stats.Stats;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.IBooleanFunction;
@@ -48,6 +54,7 @@ public class HitchingPostBase extends Block {
 	private final HitchingPostType type;
 	public static final DirectionProperty FACING = HorizontalBlock.FACING;
 	public static final EnumProperty<PostPart> PART = SWEMBlockStateProperties.POST_PART;
+	public static final BooleanProperty CUSTOM_LEAD = BlockStateProperties.ENABLED;
 
 
 	public HitchingPostBase(HitchingPostType type, Properties properties) {
@@ -58,13 +65,14 @@ public class HitchingPostBase extends Block {
 				this.stateDefinition.any()
 				.setValue(FACING, Direction.NORTH)
 				.setValue(PART, PostPart.LOWER)
+				.setValue(CUSTOM_LEAD, false)
 		);
 
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		VoxelShape shape = this.type.getVoxelShape(state.getValue(FACING));
+		VoxelShape shape = VoxelShapes.join(Block.box(6, 16, 6, 10, 30, 10), Block.box(6, 0, 6, 10, 16, 10), IBooleanFunction.OR);
 		if (state.getValue(PART) == PostPart.UPPER) {
 			return shape.move(0.0d, -1.0d, 0.0d);
 		} else {
@@ -82,11 +90,13 @@ public class HitchingPostBase extends Block {
 	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(FACING);
 		builder.add(PART);
+		builder.add(CUSTOM_LEAD);
 	}
 
 
 	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		ItemStack itemstack = player.getItemInHand(handIn);
+		System.out.println("I hit the hitching post.");
 		if (itemstack.getItem() == Items.SHEARS) {
 			itemstack.hurtAndBreak(1, player, (entity) -> entity.broadcastBreakEvent(handIn));
 
@@ -120,7 +130,32 @@ public class HitchingPostBase extends Block {
 		if (worldIn.isClientSide) {
 			return itemstack.getItem() == Items.LEAD ? ActionResultType.SUCCESS : ActionResultType.PASS;
 		} else {
-			return LeadItem.bindPlayerMobs(player, worldIn, state.getValue(PART) == PostPart.LOWER ? pos.above() : pos);
+			BlockPos pPos = state.getValue(PART) == PostPart.LOWER ? pos.above() : pos;
+			LeashKnotEntity leashknotentity = null;
+			boolean flag = false;
+			double d0 = 7.0D;
+			int i = pPos.getX();
+			int j = pPos.getY();
+			int k = pPos.getZ();
+
+			for(SWEMHorseEntityBase mobentity : worldIn.getEntitiesOfClass(SWEMHorseEntityBase.class, new AxisAlignedBB((double)i - 7.0D, (double)j - 7.0D, (double)k - 7.0D, (double)i + 7.0D, (double)j + 7.0D, (double)k + 7.0D))) {
+				if (mobentity.getLeashHolder() == player && !mobentity.isBridleLeashed()) {
+					if (leashknotentity == null) {
+						leashknotentity = LeashKnotEntity.getOrCreateKnot(worldIn, pPos);
+
+					}
+
+					mobentity.setLeashedTo(leashknotentity, true);
+					flag = true;
+				}
+			}
+			if (leashknotentity != null) {
+				leashknotentity.setInvisible(true);
+				leashknotentity.setPos(leashknotentity.getX(), leashknotentity.getY() - 0.3125, leashknotentity.getZ());
+				BlockState toChange = worldIn.getBlockState(pPos);
+				worldIn.setBlock(pPos, toChange.setValue(CUSTOM_LEAD, true), 3);
+			}
+			return flag ? ActionResultType.SUCCESS : ActionResultType.PASS;
 		}
 	}
 

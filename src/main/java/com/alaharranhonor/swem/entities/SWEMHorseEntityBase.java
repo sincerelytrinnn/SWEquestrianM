@@ -2753,6 +2753,12 @@ public class SWEMHorseEntityBase
 		this.whistlePos = pos;
 	}
 
+	@Override
+	public Vector3d getLeashOffset() {
+		// Makes the leash render from the head of the horse instead of the front body.
+		return super.getLeashOffset().add(0, 0, this.getBbWidth() * 0.7);
+	}
+
 	public enum HorseSpeed {
 		WALK(new AttributeModifier("HORSE_WALK", 0, AttributeModifier.Operation.ADDITION), 0, 0.05f, "Walk"),
 		TROT(new AttributeModifier("HORSE_TROT", 0, AttributeModifier.Operation.ADDITION), 1, 0.1f, "Trot"),

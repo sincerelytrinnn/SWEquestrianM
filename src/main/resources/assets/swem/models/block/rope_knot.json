@@ -1,20 +1,21 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"4": "swem:blocks/pasture_hitching_post_lower"
+		"6": "swem:blocks/rope_knot"
 	},
 	"elements": [
 		{
-			"from": [6, 0, 6],
-			"to": [10, 16, 10],
-			"rotation": {"angle": 0, "axis": "y", "origin": [15, 8, 17]},
+			"name": "knot",
+			"from": [7, 5.5, 2.25],
+			"to": [9, 7.5, 4.25],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, -4]},
 			"faces": {
-				"north": {"uv": [0, 0, 2, 8], "texture": "#4"},
-				"east": {"uv": [2, 0, 4, 8], "texture": "#4"},
-				"south": {"uv": [4, 0, 6, 8], "texture": "#4"},
-				"west": {"uv": [6, 0, 8, 8], "texture": "#4"},
-				"up": {"uv": [2, 10, 0, 8], "texture": "#4"},
-				"down": {"uv": [10, 0, 8, 2], "texture": "#4"}
+				"north": {"uv": [0, 0, 2, 2], "texture": "#6"},
+				"east": {"uv": [0, 2, 2, 4], "texture": "#6"},
+				"south": {"uv": [2, 0, 4, 2], "texture": "#6"},
+				"west": {"uv": [2, 2, 4, 4], "texture": "#6"},
+				"up": {"uv": [2, 6, 0, 4], "texture": "#6"},
+				"down": {"uv": [6, 0, 4, 2], "texture": "#6"}
 			}
 		}
 	],
@@ -55,7 +56,7 @@
 	},
 	"groups": [
 		{
-			"name": "pasture_lower",
+			"name": "knot",
 			"origin": [8, 8, 8],
 			"color": 0,
 			"children": [0]
