@@ -140,7 +140,7 @@ public class SWEM
             GlobalEntityTypeAttributes.put(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiEntity.setCustomAttributes().build());
             GlobalEntityTypeAttributes.put(SWEMEntities.HORSE_POOP_ENTITY.get(), PoopEntity.createLivingAttributes().build());
             BrewingRecipeRegistry.addRecipe(new BrewingRecipes.CantazariteBrewingRecipe());
-            //BrewingRecipeRegistry.addRecipe(new BrewingRecipes.RainbowChicPotion());
+            BrewingRecipeRegistry.addRecipe(new BrewingRecipes.RainbowChicPotion());
 
             ComposterBlock.COMPOSTABLES.put(SWEMItems.ALFALFA_SEEDS.get(), 0.3F);
             ComposterBlock.COMPOSTABLES.put(SWEMItems.ALFALFA_BUSHEL.get(), 0.65F);

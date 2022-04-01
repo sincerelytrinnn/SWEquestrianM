@@ -2103,7 +2103,7 @@ public class SWEMHorseEntityBase
 			if (NEGATIVE_FOOD_ITEMS.test(itemstack)) {
 				// Emit negative particle effects.
 				if (!this.level.isClientSide) {
-					((ServerWorld) this.level).sendParticles(SWEMParticles.BAD.get(), this.getX(), this.getY() + 2.5, this.getZ(), 4, 0.3D, 0.3D, 0.3D, 0.3D);
+					this.emitBadParticles((ServerWorld) this.level, 4);
 				}
 				return ActionResultType.FAIL;
 			}
@@ -2112,7 +2112,7 @@ public class SWEMHorseEntityBase
 				if (this.getNeeds().getHunger().getTotalTimesFed() == 7) {
 					// Emit negative particle effects.
 					if (!this.level.isClientSide)
-						((ServerWorld) this.level).sendParticles(SWEMParticles.ECH.get(), this.getX(), this.getY() + 2.5, this.getZ(), 6, 0.3D, 0.3D, 0.3D, 0.3D);
+						this.emitEchParticles((ServerWorld) this.level, 6);
 
 					return ActionResultType.PASS;
 				}
@@ -2126,9 +2126,9 @@ public class SWEMHorseEntityBase
 							this.progressionManager.getAffinityLeveling().addXP(5.0F);
 						}
 
-						((ServerWorld) this.level).sendParticles(SWEMParticles.YAY.get(), this.getX(), this.getY() + 2.5, this.getZ(), 3, 0.3D, 0.3D, 0.3D, 0.3D);
+						this.emitYayParticles((ServerWorld) this.level, 3);
 					} else {
-						((ServerWorld) this.level).sendParticles(SWEMParticles.ECH.get(), this.getX(), this.getY() + 2.5, this.getZ(), 3, 0.3D, 0.3D, 0.3D, 0.3D);
+						this.emitEchParticles((ServerWorld) this.level, 3);
 						// Stop the swing from happening
 						return ActionResultType.SUCCESS;
 					}
@@ -2151,7 +2151,7 @@ public class SWEMHorseEntityBase
 				if (!this.level.isClientSide && this.getNeeds().getThirst().canIncrementState()) {
 					this.getNeeds().getThirst().incrementState();
 					playerEntity.setItemInHand(hand, ((BucketItem) item).getEmptySuccessItem(itemstack, playerEntity));
-					((ServerWorld) this.level).sendParticles(SWEMParticles.YAY.get(), this.getX(), this.getY() + 2.5, this.getZ(), 4, 0.3D, 0.3D, 0.3D, 0.3D);
+					this.emitYayParticles((ServerWorld) this.level, 4);
 					return ActionResultType.CONSUME;
 				} else if (this.level.isClientSide && !this.getNeeds().getThirst().canIncrementState()) {
 					// Stop the swing from happening
@@ -2159,7 +2159,7 @@ public class SWEMHorseEntityBase
 
 				} else if (!this.level.isClientSide && !this.getNeeds().getThirst().canIncrementState()) {
 					// Stop the swing from happening
-					((ServerWorld) this.level).sendParticles(SWEMParticles.ECH.get(), this.getX(), this.getY() + 2.5, this.getZ(), 3, 0.3D, 0.3D, 0.3D, 0.3D);
+					this.emitEchParticles((ServerWorld) this.level, 3);
 					return ActionResultType.SUCCESS;
 				}
 			}
@@ -2644,6 +2644,9 @@ public class SWEMHorseEntityBase
 		}
 		if (source.getDirectEntity() instanceof AbstractArrowEntity) {
 			amount = this.calculateArrowDamage((AbstractArrowEntity) source.getDirectEntity(), amount);
+		}
+		if (!this.level.isClientSide()) {
+			this.emitBadParticles((ServerWorld) this.level, 5);
 		}
 		return super.hurt(source, amount);
 	}

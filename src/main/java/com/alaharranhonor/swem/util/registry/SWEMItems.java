@@ -18,6 +18,7 @@ package com.alaharranhonor.swem.util.registry;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.*;
 import com.alaharranhonor.swem.blocks.BlockItemBase;
+import com.alaharranhonor.swem.entity.coats.SWEMCoatColor;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.potions.CantazaritePotionItem;
 import com.alaharranhonor.swem.items.tack.*;
@@ -155,7 +156,7 @@ public class SWEMItems {
 	public static final RegistryObject<Item> MERCY_BLADE = ITEMS.register("mercy_blade", ItemBase::new);
 
 	// Rainbow Horse recipe items.
-	/*
+
 	public static final RegistryObject<Item> WARMER_EGG = ITEMS.register("warmer_egg", ItemBase::new);
 	public static final RegistryObject<Item> COOLER_EGG = ITEMS.register("cooler_egg", ItemBase::new);
 	public static final RegistryObject<Item> RAINBOW_EGG = ITEMS.register("rainbow_egg", ItemBase::new);
@@ -164,7 +165,7 @@ public class SWEMItems {
 	public static final RegistryObject<Item> RAINBOW_SWEET_FEED = ITEMS.register("rainbow_sweet_feed", ItemBase::new);
 	public static final RegistryObject<Item> RAINBOW_HEAVY_FEED = ITEMS.register("rainbow_heavy_feed", ItemBase::new);
 	public static final RegistryObject<Item> RAINBOW_DRY_FEED = ITEMS.register("rainbow_dry_feed", RainbowDryFeedItem::new);
-	public static final RegistryObject<Item> RAINBOW_DINDIN = ITEMS.register("rainbow_dindin", () -> new HorseTransformItem(SWEMCoatColors.RAINBOW));
+	public static final RegistryObject<Item> RAINBOW_DINDIN = ITEMS.register("rainbow_dindin", () -> new HorseTransformItem(SWEMCoatColor.RAINBOW));
 
 	// Galaxy horse recipe items.
 
@@ -176,8 +177,8 @@ public class SWEMItems {
 
 	public static final RegistryObject<Item> GALLAXORIUM = ITEMS.register("gallaxorium", Gallaxorium::new);
 	public static final RegistryObject<Item> GALLAXIUM = ITEMS.register("gallaxium", Gallaxium::new);
-	public static final RegistryObject<Item> GALLAXIA = ITEMS.register("gallaxia", () -> new HorseTransformItem(SWEMCoatColors.GALAXY));
-	*/
+	public static final RegistryObject<Item> GALLAXIA = ITEMS.register("gallaxia", () -> new HorseTransformItem(SWEMCoatColor.GALAXY));
+
 
 	// SADDLES
 	public static final RegistryObject<WesternSaddleItem> WESTERN_SADDLE_LIGHT_BLUE = ITEMS.register("western_saddle_light_blue", () -> new WesternSaddleItem("western_saddle_light_blue", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));

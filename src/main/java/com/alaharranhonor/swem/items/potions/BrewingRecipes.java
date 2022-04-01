@@ -44,7 +44,7 @@ public class BrewingRecipes {
 
 
 	}
-	/*
+
 	public static class RainbowChicPotion implements IBrewingRecipe {
 		@Override
 		public boolean isInput(ItemStack input) {
@@ -67,5 +67,5 @@ public class BrewingRecipes {
 
 
 
-	}*/
+	}
 }

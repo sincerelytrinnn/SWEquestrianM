@@ -248,7 +248,7 @@ public class SWEMBlocks {
 	public static final RegistryObject<JumpBlock> JUMP_WALL = BLOCKS.register("jump_wall", () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d)));
 
 	public static final RegistryObject<JumpBlock> JUMP_BRUSH_BOX = BLOCKS.register("jump_brush_box", () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 0.875d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 0.875d, 0.875d)));
-	public static final RegistryObject<JumpBlock> JUMP_COOP = BLOCKS.register("jump_coop", () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 0.5625d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 0.5625d, 0.875d)));
+	public static final RegistryObject<JumpBlock> JUMP_COOP = BLOCKS.register("jump_coop", () -> new JumpBlock(VoxelShapes.box(0.125d, 0.01, 0.01, 0.875d, 0.5625d, 0.99d), VoxelShapes.box(0.01, 0.01, 0.125d, 1.0d, 0.5625d, 0.875d)));
 	public static final RegistryObject<JumpBlock> JUMP_WALL_MINI = BLOCKS.register("jump_wall_mini", () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 0.5d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 0.5d, 0.875d)));
 	//public static final RegistryObject<JumpBlock> JUMP_CROSS_RAILS = BLOCKS.register("jump_cross_rails", () -> new JumpBlock(CROSS_RAILS));
 

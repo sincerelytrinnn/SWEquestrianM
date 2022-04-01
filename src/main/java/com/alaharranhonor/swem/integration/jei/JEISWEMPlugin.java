@@ -13,19 +13,26 @@ package com.alaharranhonor.swem.integration.jei;
  * THE SOFTWARE.
  */
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
 import com.google.common.collect.Lists;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.ModIds;
+import mezz.jei.api.constants.VanillaRecipeCategoryUid;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.registration.*;
 import mezz.jei.api.runtime.IJeiRuntime;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ICraftingRecipe;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +98,7 @@ public class JEISWEMPlugin implements IModPlugin {
 	 */
 	@Override
 	public void registerRecipes(IRecipeRegistration registration) {
+
 		IModPlugin.super.registerRecipes(registration);
 	}
 
@@ -145,6 +153,23 @@ public class JEISWEMPlugin implements IModPlugin {
 	 */
 	@Override
 	public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
+		World world = Minecraft.getInstance().level;
+		RecipeManager manager = world.getRecipeManager();
+		jeiRuntime.getRecipeManager().hideRecipe(manager.byKey(new ResourceLocation(SWEM.MOD_ID, "warmer_egg")).get(), VanillaRecipeCategoryUid.CRAFTING);
+		jeiRuntime.getRecipeManager().hideRecipe(manager.byKey(new ResourceLocation(SWEM.MOD_ID, "cooler_egg")).get(), VanillaRecipeCategoryUid.CRAFTING);
+		jeiRuntime.getRecipeManager().hideRecipe(manager.byKey(new ResourceLocation(SWEM.MOD_ID, "rainbow_egg")).get(), VanillaRecipeCategoryUid.CRAFTING);
+		jeiRuntime.getRecipeManager().hideRecipe(manager.byKey(new ResourceLocation(SWEM.MOD_ID, "dehydrated_rainbow")).get(), VanillaRecipeCategoryUid.FURNACE);
+		jeiRuntime.getRecipeManager().hideRecipe(manager.byKey(new ResourceLocation(SWEM.MOD_ID, "rainbow_sweet_feed")).get(), VanillaRecipeCategoryUid.CRAFTING);
+		jeiRuntime.getRecipeManager().hideRecipe(manager.byKey(new ResourceLocation(SWEM.MOD_ID, "rainbow_heavy_feed")).get(), VanillaRecipeCategoryUid.CRAFTING);
+		jeiRuntime.getRecipeManager().hideRecipe(manager.byKey(new ResourceLocation(SWEM.MOD_ID, "rainbow_dry_feed")).get(), VanillaRecipeCategoryUid.CRAFTING);
+
+		jeiRuntime.getRecipeManager().hideRecipe(manager.byKey(new ResourceLocation(SWEM.MOD_ID, "life_offering")).get(), VanillaRecipeCategoryUid.CRAFTING);
+		jeiRuntime.getRecipeManager().hideRecipe(manager.byKey(new ResourceLocation(SWEM.MOD_ID, "earth_offering")).get(), VanillaRecipeCategoryUid.CRAFTING);
+		jeiRuntime.getRecipeManager().hideRecipe(manager.byKey(new ResourceLocation(SWEM.MOD_ID, "vibrant_offering")).get(), VanillaRecipeCategoryUid.CRAFTING);
+		jeiRuntime.getRecipeManager().hideRecipe(manager.byKey(new ResourceLocation(SWEM.MOD_ID, "ocean_offering")).get(), VanillaRecipeCategoryUid.CRAFTING);
+		jeiRuntime.getRecipeManager().hideRecipe(manager.byKey(new ResourceLocation(SWEM.MOD_ID, "nova_offering")).get(), VanillaRecipeCategoryUid.CRAFTING);
+		jeiRuntime.getRecipeManager().hideRecipe(manager.byKey(new ResourceLocation(SWEM.MOD_ID, "gallaxorium")).get(), VanillaRecipeCategoryUid.CRAFTING);
+
 		IModPlugin.super.onRuntimeAvailable(jeiRuntime);
 	}
 }
