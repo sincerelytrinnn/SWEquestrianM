@@ -206,9 +206,9 @@ public class SWEMHorseEntityBase
 		//this.goalSelector.addGoal(0, new SwimGoal(this));
 		this.goalSelector.addGoal(1, new PanicStraightGoal(this, 4.0D));
 		this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 4.0D));
-		this.goalSelector.addGoal(2, new BreedGoal(this, 1.0d));
+		this.goalSelector.addGoal(2, new BreedGoal(this, 4.0d));
 		//this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, TEMPTATION_ITEMS, false));
-		this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.0D));
+		this.goalSelector.addGoal(4, new FollowParentGoal(this, 4.0D));
 		this.goalSelector.addGoal(2, new HorseAvoidEntityGoal<>(this, PigEntity.class, 12.0f, 4.0d, 5.5d));
 		this.goalSelector.addGoal(5, this.poopGoal);
 		this.goalSelector.addGoal(5, this.peeGoal);
@@ -298,21 +298,6 @@ public class SWEMHorseEntityBase
 
 	public void setOwnerName(String ownerName) {
 		this.entityData.set(OWNER_NAME, ownerName);
-	}
-
-	/**
-	 * Sets the entity to be leashed to.
-	 *
-	 * @param pEntity
-	 * @param pSendAttachNotification
-	 */
-	@Override
-	public void setLeashedTo(Entity pEntity, boolean pSendAttachNotification) {
-		if (pEntity instanceof LeashKnotEntity) {
-			//pEntity.setInvisible(true);
-			BlockState state = pEntity.level.getBlockState(new BlockPos(pEntity.position()));
-		}
-		super.setLeashedTo(pEntity, pSendAttachNotification);
 	}
 
 	/**
@@ -2760,6 +2745,36 @@ public class SWEMHorseEntityBase
 
 	public void setWhistlePos(BlockPos pos) {
 		this.whistlePos = pos;
+	}
+
+
+	/**
+	 * Sets the entity to be leashed to.
+	 *
+	 * @param pEntity
+	 * @param pSendAttachNotification
+	 */
+	@Override
+	public void setLeashedTo(Entity pEntity, boolean pSendAttachNotification) {
+		super.setLeashedTo(pEntity, pSendAttachNotification);
+	}
+
+	/**
+	 * Removes the leash from this entity
+	 *
+	 * @param pSendPacket
+	 * @param pDropLead
+	 */
+	@Override
+	public void dropLeash(boolean pSendPacket, boolean pDropLead) {
+		boolean dropLead = pDropLead;
+		if (this.isBridleLeashed()) {
+			dropLead = false;
+			if (!this.level.isClientSide) {
+				this.setBridleLeashed(false);
+			}
+		}
+		super.dropLeash(pSendPacket, dropLead);
 	}
 
 	@Override
