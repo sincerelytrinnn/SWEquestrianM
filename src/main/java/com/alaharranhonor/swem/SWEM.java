@@ -99,8 +99,7 @@ public class SWEM
         RegistryHandler.init(modEventBus);
         SWLRegistryHandler.init();
         GeckoLib.initialize();
-
-
+        
         IEventBus forgeBus = MinecraftForge.EVENT_BUS;
         forgeBus.addListener(EventPriority.NORMAL, this::addDimensionalSpacing);
 
