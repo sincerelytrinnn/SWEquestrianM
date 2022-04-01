@@ -86,13 +86,20 @@ public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity> {
             this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("iron_armor").ifPresent((bone) -> bone.setHidden(true));
             this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("gold_armor").ifPresent((bone) -> bone.setHidden(true));
             this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("diamond_armor").ifPresent((bone) -> bone.setHidden(true));
-            this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("amethst_armor").ifPresent((bone) -> bone.setHidden(true));
+            this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("amethyst_armor").ifPresent((bone) -> bone.setHidden(true));
             this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("Scapular").ifPresent((bone) -> bone.setHidden(true));
             this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("Scapular2").ifPresent((bone) -> bone.setHidden(true));
 
         }
 
+        if (entity.isBaby()) {
+            stack.pushPose();
+            stack.scale(1.25f, 1.25f, 1.25f);
+        }
         super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
+        if (entity.isBaby()) {
+            stack.popPose();
+        }
         if (!entity.isBaby())
             this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("main").ifPresent((bone) -> bone.setHidden(true));
 

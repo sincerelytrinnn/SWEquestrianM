@@ -56,7 +56,7 @@ public class LookForFoodGoal extends Goal {
 	 */
 	@Override
 	public boolean canUse() {
-		return this.horse.getNeeds().getHunger().getState().getId() < 3 && this.horse.getPassengers().isEmpty() && this.horse.getLeashHolder() == null;
+		return !this.horse.isBaby() && this.horse.getNeeds().getHunger().getState().getId() < 3 && this.horse.getPassengers().isEmpty() && this.horse.getLeashHolder() == null;
 
 	}
 

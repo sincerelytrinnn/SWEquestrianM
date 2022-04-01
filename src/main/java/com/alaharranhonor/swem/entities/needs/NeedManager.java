@@ -21,10 +21,12 @@ import net.minecraft.nbt.CompoundNBT;
 
 public class NeedManager {
 
+	private final SWEMHorseEntityBase horse;
 	private final ThirstNeed thirst;
 	private final HungerNeed hunger;
 
 	public NeedManager(SWEMHorseEntityBase horse) {
+		this.horse = horse;
 		this.thirst = new ThirstNeed(horse);
 		this.hunger = new HungerNeed(horse);
 
@@ -51,6 +53,7 @@ public class NeedManager {
 
 	// SERVER-SIDE ONLY
 	public void tick() {
+		if (this.horse.isBaby()) return;
 		if (ConfigHolder.SERVER.serverTickFoodNeed.get())
 			this.hunger.tick();
 		if (ConfigHolder.SERVER.serverTickWaterNeed.get())

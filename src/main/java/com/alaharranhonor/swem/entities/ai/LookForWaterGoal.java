@@ -48,8 +48,7 @@ public class LookForWaterGoal extends Goal {
 	 */
 	@Override
 	public boolean canUse() {
-		return this.horse.getNeeds().getThirst().getState().getId() < 3 && this.horse.getPassengers().isEmpty() && !this.horse.getNeeds().getThirst().isOnCooldown() && this.horse.getLeashHolder() == null;
-
+		return !this.horse.isBaby() && this.horse.getNeeds().getThirst().getState().getId() < 3 && this.horse.getPassengers().isEmpty() && !this.horse.getNeeds().getThirst().isOnCooldown() && this.horse.getLeashHolder() == null;
 	}
 
 	/**
