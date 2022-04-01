@@ -1,7 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"2": "swem:blocks/english_hitching_post_upper"
+		"2": "swem:blocks/english_hitching_post_upper",
+		"particle": "swem:blocks/english_hitching_post_upper"
 	},
 	"elements": [
 		{

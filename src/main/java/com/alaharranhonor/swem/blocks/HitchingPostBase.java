@@ -96,7 +96,6 @@ public class HitchingPostBase extends Block {
 
 	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		ItemStack itemstack = player.getItemInHand(handIn);
-		System.out.println("I hit the hitching post.");
 		if (itemstack.getItem() == Items.SHEARS) {
 			itemstack.hurtAndBreak(1, player, (entity) -> entity.broadcastBreakEvent(handIn));
 
@@ -139,7 +138,7 @@ public class HitchingPostBase extends Block {
 			int k = pPos.getZ();
 
 			for(SWEMHorseEntityBase mobentity : worldIn.getEntitiesOfClass(SWEMHorseEntityBase.class, new AxisAlignedBB((double)i - 7.0D, (double)j - 7.0D, (double)k - 7.0D, (double)i + 7.0D, (double)j + 7.0D, (double)k + 7.0D))) {
-				if (mobentity.getLeashHolder() == player && !mobentity.isBridleLeashed()) {
+				if (mobentity.getLeashHolder() == player) {
 					if (leashknotentity == null) {
 						leashknotentity = LeashKnotEntity.getOrCreateKnot(worldIn, pPos);
 
