@@ -693,12 +693,20 @@ public class SWEMHorseEntityBase
 				this.level.playSound(null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof SWEMHorseArmorItem) {
+			if (this.isWearingArmor() && !flag) return;
+			if (flag) {
+				player.addItem(this.inventory.getItem(6));
+			}
 			this.inventory.setItem(6, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 6, stack));
 			if (p_230266_1_ != null) {
 				this.level.playSound(null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
 			}
 		} else if (stack.getItem() instanceof SaddlebagItem) {
+			if (this.hasSaddleBag() && !flag) return;
+			if (flag) {
+				player.addItem(this.inventory.getItem(6));
+			}
 			this.inventory.setItem(7, stack);
 			SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 7, stack));
 			if (p_230266_1_ != null) {
