@@ -2340,10 +2340,7 @@ public class SWEMHorseEntityBase
 	}
 
 
-	@Override
-	protected void ageBoundaryReached() {
-		this.setCoatColour(SWEMCoatColor.foalToParentCoat(this.getCoatColor()));
-	}
+
 
 	public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity partner) {
 		SWEMHorseEntityBase foal = SWEMEntities.SWEM_HORSE_ENTITY.get().create(world);
