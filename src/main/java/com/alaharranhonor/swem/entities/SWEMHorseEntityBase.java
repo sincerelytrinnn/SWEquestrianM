@@ -2624,8 +2624,17 @@ public class SWEMHorseEntityBase
 		return this.needs;
 	}
 
-
-
+	/**
+	 * This method is executed when a baby is spawned, and when a baby grows up to adult.
+	 * This makes sure that we replace the foal coat with a "proper" adult coat.
+	 */
+	@Override
+	protected void ageBoundaryReached() {
+		if (!this.isBaby()) {
+			this.setCoatColour(SWEMCoatColor.foalToParentCoat(this.getCoatColor()));
+		}
+		super.ageBoundaryReached();
+	}
 
 	public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity partner) {
 		SWEMHorseEntityBase foal = SWEMEntities.SWEM_HORSE_ENTITY.get().create(world);
@@ -2643,7 +2652,9 @@ public class SWEMHorseEntityBase
 		} else {
 			coatColor = SWEMCoatColor.getRandomFoalCoat();
 		}
-
+		HorseSpeed oldSpeed = foal.currentSpeed;
+		foal.currentSpeed = HorseSpeed.WALK;
+		foal.updateSelectedSpeed(oldSpeed);
 		foal.setCoatColour(coatColor);
 
 		return foal;
