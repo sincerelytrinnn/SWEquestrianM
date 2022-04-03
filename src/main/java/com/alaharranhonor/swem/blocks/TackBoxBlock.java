@@ -49,6 +49,11 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class TackBoxBlock extends HorizontalBlock {
+	/**
+	 * Instantiates a new Tack box block.
+	 *
+	 * @param properties the properties
+	 */
 	public TackBoxBlock(Properties properties) {
 		super(properties);
 		this.registerDefaultState(

@@ -37,16 +37,33 @@ public class SHorseAnimationPacket {
 
 	private boolean failed;
 
+	/**
+	 * Instantiates a new S horse animation packet.
+	 *
+	 * @param entityID the entity id
+	 * @param action   the action
+	 */
 	public SHorseAnimationPacket(int entityID, int action) {
 		this.entityID = entityID;
 		this.action = action;
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new S horse animation packet.
+	 *
+	 * @param failed the failed
+	 */
 	public SHorseAnimationPacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode s horse animation packet.
+	 *
+	 * @param buf the buf
+	 * @return the s horse animation packet
+	 */
 	public static SHorseAnimationPacket decode(ByteBuf buf) {
 		try {
 			int entityID = buf.readInt();
@@ -58,11 +75,23 @@ public class SHorseAnimationPacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(SHorseAnimationPacket msg, PacketBuffer buffer) {
 		buffer.writeInt(msg.entityID);
 		buffer.writeInt(msg.action);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(SHorseAnimationPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			ServerPlayerEntity player = ctx.get().getSender();

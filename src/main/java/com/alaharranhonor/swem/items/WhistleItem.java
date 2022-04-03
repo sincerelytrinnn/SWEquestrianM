@@ -34,6 +34,9 @@ import java.util.UUID;
 
 public class WhistleItem extends Item {
 
+	/**
+	 * Instantiates a new Whistle item.
+	 */
 	public WhistleItem() {
 		super(new Properties().tab(SWEM.TAB).stacksTo(1));
 	}

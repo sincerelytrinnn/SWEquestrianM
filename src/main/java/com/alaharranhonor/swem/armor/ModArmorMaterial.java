@@ -62,7 +62,18 @@ public enum ModArmorMaterial implements IArmorMaterial {
     private final float toughness;
     private final Supplier<Ingredient> repairMaterial;
 
-    ModArmorMaterial(String name, int maxDamageFactor, int[] damageReductionAmountArray, int enchantability,
+	/**
+	 * Instantiates a new Mod armor material.
+	 *
+	 * @param name                       the name
+	 * @param maxDamageFactor            the max damage factor
+	 * @param damageReductionAmountArray the damage reduction amount array
+	 * @param enchantability             the enchantability
+	 * @param soundEvent                 the sound event
+	 * @param toughness                  the toughness
+	 * @param repairMaterial             the repair material
+	 */
+	ModArmorMaterial(String name, int maxDamageFactor, int[] damageReductionAmountArray, int enchantability,
                       SoundEvent soundEvent, float toughness, Supplier<Ingredient> repairMaterial) {
         this.name = name;
         this.maxDamageFactor = maxDamageFactor;

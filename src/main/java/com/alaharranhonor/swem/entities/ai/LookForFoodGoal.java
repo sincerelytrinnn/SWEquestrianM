@@ -44,6 +44,12 @@ public class LookForFoodGoal extends Goal {
 	private int movingTimer;
 	private BlockPos movingToPos;
 
+	/**
+	 * Instantiates a new Look for food goal.
+	 *
+	 * @param entityIn the entity in
+	 * @param speed    the speed
+	 */
 	public LookForFoodGoal(SWEMHorseEntityBase entityIn, double speed) {
 	 	this.horse = entityIn;
 	 	this.speed = speed;

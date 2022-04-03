@@ -55,6 +55,14 @@ public class TackBoxProgressionScreen extends Screen {
 	private int xSize;
 	private int ySize;
 
+	/**
+	 * Instantiates a new Tack box progression screen.
+	 *
+	 * @param screenContainer the screen container
+	 * @param inv             the inv
+	 * @param defaultTitle    the default title
+	 * @param titleIn         the title in
+	 */
 	public TackBoxProgressionScreen(TackBoxContainer screenContainer, PlayerInventory inv, ITextComponent defaultTitle, ITextComponent titleIn) {
 		super(titleIn);
 		this.container = screenContainer;
@@ -120,6 +128,18 @@ public class TackBoxProgressionScreen extends Screen {
 
 	}
 
+	/**
+	 * Draw advancement hover.
+	 *
+	 * @param pMatrixStack the p matrix stack
+	 * @param pX           the p x
+	 * @param pY           the p y
+	 * @param pFade        the p fade
+	 * @param pWidth       the p width
+	 * @param pHeight      the p height
+	 * @param advancement  the advancement
+	 * @param progress     the progress
+	 */
 	public void drawAdvancementHover(MatrixStack pMatrixStack, int pX, int pY, float pFade, int pWidth, int pHeight, Advancement advancement, AdvancementProgress progress) {
 		final IReorderingProcessor advancementTitle = LanguageMap.getInstance().getVisualOrder(this.minecraft.font.substrByWidth(advancement.getDisplay().getTitle(), 163));
 		final int advancementWidth = (29 + this.minecraft.font.width(advancementTitle) + ((advancement.getMaxCriteraRequired()) > 1 ? this.minecraft.font.width("  ") + this.minecraft.font.width("0") * (String.valueOf(advancement.getMaxCriteraRequired()).length()) * 2 + this.minecraft.font.width("/") : 0)) + 3 + 5;
@@ -209,6 +229,20 @@ public class TackBoxProgressionScreen extends Screen {
 		this.minecraft.getItemRenderer().renderAndDecorateFakeItem(advancement.getDisplay().getIcon(), pX + ((int) advancement.getDisplay().getX()) + 8, pY + ((int) advancement.getDisplay().getY()) + 5);
 	}
 
+	/**
+	 * Render 9 sprite.
+	 *
+	 * @param pMatrixStack the p matrix stack
+	 * @param pX           the p x
+	 * @param pY           the p y
+	 * @param pWidth       the p width
+	 * @param pHeight      the p height
+	 * @param pPadding     the p padding
+	 * @param pUWidth      the p u width
+	 * @param pVHeight     the p v height
+	 * @param pUOffset     the p u offset
+	 * @param pVOffset     the p v offset
+	 */
 	protected void render9Sprite(MatrixStack pMatrixStack, int pX, int pY, int pWidth, int pHeight, int pPadding, int pUWidth, int pVHeight, int pUOffset, int pVOffset) {
 		this.blit(pMatrixStack, pX, pY, pUOffset, pVOffset, pPadding, pPadding);
 		this.renderRepeating(pMatrixStack, pX + pPadding, pY, pWidth - pPadding - pPadding, pPadding, pUOffset + pPadding, pVOffset, pUWidth - pPadding - pPadding, pVHeight);
@@ -221,6 +255,19 @@ public class TackBoxProgressionScreen extends Screen {
 		this.renderRepeating(pMatrixStack, pX + pWidth - pPadding, pY + pPadding, pPadding, pHeight - pPadding - pPadding, pUOffset + pUWidth - pPadding, pVOffset + pPadding, pUWidth, pVHeight - pPadding - pPadding);
 	}
 
+	/**
+	 * Render repeating.
+	 *
+	 * @param pMatrixStack the p matrix stack
+	 * @param pX           the p x
+	 * @param pY           the p y
+	 * @param pBorderToU   the p border to u
+	 * @param pBorderToV   the p border to v
+	 * @param pUOffset     the p u offset
+	 * @param pVOffset     the p v offset
+	 * @param pUWidth      the p u width
+	 * @param pVHeight     the p v height
+	 */
 	protected void renderRepeating(MatrixStack pMatrixStack, int pX, int pY, int pBorderToU, int pBorderToV, int pUOffset, int pVOffset, int pUWidth, int pVHeight) {
 		for(int i = 0; i < pBorderToU; i += pUWidth) {
 			int j = pX + i;
@@ -235,6 +282,13 @@ public class TackBoxProgressionScreen extends Screen {
 
 	}
 
+	/**
+	 * Find optimal lines list.
+	 *
+	 * @param pComponent the p component
+	 * @param pMaxWidth  the p max width
+	 * @return the list
+	 */
 	private List<ITextProperties> findOptimalLines(ITextComponent pComponent, int pMaxWidth) {
 		CharacterManager charactermanager = this.minecraft.font.getSplitter();
 		List<ITextProperties> list = null;
@@ -256,6 +310,13 @@ public class TackBoxProgressionScreen extends Screen {
 		return list;
 	}
 
+	/**
+	 * Gets max width.
+	 *
+	 * @param pManager the p manager
+	 * @param pText    the p text
+	 * @return the max width
+	 */
 	private static float getMaxWidth(CharacterManager pManager, List<ITextProperties> pText) {
 		return (float)pText.stream().mapToDouble(pManager::stringWidth).max().orElse(0.0D);
 	}

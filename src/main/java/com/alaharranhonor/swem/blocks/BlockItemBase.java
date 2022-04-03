@@ -24,7 +24,12 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 
 public class BlockItemBase extends BlockItem {
-    public BlockItemBase(Block block) {
+	/**
+	 * Instantiates a new Block item base.
+	 *
+	 * @param block the block
+	 */
+	public BlockItemBase(Block block) {
         super(block, new Item.Properties().tab(SWEM.TAB));
     }
 

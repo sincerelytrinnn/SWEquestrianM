@@ -26,6 +26,11 @@ import javax.annotation.Nullable;
 
 public class ConeBlockItem extends BlockItem {
 
+	/**
+	 * Instantiates a new Cone block item.
+	 *
+	 * @param blockIn the block in
+	 */
 	public ConeBlockItem(Block blockIn) {
 		super(blockIn, new Item.Properties().tab(SWEM.TAB));
 	}

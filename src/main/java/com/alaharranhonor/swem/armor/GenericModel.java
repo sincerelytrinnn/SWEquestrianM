@@ -68,6 +68,13 @@ public class GenericModel extends ArmorBaseModel{
 	private ModelRenderer myArmorLeftBoot;
 	private ModelRenderer bone26;
 
+	/**
+	 * Instantiates a new Generic model.
+	 *
+	 * @param textureWidth  the texture width
+	 * @param textureHeight the texture height
+	 * @param texture       the texture
+	 */
 	public GenericModel(int textureWidth, int textureHeight, ResourceLocation texture) {
 		super(textureWidth, textureHeight, texture);
 	}

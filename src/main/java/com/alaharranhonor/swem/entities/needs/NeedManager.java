@@ -25,6 +25,11 @@ public class NeedManager {
 	private final ThirstNeed thirst;
 	private final HungerNeed hunger;
 
+	/**
+	 * Instantiates a new Need manager.
+	 *
+	 * @param horse the horse
+	 */
 	public NeedManager(SWEMHorseEntityBase horse) {
 		this.horse = horse;
 		this.thirst = new ThirstNeed(horse);
@@ -32,26 +37,50 @@ public class NeedManager {
 
 	}
 
+	/**
+	 * Gets thirst.
+	 *
+	 * @return the thirst
+	 */
 	public ThirstNeed getThirst() {
 		return thirst;
 	}
 
+	/**
+	 * Gets hunger.
+	 *
+	 * @return the hunger
+	 */
 	public HungerNeed getHunger() {
 		return hunger;
 	}
 
+	/**
+	 * Read.
+	 *
+	 * @param nbt the nbt
+	 */
 	public void read(CompoundNBT nbt) {
 		this.thirst.read(nbt);
 		this.hunger.read(nbt);
 	}
 
+	/**
+	 * Write compound nbt.
+	 *
+	 * @param nbt the nbt
+	 * @return the compound nbt
+	 */
 	public CompoundNBT write(CompoundNBT nbt) {
 		nbt = this.thirst.write(nbt);
 		nbt = this.hunger.write(nbt);
 		return nbt;
 	}
 
-	// SERVER-SIDE ONLY
+	/**
+	 * Tick.
+	 */
+// SERVER-SIDE ONLY
 	public void tick() {
 		if (this.horse.isBaby()) return;
 		if (ConfigHolder.SERVER.serverTickFoodNeed.get())

@@ -31,10 +31,24 @@ public class BedrollContainer extends Container {
 
 	public final SWEMHorseEntityBase horse;
 
+	/**
+	 * Instantiates a new Bedroll container.
+	 *
+	 * @param id              the id
+	 * @param playerInventory the player inventory
+	 * @param data            the data
+	 */
 	public BedrollContainer(final int id, final PlayerInventory playerInventory, PacketBuffer data) {
 		this(id, playerInventory, data.readInt());
 	}
 
+	/**
+	 * Instantiates a new Bedroll container.
+	 *
+	 * @param id              the id
+	 * @param playerInventory the player inventory
+	 * @param entityId        the entity id
+	 */
 	public BedrollContainer(final int id, final PlayerInventory playerInventory, final int entityId) {
 		super(SWEMContainers.BED_ROLL_CONTAINER.get(), id);
 		this.horse = (SWEMHorseEntityBase) playerInventory.player.level.getEntity(entityId);

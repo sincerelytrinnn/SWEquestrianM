@@ -47,6 +47,11 @@ public class SWEMItems {
 
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SWEM.MOD_ID);
 
+	/**
+	 * Init.
+	 *
+	 * @param modBus the mod bus
+	 */
 	public static void init(IEventBus modBus) {
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> SWEMItems::checkAccess);
 		ITEMS.register(modBus);
@@ -215,6 +220,10 @@ public class SWEMItems {
 	public static final RegistryObject<EnglishBlanketItem> ENGLISH_BLANKET_LIME = ITEMS.register("english_blanket_lime", () -> new EnglishBlanketItem("english_blanket_lime", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
 	public static final RegistryObject<EnglishBlanketItem> ENGLISH_BLANKET_MAGENTA = ITEMS.register("english_blanket_magenta", () -> new EnglishBlanketItem("english_blanket_magenta", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
 	public static final RegistryObject<EnglishBlanketItem> ENGLISH_BLANKET_ORANGE = ITEMS.register("english_blanket_orange", () -> new EnglishBlanketItem("english_blanket_orange", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
+
+	/**
+	 * Check access.
+	 */
 	public static void checkAccess() {
 
 		String playerUUID = Minecraft.getInstance().getUser().getUuid().replaceAll("-", "");

@@ -43,6 +43,14 @@ public class SWEMHorseArmorItem extends HorseArmorItem implements IAnimatable {
 	private final ResourceLocation rackTexture;
 
 
+	/**
+	 * Instantiates a new Swem horse armor item.
+	 *
+	 * @param tier       the tier
+	 * @param armorValue the armor value
+	 * @param texture    the texture
+	 * @param builder    the builder
+	 */
 	public SWEMHorseArmorItem(HorseArmorTier tier, int armorValue, String texture, Properties builder) {
 		super(armorValue, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + texture + ".png"), builder);
 		this.type = texture;
@@ -66,10 +74,22 @@ public class SWEMHorseArmorItem extends HorseArmorItem implements IAnimatable {
 		return ActionResultType.PASS;
 	}
 
+	/**
+	 * Gets rack texture.
+	 *
+	 * @return the rack texture
+	 */
 	public ResourceLocation getRackTexture() {
 		return this.rackTexture;
 	}
 
+	/**
+	 * Predicate play state.
+	 *
+	 * @param <E>   the type parameter
+	 * @param event the event
+	 * @return the play state
+	 */
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 		return PlayState.CONTINUE;
 	}
@@ -93,10 +113,21 @@ public class SWEMHorseArmorItem extends HorseArmorItem implements IAnimatable {
 		AMETHYST(4);
 
 		private int id;
+
+		/**
+		 * Instantiates a new Horse armor tier.
+		 *
+		 * @param id the id
+		 */
 		HorseArmorTier(int id) {
 			this.id = id;
 		}
 
+		/**
+		 * Gets id.
+		 *
+		 * @return the id
+		 */
 		public int getId() {
 			return this.id;
 		}

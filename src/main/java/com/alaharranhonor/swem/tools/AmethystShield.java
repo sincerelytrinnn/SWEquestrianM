@@ -34,6 +34,11 @@ import org.w3c.dom.Attr;
 import java.util.UUID;
 
 public class AmethystShield extends ShieldItem {
+	/**
+	 * Instantiates a new Amethyst shield.
+	 *
+	 * @param builder the builder
+	 */
 	public AmethystShield(Properties builder) {
 		super(builder);
 	}
@@ -60,6 +65,11 @@ public class AmethystShield extends ShieldItem {
 
 		private static UUID MODIFIER_UUID;
 
+		/**
+		 * On inventory change.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void onInventoryChange(LivingEquipmentChangeEvent event) {
 			if (!(event.getEntityLiving() instanceof PlayerEntity)) return;

@@ -44,6 +44,15 @@ public class TackBoxBirthScreen extends Screen {
 	private int guiTop;
 	private int xSize;
 	private int ySize;
+
+	/**
+	 * Instantiates a new Tack box birth screen.
+	 *
+	 * @param screenContainer the screen container
+	 * @param inv             the inv
+	 * @param defaultTitle    the default title
+	 * @param titleIn         the title in
+	 */
 	protected TackBoxBirthScreen(TackBoxContainer screenContainer, PlayerInventory inv, ITextComponent defaultTitle, ITextComponent titleIn) {
 		super(titleIn);
 		this.container = screenContainer;

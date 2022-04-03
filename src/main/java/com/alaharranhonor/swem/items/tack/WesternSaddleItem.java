@@ -18,6 +18,12 @@ import net.minecraft.item.Item.Properties;
 
 
 public class WesternSaddleItem extends HorseSaddleItem{
+	/**
+	 * Instantiates a new Western saddle item.
+	 *
+	 * @param textureName the texture name
+	 * @param properties  the properties
+	 */
 	public WesternSaddleItem(String textureName, Properties properties) {
 		super(textureName, properties);
 	}

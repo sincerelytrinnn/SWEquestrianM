@@ -34,16 +34,33 @@ public class AddJumpXPMessage {
 
 	private boolean failed;
 
+	/**
+	 * Instantiates a new Add jump xp message.
+	 *
+	 * @param xpToAdd  the xp to add
+	 * @param entityID the entity id
+	 */
 	public AddJumpXPMessage(float xpToAdd, int entityID) {
 		this.xpToAdd = xpToAdd;
 		this.entityID = entityID;
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new Add jump xp message.
+	 *
+	 * @param failed the failed
+	 */
 	public AddJumpXPMessage(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode add jump xp message.
+	 *
+	 * @param buf the buf
+	 * @return the add jump xp message
+	 */
 	public static AddJumpXPMessage decode(ByteBuf buf) {
 		try {
 			float xpToAdd = buf.readFloat();
@@ -55,11 +72,23 @@ public class AddJumpXPMessage {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(AddJumpXPMessage msg, PacketBuffer buffer) {
 		buffer.writeFloat(msg.xpToAdd);
 		buffer.writeInt(msg.entityID);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(AddJumpXPMessage msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			ServerPlayerEntity player = ctx.get().getSender();

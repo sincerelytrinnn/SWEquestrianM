@@ -42,6 +42,11 @@ import javax.annotation.Nullable;
 
 public class BridleRackBlock extends HorizontalBlock {
 
+	/**
+	 * Instantiates a new Bridle rack block.
+	 *
+	 * @param builder the builder
+	 */
 	public BridleRackBlock(Properties builder) {
 		super(builder);
 		this.registerDefaultState(

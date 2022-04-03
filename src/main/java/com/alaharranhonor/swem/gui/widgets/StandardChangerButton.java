@@ -26,20 +26,46 @@ public class StandardChangerButton extends CycableButton {
 
 	private JumpScreen screen;
 	private StandardLayer currentLayer;
+
+	/**
+	 * Instantiates a new Standard changer button.
+	 *
+	 * @param x      the x
+	 * @param y      the y
+	 * @param width  the width
+	 * @param height the height
+	 * @param title  the title
+	 * @param screen the screen
+	 */
 	public StandardChangerButton(int x, int y, int width, int height, ITextComponent title, JumpScreen screen) {
 		super(x, y, width, height, title, new StandardChangerButton.Press());
 		this.screen = screen;
 
 	}
 
+	/**
+	 * Gets screen.
+	 *
+	 * @return the screen
+	 */
 	public JumpScreen getScreen() {
 		return screen;
 	}
 
+	/**
+	 * Sets selected.
+	 *
+	 * @param layer the layer
+	 */
 	public void setSelected(StandardLayer layer) {
 		this.currentLayer = layer;
 	}
 
+	/**
+	 * Gets current layer.
+	 *
+	 * @return the current layer
+	 */
 	public StandardLayer getCurrentLayer() {
 		return this.currentLayer;
 	}

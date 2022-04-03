@@ -26,6 +26,11 @@ public class SWEMPaintings {
 
 	public static final DeferredRegister<PaintingType> PAINTINGS = DeferredRegister.create(ForgeRegistries.PAINTING_TYPES, SWEM.MOD_ID);
 
+	/**
+	 * Init.
+	 *
+	 * @param modBus the mod bus
+	 */
 	public static void init(IEventBus modBus) {
 		PAINTINGS.register(modBus);
 	}

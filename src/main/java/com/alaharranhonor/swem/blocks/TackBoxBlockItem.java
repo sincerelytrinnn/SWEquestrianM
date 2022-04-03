@@ -28,6 +28,11 @@ import net.minecraft.util.Hand;
 
 public class TackBoxBlockItem extends BlockItem {
 
+	/**
+	 * Instantiates a new Tack box block item.
+	 *
+	 * @param block the block
+	 */
 	public TackBoxBlockItem(Block block) {
 		super(block, new Item.Properties().tab(SWEM.TAB));
 	}

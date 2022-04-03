@@ -35,6 +35,11 @@ public class GirthStrapLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
 	private IGeoRenderer<SWEMHorseEntity> entityRenderer;
 
+	/**
+	 * Instantiates a new Girth strap layer.
+	 *
+	 * @param entityRendererIn the entity renderer in
+	 */
 	public GirthStrapLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
 		super(entityRendererIn);
 		this.entityRenderer = entityRendererIn;

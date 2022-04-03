@@ -32,6 +32,12 @@ import java.nio.charset.StandardCharsets;
 @Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DataGenerators {
 
+	/**
+	 * Gather data.
+	 *
+	 * @param event the event
+	 * @throws IOException the io exception
+	 */
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent event) throws IOException {
 		DataGenerator data = event.getGenerator();
@@ -60,6 +66,12 @@ public class DataGenerators {
 		}
 	}
 
+	/**
+	 * Register language providers.
+	 *
+	 * @param data   the data
+	 * @param values the values
+	 */
 	private static void registerLanguageProviders(DataGenerator data, String[][] values) {
 		data.addProvider(new Languages(data, SWEM.MOD_ID, "en_us", values, 2));
 		data.addProvider(new Languages(data, SWEM.MOD_ID, "da_dk", values, 3));

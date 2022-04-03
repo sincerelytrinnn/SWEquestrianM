@@ -53,6 +53,11 @@ public final class ServerConfig {
 
 	public final ForgeConfigSpec.BooleanValue multiplayerHungerThirst;
 
+	/**
+	 * Instantiates a new Server config.
+	 *
+	 * @param builder the builder
+	 */
 	ServerConfig(ForgeConfigSpec.Builder builder) {
 
 		builder.push("SWEMOreGen");

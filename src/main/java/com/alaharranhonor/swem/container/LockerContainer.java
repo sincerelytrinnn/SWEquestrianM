@@ -34,11 +34,26 @@ public class LockerContainer extends Container {
 	private final IWorldPosCallable canInteractWithCallable;
 	private final boolean leftSideOpened;
 
+	/**
+	 * Instantiates a new Locker container.
+	 *
+	 * @param id              the id
+	 * @param playerInventory the player inventory
+	 * @param data            the data
+	 */
 	public LockerContainer(final int id, final PlayerInventory playerInventory, final PacketBuffer data) {
 		this(id, playerInventory, getTileEntity(playerInventory, data), data.readBoolean());
 	}
 
 
+	/**
+	 * Instantiates a new Locker container.
+	 *
+	 * @param id              the id
+	 * @param playerInventory the player inventory
+	 * @param tileEntity      the tile entity
+	 * @param leftSideOpened  the left side opened
+	 */
 	public LockerContainer(final int id, final PlayerInventory playerInventory, final LockerTE tileEntity, boolean leftSideOpened) {
 		super(SWEMContainers.LOCKER_CONTAINER.get(), id);
 		this.tileEntity = tileEntity;
@@ -47,6 +62,11 @@ public class LockerContainer extends Container {
 		this.initSlots(playerInventory);
 	}
 
+	/**
+	 * Init slots.
+	 *
+	 * @param playerInventory the player inventory
+	 */
 	private void initSlots(PlayerInventory playerInventory) {
 		int i = (3 - 4) * 18;
 		// Init slots
@@ -74,6 +94,13 @@ public class LockerContainer extends Container {
 		return stillValid(canInteractWithCallable, playerIn, SWEMBlocks.LOCKER.get());
 	}
 
+	/**
+	 * Gets tile entity.
+	 *
+	 * @param inventory the inventory
+	 * @param data      the data
+	 * @return the tile entity
+	 */
 	private static LockerTE getTileEntity(final PlayerInventory inventory, final PacketBuffer data) {
 		Objects.requireNonNull(inventory, "Inventory cannot be null");
 		Objects.requireNonNull(data, "Packet Data cannot be null");

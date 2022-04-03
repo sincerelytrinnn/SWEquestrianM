@@ -26,6 +26,11 @@ public class HorseXPBottle extends ItemBase {
 
 	private final String leveler;
 
+	/**
+	 * Instantiates a new Horse xp bottle.
+	 *
+	 * @param leveler the leveler
+	 */
 	public HorseXPBottle(String leveler) {
 		super();
 		this.leveler = leveler;

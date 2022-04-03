@@ -46,6 +46,10 @@ public class WheelBarrowTE extends TileEntity implements ITickableTileEntity {
 	private boolean shouldTick = false;
 
 	private LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
+
+	/**
+	 * Instantiates a new Wheel barrow te.
+	 */
 	public WheelBarrowTE() {
 		super(SWEMTileEntities.WHEEL_BARROW_TILE_ENTITY.get());
 	}
@@ -102,6 +106,11 @@ public class WheelBarrowTE extends TileEntity implements ITickableTileEntity {
 		return super.getCapability(cap, side);
 	}
 
+	/**
+	 * Create handler item stack handler.
+	 *
+	 * @return the item stack handler
+	 */
 	private ItemStackHandler createHandler() {
 		return new ItemStackHandler(1) {
 			@Override
@@ -143,6 +152,9 @@ public class WheelBarrowTE extends TileEntity implements ITickableTileEntity {
 
 	}
 
+	/**
+	 * Drop items.
+	 */
 	public void dropItems() {
 		for (int i = 0; i < itemHandler.getSlots(); i++) {
 			if (this.itemHandler.getStackInSlot(i) != ItemStack.EMPTY) {
@@ -155,11 +167,17 @@ public class WheelBarrowTE extends TileEntity implements ITickableTileEntity {
 		}
 	}
 
+	/**
+	 * Reset timer.
+	 */
 	public void resetTimer() {
 		this.timer = 0;
 		this.shouldTick = false;
 	}
 
+	/**
+	 * Start ticking.
+	 */
 	public void startTicking() {
 		this.shouldTick = true;
 	}
@@ -178,11 +196,17 @@ public class WheelBarrowTE extends TileEntity implements ITickableTileEntity {
 		}
 	}
 
+	/**
+	 * Reset block state level.
+	 */
 	private void resetBlockStateLevel() {
 		BlockState state = this.level.getBlockState(this.getBlockPos());
 		this.level.setBlock(this.getBlockPos(), state.setValue(WheelBarrowBlock.LEVEL, 0), 3);
 	}
 
+	/**
+	 * Drop compost.
+	 */
 	private void dropCompost() {
 		this.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
 		ItemStack stack = new ItemStack(SWEMItems.BONE_MEAL_COMPOST.get());

@@ -35,6 +35,11 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class JumpControllerBlock extends HorizontalBlock {
+	/**
+	 * Instantiates a new Jump controller block.
+	 *
+	 * @param properties the properties
+	 */
 	public JumpControllerBlock(Properties properties) {
 		super(properties);
 	}

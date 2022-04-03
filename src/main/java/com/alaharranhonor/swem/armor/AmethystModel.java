@@ -73,6 +73,13 @@ public class AmethystModel extends ArmorBaseModel {
 	private ModelRenderer bone27;
 	private ModelRenderer bone28;
 
+	/**
+	 * Instantiates a new Amethyst model.
+	 *
+	 * @param textureWidth  the texture width
+	 * @param textureHeight the texture height
+	 * @param texture       the texture
+	 */
 	public AmethystModel(int textureWidth, int textureHeight, ResourceLocation texture) {
 		super(textureWidth, textureHeight, texture);
 	}

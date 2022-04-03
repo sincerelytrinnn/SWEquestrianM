@@ -47,11 +47,24 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 	private AnimationFactory factory = new AnimationFactory(this);
 
+	/**
+	 * Instantiates a new Swem horse entity.
+	 *
+	 * @param type    the type
+	 * @param worldIn the world in
+	 */
 	public SWEMHorseEntity(EntityType<? extends SWEMHorseEntityBase> type, World worldIn) {
 		super(type, worldIn);
 		this.noCulling = true;
 	}
 
+	/**
+	 * Predicate play state.
+	 *
+	 * @param <E>   the type parameter
+	 * @param event the event
+	 * @return the play state
+	 */
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
 	{
 
@@ -223,6 +236,12 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		return null;
 	}
 
+	/**
+	 * Particle listener.
+	 *
+	 * @param <E>   the type parameter
+	 * @param event the event
+	 */
 	private <E extends Entity> void particleListener(ParticleKeyFrameEvent<E> event)
 	{
 		// Particle effects should be added in the animation.json file.

@@ -63,6 +63,11 @@ public class HungerNeed {
 
 	public static final DataParameter<Integer> TOTAL_TIMES_FED = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 
+	/**
+	 * Instantiates a new Hunger need.
+	 *
+	 * @param horse the horse
+	 */
 	public HungerNeed(SWEMHorseEntityBase horse) {
 		this.horse = horse;
 		this.setState(HungerState.FULLY_FED);
@@ -70,6 +75,9 @@ public class HungerNeed {
 	}
 
 
+	/**
+	 * Tick.
+	 */
 	public void tick() {
 		if (this.tickCounter == 0) return;
 		this.tickCounter--;
@@ -78,6 +86,12 @@ public class HungerNeed {
 		}
 	}
 
+	/**
+	 * Add points boolean.
+	 *
+	 * @param itemstack the itemstack
+	 * @return the boolean
+	 */
 	public boolean addPoints(ItemStack itemstack) {
 		if (this.getTotalTimesFed() == 7 && itemstack.getItem() != Items.GRASS_BLOCK) {
 			return false;
@@ -109,10 +123,18 @@ public class HungerNeed {
 		return true;
 	}
 
+	/**
+	 * Check increment boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean checkIncrement() {
 		return this.points >= this.getNextState().getPointsRequired();
 	}
 
+	/**
+	 * Increment state.
+	 */
 	public void incrementState() {
 		if (this.state != HungerState.FULLY_FED) {
 			this.points -= this.state.getPointsRequired();
@@ -129,6 +151,12 @@ public class HungerNeed {
 		}
 	}
 
+	/**
+	 * Gets item index.
+	 *
+	 * @param itemstack the itemstack
+	 * @return the item index
+	 */
 	public int getItemIndex(ItemStack itemstack) {
 		int index = -1;
 		for (int i = 0; i < FEEDS.size(); i++) {
@@ -141,30 +169,68 @@ public class HungerNeed {
 		return index;
 	}
 
+	/**
+	 * Gets times fed.
+	 *
+	 * @param index the index
+	 * @return the times fed
+	 */
 	public int getTimesFed(int index) {
 		return this.TIMES_FED[index];
 	}
 
+	/**
+	 * Gets max times fed.
+	 *
+	 * @param index the index
+	 * @return the max times fed
+	 */
 	public int getMaxTimesFed(int index) {
 		return this.MAX_TIMES[index];
 	}
 
+	/**
+	 * Gets points from item.
+	 *
+	 * @param index the index
+	 * @return the points from item
+	 */
 	private int getPointsFromItem(int index) {
 		return this.POINTS_GIVEN[index];
 	}
 
+	/**
+	 * Gets total times fed.
+	 *
+	 * @return the total times fed
+	 */
 	public int getTotalTimesFed() {
 		return this.horse.getEntityData().get(TOTAL_TIMES_FED);
 	}
 
+	/**
+	 * Sets total times fed.
+	 *
+	 * @param amount the amount
+	 */
 	private void setTotalTimesFed(int amount) {
 		this.horse.getEntityData().set(TOTAL_TIMES_FED, this.getTotalTimesFed() + amount);
 	}
 
+	/**
+	 * Gets state.
+	 *
+	 * @return the state
+	 */
 	public HungerState getState() {
 		return this.state;
 	}
 
+	/**
+	 * Gets next state.
+	 *
+	 * @return the next state
+	 */
 	public HungerState getNextState() {
 		int hungerId = this.state.getId() + 1;
 		if (hungerId > 4) {
@@ -173,11 +239,22 @@ public class HungerNeed {
 		return HungerState.values()[hungerId];
 	}
 
+	/**
+	 * Sets state.
+	 *
+	 * @param state the state
+	 */
 	public void setState(HungerState state) {
 		this.state = state;
 		this.state.setHorse(this.horse);
 	}
 
+	/**
+	 * Write compound nbt.
+	 *
+	 * @param nbt the nbt
+	 * @return the compound nbt
+	 */
 	public CompoundNBT write(CompoundNBT nbt) {
 		if (this.state != null) {
 			nbt.putInt("hungerStateID", this.state.getId());
@@ -190,6 +267,11 @@ public class HungerNeed {
 		return nbt;
 	}
 
+	/**
+	 * Read.
+	 *
+	 * @param nbt the nbt
+	 */
 	public void read(CompoundNBT nbt) {
 		if (nbt.contains("hungerStateID")) {
 			int stateId = nbt.getInt("hungerStateID");
@@ -217,6 +299,11 @@ public class HungerNeed {
 		this.state.setHorse(this.horse);
 	}
 
+	/**
+	 * Sets state by id.
+	 *
+	 * @param id the id
+	 */
 	private void setStateById(int id) {
 		switch(id) {
 			case 0: {
@@ -251,6 +338,9 @@ public class HungerNeed {
 		}
 	}
 
+	/**
+	 * Reset daily.
+	 */
 	public void resetDaily() {
 		this.horse.getEntityData().set(TOTAL_TIMES_FED, 0);
 		Arrays.fill(this.TIMES_FED, 0);
@@ -268,24 +358,51 @@ public class HungerNeed {
 		private final int tickAmountChange;
 		private final int pointsRequired;
 		private SWEMHorseEntityBase horse;
+
+		/**
+		 * Instantiates a new Hunger state.
+		 *
+		 * @param tickAmountChange the tick amount change
+		 * @param pointsRequired   the points required
+		 */
 		HungerState(int tickAmountChange, int pointsRequired) {
 			this.tickAmountChange = tickAmountChange;
 			this.pointsRequired = pointsRequired;
 		}
 
+		/**
+		 * Sets horse.
+		 *
+		 * @param horse the horse
+		 */
 		public void setHorse(SWEMHorseEntityBase horse) {
 			this.horse = horse;
 		}
 
+		/**
+		 * Gets id.
+		 *
+		 * @return the id
+		 */
 		public int getId() {
 			return this.horse.getEntityData().get(ID);
 		}
 
+		/**
+		 * Gets tick amount change.
+		 *
+		 * @return the tick amount change
+		 */
 		public int getTickAmountChange() {
 			return this.tickAmountChange * (ConfigHolder.SERVER.multiplayerHungerThirst.get() ? 72 : 1);
 		}
 
 
+		/**
+		 * Gets points required.
+		 *
+		 * @return the points required
+		 */
 		public int getPointsRequired() {
 			return this.pointsRequired;
 		}

@@ -37,7 +37,12 @@ public class AlfalfaPlant extends CropsBlock {
             Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)
     };
 
-    public AlfalfaPlant(Properties builder) {
+	/**
+	 * Instantiates a new Alfalfa plant.
+	 *
+	 * @param builder the builder
+	 */
+	public AlfalfaPlant(Properties builder) {
         super(builder);
     }
 

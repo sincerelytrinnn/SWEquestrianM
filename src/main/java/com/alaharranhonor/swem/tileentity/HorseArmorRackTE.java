@@ -47,6 +47,9 @@ public class HorseArmorRackTE extends TileEntity implements IAnimatable {
 
 	private LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
 
+	/**
+	 * Instantiates a new Horse armor rack te.
+	 */
 	public HorseArmorRackTE() {
 		super(SWEMTileEntities.HORSE_ARMOR_RACK_TILE_ENTITY.get());
 	}
@@ -119,6 +122,11 @@ public class HorseArmorRackTE extends TileEntity implements IAnimatable {
 		return super.getCapability(cap, side);
 	}
 
+	/**
+	 * Create handler item stack handler.
+	 *
+	 * @return the item stack handler
+	 */
 	private ItemStackHandler createHandler() {
 		return new ItemStackHandler(2) {
 			@Override
@@ -157,6 +165,9 @@ public class HorseArmorRackTE extends TileEntity implements IAnimatable {
 
 	}
 
+	/**
+	 * Drop items.
+	 */
 	public void dropItems() {
 		for (int i = 0; i < itemHandler.getSlots(); i++) {
 			if (this.itemHandler.getStackInSlot(i) != ItemStack.EMPTY) {
@@ -170,8 +181,13 @@ public class HorseArmorRackTE extends TileEntity implements IAnimatable {
 	}
 
 
-
-
+	/**
+	 * Predicate play state.
+	 *
+	 * @param <E>   the type parameter
+	 * @param event the event
+	 * @return the play state
+	 */
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 		return PlayState.CONTINUE;
 	}

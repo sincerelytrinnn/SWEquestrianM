@@ -18,6 +18,12 @@ import net.minecraft.item.Item.Properties;
 
 
 public class AdventureGirthStrapItem extends GirthStrapItem {
+	/**
+	 * Instantiates a new Adventure girth strap item.
+	 *
+	 * @param textureName the texture name
+	 * @param properties  the properties
+	 */
 	public AdventureGirthStrapItem(String textureName, Properties properties) {
 		super(textureName, properties);
 	}

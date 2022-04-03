@@ -51,24 +51,55 @@ public enum ProgressionBoxes {
 	private int x;
 	private int y;
 
+	/**
+	 * Instantiates a new Progression boxes.
+	 *
+	 * @param path the path
+	 * @param x    the x
+	 * @param y    the y
+	 */
 	ProgressionBoxes(String path, int x, int y) {
 		this.path = path;
 		this.x = x;
 		this.y = y;
 	}
 
+	/**
+	 * Gets path.
+	 *
+	 * @return the path
+	 */
 	public String getPath() {
 		return path;
 	}
 
+	/**
+	 * Gets x.
+	 *
+	 * @return the x
+	 */
 	public int getX() {
 		return x;
 	}
 
+	/**
+	 * Gets y.
+	 *
+	 * @return the y
+	 */
 	public int getY() {
 		return y;
 	}
 
+	/**
+	 * Is mouse over boolean.
+	 *
+	 * @param mouseX        the mouse x
+	 * @param mouseY        the mouse y
+	 * @param guiLeftOffset the gui left offset
+	 * @param guiTopOffset  the gui top offset
+	 * @return the boolean
+	 */
 	public boolean isMouseOver(double mouseX, double mouseY, int guiLeftOffset, int guiTopOffset) {
 		return (mouseX >= getX() + guiLeftOffset && mouseX <= getX() + guiLeftOffset + OFFSET) && (mouseY >= getY() + guiTopOffset && mouseY <= getY() + guiTopOffset + OFFSET);
 	}

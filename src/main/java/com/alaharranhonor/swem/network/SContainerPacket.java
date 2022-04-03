@@ -30,15 +30,31 @@ public class SContainerPacket {
 	private int action;
 	private boolean failed;
 
+	/**
+	 * Instantiates a new S container packet.
+	 *
+	 * @param action the action
+	 */
 	public SContainerPacket(int action) {
 		this.action = action;
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new S container packet.
+	 *
+	 * @param failed the failed
+	 */
 	public SContainerPacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode s container packet.
+	 *
+	 * @param buf the buf
+	 * @return the s container packet
+	 */
 	public static SContainerPacket decode(ByteBuf buf) {
 		try {
 			int action = buf.readInt();
@@ -49,10 +65,22 @@ public class SContainerPacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(SContainerPacket msg, PacketBuffer buffer) {
 		buffer.writeInt(msg.action);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(SContainerPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			ServerPlayerEntity serverPlayer = ctx.get().getSender();

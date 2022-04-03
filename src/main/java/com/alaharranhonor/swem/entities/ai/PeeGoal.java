@@ -36,6 +36,12 @@ public class PeeGoal extends Goal {
 	private final double speed;
 	private BlockPos peeSpot;
 
+	/**
+	 * Instantiates a new Pee goal.
+	 *
+	 * @param peeEntity the pee entity
+	 * @param speed     the speed
+	 */
 	public PeeGoal(SWEMHorseEntityBase peeEntity, double speed) {
 		this.peeEntity = peeEntity;
 		this.entityWorld = peeEntity.level;
@@ -79,6 +85,11 @@ public class PeeGoal extends Goal {
 		return this.peeTimer > 0 && this.peeEntity.getPassengers().isEmpty();
 	}
 
+	/**
+	 * Gets pee timer.
+	 *
+	 * @return the pee timer
+	 */
 	public int getPeeTimer() {
 		return this.peeTimer;
 	}
@@ -109,6 +120,12 @@ public class PeeGoal extends Goal {
 
 	}
 
+	/**
+	 * Gets pos of best block.
+	 *
+	 * @param pos the pos
+	 * @return the pos of best block
+	 */
 	private BlockPos getPosOfBestBlock(BlockPos pos) {
 		ArrayList<BlockPos> shavingsPos = new ArrayList<>();
 		ArrayList<BlockPos> peePos = new ArrayList<>();
@@ -155,6 +172,11 @@ public class PeeGoal extends Goal {
 				: null;
 	}
 
+	/**
+	 * Pee.
+	 *
+	 * @param posToPee the pos to pee
+	 */
 	private void pee(BlockPos posToPee) {
 		BlockState state = this.entityWorld.getBlockState(posToPee);
 		if (state.getBlock() instanceof Shavings) {

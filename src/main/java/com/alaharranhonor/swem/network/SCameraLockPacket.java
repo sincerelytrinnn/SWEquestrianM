@@ -37,6 +37,13 @@ public class SCameraLockPacket {
 	private float xRot;
 	private boolean failed;
 
+	/**
+	 * Instantiates a new S camera lock packet.
+	 *
+	 * @param horseId the horse id
+	 * @param yRot    the y rot
+	 * @param xRot    the x rot
+	 */
 	public SCameraLockPacket(int horseId, float yRot, float xRot) {
 		this.horseId = horseId;
 		this.yRot = yRot;
@@ -44,10 +51,21 @@ public class SCameraLockPacket {
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new S camera lock packet.
+	 *
+	 * @param failed the failed
+	 */
 	public SCameraLockPacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode s camera lock packet.
+	 *
+	 * @param buf the buf
+	 * @return the s camera lock packet
+	 */
 	public static SCameraLockPacket decode(ByteBuf buf) {
 		try {
 			int horseUUID = buf.readInt();
@@ -61,12 +79,24 @@ public class SCameraLockPacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(SCameraLockPacket msg, PacketBuffer buffer) {
 		buffer.writeInt(msg.horseId);
 		buffer.writeFloat(msg.yRot);
 		buffer.writeFloat(msg.xRot);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(SCameraLockPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Entity entity = Minecraft.getInstance().level.getEntity(msg.horseId);

@@ -38,6 +38,11 @@ public class SWEMStructure {
 
 	public static final DeferredRegister<Structure<?>> STRUCTURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, SWEM.MOD_ID);
 
+	/**
+	 * Init.
+	 *
+	 * @param modBus the mod bus
+	 */
 	public static void init(IEventBus modBus) {
 		STRUCTURES.register(modBus);
 	}

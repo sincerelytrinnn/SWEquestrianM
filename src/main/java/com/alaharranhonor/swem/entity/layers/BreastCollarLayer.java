@@ -34,6 +34,11 @@ public class BreastCollarLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
 	private IGeoRenderer<SWEMHorseEntity> entityRenderer;
 
+	/**
+	 * Instantiates a new Breast collar layer.
+	 *
+	 * @param entityRendererIn the entity renderer in
+	 */
 	public BreastCollarLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
 		super(entityRendererIn);
 		this.entityRenderer = entityRendererIn;

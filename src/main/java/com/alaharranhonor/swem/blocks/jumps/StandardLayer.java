@@ -32,6 +32,12 @@ public enum StandardLayer {
 	BlockState middleState;
 	BlockState topState;
 
+	/**
+	 * Instantiates a new Standard layer.
+	 *
+	 * @param displayName the display name
+	 * @param allState    the all state
+	 */
 	StandardLayer(String displayName, BlockState allState) {
 		this.displayName = displayName;
 		this.bottomState = allState;
@@ -40,6 +46,14 @@ public enum StandardLayer {
 	}
 
 
+	/**
+	 * Instantiates a new Standard layer.
+	 *
+	 * @param displayName the display name
+	 * @param bottomState the bottom state
+	 * @param middleState the middle state
+	 * @param topState    the top state
+	 */
 	StandardLayer(String displayName, BlockState bottomState, BlockState middleState, BlockState topState) {
 		this.displayName = displayName;
 		this.bottomState = bottomState;
@@ -47,18 +61,38 @@ public enum StandardLayer {
 		this.topState = topState;
 	}
 
+	/**
+	 * Gets bottom state.
+	 *
+	 * @return the bottom state
+	 */
 	public BlockState getBottomState() {
 		return bottomState;
 	}
 
+	/**
+	 * Gets middle state.
+	 *
+	 * @return the middle state
+	 */
 	public BlockState getMiddleState() {
 		return middleState;
 	}
 
+	/**
+	 * Gets top state.
+	 *
+	 * @return the top state
+	 */
 	public BlockState getTopState() {
 		return topState;
 	}
 
+	/**
+	 * Gets display name.
+	 *
+	 * @return the display name
+	 */
 	public String getDisplayName() {
 		return this.displayName;
 	}

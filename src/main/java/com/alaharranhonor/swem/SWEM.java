@@ -90,6 +90,9 @@ public class SWEM
         GeckoLibMod.DISABLE_IN_DEV = false;
     }
 
+    /**
+     * Instantiates a new Swem.
+     */
     public SWEM() {
         // Register the setup method for modloading
         WHITEWASH_WT = WoodType.register(WoodType.create("swem:whitewash"));
@@ -113,6 +116,11 @@ public class SWEM
         modLoadingContext.registerConfig(ModConfig.Type.SERVER, ConfigHolder.SERVER_SPEC);
     }
 
+    /**
+     * On register items.
+     *
+     * @param event the event
+     */
     @SubscribeEvent
     public static void onRegisterItems(final RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
@@ -130,6 +138,11 @@ public class SWEM
 
     }
 
+    /**
+     * Sets .
+     *
+     * @param event the event
+     */
     private void setup(final FMLCommonSetupEvent event) {
 
         if (ModList.get().isLoaded("placeableitems")) {
@@ -180,6 +193,12 @@ public class SWEM
      * Basically use this to make absolutely sure the chunkgenerator can or cannot spawn your structure.
      */
     private static Method GETCODEC_METHOD;
+
+    /**
+     * Add dimensional spacing.
+     *
+     * @param event the event
+     */
     public void addDimensionalSpacing(final WorldEvent.Load event) {
         if (event.getWorld() instanceof ServerWorld) {
             ServerWorld serverWorld = (ServerWorld)event.getWorld();

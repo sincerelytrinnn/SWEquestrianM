@@ -45,16 +45,33 @@ public class HorseStateChange {
 
 	private boolean failed;
 
+	/**
+	 * Instantiates a new Horse state change.
+	 *
+	 * @param action   the action
+	 * @param entityID the entity id
+	 */
 	public HorseStateChange(int action, int entityID) {
 		this.action = action;
 		this.entityID = entityID;
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new Horse state change.
+	 *
+	 * @param failed the failed
+	 */
 	public HorseStateChange(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode horse state change.
+	 *
+	 * @param buf the buf
+	 * @return the horse state change
+	 */
 	public static HorseStateChange decode(ByteBuf buf) {
 		try {
 			int action = buf.readInt();
@@ -66,11 +83,23 @@ public class HorseStateChange {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(HorseStateChange msg, PacketBuffer buffer) {
 		buffer.writeInt(msg.action);
 		buffer.writeInt(msg.entityID);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(HorseStateChange msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) ctx.get().getSender().level.getEntity(msg.entityID);

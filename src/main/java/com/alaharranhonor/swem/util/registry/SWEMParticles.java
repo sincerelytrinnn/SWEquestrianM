@@ -27,6 +27,11 @@ public class SWEMParticles {
 
 	public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, SWEM.MOD_ID);
 
+	/**
+	 * Init.
+	 *
+	 * @param modBus the mod bus
+	 */
 	public static void init(IEventBus modBus) {
 		PARTICLES.register(modBus);
 	}

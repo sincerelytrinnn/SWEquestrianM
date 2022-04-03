@@ -69,6 +69,11 @@ public class SWEMBlockStateProperties extends BlockStateProperties {
 
 		private int id;
 
+		/**
+		 * Instantiates a new Two way.
+		 *
+		 * @param id the id
+		 */
 		TwoWay(int id) {
 			this.id = id;
 		}
@@ -81,6 +86,11 @@ public class SWEMBlockStateProperties extends BlockStateProperties {
 			return this == SINGLE ? "single" : this == LEFT ? "left" : this == MIDDLE ? "middle" : "right";
 		}
 
+		/**
+		 * Gets id.
+		 *
+		 * @return the id
+		 */
 		public int getId() {
 			return this.id;
 		}

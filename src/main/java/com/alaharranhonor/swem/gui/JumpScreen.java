@@ -56,6 +56,13 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 	public StandardLayer currentStandard;
 
 
+	/**
+	 * Instantiates a new Jump screen.
+	 *
+	 * @param container the container
+	 * @param inventory the inventory
+	 * @param titleIn   the title in
+	 */
 	public JumpScreen(JumpContainer container, PlayerInventory inventory, ITextComponent titleIn) {
 		super(container, inventory, titleIn);
 		this.xSize = 246; // + 3
@@ -79,6 +86,9 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 
 	}
 
+	/**
+	 * Init buttons.
+	 */
 	public void initButtons() {
 		for (int i = 0; i < 5; i++) {
 			LayerChangerButton btn = new LayerChangerButton(this.guiLeft + 65 + 6, this.guiTop + (this.ySize - ((22 * i) + 26)), 100, 20, new StringTextComponent("Option"), this);
@@ -112,18 +122,37 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 		this.addWidget(this.destroyButton);
 	}
 
+	/**
+	 * Add color button.
+	 *
+	 * @param btn the btn
+	 */
 	public void addColorButton(ColorChangerButton btn) {
 		this.colorButtons.add(btn);
 		this.addWidget(btn);
 	}
+
+	/**
+	 * Gets buttons.
+	 *
+	 * @return the buttons
+	 */
 	public List<Widget> getButtons() {
 		return this.buttons;
 	}
 
+	/**
+	 * Gets color buttons.
+	 *
+	 * @return the color buttons
+	 */
 	public List<ColorChangerButton> getColorButtons() {
 		return this.colorButtons;
 	}
 
+	/**
+	 * Remove all buttons.
+	 */
 	public void removeAllButtons() {
 		this.buttons.clear();
 		this.children.clear();
@@ -131,16 +160,31 @@ public class JumpScreen extends ContainerScreen<JumpContainer> {
 
 	}
 
+	/**
+	 * Remove and re init.
+	 */
 	public void removeAndReInit() {
 		removeAllButtons();
 		this.initButtons();
 	}
 
+	/**
+	 * Check layer buttons.
+	 */
 	private void checkLayerButtons() {
 		this.addLayerButton.active = this.layerAmount < 5;
 		this.deleteLayerButton.active = this.layerAmount <= 5 && this.layerAmount > 1;
 	}
 
+	/**
+	 * Update data.
+	 *
+	 * @param controllerPos the controller pos
+	 * @param layerAmount   the layer amount
+	 * @param layers        the layers
+	 * @param colors        the colors
+	 * @param standard      the standard
+	 */
 	public void updateData(BlockPos controllerPos, int layerAmount, Map<Integer, JumpLayer> layers, Map<Integer, Integer> colors, StandardLayer standard) {
 		this.controllerPos = controllerPos;
 		this.layerAmount = layerAmount;

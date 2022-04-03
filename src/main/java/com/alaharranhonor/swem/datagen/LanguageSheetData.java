@@ -20,14 +20,29 @@ public class LanguageSheetData {
 	private String majorDimension;
 	private String[][] values;
 
+	/**
+	 * Gets range.
+	 *
+	 * @return the range
+	 */
 	public String getRange() {
 		return range;
 	}
 
+	/**
+	 * Gets major dimension.
+	 *
+	 * @return the major dimension
+	 */
 	public String getMajorDimension() {
 		return majorDimension;
 	}
 
+	/**
+	 * Get values string [ ] [ ].
+	 *
+	 * @return the string [ ] [ ]
+	 */
 	public String[][] getValues() {
 		return values;
 	}

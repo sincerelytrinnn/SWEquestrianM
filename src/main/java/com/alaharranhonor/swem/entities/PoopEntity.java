@@ -41,6 +41,12 @@ public class PoopEntity extends LivingEntity implements IAnimatable {
 	private final AnimationFactory factory = new AnimationFactory(this);
 	private int washedAway = 0;
 
+	/**
+	 * Instantiates a new Poop entity.
+	 *
+	 * @param p_i50225_1_ the p i 50225 1
+	 * @param world       the world
+	 */
 	public PoopEntity(EntityType<? extends PoopEntity> p_i50225_1_, World world) {
 		super(p_i50225_1_, world);
 		this.maxUpStep = 0.0F;
@@ -142,6 +148,13 @@ public class PoopEntity extends LivingEntity implements IAnimatable {
 		return null;
 	}
 
+	/**
+	 * Predicate play state.
+	 *
+	 * @param <E>   the type parameter
+	 * @param event the event
+	 * @return the play state
+	 */
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 		return PlayState.STOP;
 	}

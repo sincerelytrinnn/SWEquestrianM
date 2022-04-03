@@ -42,11 +42,23 @@ public class HalterItem extends HorseTackItem implements IAnimatable {
 	private AnimationFactory factory = new AnimationFactory(this);
 
 
+	/**
+	 * Instantiates a new Halter item.
+	 *
+	 * @param textureName the texture name
+	 * @param properties  the properties
+	 */
 	public HalterItem(String textureName, Properties properties) {
 		this(new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/halter/" + textureName + ".png"), properties);
 		this.bridleRackTexture = new ResourceLocation(SWEM.MOD_ID, "textures/tile/bridle_rack/bridle_rack_" + textureName + ".png");
 	}
 
+	/**
+	 * Instantiates a new Halter item.
+	 *
+	 * @param texture    the texture
+	 * @param properties the properties
+	 */
 	public HalterItem(ResourceLocation texture, Properties properties) {
 		super(properties);
 		this.texture = texture;
@@ -68,11 +80,21 @@ public class HalterItem extends HorseTackItem implements IAnimatable {
 		return ActionResultType.PASS;
 	}
 
+	/**
+	 * Gets armor texture.
+	 *
+	 * @return the armor texture
+	 */
 	@OnlyIn(Dist.CLIENT)
 	public ResourceLocation getArmorTexture() {
 		return texture;
 	}
 
+	/**
+	 * Gets bridle rack texture.
+	 *
+	 * @return the bridle rack texture
+	 */
 	public ResourceLocation getBridleRackTexture() {
 		return this.bridleRackTexture;
 	}

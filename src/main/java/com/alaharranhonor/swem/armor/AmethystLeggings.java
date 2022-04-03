@@ -29,6 +29,14 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraft.item.Item.Properties;
 
 public class AmethystLeggings extends SWEMArmorItem {
+	/**
+	 * Instantiates a new Amethyst leggings.
+	 *
+	 * @param path       the path
+	 * @param materialIn the material in
+	 * @param slot       the slot
+	 * @param builder    the builder
+	 */
 	public AmethystLeggings(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builder) {
 		super(path, materialIn, slot, builder);
 	}
@@ -42,6 +50,11 @@ public class AmethystLeggings extends SWEMArmorItem {
 	@Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 	public static class LastStand {
 
+		/**
+		 * On hurt event.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void onHurtEvent(LivingHurtEvent event) {
 			if (!(event.getEntity() instanceof PlayerEntity)) return;

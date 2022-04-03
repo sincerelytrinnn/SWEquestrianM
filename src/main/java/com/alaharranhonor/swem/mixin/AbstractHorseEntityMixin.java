@@ -28,6 +28,11 @@ public class AbstractHorseEntityMixin {
 
 	// Lnet/minecraft/entity/passive/horse/AbstractHorseEntity;generateRandomJumpStrength()D
 
+	/**
+	 * Generate random jump strength.
+	 *
+	 * @param callback the callback
+	 */
 	@Inject(at = @At("HEAD"), method = "generateRandomJumpStrength()D", cancellable = true)
 	public void generateRandomJumpStrength(CallbackInfoReturnable<Double> callback) {
 		Random random = new Random();

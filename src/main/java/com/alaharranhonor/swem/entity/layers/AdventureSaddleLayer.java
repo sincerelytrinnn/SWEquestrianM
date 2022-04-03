@@ -39,6 +39,11 @@ public class AdventureSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
 	private final IGeoRenderer entityRenderer;
 
+	/**
+	 * Instantiates a new Adventure saddle layer.
+	 *
+	 * @param entityRendererIn the entity renderer in
+	 */
 	public AdventureSaddleLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
 		super(entityRendererIn);
 		this.entityRenderer = entityRendererIn;
@@ -73,6 +78,13 @@ public class AdventureSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
 	}
 
+	/**
+	 * Should render boolean.
+	 *
+	 * @param stack  the stack
+	 * @param entity the entity
+	 * @return the boolean
+	 */
 	public boolean shouldRender(ItemStack stack, SWEMHorseEntity entity) {
 		return stack.getItem() instanceof AdventureSaddleItem && entity.getEntityData().get(SWEMHorseEntityBase.RENDER_SADDLE);
 	}

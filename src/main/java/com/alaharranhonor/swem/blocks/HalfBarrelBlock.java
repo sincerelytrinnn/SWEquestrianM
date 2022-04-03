@@ -48,6 +48,11 @@ import net.minecraft.block.AbstractBlock.Properties;
 public class HalfBarrelBlock extends Block {
 	public static final IntegerProperty LEVEL = BlockStateProperties.LEVEL_CAULDRON;
 
+	/**
+	 * Instantiates a new Half barrel block.
+	 *
+	 * @param properties the properties
+	 */
 	public HalfBarrelBlock(Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.stateDefinition.any().setValue(LEVEL, Integer.valueOf(0)));
@@ -110,6 +115,12 @@ public class HalfBarrelBlock extends Block {
 		}
 	}
 
+	/**
+	 * Fill with rain.
+	 *
+	 * @param worldIn the world in
+	 * @param pos     the pos
+	 */
 	public void fillWithRain(World worldIn, BlockPos pos) {
 		if (worldIn.random.nextInt(1) == 1) {
 			float f = worldIn.getBiome(pos).getTemperature(pos);
@@ -123,6 +134,14 @@ public class HalfBarrelBlock extends Block {
 		}
 	}
 
+	/**
+	 * Sets water level.
+	 *
+	 * @param worldIn the world in
+	 * @param pos     the pos
+	 * @param state   the state
+	 * @param level   the level
+	 */
 	public void setWaterLevel(World worldIn, BlockPos pos, BlockState state, int level) {
 		worldIn.setBlock(pos, state.setValue(LEVEL, Integer.valueOf(MathHelper.clamp(level, 0, 3))), 2);
 		worldIn.updateNeighbourForOutputSignal(pos, this);

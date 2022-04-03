@@ -25,14 +25,27 @@ public class JumpPasserTE extends TileEntity {
 
 	public BlockPos controllerPos;
 
+	/**
+	 * Instantiates a new Jump passer te.
+	 */
 	public JumpPasserTE() {
 		super(SWEMTileEntities.JUMP_PASSER_TILE_ENTITY.get());
 	}
 
+	/**
+	 * Gets controller pos.
+	 *
+	 * @return the controller pos
+	 */
 	public BlockPos getControllerPos() {
 		return this.controllerPos;
 	}
 
+	/**
+	 * Sets controller pos.
+	 *
+	 * @param controllerPos the controller pos
+	 */
 	public void setControllerPos(BlockPos controllerPos) {
 		this.controllerPos = controllerPos;
 	}

@@ -39,6 +39,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class AmethystRidingBoots extends DiamondRidingBoots {
+	/**
+	 * Instantiates a new Amethyst riding boots.
+	 *
+	 * @param path       the path
+	 * @param materialIn the material in
+	 * @param slot       the slot
+	 * @param builderIn  the builder in
+	 */
 	public AmethystRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
 		super(path, materialIn, slot, builderIn);
 	}
@@ -67,6 +75,11 @@ public class AmethystRidingBoots extends DiamondRidingBoots {
 	@Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 	public static class AmethystRidingBootsEquipped {
 
+		/**
+		 * On fall.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void onFall(LivingFallEvent event) {
 			if (event.getEntityLiving() instanceof PlayerEntity) {

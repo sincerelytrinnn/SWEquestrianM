@@ -36,6 +36,12 @@ public class LookForWaterGoal extends Goal {
 	private int movingTimer;
 	private BlockPos movingToPos;
 
+	/**
+	 * Instantiates a new Look for water goal.
+	 *
+	 * @param entityIn the entity in
+	 * @param speed    the speed
+	 */
 	public LookForWaterGoal(SWEMHorseEntityBase entityIn, double speed) {
 	 	this.horse = entityIn;
 	 	this.speed = speed;

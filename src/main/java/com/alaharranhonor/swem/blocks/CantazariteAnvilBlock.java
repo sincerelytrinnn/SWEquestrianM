@@ -43,6 +43,11 @@ import javax.annotation.Nullable;
 
 public class CantazariteAnvilBlock extends AnvilBlock {
 
+	/**
+	 * Instantiates a new Cantazarite anvil block.
+	 *
+	 * @param properties the properties
+	 */
 	public CantazariteAnvilBlock(Properties properties) {
 		super(properties);
 		this.registerDefaultState(

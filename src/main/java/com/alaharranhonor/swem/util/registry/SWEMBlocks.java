@@ -55,29 +55,72 @@ public class SWEMBlocks {
 
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SWEM.MOD_ID);
 
+	/**
+	 * Init.
+	 *
+	 * @param modBus the mod bus
+	 */
 	public static void init(IEventBus modBus) {
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> SWEMBlocks::checkAccess);
 		BLOCKS.register(modBus);
 	}
 
+	/**
+	 * Register registry object.
+	 *
+	 * @param <T>  the type parameter
+	 * @param name the name
+	 * @param sup  the sup
+	 * @return the registry object
+	 */
 	private static <T extends Block> RegistryObject<T> register(String name, Supplier<? extends T> sup) {
 		return register(name, sup, SWEMBlocks::itemDefault);
 	}
 
+	/**
+	 * Register registry object.
+	 *
+	 * @param <T>         the type parameter
+	 * @param name        the name
+	 * @param sup         the sup
+	 * @param itemCreator the item creator
+	 * @return the registry object
+	 */
 	private static <T extends Block> RegistryObject<T> register(String name, Supplier<? extends T> sup, Function<RegistryObject<T>, Supplier<? extends Item>> itemCreator) {
 		RegistryObject<T> ret = registerNoItem(name, sup);
 		SWEMItems.ITEMS.register(name, itemCreator.apply(ret));
 		return ret;
 	}
 
+	/**
+	 * Register no item registry object.
+	 *
+	 * @param <T>  the type parameter
+	 * @param name the name
+	 * @param sup  the sup
+	 * @return the registry object
+	 */
 	private static <T extends Block> RegistryObject<T> registerNoItem(String name, Supplier<? extends T> sup) {
 		return BLOCKS.register(name, sup);
 	}
 
+	/**
+	 * Item default supplier.
+	 *
+	 * @param block the block
+	 * @return the supplier
+	 */
 	private static Supplier<BlockItem> itemDefault(final RegistryObject<? extends Block> block) {
 		return item(block, SWEM.TAB);
 	}
 
+	/**
+	 * Item supplier.
+	 *
+	 * @param block     the block
+	 * @param itemGroup the item group
+	 * @return the supplier
+	 */
 	private static Supplier<BlockItem> item(final RegistryObject<? extends Block> block, final ItemGroup itemGroup) {
 		return () -> new BlockItem(block.get(), new Item.Properties().tab(itemGroup));
 	}
@@ -187,6 +230,9 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> SPIGOT = BLOCKS.register("spigot", () -> new Spigot(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).strength(1.5f, 6.0f)));
 	public static final RegistryObject<Block> STAR_WORM_COBBLE = BLOCKS.register("star_worm_cobble", () -> new Block(Block.Properties.copy(Blocks.STONE).lightLevel((state) -> 7)));
 
+	/**
+	 * Check access.
+	 */
 	public static void checkAccess() {
 
 		String playerUUID = Minecraft.getInstance().getUser().getUuid().replaceAll("-", "");

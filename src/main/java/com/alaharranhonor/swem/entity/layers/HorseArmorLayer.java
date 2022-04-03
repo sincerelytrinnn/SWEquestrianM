@@ -33,6 +33,11 @@ import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 	private final IGeoRenderer<SWEMHorseEntity> entityRenderer;
 
+	/**
+	 * Instantiates a new Horse armor layer.
+	 *
+	 * @param entityRendererIn the entity renderer in
+	 */
 	public HorseArmorLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
 		super(entityRendererIn);
 		this.entityRenderer = entityRendererIn;
@@ -88,6 +93,12 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 		}
 	}
 
+	/**
+	 * Should render armour boolean.
+	 *
+	 * @param horse the horse
+	 * @return the boolean
+	 */
 	public boolean shouldRenderArmour(SWEMHorseEntity horse) {
 		if (horse.getCoatColor() == SWEMCoatColor.SWIFT_WIND_SHE_RA) {
 			return false;
@@ -96,6 +107,12 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 		return true;
 	}
 
+	/**
+	 * Gets wing texture.
+	 *
+	 * @param horse the horse
+	 * @return the wing texture
+	 */
 	public ResourceLocation getWingTexture(SWEMHorseEntity horse) {
 		if (horse.getCoatColor() == SWEMCoatColor.SWIFT_WIND_SHE_RA) {
 			return new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/wings/swift_wind_she_ra.png");

@@ -38,6 +38,15 @@ public class TackBoxGeneticsScreen extends Screen {
 	private int guiTop;
 	private int xSize;
 	private int ySize;
+
+	/**
+	 * Instantiates a new Tack box genetics screen.
+	 *
+	 * @param screenContainer the screen container
+	 * @param inv             the inv
+	 * @param defaultTitle    the default title
+	 * @param titleIn         the title in
+	 */
 	protected TackBoxGeneticsScreen(TackBoxContainer screenContainer, PlayerInventory inv, ITextComponent defaultTitle, ITextComponent titleIn) {
 		super(titleIn);
 		this.container = screenContainer;

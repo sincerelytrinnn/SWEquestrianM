@@ -38,6 +38,11 @@ public class SaddlebagLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
 	private IGeoRenderer entityRenderer;
 
+	/**
+	 * Instantiates a new Saddlebag layer.
+	 *
+	 * @param entityRendererIn the entity renderer in
+	 */
 	public SaddlebagLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
 		super(entityRendererIn);
 		this.entityRenderer = entityRendererIn;

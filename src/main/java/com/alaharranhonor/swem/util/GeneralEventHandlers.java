@@ -64,6 +64,11 @@ import java.util.concurrent.TimeUnit;
 @Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class GeneralEventHandlers {
 
+	/**
+	 * On mod config event.
+	 *
+	 * @param event the event
+	 */
 	@SubscribeEvent
 	public static void onModConfigEvent(ModConfig.ModConfigEvent event) {
 
@@ -93,6 +98,11 @@ public class GeneralEventHandlers {
 		private static ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
 
 
+		/**
+		 * On biome loading.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent(priority = EventPriority.HIGH)
 		public static void onBiomeLoading(BiomeLoadingEvent event)
 		{
@@ -110,6 +120,11 @@ public class GeneralEventHandlers {
 			}
 		}
 
+		/**
+		 * Register commands.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void registerCommands(RegisterCommandsEvent event) {
 			//event.getDispatcher().register(YeetCommand.register());
@@ -117,6 +132,11 @@ public class GeneralEventHandlers {
 			event.getDispatcher().register(SWEMCommand.register());
 		}
 
+		/**
+		 * On key press.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void onKeyPress(InputEvent.KeyInputEvent event) {
 			KeyBinding[] keyBindings = ClientEventHandlers.keyBindings;
@@ -220,7 +240,12 @@ public class GeneralEventHandlers {
 		}
 
 
-		// Update horse speed when dismounted, to a walk gait.
+		/**
+		 * Entity mount.
+		 *
+		 * @param event the event
+		 */
+// Update horse speed when dismounted, to a walk gait.
 		@SubscribeEvent
 		public static void entityMount(EntityMountEvent event) {
 			if (event.isMounting()) return;
@@ -240,7 +265,12 @@ public class GeneralEventHandlers {
 			}
 		}
 
-		// Doon't dismount player if the player/horse is flying.
+		/**
+		 * On entity mount event.
+		 *
+		 * @param event the event
+		 */
+// Doon't dismount player if the player/horse is flying.
 		// This is the cause of desyncing when hitting shift while flying.
 		@SubscribeEvent
 		public static void onEntityMountEvent(EntityMountEvent event) {
@@ -256,7 +286,12 @@ public class GeneralEventHandlers {
 			}
 		}
 
-		// Check if the player can mount the horse.
+		/**
+		 * Can entity be mounted.
+		 *
+		 * @param event the event
+		 */
+// Check if the player can mount the horse.
 		@SubscribeEvent
 		public static void canEntityBeMounted(EntityMountEvent event) {
 			if (!event.isMounting()) return;
@@ -273,6 +308,11 @@ public class GeneralEventHandlers {
 			}
 		}
 
+		/**
+		 * On entity interact.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
 			if (event.getWorld().isClientSide) {
@@ -282,6 +322,11 @@ public class GeneralEventHandlers {
 		}
 
 
+		/**
+		 * On user hurt.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void onUserHurt(LivingHurtEvent event) {
 			if (!(event.getEntity() instanceof PlayerEntity)) return;
@@ -295,6 +340,11 @@ public class GeneralEventHandlers {
 			}
 		}
 
+		/**
+		 * Amethyst sword reduced damage.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void amethystSwordReducedDamage(LivingHurtEvent event) {
 			if (!(event.getEntityLiving() instanceof SWEMHorseEntityBase)) return;
@@ -305,6 +355,11 @@ public class GeneralEventHandlers {
 			}
 		}
 
+		/**
+		 * Lead with bridle reins.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void leadWithBridleReins(PlayerInteractEvent.EntityInteract event) {
 			if (!(event.getTarget() instanceof SWEMHorseEntityBase)) return;
@@ -318,6 +373,11 @@ public class GeneralEventHandlers {
 			}
 		}
 
+		/**
+		 * Reset hitching post custom knot.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void resetHitchingPostCustomKnot(PlayerInteractEvent.EntityInteract event) {
 			if (!(event.getTarget() instanceof LeashKnotEntity)) return;
@@ -327,6 +387,11 @@ public class GeneralEventHandlers {
 		}
 
 
+		/**
+		 * New year message.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void newYearMessage(EntityJoinWorldEvent event) {
 			if (event.getEntity() instanceof PlayerEntity && event.getEntity().level.isClientSide) {
@@ -342,6 +407,11 @@ public class GeneralEventHandlers {
 			}
 		}
 
+		/**
+		 * Hide lead knot entity.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void hideLeadKnotEntity(EntityJoinWorldEvent event) {
 			if (event.getEntity() instanceof LeashKnotEntity && !event.getEntity().level.isClientSide) {

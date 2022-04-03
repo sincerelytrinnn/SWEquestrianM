@@ -31,6 +31,12 @@ import javax.annotation.Nullable;
 public class JumpStandardBlock extends HorizontalBlock {
 
 	public static final EnumProperty<SWEMBlockStateProperties.TripleBlockSide> STANDARD_PIECE = SWEMBlockStateProperties.T_SIDE;
+
+	/**
+	 * Instantiates a new Jump standard block.
+	 *
+	 * @param properties the properties
+	 */
 	public JumpStandardBlock(Properties properties) {
 		super(properties);
 	}

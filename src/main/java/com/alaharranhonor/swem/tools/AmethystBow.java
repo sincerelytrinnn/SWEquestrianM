@@ -35,6 +35,11 @@ import net.minecraft.world.World;
 import net.minecraft.item.Item.Properties;
 
 public class AmethystBow extends BowItem {
+	/**
+	 * Instantiates a new Amethyst bow.
+	 *
+	 * @param builder the builder
+	 */
 	public AmethystBow(Properties builder) {
 		super(builder);
 	}

@@ -29,7 +29,12 @@ import net.minecraftforge.common.ToolType;
 import java.util.Random;
 
 public class OreBase extends OreBlock {
-    public OreBase(Properties p_i48357_1_) {
+	/**
+	 * Instantiates a new Ore base.
+	 *
+	 * @param p_i48357_1_ the p i 48357 1
+	 */
+	public OreBase(Properties p_i48357_1_) {
         super(p_i48357_1_);
     }
 

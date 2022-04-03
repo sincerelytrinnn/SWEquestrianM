@@ -65,7 +65,13 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 	private Button permissionButton;
 
 
-
+	/**
+	 * Instantiates a new Swem horse inventory screen.
+	 *
+	 * @param p_i51084_1_       the p i 51084 1
+	 * @param playerInventoryIn the player inventory in
+	 * @param title             the title
+	 */
 	public SWEMHorseInventoryScreen(SWEMHorseInventoryContainer p_i51084_1_, PlayerInventory playerInventoryIn, ITextComponent title) {
 		super(p_i51084_1_, playerInventoryIn, title);
 		//this(p_i51084_1_, playerInventoryIn, p_i51084_1_.horse);

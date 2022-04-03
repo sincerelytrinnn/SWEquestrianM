@@ -45,6 +45,11 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 
 	public static final EnumProperty<SWEMBlockStateProperties.DoubleBlockSide> SIDE = SWEMBlockStateProperties.D_SIDE;
 
+	/**
+	 * Instantiates a new Horse armor rack block.
+	 *
+	 * @param properties the properties
+	 */
 	public HorseArmorRackBlock(AbstractBlock.Properties properties) {
 		super(properties);
 		this.registerDefaultState(

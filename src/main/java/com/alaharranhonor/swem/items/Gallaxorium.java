@@ -29,6 +29,9 @@ import net.minecraft.world.World;
 
 public class Gallaxorium extends ItemBase {
 
+	/**
+	 * Instantiates a new Gallaxorium.
+	 */
 	public Gallaxorium() {
 		super(new Item.Properties().durability(1).tab(SWEM.TAB));
 	}

@@ -30,6 +30,9 @@ public class SWEMPacketHandler {
 			PROTOCOL_VERSION::equals
 	);
 
+	/**
+	 * Init.
+	 */
 	public static void init() {
 		INSTANCE.registerMessage(0, AddJumpXPMessage.class, AddJumpXPMessage::encode, AddJumpXPMessage::decode, AddJumpXPMessage::handle);
 		INSTANCE.registerMessage(1, UpdateHorseInventoryMessage.class, UpdateHorseInventoryMessage::encode, UpdateHorseInventoryMessage::decode, UpdateHorseInventoryMessage::handle);

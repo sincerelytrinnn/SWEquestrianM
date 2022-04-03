@@ -42,10 +42,24 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 	private String repairedItemName;
 	private final IntReferenceHolder maximumCost = IntReferenceHolder.standalone();
 
+	/**
+	 * Instantiates a new Cantazarite anvil container.
+	 *
+	 * @param id              the id
+	 * @param playerInventory the player inventory
+	 * @param data            the data
+	 */
 	public CantazariteAnvilContainer(int id, PlayerInventory playerInventory, PacketBuffer data) {
 		this(id, playerInventory, IWorldPosCallable.NULL);
 	}
 
+	/**
+	 * Instantiates a new Cantazarite anvil container.
+	 *
+	 * @param id               the id
+	 * @param playerInventory  the player inventory
+	 * @param worldPosCallable the world pos callable
+	 */
 	public CantazariteAnvilContainer(int id, PlayerInventory playerInventory, IWorldPosCallable worldPosCallable) {
 		super(SWEMContainers.CANTAZARITE_ANVIL_CONTAINER.get(), id, playerInventory, worldPosCallable);
 		this.addDataSlot(this.maximumCost);
@@ -258,6 +272,12 @@ public class CantazariteAnvilContainer extends AbstractRepairContainer {
 		}
 	}
 
+	/**
+	 * Gets new repair cost.
+	 *
+	 * @param oldRepairCost the old repair cost
+	 * @return the new repair cost
+	 */
 	public static int getNewRepairCost(int oldRepairCost) {
 		return oldRepairCost * 2 + 1;
 	}

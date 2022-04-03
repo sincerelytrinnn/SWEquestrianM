@@ -56,12 +56,18 @@ public class HorseFlightController {
 	public static DataParameter<Boolean> isDiving = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 
 
-
-
+	/**
+	 * Instantiates a new Horse flight controller.
+	 *
+	 * @param horse the horse
+	 */
 	public HorseFlightController(SWEMHorseEntityBase horse) {
 		this.horse = horse;
 	}
 
+	/**
+	 * Travel.
+	 */
 	public void travel() {
 		//System.out.println("yRot: " + horse.yRot + " - Look Angle: " + horse.getLookAngle());
 		//System.out.println("isClientSide: " + horse.level.isClientSide + " | Movement: " + horse.getDeltaMovement() + " | Look Angle Vec: " + horse.getLookAngle() + " | isFloating: " + horse.getEntityData().get(isFloating));
@@ -202,6 +208,9 @@ public class HorseFlightController {
 		horse.baseTick();
 	}
 
+	/**
+	 * Client travel.
+	 */
 	private void clientTravel() {
 
 		if (Minecraft.getInstance().options.keyUp.isDown()) { // Move forward
@@ -247,10 +256,16 @@ public class HorseFlightController {
 	}
 
 
+	/**
+	 * Launch flight.
+	 */
 	public void launchFlight() {
 		this.launchPos = horse.blockPosition();
 	}
 
+	/**
+	 * Land.
+	 */
 	public void land() {
 		horse.setPos(launchPos.getX(), launchPos.getY(), launchPos.getZ());
 	}

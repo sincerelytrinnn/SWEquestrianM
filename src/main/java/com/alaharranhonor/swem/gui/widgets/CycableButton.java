@@ -28,10 +28,31 @@ public class CycableButton extends AbstractButton {
 	protected final CycableButton.IPressable onPress;
 	protected final CycableButton.ITooltip onTooltip;
 
+	/**
+	 * Instantiates a new Cycable button.
+	 *
+	 * @param x             the x
+	 * @param y             the y
+	 * @param width         the width
+	 * @param height        the height
+	 * @param title         the title
+	 * @param pressedAction the pressed action
+	 */
 	public CycableButton(int x, int y, int width, int height, ITextComponent title, CycableButton.IPressable pressedAction) {
 		this(x, y, width, height, title, pressedAction, EMPTY_TOOLTIP);
 	}
 
+	/**
+	 * Instantiates a new Cycable button.
+	 *
+	 * @param x             the x
+	 * @param y             the y
+	 * @param width         the width
+	 * @param height        the height
+	 * @param title         the title
+	 * @param pressedAction the pressed action
+	 * @param onTooltip     the on tooltip
+	 */
 	public CycableButton(int x, int y, int width, int height, ITextComponent title, CycableButton.IPressable pressedAction, CycableButton.ITooltip onTooltip) {
 		super(x, y, width, height, title);
 		this.onPress = pressedAction;
@@ -42,10 +63,19 @@ public class CycableButton extends AbstractButton {
 		this.onPress.onPress(this);
 	}
 
+	/**
+	 * On right press.
+	 */
 	public void onRightPress() {
 		this.onPress.onRightPress(this);
 	}
 
+	/**
+	 * On right click.
+	 *
+	 * @param mouseX the mouse x
+	 * @param mouseY the mouse y
+	 */
 	public void onRightClick(double mouseX, double mouseY) {
 		this.onRightPress();
 	}
@@ -91,12 +121,31 @@ public class CycableButton extends AbstractButton {
 
 	@OnlyIn(Dist.CLIENT)
 	public interface IPressable {
+		/**
+		 * On press.
+		 *
+		 * @param button the button
+		 */
 		void onPress(CycableButton button);
+
+		/**
+		 * On right press.
+		 *
+		 * @param button the button
+		 */
 		void onRightPress(CycableButton button);
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	public interface ITooltip {
+		/**
+		 * On tooltip.
+		 *
+		 * @param p_onTooltip_1_ the p on tooltip 1
+		 * @param p_onTooltip_2_ the p on tooltip 2
+		 * @param p_onTooltip_3_ the p on tooltip 3
+		 * @param p_onTooltip_4_ the p on tooltip 4
+		 */
 		void onTooltip(CycableButton p_onTooltip_1_, MatrixStack p_onTooltip_2_, int p_onTooltip_3_, int p_onTooltip_4_);
 	}
 }

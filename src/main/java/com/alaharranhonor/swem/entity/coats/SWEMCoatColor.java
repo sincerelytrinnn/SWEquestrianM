@@ -74,19 +74,42 @@ public enum SWEMCoatColor {
 	private static final SWEMCoatColor[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(SWEMCoatColor::getId)).toArray(SWEMCoatColor[]::new);
 	private final int id;
 	private final boolean lapisObtainable;
+
+	/**
+	 * Instantiates a new Swem coat color.
+	 *
+	 * @param id              the id
+	 * @param lapisObtainable the lapis obtainable
+	 */
 	SWEMCoatColor(int id, boolean lapisObtainable) {
 		this.id = id;
 		this.lapisObtainable = lapisObtainable;
 	}
 
+	/**
+	 * Gets id.
+	 *
+	 * @return the id
+	 */
 	public int getId() {
 		return this.id;
 	}
 
+	/**
+	 * Is lapis obtainable boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean isLapisObtainable() {
 		return lapisObtainable;
 	}
 
+	/**
+	 * Gets index from id.
+	 *
+	 * @param id the id
+	 * @return the index from id
+	 */
 	private static int getIndexFromId(int id) {
 		for (int i = 0; i < VALUES.length; i++) {
 			if (id == VALUES[i].getId()) {
@@ -97,6 +120,12 @@ public enum SWEMCoatColor {
 		return 1;
 	}
 
+	/**
+	 * Gets by id.
+	 *
+	 * @param id the id
+	 * @return the by id
+	 */
 	public static SWEMCoatColor getById(int id) {
 		for (SWEMCoatColor color : VALUES) {
 			if (color.getId() == id) {
@@ -107,10 +136,22 @@ public enum SWEMCoatColor {
 		return SWEMCoatColor.WHITE;
 	}
 
+	/**
+	 * Gets next coat.
+	 *
+	 * @param prevId the prev id
+	 * @return the next coat
+	 */
 	private static SWEMCoatColor getNextCoat(int prevId) {
 		return VALUES[(prevId + 1) % VALUES.length];
 	}
 
+	/**
+	 * Gets previous coat.
+	 *
+	 * @param prevId the prev id
+	 * @return the previous coat
+	 */
 	private static SWEMCoatColor getPreviousCoat(int prevId) {
 		int index = prevId - 1;
 		if (index < 0) {
@@ -119,6 +160,12 @@ public enum SWEMCoatColor {
 		return VALUES[index % VALUES.length];
 	}
 
+	/**
+	 * Gets next cyclable coat.
+	 *
+	 * @param prevId the prev id
+	 * @return the next cyclable coat
+	 */
 	public static SWEMCoatColor getNextCyclableCoat(int prevId) {
 		SWEMCoatColor color = getNextCoat(getIndexFromId(prevId));
 		while (!color.isLapisObtainable()) {
@@ -127,6 +174,12 @@ public enum SWEMCoatColor {
 		return color;
 	}
 
+	/**
+	 * Gets previous cyclable coat.
+	 *
+	 * @param prevId the prev id
+	 * @return the previous cyclable coat
+	 */
 	public static SWEMCoatColor getPreviousCyclableCoat(int prevId) {
 		SWEMCoatColor color = getPreviousCoat(getIndexFromId(prevId));
 		while (!color.isLapisObtainable()) {
@@ -136,11 +189,21 @@ public enum SWEMCoatColor {
 		return color;
 	}
 
+	/**
+	 * Gets random coat.
+	 *
+	 * @return the random coat
+	 */
 	private static SWEMCoatColor getRandomCoat() {
 		Random random = new Random();
 		return VALUES[random.nextInt(VALUES.length)];
 	}
 
+	/**
+	 * Gets random lapis obtainable coat.
+	 *
+	 * @return the random lapis obtainable coat
+	 */
 	public static SWEMCoatColor getRandomLapisObtainableCoat() {
 		SWEMCoatColor color = getRandomCoat();
 		while (!color.isLapisObtainable()) {

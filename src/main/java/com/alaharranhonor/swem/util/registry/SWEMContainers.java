@@ -27,6 +27,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class SWEMContainers {
 	public static DeferredRegister<ContainerType<?>> CONTAINER_TYPES = DeferredRegister.create(ForgeRegistries.CONTAINERS, SWEM.MOD_ID);
 
+	/**
+	 * Init.
+	 *
+	 * @param modBus the mod bus
+	 */
 	public static void init(IEventBus modBus) {
 		CONTAINER_TYPES.register(modBus);
 	}

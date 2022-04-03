@@ -31,16 +31,33 @@ public class HorseFlightPacket {
 
 	private boolean failed;
 
+	/**
+	 * Instantiates a new Horse flight packet.
+	 *
+	 * @param action   the action
+	 * @param entityID the entity id
+	 */
 	public HorseFlightPacket(int action, int entityID) {
 		this.action = action;
 		this.entityID = entityID;
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new Horse flight packet.
+	 *
+	 * @param failed the failed
+	 */
 	public HorseFlightPacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode horse flight packet.
+	 *
+	 * @param buf the buf
+	 * @return the horse flight packet
+	 */
 	public static HorseFlightPacket decode(ByteBuf buf) {
 		try {
 			int action = buf.readInt();
@@ -52,11 +69,23 @@ public class HorseFlightPacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(HorseFlightPacket msg, PacketBuffer buffer) {
 		buffer.writeInt(msg.action);
 		buffer.writeInt(msg.entityID);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(HorseFlightPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) ctx.get().getSender().level.getEntity(msg.entityID);

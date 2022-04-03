@@ -44,6 +44,11 @@ public class WesternPoleBlock extends Block {
 
 	public static final EnumProperty<SWEMBlockStateProperties.TripleBlockSide> PART = SWEMBlockStateProperties.T_SIDE;
 
+	/**
+	 * Instantiates a new Western pole block.
+	 *
+	 * @param properties the properties
+	 */
 	public WesternPoleBlock(Properties properties) {
 		super(properties);
 		this.registerDefaultState(

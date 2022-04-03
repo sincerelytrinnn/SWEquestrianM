@@ -41,7 +41,10 @@ public class ConeBase extends Block{
         return voxelShape;
     }
 
-    public ConeBase() {
+	/**
+	 * Instantiates a new Cone base.
+	 */
+	public ConeBase() {
         super(AbstractBlock.Properties.of(Material.METAL)
                 .strength(0.5f, 0.5f)
                 .sound(SoundType.SCAFFOLDING)

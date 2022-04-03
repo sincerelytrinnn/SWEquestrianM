@@ -35,6 +35,11 @@ public class HalterLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
 	private IGeoRenderer<SWEMHorseEntity> entityRenderer;
 
+	/**
+	 * Instantiates a new Halter layer.
+	 *
+	 * @param entityRendererIn the entity renderer in
+	 */
 	public HalterLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
 		super(entityRendererIn);
 		this.entityRenderer = entityRendererIn;

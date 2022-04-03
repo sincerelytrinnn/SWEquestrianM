@@ -39,6 +39,15 @@ public class SDataSendPacket {
 	private StandardLayer currentStandard;
 	private boolean failed;
 
+	/**
+	 * Instantiates a new S data send packet.
+	 *
+	 * @param controllerPos   the controller pos
+	 * @param layerAmount     the layer amount
+	 * @param layerTypes      the layer types
+	 * @param layerColors     the layer colors
+	 * @param currentStandard the current standard
+	 */
 	public SDataSendPacket(BlockPos controllerPos, int layerAmount, Map<Integer, JumpLayer> layerTypes, Map<Integer, Integer> layerColors, StandardLayer currentStandard) {
 		this.controllerPos = controllerPos;
 		this.layerAmount = layerAmount;
@@ -48,10 +57,21 @@ public class SDataSendPacket {
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new S data send packet.
+	 *
+	 * @param failed the failed
+	 */
 	public SDataSendPacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode s data send packet.
+	 *
+	 * @param buf the buf
+	 * @return the s data send packet
+	 */
 	public static SDataSendPacket decode(ByteBuf buf) {
 		try {
 			BlockPos controllerPos = ((PacketBuffer) buf).readBlockPos();
@@ -71,6 +91,12 @@ public class SDataSendPacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(SDataSendPacket msg, PacketBuffer buffer) {
 		buffer.writeBlockPos(msg.controllerPos);
 		buffer.writeVarInt(msg.layerAmount);
@@ -81,6 +107,12 @@ public class SDataSendPacket {
 		buffer.writeUtf(msg.currentStandard.name());
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(SDataSendPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Screen screen = Minecraft.getInstance().screen;

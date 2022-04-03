@@ -28,6 +28,11 @@ public class DesensitizingItem extends ItemBase {
 
 	private int id;
 
+	/**
+	 * Instantiates a new Desensitizing item.
+	 *
+	 * @param id the id
+	 */
 	public DesensitizingItem(int id) {
 		this.id = id;
 	}

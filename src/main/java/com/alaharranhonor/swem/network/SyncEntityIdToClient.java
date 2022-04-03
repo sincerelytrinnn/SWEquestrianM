@@ -36,6 +36,14 @@ public class SyncEntityIdToClient {
 	private int entityId;
 	private boolean failed;
 
+	/**
+	 * Instantiates a new Sync entity id to client.
+	 *
+	 * @param entityID the entity id
+	 * @param posX     the pos x
+	 * @param posY     the pos y
+	 * @param posZ     the pos z
+	 */
 	public SyncEntityIdToClient(int entityID, int posX, int posY, int posZ) {
 		this.entityId = entityID;
 		this.posX = posX;
@@ -44,10 +52,21 @@ public class SyncEntityIdToClient {
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new Sync entity id to client.
+	 *
+	 * @param failed the failed
+	 */
 	public SyncEntityIdToClient(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode sync entity id to client.
+	 *
+	 * @param buf the buf
+	 * @return the sync entity id to client
+	 */
 	public static SyncEntityIdToClient decode(ByteBuf buf) {
 		try {
 			int entityID = buf.readInt();
@@ -61,6 +80,12 @@ public class SyncEntityIdToClient {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(SyncEntityIdToClient msg, PacketBuffer buffer) {
 		buffer.writeInt(msg.entityId);
 		buffer.writeInt(msg.posX);
@@ -68,6 +93,12 @@ public class SyncEntityIdToClient {
 		buffer.writeInt(msg.posZ);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(SyncEntityIdToClient msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			ClientWorld world = Minecraft.getInstance().level;

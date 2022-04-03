@@ -25,6 +25,11 @@ public class CustomLookRandomlyGoal extends Goal {
 	private double relZ;
 	private int lookTime;
 
+	/**
+	 * Instantiates a new Custom look randomly goal.
+	 *
+	 * @param p_i1647_1_ the p i 1647 1
+	 */
 	public CustomLookRandomlyGoal(MobEntity p_i1647_1_) {
 		this.mob = p_i1647_1_;
 		this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));

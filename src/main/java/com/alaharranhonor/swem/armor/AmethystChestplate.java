@@ -29,6 +29,14 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraft.item.Item.Properties;
 
 public class AmethystChestplate extends SWEMArmorItem {
+	/**
+	 * Instantiates a new Amethyst chestplate.
+	 *
+	 * @param path       the path
+	 * @param materialIn the material in
+	 * @param slot       the slot
+	 * @param builder    the builder
+	 */
 	public AmethystChestplate(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builder) {
 		super(path, materialIn, slot, builder);
 	}
@@ -41,6 +49,11 @@ public class AmethystChestplate extends SWEMArmorItem {
 	@Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 	public static class KnockbackNegation {
 
+		/**
+		 * On knockback.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void onKnockback(LivingKnockBackEvent event) {
 			if (!(event.getEntity() instanceof PlayerEntity)) return;

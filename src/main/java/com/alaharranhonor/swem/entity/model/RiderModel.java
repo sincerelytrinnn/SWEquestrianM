@@ -53,12 +53,26 @@ public class RiderModel extends AnimatedGeoModel<RiderEntity> {
 	}
 
 
+	/**
+	 * Gets arm.
+	 *
+	 * @param p_187074_1_ the p 187074 1
+	 * @param rider       the rider
+	 * @return the arm
+	 */
 	protected GeoBone getArm(HandSide p_187074_1_, RiderEntity rider) {
 		GeoModel model = this.getModel(this.getModelLocation(rider));
 		return p_187074_1_ == HandSide.LEFT ? model.getBone("LeftArm").get() : model.getBone("RightArm").get();
 	}
 
 
+	/**
+	 * Translate to hand.
+	 *
+	 * @param p_225599_1_ the p 225599 1
+	 * @param p_225599_2_ the p 225599 2
+	 * @param rider       the rider
+	 */
 	public void translateToHand(HandSide p_225599_1_, MatrixStack p_225599_2_, RiderEntity rider) {
 		GeoBone modelrenderer = this.getArm(p_225599_1_, rider);
 		if (((AbstractClientPlayerEntity)rider.getPlayer()).getModelName().equals("slim")) {
@@ -72,6 +86,12 @@ public class RiderModel extends AnimatedGeoModel<RiderEntity> {
 	}
 
 
+	/**
+	 * Bone translate and rotate.
+	 *
+	 * @param bone  the bone
+	 * @param stack the stack
+	 */
 	private void boneTranslateAndRotate(GeoBone bone, MatrixStack stack) {
 		stack.translate((double)(bone.getPositionX() / 16.0F), (double)(bone.getPositionY() / 16.0F), (double)(bone.getPositionZ() / 16.0F));
 		if (bone.getRotationZ() != 0.0F) {
@@ -87,6 +107,12 @@ public class RiderModel extends AnimatedGeoModel<RiderEntity> {
 		}
 	}
 
+	/**
+	 * Head parts iterable.
+	 *
+	 * @param model the model
+	 * @return the iterable
+	 */
 	public Iterable<GeoBone> headParts(GeoModel model) {
 		ImmutableList<GeoBone> imList = ImmutableList.of(model.getBone("Head").get());
 		if (model.getBone("HatLayer").isPresent()) {
@@ -95,6 +121,12 @@ public class RiderModel extends AnimatedGeoModel<RiderEntity> {
 		return imList;
 	}
 
+	/**
+	 * Body parts iterable.
+	 *
+	 * @param model the model
+	 * @return the iterable
+	 */
 	public Iterable<GeoBone> bodyParts(GeoModel model) {
 		ImmutableList<GeoBone> imList = ImmutableList.of();
 

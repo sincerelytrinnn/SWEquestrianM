@@ -39,6 +39,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class GlowRidingBoots extends LeatherRidingBoots {
+	/**
+	 * Instantiates a new Glow riding boots.
+	 *
+	 * @param path       the path
+	 * @param materialIn the material in
+	 * @param slot       the slot
+	 * @param builderIn  the builder in
+	 */
 	public GlowRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
 		super(path, materialIn, slot, builderIn);
 	}
@@ -56,6 +64,11 @@ public class GlowRidingBoots extends LeatherRidingBoots {
 	@Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 	public static class GlowRidingBootsEquipped {
 
+		/**
+		 * On jump.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void onJump(LivingEvent.LivingJumpEvent event) {
 			if (!(event.getEntityLiving() instanceof PlayerEntity)) return;
@@ -95,6 +108,11 @@ public class GlowRidingBoots extends LeatherRidingBoots {
 		}
 
 
+		/**
+		 * On inventory change.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void onInventoryChange(LivingEquipmentChangeEvent event) {
 			if (!(event.getEntityLiving() instanceof PlayerEntity)) return;

@@ -32,6 +32,13 @@ public class CChangeLayerPacket {
 	private boolean rightClick;
 	private boolean failed;
 
+	/**
+	 * Instantiates a new C change layer packet.
+	 *
+	 * @param controllerPos the controller pos
+	 * @param layerToChange the layer to change
+	 * @param rightClick    the right click
+	 */
 	public CChangeLayerPacket(BlockPos controllerPos, int layerToChange, boolean rightClick) {
 		this.controllerPos = controllerPos;
 		this.layerToChange = layerToChange;
@@ -39,10 +46,21 @@ public class CChangeLayerPacket {
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new C change layer packet.
+	 *
+	 * @param failed the failed
+	 */
 	public CChangeLayerPacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode c change layer packet.
+	 *
+	 * @param buf the buf
+	 * @return the c change layer packet
+	 */
 	public static CChangeLayerPacket decode(ByteBuf buf) {
 		try {
 			BlockPos controllerPos = ((PacketBuffer) buf).readBlockPos();
@@ -55,12 +73,24 @@ public class CChangeLayerPacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(CChangeLayerPacket msg, PacketBuffer buffer) {
 		buffer.writeBlockPos(msg.controllerPos);
 		buffer.writeVarInt(msg.layerToChange);
 		buffer.writeBoolean(msg.rightClick);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(CChangeLayerPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Container container = ctx.get().getSender().containerMenu;

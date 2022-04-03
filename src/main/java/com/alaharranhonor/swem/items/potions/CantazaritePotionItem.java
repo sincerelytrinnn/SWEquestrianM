@@ -40,6 +40,11 @@ import java.util.List;
 public class CantazaritePotionItem extends PotionItem {
 
 
+	/**
+	 * Instantiates a new Cantazarite potion item.
+	 *
+	 * @param builder the builder
+	 */
 	public CantazaritePotionItem(Properties builder) {
 		super(builder);
 	}

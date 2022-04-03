@@ -31,6 +31,11 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 public class ShrimpItem extends Item {
+	/**
+	 * Instantiates a new Shrimp item.
+	 *
+	 * @param pProperties the p properties
+	 */
 	public ShrimpItem(Properties pProperties) {
 		super(pProperties);
 	}

@@ -52,6 +52,13 @@ import java.util.List;
 
 public class WaterTroughBlock extends NonParallelBlock {
 	public static final IntegerProperty LEVEL = SWEMBlockStateProperties.LEVEL_0_16;
+
+	/**
+	 * Instantiates a new Water trough block.
+	 *
+	 * @param properties the properties
+	 * @param colour     the colour
+	 */
 	public WaterTroughBlock(Properties properties, DyeColor colour) {
 		super(properties, colour);
 	}
@@ -111,6 +118,14 @@ public class WaterTroughBlock extends NonParallelBlock {
 		}
 	}
 
+	/**
+	 * Sets water level.
+	 *
+	 * @param worldIn     the world in
+	 * @param pos         the pos
+	 * @param state       the state
+	 * @param removeWater the remove water
+	 */
 	public void setWaterLevel(World worldIn, BlockPos pos, BlockState state, boolean removeWater) {
 
 		ArrayList<BlockState> states = new ArrayList<>();
@@ -150,6 +165,13 @@ public class WaterTroughBlock extends NonParallelBlock {
 
 	}
 
+	/**
+	 * Split water.
+	 *
+	 * @param state   the state
+	 * @param worldIn the world in
+	 * @param pos     the pos
+	 */
 	private void splitWater(BlockState state, World worldIn, BlockPos pos) {
 		// Count how many connections we have based on the blockstate
 		ArrayList<BlockState> states = new ArrayList<>();
@@ -197,6 +219,14 @@ public class WaterTroughBlock extends NonParallelBlock {
 
 	}
 
+	/**
+	 * Count connections from left int.
+	 *
+	 * @param state the state
+	 * @param world the world
+	 * @param pos   the pos
+	 * @return the int
+	 */
 	private int countConnectionsFromLeft(BlockState state, IWorldReader world, BlockPos pos) {
 
 		Direction dir = state.getValue(HorizontalBlock.FACING);
@@ -219,6 +249,14 @@ public class WaterTroughBlock extends NonParallelBlock {
 
 	}
 
+	/**
+	 * Fetch connection pos from middle array list.
+	 *
+	 * @param state the state
+	 * @param world the world
+	 * @param pos   the pos
+	 * @return the array list
+	 */
 	private ArrayList<BlockPos> fetchConnectionPosFromMiddle(BlockState state, IWorldReader world, BlockPos pos) {
 		Direction dir = state.getValue(FACING);
 		BlockState checkState = world.getBlockState(pos.relative(dir.getCounterClockWise(), 1));
@@ -233,6 +271,14 @@ public class WaterTroughBlock extends NonParallelBlock {
 		return new ArrayList<>();
 	}
 
+	/**
+	 * Fetch connection states from middle array list.
+	 *
+	 * @param state the state
+	 * @param world the world
+	 * @param pos   the pos
+	 * @return the array list
+	 */
 	private ArrayList<BlockState> fetchConnectionStatesFromMiddle(BlockState state, IWorldReader world, BlockPos pos) {
 		Direction dir = state.getValue(FACING);
 		BlockState checkState = world.getBlockState(pos.relative(dir.getCounterClockWise(), 1));
@@ -247,6 +293,15 @@ public class WaterTroughBlock extends NonParallelBlock {
 		return new ArrayList<>();
 	}
 
+	/**
+	 * Fetch connection states array list.
+	 *
+	 * @param state    the state
+	 * @param world    the world
+	 * @param pos      the pos
+	 * @param fromLeft the from left
+	 * @return the array list
+	 */
 	private ArrayList<BlockState> fetchConnectionStates(BlockState state, IWorldReader world, BlockPos pos, boolean fromLeft) {
 		ArrayList<BlockState> states = new ArrayList<>();
 		Direction dir = state.getValue(HorizontalBlock.FACING);
@@ -269,6 +324,15 @@ public class WaterTroughBlock extends NonParallelBlock {
 		return states;
 	}
 
+	/**
+	 * Fetch connection pos array list.
+	 *
+	 * @param state    the state
+	 * @param world    the world
+	 * @param pos      the pos
+	 * @param fromLeft the from left
+	 * @return the array list
+	 */
 	private ArrayList<BlockPos> fetchConnectionPos(BlockState state, IWorldReader world, BlockPos pos, boolean fromLeft) {
 
 		ArrayList<BlockPos> positions = new ArrayList<>();
@@ -294,7 +358,14 @@ public class WaterTroughBlock extends NonParallelBlock {
 	}
 
 
-
+	/**
+	 * Count connections from right int.
+	 *
+	 * @param state the state
+	 * @param world the world
+	 * @param pos   the pos
+	 * @return the int
+	 */
 	private int countConnectionsFromRight(BlockState state, IWorldReader world, BlockPos pos) {
 		Direction dir = state.getValue(HorizontalBlock.FACING);
 		int connections = 0;

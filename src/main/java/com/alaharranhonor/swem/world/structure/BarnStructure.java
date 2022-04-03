@@ -42,6 +42,11 @@ import java.util.List;
 
 public class BarnStructure extends Structure<NoFeatureConfig> {
 
+	/**
+	 * Instantiates a new Barn structure.
+	 *
+	 * @param codec the codec
+	 */
 	public BarnStructure(Codec<NoFeatureConfig> codec) {
 		super(codec);
 	}
@@ -165,6 +170,16 @@ public class BarnStructure extends Structure<NoFeatureConfig> {
 
 	}
 
+	/**
+	 * Is near village boolean.
+	 *
+	 * @param p_242782_1_ the p 242782 1
+	 * @param p_242782_2_ the p 242782 2
+	 * @param p_242782_4_ the p 242782 4
+	 * @param p_242782_5_ the p 242782 5
+	 * @param p_242782_6_ the p 242782 6
+	 * @return the boolean
+	 */
 	private boolean isNearVillage(ChunkGenerator p_242782_1_, long p_242782_2_, SharedSeedRandom p_242782_4_, int p_242782_5_, int p_242782_6_) {
 		StructureSeparationSettings structureseparationsettings = p_242782_1_.getSettings().getConfig(Structure.VILLAGE);
 		if (structureseparationsettings == null) {
@@ -189,6 +204,16 @@ public class BarnStructure extends Structure<NoFeatureConfig> {
 	 * Handles calling up the structure's pieces class and height that structure will spawn at.
 	 */
 	public static class Start extends StructureStart<NoFeatureConfig> {
+		/**
+		 * Instantiates a new Start.
+		 *
+		 * @param structureIn        the structure in
+		 * @param chunkX             the chunk x
+		 * @param chunkZ             the chunk z
+		 * @param mutableBoundingBox the mutable bounding box
+		 * @param referenceIn        the reference in
+		 * @param seedIn             the seed in
+		 */
 		public Start(Structure<NoFeatureConfig> structureIn, int chunkX, int chunkZ, MutableBoundingBox mutableBoundingBox, int referenceIn, long seedIn) {
 			super(structureIn, chunkX, chunkZ, mutableBoundingBox, referenceIn, seedIn);
 		}

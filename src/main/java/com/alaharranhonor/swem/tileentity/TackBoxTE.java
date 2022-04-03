@@ -59,6 +59,9 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 	private IItemHandlerModifiable items = createHandler();
 	private LazyOptional<IItemHandlerModifiable> itemHandler = LazyOptional.of(() -> items);
 
+	/**
+	 * Instantiates a new Tack box te.
+	 */
 	public TackBoxTE() {
 		super(SWEMTileEntities.TACK_BOX_TILE_ENTITY.get());
 	}
@@ -109,6 +112,11 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 
 	}
 
+	/**
+	 * Play sound.
+	 *
+	 * @param event the event
+	 */
 	private void playSound(SoundEvent event) {
 		double dx = (double) this.getBlockPos().getX() + 0.5d;
 		double dy = (double) this.getBlockPos().getY() + 0.5d;
@@ -147,6 +155,9 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 		}
 	}
 
+	/**
+	 * On open or close.
+	 */
 	protected void onOpenOrClose() {
 		Block block = this.getBlockState().getBlock();
 		if (block instanceof TackBoxBlock) {
@@ -155,6 +166,13 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 		}
 	}
 
+	/**
+	 * Gets players using.
+	 *
+	 * @param reader the reader
+	 * @param pos    the pos
+	 * @return the players using
+	 */
 	public static int getPlayersUsing(IBlockReader reader, BlockPos pos) {
 		BlockState state = reader.getBlockState(pos);
 		if (state.hasTileEntity()) {
@@ -167,6 +185,12 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 
 	}
 
+	/**
+	 * Swap contents.
+	 *
+	 * @param te      the te
+	 * @param otherTe the other te
+	 */
 	public static void swapContents(TackBoxTE te, TackBoxTE otherTe) {
 		NonNullList<ItemStack> list = te.getItems();
 		te.setItems(otherTe.getItems());
@@ -191,6 +215,11 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 		return super.getCapability(cap, side);
 	}
 
+	/**
+	 * Create handler item handler modifiable.
+	 *
+	 * @return the item handler modifiable
+	 */
 	private IItemHandlerModifiable createHandler() {
 		return new InvWrapper(this);
 	}
@@ -215,6 +244,13 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 	}
 
 
+	/**
+	 * Predicate play state.
+	 *
+	 * @param <E>   the type parameter
+	 * @param event the event
+	 * @return the play state
+	 */
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 		return PlayState.CONTINUE;
 	}

@@ -31,16 +31,33 @@ public class CAddLayerPacket {
 	private int layerToAdd;
 	private boolean failed;
 
+	/**
+	 * Instantiates a new C add layer packet.
+	 *
+	 * @param controllerPos the controller pos
+	 * @param layerToAdd    the layer to add
+	 */
 	public CAddLayerPacket(BlockPos controllerPos, int layerToAdd) {
 		this.controllerPos = controllerPos;
 		this.layerToAdd = layerToAdd;
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new C add layer packet.
+	 *
+	 * @param failed the failed
+	 */
 	public CAddLayerPacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode c add layer packet.
+	 *
+	 * @param buf the buf
+	 * @return the c add layer packet
+	 */
 	public static CAddLayerPacket decode(ByteBuf buf) {
 		try {
 			BlockPos controllerPos = ((PacketBuffer) buf).readBlockPos();
@@ -52,11 +69,23 @@ public class CAddLayerPacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(CAddLayerPacket msg, PacketBuffer buffer) {
 		buffer.writeBlockPos(msg.controllerPos);
 		buffer.writeVarInt(msg.layerToAdd);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(CAddLayerPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Container container = ctx.get().getSender().containerMenu;

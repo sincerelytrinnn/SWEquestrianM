@@ -44,6 +44,11 @@ import java.util.Iterator;
 public class OneSaddleRackRender extends GeoBlockRenderer<OneSaddleRackTE> {
 
 
+	/**
+	 * Instantiates a new One saddle rack render.
+	 *
+	 * @param rendererDispatcherIn the renderer dispatcher in
+	 */
 	public OneSaddleRackRender(TileEntityRendererDispatcher rendererDispatcherIn) {
 		super(rendererDispatcherIn, new OneSaddleRackModel());
 	}

@@ -43,12 +43,23 @@ public class NonParallelBlock extends HorizontalBlock {
 
 	private DyeColor colour;
 
+	/**
+	 * Instantiates a new Non parallel block.
+	 *
+	 * @param properties the properties
+	 * @param colour     the colour
+	 */
 	public NonParallelBlock(Properties properties, DyeColor colour) {
 		super(properties);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(PART, SWEMBlockStateProperties.TwoWay.SINGLE));
 		this.colour = colour;
 	}
 
+	/**
+	 * Gets colour.
+	 *
+	 * @return the colour
+	 */
 	public DyeColor getColour() {
 		return this.colour;
 	}

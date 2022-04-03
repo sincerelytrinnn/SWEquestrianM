@@ -19,24 +19,79 @@ import net.minecraft.nbt.CompoundNBT;
 
 public interface ILeveling {
 
+	/**
+	 * Add xp boolean.
+	 *
+	 * @param amount the amount
+	 * @return the boolean
+	 */
 	boolean addXP(float amount);
+
+	/**
+	 * Remove xp.
+	 *
+	 * @param amount the amount
+	 */
 	void removeXp(float amount);
 
+	/**
+	 * Check level up boolean.
+	 *
+	 * @return the boolean
+	 */
 	boolean checkLevelUp();
 
+	/**
+	 * Level up.
+	 */
 	void levelUp();
 
+	/**
+	 * Gets level.
+	 *
+	 * @return the level
+	 */
 	int getLevel();
 
+	/**
+	 * Gets max level.
+	 *
+	 * @return the max level
+	 */
 	int getMaxLevel();
 
+	/**
+	 * Gets xp.
+	 *
+	 * @return the xp
+	 */
 	float getXp();
 
+	/**
+	 * Gets required xp.
+	 *
+	 * @return the required xp
+	 */
 	float getRequiredXp();
 
+	/**
+	 * Gets level name.
+	 *
+	 * @return the level name
+	 */
 	String getLevelName();
 
+	/**
+	 * Write.
+	 *
+	 * @param compound the compound
+	 */
 	void write(CompoundNBT compound);
 
+	/**
+	 * Read.
+	 *
+	 * @param compound the compound
+	 */
 	void read(CompoundNBT compound);
 }

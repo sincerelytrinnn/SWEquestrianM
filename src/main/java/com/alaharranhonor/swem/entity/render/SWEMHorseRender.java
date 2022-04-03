@@ -41,7 +41,12 @@ public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity> {
     protected static final ResourceLocation TEXTURE = new ResourceLocation(SWEM.MOD_ID, "textures/entity/swem_horse.png");
     private static int LAST_ARMOR_TIER = -1;
 
-    public SWEMHorseRender(EntityRendererManager renderManagerIn) {
+	/**
+	 * Instantiates a new Swem horse render.
+	 *
+	 * @param renderManagerIn the render manager in
+	 */
+	public SWEMHorseRender(EntityRendererManager renderManagerIn) {
         super(renderManagerIn, new SWEMHorseModel());
         this.addLayer(new HorseArmorLayer(this));
         this.addLayer(new SaddlebagLayer(this));
@@ -149,7 +154,16 @@ public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity> {
         super.render(model, animatable, partialTicks, type, matrixStackIn, renderTypeBuffer, vertexBuilder, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 
-    public void renderLeash(SWEMHorseEntity entityLivingIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Entity leashHolder) {
+	/**
+	 * Render leash.
+	 *
+	 * @param entityLivingIn the entity living in
+	 * @param partialTicks   the partial ticks
+	 * @param matrixStackIn  the matrix stack in
+	 * @param bufferIn       the buffer in
+	 * @param leashHolder    the leash holder
+	 */
+	public void renderLeash(SWEMHorseEntity entityLivingIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Entity leashHolder) {
         matrixStackIn.pushPose();
         Vector3d vector3d = leashHolder.getRopeHoldPosition(partialTicks);
         double d0 = (double)(MathHelper.lerp(partialTicks, entityLivingIn.yBodyRot, entityLivingIn.yBodyRotO) * ((float)Math.PI / 180F)) + (Math.PI / 2D);

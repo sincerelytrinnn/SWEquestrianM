@@ -32,6 +32,11 @@ import java.util.stream.Stream;
 import net.minecraft.block.AbstractBlock.Properties;
 
 public class HorsePoopBlock extends HorizontalBlock {
+	/**
+	 * Instantiates a new Horse poop block.
+	 *
+	 * @param properties the properties
+	 */
 	public HorsePoopBlock(Properties properties) {
 		super(properties);
 		this.registerDefaultState(

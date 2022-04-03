@@ -36,10 +36,25 @@ public class LegWrapsItem extends HorseTackItem implements IDyeableArmorItem {
 
 	private final ResourceLocation texture;
 	private final ResourceLocation textureOverlay;
+
+	/**
+	 * Instantiates a new Leg wraps item.
+	 *
+	 * @param textureName the texture name
+	 * @param properties  the properties
+	 */
 	public LegWrapsItem(String textureName, Properties properties) {
 		this(new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/leg_wraps/" + textureName + ".png"), new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/leg_wraps/" + textureName + "_overlay.png"), properties);
 
 	}
+
+	/**
+	 * Instantiates a new Leg wraps item.
+	 *
+	 * @param texture        the texture
+	 * @param textureOverlay the texture overlay
+	 * @param properties     the properties
+	 */
 	public LegWrapsItem(ResourceLocation texture, ResourceLocation textureOverlay, Properties properties) {
 		super(properties);
 		this.texture = texture;
@@ -66,11 +81,21 @@ public class LegWrapsItem extends HorseTackItem implements IDyeableArmorItem {
 		return ActionResultType.PASS;
 	}
 
+	/**
+	 * Gets armor texture.
+	 *
+	 * @return the armor texture
+	 */
 	@OnlyIn(Dist.CLIENT)
 	public ResourceLocation getArmorTexture() {
 		return texture;
 	}
 
+	/**
+	 * Gets armor texture overlay.
+	 *
+	 * @return the armor texture overlay
+	 */
 	@OnlyIn(Dist.CLIENT)
 	public ResourceLocation getArmorTextureOverlay() {
 		return this.textureOverlay;

@@ -46,12 +46,18 @@ public class SWLRegistryHandler {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SWEM.MOD_ID);
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SWEM.MOD_ID);
 
+	/**
+	 * Init.
+	 */
 	public static void init() {
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> SWLRegistryHandler::checkAccess);
 		ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
 		BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
 	}
 
+	/**
+	 * Check access.
+	 */
 	public static void checkAccess() {
 
 		String playerUUID = Minecraft.getInstance().getUser().getUuid().replaceAll("-", "");

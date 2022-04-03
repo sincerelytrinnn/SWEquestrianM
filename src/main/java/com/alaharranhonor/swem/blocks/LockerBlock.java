@@ -40,6 +40,11 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import javax.annotation.Nullable;
 
 public class LockerBlock extends HorizontalBlock {
+	/**
+	 * Instantiates a new Locker block.
+	 *
+	 * @param properties the properties
+	 */
 	public LockerBlock(AbstractBlock.Properties properties) {
 		super(properties);
 		this.registerDefaultState(
@@ -101,6 +106,14 @@ public class LockerBlock extends HorizontalBlock {
 	}
 
 
+	/**
+	 * Determine hit vec boolean.
+	 *
+	 * @param hitVec the hit vec
+	 * @param state  the state
+	 * @param pos    the pos
+	 * @return the boolean
+	 */
 	private boolean determineHitVec(Vector3d hitVec, BlockState state, BlockPos pos) {
 
 		switch (state.getValue(FACING)) {

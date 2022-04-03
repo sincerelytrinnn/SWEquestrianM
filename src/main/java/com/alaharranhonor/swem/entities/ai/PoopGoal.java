@@ -30,6 +30,11 @@ public class PoopGoal extends Goal {
 
 	private int poopTimer;
 
+	/**
+	 * Instantiates a new Poop goal.
+	 *
+	 * @param pooperEntity the pooper entity
+	 */
 	public PoopGoal(SWEMHorseEntityBase pooperEntity) {
 		this.pooperEntity = pooperEntity;
 		this.entityWorld = pooperEntity.level;
@@ -72,6 +77,11 @@ public class PoopGoal extends Goal {
 		return this.poopTimer > 0 && this.pooperEntity.getPassengers().isEmpty();
 	}
 
+	/**
+	 * Gets poop timer.
+	 *
+	 * @return the poop timer
+	 */
 	public int getPoopTimer() {
 		return this.poopTimer;
 	}

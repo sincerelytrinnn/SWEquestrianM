@@ -34,10 +34,24 @@ import net.minecraft.item.Item.Properties;
 public class GirthStrapItem extends HorseTackItem {
 
 	private final ResourceLocation texture;
+
+	/**
+	 * Instantiates a new Girth strap item.
+	 *
+	 * @param textureName the texture name
+	 * @param properties  the properties
+	 */
 	public GirthStrapItem(String textureName, Properties properties) {
 		this(new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/girth_strap/" + textureName + ".png"), properties);
 
 	}
+
+	/**
+	 * Instantiates a new Girth strap item.
+	 *
+	 * @param texture    the texture
+	 * @param properties the properties
+	 */
 	public GirthStrapItem(ResourceLocation texture, Properties properties) {
 		super(properties);
 		this.texture = texture;
@@ -63,6 +77,11 @@ public class GirthStrapItem extends HorseTackItem {
 		return ActionResultType.PASS;
 	}
 
+	/**
+	 * Gets armor texture.
+	 *
+	 * @return the armor texture
+	 */
 	@OnlyIn(Dist.CLIENT)
 	public ResourceLocation getArmorTexture() {
 		return texture;

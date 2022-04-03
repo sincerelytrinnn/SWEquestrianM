@@ -34,6 +34,14 @@ public class FillHoseEvent extends PlayerEvent
 
 	private ItemStack result;
 
+	/**
+	 * Instantiates a new Fill hose event.
+	 *
+	 * @param player  the player
+	 * @param current the current
+	 * @param world   the world
+	 * @param target  the target
+	 */
 	public FillHoseEvent(PlayerEntity player, @Nonnull ItemStack current, World world, @Nullable RayTraceResult target)
 	{
 		super(player);
@@ -42,13 +50,42 @@ public class FillHoseEvent extends PlayerEvent
 		this.target = target;
 	}
 
+	/**
+	 * Gets empty hose.
+	 *
+	 * @return the empty hose
+	 */
 	@Nonnull
 	public ItemStack getEmptyHose() { return this.current; }
+
+	/**
+	 * Get world world.
+	 *
+	 * @return the world
+	 */
 	public World getWorld(){ return this.world; }
+
+	/**
+	 * Gets target.
+	 *
+	 * @return the target
+	 */
 	@Nullable
 	public RayTraceResult getTarget() { return this.target; }
+
+	/**
+	 * Gets filled hose.
+	 *
+	 * @return the filled hose
+	 */
 	@Nonnull
 	public ItemStack getFilledHose() { return this.result; }
+
+	/**
+	 * Sets filled hose.
+	 *
+	 * @param hose the hose
+	 */
 	public void setFilledHose(@Nonnull ItemStack hose) { this.result = hose; }
 }
 

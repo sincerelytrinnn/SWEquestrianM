@@ -34,16 +34,33 @@ public class SHorseJumpPacket {
 
 	private boolean failed;
 
+	/**
+	 * Instantiates a new S horse jump packet.
+	 *
+	 * @param entityID   the entity id
+	 * @param jumpHeight the jump height
+	 */
 	public SHorseJumpPacket(int entityID, float jumpHeight) {
 		this.entityID = entityID;
 		this.jumpHeight = jumpHeight;
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new S horse jump packet.
+	 *
+	 * @param failed the failed
+	 */
 	public SHorseJumpPacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode s horse jump packet.
+	 *
+	 * @param buf the buf
+	 * @return the s horse jump packet
+	 */
 	public static SHorseJumpPacket decode(ByteBuf buf) {
 		try {
 			int entityID = buf.readInt();
@@ -55,11 +72,23 @@ public class SHorseJumpPacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(SHorseJumpPacket msg, PacketBuffer buffer) {
 		buffer.writeInt(msg.entityID);
 		buffer.writeFloat(msg.jumpHeight);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(SHorseJumpPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			ClientPlayerEntity player = Minecraft.getInstance().player;

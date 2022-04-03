@@ -30,6 +30,11 @@ public class ProgressionManager {
 	private HealthLeveling healthLeveling;
 	private AffinityLeveling affinityLeveling;
 
+	/**
+	 * Instantiates a new Progression manager.
+	 *
+	 * @param horse the horse
+	 */
 	public ProgressionManager(SWEMHorseEntityBase horse) {
 		this.horse = horse;
 		this.speedLeveling = new SpeedLeveling(horse);
@@ -38,6 +43,11 @@ public class ProgressionManager {
 		this.affinityLeveling = new AffinityLeveling(horse);
 	}
 
+	/**
+	 * Write.
+	 *
+	 * @param compound the compound
+	 */
 	public void write(CompoundNBT compound) {
 		this.speedLeveling.write(compound);
 		this.jumpLeveling.write(compound);
@@ -45,6 +55,11 @@ public class ProgressionManager {
 		this.affinityLeveling.write(compound);
 	}
 
+	/**
+	 * Read.
+	 *
+	 * @param compound the compound
+	 */
 	public void read(CompoundNBT compound) {
 		this.speedLeveling.read(compound);
 		this.jumpLeveling.read(compound);
@@ -52,18 +67,38 @@ public class ProgressionManager {
 		this.affinityLeveling.read(compound);
 	}
 
+	/**
+	 * Gets speed leveling.
+	 *
+	 * @return the speed leveling
+	 */
 	public SpeedLeveling getSpeedLeveling() {
 		return speedLeveling;
 	}
 
+	/**
+	 * Gets jump leveling.
+	 *
+	 * @return the jump leveling
+	 */
 	public JumpLeveling getJumpLeveling() {
 		return jumpLeveling;
 	}
 
+	/**
+	 * Gets health leveling.
+	 *
+	 * @return the health leveling
+	 */
 	public HealthLeveling getHealthLeveling() {
 		return healthLeveling;
 	}
 
+	/**
+	 * Gets affinity leveling.
+	 *
+	 * @return the affinity leveling
+	 */
 	public AffinityLeveling getAffinityLeveling() {
 		return affinityLeveling;
 	}

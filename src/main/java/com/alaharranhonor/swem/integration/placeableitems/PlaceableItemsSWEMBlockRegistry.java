@@ -35,6 +35,11 @@ public class PlaceableItemsSWEMBlockRegistry {
 
 	public static PlaceableItemsBlock LEATHER_HELMET;
 
+	/**
+	 * On blocks register.
+	 *
+	 * @param event the event
+	 */
 	@SubscribeEvent
 	public static void onBlocksRegister(RegistryEvent.Register<Block> event) {
 		if (!ModList.get().isLoaded("placeableitems")) return;

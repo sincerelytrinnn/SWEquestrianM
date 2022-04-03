@@ -19,7 +19,10 @@ import com.alaharranhonor.swem.SWEM;
 import net.minecraft.item.Item;
 
 public class AmethystItem extends Item {
-    public AmethystItem() {
+	/**
+	 * Instantiates a new Amethyst item.
+	 */
+	public AmethystItem() {
         super(new Item.Properties().tab(SWEM.TAB));
     }
 

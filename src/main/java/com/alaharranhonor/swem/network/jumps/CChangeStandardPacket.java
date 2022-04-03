@@ -31,16 +31,33 @@ public class CChangeStandardPacket {
 	private boolean rightClick;
 	private boolean failed;
 
+	/**
+	 * Instantiates a new C change standard packet.
+	 *
+	 * @param controllerPos the controller pos
+	 * @param rightClick    the right click
+	 */
 	public CChangeStandardPacket(BlockPos controllerPos, boolean rightClick) {
 		this.controllerPos = controllerPos;
 		this.rightClick = rightClick;
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new C change standard packet.
+	 *
+	 * @param failed the failed
+	 */
 	public CChangeStandardPacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode c change standard packet.
+	 *
+	 * @param buf the buf
+	 * @return the c change standard packet
+	 */
 	public static CChangeStandardPacket decode(ByteBuf buf) {
 		try {
 			BlockPos controllerPos = ((PacketBuffer) buf).readBlockPos();
@@ -52,11 +69,23 @@ public class CChangeStandardPacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(CChangeStandardPacket msg, PacketBuffer buffer) {
 		buffer.writeBlockPos(msg.controllerPos);
 		buffer.writeBoolean(msg.rightClick);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(CChangeStandardPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Container container = ctx.get().getSender().containerMenu;

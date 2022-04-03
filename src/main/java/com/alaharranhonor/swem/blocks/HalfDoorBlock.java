@@ -53,6 +53,11 @@ public class HalfDoorBlock extends Block {
 	protected static final VoxelShape EAST_AABB = Block.box(0.0D, 0.0D, 0.0D, 3.0D, 16.0D, 16.0D);
 
 
+	/**
+	 * Instantiates a new Half door block.
+	 *
+	 * @param builder the builder
+	 */
 	public HalfDoorBlock(AbstractBlock.Properties builder) {
 		super(builder);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(OPEN, Boolean.valueOf(false)).setValue(HINGE, DoorHingeSide.LEFT));
@@ -90,10 +95,20 @@ public class HalfDoorBlock extends Block {
 		}
 	}
 
+	/**
+	 * Gets close sound.
+	 *
+	 * @return the close sound
+	 */
 	private int getCloseSound() {
 		return this.material == Material.METAL ? 1011 : 1012;
 	}
 
+	/**
+	 * Gets open sound.
+	 *
+	 * @return the open sound
+	 */
 	private int getOpenSound() {
 		return this.material == Material.METAL ? 1005 : 1006;
 	}
@@ -104,6 +119,12 @@ public class HalfDoorBlock extends Block {
 	}
 
 
+	/**
+	 * Gets hinge side.
+	 *
+	 * @param context the context
+	 * @return the hinge side
+	 */
 	private DoorHingeSide getHingeSide(BlockItemUseContext context) {
 		IBlockReader iblockreader = context.getLevel();
 		BlockPos blockpos = context.getClickedPos();
@@ -142,11 +163,25 @@ public class HalfDoorBlock extends Block {
 		return ActionResultType.sidedSuccess(worldIn.isClientSide);
 	}
 
+	/**
+	 * Is open boolean.
+	 *
+	 * @param state the state
+	 * @return the boolean
+	 */
 	public boolean isOpen(BlockState state) {
 		return state.getValue(OPEN);
 	}
 
 
+	/**
+	 * Open door.
+	 *
+	 * @param worldIn the world in
+	 * @param state   the state
+	 * @param pos     the pos
+	 * @param open    the open
+	 */
 	public void openDoor(World worldIn, BlockState state, BlockPos pos, boolean open) {
 		if (state.is(this)) {
 			// Open normally
@@ -158,6 +193,14 @@ public class HalfDoorBlock extends Block {
 
 	}
 
+	/**
+	 * Is valid position boolean.
+	 *
+	 * @param state   the state
+	 * @param worldIn the world in
+	 * @param pos     the pos
+	 * @return the boolean
+	 */
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
 		return true;
 	}
@@ -168,6 +211,13 @@ public class HalfDoorBlock extends Block {
 		return true;
 	}
 
+	/**
+	 * Play sound.
+	 *
+	 * @param worldIn   the world in
+	 * @param pos       the pos
+	 * @param isOpening the is opening
+	 */
 	private void playSound(World worldIn, BlockPos pos, boolean isOpening) {
 		worldIn.levelEvent((PlayerEntity)null, isOpening ? this.getOpenSound() : this.getCloseSound(), pos, 0);
 	}
@@ -189,6 +239,13 @@ public class HalfDoorBlock extends Block {
 	}
 
 
+	/**
+	 * Gets position random.
+	 *
+	 * @param state the state
+	 * @param pos   the pos
+	 * @return the position random
+	 */
 	@OnlyIn(Dist.CLIENT)
 	public long getPositionRandom(BlockState state, BlockPos pos) {
 		return MathHelper.getSeed(pos.getX(), pos.getY(), pos.getZ());
@@ -198,10 +255,23 @@ public class HalfDoorBlock extends Block {
 		builder.add(FACING, OPEN, HINGE);
 	}
 
+	/**
+	 * Is wooden boolean.
+	 *
+	 * @param world the world
+	 * @param pos   the pos
+	 * @return the boolean
+	 */
 	public static boolean isWooden(World world, BlockPos pos) {
 		return isWooden(world.getBlockState(pos));
 	}
 
+	/**
+	 * Is wooden boolean.
+	 *
+	 * @param state the state
+	 * @return the boolean
+	 */
 	public static boolean isWooden(BlockState state) {
 		return state.getBlock() instanceof HorseDoorBlock && (state.getMaterial() == Material.WOOD || state.getMaterial() == Material.NETHER_WOOD);
 	}

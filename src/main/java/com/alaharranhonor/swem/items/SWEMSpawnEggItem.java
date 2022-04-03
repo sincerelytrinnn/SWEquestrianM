@@ -39,12 +39,23 @@ public class SWEMSpawnEggItem extends ForgeSpawnEggItem {
 
 	private final Lazy<? extends EntityType<?>> entityTypeSupplier;
 
+	/**
+	 * Instantiates a new Swem spawn egg item.
+	 *
+	 * @param entityTypeSupplier the entity type supplier
+	 * @param primaryColorIn     the primary color in
+	 * @param secondaryColorIn   the secondary color in
+	 * @param builder            the builder
+	 */
 	public SWEMSpawnEggItem(final RegistryObject<? extends EntityType<?>> entityTypeSupplier, int primaryColorIn, int secondaryColorIn, Properties builder) {
 		super(entityTypeSupplier, primaryColorIn, secondaryColorIn, builder);
 		this.entityTypeSupplier = Lazy.of(entityTypeSupplier::get);
 		UNADDED_EGGS.add(this);
 	}
 
+	/**
+	 * Init spawn eggs.
+	 */
 	public static void initSpawnEggs() {
 		DefaultDispenseItemBehavior dispenseBehavior = new DefaultDispenseItemBehavior() {
 			/**

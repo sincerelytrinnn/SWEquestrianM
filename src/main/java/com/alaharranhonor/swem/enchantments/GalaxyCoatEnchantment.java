@@ -22,6 +22,13 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 
 public class GalaxyCoatEnchantment extends Enchantment {
+	/**
+	 * Instantiates a new Galaxy coat enchantment.
+	 *
+	 * @param p_i46731_1_ the p i 46731 1
+	 * @param p_i46731_2_ the p i 46731 2
+	 * @param p_i46731_3_ the p i 46731 3
+	 */
 	public GalaxyCoatEnchantment(Rarity p_i46731_1_, EnchantmentType p_i46731_2_, EquipmentSlotType... p_i46731_3_) {
 		super(p_i46731_1_, p_i46731_2_, p_i46731_3_);
 	}

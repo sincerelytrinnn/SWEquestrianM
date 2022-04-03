@@ -33,6 +33,13 @@ public class ClientStatusMessagePacket {
 
 	private boolean failed;
 
+	/**
+	 * Instantiates a new Client status message packet.
+	 *
+	 * @param action    the action
+	 * @param argLength the arg length
+	 * @param args      the args
+	 */
 	public ClientStatusMessagePacket(int action, int argLength, ArrayList<String> args) {
 		this.action = action;
 		this.argLength = argLength;
@@ -40,10 +47,21 @@ public class ClientStatusMessagePacket {
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new Client status message packet.
+	 *
+	 * @param failed the failed
+	 */
 	public ClientStatusMessagePacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode client status message packet.
+	 *
+	 * @param buf the buf
+	 * @return the client status message packet
+	 */
 	public static ClientStatusMessagePacket decode(ByteBuf buf) {
 		try {
 			int action = buf.readInt();
@@ -59,6 +77,12 @@ public class ClientStatusMessagePacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(ClientStatusMessagePacket msg, PacketBuffer buffer) {
 		buffer.writeInt(msg.action);
 		buffer.writeInt(msg.argLength);
@@ -67,6 +91,12 @@ public class ClientStatusMessagePacket {
 		}
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(ClientStatusMessagePacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			switch (msg.action) {

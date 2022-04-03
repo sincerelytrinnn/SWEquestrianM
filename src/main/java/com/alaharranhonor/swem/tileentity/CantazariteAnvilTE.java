@@ -40,6 +40,9 @@ public class CantazariteAnvilTE extends TileEntity implements INamedContainerPro
 	public ItemStackHandler itemHandler = createHandler();
 	private LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
 
+	/**
+	 * Instantiates a new Cantazarite anvil te.
+	 */
 	public CantazariteAnvilTE() {
 		super(SWEMTileEntities.CANTAZARITE_ANVIL_TILE_ENTITY.get());
 	}
@@ -55,6 +58,11 @@ public class CantazariteAnvilTE extends TileEntity implements INamedContainerPro
 	}
 
 
+	/**
+	 * Create handler item stack handler.
+	 *
+	 * @return the item stack handler
+	 */
 	private ItemStackHandler createHandler() {
 		return new ItemStackHandler(3) {
 			@Override

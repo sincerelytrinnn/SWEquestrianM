@@ -24,6 +24,12 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.block.AbstractBlock.Properties;
 
 public class GlowTripwireBlock extends TripWireBlock {
+	/**
+	 * Instantiates a new Glow tripwire block.
+	 *
+	 * @param hook       the hook
+	 * @param properties the properties
+	 */
 	public GlowTripwireBlock(TripWireHookBlock hook, Properties properties) {
 		super(hook, properties);
 	}

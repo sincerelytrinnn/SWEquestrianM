@@ -34,16 +34,33 @@ public class CHorseJumpPacket {
 
 	private boolean failed;
 
+	/**
+	 * Instantiates a new C horse jump packet.
+	 *
+	 * @param entityID   the entity id
+	 * @param jumpHeight the jump height
+	 */
 	public CHorseJumpPacket(int entityID, float jumpHeight) {
 		this.entityID = entityID;
 		this.jumpHeight = jumpHeight;
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new C horse jump packet.
+	 *
+	 * @param failed the failed
+	 */
 	public CHorseJumpPacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode c horse jump packet.
+	 *
+	 * @param buf the buf
+	 * @return the c horse jump packet
+	 */
 	public static CHorseJumpPacket decode(ByteBuf buf) {
 		try {
 			int entityID = buf.readInt();
@@ -55,11 +72,23 @@ public class CHorseJumpPacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(CHorseJumpPacket msg, PacketBuffer buffer) {
 		buffer.writeInt(msg.entityID);
 		buffer.writeFloat(msg.jumpHeight);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(CHorseJumpPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 

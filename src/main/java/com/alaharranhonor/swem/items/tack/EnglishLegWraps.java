@@ -18,6 +18,12 @@ import net.minecraft.item.Item.Properties;
 
 
 public class EnglishLegWraps extends LegWrapsItem{
+	/**
+	 * Instantiates a new English leg wraps.
+	 *
+	 * @param textureName the texture name
+	 * @param properties  the properties
+	 */
 	public EnglishLegWraps(String textureName, Properties properties) {
 		super(textureName, properties);
 	}

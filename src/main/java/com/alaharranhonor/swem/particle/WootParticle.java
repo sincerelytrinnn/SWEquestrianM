@@ -22,6 +22,14 @@ import net.minecraft.util.math.MathHelper;
 
 public class WootParticle extends SpriteTexturedParticle {
 
+	/**
+	 * Instantiates a new Woot particle.
+	 *
+	 * @param world the world
+	 * @param x     the x
+	 * @param y     the y
+	 * @param z     the z
+	 */
 	private WootParticle(ClientWorld world, double x, double y, double z) {
 		super(world, x, y, z, 0.0D, 0.0D, 0.0D);
 		this.xd *= (double)0.01F;
@@ -37,6 +45,12 @@ public class WootParticle extends SpriteTexturedParticle {
 		return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
 	}
 
+	/**
+	 * Gets scale.
+	 *
+	 * @param scaleFactor the scale factor
+	 * @return the scale
+	 */
 	public float getScale(float scaleFactor) {
 		return this.quadSize * MathHelper.clamp(((float)this.age + scaleFactor) / (float)this.lifetime * 32.0F, 0.0F, 1.0F);
 	}
@@ -72,6 +86,11 @@ public class WootParticle extends SpriteTexturedParticle {
 	public static class Factory implements IParticleFactory<BasicParticleType> {
 		private final IAnimatedSprite spriteSet;
 
+		/**
+		 * Instantiates a new Factory.
+		 *
+		 * @param spriteSet the sprite set
+		 */
 		public Factory(IAnimatedSprite spriteSet) {
 			this.spriteSet = spriteSet;
 		}

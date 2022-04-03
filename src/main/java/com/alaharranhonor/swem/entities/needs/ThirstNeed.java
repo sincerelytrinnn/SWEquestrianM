@@ -30,12 +30,20 @@ public class ThirstNeed {
 	private int tickCounter;
 	private int drinkingCoolDown;
 
+	/**
+	 * Instantiates a new Thirst need.
+	 *
+	 * @param horse the horse
+	 */
 	public ThirstNeed(SWEMHorseEntityBase horse) {
 		this.horse = horse;
 		this.setState(ThirstState.QUENCHED);
 		this.tickCounter = 96_000 * (ConfigHolder.SERVER.multiplayerHungerThirst.get() ? 72 : 1);
 	}
 
+	/**
+	 * Tick.
+	 */
 	public void tick() {
 		if (this.tickCounter == 0) return;
 		this.tickCounter--;
@@ -47,10 +55,18 @@ public class ThirstNeed {
 		}
 	}
 
+	/**
+	 * Can increment state boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean canIncrementState() {
 		return this.state != ThirstState.QUENCHED;
 	}
 
+	/**
+	 * Increment state.
+	 */
 	public void incrementState() {
 		if (this.state != ThirstState.QUENCHED) {
 			ThirstState nextState = getNextState();
@@ -64,14 +80,29 @@ public class ThirstNeed {
 		this.drinkingCoolDown = 100;
 	}
 
+	/**
+	 * Is on cooldown boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean isOnCooldown() {
 		return this.drinkingCoolDown > 0;
 	}
 
+	/**
+	 * Gets state.
+	 *
+	 * @return the state
+	 */
 	public ThirstState getState() {
 		return this.state;
 	}
 
+	/**
+	 * Gets next state.
+	 *
+	 * @return the next state
+	 */
 	public ThirstState getNextState() {
 		int thirstId = this.state.getId() + 1;
 		if (thirstId > 4) {
@@ -80,11 +111,22 @@ public class ThirstNeed {
 		return ThirstState.values()[thirstId];
 	}
 
+	/**
+	 * Sets state.
+	 *
+	 * @param state the state
+	 */
 	public void setState(ThirstState state) {
 		this.state = state;
 		this.state.setHorse(this.horse);
 	}
 
+	/**
+	 * Write compound nbt.
+	 *
+	 * @param nbt the nbt
+	 * @return the compound nbt
+	 */
 	public CompoundNBT write(CompoundNBT nbt) {
 		if (this.state != null) {
 			nbt.putInt("thirstStateID", this.state.getId());
@@ -93,6 +135,11 @@ public class ThirstNeed {
 		return nbt;
 	}
 
+	/**
+	 * Read.
+	 *
+	 * @param nbt the nbt
+	 */
 	public void read(CompoundNBT nbt) {
 		if (nbt.contains("thirstStateID")) {
 			int stateId = nbt.getInt("thirstStateID");
@@ -110,6 +157,11 @@ public class ThirstNeed {
 		this.state.setHorse(this.horse);
 	}
 
+	/**
+	 * Sets state by id.
+	 *
+	 * @param id the id
+	 */
 	public void setStateById(int id) {
 		switch(id) {
 			case 0: {
@@ -156,18 +208,39 @@ public class ThirstNeed {
 		public static final DataParameter<Integer> ID = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 		private final int tickAmountChange;
 		private SWEMHorseEntityBase horse;
+
+		/**
+		 * Instantiates a new Thirst state.
+		 *
+		 * @param tickAmountChange the tick amount change
+		 */
 		ThirstState(int tickAmountChange) {
 			this.tickAmountChange = tickAmountChange;
 		}
 
+		/**
+		 * Sets horse.
+		 *
+		 * @param horse the horse
+		 */
 		public void setHorse(SWEMHorseEntityBase horse) {
 			this.horse = horse;
 		}
 
+		/**
+		 * Gets id.
+		 *
+		 * @return the id
+		 */
 		public int getId() {
 			return this.horse.getEntityData().get(ID);
 		}
 
+		/**
+		 * Gets tick amount change.
+		 *
+		 * @return the tick amount change
+		 */
 		public int getTickAmountChange() {
 			return tickAmountChange * (ConfigHolder.SERVER.multiplayerHungerThirst.get() ? 72 : 1);
 		}

@@ -47,12 +47,23 @@ public class SlowFeederBlock extends Block {
 	public static final IntegerProperty LEVEL = SWEMBlockStateProperties.LEVEL_0_2;
 	private DyeColor colour;
 
+	/**
+	 * Instantiates a new Slow feeder block.
+	 *
+	 * @param properties the properties
+	 * @param colour     the colour
+	 */
 	public SlowFeederBlock(Properties properties, DyeColor colour) {
 		super(properties);
 		this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, Boolean.valueOf(false)).setValue(EAST, Boolean.valueOf(false)).setValue(SOUTH, Boolean.valueOf(false)).setValue(WEST, Boolean.valueOf(false)).setValue(LEVEL, 0));
 		this.colour = colour;
 	}
 
+	/**
+	 * Gets colour.
+	 *
+	 * @return the colour
+	 */
 	public DyeColor getColour() {
 		return this.colour;
 	}
@@ -114,6 +125,12 @@ public class SlowFeederBlock extends Block {
 		}
 	}
 
+	/**
+	 * Is block boolean.
+	 *
+	 * @param state the state
+	 * @return the boolean
+	 */
 	private Boolean isBlock(BlockState state) {
 		if (!state.equals(Blocks.AIR.defaultBlockState()) && !state.equals(Blocks.CAVE_AIR.defaultBlockState()) && !state.equals(Blocks.VOID_AIR.defaultBlockState())) {
 			return Boolean.TRUE;
@@ -136,6 +153,13 @@ public class SlowFeederBlock extends Block {
 		return VoxelShapes.box(0.01, 0.01, 0.01, 0.99, 1.5, 0.99);
 	}
 
+	/**
+	 * Is feedable boolean.
+	 *
+	 * @param worldIn the world in
+	 * @param state   the state
+	 * @return the boolean
+	 */
 	public boolean isFeedable(World worldIn, BlockState state) {
 		int level = state.getValue(LEVEL);
 
@@ -146,10 +170,25 @@ public class SlowFeederBlock extends Block {
 		}
 	}
 
+	/**
+	 * Sets hay level.
+	 *
+	 * @param worldIn the world in
+	 * @param pos     the pos
+	 * @param state   the state
+	 * @param level   the level
+	 */
 	public void setHayLevel(World worldIn, BlockPos pos, BlockState state, int level) {
 		worldIn.setBlock(pos, state.setValue(LEVEL, Integer.valueOf(MathHelper.clamp(level, 0, 2))), 3);
 	}
 
+	/**
+	 * Eat.
+	 *
+	 * @param worldIn the world in
+	 * @param pos     the pos
+	 * @param state   the state
+	 */
 	public void eat(World worldIn, BlockPos pos, BlockState state) {
 		int level = state.getValue(LEVEL);
 

@@ -52,6 +52,12 @@ public class CoatMapper {
 	}};
 
 
+	/**
+	 * Parent to foal coat swem coat color.
+	 *
+	 * @param parent the parent
+	 * @return the swem coat color
+	 */
 	protected static SWEMCoatColor parentToFoalCoat(SWEMCoatColor parent) {
 		return coatMap.get(parent);
 	}

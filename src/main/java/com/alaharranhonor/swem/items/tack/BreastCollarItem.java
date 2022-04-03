@@ -34,10 +34,24 @@ import net.minecraft.item.Item.Properties;
 public class BreastCollarItem extends HorseTackItem {
 
 	private final ResourceLocation texture;
+
+	/**
+	 * Instantiates a new Breast collar item.
+	 *
+	 * @param textureName the texture name
+	 * @param properties  the properties
+	 */
 	public BreastCollarItem(String textureName, Properties properties) {
 		this(new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/breast_collar/" + textureName + ".png"), properties);
 
 	}
+
+	/**
+	 * Instantiates a new Breast collar item.
+	 *
+	 * @param texture    the texture
+	 * @param properties the properties
+	 */
 	public BreastCollarItem(ResourceLocation texture, Properties properties) {
 		super(properties);
 		this.texture = texture;
@@ -63,6 +77,11 @@ public class BreastCollarItem extends HorseTackItem {
 		return ActionResultType.PASS;
 	}
 
+	/**
+	 * Gets armor texture.
+	 *
+	 * @return the armor texture
+	 */
 	@OnlyIn(Dist.CLIENT)
 	public ResourceLocation getArmorTexture() {
 		return texture;

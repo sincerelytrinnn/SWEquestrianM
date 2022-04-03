@@ -35,6 +35,11 @@ public class BlanketLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
 	private IGeoRenderer<SWEMHorseEntity> entityRenderer;
 
+	/**
+	 * Instantiates a new Blanket layer.
+	 *
+	 * @param entityRendererIn the entity renderer in
+	 */
 	public BlanketLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
 		super(entityRendererIn);
 		this.entityRenderer = entityRendererIn;

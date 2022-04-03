@@ -29,6 +29,12 @@ public class HealthLeveling implements ILeveling{
 	public static final DataParameter<Float> XP = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
 	private final float[] requiredXpArray = new float[]{500, 2000, 4000, 7000};
 	private final String[] levelNames = new String[] {"Health I", "Health II", "Health III", "Health IV", "Health V"};
+
+	/**
+	 * Instantiates a new Health leveling.
+	 *
+	 * @param horse the horse
+	 */
 	public HealthLeveling(SWEMHorseEntityBase horse) {
 		this.horse = horse;
 		this.dataManager = this.horse.getEntityData();
@@ -69,6 +75,11 @@ public class HealthLeveling implements ILeveling{
 		return this.dataManager.get(LEVEL);
 	}
 
+	/**
+	 * Sets level.
+	 *
+	 * @param level the level
+	 */
 	public void setLevel(int level) {
 		this.dataManager.set(LEVEL, level);
 	}
@@ -84,6 +95,11 @@ public class HealthLeveling implements ILeveling{
 		return this.dataManager.get(XP);
 	}
 
+	/**
+	 * Sets xp.
+	 *
+	 * @param xp the xp
+	 */
 	public void setXp(float xp) {
 		if (xp < 0) {
 			xp = 0;

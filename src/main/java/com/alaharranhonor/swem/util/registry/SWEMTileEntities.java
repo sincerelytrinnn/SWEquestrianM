@@ -34,6 +34,11 @@ public class SWEMTileEntities {
 
 	public static DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, SWEM.MOD_ID);
 
+	/**
+	 * Init.
+	 *
+	 * @param modBus the mod bus
+	 */
 	public static void init(IEventBus modBus) {
 		TILE_ENTITY_TYPES.register(modBus);
 	}
@@ -49,6 +54,11 @@ public class SWEMTileEntities {
 	public static final RegistryObject<TileEntityType<HorseArmorRackTE>> HORSE_ARMOR_RACK_TILE_ENTITY = TILE_ENTITY_TYPES.register("horse_armor_rack", () -> TileEntityType.Builder.of(HorseArmorRackTE::new, SWEMBlocks.HORSE_ARMOR_RACK.get()).build(null));
 	public static final RegistryObject<TileEntityType<SWEMSignTE>> SWEM_SIGN = TILE_ENTITY_TYPES.register("swem_sign", () -> TileEntityType.Builder.of(SWEMSignTE::new, SWEMBlocks.WHITEWASH_SIGN.get(), SWEMBlocks.WHITEWASH_WALL_SIGN.get()).build(null));
 
+	/**
+	 * Get all jump blocks block [ ].
+	 *
+	 * @return the block [ ]
+	 */
 	private static Block[] getAllJumpBlocks() {
 
 		Stream<RegistryObject<JumpBlock>> blocks = Stream.of(//SWEMBlocks.JUMP_NUMBERS,

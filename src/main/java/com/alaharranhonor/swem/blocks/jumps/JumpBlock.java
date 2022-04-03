@@ -39,6 +39,12 @@ public class JumpBlock extends HorizontalBlock {
 	private VoxelShape ew;
 	private VoxelShape ns;
 
+	/**
+	 * Instantiates a new Jump block.
+	 *
+	 * @param ew the ew
+	 * @param ns the ns
+	 */
 	public JumpBlock(VoxelShape ew, VoxelShape ns) {
 		super(AbstractBlock.Properties.of(Material.METAL).noOcclusion());
 		this.ew = ew;

@@ -36,7 +36,12 @@ public class Spigot extends HorizontalBlock {
             Block.box(0, 8, 6, 5, 12, 10)
     ).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get();
 
-    public Spigot(AbstractBlock.Properties properties) {
+	/**
+	 * Instantiates a new Spigot.
+	 *
+	 * @param properties the properties
+	 */
+	public Spigot(AbstractBlock.Properties properties) {
         super(properties);
         this.registerDefaultState(
                 this.stateDefinition.any()

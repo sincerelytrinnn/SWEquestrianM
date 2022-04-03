@@ -29,6 +29,13 @@ public class LockerScreen extends ContainerScreen<LockerContainer> implements IH
 	/** Window height is calculated with these values; the more rows, the higher */
 	private final int inventoryRows;
 
+	/**
+	 * Instantiates a new Locker screen.
+	 *
+	 * @param container       the container
+	 * @param playerInventory the player inventory
+	 * @param title           the title
+	 */
 	public LockerScreen(LockerContainer container, PlayerInventory playerInventory, ITextComponent title) {
 		super(container, playerInventory, title);
 		this.passEvents = false;

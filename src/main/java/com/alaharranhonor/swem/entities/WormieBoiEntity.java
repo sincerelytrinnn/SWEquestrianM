@@ -40,11 +40,22 @@ public class WormieBoiEntity extends SheepEntity implements IAnimatable {
 
 	private final AnimationFactory factory = new AnimationFactory(this);
 
+	/**
+	 * Instantiates a new Wormie boi entity.
+	 *
+	 * @param type    the type
+	 * @param worldIn the world in
+	 */
 	public WormieBoiEntity(EntityType<? extends SheepEntity> type, World worldIn) {
 		super(type, worldIn);
 		this.noCulling = true;
 	}
 
+	/**
+	 * Sets custom attributes.
+	 *
+	 * @return the custom attributes
+	 */
 	public static AttributeModifierMap.MutableAttribute setCustomAttributes()
 	{
 		return MobEntity.createMobAttributes()
@@ -73,6 +84,13 @@ public class WormieBoiEntity extends SheepEntity implements IAnimatable {
 		this.playSound(SoundEvents.FOX_AMBIENT, 0.15f, 1.0f);
 	}
 
+	/**
+	 * Predicate play state.
+	 *
+	 * @param <E>   the type parameter
+	 * @param event the event
+	 * @return the play state
+	 */
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
 	{
 		if (event.isMoving()) {

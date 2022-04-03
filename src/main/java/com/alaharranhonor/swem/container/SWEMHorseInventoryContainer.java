@@ -35,10 +35,24 @@ public class SWEMHorseInventoryContainer extends Container {
 
 	public final SWEMHorseEntityBase horse;
 
+	/**
+	 * Instantiates a new Swem horse inventory container.
+	 *
+	 * @param id              the id
+	 * @param playerInventory the player inventory
+	 * @param data            the data
+	 */
 	public SWEMHorseInventoryContainer(final int id, final PlayerInventory playerInventory, PacketBuffer data) {
 		this(id, playerInventory, data.readInt());
 	}
 
+	/**
+	 * Instantiates a new Swem horse inventory container.
+	 *
+	 * @param id              the id
+	 * @param playerInventory the player inventory
+	 * @param entityId        the entity id
+	 */
 	public SWEMHorseInventoryContainer(final int id, final PlayerInventory playerInventory, final int entityId) {
 		super(SWEMContainers.SWEM_HORSE_CONTAINER.get(), id);
 		this.horse = (SWEMHorseEntityBase) playerInventory.player.level.getEntity(entityId);

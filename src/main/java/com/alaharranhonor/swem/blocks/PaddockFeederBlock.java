@@ -52,6 +52,11 @@ public class PaddockFeederBlock extends Block {
 	public static final EnumProperty<SWEMBlockStateProperties.DoubleBlockSide> SIDE = SWEMBlockStateProperties.D_SIDE;
 
 
+	/**
+	 * Instantiates a new Paddock feeder block.
+	 *
+	 * @param builder the builder
+	 */
 	public PaddockFeederBlock(AbstractBlock.Properties builder) {
 		super(builder);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(HALF, DoubleBlockHalf.LOWER));
@@ -211,6 +216,14 @@ public class PaddockFeederBlock extends Block {
 		}
 	}
 
+	/**
+	 * Gets all parts.
+	 *
+	 * @param state   the state
+	 * @param pos     the pos
+	 * @param worldIn the world in
+	 * @return the all parts
+	 */
 	public ArrayList<BlockPos> getAllParts(BlockState state, BlockPos pos, World worldIn) {
 		Direction direction = state.getValue(FACING);
 		ArrayList<BlockPos> positions = new ArrayList<>();
@@ -275,6 +288,13 @@ public class PaddockFeederBlock extends Block {
 		builder.add(HALF, FACING, SIDE, LEVEL);
 	}
 
+	/**
+	 * Eat.
+	 *
+	 * @param level      the level
+	 * @param foundFood  the found food
+	 * @param blockState the block state
+	 */
 	public void eat(World level, BlockPos foundFood, BlockState blockState) {
 		getAllParts(blockState, foundFood, level).stream().forEach((pos) -> {
 			BlockState feederState = level.getBlockState(pos);

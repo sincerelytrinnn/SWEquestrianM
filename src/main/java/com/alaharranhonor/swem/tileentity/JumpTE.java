@@ -41,21 +41,46 @@ public class JumpTE extends TileEntity {
 
 	public StandardLayer currentStandard;
 
+	/**
+	 * Instantiates a new Jump te.
+	 */
 	public JumpTE() {
 		super(SWEMTileEntities.JUMP_TILE_ENTITY.get());
 	}
 
+	/**
+	 * Sets layer amount.
+	 *
+	 * @param layerAmount the layer amount
+	 */
 	public void setLayerAmount(int layerAmount) {
 		this.layerAmount = layerAmount;
 	}
+
+	/**
+	 * Gets layer amount.
+	 *
+	 * @return the layer amount
+	 */
 	public int getLayerAmount() {
 		return this.layerAmount;
 	}
 
+	/**
+	 * Assign jump blocks.
+	 *
+	 * @param blocks the blocks
+	 */
 	public void assignJumpBlocks(Map<Integer, ArrayList<BlockPos>> blocks) {
 		this.layerPositions = blocks;
 	}
 
+	/**
+	 * Place standards.
+	 *
+	 * @param layerNumber the layer number
+	 * @param standard    the standard
+	 */
 	public void placeStandards(int layerNumber, StandardLayer standard) {
 		this.currentStandard = standard;
 
@@ -73,6 +98,11 @@ public class JumpTE extends TileEntity {
 
 	}
 
+	/**
+	 * Init standards.
+	 *
+	 * @param standard the standard
+	 */
 	public void initStandards(StandardLayer standard) {
 		this.currentStandard = standard;
 		for (int i = 1; i <= layerAmount; i++) {
@@ -87,6 +117,12 @@ public class JumpTE extends TileEntity {
 		}
 	}
 
+	/**
+	 * Place layer.
+	 *
+	 * @param number the number
+	 * @param layer  the layer
+	 */
 	public void placeLayer(int number, JumpLayer layer) {
 		layerTypes.put(number, layer);
 		if (!layerColors.containsKey(number)) {
@@ -111,6 +147,11 @@ public class JumpTE extends TileEntity {
 		}
 	}
 
+	/**
+	 * Change layer forward.
+	 *
+	 * @param layerNumber the layer number
+	 */
 	public void changeLayerForward(int layerNumber) {
 		List<JumpLayer> applicableLayers = this.getApplicableLayers(layerNumber);
 		if (applicableLayers.contains(this.layerTypes.get(layerNumber))) {
@@ -124,6 +165,11 @@ public class JumpTE extends TileEntity {
 		}
 	}
 
+	/**
+	 * Change layer backwards.
+	 *
+	 * @param layerNumber the layer number
+	 */
 	public void changeLayerBackwards(int layerNumber) {
 		List<JumpLayer> applicableLayers = this.getApplicableLayers(layerNumber);
 		if (applicableLayers.contains(this.layerTypes.get(layerNumber))) {
@@ -137,6 +183,9 @@ public class JumpTE extends TileEntity {
 		}
 	}
 
+	/**
+	 * Change standard forward.
+	 */
 	public void changeStandardForward() {
 		int enumId = this.currentStandard.ordinal();
 		if (++enumId > StandardLayer.values().length - 1) {
@@ -145,6 +194,9 @@ public class JumpTE extends TileEntity {
 		this.initStandards(StandardLayer.values()[enumId]);
 	}
 
+	/**
+	 * Change standard backwards.
+	 */
 	public void changeStandardBackwards() {
 		int enumId = this.currentStandard.ordinal();
 		if (--enumId < 0) {
@@ -153,6 +205,11 @@ public class JumpTE extends TileEntity {
 		this.initStandards(StandardLayer.values()[enumId]);
 	}
 
+	/**
+	 * Increment color variant.
+	 *
+	 * @param layerNumber the layer number
+	 */
 	public void incrementColorVariant(int layerNumber) {
 		if (!layerColors.containsKey(layerNumber)) {
 			layerColors.put(layerNumber, 0);
@@ -167,6 +224,11 @@ public class JumpTE extends TileEntity {
 		this.placeLayer(layerNumber, this.getLayer(layerNumber));
 	}
 
+	/**
+	 * Decrement color variant.
+	 *
+	 * @param layerNumber the layer number
+	 */
 	public void decrementColorVariant(int layerNumber) {
 		if (!layerColors.containsKey(layerNumber)) {
 			layerColors.put(layerNumber, 0);
@@ -181,26 +243,59 @@ public class JumpTE extends TileEntity {
 		this.placeLayer(layerNumber, this.getLayer(layerNumber));
 	}
 
+	/**
+	 * Reset color.
+	 *
+	 * @param layerNumber the layer number
+	 */
 	private void resetColor(int layerNumber) {
 		layerColors.put(layerNumber, 0);
 	}
 
+	/**
+	 * Gets color variant.
+	 *
+	 * @param layerNumber the layer number
+	 * @return the color variant
+	 */
 	public DyeColor getColorVariant(int layerNumber) {
 		return DyeColor.values()[this.layerColors.getOrDefault(layerNumber, 0)];
 	}
 
+	/**
+	 * Gets layer.
+	 *
+	 * @param layerNumber the layer number
+	 * @return the layer
+	 */
 	public JumpLayer getLayer(int layerNumber) {
 		return this.layerTypes.get(layerNumber);
 	}
 
+	/**
+	 * Gets current standard.
+	 *
+	 * @return the current standard
+	 */
 	public StandardLayer getCurrentStandard() {
 		return this.currentStandard;
 	}
 
+	/**
+	 * Sets current standard.
+	 *
+	 * @param standard the standard
+	 */
 	public void setCurrentStandard(StandardLayer standard) {
 		this.currentStandard = standard;
 	}
 
+	/**
+	 * Gets applicable layers.
+	 *
+	 * @param layerNumber the layer number
+	 * @return the applicable layers
+	 */
 	public List<JumpLayer> getApplicableLayers(int layerNumber) {
 		List<JumpLayer> layers = new ArrayList<>();
 
@@ -345,6 +440,11 @@ public class JumpTE extends TileEntity {
 		return layers;
 	}
 
+	/**
+	 * Delete layer.
+	 *
+	 * @param layerNumber the layer number
+	 */
 	public void deleteLayer(int layerNumber) {
 		if (layerNumber < 2 ) return;
 		for (int i = 0; i < 7; i++) {
@@ -365,6 +465,11 @@ public class JumpTE extends TileEntity {
 		}
 	}
 
+	/**
+	 * Add layer.
+	 *
+	 * @param layerNumber the layer number
+	 */
 	public void addLayer(int layerNumber) {
 		if (layerNumber > 5 || layerNumber < 2) return;
 

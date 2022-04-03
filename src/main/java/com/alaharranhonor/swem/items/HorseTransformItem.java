@@ -29,6 +29,11 @@ public class HorseTransformItem extends Item {
 
 	private SWEMCoatColor coat;
 
+	/**
+	 * Instantiates a new Horse transform item.
+	 *
+	 * @param coat the coat
+	 */
 	public HorseTransformItem(SWEMCoatColor coat) {
 		super(new Item.Properties());
 		this.coat = coat;

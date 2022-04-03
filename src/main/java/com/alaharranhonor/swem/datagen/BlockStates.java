@@ -34,6 +34,12 @@ import java.util.List;
 public class BlockStates extends BlockStateProvider {
 
 
+	/**
+	 * Instantiates a new Block states.
+	 *
+	 * @param gen          the gen
+	 * @param exFileHelper the ex file helper
+	 */
 	public BlockStates(DataGenerator gen, ExistingFileHelper exFileHelper) {
 		super(gen, SWEM.MOD_ID, exFileHelper);
 	}
@@ -46,6 +52,9 @@ public class BlockStates extends BlockStateProvider {
 		this.registerGrainFeeders();
 	}
 
+	/**
+	 * Register grain feeders.
+	 */
 	protected void registerGrainFeeders() {
 		String[] models = new String[2];
 		models[0] = "block/grain_feeder";
@@ -79,6 +88,11 @@ public class BlockStates extends BlockStateProvider {
 		}
 	}
 
+	/**
+	 * Register non parallel block.
+	 *
+	 * @param blockArray the block array
+	 */
 	protected void registerNonParallelBlock(List<RegistryObject<NonParallelBlock>> blockArray) {
 		String[] models = new String[4];
 		models[0] = "block/separator_single";
@@ -108,6 +122,9 @@ public class BlockStates extends BlockStateProvider {
 		}
 	}
 
+	/**
+	 * Register wheel barrows.
+	 */
 	protected void registerWheelBarrows() {
 		String[] models = new String[5];
 		models[0] = "block/wheel_barrow";
@@ -142,6 +159,9 @@ public class BlockStates extends BlockStateProvider {
 
 	}
 
+	/**
+	 * Register slow feeders.
+	 */
 	private void registerSlowFeeders() {
 		String[] models = new String[2];
 		models[0] = "block/slow_feeder";

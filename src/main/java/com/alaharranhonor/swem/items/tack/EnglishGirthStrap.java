@@ -18,6 +18,12 @@ import net.minecraft.item.Item.Properties;
 
 
 public class EnglishGirthStrap extends GirthStrapItem {
+	/**
+	 * Instantiates a new English girth strap.
+	 *
+	 * @param textureName the texture name
+	 * @param properties  the properties
+	 */
 	public EnglishGirthStrap(String textureName, Properties properties) {
 		super(textureName, properties);
 	}

@@ -63,12 +63,23 @@ public class HorseDoorBlock extends Block{
 
 	private DyeColor colour;
 
+	/**
+	 * Instantiates a new Horse door block.
+	 *
+	 * @param builder the builder
+	 * @param colour  the colour
+	 */
 	public HorseDoorBlock(AbstractBlock.Properties builder, DyeColor colour) {
 		super(builder);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(OPEN, Boolean.valueOf(false)).setValue(HINGE, DoorHingeSide.LEFT).setValue(HALF, DoubleBlockHalf.LOWER));
 		this.colour = colour;
 	}
 
+	/**
+	 * Gets colour.
+	 *
+	 * @return the colour
+	 */
 	public DyeColor getColour() {
 		return this.colour;
 	}
@@ -90,10 +101,20 @@ public class HorseDoorBlock extends Block{
 		}
 	}
 
+	/**
+	 * Gets close sound.
+	 *
+	 * @return the close sound
+	 */
 	private int getCloseSound() {
 		return this.material == Material.METAL ? 1011 : 1012;
 	}
 
+	/**
+	 * Gets open sound.
+	 *
+	 * @return the open sound
+	 */
 	private int getOpenSound() {
 		return this.material == Material.METAL ? 1005 : 1006;
 	}
@@ -128,6 +149,16 @@ public class HorseDoorBlock extends Block{
 		}
 	}
 
+	/**
+	 * Check and get right side block state.
+	 *
+	 * @param blockpos   the blockpos
+	 * @param direction  the direction
+	 * @param context    the context
+	 * @param hinge      the hinge
+	 * @param secondTime the second time
+	 * @return the block state
+	 */
 	public BlockState checkAndGetRightSide(BlockPos blockpos, Direction direction, BlockItemUseContext context, DoorHingeSide hinge, boolean secondTime) {
 
 		ArrayList<Boolean> blockChecks = new ArrayList<>();
@@ -149,6 +180,16 @@ public class HorseDoorBlock extends Block{
 		}
 	}
 
+	/**
+	 * Check and get left side block state.
+	 *
+	 * @param blockpos   the blockpos
+	 * @param direction  the direction
+	 * @param context    the context
+	 * @param hinge      the hinge
+	 * @param secondTime the second time
+	 * @return the block state
+	 */
 	public BlockState checkAndGetLeftSide(BlockPos blockpos, Direction direction, BlockItemUseContext context, DoorHingeSide hinge, boolean secondTime) {
 		ArrayList<Boolean> blockChecks = new ArrayList<>();
 		BlockPos.betweenClosed(blockpos, blockpos.above().relative(direction.getCounterClockWise().getAxis(), direction == Direction.EAST ? -1 : direction == Direction.NORTH ? -1 : 1)).forEach(blockPos1 -> {
@@ -267,6 +308,12 @@ public class HorseDoorBlock extends Block{
 
 	}
 
+	/**
+	 * Gets hinge side.
+	 *
+	 * @param context the context
+	 * @return the hinge side
+	 */
 	private DoorHingeSide getHingeSide(BlockItemUseContext context) {
 		IBlockReader iblockreader = context.getLevel();
 		BlockPos blockpos = context.getClickedPos();
@@ -353,10 +400,23 @@ public class HorseDoorBlock extends Block{
 		return ActionResultType.sidedSuccess(worldIn.isClientSide);
 	}
 
+	/**
+	 * Is open boolean.
+	 *
+	 * @param state the state
+	 * @return the boolean
+	 */
 	public boolean isOpen(BlockState state) {
 		return state.getValue(OPEN);
 	}
 
+	/**
+	 * Gets inverted open pos.
+	 *
+	 * @param state the state
+	 * @param pos   the pos
+	 * @return the inverted open pos
+	 */
 	public BlockPos getInvertedOpenPos(BlockState state, BlockPos pos) {
 		if (state.getValue(SIDE).toString().equals(state.getValue(HINGE).toString())) return pos;
 		boolean open = !state.getValue(OPEN);
@@ -444,6 +504,14 @@ public class HorseDoorBlock extends Block{
 		}
 	};
 
+	/**
+	 * Open door.
+	 *
+	 * @param worldIn the world in
+	 * @param state   the state
+	 * @param pos     the pos
+	 * @param open    the open
+	 */
 	public void openDoor(World worldIn, BlockState state, BlockPos pos, boolean open) {
 		if (state.is(this)) {
 			if (state.getValue(HINGE).toString().equals(state.getValue(SIDE).toString())) {
@@ -539,6 +607,15 @@ public class HorseDoorBlock extends Block{
 		}
 	}
 
+	/**
+	 * Gets all door parts.
+	 *
+	 * @param state   the state
+	 * @param pos     the pos
+	 * @param worldIn the world in
+	 * @param opened  the opened
+	 * @return the all door parts
+	 */
 	public ArrayList<BlockPos> getAllDoorParts(BlockState state, BlockPos pos, World worldIn, boolean opened) {
 		Direction direction = state.getValue(FACING);
 		ArrayList<BlockPos> positions = new ArrayList<>();
@@ -617,6 +694,13 @@ public class HorseDoorBlock extends Block{
 		return true;
 	}
 
+	/**
+	 * Play sound.
+	 *
+	 * @param worldIn   the world in
+	 * @param pos       the pos
+	 * @param isOpening the is opening
+	 */
 	private void playSound(World worldIn, BlockPos pos, boolean isOpening) {
 		worldIn.levelEvent((PlayerEntity)null, isOpening ? this.getOpenSound() : this.getCloseSound(), pos, 0);
 	}
@@ -647,10 +731,23 @@ public class HorseDoorBlock extends Block{
 		builder.add(HALF, FACING, OPEN, HINGE, SIDE);
 	}
 
+	/**
+	 * Is wooden door boolean.
+	 *
+	 * @param world the world
+	 * @param pos   the pos
+	 * @return the boolean
+	 */
 	public static boolean isWoodenDoor(World world, BlockPos pos) {
 		return isWooden(world.getBlockState(pos));
 	}
 
+	/**
+	 * Is wooden boolean.
+	 *
+	 * @param state the state
+	 * @return the boolean
+	 */
 	public static boolean isWooden(BlockState state) {
 		return state.getBlock() instanceof HorseDoorBlock && (state.getMaterial() == Material.WOOD || state.getMaterial() == Material.NETHER_WOOD);
 	}

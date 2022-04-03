@@ -23,6 +23,12 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
 public class SeparatorBlock extends NonParallelBlock{
+	/**
+	 * Instantiates a new Separator block.
+	 *
+	 * @param properties the properties
+	 * @param colour     the colour
+	 */
 	public SeparatorBlock(Properties properties, DyeColor colour) {
 		super(properties, colour);
 	}

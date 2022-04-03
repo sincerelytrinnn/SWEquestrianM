@@ -24,6 +24,12 @@ import net.minecraft.world.gen.placement.TopSolidRangeConfig;
 
 public class OreGenUtils {
 
+	/**
+	 * Build over world feature configured feature.
+	 *
+	 * @param bstate the bstate
+	 * @return the configured feature
+	 */
 	public static ConfiguredFeature<?, ?> buildOverWorldFeature(BlockState bstate) {
 		return Feature.ORE
 				.configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, bstate, 5))

@@ -50,8 +50,9 @@ public class LockerTE extends LockableLootTileEntity implements INamedContainerP
 	private boolean leftSideOpened;
 
 
-
-
+	/**
+	 * Instantiates a new Locker te.
+	 */
 	public LockerTE() {
 		super(SWEMTileEntities.LOCKER_TILE_ENTITY.get());
 	}
@@ -81,6 +82,11 @@ public class LockerTE extends LockableLootTileEntity implements INamedContainerP
 		return new LockerContainer(id, player, this, this.leftSideOpened);
 	}
 
+	/**
+	 * Sets left side opened.
+	 *
+	 * @param leftSideOpened the left side opened
+	 */
 	public void setLeftSideOpened(boolean leftSideOpened) {
 		this.leftSideOpened = leftSideOpened;
 	}
@@ -141,6 +147,9 @@ public class LockerTE extends LockableLootTileEntity implements INamedContainerP
 		}
 	}
 
+	/**
+	 * On open or close.
+	 */
 	protected void onOpenOrClose() {
 		Block block = this.getBlockState().getBlock();
 		if (block instanceof LockerBlock) {
@@ -149,6 +158,12 @@ public class LockerTE extends LockableLootTileEntity implements INamedContainerP
 		}
 	}
 
+	/**
+	 * Swap contents.
+	 *
+	 * @param te      the te
+	 * @param otherTe the other te
+	 */
 	public static void swapContents(LockerTE te, LockerTE otherTe) {
 		NonNullList<ItemStack> list = te.getItems();
 		te.setItems(otherTe.getItems());
@@ -181,6 +196,11 @@ public class LockerTE extends LockableLootTileEntity implements INamedContainerP
 		}
 	}
 
+	/**
+	 * Create handler item handler modifiable.
+	 *
+	 * @return the item handler modifiable
+	 */
 	private IItemHandlerModifiable createHandler() {
 		return new InvWrapper(this);
 	}

@@ -36,6 +36,12 @@ import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 public class WesternBridleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
 	private IGeoRenderer entityRenderer;
+
+	/**
+	 * Instantiates a new Western bridle layer.
+	 *
+	 * @param entityRendererIn the entity renderer in
+	 */
 	public WesternBridleLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
 		super(entityRendererIn);
 		this.entityRenderer = entityRendererIn;
@@ -85,6 +91,13 @@ public class WesternBridleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
 	}
 
+	/**
+	 * Should render boolean.
+	 *
+	 * @param stack  the stack
+	 * @param entity the entity
+	 * @return the boolean
+	 */
 	public boolean shouldRender(ItemStack stack, SWEMHorseEntity entity) {
 		return stack.getItem() instanceof WesternBridleItem && entity.getEntityData().get(SWEMHorseEntityBase.RENDER_BRIDLE);
 	}

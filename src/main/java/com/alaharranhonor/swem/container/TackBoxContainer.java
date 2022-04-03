@@ -39,10 +39,24 @@ public class TackBoxContainer extends Container {
 
 	public final SWEMHorseEntityBase horse;
 
+	/**
+	 * Instantiates a new Tack box container.
+	 *
+	 * @param id              the id
+	 * @param playerInventory the player inventory
+	 * @param data            the data
+	 */
 	public TackBoxContainer(final int id, final PlayerInventory playerInventory, final PacketBuffer data) {
 		this(id, playerInventory, getTileEntity(playerInventory, data));
 	}
 
+	/**
+	 * Instantiates a new Tack box container.
+	 *
+	 * @param id              the id
+	 * @param playerInventory the player inventory
+	 * @param tileEntity      the tile entity
+	 */
 	public TackBoxContainer(final int id, final PlayerInventory playerInventory, final TackBoxTE tileEntity) {
 		super(SWEMContainers.TACKBOX_CONTAINER.get(), id);
 		this.tileEntity = tileEntity;
@@ -205,7 +219,13 @@ public class TackBoxContainer extends Container {
 	}
 
 
-
+	/**
+	 * Gets tile entity.
+	 *
+	 * @param inventory the inventory
+	 * @param data      the data
+	 * @return the tile entity
+	 */
 	private static TackBoxTE getTileEntity(final PlayerInventory inventory, final PacketBuffer data) {
 		Objects.requireNonNull(inventory, "Inventory cannot be null");
 		Objects.requireNonNull(data, "Packet Data cannot be null");

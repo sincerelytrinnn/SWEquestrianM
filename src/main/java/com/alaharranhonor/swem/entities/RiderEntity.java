@@ -48,6 +48,11 @@ public class RiderEntity implements IAnimatable {
 	private AbstractClientPlayerEntity player;
 	private final AnimationFactory factory = new AnimationFactory(this);
 
+	/**
+	 * Instantiates a new Rider entity.
+	 *
+	 * @param player the player
+	 */
 	public RiderEntity(AbstractClientPlayerEntity player) {
 		this.player = player;
 	}
@@ -89,6 +94,13 @@ public class RiderEntity implements IAnimatable {
 		return factory;
 	}
 
+	/**
+	 * Predicate play state.
+	 *
+	 * @param <E>   the type parameter
+	 * @param event the event
+	 * @return the play state
+	 */
 	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 		Animation anim = event.getController().getCurrentAnimation();
 		if (anim != null) {
@@ -216,11 +228,21 @@ public class RiderEntity implements IAnimatable {
 		return PlayState.CONTINUE;
 	}
 
+	/**
+	 * Gets player.
+	 *
+	 * @return the player
+	 */
 	public PlayerEntity getPlayer() {
 		return player;
 	}
 
 
+	/**
+	 * Sets player.
+	 *
+	 * @param player the player
+	 */
 	public void setPlayer(AbstractClientPlayerEntity player) {
 		this.player = player;
 	}

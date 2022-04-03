@@ -36,6 +36,13 @@ public class SHorseFriendPacket {
 
 	private boolean failed;
 
+	/**
+	 * Instantiates a new S horse friend packet.
+	 *
+	 * @param playerUUID the player uuid
+	 * @param entityID   the entity id
+	 * @param action     the action
+	 */
 	public SHorseFriendPacket(UUID playerUUID, int entityID, int action) {
 		this.playerUUID = playerUUID;
 		this.entityID = entityID;
@@ -43,10 +50,21 @@ public class SHorseFriendPacket {
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new S horse friend packet.
+	 *
+	 * @param failed the failed
+	 */
 	public SHorseFriendPacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode s horse friend packet.
+	 *
+	 * @param buf the buf
+	 * @return the s horse friend packet
+	 */
 	public static SHorseFriendPacket decode(ByteBuf buf) {
 		try {
 			UUID playerUUID = ((PacketBuffer) buf).readUUID();
@@ -59,12 +77,24 @@ public class SHorseFriendPacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(SHorseFriendPacket msg, PacketBuffer buffer) {
 		buffer.writeUUID(msg.playerUUID);
 		buffer.writeInt(msg.entityID);
 		buffer.writeInt(msg.action);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(SHorseFriendPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			ClientPlayerEntity player = Minecraft.getInstance().player;

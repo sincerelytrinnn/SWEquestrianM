@@ -24,6 +24,11 @@ import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResultType;
 
 public class FenceToolItem extends Item {
+	/**
+	 * Instantiates a new Fence tool item.
+	 *
+	 * @param pProperties the p properties
+	 */
 	public FenceToolItem(Properties pProperties) {
 		super(pProperties);
 	}

@@ -169,7 +169,12 @@ public class SWEMHorseEntityBase
 	public boolean isWalkingBackwards = false;
 
 
-
+	/**
+	 * Instantiates a new Swem horse entity base.
+	 *
+	 * @param type    the type
+	 * @param levelIn the level in
+	 */
 	public SWEMHorseEntityBase(EntityType<? extends AbstractHorseEntity> type, World levelIn)
 	{
 		super(type, levelIn);
@@ -189,7 +194,12 @@ public class SWEMHorseEntityBase
 		this.getAttribute(Attributes.JUMP_STRENGTH).setBaseValue(this.getAlteredJumpStrength());
 	}
 
-	// createMobAttributes -> registerAttributes()
+	/**
+	 * Sets custom attributes.
+	 *
+	 * @return the custom attributes
+	 */
+// createMobAttributes -> registerAttributes()
 	public static AttributeModifierMap.MutableAttribute setCustomAttributes()
 	{
 		return MobEntity.createMobAttributes()
@@ -236,10 +246,20 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	/**
+	 * Is pooping boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean isPooping() {
 		return this.poopAnimationTick > 0;
 	}
 
+	/**
+	 * Is peeing boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean isPeeing() {
 		return this.peeAnimationTick > 0;
 	}
@@ -292,10 +312,20 @@ public class SWEMHorseEntityBase
 	}
 
 
+	/**
+	 * Gets owner name.
+	 *
+	 * @return the owner name
+	 */
 	public String getOwnerName() {
 		return this.entityData.get(OWNER_NAME);
 	}
 
+	/**
+	 * Sets owner name.
+	 *
+	 * @param ownerName the owner name
+	 */
 	public void setOwnerName(String ownerName) {
 		this.entityData.set(OWNER_NAME, ownerName);
 	}
@@ -556,10 +586,20 @@ public class SWEMHorseEntityBase
 		return this.entityData.get(TRACKED);
 	}
 
+	/**
+	 * Is bridle leashed boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean isBridleLeashed() {
 		return this.entityData.get(IS_BRIDLE_LEASHED);
 	}
 
+	/**
+	 * Sets bridle leashed.
+	 *
+	 * @param bridleLeashed the bridle leashed
+	 */
 	public void setBridleLeashed(boolean bridleLeashed) {
 		this.entityData.set(IS_BRIDLE_LEASHED, bridleLeashed);
 	}
@@ -767,7 +807,11 @@ public class SWEMHorseEntityBase
 	}
 
 
-
+	/**
+	 * Apply yaw.
+	 *
+	 * @param entity the entity
+	 */
 	private void applyYaw(Entity entity) {
 		if (!(entity instanceof PlayerEntity)) {
 			entity.setYBodyRot(this.yBodyRot);
@@ -789,10 +833,20 @@ public class SWEMHorseEntityBase
 		return this.getPassengers().size() < 2;
 	}
 
+	/**
+	 * Is flying boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean isFlying() {
 		return this.entityData.get(FLYING);
 	}
 
+	/**
+	 * Sets flying.
+	 *
+	 * @param flying the flying
+	 */
 	public void setFlying(boolean flying) {
 		this.entityData.set(FLYING, flying);
 		if (flying) {
@@ -823,6 +877,9 @@ public class SWEMHorseEntityBase
 	}
 
 
+	/**
+	 * Sets gallop cooldown.
+	 */
 	private void setGallopCooldown() {
 		int gallopSoundCounter = this.entityData.get(GALLOP_TIMER);
 		int cooldown = gallopSoundCounter * 5;
@@ -831,6 +888,9 @@ public class SWEMHorseEntityBase
 		this.entityData.set(GALLOP_TIMER, 0);
 	}
 
+	/**
+	 * Reset gallop cooldown.
+	 */
 	private void resetGallopCooldown() {
 		this.entityData.set(GALLOP_COOLDOWN_TIMER, 0);
 		this.entityData.set(GALLOP_ON_COOLDOWN, false);
@@ -877,6 +937,11 @@ public class SWEMHorseEntityBase
 		return this.inventory.getItem(4).getItem() instanceof LegWrapsItem;
 	}
 
+	/**
+	 * Has saddle item stack.
+	 *
+	 * @return the item stack
+	 */
 	public ItemStack hasSaddle() {
 		return this.inventory.getItem(2);
 	}
@@ -902,10 +967,18 @@ public class SWEMHorseEntityBase
 		this.itemHandler = LazyOptional.of(() -> new InvWrapper(this.inventory));
 	}
 
+	/**
+	 * Gets horse inventory.
+	 *
+	 * @return the horse inventory
+	 */
 	public Inventory getHorseInventory() {
 		return this.inventory;
 	}
 
+	/**
+	 * Init saddlebag inventory.
+	 */
 	protected void initSaddlebagInventory() {
 		Inventory inventory = this.saddlebagInventory;
 		this.saddlebagInventory = new Inventory(27);
@@ -925,10 +998,18 @@ public class SWEMHorseEntityBase
 		this.saddlebagItemHandler = LazyOptional.of(() -> new InvWrapper(this.saddlebagInventory));
 	}
 
+	/**
+	 * Gets saddlebag inventory.
+	 *
+	 * @return the saddlebag inventory
+	 */
 	public Inventory getSaddlebagInventory() {
 		return this.saddlebagInventory;
 	}
 
+	/**
+	 * Init bedroll inventory.
+	 */
 	protected void initBedrollInventory() {
 		Inventory inventory = this.bedrollInventory;
 		this.bedrollInventory = new Inventory(4);
@@ -948,6 +1029,11 @@ public class SWEMHorseEntityBase
 		this.bedrollItemHandler = LazyOptional.of(() -> new InvWrapper(this.bedrollInventory));
 	}
 
+	/**
+	 * Gets bedroll inventory.
+	 *
+	 * @return the bedroll inventory
+	 */
 	public Inventory getBedrollInventory() {
 		return this.bedrollInventory;
 	}
@@ -1003,10 +1089,20 @@ public class SWEMHorseEntityBase
 		compound.putBoolean("tracked", this.entityData.get(TRACKED));
 	}
 
+	/**
+	 * Gets armor.
+	 *
+	 * @return the armor
+	 */
 	public ItemStack getArmor() {
 		return this.getItemBySlot(EquipmentSlotType.CHEST);
 	}
 
+	/**
+	 * Sets armor.
+	 *
+	 * @param p_213805_1_ the p 213805 1
+	 */
 	private void setArmor(ItemStack p_213805_1_) {
 		this.setItemSlot(EquipmentSlotType.CHEST, p_213805_1_);
 		this.setDropChance(EquipmentSlotType.CHEST, 0.0F);
@@ -1099,26 +1195,50 @@ public class SWEMHorseEntityBase
 	}
 
 
+	/**
+	 * Add allowed uuid.
+	 *
+	 * @param playerUUID the player uuid
+	 */
 	public void addAllowedUUID(UUID playerUUID) {
 		if (!this.allowedList.contains(playerUUID)) {
 			this.allowedList.add(playerUUID);
 		}
 	}
 
+	/**
+	 * Is allowed uuid boolean.
+	 *
+	 * @param playerUUID the player uuid
+	 * @return the boolean
+	 */
 	public boolean isAllowedUUID(UUID playerUUID) {
 		return this.allowedList.contains(playerUUID);
 	}
 
+	/**
+	 * Remove allowed uuid.
+	 *
+	 * @param playerUUID the player uuid
+	 */
 	public void removeAllowedUUID(UUID playerUUID) {
 		if (this.getOwnerUUID() != null && this.getOwnerUUID().equals(playerUUID)) return;
 		this.allowedList.remove(playerUUID);
 	}
 
+	/**
+	 * Transfer horse.
+	 *
+	 * @param player the player
+	 */
 	public void transferHorse(PlayerEntity player) {
 		this.tameWithName(player);
 		this.removeAllAllowedUUIDs();
 	}
 
+	/**
+	 * Remove all allowed UUID's.
+	 */
 	public void removeAllAllowedUUIDs() {
 		for (UUID allowed : this.allowedList) {
 			this.removeAllowedUUID(allowed);
@@ -1193,6 +1313,11 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	/**
+	 * Write saddlebag inventory.
+	 *
+	 * @param compound the compound
+	 */
 	private void writeSaddlebagInventory(CompoundNBT compound) {
 
 		if (!this.saddlebagInventory.isEmpty()) {
@@ -1205,6 +1330,11 @@ public class SWEMHorseEntityBase
 
 	}
 
+	/**
+	 * Read saddlebag inventory.
+	 *
+	 * @param compound the compound
+	 */
 	private void readSaddlebagInventory(CompoundNBT compound) {
 		if (compound.contains("saddlebag")) {
 			CompoundNBT saddlebag = compound.getCompound("saddlebag");
@@ -1220,6 +1350,11 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	/**
+	 * Write bedroll inventory.
+	 *
+	 * @param compound the compound
+	 */
 	private void writeBedrollInventory(CompoundNBT compound) {
 
 		if (!this.bedrollInventory.isEmpty()) {
@@ -1232,6 +1367,11 @@ public class SWEMHorseEntityBase
 
 	}
 
+	/**
+	 * Read bedroll inventory.
+	 *
+	 * @param compound the compound
+	 */
 	private void readBedrollInventory(CompoundNBT compound) {
 		if (compound.contains("bedroll")) {
 			CompoundNBT bedroll = compound.getCompound("bedroll");
@@ -1247,18 +1387,38 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	/**
+	 * Sets horse variant.
+	 *
+	 * @param id the id
+	 */
 	private void setHorseVariant(int id) {
 		this.entityData.set(HORSE_VARIANT, id);
 	}
 
+	/**
+	 * Gets coat color.
+	 *
+	 * @return the coat color
+	 */
 	public SWEMCoatColor getCoatColor() {
 		return SWEMCoatColor.getById(this.getHorseVariant());
 	}
 
+	/**
+	 * Gets horse variant.
+	 *
+	 * @return the horse variant
+	 */
 	private int getHorseVariant() {
 		return this.entityData.get(HORSE_VARIANT);
 	}
 
+	/**
+	 * Calculate potion coat.
+	 *
+	 * @param vanillaCoat the vanilla coat
+	 */
 	public void calculatePotionCoat(CoatColors vanillaCoat) {
 		int randomNum = rand.nextInt(100) + 1;
 		switch (vanillaCoat) {
@@ -1414,6 +1574,11 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	/**
+	 * Sets coat colour.
+	 *
+	 * @param coat the coat
+	 */
 	public void setCoatColour(SWEMCoatColor coat) {
 		this.setHorseVariant(coat.getId());
 	}
@@ -1433,6 +1598,11 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	/**
+	 * Sets armor equipment.
+	 *
+	 * @param p_213804_1_ the p 213804 1
+	 */
 	private void setArmorEquipment(ItemStack p_213804_1_) {
 		this.setArmor(p_213804_1_);
 		if (!this.level.isClientSide) {
@@ -1533,6 +1703,11 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	/**
+	 * Check armor piece.
+	 *
+	 * @param armor the armor
+	 */
 	private void checkArmorPiece(SWEMHorseArmorItem armor) {
 		if (armor.tier.getId() >= 0)
 			this.tickClothArmor();
@@ -1546,14 +1721,23 @@ public class SWEMHorseEntityBase
 			this.tickAmethystArmor();
 	}
 
+	/**
+	 * Tick cloth armor.
+	 */
 	private void tickClothArmor() {
 
 	}
 
+	/**
+	 * Tick iron armor.
+	 */
 	private void tickIronArmor() {
 
 	}
 
+	/**
+	 * Tick gold armor.
+	 */
 	private void tickGoldArmor() {
 		if (this.isOnGround()) {
 			BlockState blockstate = Blocks.FROSTED_ICE.defaultBlockState();
@@ -1580,6 +1764,9 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	/**
+	 * Tick diamond armor.
+	 */
 	private void tickDiamondArmor() {
 		if (this.isOnGround()) {
 			BlockState blockstate = SWEMBlocks.TEARING_MAGMA.get().defaultBlockState();
@@ -1609,6 +1796,9 @@ public class SWEMHorseEntityBase
 
 	}
 
+	/**
+	 * Tick amethyst armor.
+	 */
 	private void tickAmethystArmor() {
 		this.addEffect(new EffectInstance(Effects.SLOW_FALLING, 10, 10, false, false, false));
 	}
@@ -1785,15 +1975,31 @@ public class SWEMHorseEntityBase
 
 	}
 
+	/**
+	 * Is camera locked boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean isCameraLocked() {
 		return this.entityData.get(CAMERA_LOCK);
 	}
 
+	/**
+	 * Sets camera lock.
+	 *
+	 * @param locked the locked
+	 */
 	public void setCameraLock(boolean locked) {
 		this.entityData.set(CAMERA_LOCK, locked);
 		this.setLockedRotations(this.xRot, this.yRot);
 	}
 
+	/**
+	 * Sets locked rotations.
+	 *
+	 * @param xRot the x rot
+	 * @param yRot the y rot
+	 */
 	public void setLockedRotations(float xRot, float yRot) {
 		this.lockedXRot = xRot;
 		this.lockedYRot = yRot;
@@ -1832,6 +2038,12 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	/**
+	 * Gets jump disobey.
+	 *
+	 * @param jumpHeight the jump height
+	 * @return the jump disobey
+	 */
 	public double getJumpDisobey(float jumpHeight) {
 		return 0.2 * (this.progressionManager.getJumpLeveling().getLevel() + 1 - 5) / 4 + 0.2 * (jumpHeight - 1) / 4 + 0.6 * this.progressionManager.getAffinityLeveling().getDebuff();
 	}
@@ -1849,15 +2061,26 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	/**
+	 * Play flap wing sound.
+	 */
 	private void playFlapWingSound() {
 		// TODO: ADD A FLAP WING SOUND AND PLAY IT HERE!
 	}
 
 
+	/**
+	 * Start jump.
+	 *
+	 * @param jumpHeight the jump height
+	 */
 	private void startJump(float jumpHeight) {
 		SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), jumpHeight));
 	}
 
+	/**
+	 * Stop jump.
+	 */
 	private void stopJump() {
 		if (this.level.isClientSide) {
 			SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), 0.0F));
@@ -1871,6 +2094,11 @@ public class SWEMHorseEntityBase
 		return this.getPassengers().isEmpty() ? null : playerEntities.isEmpty() ? null : playerEntities.get(0);
 	}
 
+	/**
+	 * Gets disobedience factor.
+	 *
+	 * @return the disobedience factor
+	 */
 	private float getDisobedienceFactor() {
 		return this.getRandom().nextFloat();
 	}
@@ -1889,6 +2117,9 @@ public class SWEMHorseEntityBase
 	}
 
 
+	/**
+	 * Level up jump.
+	 */
 	public void levelUpJump() {
 		ModifiableAttributeInstance jumpStrength = this.getAttribute(Attributes.JUMP_STRENGTH);
 		if (jumpStrength != null) {
@@ -1905,6 +2136,9 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	/**
+	 * Level up speed.
+	 */
 	public void levelUpSpeed() {
 		ModifiableAttributeInstance speedInstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
 		if (speedInstance != null) {
@@ -1914,6 +2148,9 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	/**
+	 * Level up health.
+	 */
 	public void levelUpHealth() {
 		ModifiableAttributeInstance healthInstance = this.getAttribute(Attributes.MAX_HEALTH);
 		if (healthInstance != null) {
@@ -1952,12 +2189,19 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	/**
+	 * Is swem saddled boolean.
+	 *
+	 * @return the boolean
+	 */
 	protected boolean isSWEMSaddled() {
 		return this.inventory.getItem(2).getItem() instanceof HorseSaddleItem;
 	}
 
 
-
+	/**
+	 * Sets swem saddled.
+	 */
 	protected void setSWEMSaddled() {
 		if (this.level.isClientSide) {
 			this.setFlag(4, !this.inventory.getItem(2).isEmpty());
@@ -2016,6 +2260,13 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	/**
+	 * Check is coat transform item boolean.
+	 *
+	 * @param playerEntity the player entity
+	 * @param stack        the stack
+	 * @return the boolean
+	 */
 	public boolean checkIsCoatTransformItem(PlayerEntity playerEntity, ItemStack stack) {
 		if (stack.getItem() == SWEMItems.WHISTLE.get() && stack.getStack().getHoverName().getString().equals("Ocarina")) {
 			stack.shrink(1);
@@ -2211,22 +2462,52 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	/**
+	 * Emit bad particles.
+	 *
+	 * @param world the world
+	 * @param count the count
+	 */
 	public void emitBadParticles(ServerWorld world, int count) {
 		world.sendParticles(SWEMParticles.BAD.get(), this.getX(), this.getY() + 2.5, this.getZ(), count, 0.3D, 0.3D, 0.3D, 0.3D);
 	}
 
+	/**
+	 * Emit ech particles.
+	 *
+	 * @param world the world
+	 * @param count the count
+	 */
 	public void emitEchParticles(ServerWorld world, int count) {
 		world.sendParticles(SWEMParticles.ECH.get(), this.getX(), this.getY() + 2.5, this.getZ(), count, 0.3D, 0.3D, 0.3D, 0.3D);
 	}
 
+	/**
+	 * Emit meh particles.
+	 *
+	 * @param world the world
+	 * @param count the count
+	 */
 	public void emitMehParticles(ServerWorld world, int count) {
 		world.sendParticles(SWEMParticles.MEH.get(), this.getX(), this.getY() + 2.5, this.getZ(), count, 0.3D, 0.3D, 0.3D, 0.3D);
 	}
 
+	/**
+	 * Emit yay particles.
+	 *
+	 * @param world the world
+	 * @param count the count
+	 */
 	public void emitYayParticles(ServerWorld world, int count) {
 		world.sendParticles(SWEMParticles.YAY.get(), this.getX(), this.getY() + 2.5, this.getZ(), count, 0.3D, 0.3D, 0.3D, 0.3D);
 	}
 
+	/**
+	 * Emit woot particles.
+	 *
+	 * @param world the world
+	 * @param count the count
+	 */
 	public void emitWootParticles(ServerWorld world, int count) {
 		world.sendParticles(SWEMParticles.WOOT.get(), this.getX(), this.getY() + 2.5, this.getZ(), count, 0.3D, 0.3D, 0.3D, 0.3D);
 	}
@@ -2278,6 +2559,12 @@ public class SWEMHorseEntityBase
 		return ActionResultType.CONSUME;*/
 	}
 
+	/**
+	 * Check for back hit boolean.
+	 *
+	 * @param vec the vec
+	 * @return the boolean
+	 */
 	private boolean checkForBackHit(Vector3d vec) {
 		Direction facing = this.getDirection();
 
@@ -2328,6 +2615,11 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	/**
+	 * Gets needs.
+	 *
+	 * @return the needs
+	 */
 	public NeedManager getNeeds() {
 		return this.needs;
 	}
@@ -2418,6 +2710,9 @@ public class SWEMHorseEntityBase
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
+	/**
+	 * Decrement speed.
+	 */
 	public void decrementSpeed() {
 		HorseSpeed oldSpeed = this.currentSpeed;
 		if (oldSpeed == HorseSpeed.WALK) return;
@@ -2436,6 +2731,9 @@ public class SWEMHorseEntityBase
 		this.updateSelectedSpeed(oldSpeed);
 	}
 
+	/**
+	 * Increment speed.
+	 */
 	public void incrementSpeed() {
 		HorseSpeed oldSpeed = this.currentSpeed;
 		if (oldSpeed == HorseSpeed.GALLOP) return; // Return if current gait is already max.
@@ -2477,6 +2775,11 @@ public class SWEMHorseEntityBase
 		this.updateSelectedSpeed(oldSpeed);
 	}
 
+	/**
+	 * Update selected speed.
+	 *
+	 * @param oldSpeed the old speed
+	 */
 	public void updateSelectedSpeed(HorseSpeed oldSpeed) {
 
 		if (this.currentSpeed == HorseSpeed.TROT) {
@@ -2496,6 +2799,11 @@ public class SWEMHorseEntityBase
 		this.entityData.set(SPEED_LEVEL, this.currentSpeed.speedLevel);
 	}
 
+	/**
+	 * Can fly boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean canFly() {
 		if (!(this.getSWEMArmor().getItem() instanceof SWEMHorseArmorItem)) {
 			return false;
@@ -2503,11 +2811,17 @@ public class SWEMHorseEntityBase
 		return this.hasSaddle().getItem() instanceof AdventureSaddleItem && ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() == 4;
 	}
 
+	/**
+	 * Brush.
+	 */
 	public void brush() {
 		this.progressionManager.getAffinityLeveling().brush();
 	}
 
 
+	/**
+	 * Cycle riding permission.
+	 */
 	public void cycleRidingPermission() {
 		if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.NONE) {
 			this.setPermissionState("TRUST");
@@ -2518,10 +2832,20 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	/**
+	 * Gets permission state.
+	 *
+	 * @return the permission state
+	 */
 	public RidingPermission getPermissionState() {
 		return RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING));
 	}
 
+	/**
+	 * Sets permission state.
+	 *
+	 * @param string the string
+	 */
 	private void setPermissionState(String string) {
 		this.entityData.set(PERMISSION_STRING, string);
 	}
@@ -2531,38 +2855,87 @@ public class SWEMHorseEntityBase
 		return 8;
 	}
 
+	/**
+	 * Is halter boolean.
+	 *
+	 * @param stack the stack
+	 * @return the boolean
+	 */
 	public boolean isHalter(ItemStack stack) {
 		return stack.getItem() instanceof HalterItem;
 	}
 
+	/**
+	 * Gets halter.
+	 *
+	 * @return the halter
+	 */
 	public ItemStack getHalter() {
 		return this.inventory.getItem(0);
 	}
 
+	/**
+	 * Is breast collar boolean.
+	 *
+	 * @param stack the stack
+	 * @return the boolean
+	 */
 	public boolean isBreastCollar(ItemStack stack) {
 		return stack.getItem() instanceof BreastCollarItem;
 	}
 
+	/**
+	 * Gets breast collar.
+	 *
+	 * @return the breast collar
+	 */
 	public ItemStack getBreastCollar() {
 		return this.inventory.getItem(3);
 	}
 
+	/**
+	 * Is leg wraps boolean.
+	 *
+	 * @param stack the stack
+	 * @return the boolean
+	 */
 	public boolean isLegWraps(ItemStack stack) {
 		return stack.getItem() instanceof LegWrapsItem;
 	}
 
+	/**
+	 * Gets leg wraps.
+	 *
+	 * @return the leg wraps
+	 */
 	public ItemStack getLegWraps() {
 		return this.inventory.getItem(4);
 	}
 
+	/**
+	 * Is girth strap boolean.
+	 *
+	 * @param stack the stack
+	 * @return the boolean
+	 */
 	public boolean isGirthStrap(ItemStack stack) {
 		return stack.getItem() instanceof GirthStrapItem;
 	}
 
+	/**
+	 * Gets girth strap.
+	 *
+	 * @return the girth strap
+	 */
 	public ItemStack getGirthStrap() {
 		return this.inventory.getItem(5);
 	}
 
+	/**
+	 * Has bridle boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean hasBridle() {
 		return this.inventory.getItem(0).getItem() instanceof BridleItem;
 	}
@@ -2596,18 +2969,40 @@ public class SWEMHorseEntityBase
 		}
 	}
 
+	/**
+	 * Is swem armor boolean.
+	 *
+	 * @param stack the stack
+	 * @return the boolean
+	 */
 	public boolean isSWEMArmor(ItemStack stack) {
 		return stack.getItem() instanceof SWEMHorseArmorItem;
 	}
 
+	/**
+	 * Gets swem armor.
+	 *
+	 * @return the swem armor
+	 */
 	public ItemStack getSWEMArmor() {
 		return this.inventory.getItem(6);
 	}
 
+	/**
+	 * Is saddlebag boolean.
+	 *
+	 * @param stack the stack
+	 * @return the boolean
+	 */
 	public boolean isSaddlebag(ItemStack stack) {
 		return stack.getItem() instanceof SaddlebagItem;
 	}
 
+	/**
+	 * Gets saddlebag.
+	 *
+	 * @return the saddlebag
+	 */
 	public ItemStack getSaddlebag() {
 		return this.inventory.getItem(7);
 	}
@@ -2664,6 +3059,13 @@ public class SWEMHorseEntityBase
 		return MathHelper.ceil((pDistance * 0.5F - 4.0F) * pDamageMultiplier);
 	}
 
+	/**
+	 * Calculate arrow damage float.
+	 *
+	 * @param arrow  the arrow
+	 * @param amount the amount
+	 * @return the float
+	 */
 	private float calculateArrowDamage(AbstractArrowEntity arrow, float amount) {
 		if (!this.isWearingArmor()) return amount;
 		if (((SWEMHorseArmorItem)this.getSWEMArmor().getItem()).tier == SWEMHorseArmorItem.HorseArmorTier.IRON) {
@@ -2697,10 +3099,18 @@ public class SWEMHorseEntityBase
 		return amount;
 	}
 
+	/**
+	 * Sets standing timer.
+	 *
+	 * @param timeInTicks the time in ticks
+	 */
 	public void setStandingTimer(int timeInTicks) {
 		this.standingTimer = timeInTicks;
 	}
 
+	/**
+	 * Sets standing anim.
+	 */
 	public void setStandingAnim() {
 		this.standAnimationTick = 42;
 		this.standAnimationVariant = this.getRandom().nextDouble() > 0.5 ? 2 : 1;
@@ -2715,14 +3125,31 @@ public class SWEMHorseEntityBase
 		this.standingTimer = 142;
 	}
 
+	/**
+	 * Is blanket boolean.
+	 *
+	 * @param stack the stack
+	 * @return the boolean
+	 */
 	public boolean isBlanket(ItemStack stack) {
 		return stack.getItem() instanceof BlanketItem;
 	}
 
+	/**
+	 * Gets blanket.
+	 *
+	 * @return the blanket
+	 */
 	public ItemStack getBlanket() {
 		return this.inventory.getItem(1);
 	}
 
+	/**
+	 * Is saddle boolean.
+	 *
+	 * @param stack the stack
+	 * @return the boolean
+	 */
 	public boolean isSaddle(ItemStack stack) {
 		return stack.getItem() instanceof HorseSaddleItem;
 	}
@@ -2732,15 +3159,30 @@ public class SWEMHorseEntityBase
 		return this.inventory.getItem(6).getItem() instanceof SWEMHorseArmorItem;
 	}
 
+	/**
+	 * Has saddle bag boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean hasSaddleBag() {
 		return this.inventory.getItem(7).getItem() instanceof SaddlebagItem;
 	}
 
+	/**
+	 * Gets jump height.
+	 *
+	 * @return the jump height
+	 */
 	public float getJumpHeight() {
 		float jumpStrength = (float) this.getCustomJump();
 		return (float) (-0.1817584952 * ((float)Math.pow(jumpStrength, 3.0F)) + 3.689713992 * ((float)Math.pow(jumpStrength, 2.0F)) + 2.128599134 * jumpStrength - 0.343930367);
 	}
 
+	/**
+	 * Gets owner display name.
+	 *
+	 * @return the owner display name
+	 */
 	public ITextComponent getOwnerDisplayName() {
 		UUID playerUUID = this.getOwnerUUID();
 		if (playerUUID == null) {
@@ -2754,6 +3196,11 @@ public class SWEMHorseEntityBase
 		return owner.getDisplayName();
 	}
 
+	/**
+	 * Sets whistle pos.
+	 *
+	 * @param pos the pos
+	 */
 	public void setWhistlePos(BlockPos pos) {
 		this.whistlePos = pos;
 	}
@@ -2804,6 +3251,15 @@ public class SWEMHorseEntityBase
 		private final int speedLevel;
 		private final float skillMultiplier;
 		private final String text;
+
+		/**
+		 * Instantiates a new Horse speed.
+		 *
+		 * @param modifier        the modifier
+		 * @param speedLevel      the speed level
+		 * @param skillMultiplier the skill multiplier
+		 * @param text            the text
+		 */
 		HorseSpeed(AttributeModifier modifier, int speedLevel, float skillMultiplier, String text) {
 			this.modifier = modifier;
 			this.speedLevel = speedLevel;
@@ -2811,18 +3267,38 @@ public class SWEMHorseEntityBase
 			this.text = text;
 		}
 
+		/**
+		 * Gets modifier.
+		 *
+		 * @return the modifier
+		 */
 		public AttributeModifier getModifier() {
 			return this.modifier;
 		}
 
+		/**
+		 * Gets speed level.
+		 *
+		 * @return the speed level
+		 */
 		public int getSpeedLevel() {
 			return this.speedLevel;
 		}
 
+		/**
+		 * Gets skill multiplier.
+		 *
+		 * @return the skill multiplier
+		 */
 		public float getSkillMultiplier() {
 			return this.skillMultiplier;
 		}
 
+		/**
+		 * Gets text.
+		 *
+		 * @return the text
+		 */
 		public String getText() {
 			return text;
 		}
@@ -2838,6 +3314,11 @@ public class SWEMHorseEntityBase
 	public static class SWEMHorseData extends AgeableData {
 		public final SWEMCoatColor variant;
 
+		/**
+		 * Instantiates a new Swem horse data.
+		 *
+		 * @param p_i231557_1_ the p i 231557 1
+		 */
 		public SWEMHorseData(SWEMCoatColor p_i231557_1_) {
 			super(false);
 			this.variant = p_i231557_1_;

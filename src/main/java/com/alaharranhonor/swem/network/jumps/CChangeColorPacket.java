@@ -32,6 +32,13 @@ public class CChangeColorPacket {
 	private boolean rightClick;
 	private boolean failed;
 
+	/**
+	 * Instantiates a new C change color packet.
+	 *
+	 * @param controllerPos the controller pos
+	 * @param layerToChange the layer to change
+	 * @param rightClick    the right click
+	 */
 	public CChangeColorPacket(BlockPos controllerPos, int layerToChange, boolean rightClick) {
 		this.controllerPos = controllerPos;
 		this.layerToChange = layerToChange;
@@ -39,10 +46,21 @@ public class CChangeColorPacket {
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new C change color packet.
+	 *
+	 * @param failed the failed
+	 */
 	public CChangeColorPacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode c change color packet.
+	 *
+	 * @param buf the buf
+	 * @return the c change color packet
+	 */
 	public static CChangeColorPacket decode(ByteBuf buf) {
 		try {
 			BlockPos controllerPos = ((PacketBuffer) buf).readBlockPos();
@@ -55,12 +73,24 @@ public class CChangeColorPacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(CChangeColorPacket msg, PacketBuffer buffer) {
 		buffer.writeBlockPos(msg.controllerPos);
 		buffer.writeVarInt(msg.layerToChange);
 		buffer.writeBoolean(msg.rightClick);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(CChangeColorPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Container container = ctx.get().getSender().containerMenu;

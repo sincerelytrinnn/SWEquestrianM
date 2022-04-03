@@ -36,6 +36,11 @@ public class FenceBaseBlock extends FourWayBlock {
 	private final VoxelShape[] renderShapes;
 	public static final BooleanProperty HALF_FENCE = SWEMBlockStateProperties.HALF_FENCE;
 
+	/**
+	 * Instantiates a new Fence base block.
+	 *
+	 * @param properties the properties
+	 */
 	public FenceBaseBlock(Properties properties) {
 		super(2.0f, 2.0f, 16.0f, 16.0f, 24.0f, properties);
 		this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, Boolean.valueOf(false)).setValue(EAST, Boolean.valueOf(false)).setValue(SOUTH, Boolean.valueOf(false)).setValue(WEST, Boolean.valueOf(false)).setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(HALF_FENCE, Boolean.valueOf(false)));
@@ -43,18 +48,52 @@ public class FenceBaseBlock extends FourWayBlock {
 	}
 
 
+	/**
+	 * Gets render shape.
+	 *
+	 * @param state   the state
+	 * @param worldIn the world in
+	 * @param pos     the pos
+	 * @return the render shape
+	 */
 	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
 			return this.renderShapes[this.getAABBIndex(state)];
 	}
 
+	/**
+	 * Gets ray trace shape.
+	 *
+	 * @param state   the state
+	 * @param reader  the reader
+	 * @param pos     the pos
+	 * @param context the context
+	 * @return the ray trace shape
+	 */
 	public VoxelShape getRayTraceShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {
 		return this.getShape(state, reader, pos, context);
 	}
 
+	/**
+	 * Allows movement boolean.
+	 *
+	 * @param state   the state
+	 * @param worldIn the world in
+	 * @param pos     the pos
+	 * @param type    the type
+	 * @return the boolean
+	 */
 	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
 		return false;
 	}
 
+	/**
+	 * Can connect boolean.
+	 *
+	 * @param state       the state
+	 * @param isSideSolid the is side solid
+	 * @param direction   the direction
+	 * @return the boolean
+	 */
 	public boolean canConnect(BlockState state, boolean isSideSolid, Direction direction) {
 		Block block = state.getBlock();
 		boolean flag = this.isWoodenFence(block);
@@ -62,6 +101,12 @@ public class FenceBaseBlock extends FourWayBlock {
 		return !isExceptionForConnection(block) && isSideSolid || flag || flag1;
 	}
 
+	/**
+	 * Is wooden fence boolean.
+	 *
+	 * @param block the block
+	 * @return the boolean
+	 */
 	private boolean isWoodenFence(Block block) {
 		return block instanceof FenceBaseBlock;
 	}

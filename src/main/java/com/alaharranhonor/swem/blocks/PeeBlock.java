@@ -37,6 +37,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.Tags;
 
 public class PeeBlock extends Block {
+	/**
+	 * Instantiates a new Pee block.
+	 *
+	 * @param properties the properties
+	 */
 	public PeeBlock(Properties properties) {
 		super(properties);
 	}

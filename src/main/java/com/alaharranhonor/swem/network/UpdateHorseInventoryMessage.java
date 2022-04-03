@@ -34,6 +34,13 @@ public class UpdateHorseInventoryMessage {
 
 	private boolean failed;
 
+	/**
+	 * Instantiates a new Update horse inventory message.
+	 *
+	 * @param entityId  the entity id
+	 * @param slotIndex the slot index
+	 * @param stack     the stack
+	 */
 	public UpdateHorseInventoryMessage(int entityId, int slotIndex, ItemStack stack) {
 		this.entityId = entityId;
 		this.slotIndex = slotIndex;
@@ -41,10 +48,21 @@ public class UpdateHorseInventoryMessage {
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new Update horse inventory message.
+	 *
+	 * @param failed the failed
+	 */
 	public UpdateHorseInventoryMessage(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode update horse inventory message.
+	 *
+	 * @param buf the buf
+	 * @return the update horse inventory message
+	 */
 	public static UpdateHorseInventoryMessage decode(ByteBuf buf) {
 		try {
 			int entityId = buf.readInt();
@@ -57,12 +75,24 @@ public class UpdateHorseInventoryMessage {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg the msg
+	 * @param buf the buf
+	 */
 	public static void encode(UpdateHorseInventoryMessage msg, PacketBuffer buf) {
 		buf.writeInt(msg.entityId);
 		buf.writeInt(msg.slotIndex);
 		buf.writeItem(msg.stack);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(UpdateHorseInventoryMessage msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Entity entity = Minecraft.getInstance().level.getEntity(msg.entityId);

@@ -31,16 +31,33 @@ public class CRemoveLayerPacket {
 	private int layerToRemove;
 	private boolean failed;
 
+	/**
+	 * Instantiates a new C remove layer packet.
+	 *
+	 * @param controllerPos the controller pos
+	 * @param layerToRemove the layer to remove
+	 */
 	public CRemoveLayerPacket(BlockPos controllerPos, int layerToRemove) {
 		this.controllerPos = controllerPos;
 		this.layerToRemove = layerToRemove;
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new C remove layer packet.
+	 *
+	 * @param failed the failed
+	 */
 	public CRemoveLayerPacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode c remove layer packet.
+	 *
+	 * @param buf the buf
+	 * @return the c remove layer packet
+	 */
 	public static CRemoveLayerPacket decode(ByteBuf buf) {
 		try {
 			BlockPos controllerPos = ((PacketBuffer) buf).readBlockPos();
@@ -52,11 +69,23 @@ public class CRemoveLayerPacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(CRemoveLayerPacket msg, PacketBuffer buffer) {
 		buffer.writeBlockPos(msg.controllerPos);
 		buffer.writeVarInt(msg.layerToRemove);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(CRemoveLayerPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Container container = ctx.get().getSender().containerMenu;

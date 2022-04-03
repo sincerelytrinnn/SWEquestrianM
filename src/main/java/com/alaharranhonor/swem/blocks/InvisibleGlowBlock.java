@@ -27,6 +27,11 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.block.AbstractBlock.Properties;
 
 public class InvisibleGlowBlock extends Block {
+	/**
+	 * Instantiates a new Invisible glow block.
+	 *
+	 * @param properties the properties
+	 */
 	public InvisibleGlowBlock(Properties properties) {
 		super(properties);
 	}

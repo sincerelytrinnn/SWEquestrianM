@@ -28,6 +28,13 @@ import java.util.Map;
 import java.util.Random;
 
 public class DestrierEnchantment extends Enchantment {
+	/**
+	 * Instantiates a new Destrier enchantment.
+	 *
+	 * @param rarityIn the rarity in
+	 * @param typeIn   the type in
+	 * @param slots    the slots
+	 */
 	public DestrierEnchantment(Rarity rarityIn, EnchantmentType typeIn, EquipmentSlotType[] slots) {
 		super(rarityIn, typeIn, slots);
 	}
@@ -98,11 +105,23 @@ public class DestrierEnchantment extends Enchantment {
 	}
 
 
+	/**
+	 * Should hit boolean.
+	 *
+	 * @param rnd the rnd
+	 * @return the boolean
+	 */
 	public static boolean shouldHit(Random rnd) {
 		return rnd.nextFloat() < 0.15F;
 
 	}
 
+	/**
+	 * Gets damage.
+	 *
+	 * @param rnd the rnd
+	 * @return the damage
+	 */
 	public static int getDamage(Random rnd) {
 		return 1 + rnd.nextInt(4);
 	}

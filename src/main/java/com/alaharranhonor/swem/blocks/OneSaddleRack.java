@@ -42,6 +42,11 @@ import java.util.UUID;
 
 public class OneSaddleRack extends HorizontalBlock {
 
+	/**
+	 * Instantiates a new One saddle rack.
+	 *
+	 * @param properties the properties
+	 */
 	public OneSaddleRack(Properties properties) {
 		super(properties);
 		this.registerDefaultState(

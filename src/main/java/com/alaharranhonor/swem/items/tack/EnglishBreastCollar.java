@@ -18,6 +18,12 @@ import net.minecraft.item.Item.Properties;
 
 
 public class EnglishBreastCollar extends BreastCollarItem {
+	/**
+	 * Instantiates a new English breast collar.
+	 *
+	 * @param textureName the texture name
+	 * @param properties  the properties
+	 */
 	public EnglishBreastCollar(String textureName, Properties properties) {
 		super(textureName, properties);
 	}

@@ -41,6 +41,12 @@ public class HorseSaddleItem extends HorseTackItem implements IAnimatable {
 	private final AnimationFactory factory = new AnimationFactory(this);
 
 
+	/**
+	 * Instantiates a new Horse saddle item.
+	 *
+	 * @param textureName the texture name
+	 * @param properties  the properties
+	 */
 	public HorseSaddleItem(String textureName, Properties properties) {
 		super(properties);
 		this.texture = new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/saddle/" + textureName + ".png");
@@ -68,9 +74,20 @@ public class HorseSaddleItem extends HorseTackItem implements IAnimatable {
 		return ActionResultType.PASS;
 	}
 
+	/**
+	 * Gets texture.
+	 *
+	 * @return the texture
+	 */
 	public ResourceLocation getTexture() {
 		return this.texture;
 	}
+
+	/**
+	 * Gets saddle rack texture.
+	 *
+	 * @return the saddle rack texture
+	 */
 	public ResourceLocation getSaddleRackTexture() {
 		return this.saddleRackTexture;
 	}

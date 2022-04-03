@@ -76,6 +76,17 @@ public enum JumpLayer {
 	boolean hasColorVariants;
 	List<RegistryObject<JumpBlock>> colorVariants;
 
+	/**
+	 * Instantiates a new Jump layer.
+	 *
+	 * @param displayName      the display name
+	 * @param allState         the all state
+	 * @param minLayer         the min layer
+	 * @param maxLayer         the max layer
+	 * @param minHeight        the min height
+	 * @param hasColorVariants the has color variants
+	 * @param colorVariants    the color variants
+	 */
 	JumpLayer(String displayName, BlockState allState, int minLayer, int maxLayer, int minHeight, boolean hasColorVariants, List<RegistryObject<JumpBlock>> colorVariants) {
 		this.displayName = displayName;
 		this.endState = allState;
@@ -88,6 +99,18 @@ public enum JumpLayer {
 		this.colorVariants = colorVariants;
 	}
 
+	/**
+	 * Instantiates a new Jump layer.
+	 *
+	 * @param displayName      the display name
+	 * @param endState         the end state
+	 * @param middleState      the middle state
+	 * @param minLayer         the min layer
+	 * @param maxLayer         the max layer
+	 * @param minHeight        the min height
+	 * @param hasColorVariants the has color variants
+	 * @param colorVariants    the color variants
+	 */
 	JumpLayer(String displayName, BlockState endState, BlockState middleState, int minLayer, int maxLayer, int minHeight, boolean hasColorVariants, List<RegistryObject<JumpBlock>> colorVariants) {
 		this.displayName = displayName;
 		this.endState = endState;
@@ -100,6 +123,19 @@ public enum JumpLayer {
 		this.colorVariants = colorVariants;
 	}
 
+	/**
+	 * Instantiates a new Jump layer.
+	 *
+	 * @param displayName      the display name
+	 * @param endState         the end state
+	 * @param betweenState     the between state
+	 * @param middleState      the middle state
+	 * @param minLayer         the min layer
+	 * @param maxLayer         the max layer
+	 * @param minHeight        the min height
+	 * @param hasColorVariants the has color variants
+	 * @param colorVariants    the color variants
+	 */
 	JumpLayer(String displayName, BlockState endState, BlockState betweenState, BlockState middleState, int minLayer, int maxLayer, int minHeight, boolean hasColorVariants, List<RegistryObject<JumpBlock>> colorVariants) {
 		this.displayName = displayName;
 		this.endState = endState;
@@ -112,6 +148,12 @@ public enum JumpLayer {
 
 	}
 
+	/**
+	 * Gets end state.
+	 *
+	 * @param color the color
+	 * @return the end state
+	 */
 	public BlockState getEndState(int color) {
 		if (this.hasColorVariants) {
 			return this.colorVariants.get(color).get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.LEFT);
@@ -119,6 +161,12 @@ public enum JumpLayer {
 		return endState;
 	}
 
+	/**
+	 * Gets between state.
+	 *
+	 * @param color the color
+	 * @return the between state
+	 */
 	public BlockState getBetweenState(int color) {
 		if (this.hasColorVariants) {
 			return this.colorVariants.get(color).get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.RIGHT);
@@ -126,6 +174,12 @@ public enum JumpLayer {
 		return betweenState;
 	}
 
+	/**
+	 * Gets middle state.
+	 *
+	 * @param color the color
+	 * @return the middle state
+	 */
 	public BlockState getMiddleState(int color) {
 		if (this.hasColorVariants) {
 			return this.colorVariants.get(color).get().defaultBlockState().setValue(JumpBlock.JUMP_PIECE, TripleBlockSide.MIDDLE);
@@ -133,34 +187,76 @@ public enum JumpLayer {
 		return middleState;
 	}
 
+	/**
+	 * Gets min layer.
+	 *
+	 * @return the min layer
+	 */
 	public int getMinLayer() {
 		return minLayer;
 	}
 
+	/**
+	 * Gets max layer.
+	 *
+	 * @return the max layer
+	 */
 	public int getMaxLayer() {
 		return maxLayer;
 	}
 
+	/**
+	 * Gets min height.
+	 *
+	 * @return the min height
+	 */
 	public int getMinHeight() {
 		return minHeight;
 	}
 
+	/**
+	 * Has color variants boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean hasColorVariants() {
 		return this.hasColorVariants;
 	}
 
+	/**
+	 * Gets display name.
+	 *
+	 * @return the display name
+	 */
 	public String getDisplayName() {
 		return displayName;
 	}
 
+	/**
+	 * Gets color variants.
+	 *
+	 * @return the color variants
+	 */
 	public List<RegistryObject<JumpBlock>> getColorVariants() {
 		return this.colorVariants;
 	}
 
+	/**
+	 * Test for rail boolean.
+	 *
+	 * @param layer the layer
+	 * @return the boolean
+	 */
 	public static boolean testForRail(JumpLayer layer) {
 		return layer == RAIL || layer == PLANK || layer == PLANK_FANCY; //|| layer == SWEDISH_RAILS;
 	}
 
+	/**
+	 * Test for none boolean.
+	 *
+	 * @param layer the layer
+	 * @return the boolean
+	 */
 	public static boolean testForNone(JumpLayer layer) {
 		return layer == NONE;
 	}

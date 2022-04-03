@@ -27,7 +27,10 @@ import net.minecraftforge.common.ToolType;
 import net.minecraft.block.AbstractBlock;
 
 public class FuelBlock extends Block {
-    public FuelBlock() {
+	/**
+	 * Instantiates a new Fuel block.
+	 */
+	public FuelBlock() {
         super(AbstractBlock.Properties.of(Material.METAL)
                 .strength(2.0f, 6.0f)
                 .sound(SoundType.STONE)

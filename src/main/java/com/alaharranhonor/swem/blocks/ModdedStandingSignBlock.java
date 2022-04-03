@@ -23,6 +23,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
 
 public class ModdedStandingSignBlock extends StandingSignBlock {
+	/**
+	 * Instantiates a new Modded standing sign block.
+	 *
+	 * @param p_i225764_1_ the p i 225764 1
+	 * @param p_i225764_2_ the p i 225764 2
+	 */
 	public ModdedStandingSignBlock(Properties p_i225764_1_, WoodType p_i225764_2_) {
 		super(p_i225764_1_, p_i225764_2_);
 	}

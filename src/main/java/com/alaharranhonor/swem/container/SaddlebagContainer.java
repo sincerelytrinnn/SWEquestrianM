@@ -39,10 +39,24 @@ public class SaddlebagContainer extends Container {
 
 	public final SWEMHorseEntityBase horse;
 
+	/**
+	 * Instantiates a new Saddlebag container.
+	 *
+	 * @param id              the id
+	 * @param playerInventory the player inventory
+	 * @param data            the data
+	 */
 	public SaddlebagContainer(final int id, final PlayerInventory playerInventory, PacketBuffer data) {
 		this(id, playerInventory, data.readInt());
 	}
 
+	/**
+	 * Instantiates a new Saddlebag container.
+	 *
+	 * @param id              the id
+	 * @param playerInventory the player inventory
+	 * @param entityId        the entity id
+	 */
 	public SaddlebagContainer(final int id, final PlayerInventory playerInventory, final int entityId) {
 		super(SWEMContainers.SADDLE_BAG_CONTAINER.get(), id);
 		this.horse = (SWEMHorseEntityBase) playerInventory.player.level.getEntity(entityId);

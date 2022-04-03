@@ -30,15 +30,31 @@ public class CDestroyPacket {
 	private BlockPos controllerPos;
 	private boolean failed;
 
+	/**
+	 * Instantiates a new C destroy packet.
+	 *
+	 * @param controllerPos the controller pos
+	 */
 	public CDestroyPacket(BlockPos controllerPos) {
 		this.controllerPos = controllerPos;
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new C destroy packet.
+	 *
+	 * @param failed the failed
+	 */
 	public CDestroyPacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode c destroy packet.
+	 *
+	 * @param buf the buf
+	 * @return the c destroy packet
+	 */
 	public static CDestroyPacket decode(ByteBuf buf) {
 		try {
 			BlockPos controllerPos = ((PacketBuffer) buf).readBlockPos();
@@ -49,10 +65,22 @@ public class CDestroyPacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(CDestroyPacket msg, PacketBuffer buffer) {
 		buffer.writeBlockPos(msg.controllerPos);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(CDestroyPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 

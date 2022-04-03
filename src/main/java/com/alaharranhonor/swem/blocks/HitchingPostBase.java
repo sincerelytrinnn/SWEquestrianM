@@ -57,6 +57,12 @@ public class HitchingPostBase extends Block {
 	public static final BooleanProperty CUSTOM_LEAD = BlockStateProperties.ENABLED;
 
 
+	/**
+	 * Instantiates a new Hitching post base.
+	 *
+	 * @param type       the type
+	 * @param properties the properties
+	 */
 	public HitchingPostBase(HitchingPostType type, Properties properties) {
 		super(properties);
 
@@ -221,6 +227,15 @@ public class HitchingPostBase extends Block {
 		private final VoxelShape east;
 		private final VoxelShape south;
 		private final VoxelShape west;
+
+		/**
+		 * Instantiates a new Hitching post type.
+		 *
+		 * @param north the north
+		 * @param east  the east
+		 * @param south the south
+		 * @param west  the west
+		 */
 		HitchingPostType(VoxelShape north, VoxelShape east, VoxelShape south, VoxelShape west) {
 			this.north = north;
 			this.east = east;
@@ -228,6 +243,12 @@ public class HitchingPostBase extends Block {
 			this.west = west;
 		}
 
+		/**
+		 * Gets voxel shape.
+		 *
+		 * @param facing the facing
+		 * @return the voxel shape
+		 */
 		public VoxelShape getVoxelShape(Direction facing) {
 			switch (facing) {
 				case EAST:
@@ -248,6 +269,11 @@ public class HitchingPostBase extends Block {
 
 		private final String name;
 
+		/**
+		 * Instantiates a new Post part.
+		 *
+		 * @param name the name
+		 */
 		private PostPart(String name) {
 			this.name = name;
 		}

@@ -40,7 +40,13 @@ public class TackBoxDefaultScreen extends ContainerScreen<TackBoxContainer> {
 	private ITextComponent text;
 
 
-
+	/**
+	 * Instantiates a new Tack box default screen.
+	 *
+	 * @param screenContainer the screen container
+	 * @param inv             the inv
+	 * @param titleIn         the title in
+	 */
 	public TackBoxDefaultScreen(TackBoxContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
 		super(screenContainer, inv, titleIn);
 		this.imageWidth = 248;

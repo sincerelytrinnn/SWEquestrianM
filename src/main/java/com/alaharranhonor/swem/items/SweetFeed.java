@@ -31,14 +31,24 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class SweetFeed extends Item {
-    public SweetFeed(Properties item) {
+	/**
+	 * Instantiates a new Sweet feed.
+	 *
+	 * @param item the item
+	 */
+	public SweetFeed(Properties item) {
         super(new Item.Properties().tab(SWEM.TAB).stacksTo(1).defaultDurability(8));
     }
 
     public static class UnopenedSweetFeed extends Item {
         private Item sweetFeed;
 
-        public UnopenedSweetFeed(Item sweetFeed) {
+		/**
+		 * Instantiates a new Unopened sweet feed.
+		 *
+		 * @param sweetFeed the sweet feed
+		 */
+		public UnopenedSweetFeed(Item sweetFeed) {
             super(new Item.Properties().tab(SWEM.TAB).stacksTo(16));
             this.sweetFeed = sweetFeed;
         }

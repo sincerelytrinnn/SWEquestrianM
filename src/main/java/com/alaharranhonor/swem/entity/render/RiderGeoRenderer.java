@@ -292,6 +292,12 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 		}
 	}
 
+	/**
+	 * Copy properties to.
+	 *
+	 * @param from the from
+	 * @param to   the to
+	 */
 	private void copyPropertiesTo(GeoModel from, GeoModel to) {
 		List<GeoBone> fromBones = from.topLevelBones;
 		for (int i = 0; i < fromBones.size(); i++) {
@@ -306,6 +312,12 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 		}
 	}
 
+	/**
+	 * Sets part visibility.
+	 *
+	 * @param model the model
+	 * @param slot  the slot
+	 */
 	private void setPartVisibility(GeoModel model, EquipmentSlotType slot) {
 		model.topLevelBones.forEach((bone) -> bone.isHidden = true);
 		switch(slot) {
@@ -330,6 +342,19 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 	}
 
 
+	/**
+	 * Render to buffer.
+	 *
+	 * @param matrixStack   the matrix stack
+	 * @param vertexBuilder the vertex builder
+	 * @param packedLight   the packed light
+	 * @param overlay       the overlay
+	 * @param red           the red
+	 * @param green         the green
+	 * @param blue          the blue
+	 * @param alpha         the alpha
+	 * @param model         the model
+	 */
 	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder vertexBuilder, int packedLight, int overlay, float red, float green, float blue, float alpha, GeoModel model) {
 		riderModel.headParts(model).forEach((bone) -> {
 			this.renderRecursively(bone, matrixStack, vertexBuilder, packedLight, overlay, red, green, blue, alpha);
@@ -340,6 +365,15 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 		});
 	}
 
+	/**
+	 * Gets armor resource.
+	 *
+	 * @param entity the entity
+	 * @param stack  the stack
+	 * @param slot   the slot
+	 * @param type   the type
+	 * @return the armor resource
+	 */
 	public ResourceLocation getArmorResource(net.minecraft.entity.Entity entity, ItemStack stack, EquipmentSlotType slot, @javax.annotation.Nullable String type) {
 		ArmorItem item = (ArmorItem)stack.getItem();
 		String texture = item.getMaterial().getName();
@@ -362,7 +396,24 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 		return resourcelocation;
 	}
 
-		private void renderHeldItem(GeoModel model, T animatable, float partialTicks, RenderType type, MatrixStack matrixStackIn, @Nullable IRenderTypeBuffer renderTypeBuffer, @Nullable IVertexBuilder vertexBuilder, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	/**
+	 * Render held item.
+	 *
+	 * @param model            the model
+	 * @param animatable       the animatable
+	 * @param partialTicks     the partial ticks
+	 * @param type             the type
+	 * @param matrixStackIn    the matrix stack in
+	 * @param renderTypeBuffer the render type buffer
+	 * @param vertexBuilder    the vertex builder
+	 * @param packedLightIn    the packed light in
+	 * @param packedOverlayIn  the packed overlay in
+	 * @param red              the red
+	 * @param green            the green
+	 * @param blue             the blue
+	 * @param alpha            the alpha
+	 */
+	private void renderHeldItem(GeoModel model, T animatable, float partialTicks, RenderType type, MatrixStack matrixStackIn, @Nullable IRenderTypeBuffer renderTypeBuffer, @Nullable IVertexBuilder vertexBuilder, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		PlayerEntity player = animatable.getPlayer();
 		boolean flag = player.getMainArm() == HandSide.RIGHT;
 		ItemStack itemstack = flag ? player.getOffhandItem() : player.getMainHandItem();
@@ -376,6 +427,17 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 		}
 	}
 
+	/**
+	 * Render arm with item.
+	 *
+	 * @param playerEntity     the player entity
+	 * @param itemStack        the item stack
+	 * @param transformType    the transform type
+	 * @param handSide         the hand side
+	 * @param matrixStack      the matrix stack
+	 * @param renderTypeBuffer the render type buffer
+	 * @param packedLight      the packed light
+	 */
 	private void renderArmWithItem(RiderEntity playerEntity, ItemStack itemStack, ItemCameraTransforms.TransformType transformType, HandSide handSide, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int packedLight) {
 		if (!itemStack.isEmpty()) {
 			matrixStack.pushPose();
@@ -388,6 +450,15 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 		}
 	}
 
+	/**
+	 * Check render name tag.
+	 *
+	 * @param animatable  the animatable
+	 * @param p_225629_2_ the p 225629 2
+	 * @param p_225629_3_ the p 225629 3
+	 * @param p_225629_4_ the p 225629 4
+	 * @param p_225629_5_ the p 225629 5
+	 */
 	private void checkRenderNameTag(T animatable, ITextComponent p_225629_2_, MatrixStack p_225629_3_, IRenderTypeBuffer p_225629_4_, int p_225629_5_) {
 		double d0 = Minecraft.getInstance().getEntityRenderDispatcher().distanceToSqr(animatable.getPlayer());
 		p_225629_3_.pushPose();
@@ -406,6 +477,15 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 	}
 
 
+	/**
+	 * Render name tag in world.
+	 *
+	 * @param p_225629_1_ the p 225629 1
+	 * @param p_225629_2_ the p 225629 2
+	 * @param p_225629_3_ the p 225629 3
+	 * @param p_225629_4_ the p 225629 4
+	 * @param p_225629_5_ the p 225629 5
+	 */
 	private void renderNameTagInWorld(T p_225629_1_, ITextComponent p_225629_2_, MatrixStack p_225629_3_, IRenderTypeBuffer p_225629_4_, int p_225629_5_) {
 		double d0 = Minecraft.getInstance().getEntityRenderDispatcher().distanceToSqr(p_225629_1_.getPlayer());
 		if (net.minecraftforge.client.ForgeHooksClient.isNameplateInRenderDistance(p_225629_1_.getPlayer(), d0)) {
@@ -430,6 +510,13 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 		}
 	}
 
+	/**
+	 * Gets bob.
+	 *
+	 * @param animatable   the animatable
+	 * @param partialTicks the partial ticks
+	 * @return the bob
+	 */
 	private float getBob(T animatable, float partialTicks) {
 		return (float)animatable.getPlayer().tickCount + partialTicks;
 	}

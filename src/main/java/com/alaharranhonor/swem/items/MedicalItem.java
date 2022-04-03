@@ -35,6 +35,13 @@ public class MedicalItem extends Item {
 	private float heal;
 	private float xp;
 
+	/**
+	 * Instantiates a new Medical item.
+	 *
+	 * @param properties the properties
+	 * @param heal       the heal
+	 * @param xp         the xp
+	 */
 	public MedicalItem(Properties properties, float heal, float xp) {
 		super(properties);
 		this.heal = heal;

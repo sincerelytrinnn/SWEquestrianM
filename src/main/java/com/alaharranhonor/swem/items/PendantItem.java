@@ -31,6 +31,9 @@ public class PendantItem extends Item {
 
 	ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
 
+	/**
+	 * Instantiates a new Pendant item.
+	 */
 	public PendantItem() {
 		super(new Item.Properties());
 	}

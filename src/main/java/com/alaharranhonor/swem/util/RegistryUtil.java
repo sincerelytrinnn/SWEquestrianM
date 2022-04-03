@@ -19,11 +19,27 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import com.alaharranhonor.swem.SWEM;
 
-public class RegistryUtil {	
+public class RegistryUtil {
+	/**
+	 * Sets .
+	 *
+	 * @param <T>   the type parameter
+	 * @param entry the entry
+	 * @param name  the name
+	 * @return the
+	 */
 	public static <T extends IForgeRegistryEntry<T>> T setup(final T entry, final String name) {
 		return setup(entry, new ResourceLocation(SWEM.MOD_ID, name));
 	}
 
+	/**
+	 * Sets .
+	 *
+	 * @param <T>          the type parameter
+	 * @param entry        the entry
+	 * @param registryName the registry name
+	 * @return the
+	 */
 	public static <T extends IForgeRegistryEntry<T>> T setup(final T entry, final ResourceLocation registryName) {
 		entry.setRegistryName(registryName);
 		return entry;

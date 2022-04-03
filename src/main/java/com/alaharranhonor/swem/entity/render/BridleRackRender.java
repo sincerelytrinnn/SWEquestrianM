@@ -38,6 +38,11 @@ import java.util.Iterator;
 public class BridleRackRender extends GeoBlockRenderer<BridleRackTE> {
 
 
+	/**
+	 * Instantiates a new Bridle rack render.
+	 *
+	 * @param rendererDispatcherIn the renderer dispatcher in
+	 */
 	public BridleRackRender(TileEntityRendererDispatcher rendererDispatcherIn) {
 		super(rendererDispatcherIn, new BridleRackModel());
 	}

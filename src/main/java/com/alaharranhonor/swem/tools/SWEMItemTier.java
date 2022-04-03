@@ -32,6 +32,16 @@ public enum SWEMItemTier implements IItemTier {
     private final int enchantibility;
     private final Supplier<Ingredient> repairMaterial;
 
+    /**
+     * Instantiates a new Swem item tier.
+     *
+     * @param harvestLevel   the harvest level
+     * @param maxUses        the max uses
+     * @param efficiency     the efficiency
+     * @param attackDamage   the attack damage
+     * @param enchantibility the enchantibility
+     * @param repairMaterial the repair material
+     */
     SWEMItemTier(int harvestLevel, int maxUses, float efficiency, float attackDamage, int enchantibility, Supplier<Ingredient> repairMaterial){
         this.harvestLevel = harvestLevel;
         this.maxUses = maxUses;

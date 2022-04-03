@@ -34,16 +34,36 @@ public class SWEMArmorItem extends GeoArmorItem implements IAnimatable {
 	private String TEXTURE_PATH;
 
 
+	/**
+	 * Instantiates a new Swem armor item.
+	 *
+	 * @param path       the path
+	 * @param materialIn the material in
+	 * @param slot       the slot
+	 * @param builder    the builder
+	 */
 	public SWEMArmorItem(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builder) {
 		super(materialIn, slot, builder);
 		this.TEXTURE_PATH = path;
 	}
 
+	/**
+	 * Predicate play state.
+	 *
+	 * @param <P>   the type parameter
+	 * @param event the event
+	 * @return the play state
+	 */
 	private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event)
 	{
 		return PlayState.STOP;
 	}
 
+	/**
+	 * Gets texture path.
+	 *
+	 * @return the texture path
+	 */
 	public String getTexturePath() {
 		return this.TEXTURE_PATH;
 	}

@@ -36,6 +36,13 @@ public class BedrollScreen extends ContainerScreen<BedrollContainer> implements 
 	private ITextComponent text;
 
 
+	/**
+	 * Instantiates a new Bedroll screen.
+	 *
+	 * @param screenContainer the screen container
+	 * @param inv             the inv
+	 * @param titleIn         the title in
+	 */
 	public BedrollScreen(BedrollContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
 		super(screenContainer, inv, titleIn);
 		this.imageWidth = 176;

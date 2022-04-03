@@ -29,25 +29,56 @@ public class LayerChangerButton extends CycableButton {
 	private JumpLayer currentLayer;
 	private int id = -1;
 	private int layer = -1;
+
+	/**
+	 * Instantiates a new Layer changer button.
+	 *
+	 * @param x      the x
+	 * @param y      the y
+	 * @param width  the width
+	 * @param height the height
+	 * @param title  the title
+	 * @param screen the screen
+	 */
 	public LayerChangerButton(int x, int y, int width, int height, ITextComponent title, JumpScreen screen) {
 		super(x, y, width, height, title, new Press());
 		this.screen = screen;
 
 	}
 
+	/**
+	 * Gets screen.
+	 *
+	 * @return the screen
+	 */
 	public JumpScreen getScreen() {
 		return screen;
 	}
 
 
+	/**
+	 * Sets layer.
+	 *
+	 * @param layer the layer
+	 */
 	public void setLayer(int layer) {
 		this.layer = layer;
 	}
 
+	/**
+	 * Sets selected.
+	 *
+	 * @param layer the layer
+	 */
 	public void setSelected(JumpLayer layer) {
 		this.currentLayer = layer;
 	}
 
+	/**
+	 * Gets current layer.
+	 *
+	 * @return the current layer
+	 */
 	public JumpLayer getCurrentLayer() {
 		return this.currentLayer;
 	}

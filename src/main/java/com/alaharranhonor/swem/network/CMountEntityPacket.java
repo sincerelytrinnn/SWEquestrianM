@@ -34,20 +34,41 @@ public class CMountEntityPacket {
 	private int targetId;
 	private boolean failed;
 
+	/**
+	 * Instantiates a new C mount entity packet.
+	 *
+	 * @param targetId the target id
+	 */
 	public CMountEntityPacket(int targetId) {
 		this.targetId = targetId;
 		this.failed = failed;
 	}
 
+	/**
+	 * Instantiates a new C mount entity packet.
+	 *
+	 * @param target the target
+	 */
 	public CMountEntityPacket(Entity target) {
 		this.targetId = target.getId();
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new C mount entity packet.
+	 *
+	 * @param failed the failed
+	 */
 	public CMountEntityPacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode c mount entity packet.
+	 *
+	 * @param buf the buf
+	 * @return the c mount entity packet
+	 */
 	public static CMountEntityPacket decode(ByteBuf buf) {
 		try {
 			int targetId = buf.readInt();
@@ -58,10 +79,23 @@ public class CMountEntityPacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(CMountEntityPacket msg, PacketBuffer buffer) {
 		buffer.writeInt(msg.targetId);
 	}
 
+	/**
+	 * Try mounting boolean.
+	 *
+	 * @param rider the rider
+	 * @param mount the mount
+	 * @return the boolean
+	 */
 	private static boolean tryMounting(Entity rider, Entity mount) {
 		if (!(rider instanceof LivingEntity)) {
 			return false;
@@ -70,6 +104,12 @@ public class CMountEntityPacket {
 		return rider.startRiding(mount);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(CMountEntityPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			ServerPlayerEntity player = ctx.get().getSender();

@@ -72,6 +72,11 @@ public class ClientEventHandlers {
 
 	public static KeyBinding[] keyBindings;
 
+	/**
+	 * On client setup.
+	 *
+	 * @param event the event
+	 */
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event)
 	{
@@ -82,6 +87,11 @@ public class ClientEventHandlers {
 		registerKeybinds();
 	}
 
+	/**
+	 * On particle factory register.
+	 *
+	 * @param event the event
+	 */
 	@SubscribeEvent
 	public static void onParticleFactoryRegister(ParticleFactoryRegisterEvent event) {
 		Minecraft.getInstance().particleEngine.register(SWEMParticles.BAD.get(), BadParticle.Factory::new);
@@ -92,6 +102,9 @@ public class ClientEventHandlers {
 
 	}
 
+	/**
+	 * Init late.
+	 */
 	public static void initLate() {
 		ScreenManager.register(SWEMContainers.SWEM_HORSE_CONTAINER.get(), SWEMHorseInventoryScreen::new);
 		ScreenManager.register(SWEMContainers.TACKBOX_CONTAINER.get(), TackBoxDefaultScreen::new);
@@ -114,6 +127,11 @@ public class ClientEventHandlers {
 		});
 	}
 
+	/**
+	 * Register renderers.
+	 *
+	 * @param event the event
+	 */
 	public static void registerRenderers(final FMLClientSetupEvent event) {
 		RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiRender::new);
@@ -134,6 +152,9 @@ public class ClientEventHandlers {
 		GeoArmorRenderer.registerArmorRenderer(AmethystLeggings.class, new AmethystArmorModelRenderer());
 	}
 
+	/**
+	 * Sets render layers.
+	 */
 	public static void setRenderLayers() {
 		RenderTypeLookup.setRenderLayer(SWEMBlocks.TIMOTHY_GRASS.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(SWEMBlocks.OAT_PLANT.get(), RenderType.cutout());
@@ -202,6 +223,9 @@ public class ClientEventHandlers {
 		}
 	}
 
+	/**
+	 * Register keybinds.
+	 */
 	public static void registerKeybinds() {
 		keyBindings = new KeyBinding[9];
 
@@ -222,6 +246,11 @@ public class ClientEventHandlers {
 		}
 	}
 
+	/**
+	 * On register block colors.
+	 *
+	 * @param event the event
+	 */
 	@SubscribeEvent
 	public static void onRegisterBlockColors(ColorHandlerEvent.Block event) {
 		BlockColors colors = event.getBlockColors();
@@ -241,6 +270,11 @@ public class ClientEventHandlers {
 
 	}
 
+	/**
+	 * On register item colors.
+	 *
+	 * @param event the event
+	 */
 	@SubscribeEvent
 	public static void onRegisterItemColors(ColorHandlerEvent.Item event) {
 		event.getItemColors().register((p_210239_0_, p_210239_1_) -> {
@@ -248,11 +282,21 @@ public class ClientEventHandlers {
 		}, SWEMItems.WESTERN_LEG_WRAPS.get(), SWEMItems.ENGLISH_LEG_WRAPS.get());
 	}
 
+	/**
+	 * On register entities.
+	 *
+	 * @param event the event
+	 */
 	@SubscribeEvent
 	public static void onRegisterEntities(RegistryEvent.Register<EntityType<?>> event) {
 		SWEMSpawnEggItem.initSpawnEggs();
 	}
 
+	/**
+	 * On register items.
+	 *
+	 * @param event the event
+	 */
 	@SubscribeEvent
 	public static void onRegisterItems(RegistryEvent.Register<Item> event) {
 		event.getRegistry().register(new SWEMSpawnEggItem(SWEMEntities.WORMIE_BOI_ENTITY, Color.parseColor("#bf7b05").getValue(), Color.parseColor("#663c02").getValue(), new Item.Properties().tab(SWEM.TAB)).setRegistryName("worm_spawn_egg"));
@@ -267,6 +311,11 @@ public class ClientEventHandlers {
 		private static final HashMap<PlayerEntity, RiderEntity> animatedPlayers = new HashMap<>();
 
 
+		/**
+		 * On render horse jump bar.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void onRenderHorseJumpBar(RenderGameOverlayEvent.Pre event) {
 			if (event.getType() != RenderGameOverlayEvent.ElementType.JUMPBAR) return;
@@ -299,6 +348,11 @@ public class ClientEventHandlers {
 			}
 		}
 
+		/**
+		 * On ui render.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void onUIRender(RenderGameOverlayEvent.Post event) {
 			if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
@@ -311,6 +365,11 @@ public class ClientEventHandlers {
 			}
 		}
 
+		/**
+		 * On player render.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void onPlayerRender(RenderPlayerEvent.Pre event) {
 

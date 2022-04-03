@@ -31,7 +31,12 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class ShavingsItem extends BlockItem {
-    public ShavingsItem(Block block) {
+	/**
+	 * Instantiates a new Shavings item.
+	 *
+	 * @param block the block
+	 */
+	public ShavingsItem(Block block) {
         super(block, new Item.Properties().tab(SWEM.TAB).stacksTo(1).defaultDurability(8));
     }
 
@@ -45,7 +50,12 @@ public class ShavingsItem extends BlockItem {
 
     public static class SoiledShavingsItem extends BlockItem {
 
-        public SoiledShavingsItem(Block block) {
+		/**
+		 * Instantiates a new Soiled shavings item.
+		 *
+		 * @param block the block
+		 */
+		public SoiledShavingsItem(Block block) {
             super(block, new Item.Properties().tab(SWEM.TAB).stacksTo(16));
         }
 
@@ -58,7 +68,12 @@ public class ShavingsItem extends BlockItem {
     public static class UnopenedShavingsItem extends Item {
         private Item shavingItem;
 
-        public UnopenedShavingsItem(Item shavingItem) {
+		/**
+		 * Instantiates a new Unopened shavings item.
+		 *
+		 * @param shavingItem the shaving item
+		 */
+		public UnopenedShavingsItem(Item shavingItem) {
             super(new Item.Properties().tab(SWEM.TAB).stacksTo(16));
             this.shavingItem = shavingItem;
         }

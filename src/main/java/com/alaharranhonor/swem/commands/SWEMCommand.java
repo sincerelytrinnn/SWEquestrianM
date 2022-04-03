@@ -45,6 +45,11 @@ import java.util.UUID;
 
 public class SWEMCommand {
 
+	/**
+	 * Register literal argument builder.
+	 *
+	 * @return the literal argument builder
+	 */
 	public static LiteralArgumentBuilder<CommandSource> register() {
 		return
 			Commands.literal("swem")

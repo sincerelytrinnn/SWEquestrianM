@@ -41,12 +41,21 @@ public class AffinityLeveling implements ILeveling{
 	private int timesBrushed = 0;
 
 
-
+	/**
+	 * Instantiates a new Affinity leveling.
+	 *
+	 * @param horse the horse
+	 */
 	public AffinityLeveling(SWEMHorseEntityBase horse) {
 		this.horse = horse;
 		this.dataManager = this.horse.getEntityData();
 	}
 
+	/**
+	 * Brush boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean brush() {
 		if (this.timesBrushed < 7) {
 			if (this.timesBrushed >= 5) {
@@ -94,6 +103,11 @@ public class AffinityLeveling implements ILeveling{
 		this.setXp(excessXP);
 	}
 
+	/**
+	 * Level down.
+	 *
+	 * @param excessXP the excess xp
+	 */
 	private void levelDown(float excessXP) {
 		this.setLevel(this.getLevel() - 1);
 		this.setXp(this.getRequiredXp() + excessXP);
@@ -104,6 +118,11 @@ public class AffinityLeveling implements ILeveling{
 		return this.dataManager.get(LEVEL);
 	}
 
+	/**
+	 * Sets level.
+	 *
+	 * @param level the level
+	 */
 	public void setLevel(int level) {
 		this.dataManager.set(LEVEL, MathHelper.clamp(level, 0, this.getMaxLevel()));
 		if (level == 2) {
@@ -124,6 +143,11 @@ public class AffinityLeveling implements ILeveling{
 		return this.dataManager.get(XP);
 	}
 
+	/**
+	 * Sets xp.
+	 *
+	 * @param xp the xp
+	 */
 	public void setXp(float xp) {
 		if (xp < 0 && this.getLevel() > 0) {
 			this.levelDown(xp);
@@ -145,23 +169,46 @@ public class AffinityLeveling implements ILeveling{
 		return this.levelNames[this.dataManager.get(LEVEL)];
 	}
 
+	/**
+	 * Gets debuff.
+	 *
+	 * @return the debuff
+	 */
 	public float getDebuff() {
 		return this.obeyDebuff[this.dataManager.get(LEVEL)];
 	}
 
+	/**
+	 * Gets current desensitizing item.
+	 *
+	 * @return the current desensitizing item
+	 */
 	public ItemStack getCurrentDesensitizingItem() {
 		return this.dataManager.get(CURRENT_DESENSITIZING_ITEM);
 	}
 
+	/**
+	 * Sets current desensitizing item.
+	 *
+	 * @param stack the stack
+	 */
 	private void setCurrentDesensitizingItem(ItemStack stack) {
 		this.dataManager.set(CURRENT_DESENSITIZING_ITEM, stack);
 	}
 
+	/**
+	 * Reset daily.
+	 */
 	public void resetDaily() {
 		this.currentSwipes = 0;
 		this.timesBrushed = 0;
 	}
 
+	/**
+	 * Desensitize.
+	 *
+	 * @param stack the stack
+	 */
 	public void desensitize(ItemStack stack) {
 		if ((this.getCurrentDesensitizingItem().getItem() != stack.getItem() && !this.getCurrentDesensitizingItem().isEmpty()) || this.currentSwipes >= 7) {
 			// TODO: SEND STATUS MESSAGE TO CLIENT.

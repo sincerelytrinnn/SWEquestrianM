@@ -85,6 +85,11 @@ public class BleacherWireframeBase extends SlabBlock {
 	).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get();
 
 
+	/**
+	 * Instantiates a new Bleacher wireframe base.
+	 *
+	 * @param properties the properties
+	 */
 	public BleacherWireframeBase(Properties properties) {
 		super(properties);
 	}

@@ -26,6 +26,11 @@ import javax.annotation.Nullable;
 
 public class HoseItem extends Item {
 
+	/**
+	 * Instantiates a new Hose item.
+	 *
+	 * @param pProperties the p properties
+	 */
 	public HoseItem(Properties pProperties) {
 		super(pProperties);
 	}

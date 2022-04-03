@@ -41,6 +41,13 @@ public class CantazariteAnvilScreen extends AbstractRepairScreen<CantazariteAnvi
 	private static final ITextComponent TOO_EXPENSIVE_TEXT = new TranslationTextComponent("swem.container.anvil");
 	private TextFieldWidget nameField;
 
+	/**
+	 * Instantiates a new Cantazarite anvil screen.
+	 *
+	 * @param container       the container
+	 * @param playerInventory the player inventory
+	 * @param title           the title
+	 */
 	public CantazariteAnvilScreen(CantazariteAnvilContainer container, PlayerInventory playerInventory, ITextComponent title) {
 		super(container, playerInventory, title, ANVIL_RESOURCE);
 		this.titleLabelX = 60;
@@ -86,6 +93,11 @@ public class CantazariteAnvilScreen extends AbstractRepairScreen<CantazariteAnvi
 		return !this.nameField.keyPressed(keyCode, scanCode, modifiers) && !this.nameField.canConsumeInput() ? super.keyPressed(keyCode, scanCode, modifiers) : true;
 	}
 
+	/**
+	 * Rename item.
+	 *
+	 * @param name the name
+	 */
 	private void renameItem(String name) {
 		if (!name.isEmpty()) {
 			String s = name;

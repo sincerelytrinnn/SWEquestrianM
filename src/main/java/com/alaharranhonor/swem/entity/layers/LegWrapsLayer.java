@@ -35,6 +35,12 @@ import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 public class LegWrapsLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
 	private IGeoRenderer<SWEMHorseEntity> entityRenderer;
+
+	/**
+	 * Instantiates a new Leg wraps layer.
+	 *
+	 * @param entityRendererIn the entity renderer in
+	 */
 	public LegWrapsLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
 		super(entityRendererIn);
 		this.entityRenderer = entityRendererIn;

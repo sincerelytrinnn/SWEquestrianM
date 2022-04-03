@@ -23,6 +23,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
 
 public class ModdedWallSignBlock extends WallSignBlock {
+	/**
+	 * Instantiates a new Modded wall sign block.
+	 *
+	 * @param p_i225766_1_ the p i 225766 1
+	 * @param p_i225766_2_ the p i 225766 2
+	 */
 	public ModdedWallSignBlock(Properties p_i225766_1_, WoodType p_i225766_2_) {
 		super(p_i225766_1_, p_i225766_2_);
 	}

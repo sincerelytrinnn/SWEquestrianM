@@ -37,7 +37,12 @@ public class OatPlant extends CropsBlock {
             Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)
     };
 
-    public OatPlant(Properties builder) {
+	/**
+	 * Instantiates a new Oat plant.
+	 *
+	 * @param builder the builder
+	 */
+	public OatPlant(Properties builder) {
         super(builder);
     }
 

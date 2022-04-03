@@ -21,6 +21,11 @@ public final class ClientConfig {
 
 	public final ForgeConfigSpec.IntValue wingsTransparency;
 
+	/**
+	 * Instantiates a new Client config.
+	 *
+	 * @param builder the builder
+	 */
 	ClientConfig(final ForgeConfigSpec.Builder builder) {
 		builder.push("Wings transparency");
 

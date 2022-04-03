@@ -21,6 +21,11 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 
 public class TackBoxRender extends GeoBlockRenderer<TackBoxTE> {
+	/**
+	 * Instantiates a new Tack box render.
+	 *
+	 * @param rendererDispatcherIn the renderer dispatcher in
+	 */
 	public TackBoxRender(TileEntityRendererDispatcher rendererDispatcherIn) {
 		super(rendererDispatcherIn, new TackBoxModel());
 	}

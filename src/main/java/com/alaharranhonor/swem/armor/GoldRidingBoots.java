@@ -40,6 +40,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class GoldRidingBoots extends IronRidingBoots {
+	/**
+	 * Instantiates a new Gold riding boots.
+	 *
+	 * @param path       the path
+	 * @param materialIn the material in
+	 * @param slot       the slot
+	 * @param builderIn  the builder in
+	 */
 	public GoldRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
 		super(path, materialIn, slot, builderIn);
 	}

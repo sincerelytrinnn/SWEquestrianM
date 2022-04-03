@@ -47,6 +47,11 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
 	HorseArmorModelGeo armorModelGeo = new HorseArmorModelGeo();
 	AdventureSaddleModel saddleModel = new AdventureSaddleModel();
 
+	/**
+	 * Instantiates a new Horse armor rack render.
+	 *
+	 * @param rendererDispatcherIn the renderer dispatcher in
+	 */
 	public HorseArmorRackRender(TileEntityRendererDispatcher rendererDispatcherIn) {
 		super(rendererDispatcherIn, new HorseArmorRackModel());
 	}
@@ -203,6 +208,12 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
 
 	}
 
+	/**
+	 * Calculate rotation quaternion.
+	 *
+	 * @param state the state
+	 * @return the quaternion
+	 */
 	private Quaternion calculateRotation(BlockState state) {
 		switch (state.getValue(HorizontalBlock.FACING)) {
 			case SOUTH: {
@@ -220,6 +231,12 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
 		}
 	}
 
+	/**
+	 * Calculate translations double [ ].
+	 *
+	 * @param state the state
+	 * @return the double [ ]
+	 */
 	private double[] calculateTranslations(BlockState state) {
 		double[] translations = new double[3];
 

@@ -30,10 +30,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
 
 
+	/**
+	 * Instantiates a new Client player entity mixin.
+	 *
+	 * @param p_i50991_1_ the p i 50991 1
+	 * @param p_i50991_2_ the p i 50991 2
+	 */
 	public ClientPlayerEntityMixin(ClientWorld p_i50991_1_, GameProfile p_i50991_2_) {
 		super(p_i50991_1_, p_i50991_2_);
 	}
 
+	/**
+	 * Is riding jumpable.
+	 *
+	 * @param cb the cb
+	 */
 	@Inject(method = "isRidingJumpable", at = @At("HEAD"), cancellable = true)
 	public void isRidingJumpable(CallbackInfoReturnable<Boolean> cb) {
 		if (this.isPassenger()) {

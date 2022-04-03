@@ -25,7 +25,13 @@ public class SWLIG extends ItemGroup {
     @Nonnull
     private final Supplier<ItemStack> iconSupplier;
 
-    public SWLIG(@Nonnull final String name, @Nonnull final Supplier<ItemStack> iconSupplier) {
+	/**
+	 * Instantiates a new Swlig.
+	 *
+	 * @param name         the name
+	 * @param iconSupplier the icon supplier
+	 */
+	public SWLIG(@Nonnull final String name, @Nonnull final Supplier<ItemStack> iconSupplier) {
         super(name);
         this.iconSupplier = iconSupplier;
     }

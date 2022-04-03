@@ -31,15 +31,31 @@ public class RenameItemPacket {
 
 	private boolean failed;
 
+	/**
+	 * Instantiates a new Rename item packet.
+	 *
+	 * @param name the name
+	 */
 	public RenameItemPacket(String name) {
 		this.name = name;
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new Rename item packet.
+	 *
+	 * @param failed the failed
+	 */
 	public RenameItemPacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode rename item packet.
+	 *
+	 * @param buf the buf
+	 * @return the rename item packet
+	 */
 	public static RenameItemPacket decode(ByteBuf buf) {
 		try {
 			String name = ((PacketBuffer) buf).readUtf(32767);
@@ -50,10 +66,22 @@ public class RenameItemPacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(RenameItemPacket msg, PacketBuffer buffer) {
 		buffer.writeUtf(msg.name);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(RenameItemPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 

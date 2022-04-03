@@ -34,6 +34,13 @@ public abstract class ArmorBaseModel extends BipedModel {
 
 	private String texture;
 
+	/**
+	 * Instantiates a new Armor base model.
+	 *
+	 * @param textureWidth  the texture width
+	 * @param textureHeight the texture height
+	 * @param texture       the texture
+	 */
 	public ArmorBaseModel(int textureWidth, int textureHeight, ResourceLocation texture){
 		super(1F);
 		this.texWidth = textureWidth;
@@ -75,8 +82,16 @@ public abstract class ArmorBaseModel extends BipedModel {
 		setupArmorParts();
 	}
 
+	/**
+	 * Sets armor parts.
+	 */
 	public abstract void setupArmorParts();
 
+	/**
+	 * Get texture string.
+	 *
+	 * @return the string
+	 */
 	public final String getTexture(){
 		return this.texture;
 	}
@@ -119,6 +134,12 @@ public abstract class ArmorBaseModel extends BipedModel {
 		return this;
 	}
 
+	/**
+	 * Apply entity stats armor base model.
+	 *
+	 * @param defaultArmor the default armor
+	 * @return the armor base model
+	 */
 	public final ArmorBaseModel applyEntityStats(BipedModel defaultArmor){
 		this.young = defaultArmor.young;
 		this.crouching = defaultArmor.crouching;
@@ -155,12 +176,26 @@ public abstract class ArmorBaseModel extends BipedModel {
 		matrixStack.popPose();
 	}
 
+	/**
+	 * Sets rotation angle.
+	 *
+	 * @param modelRenderer the model renderer
+	 * @param x             the x
+	 * @param y             the y
+	 * @param z             the z
+	 */
 	public final void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.xRot = x;
 		modelRenderer.yRot = y;
 		modelRenderer.zRot = z;
 	}
 
+	/**
+	 * Copy model angles.
+	 *
+	 * @param in  the in
+	 * @param out the out
+	 */
 	private final void copyModelAngles(ModelRenderer in, ModelRenderer out){
 		out.xRot = in.xRot;
 		out.yRot = in.yRot;

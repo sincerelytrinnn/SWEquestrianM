@@ -18,6 +18,12 @@ import net.minecraft.item.Item.Properties;
 
 
 public class WesternBlanketItem extends BlanketItem {
+	/**
+	 * Instantiates a new Western blanket item.
+	 *
+	 * @param textureName the texture name
+	 * @param properties  the properties
+	 */
 	public WesternBlanketItem(String textureName, Properties properties) {
 		super(textureName, properties);
 	}

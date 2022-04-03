@@ -37,6 +37,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class LeatherRidingBoots extends SWEMArmorItem {
+	/**
+	 * Instantiates a new Leather riding boots.
+	 *
+	 * @param path       the path
+	 * @param materialIn the material in
+	 * @param slot       the slot
+	 * @param builderIn  the builder in
+	 */
 	public LeatherRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
 		super(path, materialIn, slot, builderIn);
 	}

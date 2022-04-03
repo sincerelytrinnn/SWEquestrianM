@@ -33,6 +33,11 @@ import java.util.List;
 
 public class DevCommand {
 
+	/**
+	 * Register literal argument builder.
+	 *
+	 * @return the literal argument builder
+	 */
 	public static LiteralArgumentBuilder<CommandSource> register() {
 		return
 				Commands.literal("dev")

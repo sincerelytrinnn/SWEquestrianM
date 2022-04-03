@@ -45,6 +45,14 @@ public class AmethystScythe extends HoeItem {
 	/** Modifiers applied when the item is in the mainhand of a user. */
 	private final Multimap<Attribute, AttributeModifier> attributeModifiers;
 
+	/**
+	 * Instantiates a new Amethyst scythe.
+	 *
+	 * @param tier           the tier
+	 * @param attackDamageIn the attack damage in
+	 * @param attackSpeedIn  the attack speed in
+	 * @param builderIn      the builder in
+	 */
 	public AmethystScythe(IItemTier tier, int attackDamageIn, float attackSpeedIn, Properties builderIn) {
 		super(tier, attackDamageIn, attackSpeedIn, builderIn);
 		this.attackDamage = (float)attackDamageIn + tier.getAttackDamageBonus();

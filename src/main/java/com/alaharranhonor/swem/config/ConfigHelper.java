@@ -25,6 +25,9 @@ import net.minecraft.world.gen.placement.TopSolidRangeConfig;
 public final class ConfigHelper {
 
 
+	/**
+	 * Bake server.
+	 */
 	public static void bakeServer() {
 
 		// Vein Size

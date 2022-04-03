@@ -33,16 +33,33 @@ public class SendHorseSpeedChange {
 
 	private boolean failed;
 
+	/**
+	 * Instantiates a new Send horse speed change.
+	 *
+	 * @param action   the action
+	 * @param entityID the entity id
+	 */
 	public SendHorseSpeedChange(int action, int entityID) {
 		this.action = action;
 		this.entityID = entityID;
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new Send horse speed change.
+	 *
+	 * @param failed the failed
+	 */
 	public SendHorseSpeedChange(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode send horse speed change.
+	 *
+	 * @param buf the buf
+	 * @return the send horse speed change
+	 */
 	public static SendHorseSpeedChange decode(ByteBuf buf) {
 		try {
 			int action = buf.readInt();
@@ -54,11 +71,23 @@ public class SendHorseSpeedChange {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(SendHorseSpeedChange msg, PacketBuffer buffer) {
 		buffer.writeInt(msg.action);
 		buffer.writeInt(msg.entityID);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(SendHorseSpeedChange msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();

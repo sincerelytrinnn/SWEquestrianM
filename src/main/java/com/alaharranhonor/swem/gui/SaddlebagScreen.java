@@ -36,6 +36,13 @@ public class SaddlebagScreen extends ContainerScreen<SaddlebagContainer> impleme
 	private ITextComponent text;
 
 
+	/**
+	 * Instantiates a new Saddlebag screen.
+	 *
+	 * @param screenContainer the screen container
+	 * @param inv             the inv
+	 * @param titleIn         the title in
+	 */
 	public SaddlebagScreen(SaddlebagContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
 		super(screenContainer, inv, titleIn);
 		this.imageWidth = 176;

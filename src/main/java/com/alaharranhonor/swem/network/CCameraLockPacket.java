@@ -36,16 +36,33 @@ public class CCameraLockPacket {
 	private boolean locked;
 	private boolean failed;
 
+	/**
+	 * Instantiates a new C camera lock packet.
+	 *
+	 * @param horseUUID the horse uuid
+	 * @param locked    the locked
+	 */
 	public CCameraLockPacket(UUID horseUUID, boolean locked) {
 		this.horseUUID = horseUUID;
 		this.locked = locked;
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new C camera lock packet.
+	 *
+	 * @param failed the failed
+	 */
 	public CCameraLockPacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode c camera lock packet.
+	 *
+	 * @param buf the buf
+	 * @return the c camera lock packet
+	 */
 	public static CCameraLockPacket decode(ByteBuf buf) {
 		try {
 			UUID horseUUID = ((PacketBuffer) buf).readUUID();
@@ -58,11 +75,23 @@ public class CCameraLockPacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(CCameraLockPacket msg, PacketBuffer buffer) {
 		buffer.writeUUID(msg.horseUUID);
 		buffer.writeBoolean(msg.locked);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(CCameraLockPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			ServerPlayerEntity player = ctx.get().getSender();

@@ -18,6 +18,12 @@ import net.minecraft.item.Item.Properties;
 
 
 public class AdventureLegWrapsItem extends LegWrapsItem {
+	/**
+	 * Instantiates a new Adventure leg wraps item.
+	 *
+	 * @param textureName the texture name
+	 * @param properties  the properties
+	 */
 	public AdventureLegWrapsItem(String textureName, Properties properties) {
 		super(textureName, properties);
 	}

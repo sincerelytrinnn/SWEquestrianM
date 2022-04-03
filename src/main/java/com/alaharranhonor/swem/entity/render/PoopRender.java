@@ -23,6 +23,11 @@ import net.minecraft.util.ResourceLocation;
 import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 public class PoopRender extends GeoEntityRenderer<PoopEntity> {
+	/**
+	 * Instantiates a new Poop render.
+	 *
+	 * @param renderManager the render manager
+	 */
 	public PoopRender(EntityRendererManager renderManager) {
 		super(renderManager, new PoopModel());
 	}

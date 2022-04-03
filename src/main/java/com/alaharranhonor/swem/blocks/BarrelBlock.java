@@ -47,6 +47,11 @@ import javax.annotation.Nullable;
 public class BarrelBlock extends Block {
 	public static final EnumProperty<HitchingPostBase.PostPart> PART = SWEMBlockStateProperties.POST_PART;
 
+	/**
+	 * Instantiates a new Barrel block.
+	 *
+	 * @param properties the properties
+	 */
 	public BarrelBlock(Properties properties) {
 		super(properties);
 		this.registerDefaultState(

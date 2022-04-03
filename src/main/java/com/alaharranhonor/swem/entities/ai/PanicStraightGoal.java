@@ -23,6 +23,13 @@ import net.minecraft.util.math.vector.Vector3i;
 
 public class PanicStraightGoal extends PanicGoal {
 	private final SWEMHorseEntityBase horse;
+
+	/**
+	 * Instantiates a new Panic straight goal.
+	 *
+	 * @param creature the creature
+	 * @param speedIn  the speed in
+	 */
 	public PanicStraightGoal(SWEMHorseEntityBase creature, double speedIn) {
 		super(creature, speedIn);
 		this.horse = creature;

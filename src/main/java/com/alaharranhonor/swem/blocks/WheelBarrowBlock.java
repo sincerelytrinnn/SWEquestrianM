@@ -50,6 +50,12 @@ public class WheelBarrowBlock extends HorizontalBlock {
 
 	private final DyeColor colour;
 
+	/**
+	 * Instantiates a new Wheel barrow block.
+	 *
+	 * @param properties the properties
+	 * @param colour     the colour
+	 */
 	public WheelBarrowBlock(Properties properties, DyeColor colour) {
 		super(properties);
 		this.registerDefaultState(
@@ -106,6 +112,11 @@ public class WheelBarrowBlock extends HorizontalBlock {
 		return super.use(state, worldIn, pos, player, handIn, hit);
 	}
 
+	/**
+	 * Gets colour.
+	 *
+	 * @return the colour
+	 */
 	public DyeColor getColour() {
 		return this.colour;
 	}

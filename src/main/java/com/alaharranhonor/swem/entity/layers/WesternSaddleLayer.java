@@ -34,6 +34,11 @@ public class WesternSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
 	private final IGeoRenderer entityRenderer;
 
+	/**
+	 * Instantiates a new Western saddle layer.
+	 *
+	 * @param entityRendererIn the entity renderer in
+	 */
 	public WesternSaddleLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
 		super(entityRendererIn);
 		this.entityRenderer = entityRendererIn;
@@ -66,6 +71,13 @@ public class WesternSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 		}
 	}
 
+	/**
+	 * Should render boolean.
+	 *
+	 * @param stack  the stack
+	 * @param entity the entity
+	 * @return the boolean
+	 */
 	public boolean shouldRender(ItemStack stack, SWEMHorseEntity entity) {
 		return stack.getItem() instanceof WesternSaddleItem && entity.getEntityData().get(SWEMHorseEntityBase.RENDER_SADDLE);
 	}

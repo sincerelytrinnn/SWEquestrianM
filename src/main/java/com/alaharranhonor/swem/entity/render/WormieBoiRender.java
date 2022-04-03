@@ -24,6 +24,11 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 public class WormieBoiRender extends GeoEntityRenderer<WormieBoiEntity> {
 
+	/**
+	 * Instantiates a new Wormie boi render.
+	 *
+	 * @param renderManagerIn the render manager in
+	 */
 	public WormieBoiRender(EntityRendererManager renderManagerIn) {
 		super(renderManagerIn, new WormieBoiModel());
 	}

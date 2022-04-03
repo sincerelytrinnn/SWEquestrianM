@@ -32,6 +32,13 @@ public class SWEMUtil {
 	}};
 
 
+	/**
+	 * Check text overflow string.
+	 *
+	 * @param text     the text
+	 * @param maxLimit the max limit
+	 * @return the string
+	 */
 	public static String checkTextOverflow(String text, int maxLimit) {
 		if (text.length() > maxLimit - 2) {
 			return text.substring(0, maxLimit - 2) + "...";
@@ -64,6 +71,12 @@ public class SWEMUtil {
 		return new DyeColor[p_199795_0_];
 	});
 
+	/**
+	 * Logical by id dye color.
+	 *
+	 * @param pColorId the p color id
+	 * @return the dye color
+	 */
 	public static DyeColor logicalById(int pColorId) {
 		if (pColorId < 0 || pColorId >= BY_ID.length) {
 			pColorId = 0;

@@ -27,6 +27,12 @@ public class SWEMOreGen {
 	public static ConfiguredFeature<?, ?> CANTAZARITE_ORE;
 	public static ConfiguredFeature<?, ?> SWEM_COBBLE_ORE;
 
+	/**
+	 * Check and init biome boolean.
+	 *
+	 * @param event the event
+	 * @return the boolean
+	 */
 	public static boolean checkAndInitBiome(BiomeLoadingEvent event) {
 		if (event.getCategory() == Biome.Category.NETHER) {
 			return true;
@@ -39,6 +45,9 @@ public class SWEMOreGen {
 		return false;
 	}
 
+	/**
+	 * Init over world features.
+	 */
 	protected static void initOverWorldFeatures() {
 		if (AMETHYST_ORE == null) {
 			AMETHYST_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.AMETHYST_ORE.get().defaultBlockState());
@@ -51,6 +60,11 @@ public class SWEMOreGen {
 		}
 	}
 
+	/**
+	 * Generate overworld ores.
+	 *
+	 * @param event the event
+	 */
 	public static void generateOverworldOres(BiomeLoadingEvent event) {
 		event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, AMETHYST_ORE);
 		event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, CANTAZARITE_ORE);

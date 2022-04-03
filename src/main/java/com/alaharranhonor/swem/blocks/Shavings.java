@@ -43,12 +43,26 @@ public class Shavings extends Block {
     public static final IntegerProperty LAYERS = BlockStateProperties.LAYERS;
     public static final VoxelShape[] SHAPES = new VoxelShape[]{VoxelShapes.empty(), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
 
-    public Shavings(AbstractBlock.Properties properties) {
+	/**
+	 * Instantiates a new Shavings.
+	 *
+	 * @param properties the properties
+	 */
+	public Shavings(AbstractBlock.Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, Integer.valueOf(1)));
     }
 
-    public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
+	/**
+	 * Allows movement boolean.
+	 *
+	 * @param state   the state
+	 * @param worldIn the world in
+	 * @param pos     the pos
+	 * @param type    the type
+	 * @return the boolean
+	 */
+	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
         switch(type) {
             case LAND:
                 return state.getValue(LAYERS) < 5;

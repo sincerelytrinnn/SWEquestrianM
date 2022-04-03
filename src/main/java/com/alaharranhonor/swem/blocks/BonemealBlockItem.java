@@ -39,6 +39,11 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class BonemealBlockItem extends BlockItemBase {
+	/**
+	 * Instantiates a new Bonemeal block item.
+	 *
+	 * @param block the block
+	 */
 	public BonemealBlockItem(Block block) {
 		super(block);
 	}
@@ -68,6 +73,14 @@ public class BonemealBlockItem extends BlockItemBase {
 		}
 	}
 
+	/**
+	 * Apply bonemeal boolean.
+	 *
+	 * @param stack   the stack
+	 * @param worldIn the world in
+	 * @param pos     the pos
+	 * @return the boolean
+	 */
 	@Deprecated //Forge: Use Player/Hand version
 	public static boolean applyBonemeal(ItemStack stack, World worldIn, BlockPos pos) {
 		if (worldIn instanceof net.minecraft.world.server.ServerWorld)
@@ -75,6 +88,15 @@ public class BonemealBlockItem extends BlockItemBase {
 		return false;
 	}
 
+	/**
+	 * Apply bonemeal boolean.
+	 *
+	 * @param stack   the stack
+	 * @param worldIn the world in
+	 * @param pos     the pos
+	 * @param player  the player
+	 * @return the boolean
+	 */
 	public static boolean applyBonemeal(ItemStack stack, World worldIn, BlockPos pos, net.minecraft.entity.player.PlayerEntity player) {
 		BlockState blockstate = worldIn.getBlockState(pos);
 		int hook = net.minecraftforge.event.ForgeEventFactory.onApplyBonemeal(player, worldIn, pos, blockstate, stack);
@@ -97,6 +119,15 @@ public class BonemealBlockItem extends BlockItemBase {
 		return false;
 	}
 
+	/**
+	 * Grow seagrass boolean.
+	 *
+	 * @param stack   the stack
+	 * @param worldIn the world in
+	 * @param pos     the pos
+	 * @param side    the side
+	 * @return the boolean
+	 */
 	public static boolean growSeagrass(ItemStack stack, World worldIn, BlockPos pos, @Nullable Direction side) {
 		if (worldIn.getBlockState(pos).is(Blocks.WATER) && worldIn.getFluidState(pos).getAmount() == 8) {
 			if (!(worldIn instanceof ServerWorld)) {
@@ -147,6 +178,13 @@ public class BonemealBlockItem extends BlockItemBase {
 		}
 	}
 
+	/**
+	 * Spawn bonemeal particles.
+	 *
+	 * @param worldIn the world in
+	 * @param posIn   the pos in
+	 * @param data    the data
+	 */
 	@OnlyIn(Dist.CLIENT)
 	public static void spawnBonemealParticles(IWorld worldIn, BlockPos posIn, int data) {
 		if (data == 0) {

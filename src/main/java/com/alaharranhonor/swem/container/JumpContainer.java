@@ -44,10 +44,24 @@ public class JumpContainer extends Container {
 	public StandardLayer currentStandard;
 
 
+	/**
+	 * Instantiates a new Jump container.
+	 *
+	 * @param id              the id
+	 * @param playerInventory the player inventory
+	 * @param data            the data
+	 */
 	public JumpContainer(final int id, final PlayerInventory playerInventory, final PacketBuffer data) {
 		this(id, playerInventory, getTileEntity(playerInventory, data));
 	}
 
+	/**
+	 * Instantiates a new Jump container.
+	 *
+	 * @param id              the id
+	 * @param playerInventory the player inventory
+	 * @param controller      the controller
+	 */
 	public JumpContainer(int id, final PlayerInventory playerInventory, final JumpTE controller) {
 		super(SWEMContainers.JUMP_CONTAINER.get(), id);
 		this.controller = controller;
@@ -61,6 +75,13 @@ public class JumpContainer extends Container {
 		return true;
 	}
 
+	/**
+	 * Gets tile entity.
+	 *
+	 * @param inventory the inventory
+	 * @param data      the data
+	 * @return the tile entity
+	 */
 	private static JumpTE getTileEntity(final PlayerInventory inventory, final PacketBuffer data) {
 		if (inventory.player.level.isClientSide) return null;
 		Objects.requireNonNull(inventory, "Inventory cannot be null");

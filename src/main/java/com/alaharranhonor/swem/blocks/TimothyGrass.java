@@ -37,7 +37,12 @@ public class TimothyGrass extends CropsBlock {
             Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)
     };
 
-    public TimothyGrass(Properties builder) {
+	/**
+	 * Instantiates a new Timothy grass.
+	 *
+	 * @param builder the builder
+	 */
+	public TimothyGrass(Properties builder) {
         super(builder);
     }
 

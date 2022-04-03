@@ -51,12 +51,23 @@ public class GrainFeederBlock extends HorizontalBlock {
 
 	private DyeColor colour;
 
+	/**
+	 * Instantiates a new Grain feeder block.
+	 *
+	 * @param properties the properties
+	 * @param colour     the colour
+	 */
 	public GrainFeederBlock(Properties properties, DyeColor colour) {
 		super(properties);
 		this.registerDefaultState(this.stateDefinition.any().setValue(LEFT, false).setValue(RIGHT, false).setValue(OCCUPIED, false).setValue(FACING, Direction.NORTH));
 		this.colour = colour;
 	}
 
+	/**
+	 * Gets colour.
+	 *
+	 * @return the colour
+	 */
 	public DyeColor getColour() {
 		return this.colour;
 	}
@@ -157,14 +168,35 @@ public class GrainFeederBlock extends HorizontalBlock {
 		return worldIn.getBlockState(pos.relative(state.getValue(FACING))).canOcclude();
 	}
 
+	/**
+	 * Is feedable boolean.
+	 *
+	 * @param worldIn the world in
+	 * @param state   the state
+	 * @return the boolean
+	 */
 	public boolean isFeedable(World worldIn, BlockState state) {
 		return state.getValue(OCCUPIED);
 	}
 
+	/**
+	 * Occupy block.
+	 *
+	 * @param worldIn the world in
+	 * @param pos     the pos
+	 * @param state   the state
+	 */
 	public void occupyBlock(World worldIn, BlockPos pos, BlockState state) {
 		worldIn.setBlock(pos, state.setValue(OCCUPIED, true), 3);
 	}
 
+	/**
+	 * Eat.
+	 *
+	 * @param worldIn the world in
+	 * @param pos     the pos
+	 * @param state   the state
+	 */
 	public void eat(World worldIn, BlockPos pos, BlockState state) {
 		worldIn.setBlock(pos, state.setValue(OCCUPIED, false), 3);
 	}

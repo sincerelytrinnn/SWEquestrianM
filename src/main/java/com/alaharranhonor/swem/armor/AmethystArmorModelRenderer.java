@@ -19,6 +19,9 @@ import com.alaharranhonor.swem.items.SWEMArmorItem;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
 public class AmethystArmorModelRenderer extends GeoArmorRenderer<SWEMArmorItem> {
+	/**
+	 * Instantiates a new Amethyst armor model renderer.
+	 */
 	public AmethystArmorModelRenderer() {
 		super (new AmethystArmorModel());
 

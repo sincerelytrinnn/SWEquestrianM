@@ -47,6 +47,11 @@ import java.util.Map;
 
 public class MeasurementTool extends Item {
 
+	/**
+	 * Instantiates a new Measurement tool.
+	 *
+	 * @param pProperties the p properties
+	 */
 	public MeasurementTool(Properties pProperties) {
 		super(pProperties);
 	}
@@ -184,6 +189,13 @@ public class MeasurementTool extends Item {
 
 	}
 
+	/**
+	 * Rearrange layers map.
+	 *
+	 * @param lowestYValue the lowest y value
+	 * @param positions    the positions
+	 * @return the map
+	 */
 	private Map<Integer, ArrayList<BlockPos>> rearrangeLayers(int lowestYValue, ArrayList<BlockPos> positions) {
 		Map<Integer, ArrayList<BlockPos>> layers = new HashMap<>();
 		for (int i = 1; i <= positions.size(); i++) {
@@ -197,6 +209,13 @@ public class MeasurementTool extends Item {
 		return layers;
 	}
 
+	/**
+	 * Is valid pos int.
+	 *
+	 * @param first  the first
+	 * @param second the second
+	 * @return the int
+	 */
 	private int isValidPos(BlockPos first, BlockPos second) {
 		if (first.getX() == second.getX()) {
 			if (second.getZ() == first.getZ() - 6) {

@@ -94,6 +94,11 @@ public class BleacherBase extends SlabBlock {
 	).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get();
 
 
+	/**
+	 * Instantiates a new Bleacher base.
+	 *
+	 * @param properties the properties
+	 */
 	public BleacherBase(Properties properties) {
 		super(properties);
 	}

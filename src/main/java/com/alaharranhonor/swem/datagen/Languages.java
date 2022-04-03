@@ -24,11 +24,28 @@ public class Languages extends LanguageProvider {
 	private String[][] translations;
 	private int localeIndex;
 
+	/**
+	 * Instantiates a new Languages.
+	 *
+	 * @param gen          the gen
+	 * @param modid        the modid
+	 * @param locale       the locale
+	 * @param translations the translations
+	 * @param localeIndex  the locale index
+	 */
 	public Languages(DataGenerator gen, String modid, String locale, String[][] translations, int localeIndex) {
 		this(gen, modid, locale);
 		this.translations = translations;
 		this.localeIndex = localeIndex;
 	}
+
+	/**
+	 * Instantiates a new Languages.
+	 *
+	 * @param gen    the gen
+	 * @param modid  the modid
+	 * @param locale the locale
+	 */
 	public Languages(DataGenerator gen, String modid, String locale) {
 		super(gen, modid, locale);
 	}

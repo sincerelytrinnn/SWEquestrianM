@@ -50,7 +50,13 @@ public class HitchingPostBaseMini extends Block {
     public static final DirectionProperty FACING = HorizontalBlock.FACING;
 
 
-    public HitchingPostBaseMini(HitchingPostType type, Properties properties) {
+	/**
+	 * Instantiates a new Hitching post base mini.
+	 *
+	 * @param type       the type
+	 * @param properties the properties
+	 */
+	public HitchingPostBaseMini(HitchingPostType type, Properties properties) {
         super(properties);
 
         this.type = type;
@@ -160,14 +166,29 @@ public class HitchingPostBaseMini extends Block {
         private final VoxelShape east;
         private final VoxelShape south;
         private final VoxelShape west;
-        HitchingPostType(VoxelShape north, VoxelShape east, VoxelShape south, VoxelShape west) {
+
+		/**
+		 * Instantiates a new Hitching post type.
+		 *
+		 * @param north the north
+		 * @param east  the east
+		 * @param south the south
+		 * @param west  the west
+		 */
+		HitchingPostType(VoxelShape north, VoxelShape east, VoxelShape south, VoxelShape west) {
             this.north = north;
             this.east = east;
             this.south = south;
             this.west = west;
         }
 
-        public VoxelShape getVoxelShape(Direction facing) {
+		/**
+		 * Gets voxel shape.
+		 *
+		 * @param facing the facing
+		 * @return the voxel shape
+		 */
+		public VoxelShape getVoxelShape(Direction facing) {
             switch (facing) {
                 case EAST:
                     return this.east;

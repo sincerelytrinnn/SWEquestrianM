@@ -34,6 +34,14 @@ public class ArmorBaseItem extends ArmorItem {
 
 	private Supplier<Supplier<ArmorBaseModel>> armorModel;
 
+	/**
+	 * Instantiates a new Armor base item.
+	 *
+	 * @param materialIn the material in
+	 * @param slot       the slot
+	 * @param builderIn  the builder in
+	 * @param armorModel the armor model
+	 */
 	public ArmorBaseItem(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn, Supplier<Supplier<ArmorBaseModel>> armorModel) {
 		super(materialIn, slot, builderIn);
 		this.armorModel = armorModel;

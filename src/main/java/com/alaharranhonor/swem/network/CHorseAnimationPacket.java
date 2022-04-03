@@ -33,16 +33,33 @@ public class CHorseAnimationPacket {
 
 	private boolean failed;
 
+	/**
+	 * Instantiates a new C horse animation packet.
+	 *
+	 * @param entityID the entity id
+	 * @param action   the action
+	 */
 	public CHorseAnimationPacket(int entityID, int action) {
 		this.entityID = entityID;
 		this.action = action;
 		this.failed = false;
 	}
 
+	/**
+	 * Instantiates a new C horse animation packet.
+	 *
+	 * @param failed the failed
+	 */
 	public CHorseAnimationPacket(boolean failed) {
 		this.failed = failed;
 	}
 
+	/**
+	 * Decode c horse animation packet.
+	 *
+	 * @param buf the buf
+	 * @return the c horse animation packet
+	 */
 	public static CHorseAnimationPacket decode(ByteBuf buf) {
 		try {
 			int entityID = buf.readInt();
@@ -54,11 +71,23 @@ public class CHorseAnimationPacket {
 		}
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param msg    the msg
+	 * @param buffer the buffer
+	 */
 	public static void encode(CHorseAnimationPacket msg, PacketBuffer buffer) {
 		buffer.writeInt(msg.entityID);
 		buffer.writeInt(msg.action);
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param msg the msg
+	 * @param ctx the ctx
+	 */
 	public static void handle(CHorseAnimationPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			ClientPlayerEntity player = Minecraft.getInstance().player;

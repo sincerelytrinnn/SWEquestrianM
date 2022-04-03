@@ -35,6 +35,11 @@ public class SaddlebagItem extends ItemBase implements IAnimatable {
 	private AnimationFactory factory = new AnimationFactory(this);
 	private ResourceLocation texture;
 
+	/**
+	 * Instantiates a new Saddlebag item.
+	 *
+	 * @param texturePath the texture path
+	 */
 	public SaddlebagItem(String texturePath) {
 		super();
 		this.texture = new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/saddlebags/" + texturePath + ".png");
@@ -67,6 +72,11 @@ public class SaddlebagItem extends ItemBase implements IAnimatable {
 		return this.factory;
 	}
 
+	/**
+	 * Gets armor texture.
+	 *
+	 * @return the armor texture
+	 */
 	public ResourceLocation getArmorTexture() {
 		return this.texture;
 	}

@@ -35,6 +35,11 @@ public class EnglishFenceBlock extends HorizontalBlock {
 	// Right = extension.
 	public static final EnumProperty<SWEMBlockStateProperties.DoubleBlockSide> PART = SWEMBlockStateProperties.D_SIDE;
 
+	/**
+	 * Instantiates a new English fence block.
+	 *
+	 * @param p_i48440_1_ the p i 48440 1
+	 */
 	public EnglishFenceBlock(Properties p_i48440_1_) {
 		super(p_i48440_1_);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(PART, SWEMBlockStateProperties.DoubleBlockSide.LEFT));

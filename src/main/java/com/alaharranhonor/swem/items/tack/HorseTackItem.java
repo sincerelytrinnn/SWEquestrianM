@@ -17,6 +17,11 @@ package com.alaharranhonor.swem.items.tack;
 import net.minecraft.item.Item;
 
 public class HorseTackItem extends Item {
+	/**
+	 * Instantiates a new Horse tack item.
+	 *
+	 * @param pProperties the p properties
+	 */
 	public HorseTackItem(Properties pProperties) {
 		super(pProperties);
 	}

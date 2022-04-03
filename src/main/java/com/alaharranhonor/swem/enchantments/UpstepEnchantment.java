@@ -28,6 +28,13 @@ import net.minecraftforge.fml.common.Mod;
 
 
 public class UpstepEnchantment extends Enchantment {
+	/**
+	 * Instantiates a new Upstep enchantment.
+	 *
+	 * @param rarityIn the rarity in
+	 * @param typeIn   the type in
+	 * @param slots    the slots
+	 */
 	public UpstepEnchantment(Rarity rarityIn, EnchantmentType typeIn, EquipmentSlotType[] slots) {
 		super(rarityIn, typeIn, slots);
 	}
@@ -74,6 +81,11 @@ public class UpstepEnchantment extends Enchantment {
 	@Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 	public static class UpstepEquipped
 	{
+		/**
+		 * Check for players wearing lrb.
+		 *
+		 * @param event the event
+		 */
 		@SubscribeEvent
 		public static void CheckForPlayersWearingLRB(TickEvent.PlayerTickEvent event)
 		{

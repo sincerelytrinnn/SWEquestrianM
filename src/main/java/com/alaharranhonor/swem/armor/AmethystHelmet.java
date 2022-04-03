@@ -28,6 +28,14 @@ import net.minecraft.world.World;
 import net.minecraft.item.Item.Properties;
 
 public class AmethystHelmet extends SWEMArmorItem {
+	/**
+	 * Instantiates a new Amethyst helmet.
+	 *
+	 * @param path       the path
+	 * @param materialIn the material in
+	 * @param slot       the slot
+	 * @param builder    the builder
+	 */
 	public AmethystHelmet(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builder) {
 		super(path, materialIn, slot, builder);
 	}
