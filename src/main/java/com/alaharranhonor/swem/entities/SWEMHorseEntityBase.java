@@ -2636,6 +2636,15 @@ public class SWEMHorseEntityBase
 		super.ageBoundaryReached();
 	}
 
+
+	/**
+	 * This executes, once a baby is about to spawn.
+	 * Here we can set various offspring attributes, like coats, stats etc.
+	 * @param world Server world.
+	 * @param partner The partner entity that the baby was made with.
+	 * @return The modified foal that should be created.
+	 */
+	@Override
 	public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity partner) {
 		SWEMHorseEntityBase foal = SWEMEntities.SWEM_HORSE_ENTITY.get().create(world);
 		if (foal == null) {
