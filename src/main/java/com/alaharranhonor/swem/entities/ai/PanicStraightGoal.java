@@ -88,7 +88,7 @@ public class PanicStraightGoal extends Goal {
 	 */
 	@Override
 	public boolean canUse() {
-		if (this.horse.getLastHurtByMob() == null && !this.horse.isOnFire() && !this.horse.isVehicle()) {
+		if (this.horse.getLastHurtByMob() == null && !this.horse.isOnFire() && this.horse.isVehicle()) {
 			return false;
 		} else {
 			if (this.horse.isOnFire()) {

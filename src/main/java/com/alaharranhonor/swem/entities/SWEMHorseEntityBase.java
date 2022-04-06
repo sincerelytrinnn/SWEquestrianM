@@ -73,6 +73,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.FluidTags;
@@ -117,7 +118,8 @@ public class SWEMHorseEntityBase
 	private static final DataParameter<Integer> HORSE_VARIANT = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 
 	public static final Ingredient TEMPTATION_ITEMS = Ingredient.of(SWEMItems.SUGAR_CUBE.get());
-	public static final Ingredient FOOD_ITEMS = Ingredient.of(Items.APPLE, Items.CARROT, SWEMItems.OAT_BUSHEL.get(), SWEMItems.TIMOTHY_BUSHEL.get(), SWEMItems.ALFALFA_BUSHEL.get(), SWEMBlocks.QUALITY_BALE_ITEM.get(), SWEMItems.SUGAR_CUBE.get(), SWEMItems.SWEET_FEED.get());
+	public static final Ingredient BREEDING_ITEMS = Ingredient.of(SWEMItems.SWEET_FEED_OPENED.get());
+	public static final Ingredient FOOD_ITEMS = Ingredient.of(Items.APPLE, Items.CARROT, SWEMItems.OAT_BUSHEL.get(), SWEMItems.TIMOTHY_BUSHEL.get(), SWEMItems.ALFALFA_BUSHEL.get(), SWEMBlocks.QUALITY_BALE_ITEM.get(), SWEMItems.SUGAR_CUBE.get());
 	public static final Ingredient NEGATIVE_FOOD_ITEMS = Ingredient.of(Items.WHEAT, Items.HAY_BLOCK);
 	private static final DataParameter<Boolean> FLYING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public static final DataParameter<Boolean> JUMPING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
@@ -217,7 +219,7 @@ public class SWEMHorseEntityBase
 		this.goalSelector.addGoal(1, new PanicStraightGoal(this, 1.5D)); // Unsure why this needs a lower value than the other goals. 4.0 Would make it run at insane speeds.
 		//this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 4.0D));
 		this.goalSelector.addGoal(2, new BreedGoal(this, 4.0d));
-		//this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, TEMPTATION_ITEMS, false));
+		this.goalSelector.addGoal(3, new TemptGoal(this, 4.0D, TEMPTATION_ITEMS, false));
 		this.goalSelector.addGoal(4, new FollowParentGoal(this, 4.0D));
 		this.goalSelector.addGoal(2, new HorseAvoidEntityGoal<>(this, PigEntity.class, 12.0f, 4.0d, 5.5d));
 		this.goalSelector.addGoal(5, this.poopGoal);
@@ -2048,8 +2050,9 @@ public class SWEMHorseEntityBase
 		return 0.2 * (this.progressionManager.getJumpLeveling().getLevel() + 1 - 5) / 4 + 0.2 * (jumpHeight - 1) / 4 + 0.6 * this.progressionManager.getAffinityLeveling().getDebuff();
 	}
 
+
 	@Override
-	public void knockback(float p_233627_1_, double p_233627_2_, double p_233627_4_) {
+	public void knockback(float pStrength, double pRatioX, double pRatioZ) {
 	}
 
 	@Override
@@ -2328,8 +2331,8 @@ public class SWEMHorseEntityBase
 
 		Item item = itemstack.getItem();
 
-		if (this.isFood(itemstack)) {
-			this.fedFood(playerEntity, itemstack);
+		if (this.isBreedingFood(itemstack)) {
+			this.fedBreedingFood(playerEntity, itemstack);
 		}
 
 		if (checkIsCoatTransformItem(playerEntity, itemstack)) {
@@ -2460,6 +2463,53 @@ public class SWEMHorseEntityBase
 			this.doPlayerRide(playerEntity);
 			return ActionResultType.sidedSuccess(this.level.isClientSide);
 		}
+	}
+
+	public boolean isBreedingFood(ItemStack pStack) {
+		return BREEDING_ITEMS.test(pStack);
+	}
+
+	public ActionResultType fedBreedingFood(PlayerEntity pPlayer, ItemStack pStack) {
+		boolean flag = this.handleEatingBreedingFood(pPlayer, pStack);
+		this.getNeeds().getHunger().addPoints(pStack);
+		if (!pPlayer.abilities.instabuild) {
+			if (pStack.getItem() == SWEMItems.SWEET_FEED_OPENED.get())
+				pStack.setDamageValue(pStack.getDamageValue() + 1);
+			else
+				pStack.shrink(1);
+		}
+
+		if (this.level.isClientSide) {
+			return ActionResultType.CONSUME;
+		} else {
+			return flag ? ActionResultType.SUCCESS : ActionResultType.PASS;
+		}
+	}
+
+	public boolean handleEatingBreedingFood(PlayerEntity pPlayer, ItemStack pStack) {
+		boolean flag = false;
+		float f = 0.0F;
+		int i = 0;
+		int j = 0;
+		Item item = pStack.getItem();
+		if (item == SWEMItems.SWEET_FEED_OPENED.get()) {
+			i = (int) (ConfigHolder.SERVER.foalAgeInSeconds.get() * 0.5);
+			if (!this.level.isClientSide && this.isTamed() && this.getAge() == 0 && !this.isInLove()) {
+				flag = true;
+				this.setInLove(pPlayer);
+			}
+		}
+
+		if (this.isBaby() && i > 0) {
+			this.level.addParticle(ParticleTypes.HAPPY_VILLAGER, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), 0.0D, 0.0D, 0.0D);
+			if (!this.level.isClientSide) {
+				this.ageUp(i);
+			}
+
+			flag = true;
+		}
+
+		return flag;
 	}
 
 	/**
@@ -2631,7 +2681,7 @@ public class SWEMHorseEntityBase
 	 */
 	@Override
 	public void setBaby(boolean pChildZombie) {
-		this.setAge(pChildZombie ? ConfigHolder.SERVER.foalAgeInSeconds.get() : 0);
+		this.setAge(pChildZombie ? -(ConfigHolder.SERVER.foalAgeInSeconds.get() * 20) : 0);
 	}
 
 	/**
