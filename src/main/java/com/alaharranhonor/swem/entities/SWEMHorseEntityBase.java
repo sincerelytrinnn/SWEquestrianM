@@ -2050,7 +2050,6 @@ public class SWEMHorseEntityBase
 		return 0.2 * (this.progressionManager.getJumpLeveling().getLevel() + 1 - 5) / 4 + 0.2 * (jumpHeight - 1) / 4 + 0.6 * this.progressionManager.getAffinityLeveling().getDebuff();
 	}
 
-
 	@Override
 	public void knockback(float pStrength, double pRatioX, double pRatioZ) {
 	}
@@ -2672,6 +2671,17 @@ public class SWEMHorseEntityBase
 		} else {
 			return this.isInLove() && pOtherAnimal.isInLove();
 		}
+	}
+
+	
+	@Override
+	public void setInLove(@Nullable PlayerEntity pPlayer) {
+		this.setInLoveTime(ConfigHolder.SERVER.horseInLoveInSeconds.get() * 20); // Ticks
+		if (pPlayer != null) {
+			this.loveCause = pPlayer.getUUID();
+		}
+
+		this.level.broadcastEntityEvent(this, (byte)18);
 	}
 
 	/**

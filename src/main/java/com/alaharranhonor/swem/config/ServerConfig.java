@@ -53,6 +53,7 @@ public final class ServerConfig {
 
 	public final ForgeConfigSpec.BooleanValue multiplayerHungerThirst;
 	public final ForgeConfigSpec.IntValue foalAgeInSeconds;
+	public final ForgeConfigSpec.IntValue horseInLoveInSeconds;
 
 	/**
 	 * Instantiates a new Server config.
@@ -93,7 +94,8 @@ public final class ServerConfig {
 		builder.comment("Set the option below to true, if you just want a piece of lapis lazuli to cycle the coats.");
 		this.lapisCycleCoats = builder.comment("Enable Lapis Lazuli coat cycling?").translation("swem.config.enableLapisCycle").define("lapisCycle", true);
 		this.multiplayerHungerThirst = builder.comment("Make hunger thirst system base on IRL days? (Preferred option for servers.)").translation("swem.config.multiplayerHungerThirst").define("multiPlayerHungerThirst", false);
-		this.foalAgeInSeconds = builder.comment("Specify how many seconds it takes for the foal to growp up? (Default is 1800 seconds = 30 minutes.)").translation("swem.config.foalAgeInSeconds").defineInRange("foalAgeInSeconds", 1_800, 1, Integer.MAX_VALUE);
+		this.foalAgeInSeconds = builder.comment("Specify how many seconds it takes for the foal to growp up? (Default is 1800 seconds = 30 minutes)").translation("swem.config.foalAgeInSeconds").defineInRange("foalAgeInSeconds", 1_800, 1, Integer.MAX_VALUE);
+		this.horseInLoveInSeconds = builder.comment("Specify how many seconds it takes for the parent to be able to breed again? (Default is 1800 seconds = 30 minutes)").translation("swem.config.horseInLoveInSeconds").defineInRange("horseInLoveInSeconds", 1_800, 1, Integer.MAX_VALUE);
 			builder.push("Tack Dependencies");
 			this.halterDependency = builder.comment("Enable/Disable the halter, being needed for any other tack.").translation("swem.config.halterDep").define("HalterDependency", true);
 			this.needBridleToSteer = builder.comment("Enable/Disable the need of a bridle in order to steer, the horse. (If disabled, you would still need a saddle.)").translation("swem.config.needBridleToSteer").define("NeedBridleToSteer", true);
