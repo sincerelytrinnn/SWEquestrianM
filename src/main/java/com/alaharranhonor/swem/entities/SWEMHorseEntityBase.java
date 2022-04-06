@@ -116,7 +116,7 @@ public class SWEMHorseEntityBase
 	private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("556E1665-8B10-40C8-8F9D-CF9B1667F295");
 	private static final DataParameter<Integer> HORSE_VARIANT = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 
-	public static final Ingredient TEMPTATION_ITEMS = Ingredient.of(SWEMItems.AMETHYST.get());
+	public static final Ingredient TEMPTATION_ITEMS = Ingredient.of(SWEMItems.SUGAR_CUBE.get());
 	public static final Ingredient FOOD_ITEMS = Ingredient.of(Items.APPLE, Items.CARROT, SWEMItems.OAT_BUSHEL.get(), SWEMItems.TIMOTHY_BUSHEL.get(), SWEMItems.ALFALFA_BUSHEL.get(), SWEMBlocks.QUALITY_BALE_ITEM.get(), SWEMItems.SUGAR_CUBE.get(), SWEMItems.SWEET_FEED.get());
 	public static final Ingredient NEGATIVE_FOOD_ITEMS = Ingredient.of(Items.WHEAT, Items.HAY_BLOCK);
 	private static final DataParameter<Boolean> FLYING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
@@ -2602,6 +2602,15 @@ public class SWEMHorseEntityBase
 	}
 
 	/**
+	 * Gets needs.
+	 *
+	 * @return the needs
+	 */
+	public NeedManager getNeeds() {
+		return this.needs;
+	}
+
+	/**
 	 * Returns true if the mob is currently able to mate with the specified mob.
 	 */
 	@Override
@@ -2616,12 +2625,13 @@ public class SWEMHorseEntityBase
 	}
 
 	/**
-	 * Gets needs.
-	 *
-	 * @return the needs
+	 * Set whether this entity is a child.
+	 * Also sets it's baby age.
+	 * @param pChildZombie
 	 */
-	public NeedManager getNeeds() {
-		return this.needs;
+	@Override
+	public void setBaby(boolean pChildZombie) {
+		this.setAge(pChildZombie ? ConfigHolder.SERVER.foalAgeInSeconds.get() : 0);
 	}
 
 	/**
@@ -2635,7 +2645,6 @@ public class SWEMHorseEntityBase
 		}
 		super.ageBoundaryReached();
 	}
-
 
 	/**
 	 * This executes, once a baby is about to spawn.
@@ -2669,11 +2678,6 @@ public class SWEMHorseEntityBase
 		return foal;
 	}
 
-	public boolean canWearArmor() {
-		return true;
-	}
-
-
 	@Nullable
 	public ILivingEntityData finalizeSpawn(IServerWorld levelIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
 		SWEMCoatColor coatcolors;
@@ -2687,6 +2691,10 @@ public class SWEMHorseEntityBase
 		this.setHorseVariant(coatcolors.getId());
 		//this.setVariantAndMarkings(coatcolors, Util.getRandom(CoatTypes.values(), this.rand));
 		return super.finalizeSpawn(levelIn, difficultyIn, reason, spawnDataIn, dataTag);
+	}
+
+	public boolean canWearArmor() {
+		return true;
 	}
 
 	/**

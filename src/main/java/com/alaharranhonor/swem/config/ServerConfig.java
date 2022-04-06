@@ -52,6 +52,7 @@ public final class ServerConfig {
 	public final ForgeConfigSpec.BooleanValue lapisCycleCoats;
 
 	public final ForgeConfigSpec.BooleanValue multiplayerHungerThirst;
+	public final ForgeConfigSpec.IntValue foalAgeInSeconds;
 
 	/**
 	 * Instantiates a new Server config.
@@ -65,20 +66,20 @@ public final class ServerConfig {
 		this.serverEnableCantazariteOre = builder.comment("Enable cantazarite ore generation?").translation("swem.config.enableCantazariteOre").define("EnableCantazariteOre", true);
 		this.serverEnableSWEMCobbleOre = builder.comment("Enable SWEMCobble ore generation?").translation("swem.config.enableSWEMCobbleOre").define("EnableSWEMCobbleOre", true);
 
-		this.serverAmethystVeinSize = builder.comment("Amethyst ore vein size").translation("swem.config.serverAmethystVeinSize").defineInRange("AmethystVeinSize", 8, 1, 2147483647);
-		this.serverAmethystVeinCount = builder.comment("Amethyst ore vein count per chunk").translation("swem.config.serverAmethystVeinCount").defineInRange("AmethystVeinCount", 2, 1, 2147483647);
-		this.serverAmethystBottomHeight = builder.comment("Amethyst ore minimum height").translation("swem.config.serverAmethystBottomHeight").defineInRange("AmethystBottomHeight", 0, 0, 2147483647);
-		this.serverAmethystMaxHeight = builder.comment("Amethyst ore maximum height").translation("swem.config.serverAmethystMaxHeight").defineInRange("AmethystMaxHeight", 15, 1, 2147483647);
+		this.serverAmethystVeinSize = builder.comment("Amethyst ore vein size").translation("swem.config.serverAmethystVeinSize").defineInRange("AmethystVeinSize", 8, 1, Integer.MAX_VALUE);
+		this.serverAmethystVeinCount = builder.comment("Amethyst ore vein count per chunk").translation("swem.config.serverAmethystVeinCount").defineInRange("AmethystVeinCount", 2, 1, Integer.MAX_VALUE);
+		this.serverAmethystBottomHeight = builder.comment("Amethyst ore minimum height").translation("swem.config.serverAmethystBottomHeight").defineInRange("AmethystBottomHeight", 0, 0, Integer.MAX_VALUE);
+		this.serverAmethystMaxHeight = builder.comment("Amethyst ore maximum height").translation("swem.config.serverAmethystMaxHeight").defineInRange("AmethystMaxHeight", 15, 1, Integer.MAX_VALUE);
 
-		this.serverCantazariteVeinSize = builder.comment("Cantazarite ore vein size").translation("swem.config.serverCantazariteVeinSize").defineInRange("CantazariteVeinSize", 4, 1, 2147483647);
-		this.serverCantazariteVeinCount = builder.comment("Cantazarite ore vein count per chunk").translation("swem.config.serverCantazariteVeinCount").defineInRange("CantazariteVeinCount", 6, 1, 2147483647);
-		this.serverCantazariteBottomHeight = builder.comment("Cantazarite ore minimum height").translation("swem.config.serverCantazariteBottomHeight").defineInRange("CantazariteBottomHeight", 0, 0, 2147483647);
-		this.serverCantazariteMaxHeight = builder.comment("Cantazarite ore maximum height").translation("swem.config.serverCantazariteMaxHeight").defineInRange("CantazariteMaxHeight", 30, 1, 2147483647);
+		this.serverCantazariteVeinSize = builder.comment("Cantazarite ore vein size").translation("swem.config.serverCantazariteVeinSize").defineInRange("CantazariteVeinSize", 4, 1, Integer.MAX_VALUE);
+		this.serverCantazariteVeinCount = builder.comment("Cantazarite ore vein count per chunk").translation("swem.config.serverCantazariteVeinCount").defineInRange("CantazariteVeinCount", 6, 1, Integer.MAX_VALUE);
+		this.serverCantazariteBottomHeight = builder.comment("Cantazarite ore minimum height").translation("swem.config.serverCantazariteBottomHeight").defineInRange("CantazariteBottomHeight", 0, 0, Integer.MAX_VALUE);
+		this.serverCantazariteMaxHeight = builder.comment("Cantazarite ore maximum height").translation("swem.config.serverCantazariteMaxHeight").defineInRange("CantazariteMaxHeight", 30, 1, Integer.MAX_VALUE);
 
-		this.serverSWEMCobbleVeinSize = builder.comment("SWEMCobble ore vein size").translation("swem.config.serverSWEMCobbleVeinSize").defineInRange("SWEMCobbleVeinSize", 7, 1, 2147483647);
-		this.serverSWEMCobbleVeinCount = builder.comment("SWEMCobble ore vein count per chunk").translation("swem.config.serverSWEMCobbleVeinCount").defineInRange("SWEMCobbleVeinCount", 12, 1, 2147483647);
-		this.serverSWEMCobbleBottomHeight = builder.comment("SWEMCobble ore minimum height").translation("swem.config.serverSWEMCobbleBottomHeight").defineInRange("SWEMCobbleBottomHeight", 50, 1, 2147483647);
-		this.serverSWEMCobbleMaxHeight = builder.comment("SWEMCobble ore maximum height").translation("swem.config.serverSWEMCobbleMaxHeight").defineInRange("SWEMCobbleMaxHeight", 128, 1, 2147483647);
+		this.serverSWEMCobbleVeinSize = builder.comment("SWEMCobble ore vein size").translation("swem.config.serverSWEMCobbleVeinSize").defineInRange("SWEMCobbleVeinSize", 7, 1, Integer.MAX_VALUE);
+		this.serverSWEMCobbleVeinCount = builder.comment("SWEMCobble ore vein count per chunk").translation("swem.config.serverSWEMCobbleVeinCount").defineInRange("SWEMCobbleVeinCount", 12, 1, Integer.MAX_VALUE);
+		this.serverSWEMCobbleBottomHeight = builder.comment("SWEMCobble ore minimum height").translation("swem.config.serverSWEMCobbleBottomHeight").defineInRange("SWEMCobbleBottomHeight", 50, 1, Integer.MAX_VALUE);
+		this.serverSWEMCobbleMaxHeight = builder.comment("SWEMCobble ore maximum height").translation("swem.config.serverSWEMCobbleMaxHeight").defineInRange("SWEMCobbleMaxHeight", 128, 1, Integer.MAX_VALUE);
 
 		builder.pop();
 
@@ -86,13 +87,13 @@ public final class ServerConfig {
 		this.serverTickFoodNeed = builder.comment("Enable Food need ticking on swem horses?").translation("swem.config.enableFoodTick").define("foodTick", true);
 		this.serverTickWaterNeed = builder.comment("Enable Water need ticking on swem horses?").translation("swem.config.enableWaterTick").define("waterTick", true);
 		this.serverTickPoopNeed = builder.comment("Enable Poop ticking on swem horses?").translation("swem.config.enablePoopTick").define("poopTick", true);
-		this.serverPoopInterval = builder.comment("Specify in seconds the interval between each poop cycle.").translation("swem.config.poopInterval").defineInRange("poopInterval", 960, 1, 2147483647);
+		this.serverPoopInterval = builder.comment("Specify in seconds the interval between each poop cycle.").translation("swem.config.poopInterval").defineInRange("poopInterval", 960, 1, Integer.MAX_VALUE);
 		this.serverTickPeeNeed = builder.comment("Enable Pee ticking on swem horses?").translation("swem.config.enablePeeTick").define("peeTick", true);
-		this.serverPeeInterval = builder.comment("Specify in seconds the interval between each pee cycle.").translation("swem.config.peeInterval").defineInRange("peeInterval", 930, 1, 2147483647);
+		this.serverPeeInterval = builder.comment("Specify in seconds the interval between each pee cycle.").translation("swem.config.peeInterval").defineInRange("peeInterval", 930, 1, Integer.MAX_VALUE);
 		builder.comment("Set the option below to true, if you just want a piece of lapis lazuli to cycle the coats.");
 		this.lapisCycleCoats = builder.comment("Enable Lapis Lazuli coat cycling?").translation("swem.config.enableLapisCycle").define("lapisCycle", true);
 		this.multiplayerHungerThirst = builder.comment("Make hunger thirst system base on IRL days? (Preferred option for servers.)").translation("swem.config.multiplayerHungerThirst").define("multiPlayerHungerThirst", false);
-
+		this.foalAgeInSeconds = builder.comment("Specify how many seconds it takes for the foal to growp up? (Default is 36000 seconds = 30 minutes.)").translation("swem.config.foalAgeInSeconds").defineInRange("foalAgeInSeconds", 36_000, 1, Integer.MAX_VALUE);
 			builder.push("Tack Dependencies");
 			this.halterDependency = builder.comment("Enable/Disable the halter, being needed for any other tack.").translation("swem.config.halterDep").define("HalterDependency", true);
 			this.needBridleToSteer = builder.comment("Enable/Disable the need of a bridle in order to steer, the horse. (If disabled, you would still need a saddle.)").translation("swem.config.needBridleToSteer").define("NeedBridleToSteer", true);
