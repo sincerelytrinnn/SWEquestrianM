@@ -2673,7 +2673,7 @@ public class SWEMHorseEntityBase
 		}
 	}
 
-	
+
 	@Override
 	public void setInLove(@Nullable PlayerEntity pPlayer) {
 		this.setInLoveTime(ConfigHolder.SERVER.horseInLoveInSeconds.get() * 20); // Ticks

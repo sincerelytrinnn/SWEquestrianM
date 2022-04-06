@@ -16,6 +16,7 @@ package com.alaharranhonor.swem.entity.render;
  */
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.entity.layers.*;
 import com.alaharranhonor.swem.entity.model.SWEMHorseModel;
@@ -99,7 +100,8 @@ public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity> {
 
         if (entity.isBaby()) {
             stack.pushPose();
-            stack.scale(1.25f, 1.25f, 1.25f);
+            float scale = 1.0f + (((ConfigHolder.SERVER.foalAgeInSeconds.get() * 20.0f - entity.getAge()) / (ConfigHolder.SERVER.foalAgeInSeconds.get() * 20.0f)) * 0.25f);
+            stack.scale(scale, scale, scale);
         }
         super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
         if (entity.isBaby()) {
