@@ -65,7 +65,7 @@ public class Shavings extends Block {
 	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
         switch(type) {
             case LAND:
-                return state.getValue(LAYERS) < 5;
+                return true;
             case WATER:
                 return false;
             case AIR:
