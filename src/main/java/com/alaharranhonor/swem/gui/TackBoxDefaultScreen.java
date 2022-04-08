@@ -31,6 +31,7 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.ITextComponent;
@@ -100,6 +101,14 @@ public class TackBoxDefaultScreen extends ContainerScreen<TackBoxContainer> {
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
 		blit(matrixStack, i, j, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
+
+		// Disable the item ghost if item is placed in the slot.
+		for (Slot slot : this.container.slots) {
+			if (slot.hasItem()) {
+				blit(matrixStack, this.leftPos + slot.x, this.topPos + slot.y, 8, 112, 16, 16);
+			}
+		}
+
 
 		if (getMenu().horse.isBeingTracked()) {
 			// Overlay, for Tracker.

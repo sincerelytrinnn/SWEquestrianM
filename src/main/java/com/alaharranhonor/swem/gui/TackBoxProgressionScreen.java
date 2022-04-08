@@ -84,6 +84,8 @@ public class TackBoxProgressionScreen extends Screen {
 		return false;
 	}
 
+
+
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground(matrixStack);

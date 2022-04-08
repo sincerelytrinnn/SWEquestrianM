@@ -24,7 +24,7 @@ import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
-import com.alaharranhonor.swem.items.tack.HorseSaddleItem;
+import com.alaharranhonor.swem.gui.widgets.CustomHeightButton;
 import com.alaharranhonor.swem.network.HorseStateChange;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.util.SWEMUtil;
@@ -34,19 +34,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Objects;
 import java.util.Timer;
-import java.util.UUID;
+import java.util.TimerTask;
 
 
 @OnlyIn(Dist.CLIENT)
@@ -61,6 +60,7 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 	private float mousePosY;
 
 	public static Timer TIMER;
+	private int tackSet = 0;
 
 	private Button permissionButton;
 
@@ -82,12 +82,19 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		this.inventoryLabelY = this.imageHeight - 94;
 		this.titleLabelX = 65;
 		this.titleLabelY = 22;
+		TIMER = new Timer();
+		TIMER.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				tackSet = (tackSet + 1) % 3;
+			}
+		}, 3000, 3000);
 	}
 
 	@Override
 	protected void init() {
 		super.init();
-		this.permissionButton = new Button(this.leftPos  + 118, this.topPos + 109, 52, 20, new StringTextComponent(horseEntity.getPermissionState().name()), p_onPress_1_ -> {
+		this.permissionButton = new CustomHeightButton(this.leftPos  + 122, this.topPos + 111, 48, 14, new StringTextComponent(horseEntity.getPermissionState().name()), p_onPress_1_ -> {
 			SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(9, horseEntity.getId()));
 			p_onPress_1_.setMessage(new StringTextComponent(SWEMHorseEntityBase.RidingPermission.values()[(horseEntity.getPermissionState().ordinal() + 1) % 3].name()));
 		});
@@ -112,31 +119,82 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		int j = (this.height - this.imageHeight) / 2;
 		this.blit(matrixStack, i, j, 0, 0, this.imageWidth, this.imageHeight);
 
-		//overlay tack slots
+		// Flash different tack sets.
+		// Tackset 2 = adventure
+		if (tackSet != 0) {
+			for (int xSlot = 0; xSlot < 2; xSlot++) {
+				for (int ySlot = 0; ySlot < 3; ySlot++) {
+					blit(matrixStack, this.leftPos + 8 + (xSlot * 21), this.topPos + 17 + (ySlot * 21), 180 + (xSlot * 21), 4 + (ySlot * 21) + (tackSet == 2 ? 67 : 0), 16, 16);
+				}
+			}
+		}
 
-		if (horseEntity.hasHalter()) {
-			this.blit(matrixStack, i + 8, j + 17, 176, 0, 16, 16);
+
+		//overlay tack slots
+		for (Slot slot : this.menu.slots) {
+			if (slot.hasItem()) {
+				blit(matrixStack, this.leftPos + slot.x, this.topPos + slot.y, 8, 140, 16, 16);
+			}
 		}
-		if (horseEntity.hasSaddle().getItem() instanceof HorseSaddleItem) {
-			this.blit(matrixStack, i + 29, j + 17, 176, 0, 16, 16);
+
+		// Overlay, for Tracker.
+		if (this.horseEntity.isBeingTracked()) {
+			blit(matrixStack, this.leftPos + 9, this.topPos + 117, 180, 138, 3, 3);
 		}
-		if (horseEntity.hasBreastCollar()) {
-			this.blit(matrixStack, i + 8, j + 38, 176, 0, 16, 16);
+
+		int hungerX = this.leftPos + 41;
+		int hungerY = this.topPos + 121;
+		int hungerXOffset = 179;
+		int hungerYOffset = 145;
+		int hungerHeight = 3;
+		switch (getMenu().horse.getEntityData().get(HungerNeed.HungerState.ID)) {
+			case 0: {
+				break;
+			}
+			case 1: {
+				blit(matrixStack, hungerX, hungerY, hungerXOffset, hungerYOffset, 12, hungerHeight);
+				break;
+			}
+			case 2: {
+				blit(matrixStack, hungerX, hungerY, hungerXOffset, hungerYOffset, 18, hungerHeight);
+				break;
+			}
+			case 3: {
+				blit(matrixStack, hungerX, hungerY, hungerXOffset, hungerYOffset, 24, hungerHeight);
+				break;
+			}
+			case 4: {
+				blit(matrixStack, hungerX, hungerY, hungerXOffset, hungerYOffset, 28, hungerHeight);
+				break;
+			}
 		}
-		if (horseEntity.hasBlanket()) {
-			this.blit(matrixStack, i + 29, j + 38, 176, 0, 16, 16);
-		}
-		if (horseEntity.hasLegWraps()) {
-			this.blit(matrixStack, i + 8, j + 59, 176, 0, 16, 16);
-		}
-		if (horseEntity.hasGirthStrap()) {
-			this.blit(matrixStack, i + 29, j + 59, 176, 0, 16, 16);
-		}
-		if (horseEntity.isWearingArmor()) {
-			this.blit(matrixStack, i + 8, j + 87, 176, 0, 16, 16);
-		}
-		if (horseEntity.hasSaddleBag()) {
-			this.blit(matrixStack, i + 29, j + 87, 176, 0, 16, 16);
+
+
+		int thirstX = this.leftPos + 82;
+		int thirstY = this.topPos + 121;
+		int thirstXOffset = 179;
+		int thirstYOffset = 151;
+		int thirstHeight = 3;
+		switch (getMenu().horse.getEntityData().get(ThirstNeed.ThirstState.ID)) {
+			case 0: {
+				break;
+			}
+			case 1: {
+				blit(matrixStack, thirstX, thirstY, thirstXOffset, thirstYOffset, 12, thirstHeight);
+				break;
+			}
+			case 2: {
+				blit(matrixStack, thirstX, thirstY, thirstXOffset, thirstYOffset, 18, thirstHeight);
+				break;
+			}
+			case 3: {
+				blit(matrixStack, thirstX, thirstY, thirstXOffset, thirstYOffset, 24, thirstHeight);
+				break;
+			}
+			case 4: {
+				blit(matrixStack, thirstX, thirstY, thirstXOffset, thirstYOffset, 28, thirstHeight);
+				break;
+			}
 		}
 
 		// Not sure what this renders, some weird box.
@@ -205,66 +263,6 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 			affinityInfo = new TranslationTextComponent(String.format("%s", affinityLeveling.getLevelName()));
 		}
 		this.font.draw(matrixStack, affinityInfo, 65.0f, 92.0f, 4210752);
-
-
-		// Overlay, for Tracker.
-		if (this.horseEntity.isBeingTracked()) {
-			fillGradient(matrixStack, 9, 117, 12, 120, 0xFF479238, 0xFF85f96d);
-		}
-
-		// Hunger.
-		switch (this.horseEntity.getEntityData().get(HungerNeed.HungerState.ID)) {
-			case 0: {
-				fill(matrixStack, 45, 121, 46, 124, 0xFFc6c6c6);
-				fill(matrixStack, 47, 121, 53, 124, 0xFFc6c6c6);
-				fill(matrixStack, 53, 121, 59, 124, 0xFFc6c6c6);
-				fill(matrixStack, 59, 121, 65, 124, 0xFFc6c6c6);
-				fill(matrixStack, 65, 121, 70, 124, 0xFFc6c6c6);
-				break;
-			}
-			case 1: {
-				fill(matrixStack, 53, 121, 59, 124, 0xFFc6c6c6);
-				fill(matrixStack, 59, 121, 65, 124, 0xFFc6c6c6);
-				fill(matrixStack, 65, 121, 70, 124, 0xFFc6c6c6);
-				break;
-			}
-			case 2: {
-				fill(matrixStack, 59, 121, 65, 124, 0xFFc6c6c6);
-				fill(matrixStack, 65, 121, 70, 124, 0xFFc6c6c6);
-				break;
-			}
-			case 3: {
-				fill(matrixStack, 65, 121, 70, 124, 0xFFc6c6c6);
-				break;
-			}
-		}
-
-		// Thirst
-		switch (this.horseEntity.getEntityData().get(ThirstNeed.ThirstState.ID)) {
-			case 0: {
-				fill(matrixStack, 86, 121, 87, 124, 0xFFc6c6c6);
-				fill(matrixStack, 88, 121, 94, 124, 0xFFc6c6c6);
-				fill(matrixStack, 94, 121, 100, 124, 0xFFc6c6c6);
-				fill(matrixStack, 100, 121, 106, 124, 0xFFc6c6c6);
-				fill(matrixStack, 106, 121, 111, 124, 0xFFc6c6c6);
-				break;
-			}
-			case 1: {
-				fill(matrixStack, 94, 121, 100, 124, 0xFFc6c6c6);
-				fill(matrixStack, 100, 121, 106, 124, 0xFFc6c6c6);
-				fill(matrixStack, 106, 121, 111, 124, 0xFFc6c6c6);
-				break;
-			}
-			case 2: {
-				fill(matrixStack, 100, 121, 106, 124, 0xFFc6c6c6);
-				fill(matrixStack, 106, 121, 111, 124, 0xFFc6c6c6);
-				break;
-			}
-			case 3: {
-				fill(matrixStack, 106, 121, 111, 124, 0xFFc6c6c6);
-				break;
-			}
-		}
 
 	}
 
