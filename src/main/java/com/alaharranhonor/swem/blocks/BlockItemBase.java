@@ -24,6 +24,11 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 
 public class BlockItemBase extends BlockItem {
+
+	public BlockItemBase(Block block, Item.Properties props) {
+		super(block, props);
+	}
+
 	/**
 	 * Instantiates a new Block item base.
 	 *
