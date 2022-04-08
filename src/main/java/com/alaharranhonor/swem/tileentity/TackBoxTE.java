@@ -240,7 +240,7 @@ public class TackBoxTE extends LockableLootTileEntity implements INamedContainer
 	 */
 	@Override
 	public int getContainerSize() {
-		return 30;
+		return 31;
 	}
 
 

@@ -69,7 +69,7 @@ public class TackBoxProgressionScreen extends Screen {
 		this.inv = inv;
 		this.text = defaultTitle;
 		this.xSize = 250;
-		this.ySize = 208;
+		this.ySize = 209;
 	}
 
 	@Override
@@ -90,16 +90,22 @@ public class TackBoxProgressionScreen extends Screen {
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.minecraft.getTextureManager().bind(TACKBOX_PROGRESSION_TEXTURE);
-		int i = (this.width - 247) / 2;
-		int j = (this.height - 207) / 2;
-		this.blit(matrixStack, i, j, 0, 0, 247, 207);
-		this.font.draw(matrixStack, this.title, (float) this.guiLeft + 13, (float)this.guiTop + 30, 4210752);
+		int i = (this.width - this.xSize) / 2;
+		int j = (this.height - this.ySize) / 2;
+		this.blit(matrixStack, i, j, 0, 0, this.xSize, this.ySize);
+		this.font.draw(matrixStack, this.title, (float) this.guiLeft + 7, (float)this.guiTop + 29, 4210752);
 
 		for (ProgressionBoxes pb : ProgressionBoxes.values()) {
 			Advancement adv = Minecraft.getInstance().player.connection.getAdvancements().getAdvancements().get(new ResourceLocation(SWEM.MOD_ID, pb.getPath()));
 			AdvancementProgress advProgress = Minecraft.getInstance().player.connection.getAdvancements().progress.get(adv);
-			if (adv == null) continue; // Advancement has not been completed, don't overlay the blue box.
-			this.blit(matrixStack, pb.getX() + this.guiLeft, pb.getY() + this.guiTop, 247, 25, 3, 3);
+			if (adv == null) {
+				// Advancement has not been completed, overlay gray box.
+				continue;
+			}
+
+			// Not sure what this call does :o
+			// I've been told it's best to just leave it...
+			//this.blit(matrixStack, pb.getX() + this.guiLeft, pb.getY() + this.guiTop, this.xSize, 25, 3, 3);
 
 			if (pb.isMouseOver(mouseX, mouseY, this.guiLeft, this.guiTop)) {
 				// Place the same render call that happens in AdvancementsScreen

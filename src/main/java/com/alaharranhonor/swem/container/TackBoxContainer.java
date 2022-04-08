@@ -69,140 +69,270 @@ public class TackBoxContainer extends Container {
 		// Each slot in it's compartment has a 3 pixel padding on all sides.
 		// First compartment slot start at 10x, 138y with border -1 on both without border.
 
-		int slotStartY = 139;
-		// English Section
-		int englishX = 11;
-		this.addSlot(new Slot(this.tileEntity, 0, englishX, slotStartY) {
-			@Override
-			public boolean mayPlace(ItemStack stack) {
-				return stack.getItem() instanceof EnglishBridleItem;
-			}
-		});
-		this.addSlot(new Slot(this.tileEntity, 1, englishX + 3 + 18, slotStartY){
-			@Override
-			public boolean mayPlace(ItemStack stack) {
-				return stack.getItem() instanceof EnglishSaddleItem;
-			}
-		});
-		this.addSlot(new Slot(this.tileEntity, 2, englishX, slotStartY + 3 + 18){
-			@Override
-			public boolean mayPlace(ItemStack stack) {
-				return stack.getItem() instanceof EnglishBreastCollar;
-			}
-		});
-		this.addSlot(new Slot(this.tileEntity, 3, englishX + 3 + 18, slotStartY + 3 + 18){
-			@Override
-			public boolean mayPlace(ItemStack stack) {
-				return stack.getItem() instanceof EnglishBlanketItem;
-			}
-		});
-		this.addSlot(new Slot(this.tileEntity, 4, englishX, slotStartY + 6 + 36){
-			@Override
-			public boolean mayPlace(ItemStack stack) {
-				return stack.getItem() instanceof EnglishLegWraps;
-			}
-		});
-		this.addSlot(new Slot(this.tileEntity, 5, englishX + 3 + 18, slotStartY + 6 + 36){
-			@Override
-			public boolean mayPlace(ItemStack stack) {
-				return stack.getItem() instanceof EnglishGirthStrap;
-			}
-		});
+		int slotStartY = 39;
 
-		//Western Section
-		int westernX = 60;
-		this.addSlot(new Slot(this.tileEntity, 6, westernX, slotStartY){
+		//Generic Section
+		int genericX = 8;
+		this.addSlot(new Slot(this.tileEntity, 0, genericX, slotStartY){
 			@Override
 			public boolean mayPlace(ItemStack stack) {
-				return stack.getItem() instanceof WesternBridleItem;
-			}
-		});
-		this.addSlot(new Slot(this.tileEntity, 7, westernX + 3 + 18, slotStartY){
-			@Override
-			public boolean mayPlace(ItemStack stack) {
-				return stack.getItem() instanceof WesternSaddleItem;
-			}
-		});
-		this.addSlot(new Slot(this.tileEntity, 8, westernX, slotStartY + 3 + 18){
-			@Override
-			public boolean mayPlace(ItemStack stack) {
-				return stack.getItem() instanceof WesternBreastCollarItem;
-			}
-		});
-		this.addSlot(new Slot(this.tileEntity, 9, westernX + 3 + 18, slotStartY + 3 + 18){
-			@Override
-			public boolean mayPlace(ItemStack stack) {
-				return stack.getItem() instanceof WesternBlanketItem;
-			}
-		});
-		this.addSlot(new Slot(this.tileEntity, 10, westernX, slotStartY + 6 + 36){
-			@Override
-			public boolean mayPlace(ItemStack stack) {
-				return stack.getItem() instanceof WesternLegWraps;
-			}
-		});
-		this.addSlot(new Slot(this.tileEntity, 11, westernX + 3 + 18, slotStartY + 6 + 36){
-			@Override
-			public boolean mayPlace(ItemStack stack) {
-				return stack.getItem() instanceof WesternGirthStrapItem;
-			}
-		});
-
-		// Adventure Section
-		int adventureX = 110;
-		this.addSlot(new Slot(this.tileEntity, 12, adventureX, slotStartY){
-			@Override
-			public boolean isActive() {
-				return true;
+				return stack.getItem() instanceof HalterItem && !(stack.getItem() instanceof BridleItem);
 			}
 
 			@Override
-			public boolean mayPlace(ItemStack stack) {
-				return stack.getItem() instanceof AdventureSaddleItem;
+			public int getMaxStackSize() {
+				return 1;
 			}
 		});
-		this.addSlot(new Slot(this.tileEntity, 13, adventureX, slotStartY + 3 + 18){
-			@Override
-			public boolean isActive() {
-				return true;
-			}
-
-			@Override
-			public boolean mayPlace(ItemStack stack) {
-				return stack.getItem() instanceof SWEMHorseArmorItem;
-			}
-		});
-		this.addSlot(new Slot(this.tileEntity, 14, adventureX, slotStartY + 6 + 36){
-			@Override
-			public boolean isActive() {
-				return true;
-			}
+		this.addSlot(new Slot(this.tileEntity, 1, genericX, slotStartY + 3 + 18){
 			@Override
 			public boolean mayPlace(ItemStack stack) {
 				return stack.getItem() instanceof SaddlebagItem;
 			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+		this.addSlot(new Slot(this.tileEntity, 2, genericX, slotStartY + 6 + 36){
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof SWEMHorseArmorItem;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+
+		//Adventure Section
+		int adventureX = 35;
+		this.addSlot(new Slot(this.tileEntity, 3, adventureX, slotStartY){
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof AdventureBridleItem;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+		this.addSlot(new Slot(this.tileEntity, 4, adventureX + 3 + 18, slotStartY){
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof AdventureSaddleItem;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+		this.addSlot(new Slot(this.tileEntity, 5, adventureX, slotStartY + 3 + 18){
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof AdventureBreastCollarItem;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+		this.addSlot(new Slot(this.tileEntity, 6, adventureX + 3 + 18, slotStartY + 3 + 18){
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof AdventureBlanketItem;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+		this.addSlot(new Slot(this.tileEntity, 7, adventureX, slotStartY + 6 + 36){
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof AdventureLegWraps;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+		this.addSlot(new Slot(this.tileEntity, 8, adventureX + 3 + 18, slotStartY + 6 + 36){
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof AdventureGirthStrapItem;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+
+		// English Section
+		int englishX = 83;
+		this.addSlot(new Slot(this.tileEntity, 9, englishX, slotStartY) {
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof EnglishBridleItem;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+		this.addSlot(new Slot(this.tileEntity, 10, englishX + 3 + 18, slotStartY){
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof EnglishSaddleItem;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+		this.addSlot(new Slot(this.tileEntity, 11, englishX, slotStartY + 3 + 18){
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof EnglishBreastCollar;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+		this.addSlot(new Slot(this.tileEntity, 12, englishX + 3 + 18, slotStartY + 3 + 18){
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof EnglishBlanketItem;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+		this.addSlot(new Slot(this.tileEntity, 13, englishX, slotStartY + 6 + 36){
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof EnglishLegWraps;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+		this.addSlot(new Slot(this.tileEntity, 14, englishX + 3 + 18, slotStartY + 6 + 36){
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof EnglishGirthStrap;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+
+		//Western Section
+		int westernX = 131;
+		this.addSlot(new Slot(this.tileEntity, 15, westernX, slotStartY){
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof WesternBridleItem;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+		this.addSlot(new Slot(this.tileEntity, 16, westernX + 3 + 18, slotStartY){
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof WesternSaddleItem;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+		this.addSlot(new Slot(this.tileEntity, 17, westernX, slotStartY + 3 + 18){
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof WesternBreastCollarItem;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+		this.addSlot(new Slot(this.tileEntity, 18, westernX + 3 + 18, slotStartY + 3 + 18){
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof WesternBlanketItem;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+		this.addSlot(new Slot(this.tileEntity, 19, westernX, slotStartY + 6 + 36){
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof WesternLegWraps;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
+		});
+		this.addSlot(new Slot(this.tileEntity, 20, westernX + 3 + 18, slotStartY + 6 + 36){
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return stack.getItem() instanceof WesternGirthStrapItem;
+			}
+
+			@Override
+			public int getMaxStackSize() {
+				return 1;
+			}
 		});
 
 		// General Compartment
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 5; j++) {
-				this.addSlot(new Slot(this.tileEntity, (i * 5) + j + 15, 137 + (j * 18) + (3 * j), 139 + (i * 18) + (i * 3)));
-			}
+		int generalStorageY = 112;
+		for (int col = 0; col < 9; ++col) {
+			this.addSlot(new Slot(this.tileEntity, col + 21, 8 + col * 18, generalStorageY));
 		}
 
 
 		// Player Main Inventory
-		int startPlayerInvY = 221;
+		int startPlayerInvY = 163;
 		for (int row = 0; row < 3; ++row) {
 			for (int col = 0; col < 9; ++col) {
-				this.addSlot(new Slot(playerInventory, 9 + (row * 9) + col, 47 + (col * 18), startPlayerInvY + (row * 18)));
+				this.addSlot(new Slot(playerInventory, 9 + (row * 9) + col, 8 + (col * 18), startPlayerInvY + (row * 18)));
 			}
 		}
 
 		// Player Hotbar
-		int hotBarY = 279;
+		int hotBarY = 221;
 		for (int col = 0; col < 9; ++col) {
-			this.addSlot(new Slot(playerInventory, col, 47 + col * 18, hotBarY));
+			this.addSlot(new Slot(playerInventory, col, 8 + col * 18, hotBarY));
 		}
 	}
 

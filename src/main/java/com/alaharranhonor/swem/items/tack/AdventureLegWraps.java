@@ -14,17 +14,15 @@ package com.alaharranhonor.swem.items.tack;
  * THE SOFTWARE.
  */
 
-import net.minecraft.item.Item.Properties;
 
-
-public class AdventureLegWrapsItem extends LegWrapsItem {
+public class AdventureLegWraps extends LegWrapsItem {
 	/**
 	 * Instantiates a new Adventure leg wraps item.
 	 *
 	 * @param textureName the texture name
 	 * @param properties  the properties
 	 */
-	public AdventureLegWrapsItem(String textureName, Properties properties) {
+	public AdventureLegWraps(String textureName, Properties properties) {
 		super(textureName, properties);
 	}
 }
