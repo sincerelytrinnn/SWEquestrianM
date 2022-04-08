@@ -13,6 +13,8 @@ package com.alaharranhonor.swem.entity.coats;
  * THE SOFTWARE.
  */
 
+import com.alaharranhonor.swem.SWEM;
+
 import java.util.*;
 
 public class CoatMapper {
@@ -75,6 +77,10 @@ public class CoatMapper {
 			}
 		}
 		Collections.shuffle(applicableParentCoats);
+		if (applicableParentCoats.isEmpty()) {
+			SWEM.LOGGER.error("Something went wrong mapping foal coat: " + foal + " to any parent coat! Returning Parent White Coat.");
+			return SWEMCoatColor.WHITE;
+		}
 		return applicableParentCoats.get(0);
 	}
 }
