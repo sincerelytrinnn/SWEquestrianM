@@ -2748,6 +2748,9 @@ public class SWEMHorseEntityBase
 		}
 
 		this.setHorseVariant(coatcolors.getId());
+		HorseSpeed oldSpeed = this.currentSpeed;
+		this.currentSpeed = HorseSpeed.WALK;
+		this.updateSelectedSpeed(oldSpeed);
 		//this.setVariantAndMarkings(coatcolors, Util.getRandom(CoatTypes.values(), this.rand));
 		return super.finalizeSpawn(levelIn, difficultyIn, reason, spawnDataIn, dataTag);
 	}
