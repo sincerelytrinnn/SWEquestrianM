@@ -15,19 +15,11 @@ package com.alaharranhonor.swem.entities;
  * THE SOFTWARE.
  */
 
-import com.alaharranhonor.swem.network.SHorseAnimationPacket;
-import com.alaharranhonor.swem.network.SWEMPacketHandler;
-import com.alaharranhonor.swem.util.registry.SWEMEntities;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.tileentity.PistonTileEntity;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.network.PacketDistributor;
 import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -40,8 +32,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-import javax.annotation.Nullable;
-import java.util.Arrays;
+import java.util.Random;
 
 public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable {
 
@@ -69,7 +60,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 	{
 
 		SWEMHorseEntityBase horse = (SWEMHorseEntityBase) event.getAnimatable();
-		if (horse.isBaby()) return PlayState.STOP;
+		if (horse.isBaby()) return babyPredicate(event);
 		// Rearing happens on all jumps, because minecraft internally uses the Rear animation for jump animation while pushing the enitity
 		// into the sky. So find another check, maybe for like isAngry or some of the sort, to play rear animation instead, of isRearing.
 		// This is called from AbstractHorseEntity#handleStartJump()
@@ -189,7 +180,26 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 
 		if (!event.isMoving()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_Idle"));
+			if (event.getController().getAnimationState() == AnimationState.Stopped || (
+				event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Walk")
+				|| event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Trot")
+				|| event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Canter")
+				|| event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Extended_Canter")
+				|| event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Gallop")
+				|| event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Walking_Backwards")
+
+			)) {
+				float chance = new Random().nextFloat();
+				if (chance < 0.9f) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_Idle", false));
+				} else if (chance > 0.9f && chance < 0.93f) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Scratch", false).addAnimation("Stand_Idle", false));
+				} else if (chance > 0.93f && chance < 0.96f) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Shake", false).addAnimation("Stand_Idle", false));
+				} else {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Tail_Swish", false).addAnimation("Stand_Idle", false));
+				}
+			}
 			return PlayState.CONTINUE;
 		} else if (event.isMoving()) {
 			if (horse.isWalkingBackwards) {
@@ -205,12 +215,31 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			} else if ( horse.getEntityData().get(SPEED_LEVEL) == 3) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Extended_Canter"));
 			} else if (horse.getEntityData().get(SPEED_LEVEL) == 4) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Gallop"));
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Gallop_Transition", false).addAnimation("Gallop"));
 			}
 			return PlayState.CONTINUE;
 		}
 
 		event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Level_3", false));
+		return PlayState.CONTINUE;
+	}
+
+	public <E extends IAnimatable> PlayState babyPredicate(AnimationEvent<E> event) {
+		SWEMHorseEntityBase horse = (SWEMHorseEntityBase) event.getAnimatable();
+
+		if (event.isMoving()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("gait.walk"));
+		} else {
+			if (event.getController().getAnimationState() == AnimationState.Stopped || event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("gait.walk")) {
+				float chance = new Random().nextFloat();
+				if (chance < 0.95f) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("idle.stand", false));
+				} else {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("idle.shake", false));
+				}
+			}
+		}
+
 		return PlayState.CONTINUE;
 	}
 
