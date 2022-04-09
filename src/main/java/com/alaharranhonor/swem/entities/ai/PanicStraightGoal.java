@@ -17,9 +17,7 @@ package com.alaharranhonor.swem.entities.ai;
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.PanicGoal;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;

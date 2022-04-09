@@ -197,12 +197,16 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Lean_In", false).addAnimation("Eating_Loop", true));
 			return PlayState.CONTINUE;
 		} else {
-			// Add lean out here.
+			if (anim != null && anim.animationName.equals("Eating_Loop")) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Lean_Out", false).addAnimation("Stand_Idle", false));
+				return PlayState.CONTINUE;
+			} else if (anim != null && anim.animationName.equals("Lean_Out"))
+				return PlayState.CONTINUE;
 		}
 
 		if (horse.isLayingDown) {
-			if (anim != null && !anim.animationName.equals("Laying_Down_loop"))
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Laying_Down", false));
+			if (anim != null && !anim.animationName.equals("Laying_Down_Loop"))
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Laying_Down", false).addAnimation("Laying_Down_Loop", true));
 			return PlayState.CONTINUE;
 		} else {
 			// Add lean out here.
