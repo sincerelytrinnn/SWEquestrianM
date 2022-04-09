@@ -16,6 +16,7 @@ package com.alaharranhonor.swem.entities.ai;
 
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.EnumSet;
 
@@ -40,7 +41,7 @@ public class CustomLookRandomlyGoal extends Goal {
 	 * method as well.
 	 */
 	public boolean canUse() {
-		return this.mob.getRandom().nextFloat() < 0.02F;
+		return this.mob.getRandom().nextFloat() < 0.02F && !(this.mob.getLeashHolder() instanceof PlayerEntity);
 	}
 
 	/**
