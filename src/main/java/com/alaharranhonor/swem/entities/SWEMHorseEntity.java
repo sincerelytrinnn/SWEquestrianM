@@ -38,6 +38,8 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 	private AnimationFactory factory = new AnimationFactory(this);
 
+	private int animTimer = 0;
+
 	/**
 	 * Instantiates a new Swem horse entity.
 	 *
@@ -47,6 +49,14 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 	public SWEMHorseEntity(EntityType<? extends SWEMHorseEntityBase> type, World worldIn) {
 		super(type, worldIn);
 		this.noCulling = true;
+	}
+
+	@Override
+	public void tick() {
+		if (this.level.isClientSide) {
+			animTimer = Math.max(animTimer - 1, 0);
+		}
+		super.tick();
 	}
 
 	/**
@@ -200,7 +210,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 
 		if (!event.isMoving()) {
-			if (event.getController().getAnimationState() == AnimationState.Stopped || (
+			if (animTimer < 2 || (
 				event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Walk")
 				|| event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Trot")
 				|| event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Canter")
@@ -212,12 +222,20 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 				float chance = new Random().nextFloat();
 				if (chance < 0.9f) {
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_Idle", false));
+					animTimer = 79;
+					event.getController().markNeedsReload();
 				} else if (chance > 0.9f && chance < 0.93f) {
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("Scratch", false).addAnimation("Stand_Idle", false));
+					animTimer = 79 + 90;
+					event.getController().markNeedsReload();
 				} else if (chance > 0.93f && chance < 0.96f) {
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("Shake", false).addAnimation("Stand_Idle", false));
+					animTimer = 79 + 62;
+					event.getController().markNeedsReload();
 				} else {
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("Tail_Swish", false).addAnimation("Stand_Idle", false));
+					animTimer = 79 + 79;
+					event.getController().markNeedsReload();
 				}
 			}
 			return PlayState.CONTINUE;
