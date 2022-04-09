@@ -160,6 +160,11 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		}
 
 
+		if (horse.kickAnimationTimer > 0) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("Kick", false));
+			return PlayState.CONTINUE;
+		}
+
 
 		if (horse.isStanding()) {
 			if (anim != null) {
@@ -167,7 +172,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 					return PlayState.CONTINUE;
 				}
 			}
-			event.getController().setAnimation(new AnimationBuilder().addAnimation(horse.getStandVariant() == 2 ? "Buck" : "Rear"));
+			event.getController().setAnimation(new AnimationBuilder().addAnimation(horse.getStandVariant() == 2 ? "Buck" : "Rear", false));
 
 			return PlayState.CONTINUE;
 		}
@@ -177,6 +182,21 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			return PlayState.CONTINUE;
 		}
 
+		if (horse.eatingAnim) {
+			if (anim != null && !anim.animationName.equals("Eating_Loop"))
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Lean_In", false).addAnimation("Eating_Loop", true));
+			return PlayState.CONTINUE;
+		} else {
+			// Add lean out here.
+		}
+
+		if (horse.isLayingDown) {
+			if (anim != null && !anim.animationName.equals("Laying_Down_loop"))
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Laying_Down", false));
+			return PlayState.CONTINUE;
+		} else {
+			// Add lean out here.
+		}
 
 
 		if (!event.isMoving()) {
@@ -219,6 +239,8 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			}
 			return PlayState.CONTINUE;
 		}
+
+
 
 		event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Level_3", false));
 		return PlayState.CONTINUE;

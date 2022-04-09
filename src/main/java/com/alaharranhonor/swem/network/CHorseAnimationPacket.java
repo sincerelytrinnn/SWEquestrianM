@@ -116,6 +116,18 @@ public class CHorseAnimationPacket {
 					horse.isWalkingBackwards = false;
 					break;
 				}
+				case 5: {
+					horse.kickAnimationTimer = 21;
+					break;
+				}
+				case 6: {
+					horse.eatingAnim = !horse.eatingAnim;
+					break;
+				}
+				case 7: {
+					horse.isLayingDown = !horse.isLayingDown;
+					break;
+				}
 
 			}
 		});

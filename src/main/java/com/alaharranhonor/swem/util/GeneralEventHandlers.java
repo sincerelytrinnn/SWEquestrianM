@@ -55,6 +55,8 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.server.permission.DefaultPermissionLevel;
+import net.minecraftforge.server.permission.PermissionAPI;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -131,7 +133,12 @@ public class GeneralEventHandlers {
 			//event.getDispatcher().register(YeetCommand.register());
 			event.getDispatcher().register(DevCommand.register());
 			event.getDispatcher().register(SWEMCommand.register());
+
+			PermissionAPI.registerNode("command.swem.reset_gallop", DefaultPermissionLevel.OP, "Gives permission to reset the gallop cooldown");
+			PermissionAPI.registerNode("command.swem.set_gallop_time", DefaultPermissionLevel.OP, "Gives permission to set the max gallop time");
 		}
+
+
 
 		/**
 		 * On key press.

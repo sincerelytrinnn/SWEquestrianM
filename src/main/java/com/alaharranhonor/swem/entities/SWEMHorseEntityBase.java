@@ -133,6 +133,7 @@ public class SWEMHorseEntityBase
 	private LazyOptional<InvWrapper> bedrollItemHandler;
 	private Inventory saddlebagInventory;
 	private Inventory bedrollInventory;
+	private int maxGallopSeconds = 7;
 	private static final DataParameter<Integer> GALLOP_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	private static final DataParameter<Integer> GALLOP_COOLDOWN_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	private static final DataParameter<Boolean> GALLOP_ON_COOLDOWN = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
@@ -168,6 +169,9 @@ public class SWEMHorseEntityBase
 	public int standAnimationVariant;
 	public int standingTimer = 0;
 	public boolean isWalkingBackwards = false;
+	public int kickAnimationTimer;
+	public boolean eatingAnim = false;
+	public boolean isLayingDown = false;
 
 
 	/**
@@ -182,6 +186,7 @@ public class SWEMHorseEntityBase
 		this.currentPos = this.blockPosition();
 		this.progressionManager = new ProgressionManager(this);
 		this.currentSpeed = HorseSpeed.WALK;
+		this.updateSelectedSpeed(HorseSpeed.WALK);
 		this.needs = new NeedManager(this);
 		this.initSaddlebagInventory();
 		this.initBedrollInventory();
@@ -353,6 +358,7 @@ public class SWEMHorseEntityBase
 		this.poopAnimationTick = Math.max(0, this.poopAnimationTick - 1);
 		this.standAnimationTick = Math.max(0, this.standAnimationTick - 1);
 		this.standingTimer = Math.max(0, this.standingTimer - 1);
+		this.kickAnimationTimer = Math.max(0, this.kickAnimationTimer - 1);
 		if (!this.level.isClientSide) {
 
 			// Tick entity data anim timers
@@ -407,7 +413,7 @@ public class SWEMHorseEntityBase
 				// COUNT
 				int timer = this.entityData.get(GALLOP_TIMER);
 				this.entityData.set(GALLOP_TIMER, this.entityData.get(GALLOP_TIMER) + 1);
-				if (timer == 7*20) {
+				if (timer == this.maxGallopSeconds*20) {
 					this.decrementSpeed();
 				}
 			}
@@ -570,6 +576,10 @@ public class SWEMHorseEntityBase
 
 		this.entityData.define(IS_BRIDLE_LEASHED, false);
 
+	}
+
+	public void setMaxGallopSeconds(int gallopSeconds) {
+		this.maxGallopSeconds = gallopSeconds;
 	}
 
 	/**
@@ -892,7 +902,7 @@ public class SWEMHorseEntityBase
 	/**
 	 * Reset gallop cooldown.
 	 */
-	private void resetGallopCooldown() {
+	public void resetGallopCooldown() {
 		this.entityData.set(GALLOP_COOLDOWN_TIMER, 0);
 		this.entityData.set(GALLOP_ON_COOLDOWN, false);
 		this.entityData.set(GALLOP_TIMER, 0);
@@ -1174,7 +1184,15 @@ public class SWEMHorseEntityBase
 		this.updateContainerEquipment();
 
 		//this.setFlying(compound.getBoolean("flying"));
-		this.setCoatColour(SWEMCoatColor.getById(compound.getInt("HorseVariant")));
+		if (compound.contains("HorseVariant")) {
+			this.setCoatColour(SWEMCoatColor.getById(compound.getInt("HorseVariant")));
+		} else {
+			if (this.isBaby()) {
+				this.setCoatColour(SWEMCoatColor.getRandomFoalCoat());
+			} else {
+				this.setCoatColour(SWEMCoatColor.getRandomLapisObtainableCoat());
+			}
+		}
 
 		this.setOwnerName(compound.getString("ownerName"));
 
@@ -2144,6 +2162,7 @@ public class SWEMHorseEntityBase
 		ModifiableAttributeInstance speedInstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
 		if (speedInstance != null) {
 			speedInstance.setBaseValue(this.getAlteredMovementSpeed());
+			this.updateSelectedSpeed(this.currentSpeed);
 		} else {
 			SWEM.LOGGER.error("Movement Speed Attribute is null");
 		}
@@ -2746,7 +2765,6 @@ public class SWEMHorseEntityBase
 			coatcolors = SWEMCoatColor.getRandomLapisObtainableCoat();
 			spawnDataIn = new SWEMHorseData(coatcolors);
 		}
-
 		this.setHorseVariant(coatcolors.getId());
 		HorseSpeed oldSpeed = this.currentSpeed;
 		this.currentSpeed = HorseSpeed.WALK;

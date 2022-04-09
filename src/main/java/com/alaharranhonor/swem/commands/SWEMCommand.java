@@ -16,31 +16,23 @@ package com.alaharranhonor.swem.commands;
  */
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.network.CHorseAnimationPacket;
 import com.alaharranhonor.swem.network.SHorseFriendPacket;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
-import com.alaharranhonor.swem.util.registry.SWEMItems;
-import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.command.impl.SummonCommand;
-import net.minecraft.command.impl.WeatherCommand;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.server.command.EnumArgument;
+import net.minecraftforge.server.permission.PermissionAPI;
 
-import java.util.List;
 import java.util.UUID;
 
 public class SWEMCommand {
@@ -105,7 +97,49 @@ public class SWEMCommand {
 								ctx.getSource().sendSuccess(new StringTextComponent("[SWEM] You have transferred " + riding.getDisplayName().getString() + " to " + transferTo.getDisplayName().getString() + "."), false);
 								return 1;
 							})))
-				).then(Commands.literal("listall")
+					.then(Commands.literal("resetgallop")
+						.executes(ctx -> {
+							ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
+							if (!PermissionAPI.hasPermission(player, "command.swem.reset_gallop")) {
+								ctx.getSource().sendFailure(new StringTextComponent("You do not have permission to run this command!"));
+								return 0;
+							}
+
+							Entity vehicle = player.getVehicle();
+							if (!(vehicle instanceof SWEMHorseEntityBase)) {
+								ctx.getSource().sendFailure(new StringTextComponent("You need to be on a SWEM horse to execute this command"));
+								return 0;
+							}
+							SWEMHorseEntityBase horse = (SWEMHorseEntityBase) vehicle;
+							horse.resetGallopCooldown();
+							ctx.getSource().sendSuccess(new StringTextComponent("Your horse's gallop cooldown has been reset."), false);
+							return 1;
+						})
+					)
+					.then(Commands.literal("setgalloptime")
+						.then(Commands.argument("seconds", IntegerArgumentType.integer(7, 20))
+							.executes(ctx -> {
+								ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
+								if (!PermissionAPI.hasPermission(player, "command.swem.set_gallop_time")) {
+									ctx.getSource().sendFailure(new StringTextComponent("You do not have permission to run this command!"));
+									return 0;
+								}
+
+								Entity vehicle = player.getVehicle();
+								if (!(vehicle instanceof SWEMHorseEntityBase)) {
+									ctx.getSource().sendFailure(new StringTextComponent("You need to be on a SWEM horse to execute this command"));
+									return 0;
+								}
+								SWEMHorseEntityBase horse = (SWEMHorseEntityBase) vehicle;
+								int gallopTime = IntegerArgumentType.getInteger(ctx, "seconds");
+								horse.setMaxGallopSeconds(gallopTime);
+								ctx.getSource().sendSuccess(new StringTextComponent(String.format("Your horse's max gallop time has been set to %s.", gallopTime)), false);
+								return 1;
+							})
+						)
+					)
+				)
+				.then(Commands.literal("listall")
 					.requires((p_198868_0_) -> p_198868_0_.hasPermission(2))
 					.executes(ctx -> {
 						ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
@@ -118,7 +152,8 @@ public class SWEMCommand {
 						});
 						return 1;
 					})
-				).then(Commands.literal("setlevel")
+				)
+				.then(Commands.literal("setlevel")
 					.requires((player) -> player.hasPermission(2))
 					.then(Commands.argument("skill", EnumArgument.enumArgument(Skills.class))
 						.then(Commands.argument("levelToSet", IntegerArgumentType.integer())
@@ -210,13 +245,8 @@ public class SWEMCommand {
 
 								return 1;
 							})
-
-
 						)
-
 					)
-
-
 				)
 				.then(Commands.literal("render")
 					.requires((player) -> player.hasPermission(2))
@@ -342,6 +372,64 @@ public class SWEMCommand {
 								ctx.getSource().sendFailure(new StringTextComponent("A player must execute this command."));
 							}
 							return 0;
+						})
+					)
+				)
+				.then(Commands.literal("rrp")
+					.then(Commands.literal("kick")
+						.executes(ctx -> {
+							ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
+							Entity vehicle = player.getVehicle();
+							if (!(vehicle instanceof SWEMHorseEntityBase)) {
+								ctx.getSource().sendFailure(new StringTextComponent("You need to be on a SWEM horse to execute this command."));
+								return 0;
+							}
+							SWEMHorseEntityBase horse = (SWEMHorseEntityBase) vehicle;
+							SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new CHorseAnimationPacket(horse.getId(), 5));
+
+							return 1;
+						})
+					)
+					.then(Commands.literal("eat")
+						.executes(ctx -> {
+							ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
+							Entity vehicle = player.getVehicle();
+							if (!(vehicle instanceof SWEMHorseEntityBase)) {
+								ctx.getSource().sendFailure(new StringTextComponent("You need to be on a SWEM horse to execute this command."));
+								return 0;
+							}
+							SWEMHorseEntityBase horse = (SWEMHorseEntityBase) vehicle;
+							SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new CHorseAnimationPacket(horse.getId(), 6));
+							ctx.getSource().sendSuccess(new StringTextComponent("You have toggled eating, run the command again to enable/disable"), false);
+							return 1;
+						})
+					)
+					.then(Commands.literal("rear")
+						.executes(ctx -> {
+							ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
+							Entity vehicle = player.getVehicle();
+							if (!(vehicle instanceof SWEMHorseEntityBase)) {
+								ctx.getSource().sendFailure(new StringTextComponent("You need to be on a SWEM horse to execute this command."));
+								return 0;
+							}
+							SWEMHorseEntityBase horse = (SWEMHorseEntityBase) vehicle;
+							SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new CHorseAnimationPacket(horse.getId(), 1));
+
+							return 1;
+						})
+					)
+					.then(Commands.literal("lay")
+						.executes(ctx -> {
+							ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
+							Entity vehicle = player.getVehicle();
+							if (!(vehicle instanceof SWEMHorseEntityBase)) {
+								ctx.getSource().sendFailure(new StringTextComponent("You need to be on a SWEM horse to execute this command."));
+								return 0;
+							}
+							SWEMHorseEntityBase horse = (SWEMHorseEntityBase) vehicle;
+							SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new CHorseAnimationPacket(horse.getId(), 7));
+							ctx.getSource().sendSuccess(new StringTextComponent("You have toggled laying down, run the command again to enable/disable"), false);
+							return 1;
 						})
 					)
 				);
