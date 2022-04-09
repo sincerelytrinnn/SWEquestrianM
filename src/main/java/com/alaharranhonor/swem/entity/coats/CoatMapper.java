@@ -61,7 +61,12 @@ public class CoatMapper {
 	 * @return the swem coat color
 	 */
 	protected static SWEMCoatColor parentToFoalCoat(SWEMCoatColor parent) {
-		return coatMap.get(parent);
+		SWEMCoatColor color = coatMap.get(parent);
+		if (color == null) {
+			SWEM.LOGGER.debug("Using white, since a non-mapped coat was used for breeding.");
+			color = coatMap.get(SWEMCoatColor.WHITE);
+		}
+		return color;
 	}
 
 	/**
