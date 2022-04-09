@@ -15,8 +15,8 @@ package com.alaharranhonor.swem.items;
  * THE SOFTWARE.
  */
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -25,6 +25,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -97,14 +98,13 @@ public class TrackerItem extends ItemBase {
 
 			StringBuilder builder = new StringBuilder();
 
-			ServerWorld world = (ServerWorld) worldIn;
 			int horsesNotFound = 0;
 			for (int i = 0; i < tracked.size(); i++) {
 				UUID uuid = tracked.getUUID(Integer.toString(i));
-				Entity entity = world.getEntity(uuid);
-				if (entity instanceof SWEMHorseEntityBase) {
-					builder.append(entity.getName().getString()).append(" x: ").append(entity.blockPosition().getX()).append(" - y: ").append(entity.blockPosition().getY()).append(" - z: ").append(entity.blockPosition().getZ()).append("\n");
-				} else if (entity == null) {
+				BlockPos entityPos = SWEM.getPosForHorse(uuid);
+				if (entityPos != null) {
+					builder.append(" x: ").append(entityPos.getX()).append(" - y: ").append(entityPos.getY()).append(" - z: ").append(entityPos.getZ()).append("\n");
+				} else {
 					 horsesNotFound++;
 				}
 			}

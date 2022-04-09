@@ -46,6 +46,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -418,6 +419,20 @@ public class GeneralEventHandlers {
 				if (event.getWorld().getBlockState(event.getEntity().blockPosition()).getBlock() instanceof HitchingPostBase) {
 					event.getEntity().setInvisible(true);
 				}
+			}
+		}
+
+		@SubscribeEvent
+		public static void onHorseJoin(EntityJoinWorldEvent event) {
+			if (event.getEntity() instanceof SWEMHorseEntityBase) {
+				SWEM.setPosForHorse(event.getEntity().getUUID(), event.getEntity().blockPosition());
+			}
+		}
+
+		@SubscribeEvent
+		public static void onHorseLeave(EntityLeaveWorldEvent event) {
+			if (event.getEntity() instanceof SWEMHorseEntityBase) {
+				SWEM.setPosForHorse(event.getEntity().getUUID(), event.getEntity().blockPosition());
 			}
 		}
 
