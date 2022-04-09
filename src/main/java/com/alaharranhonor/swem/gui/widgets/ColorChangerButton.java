@@ -18,12 +18,9 @@ package com.alaharranhonor.swem.gui.widgets;
 import com.alaharranhonor.swem.gui.JumpScreen;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.network.jumps.CChangeColorPacket;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.item.DyeColor;
+import com.alaharranhonor.swem.util.SWEMUtil;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
 
 
 public class ColorChangerButton extends CycableButton {
@@ -71,7 +68,7 @@ public class ColorChangerButton extends CycableButton {
 		if (this.screen.layerAmount < this.layer) {
 			return new StringTextComponent("White");
 		}
-		String colorName = DyeColor.byId(this.screen.layerColors.get(this.layer)).getName();
+		String colorName = SWEMUtil.logicalByIndex(this.screen.layerColors.get(this.layer)).getName();
 		String[] names = colorName.split("_");
 		String finalName = "";
 		for (int i = 0; i < names.length; i++) {

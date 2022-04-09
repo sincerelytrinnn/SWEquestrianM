@@ -21,6 +21,7 @@ import com.alaharranhonor.swem.blocks.BarrelBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpControllerBlock;
 import com.alaharranhonor.swem.blocks.jumps.JumpStandardBlock;
+import com.alaharranhonor.swem.util.SWEMUtil;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
@@ -332,8 +333,7 @@ public class SWEMBlocks {
 	public static final List<RegistryObject<HalfBarrelBlock>> HALF_BARRELS = new ArrayList<>();
 
 	static {
-		for (DyeColor color : DyeColor.values()) {
-			// Jumps
+		for (DyeColor color : SWEMUtil.COLOURS) {
 			ROLL_TOPS.add(registerNoItem("jump_roll_top_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 0.875d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 0.875d, 0.875d))));
 			RAILS.add(registerNoItem("jump_rail_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 0.875d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 0.875d, 0.875d))));
 			GROUND_POLES.add(registerNoItem("jump_ground_pole_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 0.1875d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 0.1875d, 0.875d))));
@@ -348,8 +348,9 @@ public class SWEMBlocks {
 			CAVALETTIS.add(registerNoItem("jump_cavaletti_" + color.toString(), () -> new JumpBlock(VoxelShapes.box(0.125d, 0, 0, 0.875d, 1.0d, 1.0d), VoxelShapes.box(0, 0, 0.125d, 1.0d, 1.0d, 0.875d))));
 
 
+		}
 
-
+		for (DyeColor color : DyeColor.values()) {
 			CONES.add(register(color.toString()+"_cone", ConeBase::new, block -> () -> new ConeBlockItem(block.get())));
 			WHEEL_BARROWS.add(register("wheel_barrow_"+color.toString(), () -> new WheelBarrowBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion().sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).strength(2.5F, 3.5F), color),
 					 block -> () -> new BlockItemBase(block.get())));

@@ -16,8 +16,7 @@ package com.alaharranhonor.swem.tileentity;
  */
 
 import com.alaharranhonor.swem.blocks.jumps.*;
-import com.alaharranhonor.swem.network.SWEMPacketHandler;
-import com.alaharranhonor.swem.network.jumps.CDestroyPacket;
+import com.alaharranhonor.swem.util.SWEMUtil;
 import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -216,7 +215,7 @@ public class JumpTE extends TileEntity {
 		}
 
 		int nextColor = layerColors.get(layerNumber) + 1;
-		if (nextColor > DyeColor.values().length - 1) {
+		if (nextColor > SWEMUtil.COLOURS.length - 1) {
 			nextColor = 0;
 		}
 		layerColors.put(layerNumber, nextColor);
@@ -236,7 +235,7 @@ public class JumpTE extends TileEntity {
 
 		int prevColor = layerColors.get(layerNumber) - 1;
 		if (prevColor < 0) {
-			prevColor = DyeColor.values().length - 1;
+			prevColor = SWEMUtil.COLOURS.length - 1;
 		}
 		layerColors.put(layerNumber, prevColor);
 
@@ -249,7 +248,7 @@ public class JumpTE extends TileEntity {
 	 * @param layerNumber the layer number
 	 */
 	private void resetColor(int layerNumber) {
-		layerColors.put(layerNumber, 0);
+		layerColors.put(layerNumber, SWEMUtil.COLOURS[0].getId());
 	}
 
 	/**
@@ -259,7 +258,7 @@ public class JumpTE extends TileEntity {
 	 * @return the color variant
 	 */
 	public DyeColor getColorVariant(int layerNumber) {
-		return DyeColor.values()[this.layerColors.getOrDefault(layerNumber, 0)];
+		return SWEMUtil.COLOURS[this.layerColors.getOrDefault(layerNumber, SWEMUtil.COLOURS[0].getId())];
 	}
 
 	/**
@@ -456,6 +455,9 @@ public class JumpTE extends TileEntity {
 		}
 		if (layerPositions.containsKey(layerNumber)) {
 			layerPositions.remove(layerNumber);
+		}
+		if (layerColors.containsKey(layerNumber)) {
+			layerColors.remove(layerNumber);
 		}
 
 		this.layerAmount--;

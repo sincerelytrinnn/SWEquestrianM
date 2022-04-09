@@ -16,12 +16,10 @@ package com.alaharranhonor.swem.util;
  */
 
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,27 +47,25 @@ public class SWEMUtil {
 
 
 	public static DyeColor[] COLOURS = {
-		DyeColor.LIGHT_GRAY,
+		DyeColor.WHITE,
+		DyeColor.LIGHT_BLUE,
 		DyeColor.CYAN,
 		DyeColor.BLUE,
 		DyeColor.PINK,
 		DyeColor.MAGENTA,
-			DyeColor.PURPLE,
-			DyeColor.YELLOW,
-			DyeColor.YELLOW,
-			DyeColor.RED,
-			DyeColor.LIME,
-			DyeColor.GREEN,
-			DyeColor.BROWN,
-			DyeColor.WHITE,
-			DyeColor.LIGHT_GRAY,
-			DyeColor.GRAY,
-			DyeColor.BLACK
+		DyeColor.PURPLE,
+		DyeColor.YELLOW,
+		DyeColor.ORANGE,
+		DyeColor.RED,
+		DyeColor.LIME,
+		DyeColor.GREEN,
+		DyeColor.LIGHT_GRAY,
+		DyeColor.GRAY,
+		DyeColor.BLACK,
+		DyeColor.BROWN,
 	};
 
-	private static final DyeColor[] BY_ID = Arrays.stream(COLOURS).sorted(Comparator.comparingInt(DyeColor::getId)).toArray((p_199795_0_) -> {
-		return new DyeColor[p_199795_0_];
-	});
+	private static final DyeColor[] BY_INDEX = Arrays.stream(COLOURS).toArray(DyeColor[]::new);
 
 	/**
 	 * Logical by id dye color.
@@ -77,11 +73,11 @@ public class SWEMUtil {
 	 * @param pColorId the p color id
 	 * @return the dye color
 	 */
-	public static DyeColor logicalById(int pColorId) {
-		if (pColorId < 0 || pColorId >= BY_ID.length) {
+	public static DyeColor logicalByIndex(int pColorId) {
+		if (pColorId < 0 || pColorId >= BY_INDEX.length) {
 			pColorId = 0;
 		}
 
-		return BY_ID[pColorId];
+		return BY_INDEX[pColorId];
 	}
 }
