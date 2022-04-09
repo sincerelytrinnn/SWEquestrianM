@@ -1,9 +1,9 @@
 name: 'Build'
 
 on:
-  push:
-    branches:
-      - 'beta'
+  #push:
+  #  branches:
+  #    - 'beta'
   pull_request:
     types:
       - opened
