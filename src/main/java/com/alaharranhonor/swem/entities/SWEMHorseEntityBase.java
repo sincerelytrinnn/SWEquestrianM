@@ -2357,7 +2357,7 @@ public class SWEMHorseEntityBase
 		}
 
 		if (!itemstack.isEmpty() && item != Items.SADDLE) {
-			if (item == Items.LAPIS_LAZULI && playerEntity.getUUID().equals(this.getOwnerUUID())) {
+			if (item == Items.LAPIS_LAZULI && !this.isBaby() && playerEntity.getUUID().equals(this.getOwnerUUID())) {
 				if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
 					this.setHorseVariant(SWEMCoatColor.getNextCyclableCoat(this.getHorseVariant()).getId());
 					ItemStack heldItemCopy = itemstack.copy();
@@ -2368,7 +2368,7 @@ public class SWEMHorseEntityBase
 				}
 			}
 
-			if (item == Items.REDSTONE && playerEntity.getUUID().equals(this.getOwnerUUID())) {
+			if (item == Items.REDSTONE && !this.isBaby() && playerEntity.getUUID().equals(this.getOwnerUUID())) {
 				if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
 					this.setHorseVariant(SWEMCoatColor.getPreviousCyclableCoat(this.getHorseVariant()).getId());
 					ItemStack heldItemCopy = itemstack.copy();
