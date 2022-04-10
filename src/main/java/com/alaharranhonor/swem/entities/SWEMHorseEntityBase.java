@@ -221,7 +221,7 @@ public class SWEMHorseEntityBase
 		this.poopGoal = new PoopGoal(this);
 		//this.goalSelector.addGoal(0, new SwimGoal(this));
 		this.goalSelector.addGoal(1, new PanicGoal(this, 4.0D)); // Unsure why this needs a lower value than the other goals. 4.0 Would make it run at insane speeds.
-		//this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 4.0D));
+		this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 4.0D));
 		this.goalSelector.addGoal(2, new BreedGoal(this, 4.0d));
 		this.goalSelector.addGoal(3, new TemptGoal(this, 4.0D, TEMPTATION_ITEMS, false));
 		this.goalSelector.addGoal(4, new FollowParentGoal(this, 4.0D));
