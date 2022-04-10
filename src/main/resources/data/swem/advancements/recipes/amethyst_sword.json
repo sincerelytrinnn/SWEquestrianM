@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "swem:amethyst_longsword"
+      "swem:amethyst_sword"
     ]
   },
   "criteria": {
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "swem:amethyst_longsword"
+        "recipe": "swem:amethyst_sword"
       }
     }
   },

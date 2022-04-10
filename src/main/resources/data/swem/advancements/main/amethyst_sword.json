@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "swem:amethyst_longsword"
+      "item": "swem:amethyst_sword"
     },
     "title": {
       "translate": "advancements.swem.main.amethyst_longsword.title"
@@ -22,7 +22,7 @@
       "conditions": {
         "items": [
           {
-            "item": "swem:amethyst_longsword"
+            "item": "swem:amethyst_sword"
           }
         ]
       }
