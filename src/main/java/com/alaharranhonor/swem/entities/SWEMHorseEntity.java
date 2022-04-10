@@ -39,6 +39,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 	private AnimationFactory factory = new AnimationFactory(this);
 
 	private int animTimer = 0;
+	private int idleAnimCooldown = 0;
 
 	/**
 	 * Instantiates a new Swem horse entity.
@@ -55,6 +56,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 	public void tick() {
 		if (this.level.isClientSide) {
 			animTimer = Math.max(animTimer - 1, 0);
+			idleAnimCooldown = Math.max(idleAnimCooldown - 1, 0);
 		}
 		super.tick();
 	}
@@ -224,21 +226,24 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 			)) {
 				float chance = new Random().nextFloat();
-				if (chance < 0.9f) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_Idle", false));
+				if (chance < 0.9f || idleAnimCooldown > 1) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_Idle", true));
 					animTimer = 79;
 					event.getController().markNeedsReload();
-				} else if (chance > 0.9f && chance < 0.93f) {
+				} else if (chance > 0.9f && chance < 0.93f && idleAnimCooldown < 1) {
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("Scratch", false).addAnimation("Stand_Idle", false));
 					animTimer = 79 + 90;
+					idleAnimCooldown = animTimer + 100;
 					event.getController().markNeedsReload();
-				} else if (chance > 0.93f && chance < 0.96f) {
+				} else if (chance > 0.93f && chance < 0.96f && idleAnimCooldown < 1) {
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("Shake", false).addAnimation("Stand_Idle", false));
 					animTimer = 79 + 62;
+					idleAnimCooldown = animTimer + 100;
 					event.getController().markNeedsReload();
-				} else {
+				} else if (idleAnimCooldown < 1) {
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("Tail_Swish", false).addAnimation("Stand_Idle", false));
 					animTimer = 79 + 79;
+					idleAnimCooldown = animTimer + 100;
 					event.getController().markNeedsReload();
 				}
 			}
