@@ -16,15 +16,11 @@ package com.alaharranhonor.swem.entities;
  */
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.entity.render.RiderGeoRenderer;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.client.entity.player.RemoteClientPlayerEntity;
-import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import software.bernie.geckolib3.core.AnimationState;
@@ -39,7 +35,6 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.core.processor.AnimationProcessor;
 import software.bernie.geckolib3.file.AnimationFileLoader;
-import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 import software.bernie.geckolib3.resource.GeckoLibCache;
 
 import static com.alaharranhonor.swem.entities.SWEMHorseEntityBase.SPEED_LEVEL;

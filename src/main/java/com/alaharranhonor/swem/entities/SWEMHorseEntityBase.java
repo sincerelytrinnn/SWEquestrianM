@@ -2064,7 +2064,7 @@ public class SWEMHorseEntityBase
 	 * @return the jump disobey
 	 */
 	public double getJumpDisobey(float jumpHeight) {
-		return 0.2 * (this.progressionManager.getJumpLeveling().getLevel() + 1 - 5) / 4 + 0.2 * (jumpHeight - 1) / 4 + 0.6 * this.progressionManager.getAffinityLeveling().getDebuff();
+		return 0.25 * (this.progressionManager.getJumpLeveling().getLevel() + 1 - 5) / 4 + 0.05 * (jumpHeight - 1) / 4 + 0.7 * this.progressionManager.getAffinityLeveling().getDebuff();
 	}
 
 	@Override
