@@ -1,10 +1,8 @@
 package com.alaharranhonor.swem.network;
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.container.BedrollContainer;
-import com.alaharranhonor.swem.container.SaddlebagContainer;
+import com.alaharranhonor.swem.container.SaddlebagAndBedrollContainer;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.util.registry.SWEMItems;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import net.minecraft.entity.Entity;
@@ -22,9 +20,6 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
-
-import static com.alaharranhonor.swem.entities.HorseFlightController.*;
-import static com.alaharranhonor.swem.entities.HorseFlightController.isLaunching;
 
 public class SContainerPacket {
 	private int action;
@@ -99,7 +94,7 @@ public class SContainerPacket {
 							@Nullable
 							@Override
 							public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
-								return new SaddlebagContainer(p_createMenu_1_, p_createMenu_2_, horse.getId());
+								return new SaddlebagAndBedrollContainer(p_createMenu_1_, p_createMenu_2_, horse.getId());
 							}
 						}, buffer -> {
 							buffer.writeInt(horse.getId());

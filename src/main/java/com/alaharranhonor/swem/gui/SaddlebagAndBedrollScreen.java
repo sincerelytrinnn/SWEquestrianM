@@ -16,7 +16,7 @@ package com.alaharranhonor.swem.gui;
  */
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.container.BedrollContainer;
+import com.alaharranhonor.swem.container.SaddlebagAndBedrollContainer;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.IHasContainer;
@@ -25,33 +25,34 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 
-public class BedrollScreen extends ContainerScreen<BedrollContainer> implements IHasContainer<BedrollContainer> {
+public class SaddlebagAndBedrollScreen extends ContainerScreen<SaddlebagAndBedrollContainer> implements IHasContainer<SaddlebagAndBedrollContainer> {
 
-	private static final ResourceLocation SADDLE_BAG_TEXTURE = new ResourceLocation(SWEM.MOD_ID, "textures/gui/container/bedroll.png");
+	private static final ResourceLocation SADDLE_BAG_TEXTURE = new ResourceLocation(SWEM.MOD_ID, "textures/gui/container/saddle_bag_and_bedroll.png");
 
 	private final PlayerEntity player;
-	private BedrollContainer container;
+	private SaddlebagAndBedrollContainer container;
 	private PlayerInventory inventory;
 	private ITextComponent text;
 
 
 	/**
-	 * Instantiates a new Bedroll screen.
+	 * Instantiates a new Saddlebag screen.
 	 *
 	 * @param screenContainer the screen container
 	 * @param inv             the inv
 	 * @param titleIn         the title in
 	 */
-	public BedrollScreen(BedrollContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
+	public SaddlebagAndBedrollScreen(SaddlebagAndBedrollContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
 		super(screenContainer, inv, titleIn);
 		this.imageWidth = 176;
-		this.imageHeight = 166;
+		this.imageHeight = 198;
 		this.player = inv.player;
 		this.titleLabelX = 7;
-		this.titleLabelY = 7;
+		this.titleLabelY = 38;
 		this.inventoryLabelX = 7;
-		this.inventoryLabelY = 40;
+		this.inventoryLabelY = 105;
 		this.container = screenContainer;
 		this.inventory = inv;
 		this.text = titleIn;
@@ -70,6 +71,7 @@ public class BedrollScreen extends ContainerScreen<BedrollContainer> implements 
 	@Override
 	protected void renderLabels(MatrixStack matrixStack, int x, int y) {
 		super.renderLabels(matrixStack, x, y);
+		this.font.draw(matrixStack, new StringTextComponent("Bedroll"), this.leftPos + 7, this.topPos + 6, 4210752);
 	}
 
 	@Override

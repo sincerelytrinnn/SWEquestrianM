@@ -113,8 +113,7 @@ public class ClientEventHandlers {
 		ScreenManager.register(SWEMContainers.SWEM_HORSE_CONTAINER.get(), SWEMHorseInventoryScreen::new);
 		ScreenManager.register(SWEMContainers.TACKBOX_CONTAINER.get(), TackBoxDefaultScreen::new);
 		ScreenManager.register(SWEMContainers.CANTAZARITE_ANVIL_CONTAINER.get(), CantazariteAnvilScreen::new);
-		ScreenManager.register(SWEMContainers.SADDLE_BAG_CONTAINER.get(), SaddlebagScreen::new);
-		ScreenManager.register(SWEMContainers.BED_ROLL_CONTAINER.get(), BedrollScreen::new);
+		ScreenManager.register(SWEMContainers.SADDLE_BAG_AND_BEDROLL_CONTAINER.get(), SaddlebagAndBedrollScreen::new);
 		ScreenManager.register(SWEMContainers.LOCKER_CONTAINER.get(), LockerScreen::new);
 		ScreenManager.register(SWEMContainers.JUMP_CONTAINER.get(), JumpScreen::new);
 
@@ -231,16 +230,15 @@ public class ClientEventHandlers {
 	 * Register keybinds.
 	 */
 	public static void registerKeybinds() {
-		keyBindings = new KeyBinding[9];
+		keyBindings = new KeyBinding[8];
 
 		keyBindings[0] = new KeyBinding("key.swem.horse.increment", GLFW.GLFW_KEY_H, "key.swem.category");
 		keyBindings[1] = new KeyBinding("key.swem.horse.decrement", GLFW.GLFW_KEY_G, "key.swem.category");
-		keyBindings[2] = new KeyBinding("key.swem.horse.toggle_bedroll", GLFW.GLFW_KEY_K, "key.swem.category");
+		keyBindings[2] = new KeyBinding("key.swem.horse.toggle_saddlebag_and_bedroll", GLFW.GLFW_KEY_K, "key.swem.category");
 		keyBindings[3] = new KeyBinding("key.swem.horse.toggle_flight", GLFW.GLFW_KEY_J, "key.swem.category");
 		keyBindings[4] = new KeyBinding("key.swem.horse.toggle_wings", GLFW.GLFW_KEY_PERIOD, "key.swem.category");
 		keyBindings[5] = new KeyBinding("key.swem.horse.dive_flight", GLFW.GLFW_KEY_X, "key.swem.category");
-		keyBindings[7] = new KeyBinding("key.swem.horse.toggle_saddlebag", GLFW.GLFW_KEY_L, "key.swem.category");
-		keyBindings[8] = new KeyBinding("key.swem.horse.camera_lock", GLFW.GLFW_KEY_LEFT_ALT, "key.swem.category");
+		keyBindings[7] = new KeyBinding("key.swem.horse.camera_lock", GLFW.GLFW_KEY_LEFT_ALT, "key.swem.category");
 
 		//TODO: REMOVE ONCE SPEED HAS BEEN CONFIRMED
 		keyBindings[6] = new KeyBinding("key.swem.horse.check_speed", GLFW.GLFW_KEY_N, "key.swem.category");

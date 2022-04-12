@@ -189,7 +189,6 @@ public class SWEMHorseEntityBase
 		this.updateSelectedSpeed(HorseSpeed.WALK);
 		this.needs = new NeedManager(this);
 		this.initSaddlebagInventory();
-		this.initBedrollInventory();
 		this.flightController = new HorseFlightController(this);
 	}
 
@@ -992,7 +991,7 @@ public class SWEMHorseEntityBase
 	 */
 	protected void initSaddlebagInventory() {
 		Inventory inventory = this.saddlebagInventory;
-		this.saddlebagInventory = new Inventory(27);
+		this.saddlebagInventory = new Inventory(31);
 		if (inventory != null) {
 			inventory.removeListener(this);
 			int i = Math.min(inventory.getContainerSize(), this.saddlebagInventory.getContainerSize());
@@ -1016,37 +1015,6 @@ public class SWEMHorseEntityBase
 	 */
 	public Inventory getSaddlebagInventory() {
 		return this.saddlebagInventory;
-	}
-
-	/**
-	 * Init bedroll inventory.
-	 */
-	protected void initBedrollInventory() {
-		Inventory inventory = this.bedrollInventory;
-		this.bedrollInventory = new Inventory(4);
-		if (inventory != null) {
-			inventory.removeListener(this);
-			int i = Math.min(inventory.getContainerSize(), this.bedrollInventory.getContainerSize());
-
-			for(int j = 0; j < i; ++j) {
-				ItemStack itemstack = inventory.getItem(j);
-				if (!itemstack.isEmpty()) {
-					this.bedrollInventory.setItem(j, itemstack.copy());
-				}
-			}
-		}
-
-		this.bedrollInventory.addListener(this);
-		this.bedrollItemHandler = LazyOptional.of(() -> new InvWrapper(this.bedrollInventory));
-	}
-
-	/**
-	 * Gets bedroll inventory.
-	 *
-	 * @return the bedroll inventory
-	 */
-	public Inventory getBedrollInventory() {
-		return this.bedrollInventory;
 	}
 
 	public void addAdditionalSaveData(CompoundNBT compound) {
@@ -1077,7 +1045,6 @@ public class SWEMHorseEntityBase
 		}
 
 		this.writeSaddlebagInventory(compound);
-		this.writeBedrollInventory(compound);
 
 
 		this.progressionManager.write(compound);
@@ -1174,7 +1141,6 @@ public class SWEMHorseEntityBase
 		}
 
 		this.readSaddlebagInventory(compound);
-		this.readBedrollInventory(compound);
 
 
 		this.progressionManager.read(compound);
@@ -1363,43 +1329,6 @@ public class SWEMHorseEntityBase
 					CompoundNBT stackNBT = (CompoundNBT) saddlebag.get(Integer.toString(i));
 					if (stackNBT != null) {
 						this.saddlebagInventory.setItem(i, ItemStack.of(stackNBT));
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * Write bedroll inventory.
-	 *
-	 * @param compound the compound
-	 */
-	private void writeBedrollInventory(CompoundNBT compound) {
-
-		if (!this.bedrollInventory.isEmpty()) {
-			CompoundNBT bedroll = new CompoundNBT();
-			for (int i = 0; i < this.bedrollInventory.getContainerSize(); i++) {
-				bedroll.put(Integer.toString(i), this.bedrollInventory.getItem(i).save(new CompoundNBT()));
-			}
-			compound.put("bedroll", bedroll);
-		}
-
-	}
-
-	/**
-	 * Read bedroll inventory.
-	 *
-	 * @param compound the compound
-	 */
-	private void readBedrollInventory(CompoundNBT compound) {
-		if (compound.contains("bedroll")) {
-			CompoundNBT bedroll = compound.getCompound("bedroll");
-
-			for (int i = 0; i < this.bedrollInventory.getContainerSize(); i++) {
-				if (bedroll.contains(Integer.toString(i))) {
-					CompoundNBT stackNBT = (CompoundNBT) bedroll.get(Integer.toString(i));
-					if (stackNBT != null) {
-						this.bedrollInventory.setItem(i, ItemStack.of(stackNBT));
 					}
 				}
 			}
@@ -1698,12 +1627,12 @@ public class SWEMHorseEntityBase
 		} else {
 			if (Minecraft.getInstance().player != null && Minecraft.getInstance().player.getVehicle() != null && Minecraft.getInstance().player.getVehicle().getUUID().equals(this.getUUID())) {
 
-				if (ClientEventHandlers.keyBindings[8].isDown() && this.isCameraLocked() && this.getPassengers().get(0) == Minecraft.getInstance().player) {
+				if (ClientEventHandlers.keyBindings[7].isDown() && this.isCameraLocked() && this.getPassengers().get(0) == Minecraft.getInstance().player) {
 					SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), false));
 					this.setLockedRotations(this.xRot, this.yRot);
 
 
-				} else if (!ClientEventHandlers.keyBindings[8].isDown() && !this.isCameraLocked() && this.getPassengers().get(0) == Minecraft.getInstance().player) {
+				} else if (!ClientEventHandlers.keyBindings[7].isDown() && !this.isCameraLocked() && this.getPassengers().get(0) == Minecraft.getInstance().player) {
 					SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), true));
 				}
 			}

@@ -167,7 +167,7 @@ public class GeneralEventHandlers {
 					}
 				}
 
-				if (keyBindings[7].consumeClick()) {
+				if (keyBindings[2].consumeClick()) {
 					SWEMPacketHandler.INSTANCE.sendToServer(new SContainerPacket(0));
 				}
 
@@ -200,21 +200,6 @@ public class GeneralEventHandlers {
 					if (entity instanceof SWEMHorseEntityBase && player.zza > 0) {
 						SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 						SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(0, horse.getId()));
-					}
-				}
-
-				if (keyBindings[2].consumeClick()) {
-					ClientPlayerEntity player = Minecraft.getInstance().player;
-					Entity entity = player.getVehicle();
-					if (entity instanceof SWEMHorseEntityBase) {
-						SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-						ItemStack saddleBagStack = horse.getHorseInventory().getItem(7);
-						if (saddleBagStack.isEmpty()) {
-							player.displayClientMessage(new TranslationTextComponent("swem.horse.status.no_saddle_bag"), true);
-							return;
-						}
-
-						SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(6, horse.getId()));
 					}
 				}
 

@@ -321,14 +321,6 @@ public class SWEMHorseInventoryContainer extends Container {
 					}
 					horse.getSaddlebagInventory().clearContent();
 				}
-				if (stack.isEmpty() && !horse.getBedrollInventory().isEmpty()) {
-					for (int i = 0; i < horse.getBedrollInventory().getContainerSize(); i++) {
-						ItemStack stackToDrop = horse.getBedrollInventory().getItem(i);
-						ItemEntity stackToSpawn = new ItemEntity(horse.getCommandSenderWorld(), horse.getX(), horse.getY(), horse.getZ(), stackToDrop);
-						horse.getCommandSenderWorld().addFreshEntity(stackToSpawn);
-					}
-					horse.getBedrollInventory().clearContent();
-				}
 			}
 		});
 

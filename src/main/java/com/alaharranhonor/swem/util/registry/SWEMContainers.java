@@ -48,12 +48,8 @@ public class SWEMContainers {
 			() -> IForgeContainerType.create(CantazariteAnvilContainer::new)
 	);
 
-	public static final RegistryObject<ContainerType<SaddlebagContainer>> SADDLE_BAG_CONTAINER = CONTAINER_TYPES.register("saddle_bag",
-			() -> IForgeContainerType.create(SaddlebagContainer::new)
-	);
-
-	public static final RegistryObject<ContainerType<BedrollContainer>> BED_ROLL_CONTAINER = CONTAINER_TYPES.register("bedroll",
-			() -> IForgeContainerType.create(BedrollContainer::new)
+	public static final RegistryObject<ContainerType<SaddlebagAndBedrollContainer>> SADDLE_BAG_AND_BEDROLL_CONTAINER = CONTAINER_TYPES.register("saddle_bag_and_bedroll",
+			() -> IForgeContainerType.create(SaddlebagAndBedrollContainer::new)
 	);
 
 	public static final RegistryObject<ContainerType<LockerContainer>> LOCKER_CONTAINER = CONTAINER_TYPES.register("locker",
