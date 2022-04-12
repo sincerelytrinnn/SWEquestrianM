@@ -113,7 +113,7 @@ public class HitchingPostBase extends Block {
 				worldIn.setBlock(pos.below(), Blocks.AIR.defaultBlockState(), 3);
 			}
 
-			Item miniHitching = SWEMBlocks.PASTURE_HITCHING_POST_ITEM.get();
+			Item miniHitching = SWEMBlocks.PASTURE_HITCHING_POST_MINI_ITEM.get();
 			switch (this.type) {
 				case ENGLISH: {
 					miniHitching = SWEMBlocks.ENGLISH_HITCHING_POST_MINI_ITEM.get();
