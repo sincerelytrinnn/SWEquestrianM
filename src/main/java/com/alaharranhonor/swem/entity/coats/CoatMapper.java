@@ -94,7 +94,7 @@ public class CoatMapper {
 	protected static SWEMCoatColor foalToParentCoat(SWEMCoatColor foal) {
 		List<SWEMCoatColor> applicableParentCoats = new ArrayList<>();
 		for (Map.Entry<SWEMCoatColor, SWEMCoatColor> entry : coatMap.entrySet()) {
-			if (entry.getValue() == foal) {
+			if (entry.getValue() == foal && entry.getValue().isLapisObtainable()) {
 				applicableParentCoats.add(entry.getKey());
 			}
 		}
