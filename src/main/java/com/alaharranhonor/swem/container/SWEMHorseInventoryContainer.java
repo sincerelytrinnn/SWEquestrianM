@@ -25,6 +25,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -311,17 +312,38 @@ public class SWEMHorseInventoryContainer extends Container {
 			}
 
 			@Override
-			public void setChanged() {
-				ItemStack stack = this.getItem();
-				if (stack.isEmpty() && !horse.getSaddlebagInventory().isEmpty()) {
+			public ItemStack onTake(PlayerEntity pPlayer, ItemStack pStack) {
+				if (horse.isSaddlebag(pStack)) {
+
+					CompoundNBT items = new CompoundNBT();
 					for (int i = 0; i < horse.getSaddlebagInventory().getContainerSize(); i++) {
-						ItemStack stackToDrop = horse.getSaddlebagInventory().getItem(i);
-						ItemEntity stackToSpawn = new ItemEntity(horse.getCommandSenderWorld(), horse.getX(), horse.getY(), horse.getZ(), stackToDrop);
-						horse.getCommandSenderWorld().addFreshEntity(stackToSpawn);
+						if (!horse.getSaddlebagInventory().getItem(i).isEmpty())
+							items.put(Integer.toString(i), horse.getSaddlebagInventory().getItem(i).save(new CompoundNBT()));
 					}
-					horse.getSaddlebagInventory().clearContent();
+					if (items.size() > 0) {
+						CompoundNBT nbt = pStack.getOrCreateTag();
+						nbt.put("items", items);
+						pStack.setTag(nbt);
+					}
 				}
+				horse.getSaddlebagInventory().clearContent();
+				return super.onTake(pPlayer, pStack);
 			}
+
+			@Override
+			public void set(ItemStack pStack) {
+				if (horse.isSaddlebag(pStack)) {
+					CompoundNBT nbt = pStack.getOrCreateTag();
+					if (nbt.contains("items")) {
+						CompoundNBT items = nbt.getCompound("items");
+						for (int i = 0; i < horse.getSaddlebagInventory().getContainerSize(); i++) {
+							horse.getSaddlebagInventory().setItem(i, ItemStack.of(items.getCompound(Integer.toString(i))));
+						}
+					}
+				}
+				super.set(pStack);
+			}
+
 		});
 
 		// Player Main Inventory

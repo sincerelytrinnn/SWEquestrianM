@@ -130,7 +130,6 @@ public class SWEMHorseEntityBase
 	private BlockPos currentPos;
 	private LazyOptional<InvWrapper> itemHandler;
 	private LazyOptional<InvWrapper> saddlebagItemHandler;
-	private LazyOptional<InvWrapper> bedrollItemHandler;
 	private Inventory saddlebagInventory;
 	private Inventory bedrollInventory;
 	private int maxGallopSeconds = 7;
