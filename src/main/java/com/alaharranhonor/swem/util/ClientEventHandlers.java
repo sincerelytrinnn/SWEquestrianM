@@ -40,12 +40,14 @@ import net.minecraft.client.renderer.tileentity.SignTileEntityRenderer;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.IDyeableArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.text.Color;
 import net.minecraft.util.text.TextFormatting;
@@ -386,8 +388,8 @@ public class ClientEventHandlers {
 				}
 
 				event.getMatrixStack().pushPose();
-
-				event.getMatrixStack().mulPose(new Quaternion(0, 180 - event.getPlayer().getVehicle().getViewYRot(event.getPartialRenderTick()), 0, true));
+				float yRot = MathHelper.rotLerp(event.getPartialRenderTick(), ((LivingEntity)event.getPlayer().getVehicle()).yBodyRotO, ((LivingEntity)event.getPlayer().getVehicle()).yBodyRot);
+				event.getMatrixStack().mulPose(new Quaternion(0, 180 - yRot, 0, true));
 
 				RiderGeoRenderer.INSTANCE.render(
 						RiderGeoRenderer.INSTANCE.getGeoModelProvider().getModel(RiderGeoRenderer.INSTANCE.getGeoModelProvider().getModelLocation(animatedPlayers.get(event.getPlayer()))),
