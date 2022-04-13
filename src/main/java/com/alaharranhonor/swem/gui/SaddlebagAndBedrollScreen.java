@@ -71,7 +71,7 @@ public class SaddlebagAndBedrollScreen extends ContainerScreen<SaddlebagAndBedro
 	@Override
 	protected void renderLabels(MatrixStack matrixStack, int x, int y) {
 		super.renderLabels(matrixStack, x, y);
-		this.font.draw(matrixStack, new StringTextComponent("Bedroll"), this.leftPos + 7, this.topPos + 6, 4210752);
+		this.font.draw(matrixStack, new StringTextComponent("Bedroll"), 7, 6, 4210752);
 	}
 
 	@Override

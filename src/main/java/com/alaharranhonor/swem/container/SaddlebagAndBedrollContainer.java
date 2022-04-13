@@ -68,9 +68,9 @@ public class SaddlebagAndBedrollContainer extends Container {
 		horseInventory.startOpen(playerInventory.player);
 
 
-		int startSaddlebagInvY = 18;
+		int startBedrollInvY = 18;
 
-		this.addSlot(new Slot(horseInventory, 0, 53, startSaddlebagInvY) {
+		this.addSlot(new Slot(horseInventory, 0, 53, startBedrollInvY) {
 			@Override
 			public boolean mayPlace(ItemStack stack) {
 				return stack.getItem() instanceof BedItem;
@@ -78,7 +78,7 @@ public class SaddlebagAndBedrollContainer extends Container {
 
 		});
 
-		this.addSlot(new Slot(horseInventory, 1, 71, startSaddlebagInvY) {
+		this.addSlot(new Slot(horseInventory, 1, 71, startBedrollInvY) {
 			@Override
 			public boolean mayPlace(ItemStack stack) {
 				return Block.byItem(stack.getItem()) instanceof CampfireBlock;
@@ -86,7 +86,7 @@ public class SaddlebagAndBedrollContainer extends Container {
 
 		});
 
-		this.addSlot(new Slot(horseInventory, 2, 89, startSaddlebagInvY) {
+		this.addSlot(new Slot(horseInventory, 2, 89, startBedrollInvY) {
 			@Override
 			public boolean mayPlace(ItemStack stack) {
 				return stack.getItem() instanceof FuelBlockItemBase;
@@ -94,13 +94,15 @@ public class SaddlebagAndBedrollContainer extends Container {
 
 		});
 
-		this.addSlot(new Slot(horseInventory, 3, 107, startSaddlebagInvY) {
+		this.addSlot(new Slot(horseInventory, 3, 107, startBedrollInvY) {
 			@Override
 			public boolean mayPlace(ItemStack stack) {
 				return stack.getItem() instanceof FlintAndSteelItem;
 			}
 
 		});
+
+		int startSaddlebagInvY = 49;
 
 		this.addSlot(new Slot(horseInventory, 4, 8, startSaddlebagInvY) {
 			@Override
@@ -426,8 +428,9 @@ public class SaddlebagAndBedrollContainer extends Container {
 			}
 		});
 
+
 		// Player Main Inventory
-		int startPlayerInvY = 84;
+		int startPlayerInvY = 116;
 		for (int row = 0; row < 3; ++row) {
 			for (int col = 0; col < 9; ++col) {
 				this.addSlot(new Slot(playerInventory, 9 + (row * 9) + col, 8 + (col * 18), startPlayerInvY + (row * 18)));
@@ -435,7 +438,7 @@ public class SaddlebagAndBedrollContainer extends Container {
 		}
 
 		// Player Hotbar
-		int hotBarY = 142;
+		int hotBarY = 174;
 		for (int col = 0; col < 9; ++col) {
 			this.addSlot(new Slot(playerInventory, col, 8 + col * 18, hotBarY));
 		}
