@@ -631,5 +631,6 @@
   "swem.horse.status.no_saddle_bag": "Your horse doesn't have a saddle bag/bedroll equipped.",
   "swem.horse.status.too_hungry_to_canter": "The horse is too hungry to canter. Find some food.",
   "swem.horse.status.too_thirsty_to_canter": "The horse is too thirsty to canter. Find some water.",
-  "swem.potion.cantazarite_potion.effect": "Right click a horse to turn it into a SWEM horse."
+  "swem.potion.cantazarite_potion.effect": "Right click a horse to turn it into a SWEM horse.",
+  "item.swem.saddlebag.has_items": "Saddle Bag - Filled"
 }
