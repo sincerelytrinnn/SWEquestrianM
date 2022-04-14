@@ -16,22 +16,17 @@ package com.alaharranhonor.swem.tools;
  */
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.armor.GlowRidingBoots;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
-
-import net.minecraft.item.Item.Properties;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.w3c.dom.Attr;
-
-import java.util.UUID;
 
 public class AmethystShield extends ShieldItem {
 	/**
@@ -60,10 +55,11 @@ public class AmethystShield extends ShieldItem {
 		super.inventoryTick(pStack, pLevel, pEntity, pItemSlot, pIsSelected);
 	}
 
+
+
 	@Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 	public static class OnInventoryChangeListener {
 
-		private static UUID MODIFIER_UUID;
 
 		/**
 		 * On inventory change.
@@ -75,20 +71,39 @@ public class AmethystShield extends ShieldItem {
 			if (!(event.getEntityLiving() instanceof PlayerEntity)) return;
 			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
 
+			if (event.getTo().getItem() instanceof AmethystShield) {
+				ItemStack stack = event.getTo();
+				CompoundNBT nbt = stack.getOrCreateTag();
+				AttributeModifier modifier;
+				if (nbt.contains("modifier")) {
+					CompoundNBT mod = nbt.getCompound("modifier");
+					modifier = new AttributeModifier(mod.getUUID("uuid"), mod.getString("name"), mod.getDouble("value"), AttributeModifier.Operation.fromValue(mod.getInt("operation")));
+				} else {
+					modifier = new AttributeModifier("amethyst_shield", 20, AttributeModifier.Operation.ADDITION);
+					CompoundNBT mod = new CompoundNBT();
+					mod.putUUID("uuid", modifier.getId());
+					mod.putString("name", modifier.getName());
+					mod.putDouble("value", modifier.getAmount());
+					mod.putInt("operation", modifier.getOperation().toValue());
+					nbt.put("modifier", mod);
+					stack.setTag(nbt);
+				}
+				// apply 10 extra hearts
+				if (!player.getAttribute(Attributes.MAX_HEALTH).hasModifier(modifier)) {
+					player.getAttribute(Attributes.MAX_HEALTH).addTransientModifier(modifier);
+				}
+			}
+
 			if ((event.getFrom().getItem() instanceof AmethystShield)) {
-				// Apply 10 extra max health hearts
-				player.getAttribute(Attributes.MAX_HEALTH).removeModifier(MODIFIER_UUID);
+				// Remove 10 max health hearts
+				CompoundNBT nbt = event.getFrom().getTag();
+				player.getAttribute(Attributes.MAX_HEALTH).removeModifier(nbt.getCompound("modifier").getUUID("uuid"));
 				if (player.getHealth() > player.getMaxHealth()) {
 					player.setHealth(player.getMaxHealth());
 				}
 			}
 
-			if (event.getTo().getItem() instanceof AmethystShield) {
-				// Remove 10 max health hearts.
-				AttributeModifier modifier = new AttributeModifier("amethyst_shield", 20, AttributeModifier.Operation.ADDITION);
-				MODIFIER_UUID = modifier.getId();
-				player.getAttribute(Attributes.MAX_HEALTH).addTransientModifier(modifier);
-			}
+
 		}
 
 	}
