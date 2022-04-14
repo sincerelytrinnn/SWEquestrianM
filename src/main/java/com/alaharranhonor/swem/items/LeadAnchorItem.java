@@ -42,7 +42,7 @@ public class LeadAnchorItem extends ItemBase {
 		BlockPos anchorPos = blockpos.relative(pContext.getClickedFace());
 
 
-		if (world.isEmptyBlock(anchorPos)) {
+		if (world.isEmptyBlock(anchorPos) && world.getBlockState(blockpos).isFaceSturdy(world, blockpos, pContext.getClickedFace())) {
 			BlockState anchorState = SWEMBlocks.LEAD_ANCHOR.get().defaultBlockState();
 			if (pContext.getClickedFace() == Direction.DOWN) {
 				anchorState = anchorState.setValue(LeadAnchorBlock.FACE, AttachFace.CEILING);
@@ -55,7 +55,7 @@ public class LeadAnchorItem extends ItemBase {
 			pContext.getItemInHand().shrink(1);
 			PlayerEntity playerentity = pContext.getPlayer();
 			if (!world.isClientSide && playerentity != null) {
-				bindPlayerMobs(playerentity, world, anchorPos);
+				bindPlayerMobs(playerentity, world, anchorPos, anchorState);
 			}
 
 			return ActionResultType.sidedSuccess(world.isClientSide);
@@ -64,7 +64,7 @@ public class LeadAnchorItem extends ItemBase {
 		}
 	}
 
-	public static ActionResultType bindPlayerMobs(PlayerEntity pPlayer, World pLevel, BlockPos pPos) {
+	public static ActionResultType bindPlayerMobs(PlayerEntity pPlayer, World pLevel, BlockPos pPos, BlockState state) {
 		LeashKnotEntity leashknotentity = null;
 		boolean flag = false;
 		double d0 = 7.0D;
@@ -77,6 +77,9 @@ public class LeadAnchorItem extends ItemBase {
 				if (leashknotentity == null) {
 					leashknotentity = LeashKnotEntity.getOrCreateKnot(pLevel, pPos);
 					leashknotentity.setInvisible(true);
+					if (state.getValue(LeadAnchorBlock.FACE) == AttachFace.FLOOR) {
+						leashknotentity.setPos(leashknotentity.getX(), leashknotentity.getY() - 1, leashknotentity.getZ());
+					}
 				}
 
 				mobentity.setLeashedTo(leashknotentity, true);
