@@ -173,6 +173,7 @@ public class ClientEventHandlers {
 		RenderTypeLookup.setRenderLayer(SWEMBlocks.WESTERN_HITCHING_POST.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(SWEMBlocks.ENGLISH_HITCHING_POST.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(SWEMBlocks.PASTURE_HITCHING_POST.get(), RenderType.cutout());
+		RenderTypeLookup.setRenderLayer(SWEMBlocks.LEAD_ANCHOR.get(), RenderType.cutout());
 
 		// Jump blocks.
 		RenderTypeLookup.setRenderLayer(SWEMBlocks.JUMP_STANDARD_SCHOOLING.get(), RenderType.translucent());

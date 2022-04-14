@@ -230,6 +230,7 @@ public class SWEMBlocks {
 	public static final RegistryObject<Block> WHITEWASH_TRAPDOOR = register("whitewash_trapdoor", () -> new TrapDoorBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
 	public static final RegistryObject<Block> SPIGOT = BLOCKS.register("spigot", () -> new Spigot(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).strength(1.5f, 6.0f)));
 	public static final RegistryObject<Block> STAR_WORM_COBBLE = BLOCKS.register("star_worm_cobble", () -> new Block(Block.Properties.copy(Blocks.STONE).lightLevel((state) -> 7)));
+	public static final RegistryObject<Block> LEAD_ANCHOR = BLOCKS.register("lead_anchor", () -> new LeadAnchorBlock(AbstractBlock.Properties.copy(Blocks.GRASS_BLOCK)));
 
 	/**
 	 * Check access.

@@ -18,6 +18,7 @@ package com.alaharranhonor.swem.util;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.AmethystRidingBoots;
 import com.alaharranhonor.swem.blocks.HitchingPostBase;
+import com.alaharranhonor.swem.blocks.LeadAnchorBlock;
 import com.alaharranhonor.swem.commands.DevCommand;
 import com.alaharranhonor.swem.commands.SWEMCommand;
 import com.alaharranhonor.swem.config.ConfigHelper;
@@ -26,14 +27,17 @@ import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.network.*;
 import com.alaharranhonor.swem.tools.AmethystSword;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.util.registry.SWEMItems;
 import com.alaharranhonor.swem.world.gen.OreGenUtils;
 import com.alaharranhonor.swem.world.gen.SWEMOreGen;
 import com.alaharranhonor.swem.world.structure.SWEMConfiguredStructures;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.item.LeashKnotEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -376,7 +380,18 @@ public class GeneralEventHandlers {
 			if (!(event.getTarget() instanceof LeashKnotEntity)) return;
 			if (event.getWorld().getBlockState(event.getPos()).getBlock() instanceof HitchingPostBase) {
 				event.getWorld().setBlock(event.getPos(), event.getWorld().getBlockState(event.getPos()).setValue(HitchingPostBase.CUSTOM_LEAD, false), 3);
+				return;
 			}
+
+			if (event.getWorld().getBlockState(event.getPos()).getBlock() instanceof LeadAnchorBlock) {
+				event.getTarget().remove();
+				event.getWorld().setBlock(event.getPos(), Blocks.AIR.defaultBlockState(), 3);
+				if (!event.getPlayer().isCreative()) {
+					event.getWorld().addFreshEntity(new ItemEntity(event.getWorld(), event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), new ItemStack(SWEMItems.LEAD_ANCHOR.get())));
+				}
+				event.setCanceled(true);
+			}
+
 		}
 
 
@@ -408,7 +423,7 @@ public class GeneralEventHandlers {
 		@SubscribeEvent
 		public static void hideLeadKnotEntity(EntityJoinWorldEvent event) {
 			if (event.getEntity() instanceof LeashKnotEntity && !event.getEntity().level.isClientSide) {
-				if (event.getWorld().getBlockState(event.getEntity().blockPosition()).getBlock() instanceof HitchingPostBase) {
+				if (event.getWorld().getBlockState(event.getEntity().blockPosition()).getBlock() instanceof HitchingPostBase || event.getWorld().getBlockState(event.getEntity().blockPosition()).getBlock() instanceof LeadAnchorBlock) {
 					event.getEntity().setInvisible(true);
 				}
 			}

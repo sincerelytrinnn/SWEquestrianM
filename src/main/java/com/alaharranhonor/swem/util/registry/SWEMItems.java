@@ -159,6 +159,7 @@ public class SWEMItems {
 	public static final RegistryObject<Item> BONE_MEAL_COMPOST = ITEMS.register("bone_meal_compost", () -> new BoneMealItem(new Item.Properties().tab(SWEM.TAB)));
 	public static final RegistryObject<Item> BRUSH = ITEMS.register("brush", BrushItem::new);
 	public static final RegistryObject<Item> MERCY_BLADE = ITEMS.register("mercy_blade", MercyBlade::new);
+	public static final RegistryObject<Item> LEAD_ANCHOR = ITEMS.register("lead_anchor", LeadAnchorItem::new);
 
 	// Rainbow Horse recipe items.
 

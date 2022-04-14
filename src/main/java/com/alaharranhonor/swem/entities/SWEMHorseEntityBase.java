@@ -27,7 +27,8 @@ import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
 import com.alaharranhonor.swem.entity.coats.SWEMCoatColor;
-import com.alaharranhonor.swem.items.*;
+import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
+import com.alaharranhonor.swem.items.TrackerItem;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.network.*;
 import com.alaharranhonor.swem.util.ClientEventHandlers;
@@ -52,7 +53,8 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.entity.passive.WaterMobEntity;
-import net.minecraft.entity.passive.horse.*;
+import net.minecraft.entity.passive.horse.AbstractHorseEntity;
+import net.minecraft.entity.passive.horse.CoatColors;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -88,9 +90,6 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ForgeHooks;
@@ -103,7 +102,10 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.alaharranhonor.swem.entities.HorseFlightController.*;
@@ -2285,6 +2287,12 @@ public class SWEMHorseEntityBase
 		}
 
 		if (!itemstack.isEmpty() && item != Items.SADDLE) {
+			if (itemstack.getItem() == SWEMItems.LEAD_ANCHOR.get() && this.canBeLeashed(playerEntity)) {
+				this.setLeashedTo(playerEntity, true);
+				return ActionResultType.sidedSuccess(this.level.isClientSide);
+			}
+
+
 			if (item == Items.LAPIS_LAZULI && !this.isBaby() && playerEntity.getUUID().equals(this.getOwnerUUID())) {
 				if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
 					this.setHorseVariant(SWEMCoatColor.getNextCyclableCoat(this.getHorseVariant()).getId());
@@ -3269,6 +3277,51 @@ public class SWEMHorseEntityBase
 			}
 		}
 		super.dropLeash(pSendPacket, dropLead);
+	}
+
+	/**
+	 * Applies logic related to leashes, for example dragging the entity or breaking the leash.
+	 */
+	@Override
+	protected void tickLeash() {
+		if (this.getLeashHolder() != null && !this.getLeashHolder().isAlive() && this.level.isEmptyBlock(this.getLeashHolder().blockPosition())) {
+			this.dropLeash(true, false);
+			return;
+		}
+		super.tickLeash();
+		/*if (this.leashInfoTag != null) {
+			this.restoreLeashFromSave();
+		}
+
+		if (this.leashHolder != null) {
+			if (!this.isAlive() || (!this.leashHolder.isAlive())) {
+				this.dropLeash(true, true);
+			}
+
+		}
+
+
+		Entity entity = this.getLeashHolder();
+		if (entity != null && entity.level == this.level) {
+			this.restrictTo(entity.blockPosition(), 5);
+			float f = this.distanceTo(entity);
+
+			this.onLeashDistance(f);
+			if (f > 10.0F) {
+				this.dropLeash(true, true);
+				this.goalSelector.disableControlFlag(Goal.Flag.MOVE);
+			} else if (f > 6.0F) {
+				double d0 = (entity.getX() - this.getX()) / (double)f;
+				double d1 = (entity.getY() - this.getY()) / (double)f;
+				double d2 = (entity.getZ() - this.getZ()) / (double)f;
+				this.setDeltaMovement(this.getDeltaMovement().add(Math.copySign(d0 * d0 * 0.4D, d0), Math.copySign(d1 * d1 * 0.4D, d1), Math.copySign(d2 * d2 * 0.4D, d2)));
+			} else {
+				this.goalSelector.enableControlFlag(Goal.Flag.MOVE);
+				float f1 = 2.0F;
+				Vector3d vector3d = (new Vector3d(entity.getX() - this.getX(), entity.getY() - this.getY(), entity.getZ() - this.getZ())).normalize().scale((double)Math.max(f - 2.0F, 0.0F));
+				this.getNavigation().moveTo(this.getX() + vector3d.x, this.getY() + vector3d.y, this.getZ() + vector3d.z, this.followLeashSpeed());
+			}
+		}*/
 	}
 
 	@Override
