@@ -26,6 +26,7 @@ import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
+import java.util.EnumSet;
 
 public class PanicStraightGoal extends Goal {
 	private final SWEMHorseEntityBase horse;
@@ -44,6 +45,7 @@ public class PanicStraightGoal extends Goal {
 	public PanicStraightGoal(SWEMHorseEntityBase creature, double speedIn) {
 		this.horse = creature;
 		this.speedModifier = speedIn;
+		this.setFlags(EnumSet.of(Flag.MOVE));
 	}
 
 	@Override

@@ -43,13 +43,16 @@ import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.command.arguments.EntityAnchorArgument;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.item.HangingEntity;
 import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.item.LeashKnotEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.entity.passive.WaterMobEntity;
@@ -74,6 +77,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.network.play.server.SMountEntityPacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -92,6 +96,8 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.common.util.LazyOptional;
@@ -160,6 +166,11 @@ public class SWEMHorseEntityBase
 
 	private float lockedXRot;
 	private float lockedYRot;
+
+	public Entity leashHolder2;
+	public int delayedLeashHolderId2;
+	@Nullable
+	public CompoundNBT leashInfoTag2;
 
 	// Animation variables.
 	public final static DataParameter<Integer> JUMP_ANIM_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
@@ -360,7 +371,19 @@ public class SWEMHorseEntityBase
 		this.standingTimer = Math.max(0, this.standingTimer - 1);
 		this.kickAnimationTimer = Math.max(0, this.kickAnimationTimer - 1);
 		if (!this.level.isClientSide) {
-
+			if (this.isCrossTied()) {
+				this.lookAt(EntityAnchorArgument.Type.EYES, this.getCrossTieMiddlePoint());
+				this.setYBodyRot(this.getYHeadRot());
+				this.goalSelector.disableControlFlag(Goal.Flag.JUMP);
+				this.goalSelector.disableControlFlag(Goal.Flag.MOVE);
+				this.goalSelector.disableControlFlag(Goal.Flag.LOOK);
+				this.goalSelector.disableControlFlag(Goal.Flag.TARGET);
+			} else {
+				this.goalSelector.enableControlFlag(Goal.Flag.JUMP);
+				this.goalSelector.enableControlFlag(Goal.Flag.MOVE);
+				this.goalSelector.enableControlFlag(Goal.Flag.LOOK);
+				this.goalSelector.enableControlFlag(Goal.Flag.TARGET);
+			}
 			// Tick entity data anim timers
 			this.getEntityData().set(JUMP_ANIM_TIMER, Math.max(-1, this.getEntityData().get(JUMP_ANIM_TIMER) - 1));
 
@@ -427,6 +450,18 @@ public class SWEMHorseEntityBase
 			}
 		}
 		super.aiStep();
+	}
+
+
+
+	private boolean isCrossTied() {
+		return this.leashHolder instanceof LeashKnotEntity && this.leashHolder2 instanceof LeashKnotEntity;
+	}
+
+	private Vector3d getCrossTieMiddlePoint() {
+		Vector3d leashOne = this.leashHolder.position();
+		Vector3d leashTwo = this.leashHolder2.position();
+		return new Vector3d((leashOne.x + leashTwo.x) / 2, this.getEyeY(), (leashOne.z + leashTwo.z) / 2);
 	}
 
 	/**
@@ -614,6 +649,274 @@ public class SWEMHorseEntityBase
 	public void setBridleLeashed(boolean bridleLeashed) {
 		this.entityData.set(IS_BRIDLE_LEASHED, bridleLeashed);
 	}
+
+	/**
+	 * Applies logic related to leashes, for example dragging the entity or breaking the leash.
+	 */
+	@Override
+	protected void tickLeash() {
+
+		// MobEntity#tickLeash - Start
+		if (this.leashInfoTag != null) {
+			this.restoreLeashFromSave();
+		}
+
+		if (this.leashInfoTag2 != null) {
+			this.restoreLeash2FromSave();
+		}
+
+
+		if (this.leashHolder2 != null) {
+			if (!this.isAlive() || !this.leashHolder2.isAlive()) {
+				this.dropLeash(true, true);
+			}
+		}
+
+		if (this.leashHolder != null) {
+			if (!this.isAlive() || !this.leashHolder.isAlive()) {
+				this.dropLeash(true, true);
+			}
+
+		}
+		// MobEntity#tickLeash - End
+
+
+		// CreatureEntity#tickLeash - Start
+		Entity entity = this.getLeashHolder();
+		if (entity != null && entity.level == this.level) {
+			this.restrictTo(entity.blockPosition(), 5);
+			float f = this.distanceTo(entity);
+
+
+			this.onLeashDistance(f);
+			if (f > 10.0F) {
+				this.dropLeash(true, true);
+				this.goalSelector.disableControlFlag(Goal.Flag.MOVE);
+			} else if (f > 6.0F) {
+				double d0 = (entity.getX() - this.getX()) / (double)f;
+				double d1 = (entity.getY() - this.getY()) / (double)f;
+				double d2 = (entity.getZ() - this.getZ()) / (double)f;
+				this.setDeltaMovement(this.getDeltaMovement().add(Math.copySign(d0 * d0 * 0.4D, d0), Math.copySign(d1 * d1 * 0.4D, d1), Math.copySign(d2 * d2 * 0.4D, d2)));
+			} else {
+				this.goalSelector.enableControlFlag(Goal.Flag.MOVE);
+				float f1 = 2.0F;
+				Vector3d vector3d = (new Vector3d(entity.getX() - this.getX(), entity.getY() - this.getY(), entity.getZ() - this.getZ())).normalize().scale((double)Math.max(f - 2.0F, 0.0F));
+				this.getNavigation().moveTo(this.getX() + vector3d.x, this.getY() + vector3d.y, this.getZ() + vector3d.z, this.followLeashSpeed());
+			}
+		}
+		// CreatureEntity#tickLeash - End
+	}
+
+	/**
+	 * Removes the leash from this entity
+	 *
+	 * @param pSendPacket
+	 * @param pDropLead
+	 */
+	@Override
+	public void dropLeash(boolean pSendPacket, boolean pDropLead) {
+
+		if (this.isBridleLeashed()) {
+			pDropLead = false;
+			if (!this.level.isClientSide) {
+				this.setBridleLeashed(false);
+			}
+		}
+
+		if (this.leashHolder2 != null) {
+			this.forcedLoading = false;
+			if (!(this.leashHolder2 instanceof PlayerEntity)) {
+				this.leashHolder2.forcedLoading = false;
+			}
+
+			this.leashHolder2 = null;
+			this.leashInfoTag = null;
+			if (!this.level.isClientSide && pDropLead) {
+				this.spawnAtLocation(Items.LEAD);
+			}
+
+			if (!this.level.isClientSide && pSendPacket && this.level instanceof ServerWorld) {
+				((ServerWorld)this.level).getChunkSource().broadcast(this, new SMountEntityPacket(this, (Entity)null));
+			}
+		}
+
+
+		if (this.leashHolder != null) {
+			this.forcedLoading = false;
+			if (!(this.leashHolder instanceof PlayerEntity)) {
+				this.leashHolder.forcedLoading = false;
+			}
+
+			this.leashHolder = null;
+			this.leashInfoTag = null;
+			if (!this.level.isClientSide && pDropLead) {
+				this.spawnAtLocation(Items.LEAD);
+			}
+
+			if (!this.level.isClientSide && pSendPacket && this.level instanceof ServerWorld) {
+				((ServerWorld)this.level).getChunkSource().broadcast(this, new SMountEntityPacket(this, (Entity)null));
+			}
+		}
+	}
+
+	@Override
+	public boolean canBeLeashed(PlayerEntity p_184652_1_) {
+		return !this.isLeashed() || (this.isLeashed() && !(this.getLeashHolder() instanceof PlayerEntity) && this.leashHolder2 == null);
+	}
+
+	@Override
+	public boolean isLeashed() {
+		return this.leashHolder != null ;
+	}
+
+	@org.jetbrains.annotations.Nullable
+	@Override
+	public Entity getLeashHolder() {
+		if (this.leashHolder2 == null && this.delayedLeashHolderId2 != 0 && this.level.isClientSide) {
+			this.leashHolder2 = this.level.getEntity(this.delayedLeashHolderId2);
+		}
+		if (leashHolder2 != null) {
+			return this.leashHolder2;
+		}
+
+		if (this.leashHolder == null && this.delayedLeashHolderId != 0 && this.level.isClientSide) {
+			this.leashHolder = this.level.getEntity(this.delayedLeashHolderId);
+		}
+
+		return this.leashHolder;
+	}
+
+	public List<Entity> getLeashHolders() {
+		Entity leashHolderOne = this.leashHolder;
+		if (leashHolderOne == null && this.delayedLeashHolderId != 0 && this.level.isClientSide) {
+			leashHolderOne = this.level.getEntity(this.delayedLeashHolderId);
+		}
+
+		Entity leashHolderTwo = this.leashHolder2;
+		if (leashHolderTwo == null && this.delayedLeashHolderId2 != 0 && this.level.isClientSide) {
+			leashHolderTwo = this.level.getEntity(this.delayedLeashHolderId2);
+		}
+		return Arrays.asList(leashHolderOne, leashHolderTwo);
+	}
+
+	/**
+	 * Sets the entity to be leashed to.
+	 *
+	 */
+	@Override
+	public void setLeashedTo(Entity pLeashHolder, boolean pBroadcastPacket) {
+		if (this.leashHolder == null || this.leashHolder instanceof PlayerEntity) {
+			this.leashHolder = pLeashHolder;
+			this.leashInfoTag = null;
+			this.forcedLoading = true;
+			if (!(this.leashHolder instanceof PlayerEntity)) {
+				this.leashHolder.forcedLoading = true;
+			}
+
+			if (!this.level.isClientSide && pBroadcastPacket && this.level instanceof ServerWorld) {
+				((ServerWorld)this.level).getChunkSource().broadcast(this, new SMountEntityPacket(this, this.leashHolder));
+			}
+		} else if (this.leashHolder2 == null || this.leashHolder2 instanceof PlayerEntity) {
+			this.leashHolder2 = pLeashHolder;
+			this.leashInfoTag2 = null;
+			this.forcedLoading = true;
+			if (!(this.leashHolder2 instanceof PlayerEntity)) {
+				this.leashHolder2.forcedLoading = true;
+			}
+
+			if (!this.level.isClientSide && pBroadcastPacket && this.level instanceof ServerWorld) {
+				((ServerWorld)this.level).getChunkSource().broadcast(this, new SMountEntityPacket(this, this.leashHolder2));
+			}
+		}
+
+
+		if (this.isPassenger()) {
+			this.stopRiding();
+		}
+	}
+
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public void setDelayedLeashHolderId(int pLeashHolderID) {
+		System.out.println("Arg: " + pLeashHolderID);
+		System.out.println("Holder ID: " + this.delayedLeashHolderId);
+		System.out.println("Holder ID2: " + this.delayedLeashHolderId2);
+		System.out.println("Arg entity: " + this.level.getEntity(pLeashHolderID));
+		System.out.println("holder entity: " + this.level.getEntity(this.delayedLeashHolderId));
+		System.out.println("holder2 entity: " + this.level.getEntity(this.delayedLeashHolderId2));
+
+		if (pLeashHolderID == 0) {
+			this.delayedLeashHolderId2 = pLeashHolderID;
+			this.delayedLeashHolderId = pLeashHolderID;
+		} else {
+			Entity setTo = this.level.getEntity(pLeashHolderID);
+			if (setTo instanceof LeashKnotEntity || setTo == null) {
+				if (this.level.getEntity(this.delayedLeashHolderId) instanceof PlayerEntity || (this.level.getEntity(this.delayedLeashHolderId) == null && this.delayedLeashHolderId == 0)) {
+					this.delayedLeashHolderId = pLeashHolderID;
+				} else if (this.level.getEntity(this.delayedLeashHolderId) instanceof LeashKnotEntity || (this.level.getEntity(this.delayedLeashHolderId) == null && this.delayedLeashHolderId != 0)) {
+					this.delayedLeashHolderId2 = pLeashHolderID;
+				}
+			} else if (setTo instanceof PlayerEntity) {
+				if (this.delayedLeashHolderId == 0) {
+					this.delayedLeashHolderId = pLeashHolderID;
+				} else if (this.level.getEntity(this.delayedLeashHolderId) instanceof LeashKnotEntity) {
+					this.delayedLeashHolderId2 = pLeashHolderID;
+				}
+			}
+
+			System.out.println("Holder ID: " + this.delayedLeashHolderId);
+			System.out.println("Holder ID2: " + this.delayedLeashHolderId2);
+		}
+		this.dropLeash(false, false);
+	}
+
+	@Override
+	public void restoreLeashFromSave() {
+		if (this.leashInfoTag != null && this.level instanceof ServerWorld) {
+			if (this.leashInfoTag.hasUUID("UUID")) {
+				UUID uuid = this.leashInfoTag.getUUID("UUID");
+				Entity entity = ((ServerWorld)this.level).getEntity(uuid);
+				if (entity != null) {
+					this.setLeashedTo(entity, true);
+					return;
+				}
+			} else if (this.leashInfoTag.contains("X", 99) && this.leashInfoTag.contains("Y", 99) && this.leashInfoTag.contains("Z", 99)) {
+				BlockPos blockpos = new BlockPos(this.leashInfoTag.getInt("X"), this.leashInfoTag.getInt("Y"), this.leashInfoTag.getInt("Z"));
+				this.setLeashedTo(LeashKnotEntity.getOrCreateKnot(this.level, blockpos), true);
+				return;
+			}
+
+			if (this.tickCount > 100) {
+				this.spawnAtLocation(Items.LEAD);
+				this.leashInfoTag = null;
+			}
+		}
+	}
+
+
+	public void restoreLeash2FromSave() {
+		if (this.leashInfoTag2 != null && this.level instanceof ServerWorld) {
+			if (this.leashInfoTag2.hasUUID("UUID")) {
+				UUID uuid = this.leashInfoTag2.getUUID("UUID");
+				Entity entity = ((ServerWorld)this.level).getEntity(uuid);
+				if (entity != null) {
+					this.setLeashedTo(entity, true);
+					return;
+				}
+			} else if (this.leashInfoTag2.contains("X", 99) && this.leashInfoTag2.contains("Y", 99) && this.leashInfoTag2.contains("Z", 99)) {
+				BlockPos blockpos = new BlockPos(this.leashInfoTag2.getInt("X"), this.leashInfoTag2.getInt("Y"), this.leashInfoTag2.getInt("Z"));
+				this.setLeashedTo(LeashKnotEntity.getOrCreateKnot(this.level, blockpos), true);
+				return;
+			}
+
+			if (this.tickCount > 100) {
+				this.spawnAtLocation(Items.LEAD);
+				this.leashInfoTag2 = null;
+			}
+		}
+	}
+
+
 
 	/**
 	 * Set the owner uuid.
@@ -1045,6 +1348,23 @@ public class SWEMHorseEntityBase
 			compound.put("SaddlebagItem", this.inventory.getItem(7).save(new CompoundNBT()));
 		}
 
+		if (this.leashHolder2 != null) {
+			CompoundNBT compoundnbt2 = new CompoundNBT();
+			if (this.leashHolder2 instanceof LivingEntity) {
+				UUID uuid = this.leashHolder2.getUUID();
+				compoundnbt2.putUUID("UUID", uuid);
+			} else if (this.leashHolder2 instanceof HangingEntity) {
+				BlockPos blockpos = ((HangingEntity)this.leashHolder2).getPos();
+				compoundnbt2.putInt("X", blockpos.getX());
+				compoundnbt2.putInt("Y", blockpos.getY());
+				compoundnbt2.putInt("Z", blockpos.getZ());
+			}
+
+			compound.put("Leash2", compoundnbt2);
+		} else if (this.leashInfoTag2 != null) {
+			compound.put("Leash2", this.leashInfoTag2.copy());
+		}
+
 		this.writeSaddlebagInventory(compound);
 
 
@@ -1141,6 +1461,10 @@ public class SWEMHorseEntityBase
 			}
 		}
 
+		if (compound.contains("Leash2", 10)) {
+			this.leashInfoTag2 = compound.getCompound("Leash2");
+		}
+
 		this.readSaddlebagInventory(compound);
 
 
@@ -1229,6 +1553,14 @@ public class SWEMHorseEntityBase
 		for (UUID allowed : this.allowedList) {
 			this.removeAllowedUUID(allowed);
 		}
+	}
+
+	/**
+	 * Returns true if this entity should push and be pushed by other entities when colliding.
+	 */
+	@Override
+	public boolean isPushable() {
+		return super.isPushable();
 	}
 
 	@Override
@@ -2257,9 +2589,6 @@ public class SWEMHorseEntityBase
 	}
 
 
-
-
-
 	// Item interaction with horse.
 	@Override
 	public ActionResultType mobInteract(PlayerEntity playerEntity, Hand hand) {
@@ -3250,34 +3579,9 @@ public class SWEMHorseEntityBase
 	}
 
 
-	/**
-	 * Sets the entity to be leashed to.
-	 *
-	 * @param pEntity
-	 * @param pSendAttachNotification
-	 */
-	@Override
-	public void setLeashedTo(Entity pEntity, boolean pSendAttachNotification) {
-		super.setLeashedTo(pEntity, pSendAttachNotification);
-	}
 
-	/**
-	 * Removes the leash from this entity
-	 *
-	 * @param pSendPacket
-	 * @param pDropLead
-	 */
-	@Override
-	public void dropLeash(boolean pSendPacket, boolean pDropLead) {
-		boolean dropLead = pDropLead;
-		if (this.isBridleLeashed()) {
-			dropLead = false;
-			if (!this.level.isClientSide) {
-				this.setBridleLeashed(false);
-			}
-		}
-		super.dropLeash(pSendPacket, dropLead);
-	}
+
+
 
 	/**
 	 * Applies logic related to leashes, for example dragging the entity or breaking the leash.

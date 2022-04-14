@@ -23,6 +23,8 @@ import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.EnumSet;
+
 public class PoopGoal extends Goal {
 
 	private final SWEMHorseEntityBase pooperEntity;
@@ -38,7 +40,8 @@ public class PoopGoal extends Goal {
 	public PoopGoal(SWEMHorseEntityBase pooperEntity) {
 		this.pooperEntity = pooperEntity;
 		this.entityWorld = pooperEntity.level;
-
+		this.setFlags(EnumSet.of(Flag.LOOK, Flag.MOVE));
+		this.pooperEntity.getNavigation();
 	}
 
 

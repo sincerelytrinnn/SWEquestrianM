@@ -24,6 +24,7 @@ import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 
 public class LookForWaterGoal extends Goal {
 
@@ -45,6 +46,7 @@ public class LookForWaterGoal extends Goal {
 	public LookForWaterGoal(SWEMHorseEntityBase entityIn, double speed) {
 	 	this.horse = entityIn;
 	 	this.speed = speed;
+		this.setFlags(EnumSet.of(Flag.LOOK, Flag.MOVE));
 	}
 
 

@@ -14,14 +14,15 @@ package com.alaharranhonor.swem.entities.ai;
  */
 
 
-import net.minecraft.entity.MobEntity;
+import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.item.LeashKnotEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.EnumSet;
 
 public class CustomLookRandomlyGoal extends Goal {
-	private final MobEntity mob;
+	private final SWEMHorseEntityBase mob;
 	private double relX;
 	private double relZ;
 	private int lookTime;
@@ -31,7 +32,7 @@ public class CustomLookRandomlyGoal extends Goal {
 	 *
 	 * @param p_i1647_1_ the p i 1647 1
 	 */
-	public CustomLookRandomlyGoal(MobEntity p_i1647_1_) {
+	public CustomLookRandomlyGoal(SWEMHorseEntityBase p_i1647_1_) {
 		this.mob = p_i1647_1_;
 		this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
 	}
@@ -41,7 +42,7 @@ public class CustomLookRandomlyGoal extends Goal {
 	 * method as well.
 	 */
 	public boolean canUse() {
-		return this.mob.getRandom().nextFloat() < 0.02F && !(this.mob.getLeashHolder() instanceof PlayerEntity);
+		return this.mob.getRandom().nextFloat() < 0.02F && !(this.mob.getLeashHolder() instanceof PlayerEntity) && !(this.mob.leashHolder2 instanceof LeashKnotEntity);
 	}
 
 	/**

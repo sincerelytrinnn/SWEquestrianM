@@ -37,6 +37,8 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
+import java.util.List;
+
 public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity> {
 
     protected static final ResourceLocation TEXTURE = new ResourceLocation(SWEM.MOD_ID, "textures/entity/swem_horse.png");
@@ -73,10 +75,12 @@ public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity> {
 
     @Override
     public void render(SWEMHorseEntity entity, float entityYaw, float partialTicks, MatrixStack stack, IRenderTypeBuffer bufferIn, int packedLightIn) {
-        Entity leashHolder = entity.getLeashHolder();
+        List<Entity> leashHolders = entity.getLeashHolders();
 
-        if (leashHolder != null) {
-            this.renderLeash(entity, partialTicks, stack, bufferIn, leashHolder);
+        for (Entity leashHolder : leashHolders) {
+            if (leashHolder != null) {
+                this.renderLeash(entity, partialTicks, stack, bufferIn, leashHolder);
+            }
         }
 
         if (!entity.isBaby()) {

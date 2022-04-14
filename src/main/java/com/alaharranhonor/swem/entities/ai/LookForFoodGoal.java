@@ -32,6 +32,7 @@ import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 
 public class LookForFoodGoal extends Goal {
 
@@ -53,6 +54,7 @@ public class LookForFoodGoal extends Goal {
 	public LookForFoodGoal(SWEMHorseEntityBase entityIn, double speed) {
 	 	this.horse = entityIn;
 	 	this.speed = speed;
+		 this.setFlags(EnumSet.of(Flag.LOOK, Flag.MOVE));
 	}
 
 

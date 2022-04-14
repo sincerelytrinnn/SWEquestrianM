@@ -26,6 +26,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 
 public class PeeGoal extends Goal {
 
@@ -46,6 +47,7 @@ public class PeeGoal extends Goal {
 		this.peeEntity = peeEntity;
 		this.entityWorld = peeEntity.level;
 		this.speed = speed;
+		this.setFlags(EnumSet.of(Flag.LOOK, Flag.MOVE));
 	}
 
 
