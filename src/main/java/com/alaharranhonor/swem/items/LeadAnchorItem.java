@@ -17,13 +17,16 @@ package com.alaharranhonor.swem.items;
 import com.alaharranhonor.swem.blocks.LeadAnchorBlock;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.item.LeashKnotEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.state.properties.AttachFace;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -62,6 +65,25 @@ public class LeadAnchorItem extends ItemBase {
 		} else {
 			return ActionResultType.PASS;
 		}
+	}
+
+	/**
+	 * Returns true if the item can be used on the given entity, e.g. shears on sheep.
+	 *
+	 * @param pStack
+	 * @param pPlayer
+	 * @param pTarget
+	 * @param pHand
+	 */
+	@Override
+	public ActionResultType interactLivingEntity(ItemStack pStack, PlayerEntity pPlayer, LivingEntity pTarget, Hand pHand) {
+		if (pTarget instanceof MobEntity) {
+			if (((MobEntity) pTarget).canBeLeashed(pPlayer)) {
+				((MobEntity) pTarget).setLeashedTo(pPlayer, true);
+				return ActionResultType.sidedSuccess(pPlayer.level.isClientSide);
+			}
+		}
+		return super.interactLivingEntity(pStack, pPlayer, pTarget, pHand);
 	}
 
 	public static ActionResultType bindPlayerMobs(PlayerEntity pPlayer, World pLevel, BlockPos pPos, BlockState state) {

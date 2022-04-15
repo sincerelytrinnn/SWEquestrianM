@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "swem.refmap.json",
   "mixins": [
-    "AbstractHorseEntityMixin"
+    "AbstractHorseEntityMixin",
+    "AbstractVillagerEntityMixin"
   ],
   "client": [
     "ClientPlayerEntityMixin",

@@ -763,7 +763,7 @@ public class SWEMHorseEntityBase
 
 	@Override
 	public boolean canBeLeashed(PlayerEntity p_184652_1_) {
-		return !this.isLeashed() || (this.isLeashed() && !(this.getLeashHolder() instanceof PlayerEntity) && this.leashHolder2 == null);
+		return this.canAccessHorse(p_184652_1_) && !this.isLeashed() || (this.isLeashed() && !(this.getLeashHolder() instanceof PlayerEntity) && this.leashHolder2 == null);
 	}
 
 	@Override
@@ -2618,11 +2618,6 @@ public class SWEMHorseEntityBase
 		}
 
 		if (!itemstack.isEmpty() && item != Items.SADDLE) {
-			if (itemstack.getItem() == SWEMItems.LEAD_ANCHOR.get() && this.canBeLeashed(playerEntity)) {
-				this.setLeashedTo(playerEntity, true);
-				return ActionResultType.sidedSuccess(this.level.isClientSide);
-			}
-
 
 			if (item == Items.LAPIS_LAZULI && !this.isBaby() && playerEntity.getUUID().equals(this.getOwnerUUID())) {
 				if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
