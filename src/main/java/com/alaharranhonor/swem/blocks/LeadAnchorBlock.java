@@ -42,8 +42,17 @@ public class LeadAnchorBlock extends HorizontalFaceBlock {
 		} else if (pState.getValue(FACE) == AttachFace.CEILING) {
 			return VoxelShapes.box(0.375, 0.6, 0.375, 0.625, 0.999, 0.625);
 		} else {
-			return VoxelShapes.box(0.01, 0.01, 0.01, 0.99, 0.99, 0.99);
+			if (pState.getValue(LeadAnchorBlock.FACING) == Direction.SOUTH) {
+				return VoxelShapes.box(0.34375, 0.25, 0.001, 0.65625, 0.625, 0.3125);
+			} else if (pState.getValue(LeadAnchorBlock.FACING) == Direction.NORTH) {
+				return VoxelShapes.box(0.34375, 0.25, 0.6875, 0.65625, 0.625, 0.999);
+			} else if (pState.getValue(LeadAnchorBlock.FACING) == Direction.EAST) {
+				return VoxelShapes.box(0.001, 0.25, 0.34375, 0.3125, 0.625, 0.65625);
+			} else if (pState.getValue(LeadAnchorBlock.FACING) == Direction.WEST) {
+				return VoxelShapes.box(0.6875, 0.25, 0.34375, 0.999, 0.625, 0.65625);
+			}
 		}
+		return VoxelShapes.box(0.375, 0.6, 0.375, 0.625, 0.999, 0.625);
 	}
 
 	@Override
