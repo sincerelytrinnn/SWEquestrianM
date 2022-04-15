@@ -77,9 +77,6 @@ public class LeadAnchorItem extends ItemBase {
 				if (leashknotentity == null) {
 					leashknotentity = LeashKnotEntity.getOrCreateKnot(pLevel, pPos);
 					leashknotentity.setInvisible(true);
-					if (state.getValue(LeadAnchorBlock.FACE) == AttachFace.FLOOR) {
-						leashknotentity.setPos(leashknotentity.getX(), leashknotentity.getY() - 1, leashknotentity.getZ());
-					}
 				}
 
 				mobentity.setLeashedTo(leashknotentity, true);

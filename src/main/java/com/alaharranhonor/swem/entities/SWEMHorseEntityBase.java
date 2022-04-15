@@ -108,10 +108,7 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.alaharranhonor.swem.entities.HorseFlightController.*;
@@ -655,6 +652,11 @@ public class SWEMHorseEntityBase
 	 */
 	@Override
 	protected void tickLeash() {
+
+		if (this.getLeashHolder() != null && !this.getLeashHolder().isAlive() && this.level.isEmptyBlock(this.getLeashHolder().blockPosition())) {
+			this.dropLeash(true, false);
+			return;
+		}
 
 		// MobEntity#tickLeash - Start
 		if (this.leashInfoTag != null) {
@@ -3576,56 +3578,6 @@ public class SWEMHorseEntityBase
 	 */
 	public void setWhistlePos(BlockPos pos) {
 		this.whistlePos = pos;
-	}
-
-
-
-
-
-
-	/**
-	 * Applies logic related to leashes, for example dragging the entity or breaking the leash.
-	 */
-	@Override
-	protected void tickLeash() {
-		if (this.getLeashHolder() != null && !this.getLeashHolder().isAlive() && this.level.isEmptyBlock(this.getLeashHolder().blockPosition())) {
-			this.dropLeash(true, false);
-			return;
-		}
-		super.tickLeash();
-		/*if (this.leashInfoTag != null) {
-			this.restoreLeashFromSave();
-		}
-
-		if (this.leashHolder != null) {
-			if (!this.isAlive() || (!this.leashHolder.isAlive())) {
-				this.dropLeash(true, true);
-			}
-
-		}
-
-
-		Entity entity = this.getLeashHolder();
-		if (entity != null && entity.level == this.level) {
-			this.restrictTo(entity.blockPosition(), 5);
-			float f = this.distanceTo(entity);
-
-			this.onLeashDistance(f);
-			if (f > 10.0F) {
-				this.dropLeash(true, true);
-				this.goalSelector.disableControlFlag(Goal.Flag.MOVE);
-			} else if (f > 6.0F) {
-				double d0 = (entity.getX() - this.getX()) / (double)f;
-				double d1 = (entity.getY() - this.getY()) / (double)f;
-				double d2 = (entity.getZ() - this.getZ()) / (double)f;
-				this.setDeltaMovement(this.getDeltaMovement().add(Math.copySign(d0 * d0 * 0.4D, d0), Math.copySign(d1 * d1 * 0.4D, d1), Math.copySign(d2 * d2 * 0.4D, d2)));
-			} else {
-				this.goalSelector.enableControlFlag(Goal.Flag.MOVE);
-				float f1 = 2.0F;
-				Vector3d vector3d = (new Vector3d(entity.getX() - this.getX(), entity.getY() - this.getY(), entity.getZ() - this.getZ())).normalize().scale((double)Math.max(f - 2.0F, 0.0F));
-				this.getNavigation().moveTo(this.getX() + vector3d.x, this.getY() + vector3d.y, this.getZ() + vector3d.z, this.followLeashSpeed());
-			}
-		}*/
 	}
 
 	@Override

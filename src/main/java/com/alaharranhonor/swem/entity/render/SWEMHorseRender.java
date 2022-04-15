@@ -16,17 +16,21 @@ package com.alaharranhonor.swem.entity.render;
  */
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.blocks.LeadAnchorBlock;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.entity.layers.*;
 import com.alaharranhonor.swem.entity.model.SWEMHorseModel;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.state.properties.AttachFace;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -172,6 +176,7 @@ public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity> {
 	public void renderLeash(SWEMHorseEntity entityLivingIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Entity leashHolder) {
         matrixStackIn.pushPose();
         Vector3d vector3d = leashHolder.getRopeHoldPosition(partialTicks);
+        vector3d = vector3d.add(this.addRopeHoldPositionOffset(leashHolder));
         double d0 = (double)(MathHelper.lerp(partialTicks, entityLivingIn.yBodyRot, entityLivingIn.yBodyRotO) * ((float)Math.PI / 180F)) + (Math.PI / 2D);
         Vector3d vector3d1 = entityLivingIn.getLeashOffset();
         double d1 = Math.cos(d0) * vector3d1.z + Math.sin(d0) * vector3d1.x;
@@ -202,4 +207,26 @@ public class SWEMHorseRender extends GeoEntityRenderer<SWEMHorseEntity> {
         matrixStackIn.popPose();
     }
 
+    private Vector3d addRopeHoldPositionOffset(Entity leashHolder) {
+        BlockState state = leashHolder.level.getBlockState(leashHolder.blockPosition());
+        if (state.getBlock() instanceof LeadAnchorBlock) {
+            if (state.getValue(LeadAnchorBlock.FACE) == AttachFace.FLOOR) {
+                return new Vector3d(0, -0.35, 0);
+            } else  if (state.getValue(LeadAnchorBlock.FACE) == AttachFace.CEILING) {
+                return new Vector3d(0, -0.1, 0);
+            } else {
+                if (state.getValue(LeadAnchorBlock.FACING) == Direction.SOUTH) {
+                    return new Vector3d(0, -0.4, -0.4);
+                } else if (state.getValue(LeadAnchorBlock.FACING) == Direction.NORTH) {
+                    return new Vector3d(0, -0.4, 0.4);
+                } else if (state.getValue(LeadAnchorBlock.FACING) == Direction.EAST) {
+                    return new Vector3d(-0.4, -0.4, 0);
+                } else if (state.getValue(LeadAnchorBlock.FACING) == Direction.WEST) {
+                    return new Vector3d(0.4, -0.4, 0);
+                }
+            }
+        }
+
+        return new Vector3d(0, 0, 0);
+    }
 }
