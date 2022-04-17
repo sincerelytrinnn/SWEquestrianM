@@ -189,9 +189,9 @@ public class SWEMHorseEntityBase
 	 * @param type    the type
 	 * @param levelIn the level in
 	 */
-	public SWEMHorseEntityBase(EntityType<? extends AbstractHorseEntity> type, World levelIn)
-	{
+	public SWEMHorseEntityBase(EntityType<? extends AbstractHorseEntity> type, World levelIn) {
 		super(type, levelIn);
+		this.maxUpStep = 1.1F;
 		this.currentPos = this.blockPosition();
 		this.progressionManager = new ProgressionManager(this);
 		this.currentSpeed = HorseSpeed.WALK;
