@@ -18,9 +18,8 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.ai.*;
-import com.alaharranhonor.swem.entities.needs.HungerNeed;
-import com.alaharranhonor.swem.entities.needs.NeedManager;
-import com.alaharranhonor.swem.entities.needs.ThirstNeed;
+import com.alaharranhonor.swem.entities.need_revamp.NeedManager;
+import com.alaharranhonor.swem.entities.need_revamp.hunger.HungerNeed;
 import com.alaharranhonor.swem.entities.progression.ProgressionManager;
 import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
@@ -197,6 +196,7 @@ public class SWEMHorseEntityBase
 		this.currentSpeed = HorseSpeed.WALK;
 		this.updateSelectedSpeed(HorseSpeed.WALK);
 		this.needs = new NeedManager(this);
+		this.getNeeds().addNeed(new HungerNeed(this));
 		this.initSaddlebagInventory();
 		this.flightController = new HorseFlightController(this);
 	}
@@ -439,7 +439,7 @@ public class SWEMHorseEntityBase
 			}
 
 			if (this.isTamed()) {
-				this.needs.tick();
+				this.needs.tick((int) this.level.getDayTime());
 			}
 
 			if (!this.isVehicle() && !this.isCameraLocked()) {
@@ -465,7 +465,6 @@ public class SWEMHorseEntityBase
 	 * Reset day based things.
 	 */
 	private void resetDaily() {
-		this.needs.getHunger().resetDaily();
 		this.progressionManager.getAffinityLeveling().resetDaily();
 	}
 
@@ -567,8 +566,6 @@ public class SWEMHorseEntityBase
 		this.entityData.define(AffinityLeveling.LEVEL, 0);
 		this.entityData.define(AffinityLeveling.XP, 0.0f);
 
-		this.entityData.define(HungerNeed.HungerState.ID, 4);
-		this.entityData.define(ThirstNeed.ThirstState.ID, 4);
 
 
 		this.entityData.define(GALLOP_ON_COOLDOWN, false);
@@ -576,7 +573,6 @@ public class SWEMHorseEntityBase
 		this.entityData.define(GALLOP_TIMER, 0);
 		this.entityData.define(SPEED_LEVEL, 0);
 
-		this.entityData.define(HungerNeed.TOTAL_TIMES_FED, 0);
 
 		this.entityData.define(AffinityLeveling.CURRENT_DESENSITIZING_ITEM, ItemStack.EMPTY);
 		this.entityData.define(HORSE_VARIANT, SWEMCoatColor.getRandomLapisObtainableCoat().getId());
@@ -1372,7 +1368,7 @@ public class SWEMHorseEntityBase
 
 		this.progressionManager.write(compound);
 
-		this.needs.write(compound);
+		this.getNeeds().write(compound);
 
 		compound.putBoolean("flying", this.isFlying());
 
@@ -1472,7 +1468,7 @@ public class SWEMHorseEntityBase
 
 		this.progressionManager.read(compound);
 
-		this.needs.read(compound);
+		this.getNeeds().read(compound);
 
 		this.updateContainerEquipment();
 
@@ -2649,60 +2645,9 @@ public class SWEMHorseEntityBase
 				return ActionResultType.FAIL;
 			}
 
-			if (FOOD_ITEMS.test(itemstack)) {
-				if (this.getNeeds().getHunger().getTotalTimesFed() == 7) {
-					// Emit negative particle effects.
-					if (!this.level.isClientSide)
-						this.emitEchParticles((ServerWorld) this.level, 6);
-
-					return ActionResultType.PASS;
-				}
-
-				if (!this.level.isClientSide) {
-					if (this.getNeeds().getHunger().addPoints(itemstack)) {
-						if (!playerEntity.isCreative()) {
-							itemstack.shrink(1);
-						}
-						if (item == SWEMItems.SUGAR_CUBE.get()) {
-							this.progressionManager.getAffinityLeveling().addXP(5.0F);
-						}
-
-						this.emitYayParticles((ServerWorld) this.level, 3);
-					} else {
-						this.emitEchParticles((ServerWorld) this.level, 3);
-						// Stop the swing from happening
-						return ActionResultType.SUCCESS;
-					}
-
-
-				}
-
-				// This here, makes the swing anim, when feeding items. on the client side.
-				// Make this fail, if you can't add points.
-				return ActionResultType.sidedSuccess(this.level.isClientSide);
-			}
-
-//			if (this.isBreedingItem(itemstack)) {
-//				return this.fedFood(p_230254_1_, itemstack);
-//			}
-
-
-
-			if (item == Items.WATER_BUCKET) {
-				if (!this.level.isClientSide && this.getNeeds().getThirst().canIncrementState()) {
-					this.getNeeds().getThirst().incrementState();
-					playerEntity.setItemInHand(hand, ((BucketItem) item).getEmptySuccessItem(itemstack, playerEntity));
-					this.emitYayParticles((ServerWorld) this.level, 4);
-					return ActionResultType.CONSUME;
-				} else if (this.level.isClientSide && !this.getNeeds().getThirst().canIncrementState()) {
-					// Stop the swing from happening
-					return ActionResultType.SUCCESS;
-
-				} else if (!this.level.isClientSide && !this.getNeeds().getThirst().canIncrementState()) {
-					// Stop the swing from happening
-					this.emitEchParticles((ServerWorld) this.level, 3);
-					return ActionResultType.SUCCESS;
-				}
+			if (!this.level.isClientSide) {
+				this.getNeeds().interact(itemstack);
+				return ActionResultType.CONSUME;
 			}
 
 			ActionResultType actionresulttype = itemstack.interactLivingEntity(playerEntity, this, hand);
@@ -2750,7 +2695,6 @@ public class SWEMHorseEntityBase
 
 	public ActionResultType fedBreedingFood(PlayerEntity pPlayer, ItemStack pStack) {
 		boolean flag = this.handleEatingBreedingFood(pPlayer, pStack);
-		this.getNeeds().getHunger().addPoints(pStack);
 		if (!pPlayer.abilities.instabuild) {
 			if (pStack.getItem() == SWEMItems.SWEET_FEED_OPENED.get())
 				pStack.setDamageValue(pStack.getDamageValue() + 1);
@@ -3127,15 +3071,6 @@ public class SWEMHorseEntityBase
 			this.currentSpeed = HorseSpeed.CANTER_EXT;
 		}
 		else if (oldSpeed == HorseSpeed.TROT) {
-			if (this.needs.getThirst().getState() == ThirstNeed.ThirstState.EXICCOSIS) {
-				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)), new ClientStatusMessagePacket(1, 0, new ArrayList<>()));
-				return;
-			}
-
-			if (this.needs.getHunger().getState() == HungerNeed.HungerState.STARVING) {
-				SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)), new ClientStatusMessagePacket(3, 0, new ArrayList<>()));
-				return;
-			}
 
 			this.currentSpeed = HorseSpeed.CANTER;
 

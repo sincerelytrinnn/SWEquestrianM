@@ -14,7 +14,9 @@ package com.alaharranhonor.swem.entities.need_revamp;
  */
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.util.SWEMUtil;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +35,15 @@ public class NeedManager {
 		this.needs.add(need);
 	}
 
-	public void interact(ItemStack stack) {
+	public boolean interact(ItemStack stack) {
 		for (INeed need : needs) {
-			need.interact(stack);
+			boolean used = need.interact(stack);
+			if (used) {
+				SWEMUtil.damageOrShrink(stack);
+				return true;
+			}
 		}
+		return false;
 	}
 
 	public void tick(int dayTimeTick) {
@@ -45,6 +52,18 @@ public class NeedManager {
 			if (checkTimes.contains(dayTimeTick)) {
 				need.check(dayTimeTick);
 			}
+		}
+	}
+
+	public void write(CompoundNBT nbt) {
+		for (INeed need : needs) {
+			need.write(nbt);
+		}
+	}
+
+	public void read(CompoundNBT nbt) {
+		for (INeed need : needs) {
+			need.read(nbt);
 		}
 	}
 }

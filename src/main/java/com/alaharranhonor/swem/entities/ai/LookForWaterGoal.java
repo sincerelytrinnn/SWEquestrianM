@@ -56,7 +56,7 @@ public class LookForWaterGoal extends Goal {
 	 */
 	@Override
 	public boolean canUse() {
-		return !this.horse.isBaby() && this.horse.getNeeds().getThirst().getState().getId() < 3 && this.horse.getPassengers().isEmpty() && !this.horse.getNeeds().getThirst().isOnCooldown() && this.horse.getLeashHolder() == null;
+		return !this.horse.isBaby() && this.horse.getPassengers().isEmpty() && this.horse.getLeashHolder() == null;
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class LookForWaterGoal extends Goal {
 	 */
 	@Override
 	public boolean canContinueToUse() {
-		return this.horse.getNeeds().getThirst().getState().getId() < 3 && this.horse.getPassengers().isEmpty() && !this.horse.getNeeds().getThirst().isOnCooldown() && this.horse.getLeashHolder() == null;
+		return this.horse.getPassengers().isEmpty() && this.horse.getLeashHolder() == null;
 	}
 
 	/**
@@ -93,9 +93,6 @@ public class LookForWaterGoal extends Goal {
 	 */
 	@Override
 	public void tick() {
-		if (this.horse.getNeeds().getThirst().isOnCooldown()) {
-			this.stop();
-		}
 
 		if (foundWater == null) {
 
@@ -153,16 +150,7 @@ public class LookForWaterGoal extends Goal {
 			this.movingTimer++;
 			if (this.horse.blockPosition().closerThan(this.foundWater, 2)) {
 				BlockState foundState = this.horse.level.getBlockState(this.foundWater);
-				if (foundState.getBlock() instanceof WaterTroughBlock) {
-					((WaterTroughBlock) foundState.getBlock()).setWaterLevel(this.horse.level, this.foundWater, foundState, true);
-					this.horse.getNeeds().getThirst().incrementState();
-				} else if (foundState.getBlock() instanceof HalfBarrelBlock) {
-					((HalfBarrelBlock) foundState.getBlock()).setWaterLevel(this.horse.level, this.foundWater, foundState, foundState.getValue(HalfBarrelBlock.LEVEL) - 1);
-					this.horse.getNeeds().getThirst().incrementState();
-				} else if (foundState.getBlock() == Blocks.WATER) {
-					this.horse.level.setBlock(foundWater, Blocks.AIR.defaultBlockState(), 3);
-					this.horse.getNeeds().getThirst().incrementState();
-				}
+
 
 				this.stop();
 			} else {

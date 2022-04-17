@@ -24,7 +24,7 @@ public interface INeed {
 
 	List<Integer> getCheckTimes();
 
-	void interact(ItemStack stack);
+	boolean interact(ItemStack stack);
 
 	void read(CompoundNBT nbt);
 

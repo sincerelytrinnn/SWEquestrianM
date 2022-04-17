@@ -19,8 +19,6 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.RiderEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.entity.model.RiderModel;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
@@ -29,13 +27,8 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.HorseRenderer;
-import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.entity.layers.BipedArmorLayer;
-import net.minecraft.client.renderer.entity.layers.CapeLayer;
 import net.minecraft.client.renderer.entity.model.ElytraModel;
-import net.minecraft.client.renderer.entity.model.IHasArm;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.Entity;
@@ -46,10 +39,6 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.resources.IResource;
-import net.minecraft.resources.IResourceManager;
-import net.minecraft.resources.IResourcePack;
-import net.minecraft.resources.data.IMetadataSectionSerializer;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
@@ -62,22 +51,17 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib3.GeckoLib;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.geo.render.built.GeoBone;
-import software.bernie.geckolib3.geo.render.built.GeoCube;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.model.provider.GeoModelProvider;
 import software.bernie.geckolib3.model.provider.data.EntityModelData;
-import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
-import software.bernie.geckolib3.util.RenderUtils;
 
-import java.io.*;
-import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> {
 
@@ -480,33 +464,33 @@ public class RiderGeoRenderer<T extends RiderEntity> implements IGeoRenderer<T> 
 	/**
 	 * Render name tag in world.
 	 *
-	 * @param p_225629_1_ the p 225629 1
-	 * @param p_225629_2_ the p 225629 2
-	 * @param p_225629_3_ the p 225629 3
-	 * @param p_225629_4_ the p 225629 4
+	 * @param animatable the p 225629 1
+	 * @param name the p 225629 2
+	 * @param stack the p 225629 3
+	 * @param renderTypeBuffer the p 225629 4
 	 * @param p_225629_5_ the p 225629 5
 	 */
-	private void renderNameTagInWorld(T p_225629_1_, ITextComponent p_225629_2_, MatrixStack p_225629_3_, IRenderTypeBuffer p_225629_4_, int p_225629_5_) {
-		double d0 = Minecraft.getInstance().getEntityRenderDispatcher().distanceToSqr(p_225629_1_.getPlayer());
-		if (net.minecraftforge.client.ForgeHooksClient.isNameplateInRenderDistance(p_225629_1_.getPlayer(), d0)) {
-			boolean flag = !p_225629_1_.getPlayer().isDiscrete();
-			float f = p_225629_1_.getPlayer().getBbHeight() + 1F;
-			int i = "deadmau5".equals(p_225629_2_.getString()) ? -10 : 0;
-			p_225629_3_.pushPose();
-			p_225629_3_.translate(0.0D, (double)f, 0.0D);
-			p_225629_3_.mulPose(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
-			p_225629_3_.scale(-0.025F, -0.025F, 0.025F);
-			Matrix4f matrix4f = p_225629_3_.last().pose();
+	private void renderNameTagInWorld(T animatable, ITextComponent name, MatrixStack stack, IRenderTypeBuffer renderTypeBuffer, int p_225629_5_) {
+		double d0 = Minecraft.getInstance().getEntityRenderDispatcher().distanceToSqr(animatable.getPlayer());
+		if (net.minecraftforge.client.ForgeHooksClient.isNameplateInRenderDistance(animatable.getPlayer(), d0)) {
+			boolean flag = !animatable.getPlayer().isDiscrete();
+			float f = animatable.getPlayer().getBbHeight() + 1F;
+			int i = "deadmau5".equals(name.getString()) ? -10 : 0;
+			stack.pushPose();
+			stack.translate(0.0D, (double)f, 0.0D);
+			stack.mulPose(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
+			stack.scale(-0.025F, -0.025F, 0.025F);
+			Matrix4f matrix4f = stack.last().pose();
 			float f1 = Minecraft.getInstance().options.getBackgroundOpacity(0.25F);
 			int j = (int)(f1 * 255.0F) << 24;
 			FontRenderer fontrenderer = Minecraft.getInstance().getEntityRenderDispatcher().getFont();
-			float f2 = (float)(-fontrenderer.width(p_225629_2_) / 2);
-			fontrenderer.drawInBatch(p_225629_2_, f2, (float)i, 553648127, false, matrix4f, p_225629_4_, flag, j, p_225629_5_);
+			float f2 = (float)(-fontrenderer.width(name) / 2);
+			fontrenderer.drawInBatch(name, f2, (float)i, 553648127, false, matrix4f, renderTypeBuffer, flag, j, p_225629_5_);
 			if (flag) {
-				fontrenderer.drawInBatch(p_225629_2_, f2, (float)i, -1, false, matrix4f, p_225629_4_, false, 0, p_225629_5_);
+				fontrenderer.drawInBatch(name, f2, (float)i, -1, false, matrix4f, renderTypeBuffer, false, 0, p_225629_5_);
 			}
 
-			p_225629_3_.popPose();
+			stack.popPose();
 		}
 	}
 

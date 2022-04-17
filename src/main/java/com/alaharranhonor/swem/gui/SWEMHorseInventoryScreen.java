@@ -18,8 +18,6 @@ package com.alaharranhonor.swem.gui;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.entities.needs.HungerNeed;
-import com.alaharranhonor.swem.entities.needs.ThirstNeed;
 import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
@@ -147,7 +145,8 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		int hungerXOffset = 179;
 		int hungerYOffset = 145;
 		int hungerHeight = 3;
-		switch (getMenu().horse.getEntityData().get(HungerNeed.HungerState.ID)) {
+
+		switch (-1) {
 			case 0: {
 				break;
 			}
@@ -175,7 +174,7 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		int thirstXOffset = 179;
 		int thirstYOffset = 151;
 		int thirstHeight = 3;
-		switch (getMenu().horse.getEntityData().get(ThirstNeed.ThirstState.ID)) {
+		switch (-1) {
 			case 0: {
 				break;
 			}

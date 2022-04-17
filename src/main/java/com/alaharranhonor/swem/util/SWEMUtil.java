@@ -15,19 +15,21 @@ package com.alaharranhonor.swem.util;
  * THE SOFTWARE.
  */
 
-import net.minecraft.block.Block;
 import net.minecraft.item.DyeColor;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SWEMUtil {
 
-	public static final Map<Item, Block> mappings = new HashMap<Item, Block>() {{
 
-	}};
+	public static void damageOrShrink(ItemStack stack) {
+		if (stack.isDamageableItem()) {
+			stack.setDamageValue(stack.getDamageValue() + 1);
+		} else {
+			stack.shrink(1);
+		}
+	}
 
 
 	/**

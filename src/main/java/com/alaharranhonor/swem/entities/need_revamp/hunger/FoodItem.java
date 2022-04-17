@@ -16,7 +16,6 @@ package com.alaharranhonor.swem.entities.need_revamp.hunger;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
-import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 
@@ -29,8 +28,8 @@ public enum FoodItem {
 	OAT_BUSHEL(Ingredient.of(SWEMItems.OAT_BUSHEL.get()), 1, 10, 4, 5, "", FoodItem::doNothing),
 	TIMOTHY_BUSHEL(Ingredient.of(SWEMItems.TIMOTHY_BUSHEL.get()), 1, 14, 4, 5, "", FoodItem::doNothing),
 	ALFALFA_BUSHEL(Ingredient.of(SWEMItems.ALFALFA_BUSHEL.get()), 1, 14, 4, 5, "", FoodItem::doNothing),
-	TIMOTHY_BALE(Ingredient.of(SWEMBlocks.TIMOTHY_BALE.get()), 1, 10, 4, 5, "", FoodItem::doNothing),
-	ALFALFA_BALE(Ingredient.of(SWEMBlocks.ALFALFA_BALE.get()), 1, 56, 2, 3, "", FoodItem::doNothing),
+	//TIMOTHY_BALE(Ingredient.of(SWEMBlocks.TIMOTHY_BALE.get()), 1, 10, 4, 5, "", FoodItem::doNothing),
+	//ALFALFA_BALE(Ingredient.of(SWEMBlocks.ALFALFA_BALE.get()), 1, 56, 2, 3, "", FoodItem::doNothing),
 	QUALITY_BALE(Ingredient.of(SWEMBlocks.QUALITY_BALE.get()), 1, 224, 1, 2, "", FoodItem::doNothing),
 	QUALITY_SLAB(Ingredient.of(SWEMBlocks.QUALITY_BALE_SLAB.get()), 1, 112, 2, 3, "", FoodItem::doNothing),
 
@@ -55,7 +54,29 @@ public enum FoodItem {
 		this.extraEffectMethod = extraEffect;
 	}
 
+	public Ingredient getItem() {
+		return item;
+	}
 
+	public int getCategoryIndex() {
+		return categoryIndex;
+	}
+
+	public int getPoints() {
+		return points;
+	}
+
+	public int getMin() {
+		return min;
+	}
+
+	public int getMax() {
+		return max;
+	}
+
+	public BiConsumer<SWEMHorseEntityBase, FoodItem> getExtraEffectMethod() {
+		return extraEffectMethod;
+	}
 
 	private static void doNothing(SWEMHorseEntityBase horse, FoodItem item) {
 

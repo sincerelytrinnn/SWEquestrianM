@@ -96,7 +96,7 @@ public class HorseStateChange {
 			switch (msg.action) {
 
 				case 0: {
-					horse.getNeeds().getThirst().incrementState();
+
 					break;
 				}
 				case 1: {

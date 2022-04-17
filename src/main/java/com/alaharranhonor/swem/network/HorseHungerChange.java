@@ -16,7 +16,6 @@ package com.alaharranhonor.swem.network;
  */
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import net.minecraft.item.ItemStack;
@@ -89,7 +88,7 @@ public class HorseHungerChange {
 	 */
 	public static void handle(HorseHungerChange msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			((SWEMHorseEntityBase)ctx.get().getSender().level.getEntity(msg.entityID)).getNeeds().getHunger().addPoints(msg.food);
+
 		});
 		ctx.get().setPacketHandled(true);
 	}

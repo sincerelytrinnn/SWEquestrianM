@@ -16,8 +16,6 @@ package com.alaharranhonor.swem.commands;
  */
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.entities.needs.HungerNeed;
-import com.alaharranhonor.swem.entities.needs.ThirstNeed;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.CommandSource;
@@ -74,44 +72,6 @@ public class DevCommand {
 									}
 
 									ctx.getSource().sendSuccess(new StringTextComponent("[§bSWEM§f] Your horse has been tamed for you sir! (With the accent)"), false);
-									return 1;
-								})
-						)
-						.then(Commands.literal("resetneeds")
-								.requires((source) -> source.hasPermission(3))
-								.executes(ctx ->  {
-									ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
-
-									Entity riding = player.getVehicle();
-									if (riding instanceof SWEMHorseEntityBase) {
-										SWEMHorseEntityBase horse = (SWEMHorseEntityBase) riding;
-
-										while (horse.getNeeds().getHunger().getState() != HungerNeed.HungerState.FULLY_FED) {
-											horse.getNeeds().getHunger().incrementState();
-										}
-
-										while (horse.getNeeds().getThirst().getState() != ThirstNeed.ThirstState.QUENCHED) {
-											horse.getNeeds().getThirst().incrementState();
-										}
-									}
-
-									ctx.getSource().sendSuccess(new StringTextComponent("[§bSWEM§f] Your horse's need has been reset sir! (With the accent)"), false);
-									return 1;
-								})
-						)
-						.then(Commands.literal("lowerthirst")
-								.requires((source) -> source.hasPermission(3))
-								.executes(ctx ->  {
-									ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
-
-									Entity riding = player.getVehicle();
-									if (riding instanceof SWEMHorseEntityBase) {
-										SWEMHorseEntityBase horse = (SWEMHorseEntityBase) riding;
-
-										horse.getNeeds().getThirst().setStateById(1);
-									}
-
-									ctx.getSource().sendSuccess(new StringTextComponent("[§bSWEM§f] Your horse's hunger has been lowered! (With the accent)"), false);
 									return 1;
 								})
 						);
