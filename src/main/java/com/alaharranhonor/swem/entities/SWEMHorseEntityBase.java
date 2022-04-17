@@ -610,6 +610,10 @@ public class SWEMHorseEntityBase
 		this.maxGallopSeconds = gallopSeconds;
 	}
 
+	public int getMaxGallopSeconds() {
+		return this.maxGallopSeconds;
+	}
+
 	/**
 	 * Setter for the synced data value of the horse being tracked.
 	 * @param tracked Is being tracked?
