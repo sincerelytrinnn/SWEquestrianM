@@ -167,6 +167,7 @@ public class SWEMHorseEntityBase
 	public int delayedLeashHolderId2;
 	@Nullable
 	public CompoundNBT leashInfoTag2;
+	private int limitedGaitIndex = -1;
 
 	// Animation variables.
 	public final static DataParameter<Integer> JUMP_ANIM_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
@@ -3052,6 +3053,32 @@ public class SWEMHorseEntityBase
 		this.updateSelectedSpeed(oldSpeed);
 	}
 
+	public void setLimitedGait(HorseSpeed limitedGait) {
+		if (limitedGait == null) {
+			this.limitedGaitIndex = -1;
+		} else {
+			this.limitedGaitIndex = limitedGait.ordinal();
+		}
+	}
+
+	public void removeLimitedGait() {
+		this.setLimitedGait(null);
+	}
+
+	@Nullable
+	public HorseSpeed getLimitedGait() {
+		if (this.limitedGaitIndex == -1) return null;
+		return HorseSpeed.values()[limitedGaitIndex];
+	}
+
+	private int getLimitedGaitIndex() {
+		return this.limitedGaitIndex;
+	}
+
+	private boolean isGaitLimited(HorseSpeed gait) {
+		return this.getLimitedGaitIndex() == -1 || gait.ordinal() > this.getLimitedGaitIndex();
+	}
+
 	/**
 	 * Increment speed.
 	 */
@@ -3064,7 +3091,7 @@ public class SWEMHorseEntityBase
 			return;
 		}
 
-		else if (oldSpeed == HorseSpeed.CANTER_EXT) {
+		else if (oldSpeed == HorseSpeed.CANTER_EXT && !this.isGaitLimited(HorseSpeed.GALLOP)) {
 			if (this.entityData.get(GALLOP_ON_COOLDOWN)) {
 				ArrayList<String> args = new ArrayList<>();
 				args.add(String.valueOf(Math.round(( this.entityData.get(GALLOP_COOLDOWN_TIMER) - this.entityData.get(GALLOP_TIMER) ) / 20)));
@@ -3074,14 +3101,14 @@ public class SWEMHorseEntityBase
 			this.currentSpeed = HorseSpeed.GALLOP;
 		}
 
-		else if (oldSpeed == HorseSpeed.CANTER) {
+		else if (oldSpeed == HorseSpeed.CANTER && !this.isGaitLimited(HorseSpeed.CANTER_EXT)) {
 			this.currentSpeed = HorseSpeed.CANTER_EXT;
 		}
-		else if (oldSpeed == HorseSpeed.TROT) {
+		else if (oldSpeed == HorseSpeed.TROT && !this.isGaitLimited(HorseSpeed.CANTER)) {
 
 			this.currentSpeed = HorseSpeed.CANTER;
 
-		} else if (oldSpeed == HorseSpeed.WALK) {
+		} else if (oldSpeed == HorseSpeed.WALK && !this.isGaitLimited(HorseSpeed.TROT)) {
 			this.currentSpeed = HorseSpeed.TROT;
 		}
 		this.updateSelectedSpeed(oldSpeed);
