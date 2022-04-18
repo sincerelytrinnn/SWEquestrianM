@@ -244,7 +244,7 @@ public class HungerNeed implements INeed {
 			SWEM.LOGGER.error(horse + " movement speed attribute was null, when trying to add the hunger speed modifier.");
 			return;
 		}
-		speedTempModifier = new AttributeModifier("hunger_speed_modifier", speedModifier, AttributeModifier.Operation.MULTIPLY_BASE);
+		speedTempModifier = new AttributeModifier("hunger_speed_modifier", speedModifier, AttributeModifier.Operation.MULTIPLY_TOTAL);
 		horse.getAttribute(Attributes.MOVEMENT_SPEED).addTransientModifier(speedTempModifier);
 	}
 
@@ -270,9 +270,9 @@ public class HungerNeed implements INeed {
 
 
 	enum HungerLevel {
-		STARVING(1.0f, 0.7f, HungerNeed::applyStarvingEffects, HungerNeed::removeStarvingEffects),
-		MALNOURISHED(0.8f, 0.8f, HungerNeed::applyMalnourishedEffects, HungerNeed::removeMalnourishedEffects),
-		HUNGRY(0.9f, 0.9f, HungerNeed::applyHungryEffects, HungerNeed::removeHungryEffects),
+		STARVING(0, 0.7f, HungerNeed::applyStarvingEffects, HungerNeed::removeStarvingEffects),
+		MALNOURISHED(-0.2f, 0.8f, HungerNeed::applyMalnourishedEffects, HungerNeed::removeMalnourishedEffects),
+		HUNGRY(-0.1f, 0.9f, HungerNeed::applyHungryEffects, HungerNeed::removeHungryEffects),
 		FED(1.0f, 1f, HungerNeed::applyFedEffects, HungerNeed::removeFedEffects),
 		FULLY_FED(1.0f, 1.1f, HungerNeed::applyFullyFedEffects, HungerNeed::removeFullyFedEffects);
 
