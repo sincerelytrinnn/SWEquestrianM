@@ -65,13 +65,13 @@ public class HungerNeed implements INeed {
 
 	public void decrementLevel() {
 		this.removeSpeedModifier(horse);
-		this.removeObedienceModifier(horse, this.currentLevel.getObedienceModifier());
+		removeObedienceModifier(horse, this.currentLevel.getObedienceModifier());
 		this.currentLevel.getRemoveEffectMethod().accept(this.horse);
 
 		this.currentLevel = HungerLevel.values()[MathHelper.clamp(this.currentLevel.ordinal() - 1, 0, HungerLevel.values().length - 1)];
 
 		this.addSpeedModifier(this.horse, this.currentLevel.getSkillModifier());
-		this.addObedienceModifier(this.horse, this.currentLevel.getObedienceModifier());
+		addObedienceModifier(this.horse, this.currentLevel.getObedienceModifier());
 		this.currentLevel.getApplyEffectMethod().accept(this.horse);
 	}
 
@@ -217,13 +217,12 @@ public class HungerNeed implements INeed {
 
 
 	private static void applyStarvingEffects(SWEMHorseEntityBase horse) {
-		// TODO: Limit the max gait to walk
-
+		horse.setLimitedGait(SWEMHorseEntityBase.HorseSpeed.WALK);
 	}
 
 
 	private static void applyMalnourishedEffects(SWEMHorseEntityBase horse) {
-		// TODO: Limit the max gait to Canter
+		horse.setLimitedGait(SWEMHorseEntityBase.HorseSpeed.CANTER);
 	}
 
 
@@ -241,13 +240,12 @@ public class HungerNeed implements INeed {
 	}
 
 	private static void removeStarvingEffects(SWEMHorseEntityBase horse) {
-		// Note: Don't remove the gait cap here, since it will be overwritten by the apply methods.
+		horse.removeLimitedGait();
 	}
 
 
 	private static void removeMalnourishedEffects(SWEMHorseEntityBase horse) {
-		// Note: Don't remove the gait cap here, since it will be overwritten by the apply methods.
-
+		horse.removeLimitedGait();
 	}
 
 
