@@ -21,22 +21,25 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class HungerNeed implements INeed {
 
 	private final SWEMHorseEntityBase horse;
 	private int missedMeals = 0;
 	private final int[] pointsFromCategory = new int[3];
+	private final int[] timesFed = new int[FoodItem.values().length];
 	private static final int MAX_TREAT_POINTS = 13;
 	private static final int MAX_SWEET_FEED_POINTS = 13;
 	private int requiredPointsToFed = 224;
 	private HungerLevel currentLevel;
-	private static AttributeModifier speedTempModifier;
+	private AttributeModifier speedTempModifier;
+
 
 	public HungerNeed(SWEMHorseEntityBase horse) {
 		this.horse = horse;
@@ -51,36 +54,56 @@ public class HungerNeed implements INeed {
 			this.missMeal();
 		}
 
+		// 7AM Reset amount of times fed.
+		if (this.getCheckTimes().get(0) == checkTime) {
+			Arrays.fill(this.timesFed, 0);
+		}
+
 		// Reset points every check.
 		Arrays.fill(pointsFromCategory, 0);
 	}
 
 	public void decrementLevel() {
-		this.currentLevel.getRemoveEffectMethod().accept(this.horse, this.currentLevel);
+		this.removeSpeedModifier(horse);
+		this.removeObedienceModifier(horse, this.currentLevel.getObedienceModifier());
+		this.currentLevel.getRemoveEffectMethod().accept(this.horse);
+
 		this.currentLevel = HungerLevel.values()[MathHelper.clamp(this.currentLevel.ordinal() - 1, 0, HungerLevel.values().length - 1)];
-		this.currentLevel.getApplyEffectMethod().accept(this.horse, this.currentLevel);
+
+		this.addSpeedModifier(this.horse, this.currentLevel.getSkillModifier());
+		this.addObedienceModifier(this.horse, this.currentLevel.getObedienceModifier());
+		this.currentLevel.getApplyEffectMethod().accept(this.horse);
 	}
 
 	public void setLevel(HungerLevel levelToSet) {
-		this.currentLevel.getRemoveEffectMethod().accept(this.horse, this.currentLevel);
+		this.removeSpeedModifier(horse);
+		removeObedienceModifier(this.horse, this.currentLevel.getObedienceModifier());
+		this.currentLevel.getRemoveEffectMethod().accept(this.horse);
+
 		this.currentLevel = levelToSet;
-		this.currentLevel.getApplyEffectMethod().accept(this.horse, this.currentLevel);
+
+		this.addSpeedModifier(this.horse, levelToSet.getSkillModifier());
+		addObedienceModifier(this.horse, levelToSet.getObedienceModifier());
+		this.currentLevel.getApplyEffectMethod().accept(this.horse);
 	}
 
 	public void incrementLevel() {
-		this.currentLevel.getRemoveEffectMethod().accept(this.horse, this.currentLevel);
+		this.currentLevel.getRemoveEffectMethod().accept(this.horse);
 		this.currentLevel = HungerLevel.values()[MathHelper.clamp(this.currentLevel.ordinal() + 1, 0, HungerLevel.values().length - 1)];
-		this.currentLevel.getApplyEffectMethod().accept(this.horse, this.currentLevel);
+		this.currentLevel.getApplyEffectMethod().accept(this.horse);
 	}
 
 	private void missMeal() {
 		missedMeals++;
 		if (missedMeals == 1) {
 			this.setLevel(HungerLevel.HUNGRY);
+			this.horse.emitMehParticles((ServerWorld) this.horse.level, 3);
 		} else if (missedMeals == 3) {
 			this.setLevel(HungerLevel.MALNOURISHED);
+			this.horse.emitEchParticles((ServerWorld) this.horse.level, 3);
 		} else if (missedMeals == 7) {
 			this.setLevel(HungerLevel.STARVING);
+			this.horse.emitBadParticles((ServerWorld) this.horse.level, 3);
 		}
 	}
 
@@ -97,14 +120,33 @@ public class HungerNeed implements INeed {
 	public boolean interact(ItemStack stack) {
 		for (FoodItem foodItem : FoodItem.values()) {
 			if (foodItem.getItem().test(stack)) {
-				foodItem.getExtraEffectMethod().accept(this.horse, foodItem);
-				addPointsToCategory(foodItem);
-				checkPoints();
+
+				this.timesFed[foodItem.ordinal()] = this.timesFed[foodItem.ordinal()] + 1;
+				handleFoodCount(foodItem);
+
+				if (canAddPointsToCategory(foodItem.getCategoryIndex())) {
+					foodItem.getExtraEffectMethod().accept(this.horse, foodItem);
+					addPointsToCategory(foodItem);
+					checkPoints();
+				}
 				return true; // Return early, since we don't care about other items, since we already matched one.
 			}
 		}
 		return false;
 	}
+
+	private void handleFoodCount(FoodItem item) {
+		int timesFed = this.timesFed[item.ordinal()];
+		if (timesFed <= item.getMin()) {
+			this.horse.emitYayParticles((ServerWorld) this.horse.level, 3);
+		} else if (timesFed <= item.getMax()) {
+			this.horse.emitMehParticles((ServerWorld) this.horse.level, 3);
+		} else {
+			this.horse.emitBadParticles((ServerWorld) this.horse.level, 3);
+			this.addOverfedEffect();
+		}
+	}
+
 
 	public void addPointsToCategory(FoodItem foodItem) {
 		if (canAddPointsToCategory(foodItem.getCategoryIndex())) {
@@ -156,8 +198,8 @@ public class HungerNeed implements INeed {
 	}
 
 	@Override
-	public void incrementNeedRequirement() {
-		this.requiredPointsToFed += 112;
+	public void incrementNeedRequirement(int points) {
+		this.requiredPointsToFed += points;
 		if (this.getCurrentPoints() < this.getRequiredPointsToFed()) {
 			this.decrementLevel();
 
@@ -174,88 +216,70 @@ public class HungerNeed implements INeed {
 	}
 
 
-	private static void applyStarvingEffects(SWEMHorseEntityBase horse, HungerLevel level) {
+	private static void applyStarvingEffects(SWEMHorseEntityBase horse) {
 		// TODO: Limit the max gait to walk
-		addSpeedModifier(horse, level.getSkillModifier());
-		addObedienceModifier(horse, level.getObedienceModifier());
+
 	}
 
 
-	private static void applyMalnourishedEffects(SWEMHorseEntityBase horse, HungerLevel level) {
+	private static void applyMalnourishedEffects(SWEMHorseEntityBase horse) {
 		// TODO: Limit the max gait to Canter
-		addSpeedModifier(horse, level.getSkillModifier());
-		addObedienceModifier(horse, level.getObedienceModifier());
 	}
 
 
-	private static void applyHungryEffects(SWEMHorseEntityBase horse, HungerLevel level) {
+	private static void applyHungryEffects(SWEMHorseEntityBase horse) {
 		horse.setMaxGallopSeconds(horse.getMaxGallopSeconds() - 2);
-		addSpeedModifier(horse, level.getSkillModifier());
-		addObedienceModifier(horse, level.getObedienceModifier());
 	}
 
 
 
-	private static void applyFedEffects(SWEMHorseEntityBase horse, HungerLevel level) {
-		addSpeedModifier(horse, level.getSkillModifier());
-		addObedienceModifier(horse, level.getObedienceModifier());
+	private static void applyFedEffects(SWEMHorseEntityBase horse) {
 	}
 
 
-	private static void applyFullyFedEffects(SWEMHorseEntityBase horse, HungerLevel level) {
-		addSpeedModifier(horse, level.getSkillModifier());
-		addObedienceModifier(horse, level.getObedienceModifier());
+	private static void applyFullyFedEffects(SWEMHorseEntityBase horse) {
 	}
 
-	private static void removeStarvingEffects(SWEMHorseEntityBase horse, HungerLevel level) {
+	private static void removeStarvingEffects(SWEMHorseEntityBase horse) {
 		// Note: Don't remove the gait cap here, since it will be overwritten by the apply methods.
-		removeSpeedModifier(horse);
-		removeObedienceModifier(horse, level.getObedienceModifier());
 	}
 
 
-	private static void removeMalnourishedEffects(SWEMHorseEntityBase horse, HungerLevel level) {
+	private static void removeMalnourishedEffects(SWEMHorseEntityBase horse) {
 		// Note: Don't remove the gait cap here, since it will be overwritten by the apply methods.
-		removeSpeedModifier(horse);
-		removeObedienceModifier(horse, level.getObedienceModifier());
+
 	}
 
 
-	private static void removeHungryEffects(SWEMHorseEntityBase horse, HungerLevel level) {
+	private static void removeHungryEffects(SWEMHorseEntityBase horse) {
 		horse.setMaxGallopSeconds(horse.getMaxGallopSeconds() + 2);
-		removeSpeedModifier(horse);
-		removeObedienceModifier(horse, level.getObedienceModifier());
 	}
 
 
-	private static void removeFedEffects(SWEMHorseEntityBase horse, HungerLevel level) {
-		removeSpeedModifier(horse);
-		removeObedienceModifier(horse, level.getObedienceModifier());
+	private static void removeFedEffects(SWEMHorseEntityBase horse) {
 	}
 
 
-	private static void removeFullyFedEffects(SWEMHorseEntityBase horse, HungerLevel level) {
-		removeSpeedModifier(horse);
-		removeObedienceModifier(horse, level.getObedienceModifier());
+	private static void removeFullyFedEffects(SWEMHorseEntityBase horse) {
 	}
 
-	private static void addSpeedModifier(SWEMHorseEntityBase horse, float speedModifier) {
+	private void addSpeedModifier(SWEMHorseEntityBase horse, float speedModifier) {
 		if (horse.getAttribute(Attributes.MOVEMENT_SPEED) == null) {
 			SWEM.LOGGER.error(horse + " movement speed attribute was null, when trying to add the hunger speed modifier.");
 			return;
 		}
-		speedTempModifier = new AttributeModifier("hunger_speed_modifier", speedModifier, AttributeModifier.Operation.MULTIPLY_TOTAL);
-		horse.getAttribute(Attributes.MOVEMENT_SPEED).addTransientModifier(speedTempModifier);
+		this.speedTempModifier = new AttributeModifier("hunger_speed_modifier", speedModifier, AttributeModifier.Operation.MULTIPLY_TOTAL);
+		horse.getAttribute(Attributes.MOVEMENT_SPEED).addTransientModifier(this.speedTempModifier);
 	}
 
-	private static void removeSpeedModifier(SWEMHorseEntityBase horse) {
-		if (speedTempModifier != null) {
+	private void removeSpeedModifier(SWEMHorseEntityBase horse) {
+		if (this.speedTempModifier != null) {
 			if (horse.getAttribute(Attributes.MOVEMENT_SPEED) == null) {
 				SWEM.LOGGER.error(horse + " movement speed attribute was null, when trying to remove the hunger speed modifier.");
 			}
-			horse.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(speedTempModifier);
+			horse.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(this.speedTempModifier);
 		}
-		speedTempModifier = null;
+		this.speedTempModifier = null;
 	}
 
 	private static void addObedienceModifier(SWEMHorseEntityBase horse, float obedienceModifier) {
@@ -268,20 +292,32 @@ public class HungerNeed implements INeed {
 		// horse.setObedienceModifier(horse.getObedienceModifier() - obedienceModifier);
 	}
 
+	private void addOverfedEffect() {
+		// TODO: If nausea is set, then don't trigger this again.
+
+		// TODO: Add nausea particles (Minecraft) on timer. (Every 30? seconds)
+		addObedienceModifier(this.horse, 0.15f);
+	}
+
+	private void removeOverfedEffect(SWEMHorseEntityBase horse) {
+		// TODO: remove nausea particles (Minecraft)
+		removeObedienceModifier(this.horse, 0.15f);
+	}
+
 
 	enum HungerLevel {
 		STARVING(0, 0.7f, HungerNeed::applyStarvingEffects, HungerNeed::removeStarvingEffects),
 		MALNOURISHED(-0.2f, 0.8f, HungerNeed::applyMalnourishedEffects, HungerNeed::removeMalnourishedEffects),
 		HUNGRY(-0.1f, 0.9f, HungerNeed::applyHungryEffects, HungerNeed::removeHungryEffects),
-		FED(1.0f, 1f, HungerNeed::applyFedEffects, HungerNeed::removeFedEffects),
-		FULLY_FED(1.0f, 1.1f, HungerNeed::applyFullyFedEffects, HungerNeed::removeFullyFedEffects);
+		FED(0, 1f, HungerNeed::applyFedEffects, HungerNeed::removeFedEffects),
+		FULLY_FED(0, 1.1f, HungerNeed::applyFullyFedEffects, HungerNeed::removeFullyFedEffects);
 
 
 		private final float skillModifier;
 		private final float obedienceModifier;
-		private final BiConsumer<SWEMHorseEntityBase, HungerLevel> applyEffectMethod;
-		private final BiConsumer<SWEMHorseEntityBase, HungerLevel> removeEffectMethod;
-		HungerLevel(float skillModifier, float obedienceModifier, BiConsumer<SWEMHorseEntityBase, HungerLevel> applyEffectMethod, BiConsumer<SWEMHorseEntityBase, HungerLevel> removeEffectMethod) {
+		private final Consumer<SWEMHorseEntityBase> applyEffectMethod;
+		private final Consumer<SWEMHorseEntityBase> removeEffectMethod;
+		HungerLevel(float skillModifier, float obedienceModifier, Consumer<SWEMHorseEntityBase> applyEffectMethod, Consumer<SWEMHorseEntityBase> removeEffectMethod) {
 			this.skillModifier = skillModifier;
 			this.obedienceModifier = obedienceModifier;
 			this.applyEffectMethod = applyEffectMethod;
@@ -296,11 +332,11 @@ public class HungerNeed implements INeed {
 			return obedienceModifier;
 		}
 
-		public BiConsumer<SWEMHorseEntityBase, HungerLevel> getApplyEffectMethod() {
+		public Consumer<SWEMHorseEntityBase> getApplyEffectMethod() {
 			return applyEffectMethod;
 		}
 
-		public BiConsumer<SWEMHorseEntityBase, HungerLevel> getRemoveEffectMethod() {
+		public Consumer<SWEMHorseEntityBase> getRemoveEffectMethod() {
 			return removeEffectMethod;
 		}
 	}

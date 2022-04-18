@@ -30,5 +30,5 @@ public interface INeed {
 
 	void write(CompoundNBT nbt);
 
-	void incrementNeedRequirement();
+	void incrementNeedRequirement(int points);
 }
