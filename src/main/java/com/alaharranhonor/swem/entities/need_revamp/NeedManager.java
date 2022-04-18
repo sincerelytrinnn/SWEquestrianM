@@ -14,7 +14,6 @@ package com.alaharranhonor.swem.entities.need_revamp;
  */
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.util.SWEMUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 
@@ -39,7 +38,6 @@ public class NeedManager {
 		for (INeed need : needs) {
 			boolean used = need.interact(stack);
 			if (used) {
-				SWEMUtil.damageOrShrink(stack);
 				return true;
 			}
 		}

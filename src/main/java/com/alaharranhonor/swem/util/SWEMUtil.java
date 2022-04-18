@@ -15,6 +15,7 @@ package com.alaharranhonor.swem.util;
  * THE SOFTWARE.
  */
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 
@@ -23,11 +24,15 @@ import java.util.Arrays;
 public class SWEMUtil {
 
 
-	public static void damageOrShrink(ItemStack stack) {
+	public static void damageOrShrink(ItemStack stack, PlayerEntity player) {
 		if (stack.isDamageableItem()) {
-			stack.setDamageValue(stack.getDamageValue() + 1);
+			stack.hurtAndBreak(1, player, (playerEntity) -> {
+				playerEntity.broadcastBreakEvent(playerEntity.getUsedItemHand());
+			});
 		} else {
-			stack.shrink(1);
+			if (!player.isCreative())
+				stack.shrink(1);
+			player.setItemInHand(player.getUsedItemHand(), stack);
 		}
 	}
 

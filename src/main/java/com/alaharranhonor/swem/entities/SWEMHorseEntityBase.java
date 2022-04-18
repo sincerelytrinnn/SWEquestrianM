@@ -2650,8 +2650,11 @@ public class SWEMHorseEntityBase
 			}
 
 			if (!this.level.isClientSide) {
-				this.getNeeds().interact(itemstack);
-				return ActionResultType.CONSUME;
+				if (this.getNeeds().interact(itemstack)) {
+					SWEMUtil.damageOrShrink(itemstack, playerEntity);
+					return ActionResultType.CONSUME;
+				}
+
 			}
 
 			ActionResultType actionresulttype = itemstack.interactLivingEntity(playerEntity, this, hand);
