@@ -53,6 +53,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -242,7 +243,7 @@ public class GeneralEventHandlers {
 		 *
 		 * @param event the event
 		 */
-// Update horse speed when dismounted, to a walk gait.
+		// Update horse speed when dismounted, to a walk gait.
 		@SubscribeEvent
 		public static void entityMount(EntityMountEvent event) {
 			if (event.isMounting()) return;
@@ -267,7 +268,7 @@ public class GeneralEventHandlers {
 		 *
 		 * @param event the event
 		 */
-// Doon't dismount player if the player/horse is flying.
+		// Doon't dismount player if the player/horse is flying.
 		// This is the cause of desyncing when hitting shift while flying.
 		@SubscribeEvent
 		public static void onEntityMountEvent(EntityMountEvent event) {
@@ -288,7 +289,7 @@ public class GeneralEventHandlers {
 		 *
 		 * @param event the event
 		 */
-// Check if the player can mount the horse.
+		// Check if the player can mount the horse.
 		@SubscribeEvent
 		public static void canEntityBeMounted(EntityMountEvent event) {
 			if (!event.isMounting()) return;
@@ -440,6 +441,15 @@ public class GeneralEventHandlers {
 		public static void onHorseLeave(EntityLeaveWorldEvent event) {
 			if (event.getEntity() instanceof SWEMHorseEntityBase) {
 				SWEM.setPosForHorse(event.getEntity().getUUID(), event.getEntity().blockPosition());
+			}
+		}
+
+		@SubscribeEvent
+		public static void onPlayerLeave(PlayerEvent.PlayerLoggedOutEvent event) {
+			if (event.getEntity() instanceof PlayerEntity) {
+				if (event.getEntity().isPassenger()) {
+					event.getEntity().stopRiding();
+				}
 			}
 		}
 
