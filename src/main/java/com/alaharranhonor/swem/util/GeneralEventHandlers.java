@@ -64,7 +64,6 @@ import net.minecraftforge.server.permission.PermissionAPI;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.UUID;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -182,8 +181,9 @@ public class GeneralEventHandlers {
 					Entity entity = player.getVehicle();
 					if (entity instanceof SWEMHorseEntityBase) {
 						SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-						player.sendMessage(new StringTextComponent("Speed: " + horse.getAttributeValue(Attributes.MOVEMENT_SPEED)), UUID.randomUUID());
-						player.sendMessage(new StringTextComponent("Base Value: " + horse.getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue()), UUID.randomUUID());
+						player.sendMessage(new StringTextComponent("Speed: " + horse.getAttributeValue(Attributes.MOVEMENT_SPEED)), Util.NIL_UUID);
+						player.sendMessage(new StringTextComponent("Base Value: " + horse.getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue()), Util.NIL_UUID);
+						player.sendMessage(new StringTextComponent("Obedience Modifier: " + horse.getObedienceModifier()), Util.NIL_UUID);
 					}
 				}
 

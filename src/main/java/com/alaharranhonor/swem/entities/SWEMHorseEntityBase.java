@@ -168,6 +168,7 @@ public class SWEMHorseEntityBase
 	@Nullable
 	public CompoundNBT leashInfoTag2;
 	private int limitedGaitIndex = -1;
+	private float obedienceModifier = 1.0f;
 
 	// Animation variables.
 	public final static DataParameter<Integer> JUMP_ANIM_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
@@ -2329,7 +2330,7 @@ public class SWEMHorseEntityBase
 	 * @return the jump disobey
 	 */
 	public double getJumpDisobey(float jumpHeight) {
-		return 0.25 * (this.progressionManager.getJumpLeveling().getLevel() + 1 - 5) / 4 + 0.05 * (jumpHeight - 1) / 4 + 0.7 * this.progressionManager.getAffinityLeveling().getDebuff();
+		return (0.25 * (this.progressionManager.getJumpLeveling().getLevel() + 1 - 5) / 4 + 0.05 * (jumpHeight - 1) / 4 + 0.7 * this.progressionManager.getAffinityLeveling().getDebuff()) * this.getObedienceModifier();
 	}
 
 	@Override
@@ -3079,6 +3080,18 @@ public class SWEMHorseEntityBase
 		return this.getLimitedGaitIndex() == -1 || gait.ordinal() > this.getLimitedGaitIndex();
 	}
 
+	public float getObedienceModifier() {
+		return this.obedienceModifier;
+	}
+
+	public void addObedienceModifier(float amount) {
+		this.obedienceModifier += amount;
+	}
+
+	public void removeObedienceModifier(float amount) {
+		this.obedienceModifier -= amount;
+	}
+
 	/**
 	 * Increment speed.
 	 */
@@ -3086,7 +3099,7 @@ public class SWEMHorseEntityBase
 		HorseSpeed oldSpeed = this.currentSpeed;
 		if (oldSpeed == HorseSpeed.GALLOP) return; // Return if current gait is already max.
 
-		if (this.getRandom().nextDouble() < ((this.progressionManager.getAffinityLeveling().getDebuff() * this.currentSpeed.getSkillMultiplier()) * (this.standingTimer > 0 ? 0.5 : 1))) {
+		if ((this.getRandom().nextDouble() * this.getObedienceModifier()) < ((this.progressionManager.getAffinityLeveling().getDebuff() * this.currentSpeed.getSkillMultiplier()) * (this.standingTimer > 0 ? 0.5 : 1))) {
 			this.setStandingAnim();
 			return;
 		}

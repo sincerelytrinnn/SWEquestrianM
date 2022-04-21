@@ -56,6 +56,7 @@ public class HungerNeed implements INeed {
 
 		// 7AM Reset amount of times fed.
 		if (this.getCheckTimes().get(0) == checkTime) {
+			this.removeOverfedEffect();
 			Arrays.fill(this.timesFed, 0);
 		}
 
@@ -65,25 +66,25 @@ public class HungerNeed implements INeed {
 
 	public void decrementLevel() {
 		this.removeSpeedModifier(horse);
-		removeObedienceModifier(horse, this.currentLevel.getObedienceModifier());
+		removeObedienceModifier(this.currentLevel.getObedienceModifier());
 		this.currentLevel.getRemoveEffectMethod().accept(this.horse);
 
 		this.currentLevel = HungerLevel.values()[MathHelper.clamp(this.currentLevel.ordinal() - 1, 0, HungerLevel.values().length - 1)];
 
 		this.addSpeedModifier(this.horse, this.currentLevel.getSkillModifier());
-		addObedienceModifier(this.horse, this.currentLevel.getObedienceModifier());
+		addObedienceModifier(this.currentLevel.getObedienceModifier());
 		this.currentLevel.getApplyEffectMethod().accept(this.horse);
 	}
 
 	public void setLevel(HungerLevel levelToSet) {
 		this.removeSpeedModifier(horse);
-		removeObedienceModifier(this.horse, this.currentLevel.getObedienceModifier());
+		removeObedienceModifier(this.currentLevel.getObedienceModifier());
 		this.currentLevel.getRemoveEffectMethod().accept(this.horse);
 
 		this.currentLevel = levelToSet;
 
 		this.addSpeedModifier(this.horse, levelToSet.getSkillModifier());
-		addObedienceModifier(this.horse, levelToSet.getObedienceModifier());
+		addObedienceModifier(levelToSet.getObedienceModifier());
 		this.currentLevel.getApplyEffectMethod().accept(this.horse);
 	}
 
@@ -230,8 +231,6 @@ public class HungerNeed implements INeed {
 		horse.setMaxGallopSeconds(horse.getMaxGallopSeconds() - 2);
 	}
 
-
-
 	private static void applyFedEffects(SWEMHorseEntityBase horse) {
 	}
 
@@ -280,35 +279,33 @@ public class HungerNeed implements INeed {
 		this.speedTempModifier = null;
 	}
 
-	private static void addObedienceModifier(SWEMHorseEntityBase horse, float obedienceModifier) {
-		// TODO: Add the obedience modifier to the horse, once the system is setup on the horse.
-		// horse.setObedienceModifier(horse.getObedienceModifier() + obedienceModifier);
+	private void addObedienceModifier(float obedienceModifier) {
+		this.horse.addObedienceModifier(obedienceModifier);
 	}
 
-	private static void removeObedienceModifier(SWEMHorseEntityBase horse, float obedienceModifier) {
-		// TODO: Add the obedience modifier to the horse, once the system is setup on the horse.
-		// horse.setObedienceModifier(horse.getObedienceModifier() - obedienceModifier);
+	private void removeObedienceModifier(float obedienceModifier) {
+		horse.removeObedienceModifier(obedienceModifier);
 	}
 
 	private void addOverfedEffect() {
 		// TODO: If nausea is set, then don't trigger this again.
 
 		// TODO: Add nausea particles (Minecraft) on timer. (Every 30? seconds)
-		addObedienceModifier(this.horse, 0.15f);
+		addObedienceModifier(0.15f);
 	}
 
-	private void removeOverfedEffect(SWEMHorseEntityBase horse) {
+	private void removeOverfedEffect() {
 		// TODO: remove nausea particles (Minecraft)
-		removeObedienceModifier(this.horse, 0.15f);
+		removeObedienceModifier(0.15f);
 	}
 
 
 	enum HungerLevel {
-		STARVING(0, 0.7f, HungerNeed::applyStarvingEffects, HungerNeed::removeStarvingEffects),
-		MALNOURISHED(-0.2f, 0.8f, HungerNeed::applyMalnourishedEffects, HungerNeed::removeMalnourishedEffects),
-		HUNGRY(-0.1f, 0.9f, HungerNeed::applyHungryEffects, HungerNeed::removeHungryEffects),
-		FED(0, 1f, HungerNeed::applyFedEffects, HungerNeed::removeFedEffects),
-		FULLY_FED(0, 1.1f, HungerNeed::applyFullyFedEffects, HungerNeed::removeFullyFedEffects);
+		STARVING(0, 0.3f, HungerNeed::applyStarvingEffects, HungerNeed::removeStarvingEffects),
+		MALNOURISHED(-0.2f, 0.2f, HungerNeed::applyMalnourishedEffects, HungerNeed::removeMalnourishedEffects),
+		HUNGRY(-0.1f, 0.1f, HungerNeed::applyHungryEffects, HungerNeed::removeHungryEffects),
+		FED(0, 0f, HungerNeed::applyFedEffects, HungerNeed::removeFedEffects),
+		FULLY_FED(0, -0.1f, HungerNeed::applyFullyFedEffects, HungerNeed::removeFullyFedEffects);
 
 
 		private final float skillModifier;
