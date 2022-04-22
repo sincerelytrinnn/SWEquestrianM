@@ -19,8 +19,6 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -98,6 +96,7 @@ public class CHorseJumpPacket {
 			}
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 			if (msg.jumpHeight > 0) {
+				horse.awardIntegerStat(SWEMHorseEntityBase.JUMP_STAT, 1);
 				if (msg.jumpHeight > 5) {
 					horse.getEntityData().set(SWEMHorseEntityBase.JUMP_ANIM_TIMER, 36);
 				} else if (msg.jumpHeight > 4) {

@@ -20,6 +20,7 @@ import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.ai.*;
 import com.alaharranhonor.swem.entities.need_revamp.NeedManager;
 import com.alaharranhonor.swem.entities.need_revamp.hunger.HungerNeed;
+import com.alaharranhonor.swem.entities.need_revamp.thirst.ThirstNeed;
 import com.alaharranhonor.swem.entities.progression.ProgressionManager;
 import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
@@ -135,7 +136,6 @@ public class SWEMHorseEntityBase
 	private LazyOptional<InvWrapper> itemHandler;
 	private LazyOptional<InvWrapper> saddlebagItemHandler;
 	private Inventory saddlebagInventory;
-	private Inventory bedrollInventory;
 	private int maxGallopSeconds = 7;
 	private static final DataParameter<Integer> GALLOP_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	private static final DataParameter<Integer> GALLOP_COOLDOWN_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
@@ -148,6 +148,13 @@ public class SWEMHorseEntityBase
 	public final static DataParameter<Boolean> RENDER_BLANKET = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public final static DataParameter<Boolean> RENDER_GIRTH_STRAP = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public final static DataParameter<Boolean> IS_BRIDLE_LEASHED = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	public final static DataParameter<Integer> HUNGER_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+	public final static DataParameter<Integer> THIRST_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+
+	// Statistics
+	public final static DataParameter<Integer> BLOCKS_TRAVELLED_STAT = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+	public final static DataParameter<Integer> JUMP_STAT = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+
 	private final ArrayList<UUID> allowedList = new ArrayList<>();
 
 	public HorseSpeed currentSpeed;
@@ -168,7 +175,7 @@ public class SWEMHorseEntityBase
 	@Nullable
 	public CompoundNBT leashInfoTag2;
 	private int limitedGaitIndex = -1;
-	private float obedienceModifier = 1.0f;
+	private static final DataParameter<Float> OBEDIENCE_MODIFIER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
 
 	// Animation variables.
 	public final static DataParameter<Integer> JUMP_ANIM_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
@@ -198,7 +205,8 @@ public class SWEMHorseEntityBase
 		this.currentSpeed = HorseSpeed.WALK;
 		this.updateSelectedSpeed(HorseSpeed.WALK);
 		this.needs = new NeedManager(this);
-		this.getNeeds().addNeed(new HungerNeed(this));
+		this.getNeeds().addNeed("hunger", new HungerNeed(this));
+		this.getNeeds().addNeed("thirst", new ThirstNeed(this));
 		this.initSaddlebagInventory();
 		this.flightController = new HorseFlightController(this);
 	}
@@ -354,6 +362,23 @@ public class SWEMHorseEntityBase
 		this.peeAnimationTick = this.peeGoal.getPeeTimer();
 		this.poopAnimationTick = this.poopGoal.getPoopTimer();
 		super.customServerAiStep();
+	}
+
+	public void awardIntegerStat(DataParameter<Integer> stat, int amount) {
+		this.getEntityData().set(stat, this.getEntityData().get(stat) + amount);
+		this.checkIntegerStat(stat);
+	}
+
+	private void checkIntegerStat(DataParameter<Integer> stat) {
+		if (stat == BLOCKS_TRAVELLED_STAT) {
+			if (this.getEntityData().get(stat) % 3000 == 0) {
+				this.getNeeds().getNeed("hunger").usageIncrement();
+			}
+		} else if (stat == JUMP_STAT) {
+			if (this.getEntityData().get(stat) % 50 == 0) {
+				this.getNeeds().getNeed("thirst").usageIncrement();
+			}
+		}
 	}
 
 	/**
@@ -606,6 +631,14 @@ public class SWEMHorseEntityBase
 
 		this.entityData.define(IS_BRIDLE_LEASHED, false);
 
+		this.entityData.define(HUNGER_LEVEL, 4);
+		this.entityData.define(THIRST_LEVEL, 4);
+
+		this.entityData.define(OBEDIENCE_MODIFIER, 1.0f);
+
+		this.entityData.define(BLOCKS_TRAVELLED_STAT, 0);
+		this.entityData.define(JUMP_STAT, 0);
+
 	}
 
 	public void setMaxGallopSeconds(int gallopSeconds) {
@@ -842,12 +875,6 @@ public class SWEMHorseEntityBase
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void setDelayedLeashHolderId(int pLeashHolderID) {
-		System.out.println("Arg: " + pLeashHolderID);
-		System.out.println("Holder ID: " + this.delayedLeashHolderId);
-		System.out.println("Holder ID2: " + this.delayedLeashHolderId2);
-		System.out.println("Arg entity: " + this.level.getEntity(pLeashHolderID));
-		System.out.println("holder entity: " + this.level.getEntity(this.delayedLeashHolderId));
-		System.out.println("holder2 entity: " + this.level.getEntity(this.delayedLeashHolderId2));
 
 		if (pLeashHolderID == 0) {
 			this.delayedLeashHolderId2 = pLeashHolderID;
@@ -868,8 +895,6 @@ public class SWEMHorseEntityBase
 				}
 			}
 
-			System.out.println("Holder ID: " + this.delayedLeashHolderId);
-			System.out.println("Holder ID2: " + this.delayedLeashHolderId2);
 		}
 		this.dropLeash(false, false);
 	}
@@ -1923,6 +1948,7 @@ public class SWEMHorseEntityBase
 						x = Math.abs(x - this.currentPos.getX());
 						z = Math.abs(z - this.currentPos.getZ());
 						int dist = ((int)Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)));
+						this.awardIntegerStat(BLOCKS_TRAVELLED_STAT, dist);
 						if (dist > 0 && dist < 25) {
 							boolean speedLevelUp = false;
 							speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist * this.currentSpeed.getSkillMultiplier());
@@ -2611,6 +2637,13 @@ public class SWEMHorseEntityBase
 
 		Item item = itemstack.getItem();
 
+		if (item instanceof DebugStickItem) {
+			if (!this.level.isClientSide) {
+				playerEntity.sendMessage(new StringTextComponent("Blocks Travelled: " + this.getEntityData().get(BLOCKS_TRAVELLED_STAT) + "\nJumps: " + this.getEntityData().get(JUMP_STAT)), Util.NIL_UUID);
+			}
+			return ActionResultType.sidedSuccess(this.level.isClientSide);
+		}
+
 		if (this.isBreedingFood(itemstack)) {
 			this.fedBreedingFood(playerEntity, itemstack);
 		}
@@ -3081,15 +3114,15 @@ public class SWEMHorseEntityBase
 	}
 
 	public float getObedienceModifier() {
-		return this.obedienceModifier;
+		return this.entityData.get(OBEDIENCE_MODIFIER);
 	}
 
 	public void addObedienceModifier(float amount) {
-		this.obedienceModifier += amount;
+		this.entityData.set(OBEDIENCE_MODIFIER, this.entityData.get(OBEDIENCE_MODIFIER) + amount);
 	}
 
 	public void removeObedienceModifier(float amount) {
-		this.obedienceModifier -= amount;
+		this.entityData.set(OBEDIENCE_MODIFIER, this.entityData.get(OBEDIENCE_MODIFIER) - amount);
 	}
 
 	/**
