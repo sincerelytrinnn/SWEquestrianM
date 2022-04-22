@@ -17,25 +17,32 @@ import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 
-import java.util.ArrayList;
+import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NeedManager {
 
 	private SWEMHorseEntityBase horse;
-	private List<INeed> needs;
+	private Map<String, INeed> needs;
 
 	public NeedManager(SWEMHorseEntityBase horse) {
 		this.horse = horse;
-		this.needs = new ArrayList<>();
+		this.needs = new HashMap<>();
 	}
 
-	public void addNeed(INeed need) {
-		this.needs.add(need);
+	public void addNeed(String value, INeed need) {
+		this.needs.put(value, need);
+	}
+
+	@Nullable
+	public INeed getNeed(String value) {
+		return this.needs.get(value);
 	}
 
 	public boolean interact(ItemStack stack) {
-		for (INeed need : needs) {
+		for (INeed need : needs.values()) {
 			boolean used = need.interact(stack);
 			if (used) {
 				return true;
@@ -45,7 +52,7 @@ public class NeedManager {
 	}
 
 	public void tick(int dayTimeTick) {
-		for (INeed need : needs) {
+		for (INeed need : needs.values()) {
 			List<Integer> checkTimes = need.getCheckTimes();
 			if (checkTimes.contains(dayTimeTick)) {
 				need.check(dayTimeTick);
@@ -54,13 +61,13 @@ public class NeedManager {
 	}
 
 	public void write(CompoundNBT nbt) {
-		for (INeed need : needs) {
+		for (INeed need : needs.values()) {
 			need.write(nbt);
 		}
 	}
 
 	public void read(CompoundNBT nbt) {
-		for (INeed need : needs) {
+		for (INeed need : needs.values()) {
 			need.read(nbt);
 		}
 	}
