@@ -146,7 +146,7 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		int hungerYOffset = 145;
 		int hungerHeight = 3;
 
-		switch (-1) {
+		switch (this.horseEntity.getEntityData().get(SWEMHorseEntityBase.HUNGER_LEVEL)) {
 			case 0: {
 				break;
 			}
@@ -174,7 +174,7 @@ public class SWEMHorseInventoryScreen extends ContainerScreen<SWEMHorseInventory
 		int thirstXOffset = 179;
 		int thirstYOffset = 151;
 		int thirstHeight = 3;
-		switch (-1) {
+		switch (this.horseEntity.getEntityData().get(SWEMHorseEntityBase.THIRST_LEVEL)) {
 			case 0: {
 				break;
 			}
