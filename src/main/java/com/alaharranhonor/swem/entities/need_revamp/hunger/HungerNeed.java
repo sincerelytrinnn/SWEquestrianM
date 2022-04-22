@@ -20,6 +20,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.server.ServerWorld;
 
@@ -35,10 +36,13 @@ public class HungerNeed implements INeed {
 	private final int[] pointsFromCategory = new int[3];
 	private final int[] timesFed = new int[FoodItem.values().length];
 	private static final int MAX_TREAT_POINTS = 13;
-	private static final int MAX_SWEET_FEED_POINTS = 13;
+	private static final int MAX_SWEET_FEED_POINTS = 112;
 	private int requiredPointsToFed = 224;
 	private HungerLevel currentLevel;
 	private AttributeModifier speedTempModifier;
+	private AttributeModifier maxHealthModifier;
+	private int maxHealthRemoved = 0;
+	private int timesUsageHasIncremented;
 
 
 	public HungerNeed(SWEMHorseEntityBase horse) {
@@ -48,6 +52,12 @@ public class HungerNeed implements INeed {
 
 	@Override
 	public void check(int checkTime) {
+
+		if (this.currentLevel.ordinal() >= 3) {
+			this.maxHealthRemoved--;
+			this.applyHealthDamageModifier();
+			this.incrementNeedRequirement(16);
+		}
 
 		int levelChange = checkPoints();
 		if (levelChange == 0) {
@@ -62,6 +72,20 @@ public class HungerNeed implements INeed {
 
 		// Reset points every check.
 		Arrays.fill(pointsFromCategory, 0);
+
+		if (this.currentLevel == HungerLevel.STARVING) {
+			this.maxHealthRemoved++;
+			applyHealthDamageModifier();
+		}
+	}
+
+	private void applyHealthDamageModifier() {
+		if (this.maxHealthModifier != null) {
+			// Remove the previous modifier, to not throw an error, when adding a new modifier with duplicate name.
+			this.horse.getAttribute(Attributes.MAX_HEALTH).removeModifier(this.maxHealthModifier);
+		}
+		this.maxHealthModifier = new AttributeModifier("hunger_max_health", -this.maxHealthRemoved, AttributeModifier.Operation.ADDITION);
+		this.horse.getAttribute(Attributes.MAX_HEALTH).addTransientModifier(maxHealthModifier);
 	}
 
 	public void decrementLevel() {
@@ -70,7 +94,7 @@ public class HungerNeed implements INeed {
 		this.currentLevel.getRemoveEffectMethod().accept(this.horse);
 
 		this.currentLevel = HungerLevel.values()[MathHelper.clamp(this.currentLevel.ordinal() - 1, 0, HungerLevel.values().length - 1)];
-
+		this.horse.getEntityData().set(SWEMHorseEntityBase.HUNGER_LEVEL, this.currentLevel.ordinal());
 		this.addSpeedModifier(this.horse, this.currentLevel.getSkillModifier());
 		addObedienceModifier(this.currentLevel.getObedienceModifier());
 		this.currentLevel.getApplyEffectMethod().accept(this.horse);
@@ -82,7 +106,7 @@ public class HungerNeed implements INeed {
 		this.currentLevel.getRemoveEffectMethod().accept(this.horse);
 
 		this.currentLevel = levelToSet;
-
+		this.horse.getEntityData().set(SWEMHorseEntityBase.HUNGER_LEVEL, this.currentLevel.ordinal());
 		this.addSpeedModifier(this.horse, levelToSet.getSkillModifier());
 		addObedienceModifier(levelToSet.getObedienceModifier());
 		this.currentLevel.getApplyEffectMethod().accept(this.horse);
@@ -191,6 +215,7 @@ public class HungerNeed implements INeed {
 	@Override
 	public void read(CompoundNBT nbt) {
 
+		applyHealthDamageModifier();
 	}
 
 	@Override
@@ -203,9 +228,17 @@ public class HungerNeed implements INeed {
 		this.requiredPointsToFed += points;
 		if (this.getCurrentPoints() < this.getRequiredPointsToFed()) {
 			this.decrementLevel();
-
 		}
 		// If points is less than requiredPointsFed now, decrement level and reapply effects.
+	}
+
+	@Override
+	public void usageIncrement() {
+		if (this.timesUsageHasIncremented >= 2) {
+			return;
+		}
+		this.timesUsageHasIncremented++;
+		incrementNeedRequirement(112);
 	}
 
 	public int getRequiredPointsForMaxLevel() {
@@ -288,14 +321,11 @@ public class HungerNeed implements INeed {
 	}
 
 	private void addOverfedEffect() {
-		// TODO: If nausea is set, then don't trigger this again.
-
-		// TODO: Add nausea particles (Minecraft) on timer. (Every 30? seconds)
 		addObedienceModifier(0.15f);
 	}
 
 	private void removeOverfedEffect() {
-		// TODO: remove nausea particles (Minecraft)
+		this.horse.removeEffect(Effects.CONFUSION);
 		removeObedienceModifier(0.15f);
 	}
 
