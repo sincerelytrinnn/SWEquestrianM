@@ -16,6 +16,7 @@ package com.alaharranhonor.swem.util;
  */
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BucketItem;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 
@@ -25,6 +26,9 @@ public class SWEMUtil {
 
 
 	public static void damageOrShrink(ItemStack stack, PlayerEntity player) {
+		if (stack.getItem() instanceof BucketItem) {
+			player.setItemInHand(player.getUsedItemHand(), ((BucketItem) stack.getItem()).getEmptySuccessItem(stack, player));
+		}
 		if (stack.isDamageableItem()) {
 			stack.hurtAndBreak(1, player, (playerEntity) -> {
 				playerEntity.broadcastBreakEvent(playerEntity.getUsedItemHand());
