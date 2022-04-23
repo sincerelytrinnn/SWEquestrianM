@@ -181,8 +181,7 @@ public class SWEMHorseEntityBase
 	public int kickAnimationTimer;
 	public boolean eatingAnim = false;
 	public boolean isLayingDown = false;
-
-
+	
 	/**
 	 * Instantiates a new Swem horse entity base.
 	 *
@@ -461,6 +460,7 @@ public class SWEMHorseEntityBase
 		return new Vector3d((leashOne.x + leashTwo.x) / 2, this.getEyeY(), (leashOne.z + leashTwo.z) / 2);
 	}
 
+	
 	/**
 	 * Reset day based things.
 	 */
@@ -468,7 +468,6 @@ public class SWEMHorseEntityBase
 		this.needs.getHunger().resetDaily();
 		this.progressionManager.getAffinityLeveling().resetDaily();
 	}
-
 	/**
 	 * Gets the current base movement speed value for the current speed level.
 	 * @return double	The speed value used for Movement Speed
