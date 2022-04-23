@@ -37,14 +37,13 @@ import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.item.LeashKnotEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Util;
+import net.minecraft.util.*;
 import net.minecraft.util.text.*;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.InputEvent;
@@ -52,7 +51,9 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
+import net.minecraftforge.event.entity.EntityStruckByLightningEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -242,7 +243,7 @@ public class GeneralEventHandlers {
 		 *
 		 * @param event the event
 		 */
-// Update horse speed when dismounted, to a walk gait.
+		// Update horse speed when dismounted, to a walk gait.
 		@SubscribeEvent
 		public static void entityMount(EntityMountEvent event) {
 			if (event.isMounting()) return;
@@ -267,7 +268,7 @@ public class GeneralEventHandlers {
 		 *
 		 * @param event the event
 		 */
-// Doon't dismount player if the player/horse is flying.
+		// Doon't dismount player if the player/horse is flying.
 		// This is the cause of desyncing when hitting shift while flying.
 		@SubscribeEvent
 		public static void onEntityMountEvent(EntityMountEvent event) {
@@ -288,7 +289,7 @@ public class GeneralEventHandlers {
 		 *
 		 * @param event the event
 		 */
-// Check if the player can mount the horse.
+		// Check if the player can mount the horse.
 		@SubscribeEvent
 		public static void canEntityBeMounted(EntityMountEvent event) {
 			if (!event.isMounting()) return;
@@ -443,7 +444,34 @@ public class GeneralEventHandlers {
 			}
 		}
 
+		@SubscribeEvent
+		public static void onLightningStrike(EntityStruckByLightningEvent event) {
+		  if (event.getEntity() instanceof SWEMHorseEntityBase) {
+			LightningBoltEntity bolt = event.getLightning();
+			bolt.setVisualOnly(true);
+		  }
+		}
 
+		@SubscribeEvent
+		public static void onHurt(LivingHurtEvent event) {
+		  if (event.getEntity() instanceof SWEMHorseEntityBase) {
+			DamageSource source = event.getSource();
+			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) event.getEntity();
+			if (source.equals(DamageSource.LIGHTNING_BOLT)) {
+			  horse.level.playSound(null, horse, SoundEvents.MUSIC_DISC_PIGSTEP, SoundCategory.NEUTRAL, 1.0f, 1.0f);
+			  event.setAmount(0.0f);
+			  horse.setRemainingFireTicks(0);
+			}
+		  }
+		}
 
+		@SubscribeEvent
+		public static void onPlayerLeave(PlayerEvent.PlayerLoggedOutEvent event) {
+			if (event.getEntity() instanceof PlayerEntity) {
+				if (event.getEntity().isPassenger()) {
+					event.getEntity().stopRiding();
+				}
+			}
+		}
 	}
 }
