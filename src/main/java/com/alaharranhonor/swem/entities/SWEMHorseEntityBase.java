@@ -2608,6 +2608,14 @@ public class SWEMHorseEntityBase
 
 		Item item = itemstack.getItem();
 
+		// Debug item, can fetch both client and server side variables.
+		if (item == Items.DEBUG_STICK) {
+			if (!this.level.isClientSide) {
+				playerEntity.sendMessage(new StringTextComponent("Values is: " + Arrays.toString(this.progressionManager.getSpeedLeveling().requiredXpArray)), Util.NIL_UUID);
+			}
+			return ActionResultType.sidedSuccess(this.level.isClientSide);
+		}
+
 		if (this.isBreedingFood(itemstack)) {
 			this.fedBreedingFood(playerEntity, itemstack);
 		}
