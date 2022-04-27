@@ -15,6 +15,7 @@ package com.alaharranhonor.swem.entities.progression.leveling;
  * THE SOFTWARE.
  */
 
+import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
@@ -27,7 +28,7 @@ public class HealthLeveling implements ILeveling{
 	private final EntityDataManager dataManager;
 	public static final DataParameter<Integer> LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
 	public static final DataParameter<Float> XP = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
-	private final float[] requiredXpArray = new float[]{500, 2000, 4000, 7000};
+	private final float[] requiredXpArray;
 	private final String[] levelNames = new String[] {"Health I", "Health II", "Health III", "Health IV", "Health V"};
 
 	/**
@@ -38,6 +39,7 @@ public class HealthLeveling implements ILeveling{
 	public HealthLeveling(SWEMHorseEntityBase horse) {
 		this.horse = horse;
 		this.dataManager = this.horse.getEntityData();
+		this.requiredXpArray = new float[] {ConfigHolder.SERVER.maxHealthXP.get() * 0.1f, ConfigHolder.SERVER.maxHealthXP.get() * 0.225f, ConfigHolder.SERVER.maxHealthXP.get() * 0.3f, ConfigHolder.SERVER.maxHealthXP.get() * 0.375f};
 	}
 	@Override
 	public boolean addXP(float amount) {
