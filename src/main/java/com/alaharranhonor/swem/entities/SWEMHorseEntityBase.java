@@ -2344,6 +2344,56 @@ public class SWEMHorseEntityBase
 	}
 
 	/**
+	 * checks if horse is in water
+	 * @return true if horse is in water
+	 */
+	private Boolean checkIsInWater() {
+		BlockPos position = new BlockPos(this.getPosition(0.0f));
+		FluidState fluidstate = this.level.getFluidState(position);
+		if (fluidstate.is(FluidTags.WATER)){
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Takeoff jump sounds
+	 */
+	@Override
+	protected void playJumpSound() {
+		if (checkIsInWater()) {
+			this.playSound(SoundEvents.PLAYER_SPLASH, 0.3F, 1.0F);
+		} else {
+			this.playSound(SoundEvents.HORSE_JUMP, 0.4F, 1.0F);
+		}
+	}
+
+	/**
+	 * Overridden to handle landing sound
+	 */
+	@Override
+	public boolean causeFallDamage(float pFallDistance, float pDamageMultiplier) {
+		if (pFallDistance > 1.0F && !checkIsInWater()){
+			this.playSound(SoundEvents.HORSE_LAND, 0.4F, 1.0F);
+		} else if (pFallDistance > 1.0F && checkIsInWater()){
+			this.playSound(SoundEvents.PLAYER_SPLASH, 0.1F, 1.0F);
+		}
+		int i = this.calculateFallDamage(pFallDistance, pDamageMultiplier);
+		if (i <= 0) {
+			return false;
+		} else {
+			this.hurt(DamageSource.FALL, (float)i);
+			if (this.isVehicle()) {
+				for(Entity entity : this.getIndirectPassengers()) {
+					entity.hurt(DamageSource.FALL, (float)i);
+				}
+			}
+			this.playBlockFallSound();
+			return true;
+		}
+	}
+
+	/**
 	 * Play flap wing sound.
 	 */
 	private void playFlapWingSound() {
