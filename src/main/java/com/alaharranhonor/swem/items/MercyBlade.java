@@ -15,13 +15,8 @@ package com.alaharranhonor.swem.items;
 
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.StringTextComponent;
 
 public class MercyBlade extends ItemBase {
 
@@ -37,7 +32,7 @@ public class MercyBlade extends ItemBase {
 	 */
 	@Override
 	public boolean onLeftClickEntity(ItemStack stack, PlayerEntity player, Entity entity) {
-		if (entity.getType().getCategory().isFriendly() && !player.level.isClientSide) {
+		if (entity.getType().getCategory().isFriendly() && !player.level.isClientSide && !(entity instanceof PlayerEntity)) {
 			entity.setSilent(true);
 			entity.kill();
 			return true;
