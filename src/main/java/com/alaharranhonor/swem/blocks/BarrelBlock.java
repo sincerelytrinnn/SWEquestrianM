@@ -37,10 +37,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 
 import javax.annotation.Nullable;
 
@@ -106,6 +103,18 @@ public class BarrelBlock extends Block {
 
 		}
 
+	}
+
+	/**
+	 * Determines if this block should drop loot when exploded.
+	 */
+	@Override
+	public boolean canDropFromExplosion(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion) {
+		if (state.getValue(PART) == HitchingPostBase.PostPart.LOWER) {
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override
