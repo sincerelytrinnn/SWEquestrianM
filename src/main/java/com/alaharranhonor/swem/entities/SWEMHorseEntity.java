@@ -18,6 +18,7 @@ package com.alaharranhonor.swem.entities;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.AnimationState;
@@ -214,8 +215,17 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			// Add lean out here.
 		}
 
+		boolean playerMovesHorse = false;
+		if ( horse.getControllingPassenger() != null) {
+			playerMovesHorse = ((PlayerEntity)horse.getControllingPassenger()).xxa > 0;
+			System.out.println("XXA Moves the horse: " + playerMovesHorse);
+			if (!playerMovesHorse) {
+				playerMovesHorse = ((PlayerEntity)horse.getControllingPassenger()).zza > 0;
+				System.out.println("ZZA moves the horse: " + playerMovesHorse);
+			}
+		}
 
-		if (!event.isMoving()) {
+		if (!event.isMoving() && !playerMovesHorse) {
 			if (animTimer < 2 || (
 				event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Walk")
 				|| event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Trot")
@@ -248,7 +258,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 				}
 			}
 			return PlayState.CONTINUE;
-		} else if (event.isMoving()) {
+		} else if (playerMovesHorse || event.isMoving()) {
 			if (horse.isWalkingBackwards) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Walking_Backwards"));
 				return PlayState.CONTINUE;
