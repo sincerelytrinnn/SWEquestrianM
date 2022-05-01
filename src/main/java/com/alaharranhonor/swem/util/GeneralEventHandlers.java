@@ -157,18 +157,21 @@ public class GeneralEventHandlers {
 
 				if (event.getKey() == 'W' && event.getAction() == 0 && Minecraft.getInstance().player != null) {
 					Entity check = Minecraft.getInstance().player.getVehicle();
+
 					if (check instanceof SWEMHorseEntityBase) {
-						// 'W' KEy was released start the 1 second timer.
-						executor.schedule(new Runnable() {
-							@Override
-							public void run() {
-								if (Minecraft.getInstance().options.keyUp.isDown()) {
-									return;
-								} else {
-									SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, check.getId()));
+						if (check.getControllingPassenger() != null && check.getControllingPassenger().getUUID().equals(Minecraft.getInstance().player.getUUID())) {
+							// 'W' Key was released start the 1 second timer.
+							executor.schedule(new Runnable() {
+								@Override
+								public void run() {
+									if (Minecraft.getInstance().options.keyUp.isDown()) {
+										return;
+									} else {
+										SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, check.getId()));
+									}
 								}
-							}
-						}, 105, TimeUnit.MILLISECONDS);
+							}, 105, TimeUnit.MILLISECONDS);
+						}
 					}
 				}
 
@@ -252,7 +255,11 @@ public class GeneralEventHandlers {
 			Entity entity = event.getEntityBeingMounted();
 
 			if (entity instanceof SWEMHorseEntityBase) {
+
 				SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+				if (horse.getPassengers().stream().allMatch((ent) -> ent instanceof PlayerEntity)) {
+					return; // Early return if the horse has 2 passengers.
+				}
 				SWEMHorseEntityBase.HorseSpeed oldSpeed = horse.currentSpeed;
 				horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
 				horse.updateSelectedSpeed(oldSpeed);
