@@ -117,7 +117,7 @@ public class SWEMCommand {
 						})
 					)
 					.then(Commands.literal("setgalloptime")
-						.then(Commands.argument("seconds", IntegerArgumentType.integer(7, 20))
+						.then(Commands.argument("seconds", IntegerArgumentType.integer(7, 120))
 							.executes(ctx -> {
 								ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
 								if (!PermissionAPI.hasPermission(player, "command.swem.set_gallop_time")) {
