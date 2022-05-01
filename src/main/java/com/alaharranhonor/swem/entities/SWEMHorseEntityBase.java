@@ -2348,8 +2348,7 @@ public class SWEMHorseEntityBase
 	 * @return true if horse is in water
 	 */
 	private Boolean checkIsInWater() {
-		BlockPos position = new BlockPos(this.getPosition(0.0f));
-		FluidState fluidstate = this.level.getFluidState(position);
+		FluidState fluidstate = this.level.getFluidState(blockPosition());
 		if (fluidstate.is(FluidTags.WATER)){
 			return true;
 		}
