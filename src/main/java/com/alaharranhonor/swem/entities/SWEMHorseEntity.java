@@ -74,25 +74,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 		SWEMHorseEntityBase horse = (SWEMHorseEntityBase) event.getAnimatable();
 		if (horse.isBaby()) return babyPredicate(event);
-		// Rearing happens on all jumps, because minecraft internally uses the Rear animation for jump animation while pushing the enitity
-		// into the sky. So find another check, maybe for like isAngry or some of the sort, to play rear animation instead, of isRearing.
-		// This is called from AbstractHorseEntity#handleStartJump()
-
-		/*if (horse.isRearing()) { //
-
-			String animationName = event.getController().getCurrentAnimation().animationName;
-			if (animationName.equals("Rear") || animationName.equals("Buck")) // Exit early if the animation is already playing.
-				return PlayState.CONTINUE;
-
-			float animationValue = horse.getRNG().nextFloat();
-			GeckoLibCache.getInstance().parser.setValue("anim_speed", 3);
-			if (animationValue < 0.5) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Rear"));
-			} else {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("buck"));
-			}
-			return PlayState.CONTINUE;
-		}*/
+		if (horse.isFlying()) return PlayState.CONTINUE;
 
 		Animation anim = event.getController().getCurrentAnimation();
 		if (anim != null) {
@@ -106,48 +88,6 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			}
 		}
 
-		if (horse.isFlying()) {
-
-			if (horse.getEntityData().get(HorseFlightController.isTurning)) {
-				if (event.getController().getCurrentAnimation().animationName.equals("Turn_Cycle")) {
-					return PlayState.CONTINUE;
-				}
-				if (horse.getEntityData().get(HorseFlightController.isTurningLeft)) {
-					if (!event.getController().getCurrentAnimation().animationName.equals("Turn")) {
-						event.getController().setAnimation(new AnimationBuilder().addAnimation("Turn", false).addAnimation("Turn_Cycle", true));
-						return PlayState.CONTINUE;
-					}
-
-				}
-
-				if (event.getController().getCurrentAnimation().animationName.equals("Turn")) {
-					return PlayState.CONTINUE;
-				}
-
-			}
-
-			if (horse.getEntityData().get(HorseFlightController.isLaunching)) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Launch"));
-				return PlayState.CONTINUE;
-			}
-			if (horse.getEntityData().get(HorseFlightController.isDiving)) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Dive"));
-				return PlayState.CONTINUE;
-			}
-			if (horse.getEntityData().get(HorseFlightController.didFlap)) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Going_Up"));
-				return PlayState.CONTINUE;
-			} else if (horse.getEntityData().get(HorseFlightController.isSlowingDown)) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Slow_Down"));
-				return PlayState.CONTINUE;
-			} else if (horse.getEntityData().get(HorseFlightController.isFloating)) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Float_Down"));
-				return PlayState.CONTINUE;
-			} else if (horse.getEntityData().get(HorseFlightController.isAccelerating)) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Speed_Up"));
-				return PlayState.CONTINUE;
-			}
-		}
 
 
 		// No idea why this needs to be up here, but something in the following jump if statement, blocks the code execution when jumping into water.
@@ -218,10 +158,8 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		boolean playerMovesHorse = false;
 		if ( horse.getControllingPassenger() != null) {
 			playerMovesHorse = ((PlayerEntity)horse.getControllingPassenger()).xxa > 0;
-			System.out.println("XXA Moves the horse: " + playerMovesHorse);
 			if (!playerMovesHorse) {
 				playerMovesHorse = ((PlayerEntity)horse.getControllingPassenger()).zza > 0;
-				System.out.println("ZZA moves the horse: " + playerMovesHorse);
 			}
 		}
 
@@ -302,6 +240,79 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		return PlayState.CONTINUE;
 	}
 
+	public <E extends IAnimatable> PlayState flightPredicate(AnimationEvent<E> event) {
+		SWEMHorseEntityBase horse = (SWEMHorseEntityBase) event.getAnimatable();
+
+		if (horse.isFlying()) {
+
+
+			if (horse.getEntityData().get(HorseFlightController.isTurning)) {
+				System.out.print("Is turning - ");
+				if (horse.getEntityData().get(HorseFlightController.isTurningLeft)) {
+					// Turn Left
+					System.out.print("left ");
+					if (horse.getEntityData().get(HorseFlightController.isStillTurning)) {
+						// Keep playing turning loop.
+						System.out.print(" and is still turning\n");
+						if (event.getController().getCurrentAnimation().animationName.equals("Turn_Cycle_Left")) {
+							return PlayState.CONTINUE; // Keep playing the turn cycle.
+						}
+						if (!event.getController().getCurrentAnimation().animationName.equals("Turn_Left")) {
+							System.out.println("Setting turn anim.");
+							event.getController().setAnimation(new AnimationBuilder().addAnimation("Turn_Left", false).addAnimation("Turn_Cycle_Left", true));
+						}
+						return PlayState.CONTINUE;
+					} else {
+						System.out.print(" and is leaning out\n");
+						// Play lean out of turn loop.
+						event.getController().setAnimation(new AnimationBuilder().addAnimation("Turn_Left_Lean_Back", false));
+						return PlayState.CONTINUE;
+					}
+				} else {
+					// Turn Right.
+					if (horse.getEntityData().get(HorseFlightController.isStillTurning)) {
+						// Keep playing turning loop.
+						if (event.getController().getCurrentAnimation().animationName.equals("Turn_Cycle_Right")) {
+							return PlayState.CONTINUE; // Keep playing the turn cycle.
+						}
+						if (!event.getController().getCurrentAnimation().animationName.equals("Turn_Right")) {
+							event.getController().setAnimation(new AnimationBuilder().addAnimation("Turn_Right", false).addAnimation("Turn_Cycle_Right", true));
+						}
+						return PlayState.CONTINUE;
+					} else {
+						// Play lean out of turn loop.
+						event.getController().setAnimation(new AnimationBuilder().addAnimation("Turn_Right_Lean_Back", false));
+						return PlayState.CONTINUE;
+					}
+				}
+
+			}
+
+			if (horse.getEntityData().get(HorseFlightController.isLaunching)) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Launch"));
+				return PlayState.CONTINUE;
+			}
+			if (horse.getEntityData().get(HorseFlightController.isDiving)) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Dive"));
+				return PlayState.CONTINUE;
+			}
+			if (horse.getEntityData().get(HorseFlightController.didFlap)) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Going_Up"));
+				return PlayState.CONTINUE;
+			} else if (horse.getEntityData().get(HorseFlightController.isSlowingDown)) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Slow_Down"));
+				return PlayState.CONTINUE;
+			} else if (horse.getEntityData().get(HorseFlightController.isFloating)) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Float_Down"));
+				return PlayState.CONTINUE;
+			} else if (horse.getEntityData().get(HorseFlightController.isAccelerating)) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Speed_Up"));
+				return PlayState.CONTINUE;
+			}
+		}
+		return PlayState.STOP;
+	}
+
 	/**
 	 *
 	 * @param event
@@ -349,6 +360,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 	@Override
 	public void registerControllers(AnimationData animationData) {
 		animationData.addAnimationController(new AnimationController<>(this, "controller", 2, this::predicate));
+		animationData.addAnimationController(new AnimationController<>(this, "flight_controller", 10, this::flightPredicate));
 	}
 
 	@Override
