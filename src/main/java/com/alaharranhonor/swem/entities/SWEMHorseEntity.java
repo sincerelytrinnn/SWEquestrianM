@@ -247,23 +247,19 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 
 			if (horse.getEntityData().get(HorseFlightController.isTurning)) {
-				System.out.print("Is turning - ");
 				if (horse.getEntityData().get(HorseFlightController.isTurningLeft)) {
 					// Turn Left
-					System.out.print("left ");
 					if (horse.getEntityData().get(HorseFlightController.isStillTurning)) {
 						// Keep playing turning loop.
-						System.out.print(" and is still turning\n");
 						if (event.getController().getCurrentAnimation().animationName.equals("Turn_Cycle_Left")) {
 							return PlayState.CONTINUE; // Keep playing the turn cycle.
 						}
 						if (!event.getController().getCurrentAnimation().animationName.equals("Turn_Left")) {
-							System.out.println("Setting turn anim.");
+							event.getController().transitionLengthTicks = 0;
 							event.getController().setAnimation(new AnimationBuilder().addAnimation("Turn_Left", false).addAnimation("Turn_Cycle_Left", true));
 						}
 						return PlayState.CONTINUE;
 					} else {
-						System.out.print(" and is leaning out\n");
 						// Play lean out of turn loop.
 						event.getController().setAnimation(new AnimationBuilder().addAnimation("Turn_Left_Lean_Back", false));
 						return PlayState.CONTINUE;
@@ -276,6 +272,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 							return PlayState.CONTINUE; // Keep playing the turn cycle.
 						}
 						if (!event.getController().getCurrentAnimation().animationName.equals("Turn_Right")) {
+							event.getController().transitionLengthTicks = 0;
 							event.getController().setAnimation(new AnimationBuilder().addAnimation("Turn_Right", false).addAnimation("Turn_Cycle_Right", true));
 						}
 						return PlayState.CONTINUE;
@@ -287,6 +284,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 				}
 
 			}
+			event.getController().transitionLengthTicks = 10;
 
 			if (horse.getEntityData().get(HorseFlightController.isLaunching)) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Launch"));
