@@ -24,6 +24,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 
 
@@ -96,11 +97,6 @@ public class HorseFlightController {
 				horse.getEntityData().set(isLaunching, false);
 			}
 			if (horse.getEntityData().get(isLaunching)) {
-				if (launchCounter < 4) {
-					horse.setDeltaMovement(0, 10, 0);
-				} else {
-					horse.setDeltaMovement(0, 1, 0);
-				}
 				horse.move(MoverType.SELF, horse.getDeltaMovement());
 				horse.hasImpulse = true;
 				horse.baseTick();
@@ -112,20 +108,9 @@ public class HorseFlightController {
 				return;
 			}
 
-			//System.out.println("Position: " + horse.blockPosition());
-			if (horse.getEntityData().get(isFloating)) {
-				horse.setDeltaMovement(horse.getLookAngle().x * 0.35, -0.05, horse.getLookAngle().z * 0.35);
-			}
-
-			if (horse.getEntityData().get(isAccelerating)) {
-				horse.setDeltaMovement(horse.getLookAngle().x * 0.75, 0, horse.getLookAngle().z * 0.75);
-			}
 
 			if (horse.getEntityData().get(isSlowingDown)) {
 				slowingDownCounter++;
-				double xMove = Math.max(horse.getLookAngle().x * ((slowingDownCounter < 21 ? 21 - slowingDownCounter : 1) * 3.5) * 0.01, horse.getLookAngle().x * 0.10);
-				double zMove = Math.max(horse.getLookAngle().z * ((slowingDownCounter < 21 ? 21 - slowingDownCounter: 1) * 3.5) * 0.01, horse.getLookAngle().z * 0.10);
-				horse.setDeltaMovement(xMove, 0, zMove);
 
 				if (slowingDownCounter >= 20 && !horse.getEntityData().get(isStillSlowingDown)) {
 					slowingDownCounter = 0;
@@ -137,33 +122,11 @@ public class HorseFlightController {
 			if (horse.getEntityData().get(didFlap)) {
 				flapCounter++;
 
-				Vector3d moveVec = horse.getDeltaMovement();
-
-
 				if (flapCounter == 23) {
 					flapCounter = 0;
 					horse.getEntityData().set(didFlap, false);
-					horse.setDeltaMovement(moveVec.x, 0, moveVec.z);
-				} else {
-					horse.setDeltaMovement(moveVec.x, (1.0 / (flapCounter * 0.75)) , moveVec.z);
 				}
 			}
-
-
-			if (horse.getEntityData().get(isDiving)) {
-
-				Vector3d moveVec = horse.getDeltaMovement();
-
-				double downSpeed = horse.getEntityData().get(isAccelerating) ? -0.5d : -0.75d;
-
-				horse.setDeltaMovement(moveVec.x, downSpeed, moveVec.z);
-			}
-
-
-
-
-
-
 
 			// If isFloating is true, add small downards movement, and slight forward movement.
 			// For every 5 blocks forward 1 block down.
@@ -183,14 +146,6 @@ public class HorseFlightController {
 
 		}
 		if (horse.getEntityData().get(isTurning)) {
-
-			float rotInc = horse.getEntityData().get(isTurningLeft) ? -1f : 1f;
-
-			rotInc *= horse.getEntityData().get(isAccelerating) ? 2 : 3;
-
-			horse.setRot(horse.yRot + rotInc, horse.xRot);
-			horse.setYBodyRot(horse.yRot);
-			horse.setYHeadRot(horse.yBodyRot);
 
 			if (!horse.level.isClientSide) {
 				turningCounter++;
@@ -250,6 +205,91 @@ public class HorseFlightController {
 
 		// If KEY WE SAY is pressed, set isDiving = true.
 
+
+		//System.out.println("Position: " + horse.blockPosition());
+		if (horse.getEntityData().get(isFloating)) {
+			horse.setDeltaMovement(horse.getLookAngle().x * 0.35, -0.05, horse.getLookAngle().z * 0.35);
+		}
+
+		if (horse.getEntityData().get(isAccelerating)) {
+			horse.setDeltaMovement(horse.getLookAngle().x * 0.75, 0, horse.getLookAngle().z * 0.75);
+		}
+
+		if (horse.getEntityData().get(isSlowingDown)) {
+			slowingDownCounter++;
+			double xMove = Math.max(horse.getLookAngle().x * ((slowingDownCounter < 21 ? 21 - slowingDownCounter : 1) * 3.5) * 0.01, horse.getLookAngle().x * 0.10);
+			double zMove = Math.max(horse.getLookAngle().z * ((slowingDownCounter < 21 ? 21 - slowingDownCounter: 1) * 3.5) * 0.01, horse.getLookAngle().z * 0.10);
+			horse.setDeltaMovement(xMove, 0, zMove);
+
+			if (slowingDownCounter >= 20 && !horse.getEntityData().get(isStillSlowingDown)) {
+				slowingDownCounter = 0;
+			}
+		}
+
+		if (horse.getEntityData().get(didFlap)) {
+			flapCounter++;
+
+			Vector3d moveVec = horse.getDeltaMovement();
+
+
+			if (flapCounter == 23) {
+				flapCounter = 0;
+				horse.setDeltaMovement(moveVec.x, 0, moveVec.z);
+			} else {
+				horse.setDeltaMovement(moveVec.x, (1.0 / (flapCounter * 0.75)) , moveVec.z);
+			}
+		}
+
+
+		if (horse.getEntityData().get(isDiving)) {
+
+			Vector3d moveVec = horse.getDeltaMovement();
+
+			double downSpeed = horse.getEntityData().get(isAccelerating) ? -0.5d : -0.75d;
+
+			horse.setDeltaMovement(moveVec.x, downSpeed, moveVec.z);
+		}
+
+
+
+
+
+
+
+		// If isFloating is true, add small downards movement, and slight forward movement.
+		// For every 5 blocks forward 1 block down.
+
+		// If isTurning, set the horse rotation based on the turning counter; and the direction based on isTurningLeft;
+
+		// If isAccelerating cancel out the downwards movement, and add forward movement.
+
+		// If didFlap, add upwards movement, the first 10 counts adds slightly more upwards movement than the last 10 counts.
+		// Increment flapCounter after 20 is reached, reset it.
+
+		// if isDiving and not isAccelerating dive more aggressive and more at a 60 degree angle.
+
+		// if isDiving and isAccelerating dive less aggressive and at 30-45 degree angle
+
+
+
+		if (horse.getEntityData().get(isTurning)) {
+
+			float rotInc = horse.getEntityData().get(isTurningLeft) ? -1f : 1f;
+
+			rotInc *= horse.getEntityData().get(isAccelerating) ? 2 : 3;
+
+
+			horse.setRot(MathHelper.rotLerp(Minecraft.getInstance().getDeltaFrameTime(), horse.yRotO, horse.yRot + rotInc), horse.xRot);
+			horse.setYBodyRot(horse.yRot);
+			horse.setYHeadRot(MathHelper.rotLerp(Minecraft.getInstance().getDeltaFrameTime(),horse.yBodyRotO, horse.yBodyRot));
+
+			if (!horse.level.isClientSide) {
+				turningCounter++;
+				if (turningCounter >= 30 && !horse.getEntityData().get(isStillTurning)) {
+					turningCounter = 0;
+				}
+			}
+		}
 
 	}
 
