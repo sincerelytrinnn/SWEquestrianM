@@ -221,7 +221,7 @@ public class GeneralEventHandlers {
 				}
 
 				if (keyBindings[3].consumeClick()) {
-					/*
+
 					Entity entity = Minecraft.getInstance().player.getVehicle();
 					if (entity instanceof SWEMHorseEntityBase) {
 						SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
@@ -230,7 +230,7 @@ public class GeneralEventHandlers {
 							SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(10, horse.getId()));
 						}
 					}
-					 */
+
 				}
 
 				KEY_PRESS_COUNTER = 0;
