@@ -26,8 +26,6 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 
-import java.util.Scanner;
-
 
 public class HorseFlightController {
 
@@ -186,7 +184,7 @@ public class HorseFlightController {
 		}
 		if (horse.getEntityData().get(isTurning)) {
 
-			float rotInc = horse.getEntityData().get(isTurningLeft) ? -0.75f : 0.75f;
+			float rotInc = horse.getEntityData().get(isTurningLeft) ? -1f : 1f;
 
 			rotInc *= horse.getEntityData().get(isAccelerating) ? 2 : 3;
 
