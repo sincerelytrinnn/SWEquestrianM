@@ -70,6 +70,7 @@ public class HorseFlightController {
 	public void travel() {
 		//System.out.println("yRot: " + horse.yRot + " - Look Angle: " + horse.getLookAngle());
 		//System.out.println("isClientSide: " + horse.level.isClientSide + " | Movement: " + horse.getDeltaMovement() + " | Look Angle Vec: " + horse.getLookAngle() + " | isFloating: " + horse.getEntityData().get(isFloating));
+		horse.setPacketCoordinates(horse.getX(), horse.getY(), horse.getZ());
 		if (this.horse.level.isClientSide) {
 			this.clientTravel();
 		} else {
@@ -97,9 +98,8 @@ public class HorseFlightController {
 				horse.getEntityData().set(isLaunching, false);
 			}
 			if (horse.getEntityData().get(isLaunching)) {
-				horse.move(MoverType.SELF, horse.getDeltaMovement());
+				double d0 = horse.getCustomJump() * (double) 1.0F * 1.0D;
 				horse.hasImpulse = true;
-				horse.baseTick();
 				if (++launchCounter >= 37) {
 					horse.hasImpulse = false;
 					horse.getEntityData().set(isLaunching, false);
@@ -165,6 +165,7 @@ public class HorseFlightController {
 	 * Client travel.
 	 */
 	private void clientTravel() {
+		if (this.horse.getControllingPassenger() != Minecraft.getInstance().player) return;
 
 		if (Minecraft.getInstance().options.keyUp.isDown()) { // Move forward
 
@@ -204,6 +205,20 @@ public class HorseFlightController {
 		}
 
 		// If KEY WE SAY is pressed, set isDiving = true.
+
+		if (horse.getEntityData().get(isLaunching)) {
+
+			if (launchCounter == 20) {
+				double d0 = horse.getCustomJump() * 0.35D;
+				horse.hasImpulse = true;
+				horse.setDeltaMovement(0, d0, 0);
+			}
+			if (++launchCounter >= 37) {
+				horse.hasImpulse = false;
+				launchCounter = 0;
+			}
+			return;
+		}
 
 
 		//System.out.println("Position: " + horse.blockPosition());
@@ -290,6 +305,7 @@ public class HorseFlightController {
 				}
 			}
 		}
+
 
 	}
 

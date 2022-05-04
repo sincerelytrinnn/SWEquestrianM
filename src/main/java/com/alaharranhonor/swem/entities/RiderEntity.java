@@ -58,6 +58,7 @@ public class RiderEntity implements IAnimatable {
 	@Override
 	public void registerControllers(AnimationData animationData) {
 		AnimationController<RiderEntity> controller = new AnimationController<>(this, "controller", 2, this::predicate);
+		AnimationController<RiderEntity> flightController = new AnimationController<>(this, "flightController", 10, this::flightPredicate);
 		AnimationController.addModelFetcher((animatable) -> new IAnimatableModel() {
 			@Override
 			public void setLivingAnimations(Object o, Integer integer, AnimationEvent animationEvent) {
@@ -82,6 +83,7 @@ public class RiderEntity implements IAnimatable {
 		});
 
 		animationData.addAnimationController(controller);
+		animationData.addAnimationController(flightController);
 	}
 
 	@Override
@@ -112,50 +114,7 @@ public class RiderEntity implements IAnimatable {
 		Entity entity = this.getPlayer().getVehicle();
 		if (entity instanceof SWEMHorseEntityBase) {
 			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-
-
-			if (horse.isFlying()) {
-
-				if (horse.getEntityData().get(HorseFlightController.isTurning)) {
-					if (event.getController().getCurrentAnimation().animationName.equals("TurnLeftcyclePlayer")) {
-						return PlayState.CONTINUE;
-					}
-					if (horse.getEntityData().get(HorseFlightController.isTurningLeft)) {
-						if (!event.getController().getCurrentAnimation().animationName.equals("TurnLeftPlayer")) {
-							event.getController().setAnimation(new AnimationBuilder().addAnimation("TurnLeftPlayer", false).addAnimation("TurnLeftcyclePlayer", true));
-							return PlayState.CONTINUE;
-						}
-
-					}
-
-					if (event.getController().getCurrentAnimation().animationName.equals("TurnLeftPlayer")) {
-						return PlayState.CONTINUE;
-					}
-
-				}
-
-				if (horse.getEntityData().get(HorseFlightController.isLaunching)) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("LaunchPlayer"));
-					return PlayState.CONTINUE;
-				}
-				if (horse.getEntityData().get(HorseFlightController.isDiving)) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("DivePlayer"));
-					return PlayState.CONTINUE;
-				}
-				if (horse.getEntityData().get(HorseFlightController.didFlap)) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("GoingUpPlayer"));
-					return PlayState.CONTINUE;
-				} else if (horse.getEntityData().get(HorseFlightController.isSlowingDown)) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("SlowDownPlayer"));
-					return PlayState.CONTINUE;
-				} else if (horse.getEntityData().get(HorseFlightController.isFloating)) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("FloatDownPlayer"));
-					return PlayState.CONTINUE;
-				} else if (horse.getEntityData().get(HorseFlightController.isAccelerating)) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("SpeedUpPlayer"));
-					return PlayState.CONTINUE;
-				}
-			}
+			if (horse.isFlying()) return PlayState.CONTINUE;
 
 			// No idea why this needs to be up here, but something in the following jump if statement, blocks the code execution when jumping into water.
 			boolean isInWater = horse.level.getBlockStates(horse.getBoundingBox().contract(0, 0, 0)).allMatch((bs) -> bs.getBlock() == Blocks.WATER);
@@ -221,6 +180,84 @@ public class RiderEntity implements IAnimatable {
 
 		}
 		return PlayState.CONTINUE;
+	}
+
+	public <E extends IAnimatable> PlayState flightPredicate(AnimationEvent<E> event) {
+		SWEMHorseEntityBase horse = (SWEMHorseEntityBase) this.getPlayer().getVehicle();
+		if (horse == null) {
+			SWEM.LOGGER.error("Trying to play flight predicate but vehicle was null.");
+			return PlayState.STOP;
+		}
+		if (horse.isFlying()) {
+
+
+			if (horse.getEntityData().get(HorseFlightController.isTurning)) {
+				if (horse.getEntityData().get(HorseFlightController.isTurningLeft)) {
+					// Turn Left
+					if (horse.getEntityData().get(HorseFlightController.isStillTurning)) {
+						// Keep playing turning loop.
+						if (event.getController().getCurrentAnimation().animationName != null) {
+							if (event.getController().getCurrentAnimation().animationName.equals("TurnLeftcyclePlayer")) {
+								return PlayState.CONTINUE; // Keep playing the turn cycle.
+							}
+							if (!event.getController().getCurrentAnimation().animationName.equals("TurnLeftPlayer")) {
+								event.getController().transitionLengthTicks = 0;
+								event.getController().setAnimation(new AnimationBuilder().addAnimation("TurnLeftPlayer", false).addAnimation("TurnLeftcyclePlayer", true));
+							}
+							return PlayState.CONTINUE;
+						}
+					} else {
+						// Play lean out of turn loop.
+						event.getController().setAnimation(new AnimationBuilder().addAnimation("Turn_Left_Lean_Back", false));
+						return PlayState.CONTINUE;
+					}
+				} else {
+					// Turn Right.
+					if (horse.getEntityData().get(HorseFlightController.isStillTurning)) {
+						// Keep playing turning loop.
+						if (event.getController().getCurrentAnimation().animationName != null) {
+							if (event.getController().getCurrentAnimation().animationName.equals("TurnRightcyclePlayer")) {
+								return PlayState.CONTINUE; // Keep playing the turn cycle.
+							}
+							if (!event.getController().getCurrentAnimation().animationName.equals("TurnRightPlayer")) {
+								event.getController().transitionLengthTicks = 0;
+								event.getController().setAnimation(new AnimationBuilder().addAnimation("TurnRightPlayer", false).addAnimation("TurnRightcyclePlayer", true));
+							}
+							return PlayState.CONTINUE;
+						}
+					} else {
+						// Play lean out of turn loop.
+						event.getController().setAnimation(new AnimationBuilder().addAnimation("Turn_Right_Lean_Back", false));
+						return PlayState.CONTINUE;
+					}
+				}
+
+			}
+			event.getController().transitionLengthTicks = 10;
+
+			if (horse.getEntityData().get(HorseFlightController.isLaunching)) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("LaunchPlayer"));
+				return PlayState.CONTINUE;
+			}
+			if (horse.getEntityData().get(HorseFlightController.isDiving)) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("DivePlayer"));
+				return PlayState.CONTINUE;
+			}
+			if (horse.getEntityData().get(HorseFlightController.didFlap)) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("GoingUpPlayer"));
+				return PlayState.CONTINUE;
+			} else if (horse.getEntityData().get(HorseFlightController.isSlowingDown)) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("SlowDownPlayer"));
+				return PlayState.CONTINUE;
+			} else if (horse.getEntityData().get(HorseFlightController.isFloating)) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("FloatDownPlayer"));
+				return PlayState.CONTINUE;
+			} else if (horse.getEntityData().get(HorseFlightController.isAccelerating)) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("SpeedUpPlayer"));
+				return PlayState.CONTINUE;
+			}
+		}
+		return PlayState.STOP;
 	}
 
 	/**
