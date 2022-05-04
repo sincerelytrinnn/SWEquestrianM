@@ -19,16 +19,12 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.PacketDistributor;
-import org.apache.logging.log4j.core.jmx.Server;
 
-import java.util.UUID;
 import java.util.function.Supplier;
 
 public class SHorseAnimationPacket {
@@ -118,6 +114,10 @@ public class SHorseAnimationPacket {
 				}
 				case 4: { // Stop Backwards walking packet.
 					SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new CHorseAnimationPacket(horse.getId(), 4));
+					break;
+				}
+				case 5: {
+					horse.getEntityData().set(SWEMHorseEntityBase.IS_BRONCO, !horse.getEntityData().get(SWEMHorseEntityBase.IS_BRONCO));
 					break;
 				}
 			}

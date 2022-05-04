@@ -432,6 +432,34 @@ public class SWEMCommand {
 							return 1;
 						})
 					)
+					.then(Commands.literal("sad")
+						.executes(ctx -> {
+							ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
+							Entity vehicle = player.getVehicle();
+							if (!(vehicle instanceof SWEMHorseEntityBase)) {
+								ctx.getSource().sendFailure(new StringTextComponent("You need to be on a SWEM horse to execute this command."));
+								return 0;
+							}
+							SWEMHorseEntityBase horse = (SWEMHorseEntityBase) vehicle;
+							SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new CHorseAnimationPacket(horse.getId(), 8));
+							ctx.getSource().sendSuccess(new StringTextComponent("You have toggled sad mode, run the command again to enable/disable"), false);
+							return 1;
+						})
+					)
+					.then(Commands.literal("bronco")
+						.executes(ctx -> {
+							ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
+							Entity vehicle = player.getVehicle();
+							if (!(vehicle instanceof SWEMHorseEntityBase)) {
+								ctx.getSource().sendFailure(new StringTextComponent("You need to be on a SWEM horse to execute this command."));
+								return 0;
+							}
+							SWEMHorseEntityBase horse = (SWEMHorseEntityBase) vehicle;
+							SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new CHorseAnimationPacket(horse.getId(), 9));
+							ctx.getSource().sendSuccess(new StringTextComponent("You have toggled bronco mode, run the command again to enable/disable"), false);
+							return 1;
+						})
+					)
 				);
 
 

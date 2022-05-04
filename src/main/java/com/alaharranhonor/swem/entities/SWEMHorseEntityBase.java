@@ -181,7 +181,11 @@ public class SWEMHorseEntityBase
 	public int kickAnimationTimer;
 	public boolean eatingAnim = false;
 	public boolean isLayingDown = false;
-	
+	public boolean isSad = false;
+
+	// Angry state? Spirit reference IIRC. Just loops angry anims until set to false.
+	public final static DataParameter<Boolean> IS_BRONCO = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+
 	/**
 	 * Instantiates a new Swem horse entity base.
 	 *
@@ -445,7 +449,12 @@ public class SWEMHorseEntityBase
 				this.setCameraLock(true);
 			}
 		}
+
+		if (this.getEntityData().get(IS_BRONCO)) {
+			this.setDeltaMovement(Vector3d.ZERO);
+		}
 		super.aiStep();
+
 	}
 
 
@@ -599,6 +608,7 @@ public class SWEMHorseEntityBase
 		this.entityData.define(CAMERA_LOCK, true);
 
 		this.entityData.define(JUMP_ANIM_TIMER, 0);
+		this.entityData.define(IS_BRONCO, false);
 
 		this.entityData.define(RENDER_SADDLE, true);
 		this.entityData.define(RENDER_BLANKET, true);
@@ -2405,7 +2415,7 @@ public class SWEMHorseEntityBase
 	 *
 	 * @param jumpHeight the jump height
 	 */
-	private void startJump(float jumpHeight) {
+	protected void startJump(float jumpHeight) {
 		SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), jumpHeight));
 	}
 

@@ -33,7 +33,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-import java.util.Random;
+import java.util.*;
 
 public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable {
 
@@ -172,6 +172,32 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			}
 		}
 
+		if (horse.getEntityData().get(IS_BRONCO)) {
+			// Loop angry anims.
+			List<String> angryAnims = new ArrayList<>(Arrays.asList("Kick", "Rear", "Buck"));
+			if (anim != null && (angryAnims.contains(anim.animationName) && animTimer != 0)) {
+				return PlayState.CONTINUE;
+			}
+
+			Collections.shuffle(angryAnims);
+			String selectedAnim = angryAnims.get(0);
+
+			if (selectedAnim.equals("Kick") && animTimer == 0) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Kick", false).addAnimation("Stand_Idle", true));
+				event.getController().markNeedsReload();
+				animTimer = 80;
+			} else if (selectedAnim.equals("Rear")&& animTimer == 0) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Rear", false).addAnimation("Stand_Idle", true));
+				event.getController().markNeedsReload();
+				animTimer = 80;
+			} else if (selectedAnim.equals("Buck") && animTimer == 0) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("Buck", false).addAnimation("Stand_Idle", true));
+				event.getController().markNeedsReload();
+				animTimer = 80;
+			}
+			return PlayState.CONTINUE;
+		}
+
 
 		if (horse.kickAnimationTimer > 0) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("Kick", false));
@@ -218,10 +244,8 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		boolean playerMovesHorse = false;
 		if ( horse.getControllingPassenger() != null) {
 			playerMovesHorse = ((PlayerEntity)horse.getControllingPassenger()).xxa > 0;
-			System.out.println("XXA Moves the horse: " + playerMovesHorse);
 			if (!playerMovesHorse) {
 				playerMovesHorse = ((PlayerEntity)horse.getControllingPassenger()).zza > 0;
-				System.out.println("ZZA moves the horse: " + playerMovesHorse);
 			}
 		}
 
@@ -235,6 +259,10 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 				|| event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Walking_Backwards")
 
 			)) {
+				if (horse.isSad) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Sad_Stand_Idle"));
+					return PlayState.CONTINUE;
+				}
 				float chance = new Random().nextFloat();
 				if (chance < 0.9f || idleAnimCooldown > 1) {
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_Idle", true));
@@ -264,7 +292,11 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 				return PlayState.CONTINUE;
 			}
 			if (horse.getEntityData().get(SPEED_LEVEL) == 0) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Walk"));
+				if (horse.isSad) {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Sad_Walk"));
+				} else {
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("Walk"));
+				}
 			} else if (horse.getEntityData().get(SPEED_LEVEL) == 1) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Trot"));
 			} else if (horse.getEntityData().get(SPEED_LEVEL) == 2) {

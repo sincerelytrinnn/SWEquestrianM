@@ -128,6 +128,14 @@ public class CHorseAnimationPacket {
 					horse.isLayingDown = !horse.isLayingDown;
 					break;
 				}
+				case 8: {
+					horse.isSad = !horse.isSad;
+					break;
+				}
+				case 9: {
+					SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(horse.getId(), 5));
+					break;
+				}
 
 			}
 		});
