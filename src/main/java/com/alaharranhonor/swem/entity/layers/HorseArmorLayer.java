@@ -20,6 +20,7 @@ import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.entity.coats.SWEMCoatColor;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
+import com.alaharranhonor.swem.util.GeneralEventHandlers;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
@@ -46,17 +47,18 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, SWEMHorseEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		ItemStack stack = entitylivingbaseIn.getSWEMArmor();
-		if (!stack.isEmpty() && stack.getItem() instanceof SWEMHorseArmorItem) {
+	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, SWEMHorseEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+		ItemStack stack = entity.getSWEMArmor();
+
+		if (!stack.isEmpty() && stack.getItem() instanceof SWEMHorseArmorItem && !GeneralEventHandlers.no_render_tack) {
 			GeoModel horseModel = getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json"));
 			// Hide unneeded bones for performance improvement.
 			horseModel.getBone("amethyst_armor").get().setHidden(false);
 
 			SWEMHorseArmorItem armorItem = (SWEMHorseArmorItem)stack.getItem();
-			if (shouldRenderArmour(entitylivingbaseIn)) {
+			if (shouldRenderArmour(entity)) {
 				this.entityRenderer.render(horseModel,
-					entitylivingbaseIn,
+					entity,
 					partialTicks,
 					RenderType.entityCutout(armorItem.getTexture()),
 					matrixStackIn,
@@ -73,9 +75,9 @@ public class HorseArmorLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 				horseModel.getBone("ScapularLeft").get().setHidden(false);
 				horseModel.getBone("ScapularRight").get().setHidden(false);
 
-				ResourceLocation wingTexture = getWingTexture(entitylivingbaseIn);
+				ResourceLocation wingTexture = getWingTexture(entity);
 				this.entityRenderer.render(horseModel,
-						entitylivingbaseIn,
+						entity,
 						partialTicks,
 						RenderType.entityTranslucent(wingTexture),
 						matrixStackIn,
