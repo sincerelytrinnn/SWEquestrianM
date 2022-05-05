@@ -172,32 +172,6 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			}
 		}
 
-		if (horse.getEntityData().get(IS_BRONCO)) {
-			// Loop angry anims.
-			List<String> angryAnims = new ArrayList<>(Arrays.asList("Kick", "Rear", "Buck"));
-			if (anim != null && (angryAnims.contains(anim.animationName) && animTimer != 0)) {
-				return PlayState.CONTINUE;
-			}
-
-			Collections.shuffle(angryAnims);
-			String selectedAnim = angryAnims.get(0);
-
-			if (selectedAnim.equals("Kick") && animTimer == 0) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Kick", false).addAnimation("Stand_Idle", true));
-				event.getController().markNeedsReload();
-				animTimer = 80;
-			} else if (selectedAnim.equals("Rear")&& animTimer == 0) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Rear", false).addAnimation("Stand_Idle", true));
-				event.getController().markNeedsReload();
-				animTimer = 80;
-			} else if (selectedAnim.equals("Buck") && animTimer == 0) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Buck", false).addAnimation("Stand_Idle", true));
-				event.getController().markNeedsReload();
-				animTimer = 80;
-			}
-			return PlayState.CONTINUE;
-		}
-
 
 		if (horse.kickAnimationTimer > 0) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("Kick", false));

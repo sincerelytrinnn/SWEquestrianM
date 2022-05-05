@@ -183,8 +183,6 @@ public class SWEMHorseEntityBase
 	public boolean isLayingDown = false;
 	public boolean isSad = false;
 
-	// Angry state? Spirit reference IIRC. Just loops angry anims until set to false.
-	public final static DataParameter<Boolean> IS_BRONCO = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 
 	/**
 	 * Instantiates a new Swem horse entity base.
