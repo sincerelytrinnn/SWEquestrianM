@@ -116,10 +116,6 @@ public class SHorseAnimationPacket {
 					SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new CHorseAnimationPacket(horse.getId(), 4));
 					break;
 				}
-				case 5: {
-					horse.getEntityData().set(SWEMHorseEntityBase.IS_BRONCO, !horse.getEntityData().get(SWEMHorseEntityBase.IS_BRONCO));
-					break;
-				}
 			}
 		});
 		ctx.get().setPacketHandled(true);

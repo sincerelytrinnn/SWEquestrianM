@@ -448,9 +448,7 @@ public class SWEMHorseEntityBase
 			}
 		}
 
-		if (this.getEntityData().get(IS_BRONCO)) {
-			this.setDeltaMovement(Vector3d.ZERO);
-		}
+
 		super.aiStep();
 
 	}
@@ -606,7 +604,6 @@ public class SWEMHorseEntityBase
 		this.entityData.define(CAMERA_LOCK, true);
 
 		this.entityData.define(JUMP_ANIM_TIMER, 0);
-		this.entityData.define(IS_BRONCO, false);
 
 		this.entityData.define(RENDER_SADDLE, true);
 		this.entityData.define(RENDER_BLANKET, true);
