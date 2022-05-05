@@ -15,10 +15,12 @@ package com.alaharranhonor.swem.commands;
  * THE SOFTWARE.
  */
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.network.CHorseAnimationPacket;
 import com.alaharranhonor.swem.network.SHorseFriendPacket;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
+import com.alaharranhonor.swem.util.registry.SWEMItems;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -27,6 +29,8 @@ import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.network.PacketDistributor;
@@ -446,20 +450,47 @@ public class SWEMCommand {
 							return 1;
 						})
 					)
-					.then(Commands.literal("bronco")
-						.executes(ctx -> {
-							ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
-							Entity vehicle = player.getVehicle();
-							if (!(vehicle instanceof SWEMHorseEntityBase)) {
-								ctx.getSource().sendFailure(new StringTextComponent("You need to be on a SWEM horse to execute this command."));
-								return 0;
-							}
-							SWEMHorseEntityBase horse = (SWEMHorseEntityBase) vehicle;
-							SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new CHorseAnimationPacket(horse.getId(), 9));
-							ctx.getSource().sendSuccess(new StringTextComponent("You have toggled bronco mode, run the command again to enable/disable"), false);
-							return 1;
-						})
-					)
+				)
+				.then(Commands.literal("wild")
+					.executes(ctx -> {
+						ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
+						Entity vehicle = player.getVehicle();
+						if (!(vehicle instanceof SWEMHorseEntityBase)) {
+							ctx.getSource().sendFailure(new StringTextComponent("You need to be on a SWEM horse to execute this command."));
+							return 0;
+						}
+						SWEMHorseEntityBase horse = (SWEMHorseEntityBase) vehicle;
+
+						if (!horse.isTamed()) {
+							horse.tameWithName(player);
+						}
+
+						horse.getEntityData().set(SWEMHorseEntityBase.RENDER_GIRTH_STRAP, false);
+						horse.getEntityData().set(SWEMHorseEntityBase.RENDER_BLANKET, false);
+						horse.getEntityData().set(SWEMHorseEntityBase.RENDER_SADDLE, false);
+						horse.getEntityData().set(SWEMHorseEntityBase.RENDER_BRIDLE, false);
+
+						horse.progressionManager.getAffinityLeveling().setXp(0);
+						horse.progressionManager.getAffinityLeveling().setLevel(horse.progressionManager.getAffinityLeveling().getMaxLevel());
+
+						horse.resetGallopCooldown();
+						horse.setMaxGallopSeconds(20);
+
+						horse.progressionManager.getSpeedLeveling().setXp(0);
+						horse.progressionManager.getSpeedLeveling().setLevel(0);
+
+
+						Inventory inv = horse.getHorseInventory();
+						inv.setItem(0, new ItemStack(SWEMItems.WESTERN_BRIDLE_GRAY.get()));
+						inv.setItem(1, new ItemStack(SWEMItems.WESTERN_BLANKET_GRAY.get()));
+						inv.setItem(2, new ItemStack(SWEMItems.WESTERN_SADDLE_GRAY.get()));
+						inv.setItem(5, new ItemStack(SWEMItems.WESTERN_GIRTH_STRAP_GRAY.get()));
+
+
+						ctx.getSource().sendSuccess(new StringTextComponent("Wild mode activated"), false);
+						SWEM.LOGGER.info("Wild mode activated for " + horse.getName().getContents() + " at: {X=" + horse.getX() + ",Y=" + horse.getY() + ",Z=" + horse.getZ() + "} by " + player.getName().getContents());
+						return 1;
+					})
 				);
 
 
