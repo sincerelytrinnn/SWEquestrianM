@@ -20,6 +20,7 @@ import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.items.tack.HorseSaddleItem;
 import com.alaharranhonor.swem.items.tack.WesternSaddleItem;
+import com.alaharranhonor.swem.util.GeneralEventHandlers;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
@@ -79,6 +80,7 @@ public class WesternSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 	 * @return the boolean
 	 */
 	public boolean shouldRender(ItemStack stack, SWEMHorseEntity entity) {
-		return stack.getItem() instanceof WesternSaddleItem && entity.getEntityData().get(SWEMHorseEntityBase.RENDER_SADDLE);
+
+		return stack.getItem() instanceof WesternSaddleItem && entity.getEntityData().get(SWEMHorseEntityBase.RENDER_SADDLE) && !GeneralEventHandlers.no_render_tack;
 	}
 }

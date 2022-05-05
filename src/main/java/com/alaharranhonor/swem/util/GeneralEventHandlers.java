@@ -72,6 +72,9 @@ import java.util.concurrent.TimeUnit;
 @Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class GeneralEventHandlers {
 
+	public static boolean no_render_tack = false;
+
+
 	/**
 	 * On mod config event.
 	 *
@@ -154,6 +157,17 @@ public class GeneralEventHandlers {
 		public static void onKeyPress(InputEvent.KeyInputEvent event) {
 			KeyBinding[] keyBindings = ClientEventHandlers.keyBindings;
 			if (KEY_PRESS_COUNTER == 1) {
+
+				if (keyBindings[8].consumeClick()) {
+					boolean value = no_render_tack;
+					no_render_tack = !no_render_tack;
+					if (value) {
+						// Disable
+						Minecraft.getInstance().player.sendMessage(new StringTextComponent("You have enabled all tack render"), Minecraft.getInstance().player.getUUID());
+					} else {
+						Minecraft.getInstance().player.sendMessage(new StringTextComponent("You have disabled all tack render"), Minecraft.getInstance().player.getUUID());
+					}
+				}
 
 				if (event.getKey() == 'W' && event.getAction() == 0 && Minecraft.getInstance().player != null) {
 					Entity check = Minecraft.getInstance().player.getVehicle();

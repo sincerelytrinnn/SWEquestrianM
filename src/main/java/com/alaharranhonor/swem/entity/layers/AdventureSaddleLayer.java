@@ -20,20 +20,16 @@ import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.items.tack.AdventureSaddleItem;
 import com.alaharranhonor.swem.items.tack.HorseSaddleItem;
+import com.alaharranhonor.swem.util.GeneralEventHandlers;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import software.bernie.geckolib3.geo.render.built.GeoBone;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
 import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
-
-import java.util.Iterator;
 
 public class AdventureSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
@@ -86,6 +82,6 @@ public class AdventureSaddleLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 	 * @return the boolean
 	 */
 	public boolean shouldRender(ItemStack stack, SWEMHorseEntity entity) {
-		return stack.getItem() instanceof AdventureSaddleItem && entity.getEntityData().get(SWEMHorseEntityBase.RENDER_SADDLE);
+		return stack.getItem() instanceof AdventureSaddleItem && entity.getEntityData().get(SWEMHorseEntityBase.RENDER_SADDLE) && !GeneralEventHandlers.no_render_tack;
 	}
 }

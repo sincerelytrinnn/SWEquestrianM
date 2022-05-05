@@ -18,11 +18,10 @@ package com.alaharranhonor.swem.entity.layers;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.alaharranhonor.swem.items.tack.BreastCollarItem;
+import com.alaharranhonor.swem.util.GeneralEventHandlers;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -45,9 +44,9 @@ public class BreastCollarLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 	}
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, SWEMHorseEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		ItemStack stack = entitylivingbaseIn.getBreastCollar();
-		if (!stack.isEmpty() && stack.getItem() instanceof BreastCollarItem) {
+	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, SWEMHorseEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+		ItemStack stack = entity.getBreastCollar();
+		if (!stack.isEmpty() && stack.getItem() instanceof BreastCollarItem && !GeneralEventHandlers.no_render_tack) {
 
 			GeoModel horseModel = getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json"));
 			// Hide unneeded bones for performance improvement.
@@ -55,7 +54,7 @@ public class BreastCollarLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
 			BreastCollarItem breastCollar = (BreastCollarItem)stack.getItem();
 			this.entityRenderer.render(horseModel,
-					entitylivingbaseIn,
+					entity,
 					partialTicks,
 					RenderType.entityCutout(breastCollar.getArmorTexture()),
 					matrixStackIn,
