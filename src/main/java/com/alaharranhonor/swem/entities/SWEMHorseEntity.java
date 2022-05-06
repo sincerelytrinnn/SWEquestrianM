@@ -195,7 +195,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 			return PlayState.CONTINUE;
 		}
 
-		if (horse.eatingAnim) {
+		if (horse.getEntityData().get(IS_EATING)) {
 			if (anim != null && !anim.animationName.equals("Eating_Loop"))
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Lean_In", false).addAnimation("Eating_Loop", true));
 			return PlayState.CONTINUE;
@@ -207,7 +207,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 				return PlayState.CONTINUE;
 		}
 
-		if (horse.isLayingDown) {
+		if (horse.getEntityData().get(IS_LAYING_DOWN)) {
 			if (anim != null && !anim.animationName.equals("Laying_Down_Loop"))
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("Laying_Down", false).addAnimation("Laying_Down_Loop", true));
 			return PlayState.CONTINUE;
@@ -233,7 +233,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 				|| event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Walking_Backwards")
 
 			)) {
-				if (horse.isSad) {
+				if (horse.getEntityData().get(IS_SAD)) {
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("Sad_Stand_Idle"));
 					return PlayState.CONTINUE;
 				}
@@ -266,7 +266,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 				return PlayState.CONTINUE;
 			}
 			if (horse.getEntityData().get(SPEED_LEVEL) == 0) {
-				if (horse.isSad) {
+				if (horse.getEntityData().get(IS_SAD)) {
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("Sad_Walk"));
 				} else {
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("Walk"));

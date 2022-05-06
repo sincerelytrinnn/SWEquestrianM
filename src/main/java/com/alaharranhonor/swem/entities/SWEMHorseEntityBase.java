@@ -179,9 +179,9 @@ public class SWEMHorseEntityBase
 	public int standingTimer = 0;
 	public boolean isWalkingBackwards = false;
 	public int kickAnimationTimer;
-	public boolean eatingAnim = false;
-	public boolean isLayingDown = false;
-	public boolean isSad = false;
+	public final static DataParameter<Boolean> IS_EATING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	public final static DataParameter<Boolean> IS_LAYING_DOWN = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	public final static DataParameter<Boolean> IS_SAD = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 
 
 	/**
@@ -604,6 +604,9 @@ public class SWEMHorseEntityBase
 		this.entityData.define(CAMERA_LOCK, true);
 
 		this.entityData.define(JUMP_ANIM_TIMER, 0);
+		this.entityData.define(IS_EATING, false);
+		this.entityData.define(IS_LAYING_DOWN, false);
+		this.entityData.define(IS_SAD, false);
 
 		this.entityData.define(RENDER_SADDLE, true);
 		this.entityData.define(RENDER_BLANKET, true);

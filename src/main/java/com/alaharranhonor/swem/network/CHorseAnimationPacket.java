@@ -120,18 +120,6 @@ public class CHorseAnimationPacket {
 					horse.kickAnimationTimer = 21;
 					break;
 				}
-				case 6: {
-					horse.eatingAnim = !horse.eatingAnim;
-					break;
-				}
-				case 7: {
-					horse.isLayingDown = !horse.isLayingDown;
-					break;
-				}
-				case 8: {
-					horse.isSad = !horse.isSad;
-					break;
-				}
 				case 9: {
 					SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(horse.getId(), 5));
 					break;

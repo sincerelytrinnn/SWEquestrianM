@@ -403,7 +403,7 @@ public class SWEMCommand {
 								return 0;
 							}
 							SWEMHorseEntityBase horse = (SWEMHorseEntityBase) vehicle;
-							SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new CHorseAnimationPacket(horse.getId(), 6));
+							horse.getEntityData().set(SWEMHorseEntityBase.IS_EATING, !horse.getEntityData().get(SWEMHorseEntityBase.IS_EATING));
 							ctx.getSource().sendSuccess(new StringTextComponent("You have toggled eating, run the command again to enable/disable"), false);
 							return 1;
 						})
@@ -431,7 +431,7 @@ public class SWEMCommand {
 								return 0;
 							}
 							SWEMHorseEntityBase horse = (SWEMHorseEntityBase) vehicle;
-							SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new CHorseAnimationPacket(horse.getId(), 7));
+							horse.getEntityData().set(SWEMHorseEntityBase.IS_LAYING_DOWN, !horse.getEntityData().get(SWEMHorseEntityBase.IS_LAYING_DOWN));
 							ctx.getSource().sendSuccess(new StringTextComponent("You have toggled laying down, run the command again to enable/disable"), false);
 							return 1;
 						})
@@ -445,7 +445,7 @@ public class SWEMCommand {
 								return 0;
 							}
 							SWEMHorseEntityBase horse = (SWEMHorseEntityBase) vehicle;
-							SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new CHorseAnimationPacket(horse.getId(), 8));
+							horse.getEntityData().set(SWEMHorseEntityBase.IS_SAD, !horse.getEntityData().get(SWEMHorseEntityBase.IS_SAD));
 							ctx.getSource().sendSuccess(new StringTextComponent("You have toggled sad mode, run the command again to enable/disable"), false);
 							return 1;
 						})
