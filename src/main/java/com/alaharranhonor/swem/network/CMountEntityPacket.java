@@ -24,7 +24,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -140,6 +139,9 @@ public class CMountEntityPacket {
 
 			// If player is not passenger, dismount all passengers.
 			if (target instanceof SWEMHorseEntityBase) {
+				if (!((SWEMHorseEntityBase) target).getOwnerUUID().equals(player.getUUID())) {
+					return; // Only let the horse owner dismount other people.
+				}
 				for (Entity passenger : target.getPassengers()) {
 					if (passenger instanceof PlayerEntity && passenger == player)
 						continue;
