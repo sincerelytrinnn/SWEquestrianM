@@ -19,6 +19,8 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.AmethystRidingBoots;
 import com.alaharranhonor.swem.blocks.HitchingPostBase;
 import com.alaharranhonor.swem.blocks.LeadAnchorBlock;
+import com.alaharranhonor.swem.capability.CapabilityHandler;
+import com.alaharranhonor.swem.capability.PlayerCapability;
 import com.alaharranhonor.swem.commands.DevCommand;
 import com.alaharranhonor.swem.commands.SWEMCommand;
 import com.alaharranhonor.swem.config.ConfigHelper;
@@ -47,6 +49,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.text.*;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
@@ -128,6 +131,22 @@ public class GeneralEventHandlers {
 
 			if (event.getCategory() == Biome.Category.PLAINS) {
 				event.getGeneration().getStructures().add(() -> SWEMConfiguredStructures.CONFIGURED_BARN);
+			}
+		}
+
+		@SubscribeEvent
+		public static void onJoinWorld(EntityJoinWorldEvent event) {
+
+			if (event.getEntity() instanceof PlayerEntity) {
+				PlayerCapability.IPlayerCapability playerCapability = CapabilityHandler.getCapability((PlayerEntity) event.getEntity(), PlayerCapability.PlayerProvider.PLAYER_CAPABILITY);
+				if (playerCapability != null) playerCapability.addedToWorld(event);
+			}
+		}
+
+		@SubscribeEvent
+		public static void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
+			if (event.getObject() instanceof PlayerEntity) {
+				event.addCapability(new ResourceLocation(SWEM.MOD_ID, "player"), new PlayerCapability.PlayerProvider());
 			}
 		}
 

@@ -26,7 +26,7 @@ import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
-import com.alaharranhonor.swem.entity.coats.SWEMCoatColor;
+import com.alaharranhonor.swem.client.coats.SWEMCoatColor;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.items.TrackerItem;
 import com.alaharranhonor.swem.items.tack.*;

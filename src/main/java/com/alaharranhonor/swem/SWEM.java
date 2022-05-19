@@ -16,6 +16,8 @@ package com.alaharranhonor.swem;
  */
 
 import com.alaharranhonor.swem.blocks.TimothyGrass;
+import com.alaharranhonor.swem.capability.CapabilityHandler;
+import com.alaharranhonor.swem.client.model.tools.SWEMGeoBuilder;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.PoopEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
@@ -114,7 +116,8 @@ public class SWEM
 
         RegistryHandler.init(modEventBus);
         SWLRegistryHandler.init();
-        
+
+        SWEMGeoBuilder.registerGeoBuilder(MOD_ID, new SWEMGeoBuilder());
         GeckoLib.initialize();
 
         IEventBus forgeBus = MinecraftForge.EVENT_BUS;
@@ -159,6 +162,7 @@ public class SWEM
      * @param event the event
      */
     private void setup(final FMLCommonSetupEvent event) {
+        CapabilityHandler.register();
 
         if (ModList.get().isLoaded("placeableitems")) {
            PlaceableItemsInit.initMap();

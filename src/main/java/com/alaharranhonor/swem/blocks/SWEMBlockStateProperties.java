@@ -18,10 +18,9 @@ package com.alaharranhonor.swem.blocks;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.IStringSerializable;
 
-public class SWEMBlockStateProperties extends BlockStateProperties {
+public class SWEMBlockStateProperties {
 	public static final EnumProperty<HitchingPostBase.PostPart> POST_PART = EnumProperty.create("post_part", HitchingPostBase.PostPart.class);
 	public static final BooleanProperty HALF_FENCE = BooleanProperty.create("half_fence");
 
