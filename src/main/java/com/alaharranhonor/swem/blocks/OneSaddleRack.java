@@ -148,7 +148,7 @@ public class OneSaddleRack extends HorizontalBlock {
 
 	@Override
 	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(FACING, SWEMBlockStateProperties.HANGING);
+		builder.add(FACING, BlockStateProperties.HANGING);
 	}
 
 	@Override
