@@ -2090,7 +2090,7 @@ public class SWEMHorseEntityBase
 	 * Tick amethyst armor.
 	 */
 	private void tickAmethystArmor() {
-		this.addEffect(new EffectInstance(Effects.SLOW_FALLING, 10, 10, false, false, false));
+		this.addEffect(new EffectInstance(Effects.SLOW_FALLING, 1, 10, false, false, false));
 	}
 
 	@Override
