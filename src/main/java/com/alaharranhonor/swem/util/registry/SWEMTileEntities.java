@@ -43,7 +43,7 @@ public class SWEMTileEntities {
 		TILE_ENTITY_TYPES.register(modBus);
 	}
 
-	public static final RegistryObject<TileEntityType<TackBoxTE>> TACK_BOX_TILE_ENTITY = TILE_ENTITY_TYPES.register("tack_box", () -> TileEntityType.Builder.of(TackBoxTE::new, SWEMBlocks.TACK_BOX.get()).build(null));
+	public static final RegistryObject<TileEntityType<TackBoxTE>> TACK_BOX_TILE_ENTITY = TILE_ENTITY_TYPES.register("tack_box", () -> TileEntityType.Builder.of(TackBoxTE::new, SWEMBlocks.TACK_BOX.stream().map(RegistryObject::get).collect(Collectors.toList()).toArray(new Block[SWEMBlocks.TACK_BOX.size()])).build(null));
 	public static final RegistryObject<TileEntityType<OneSaddleRackTE>> ONE_SADDLE_RACK_TILE_ENTITY = TILE_ENTITY_TYPES.register("one_saddle_rack", () -> TileEntityType.Builder.of(OneSaddleRackTE::new, SWEMBlocks.ONE_SADDLE_RACK.get()).build(null));
 	public static final RegistryObject<TileEntityType<BridleRackTE>> BRIDLE_RACK_TILE_ENTITY = TILE_ENTITY_TYPES.register("bridle_rack", () -> TileEntityType.Builder.of(BridleRackTE::new, SWEMBlocks.BRIDLE_RACK.get()).build(null));
 	public static final RegistryObject<TileEntityType<WheelBarrowTE>> WHEEL_BARROW_TILE_ENTITY = TILE_ENTITY_TYPES.register("wheel_barrow", () -> TileEntityType.Builder.of(WheelBarrowTE::new, SWEMBlocks.WHEEL_BARROWS.stream().map(RegistryObject::get).collect(Collectors.toList()).toArray(new Block[SWEMBlocks.WHEEL_BARROWS.size()])).build(null));
