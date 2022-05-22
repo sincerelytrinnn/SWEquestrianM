@@ -473,14 +473,14 @@ public class GeneralEventHandlers {
 		@SubscribeEvent
 		public static void onHorseJoin(EntityJoinWorldEvent event) {
 			if (event.getEntity() instanceof SWEMHorseEntityBase) {
-				SWEM.setPosForHorse(event.getEntity().getUUID(), event.getEntity().blockPosition());
+				SWEM.updateSaveHorseData((SWEMHorseEntityBase) event.getEntity());
 			}
 		}
 
 		@SubscribeEvent
 		public static void onHorseLeave(EntityLeaveWorldEvent event) {
 			if (event.getEntity() instanceof SWEMHorseEntityBase) {
-				SWEM.setPosForHorse(event.getEntity().getUUID(), event.getEntity().blockPosition());
+				SWEM.updateSaveHorseData((SWEMHorseEntityBase) event.getEntity());
 			}
 		}
 
