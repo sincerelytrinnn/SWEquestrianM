@@ -171,7 +171,7 @@ public class SWEMCommand {
 
 									switch (skill) {
 										case ALL: {
-											if (levelToSet > -1 && levelToSet < 6) {
+											if (levelToSet > -1 && levelToSet < 5) {
 												horse.progressionManager.getSpeedLeveling().setXp(0);
 												horse.progressionManager.getSpeedLeveling().setLevel(levelToSet);
 												horse.progressionManager.getJumpLeveling().setXp(0);
@@ -195,7 +195,7 @@ public class SWEMCommand {
 											break;
 										}
 										case JUMP: {
-											if (levelToSet > -1 && levelToSet < 6) {
+											if (levelToSet > -1 && levelToSet < 5) {
 												horse.progressionManager.getJumpLeveling().setXp(0);
 												horse.progressionManager.getJumpLeveling().setLevel(levelToSet);
 												ctx.getSource().sendSuccess(new StringTextComponent("The jump level on the horse has been set to: " + levelToSetMessage), false);
@@ -205,7 +205,7 @@ public class SWEMCommand {
 											break;
 										}
 										case SPEED: {
-											if (levelToSet > -1 && levelToSet < 6) {
+											if (levelToSet > -1 && levelToSet < 5) {
 												horse.progressionManager.getSpeedLeveling().setXp(0);
 												horse.progressionManager.getSpeedLeveling().setLevel(levelToSet);
 												ctx.getSource().sendSuccess(new StringTextComponent("The speed level on the horse has been set to: " + levelToSetMessage), false);
@@ -215,7 +215,7 @@ public class SWEMCommand {
 											break;
 										}
 										case HEALTH: {
-											if (levelToSet > -1 && levelToSet < 6) {
+											if (levelToSet > -1 && levelToSet < 5) {
 												horse.progressionManager.getHealthLeveling().setXp(0);
 												horse.progressionManager.getHealthLeveling().setLevel(levelToSet);
 												ctx.getSource().sendSuccess(new StringTextComponent("The health level on the horse has been set to: " + levelToSetMessage), false);
