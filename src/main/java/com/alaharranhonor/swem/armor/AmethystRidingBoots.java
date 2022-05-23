@@ -29,8 +29,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.world.World;
-
-import net.minecraft.item.Item.Properties;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -66,8 +64,8 @@ public class AmethystRidingBoots extends DiamondRidingBoots {
 		super.onArmorTick(stack, world, player);
 		if (player.isCrouching()) return;
 		Vector3d motion = player.getDeltaMovement();
-		if (!player.isOnGround() && motion.y < 0.0D && !player.isSleeping()) {
-			player.addEffect(new EffectInstance(Effects.SLOW_FALLING, 1, 1, false, false, true));
+		if (!player.isOnGround() && motion.y < 0.0D && !player.isSleeping() && !world.isClientSide()) {
+			player.addEffect(new EffectInstance(Effects.SLOW_FALLING, 2, 1, false, false, true));
 			//player.setDeltaMovement(motion.multiply(1.0D, 0.7D, 1.0D));
 		}
 	}
