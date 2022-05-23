@@ -19,9 +19,15 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.*;
 import com.alaharranhonor.swem.blocks.HalfBarrelBlock;
 import com.alaharranhonor.swem.blocks.WaterTroughBlock;
-import com.alaharranhonor.swem.entities.RiderEntity;
+import com.alaharranhonor.swem.capability.CapabilityHandler;
+import com.alaharranhonor.swem.capability.PlayerCapability;
+import com.alaharranhonor.swem.client.model.ModelGeckoRiderFirstPerson;
+import com.alaharranhonor.swem.client.model.ModelGeckoRiderThirdPerson;
+import com.alaharranhonor.swem.client.render.*;
+import com.alaharranhonor.swem.client.render.player.GeckoRider;
+import com.alaharranhonor.swem.client.render.player.RiderFirstPersonRenderer;
+import com.alaharranhonor.swem.client.render.player.RiderRenderPlayer;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.entity.render.*;
 import com.alaharranhonor.swem.gui.*;
 import com.alaharranhonor.swem.items.SWEMSpawnEggItem;
 import com.alaharranhonor.swem.particle.*;
@@ -35,12 +41,10 @@ import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.tileentity.SignTileEntityRenderer;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.IDyeableArmorItem;
@@ -48,20 +52,18 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.text.Color;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.FoliageColors;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraft.world.biome.BiomeRegistry;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -69,8 +71,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.lwjgl.glfw.GLFW;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
-
-import java.util.HashMap;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientEventHandlers {
@@ -141,7 +141,6 @@ public class ClientEventHandlers {
 		RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(SWEMEntities.HORSE_POOP_ENTITY.get(), PoopRender::new);
-		ClientRegistry.bindTileEntityRenderer(SWEMTileEntities.TACK_BOX_TILE_ENTITY.get(), TackBoxRender::new);
 		ClientRegistry.bindTileEntityRenderer(SWEMTileEntities.ONE_SADDLE_RACK_TILE_ENTITY.get(), OneSaddleRackRender::new);
 		ClientRegistry.bindTileEntityRenderer(SWEMTileEntities.BRIDLE_RACK_TILE_ENTITY.get(), BridleRackRender::new);
 		ClientRegistry.bindTileEntityRenderer(SWEMTileEntities.HORSE_ARMOR_RACK_TILE_ENTITY.get(), HorseArmorRackRender::new);
@@ -233,7 +232,7 @@ public class ClientEventHandlers {
 	 * Register keybinds.
 	 */
 	public static void registerKeybinds() {
-		keyBindings = new KeyBinding[8];
+		keyBindings = new KeyBinding[9];
 
 		keyBindings[0] = new KeyBinding("key.swem.horse.increment", GLFW.GLFW_KEY_H, "key.swem.category");
 		keyBindings[1] = new KeyBinding("key.swem.horse.decrement", GLFW.GLFW_KEY_G, "key.swem.category");
@@ -242,6 +241,7 @@ public class ClientEventHandlers {
 		keyBindings[4] = new KeyBinding("key.swem.horse.toggle_wings", GLFW.GLFW_KEY_PERIOD, "key.swem.category");
 		keyBindings[5] = new KeyBinding("key.swem.horse.dive_flight", GLFW.GLFW_KEY_X, "key.swem.category");
 		keyBindings[7] = new KeyBinding("key.swem.horse.camera_lock", GLFW.GLFW_KEY_LEFT_ALT, "key.swem.category");
+		keyBindings[8] = new KeyBinding("key.swem.performance_gain", GLFW.GLFW_KEY_U, "key.swem.category");
 
 		//TODO: REMOVE ONCE SPEED HAS BEEN CONFIRMED
 		keyBindings[6] = new KeyBinding("key.swem.horse.check_speed", GLFW.GLFW_KEY_N, "key.swem.category");
@@ -313,7 +313,6 @@ public class ClientEventHandlers {
 	static class ForgeBusHandlers {
 
 		public static final ResourceLocation GUI_ICONS_LOCATION = new ResourceLocation(SWEM.MOD_ID, "textures/gui/icons.png");
-		private static final HashMap<PlayerEntity, RiderEntity> animatedPlayers = new HashMap<>();
 
 
 		/**
@@ -370,44 +369,86 @@ public class ClientEventHandlers {
 			}
 		}
 
-		/**
-		 * On player render.
-		 *
-		 * @param event the event
-		 */
+		// Huge thanks to Mowzie's Mobs for making this custom player renderer (Next 3 events)
+		// https://www.curseforge.com/minecraft/mc-mods/mowzies-mobs
 		@SubscribeEvent
-		public static void onPlayerRender(RenderPlayerEvent.Pre event) {
+		public static void onHandRender(RenderHandEvent event) {
+			// if (!ConfigHandler.CLIENT.customPlayerAnims.get()) return; // Config option for custom player anims?
+			PlayerEntity player = Minecraft.getInstance().player;
+			if (player == null) return;
+			boolean shouldAnimate = false;
 
-			Entity entity = event.getPlayer().getVehicle();
-			if (entity instanceof SWEMHorseEntityBase) {
-				event.setCanceled(true);
+			// Toggle this when first person anims are implemented. (Mowzie toggled this with his abilities)
+			if (shouldAnimate) {
+				PlayerCapability.IPlayerCapability playerCapability = CapabilityHandler.getCapability(player, PlayerCapability.PlayerProvider.PLAYER_CAPABILITY);
+				if (playerCapability != null) {
+					GeckoRider.GeckoRiderFirstPerson geckoPlayer = RiderFirstPersonRenderer.GECKO_PLAYER_FIRST_PERSON;
+					if (geckoPlayer != null) {
+						ModelGeckoRiderFirstPerson geckoFirstPersonModel = (ModelGeckoRiderFirstPerson) geckoPlayer.getModel();
+						RiderFirstPersonRenderer firstPersonRenderer = (RiderFirstPersonRenderer) geckoPlayer.getPlayerRenderer();
 
-				if (!animatedPlayers.containsKey(event.getPlayer()))
-					animatedPlayers.put(event.getPlayer(), new RiderEntity((AbstractClientPlayerEntity) event.getPlayer()));
-				else {
-					animatedPlayers.get(event.getPlayer()).setPlayer((AbstractClientPlayerEntity) event.getPlayer());
+						if (geckoFirstPersonModel != null && firstPersonRenderer != null) {
+//                        if (!geckoFirstPersonModel.isUsingSmallArms() && ((AbstractClientPlayerEntity) player).getSkinType().equals("slim")) {
+							firstPersonRenderer.setSmallArms();
+//                        }
+							event.setCanceled(geckoFirstPersonModel.resourceForModelId((AbstractClientPlayerEntity) player));
+
+							if (event.isCanceled()) {
+								float delta = event.getPartialTicks();
+								float f1 = MathHelper.lerp(delta, player.xRotO, player.xRot);
+								firstPersonRenderer.renderItemInFirstPerson((AbstractClientPlayerEntity) player, f1, delta, event.getHand(), event.getSwingProgress(), event.getItemStack(), event.getEquipProgress(), event.getMatrixStack(), event.getBuffers(), event.getLight(), geckoPlayer);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		@SubscribeEvent
+		public static void renderLivingEvent(RenderPlayerEvent.Pre event) {
+			if (event.getEntity() instanceof PlayerEntity) {
+				// if (!ConfigHandler.CLIENT.customPlayerAnims.get()) return; // Config option for custom player anims?
+				PlayerEntity player = (PlayerEntity) event.getEntity();
+				if (player == null) return;
+				float delta = event.getPartialRenderTick();
+
+				PlayerCapability.IPlayerCapability playerCapability = CapabilityHandler.getCapability(event.getEntity(), PlayerCapability.PlayerProvider.PLAYER_CAPABILITY);
+				if (playerCapability != null) {
+					GeckoRider.GeckoRiderThirdPerson geckoPlayer = playerCapability.getGeckoPlayer();
+					if (geckoPlayer != null) {
+						ModelGeckoRiderThirdPerson geckoPlayerModel = (ModelGeckoRiderThirdPerson) geckoPlayer.getModel();
+						RiderRenderPlayer animatedPlayerRenderer = (RiderRenderPlayer) geckoPlayer.getPlayerRenderer();
+
+						if (geckoPlayerModel != null && animatedPlayerRenderer != null && player.getVehicle() instanceof SWEMHorseEntityBase) {
+							if (!geckoPlayerModel.isUsingSmallArms() && ((AbstractClientPlayerEntity) player).getModelName().equals("slim")) {
+								animatedPlayerRenderer.setSmallArms();
+							}
+
+							event.setCanceled(geckoPlayerModel.resourceForModelId((AbstractClientPlayerEntity) player));
+
+
+							if (event.isCanceled()) {
+								animatedPlayerRenderer.render((AbstractClientPlayerEntity) event.getEntity(), event.getEntity().yRot, delta, event.getMatrixStack(), event.getBuffers(), event.getLight(), geckoPlayer);
+							}
+						}
+					}
 				}
 
-				event.getMatrixStack().pushPose();
-				float yRot = MathHelper.rotLerp(event.getPartialRenderTick(), ((LivingEntity)event.getPlayer().getVehicle()).yBodyRotO, ((LivingEntity)event.getPlayer().getVehicle()).yBodyRot);
-				event.getMatrixStack().mulPose(new Quaternion(0, 180 - yRot, 0, true));
-
-				RiderGeoRenderer.INSTANCE.render(
-						RiderGeoRenderer.INSTANCE.getGeoModelProvider().getModel(RiderGeoRenderer.INSTANCE.getGeoModelProvider().getModelLocation(animatedPlayers.get(event.getPlayer()))),
-						animatedPlayers.get(event.getPlayer()),
-						event.getPartialRenderTick(),
-						RenderType.entityCutoutNoCull(event.getRenderer().getTextureLocation((AbstractClientPlayerEntity) event.getPlayer())),
-						event.getMatrixStack(),
-						event.getBuffers(),
-						null,
-						event.getLight(),
-						OverlayTexture.NO_OVERLAY,
-						1, 1, 1, 1
-				);
-
-				event.getMatrixStack().popPose();
 			}
+		}
 
+		@SubscribeEvent
+		public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+			if (event.phase == TickEvent.Phase.START || event.player == null) {
+				return;
+			}
+			PlayerEntity player = event.player;
+			PlayerCapability.IPlayerCapability playerCapability = CapabilityHandler.getCapability(player, PlayerCapability.PlayerProvider.PLAYER_CAPABILITY);
+			if (playerCapability != null && event.side == LogicalSide.CLIENT) {
+				GeckoRider geckoPlayer = playerCapability.getGeckoPlayer();
+				if (geckoPlayer != null) geckoPlayer.tick();
+				if (player == Minecraft.getInstance().player) RiderFirstPersonRenderer.GECKO_PLAYER_FIRST_PERSON.tick();
+			}
 		}
 
 

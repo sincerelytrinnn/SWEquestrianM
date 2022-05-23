@@ -16,8 +16,6 @@ package com.alaharranhonor.swem.blocks;
  */
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.util.registry.SWEMBlocks;
-import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;

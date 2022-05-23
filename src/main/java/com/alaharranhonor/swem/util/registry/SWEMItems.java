@@ -18,7 +18,7 @@ package com.alaharranhonor.swem.util.registry;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.*;
 import com.alaharranhonor.swem.blocks.BlockItemBase;
-import com.alaharranhonor.swem.entity.coats.SWEMCoatColor;
+import com.alaharranhonor.swem.client.coats.SWEMCoatColor;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.potions.CantazaritePotionItem;
 import com.alaharranhonor.swem.items.tack.*;

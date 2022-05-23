@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#D#",
+    "RCR",
+    "#S#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:iron_nugget"
+    },
+    "D": {
+      "item": "swem:amethyst"
+    },
+    "R": {
+      "item": "swem:star_worm"
+    },
+    "C": {
+      "item": "minecraft:chest"
+    },
+    "S": {
+      "item": "minecraft:cyan_dye"
+    }
+  },
+  "result": {
+    "item": "swem:tack_box_cyan",
+    "count": 1
+  }
+}

@@ -26,7 +26,7 @@ import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
-import com.alaharranhonor.swem.entity.coats.SWEMCoatColor;
+import com.alaharranhonor.swem.client.coats.SWEMCoatColor;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.items.TrackerItem;
 import com.alaharranhonor.swem.items.tack.*;
@@ -187,9 +187,11 @@ public class SWEMHorseEntityBase
 	public int standingTimer = 0;
 	public boolean isWalkingBackwards = false;
 	public int kickAnimationTimer;
-	public boolean eatingAnim = false;
-	public boolean isLayingDown = false;
-	
+	public final static DataParameter<Boolean> IS_EATING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	public final static DataParameter<Boolean> IS_LAYING_DOWN = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	public final static DataParameter<Boolean> IS_SAD = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+
+
 	/**
 	 * Instantiates a new Swem horse entity base.
 	 *
@@ -622,6 +624,9 @@ public class SWEMHorseEntityBase
 		this.entityData.define(CAMERA_LOCK, true);
 
 		this.entityData.define(JUMP_ANIM_TIMER, 0);
+		this.entityData.define(IS_EATING, false);
+		this.entityData.define(IS_LAYING_DOWN, false);
+		this.entityData.define(IS_SAD, false);
 
 		this.entityData.define(RENDER_SADDLE, true);
 		this.entityData.define(RENDER_BLANKET, true);
@@ -2110,7 +2115,7 @@ public class SWEMHorseEntityBase
 	 * Tick amethyst armor.
 	 */
 	private void tickAmethystArmor() {
-		this.addEffect(new EffectInstance(Effects.SLOW_FALLING, 10, 10, false, false, false));
+		this.addEffect(new EffectInstance(Effects.SLOW_FALLING, 1, 10, false, false, false));
 	}
 
 	@Override
@@ -2372,6 +2377,55 @@ public class SWEMHorseEntityBase
 	}
 
 	/**
+	 * checks if horse is in water
+	 * @return true if horse is in water
+	 */
+	private Boolean checkIsInWater() {
+		FluidState fluidstate = this.level.getFluidState(blockPosition());
+		if (fluidstate.is(FluidTags.WATER)){
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Takeoff jump sounds
+	 */
+	@Override
+	protected void playJumpSound() {
+		if (checkIsInWater()) {
+			this.playSound(SoundEvents.PLAYER_SPLASH, 0.3F, 1.0F);
+		} else {
+			this.playSound(SoundEvents.HORSE_JUMP, 0.4F, 1.0F);
+		}
+	}
+
+	/**
+	 * Overridden to handle landing sound
+	 */
+	@Override
+	public boolean causeFallDamage(float pFallDistance, float pDamageMultiplier) {
+		if (pFallDistance > 1.0F && !checkIsInWater()){
+			this.playSound(SoundEvents.HORSE_LAND, 0.4F, 1.0F);
+		} else if (pFallDistance > 1.0F && checkIsInWater()){
+			this.playSound(SoundEvents.PLAYER_SPLASH, 0.1F, 1.0F);
+		}
+		int i = this.calculateFallDamage(pFallDistance, pDamageMultiplier);
+		if (i <= 0) {
+			return false;
+		} else {
+			this.hurt(DamageSource.FALL, (float)i);
+			if (this.isVehicle()) {
+				for(Entity entity : this.getIndirectPassengers()) {
+					entity.hurt(DamageSource.FALL, (float)i);
+				}
+			}
+			this.playBlockFallSound();
+			return true;
+		}
+	}
+
+	/**
 	 * Play flap wing sound.
 	 */
 	private void playFlapWingSound() {
@@ -2384,7 +2438,7 @@ public class SWEMHorseEntityBase
 	 *
 	 * @param jumpHeight the jump height
 	 */
-	private void startJump(float jumpHeight) {
+	protected void startJump(float jumpHeight) {
 		SWEMPacketHandler.INSTANCE.sendToServer(new CHorseJumpPacket(this.getId(), jumpHeight));
 	}
 

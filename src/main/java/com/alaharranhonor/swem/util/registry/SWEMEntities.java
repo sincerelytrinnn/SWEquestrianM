@@ -42,7 +42,7 @@ public class SWEMEntities {
 
 	public static final RegistryObject<EntityType<SWEMHorseEntity>> SWEM_HORSE_ENTITY = ENTITY_TYPES.register("swem_horse",
 			() -> EntityType.Builder.of(SWEMHorseEntity::new, EntityClassification.CREATURE)
-					.sized(1.73f, 1.99f) // Hitbox Size
+					.sized(1.60f, 1.99f) // Hitbox Size
 					.build(new ResourceLocation(SWEM.MOD_ID, "swem_horse").toString())
 	);
 

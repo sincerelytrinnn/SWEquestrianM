@@ -19,6 +19,8 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.AmethystRidingBoots;
 import com.alaharranhonor.swem.blocks.HitchingPostBase;
 import com.alaharranhonor.swem.blocks.LeadAnchorBlock;
+import com.alaharranhonor.swem.capability.CapabilityHandler;
+import com.alaharranhonor.swem.capability.PlayerCapability;
 import com.alaharranhonor.swem.commands.DevCommand;
 import com.alaharranhonor.swem.commands.SWEMCommand;
 import com.alaharranhonor.swem.config.ConfigHelper;
@@ -47,6 +49,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.text.*;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
@@ -70,6 +73,9 @@ import java.util.concurrent.TimeUnit;
 
 @Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class GeneralEventHandlers {
+
+	public static boolean no_render_tack = false;
+
 
 	/**
 	 * On mod config event.
@@ -127,6 +133,22 @@ public class GeneralEventHandlers {
 			}
 		}
 
+		@SubscribeEvent
+		public static void onJoinWorld(EntityJoinWorldEvent event) {
+
+			if (event.getEntity() instanceof PlayerEntity) {
+				PlayerCapability.IPlayerCapability playerCapability = CapabilityHandler.getCapability((PlayerEntity) event.getEntity(), PlayerCapability.PlayerProvider.PLAYER_CAPABILITY);
+				if (playerCapability != null) playerCapability.addedToWorld(event);
+			}
+		}
+
+		@SubscribeEvent
+		public static void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
+			if (event.getObject() instanceof PlayerEntity) {
+				event.addCapability(new ResourceLocation(SWEM.MOD_ID, "player"), new PlayerCapability.PlayerProvider());
+			}
+		}
+
 		/**
 		 * Register commands.
 		 *
@@ -154,20 +176,34 @@ public class GeneralEventHandlers {
 			KeyBinding[] keyBindings = ClientEventHandlers.keyBindings;
 			if (KEY_PRESS_COUNTER == 1) {
 
+				if (keyBindings[8].consumeClick()) {
+					boolean value = no_render_tack;
+					no_render_tack = !no_render_tack;
+					if (value) {
+						// Disable
+						Minecraft.getInstance().player.sendMessage(new StringTextComponent("You have enabled all tack render"), Minecraft.getInstance().player.getUUID());
+					} else {
+						Minecraft.getInstance().player.sendMessage(new StringTextComponent("You have disabled all tack render"), Minecraft.getInstance().player.getUUID());
+					}
+				}
+
 				if (event.getKey() == 'W' && event.getAction() == 0 && Minecraft.getInstance().player != null) {
 					Entity check = Minecraft.getInstance().player.getVehicle();
+
 					if (check instanceof SWEMHorseEntityBase) {
-						// 'W' KEy was released start the 1 second timer.
-						executor.schedule(new Runnable() {
-							@Override
-							public void run() {
-								if (Minecraft.getInstance().options.keyUp.isDown()) {
-									return;
-								} else {
-									SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, check.getId()));
+						if (check.getControllingPassenger() != null && check.getControllingPassenger().getUUID().equals(Minecraft.getInstance().player.getUUID())) {
+							// 'W' Key was released start the 1 second timer.
+							executor.schedule(new Runnable() {
+								@Override
+								public void run() {
+									if (Minecraft.getInstance().options.keyUp.isDown()) {
+										return;
+									} else {
+										SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, check.getId()));
+									}
 								}
-							}
-						}, 105, TimeUnit.MILLISECONDS);
+							}, 105, TimeUnit.MILLISECONDS);
+						}
 					}
 				}
 
@@ -252,7 +288,11 @@ public class GeneralEventHandlers {
 			Entity entity = event.getEntityBeingMounted();
 
 			if (entity instanceof SWEMHorseEntityBase) {
+
 				SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+				if (horse.getPassengers().stream().allMatch((ent) -> ent instanceof PlayerEntity)) {
+					return; // Early return if the horse has 2 passengers.
+				}
 				SWEMHorseEntityBase.HorseSpeed oldSpeed = horse.currentSpeed;
 				horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
 				horse.updateSelectedSpeed(oldSpeed);
@@ -433,14 +473,14 @@ public class GeneralEventHandlers {
 		@SubscribeEvent
 		public static void onHorseJoin(EntityJoinWorldEvent event) {
 			if (event.getEntity() instanceof SWEMHorseEntityBase) {
-				SWEM.setPosForHorse(event.getEntity().getUUID(), event.getEntity().blockPosition());
+				SWEM.updateSaveHorseData((SWEMHorseEntityBase) event.getEntity());
 			}
 		}
 
 		@SubscribeEvent
 		public static void onHorseLeave(EntityLeaveWorldEvent event) {
 			if (event.getEntity() instanceof SWEMHorseEntityBase) {
-				SWEM.setPosForHorse(event.getEntity().getUUID(), event.getEntity().blockPosition());
+				SWEM.updateSaveHorseData((SWEMHorseEntityBase) event.getEntity());
 			}
 		}
 

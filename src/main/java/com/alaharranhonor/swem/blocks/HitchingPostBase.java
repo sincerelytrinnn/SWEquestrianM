@@ -194,9 +194,16 @@ public class HitchingPostBase extends Block {
 		}
 	}
 
+	/**
+	 * Determines if this block should drop loot when exploded.
+	 */
 	@Override
-	public void onBlockExploded(BlockState state, World world, BlockPos pos, Explosion explosion) {
-		super.onBlockExploded(state, world, pos, explosion);
+	public boolean canDropFromExplosion(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion) {
+		if (state.getValue(PART) == PostPart.LOWER) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public enum HitchingPostType {

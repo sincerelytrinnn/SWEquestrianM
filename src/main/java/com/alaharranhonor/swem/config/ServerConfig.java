@@ -54,6 +54,10 @@ public final class ServerConfig {
 	public final ForgeConfigSpec.BooleanValue multiplayerHungerThirst;
 	public final ForgeConfigSpec.IntValue foalAgeInSeconds;
 	public final ForgeConfigSpec.IntValue horseInLoveInSeconds;
+	public final ForgeConfigSpec.IntValue maxSpeedXP;
+	public final ForgeConfigSpec.IntValue maxJumpXP;
+	public final ForgeConfigSpec.IntValue maxHealthXP;
+	public final ForgeConfigSpec.IntValue maxAffinityXP;
 
 	/**
 	 * Instantiates a new Server config.
@@ -96,6 +100,10 @@ public final class ServerConfig {
 		this.multiplayerHungerThirst = builder.comment("Make hunger thirst system base on IRL days? (Preferred option for servers.)").translation("swem.config.multiplayerHungerThirst").define("multiPlayerHungerThirst", false);
 		this.foalAgeInSeconds = builder.comment("Specify how many seconds it takes for the foal to growp up? (Default is 1800 seconds = 30 minutes)").translation("swem.config.foalAgeInSeconds").defineInRange("foalAgeInSeconds", 1_800, 1, Integer.MAX_VALUE);
 		this.horseInLoveInSeconds = builder.comment("Specify how many seconds it takes for the parent to be able to breed again? (Default is 1800 seconds = 30 minutes)").translation("swem.config.horseInLoveInSeconds").defineInRange("horseInLoveInSeconds", 1_800, 1, Integer.MAX_VALUE);
+		this.maxSpeedXP = builder.comment("Specify how much xp is needed for reaching max speed level. The level ranges will be decided by an internal formula.").translation("swem.config.maxSpeedXP").defineInRange("maxSpeedXP", 40_000, 1, Integer.MAX_VALUE);
+		this.maxJumpXP = builder.comment("Specify how much xp is needed for reaching max jump level. The level ranges will be decided by an internal formula.").translation("swem.config.maxJumpXP").defineInRange("maxJumpXP", 40_000, 1, Integer.MAX_VALUE);
+		this.maxHealthXP = builder.comment("Specify how much xp is needed for reaching max health level. The level ranges will be decided by an internal formula.").translation("swem.config.maxHealthXP").defineInRange("maxHealthXP", 40_000, 1, Integer.MAX_VALUE);
+		this.maxAffinityXP = builder.comment("Specify how much xp is needed for reaching max affinity level. The level ranges will be decided by an internal formula.").translation("swem.config.maxAffinityXP").defineInRange("maxAffinityXP", 40_000, 1, Integer.MAX_VALUE);
 			builder.push("Tack Dependencies");
 			this.halterDependency = builder.comment("Enable/Disable the halter, being needed for any other tack.").translation("swem.config.halterDep").define("HalterDependency", true);
 			this.needBridleToSteer = builder.comment("Enable/Disable the need of a bridle in order to steer, the horse. (If disabled, you would still need a saddle.)").translation("swem.config.needBridleToSteer").define("NeedBridleToSteer", true);

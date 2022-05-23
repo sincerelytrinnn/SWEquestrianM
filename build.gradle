@@ -141,7 +141,7 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-36.2.26"
-    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${mc_version}:3.0.35")
+    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${mc_version}:3.0.68")
 
     // compile against the JEI API but do not include it at runtime
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
@@ -153,7 +153,7 @@ dependencies {
     // compile "some.group:artifact:version"
 
     compileOnly fg.deobf("curse.maven:placableitems-227951:3565979")
-    //runtimeOnly fg.deobf("curse.maven:placableitems-227951:3565979")
+    //implementation fg.deobf("curse.maven:swlm-381070:3745553")
 
     // Real examples
     // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env

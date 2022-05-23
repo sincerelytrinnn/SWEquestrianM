@@ -16,7 +16,7 @@ package com.alaharranhonor.swem.items;
  */
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.entity.coats.SWEMCoatColor;
+import com.alaharranhonor.swem.client.coats.SWEMCoatColor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;

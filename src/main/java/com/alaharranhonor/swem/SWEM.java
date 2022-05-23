@@ -16,6 +16,8 @@ package com.alaharranhonor.swem;
  */
 
 import com.alaharranhonor.swem.blocks.TimothyGrass;
+import com.alaharranhonor.swem.capability.CapabilityHandler;
+import com.alaharranhonor.swem.client.model.tools.SWEMGeoBuilder;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.PoopEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
@@ -25,6 +27,7 @@ import com.alaharranhonor.swem.items.potions.BrewingRecipes;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.SWLRegistryHandler;
+import com.alaharranhonor.swem.util.data.HorseData;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import com.alaharranhonor.swem.util.registry.SWEMEntities;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
@@ -43,7 +46,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.ChunkGenerator;
@@ -95,7 +97,7 @@ public class SWEM
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "swem";
-    private static Map<UUID, BlockPos> horsePositions = new HashMap<>();
+    private static Map<UUID, HorseData> horseDataMap = new HashMap<>();
     private static ServerWorld serverOverWorld;
     public static WoodType WHITEWASH_WT;
 
@@ -114,7 +116,8 @@ public class SWEM
 
         RegistryHandler.init(modEventBus);
         SWLRegistryHandler.init();
-        
+
+        SWEMGeoBuilder.registerGeoBuilder(MOD_ID, new SWEMGeoBuilder());
         GeckoLib.initialize();
 
         IEventBus forgeBus = MinecraftForge.EVENT_BUS;
@@ -159,6 +162,7 @@ public class SWEM
      * @param event the event
      */
     private void setup(final FMLCommonSetupEvent event) {
+        CapabilityHandler.register();
 
         if (ModList.get().isLoaded("placeableitems")) {
            PlaceableItemsInit.initMap();
@@ -279,10 +283,10 @@ public class SWEM
         }
 
         try (JsonReader reader = gson.newJsonReader(new FileReader(new File(file.toUri())))) {
-            Type type = new TypeToken<Map<UUID, BlockPos>>(){}.getType();
-            Map<UUID, BlockPos> horsePos = gson.fromJson(reader, type);
+            Type type = new TypeToken<Map<UUID, HorseData>>(){}.getType();
+            Map<UUID, HorseData> horsePos = gson.fromJson(reader, type);
             if (horsePos != null)
-               horsePositions = horsePos;
+               horseDataMap = horsePos;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -295,7 +299,7 @@ public class SWEM
             .create();
 
         try (JsonWriter writer = gson.newJsonWriter(new FileWriter(new File(event.getServer().getWorldPath(new FolderName("serverconfig/swem")).resolve("horseData.json").toUri())))){
-            gson.toJson(gson.toJsonTree(horsePositions), writer);
+            gson.toJson(gson.toJsonTree(horseDataMap), writer);
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -308,23 +312,27 @@ public class SWEM
      * @return
      */
     @Nullable
-    public static BlockPos getPosForHorse(UUID horse) {
+    public static HorseData getHorseData(UUID horse) {
         Entity entity = serverOverWorld.getEntity(horse);
         if (entity != null) {
             if (entity instanceof SWEMHorseEntityBase) {
-                setPosForHorse(entity.getUUID(), entity.blockPosition());
-                return entity.blockPosition();
+                updateSaveHorseData((SWEMHorseEntityBase) entity);
+                return horseDataMap.get(horse);
             }
         }
-        if (horsePositions.containsKey(horse)) {
-            return horsePositions.get(horse);
+        if (horseDataMap.containsKey(horse)) {
+            return horseDataMap.get(horse);
         }
         return null;
     }
 
-    public static void setPosForHorse(UUID horse, BlockPos pos) {
-        horsePositions.put(horse, pos);
+    public static void updateSaveHorseData(SWEMHorseEntityBase horse) {
+        HorseData data = horseDataMap.get(horse.getUUID());
+        data.setName(horse.getDisplayName().getString());
+        data.setPos(horse.blockPosition());
+        horseDataMap.put(horse.getUUID(), data);
     }
+
 
     public static final ItemGroup TAB = new ItemGroup("SWEMTab") {
         @Override

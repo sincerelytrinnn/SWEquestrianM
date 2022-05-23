@@ -5,7 +5,8 @@
   "refmap": "swem.refmap.json",
   "mixins": [
     "AbstractHorseEntityMixin",
-    "AbstractVillagerEntityMixin"
+    "AbstractVillagerEntityMixin",
+    "LilyPadBlockMixin"
   ],
   "client": [
     "ClientPlayerEntityMixin",

@@ -19,8 +19,8 @@ import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.tileentity.TackBoxTE;
-import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import com.alaharranhonor.swem.util.registry.SWEMContainers;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -37,7 +37,7 @@ public class TackBoxContainer extends Container {
 	public final TackBoxTE tileEntity;
 	private final IWorldPosCallable canInteractWithCallable;
 
-	public final SWEMHorseEntityBase horse;
+	public SWEMHorseEntityBase horse;
 
 	/**
 	 * Instantiates a new Tack box container.
@@ -47,7 +47,12 @@ public class TackBoxContainer extends Container {
 	 * @param data            the data
 	 */
 	public TackBoxContainer(final int id, final PlayerInventory playerInventory, final PacketBuffer data) {
-		this(id, playerInventory, getTileEntity(playerInventory, data));
+		this(id, playerInventory, getTileEntity(playerInventory, data), data);
+	}
+
+	public TackBoxContainer(final int id, final PlayerInventory playerInventory, final TackBoxTE tileEntity, final PacketBuffer data) {
+		this(id, playerInventory, tileEntity);
+		this.horse = (SWEMHorseEntityBase) playerInventory.player.level.getEntity(data.readInt());
 	}
 
 	/**
@@ -60,8 +65,7 @@ public class TackBoxContainer extends Container {
 	public TackBoxContainer(final int id, final PlayerInventory playerInventory, final TackBoxTE tileEntity) {
 		super(SWEMContainers.TACKBOX_CONTAINER.get(), id);
 		this.tileEntity = tileEntity;
-		this.horse = (SWEMHorseEntityBase) playerInventory.player.level.getEntity(this.tileEntity.getTileData().getInt("horseID"));
-		this.canInteractWithCallable = IWorldPosCallable.create(tileEntity.getLevel(), tileEntity.getBlockPos());
+		this.canInteractWithCallable = IWorldPosCallable.create(playerInventory.player.level, tileEntity.getBlockPos());
 
 
 		// 10 gap between each compartment.
@@ -320,6 +324,8 @@ public class TackBoxContainer extends Container {
 			this.addSlot(new Slot(this.tileEntity, col + 21, 8 + col * 18, generalStorageY));
 		}
 
+		
+
 
 		// Player Main Inventory
 		int startPlayerInvY = 163;
@@ -334,18 +340,6 @@ public class TackBoxContainer extends Container {
 		for (int col = 0; col < 9; ++col) {
 			this.addSlot(new Slot(playerInventory, col, 8 + col * 18, hotBarY));
 		}
-	}
-
-
-
-	/**
-	 * Determines whether supplied player can use this container
-	 *
-	 * @param playerIn
-	 */
-	@Override
-	public boolean stillValid(PlayerEntity playerIn) {
-		return stillValid(canInteractWithCallable, playerIn, SWEMBlocks.TACK_BOX.get());
 	}
 
 
@@ -390,5 +384,11 @@ public class TackBoxContainer extends Container {
 		}
 
 		return itemstack;
+	}
+
+	@Override
+	public boolean stillValid(PlayerEntity playerIn) {
+		Block tackbox = playerIn.level.getBlockState(this.tileEntity.getBlockPos()).getBlock();
+		return stillValid(canInteractWithCallable, playerIn, tackbox);
 	}
 }

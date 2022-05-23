@@ -16,19 +16,13 @@ package com.alaharranhonor.swem.items;
  */
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.util.registry.SWEMBlocks;
-import com.alaharranhonor.swem.util.registry.SWEMItems;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
 
 public class SweetFeed extends Item {
 	/**
@@ -40,7 +34,17 @@ public class SweetFeed extends Item {
         super(new Item.Properties().tab(SWEM.TAB).stacksTo(1).defaultDurability(8));
     }
 
-    public static class UnopenedSweetFeed extends Item {
+	/**
+	 * Checks isDamagable and if it cannot be stacked
+	 *
+	 * @param pStack
+	 */
+	@Override
+	public boolean isEnchantable(ItemStack pStack) {
+		return false;
+	}
+
+	public static class UnopenedSweetFeed extends Item {
         private Item sweetFeed;
 
 		/**

@@ -18,15 +18,15 @@ package com.alaharranhonor.swem.blocks;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.IStringSerializable;
 
-public class SWEMBlockStateProperties extends BlockStateProperties {
+public class SWEMBlockStateProperties {
 	public static final EnumProperty<HitchingPostBase.PostPart> POST_PART = EnumProperty.create("post_part", HitchingPostBase.PostPart.class);
 	public static final BooleanProperty HALF_FENCE = BooleanProperty.create("half_fence");
 
 	public static final IntegerProperty LEVEL_0_2 = IntegerProperty.create("level", 0, 2);
 
+	public static final EnumProperty<TackBoxType> TACK_BOX_TYPE = EnumProperty.create("type", TackBoxType.class);
 	public static final EnumProperty<DoubleBlockSide> D_SIDE = EnumProperty.create("side", DoubleBlockSide.class);
 	public static final EnumProperty<TripleBlockSide> T_SIDE = EnumProperty.create("side", TripleBlockSide.class);
 	public static final EnumProperty<TwoWay> TWO_WAY = EnumProperty.create("two_way", TwoWay.class);
@@ -93,6 +93,29 @@ public class SWEMBlockStateProperties extends BlockStateProperties {
 		 */
 		public int getId() {
 			return this.id;
+		}
+	}
+
+	public enum TackBoxType implements IStringSerializable {
+		SINGLE("single", 0),
+		LEFT("left", 2),
+		RIGHT("right", 1);
+
+		public static final TackBoxType[] BY_ID = values();
+		private final String name;
+		private final int opposite;
+
+		TackBoxType(String pName, int pOpposite) {
+			this.name = pName;
+			this.opposite = pOpposite;
+		}
+
+		public String getSerializedName() {
+			return this.name;
+		}
+
+		public TackBoxType getOpposite() {
+			return BY_ID[this.opposite];
 		}
 	}
 }
