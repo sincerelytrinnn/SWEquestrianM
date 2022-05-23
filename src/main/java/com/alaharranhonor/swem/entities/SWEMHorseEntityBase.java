@@ -1745,13 +1745,13 @@ public class SWEMHorseEntityBase
 				else if (randomNum <= 66)
 					this.setCoatColour(SWEMCoatColor.SHWOOMPL_MARKIPLIER);
 				else if (randomNum <= 76)
-					this.setCoatColour(SWEMCoatColor.GRAY); //TODO: CHANGE TO FINBAR
+					this.setCoatColour(SWEMCoatColor.FINBAR_FOALEY_JACKSEPTICEYE);
 				else if (randomNum <= 86)
 					this.setCoatColour(SWEMCoatColor.THIS_ESME_JOEY);
 				else if (randomNum <= 93)
 					this.setCoatColour(SWEMCoatColor.GOOSEBERRY_JUSTPEACHY);
 				else
-					this.setCoatColour(SWEMCoatColor.GRAY); // TODO: CHANGE TO TOOTHBRUSH
+					this.setCoatColour(SWEMCoatColor.TOOTHBRUSH_BOATY);
 				break;
 			}
 			case WHITE: {
@@ -1774,7 +1774,7 @@ public class SWEMHorseEntityBase
 				else if (randomNum <= 93)
 					this.setCoatColour(SWEMCoatColor.FRANK_STEVECV);
 				else
-					this.setCoatColour(SWEMCoatColor.WHITE); //TODO: CHANGE TO TOOTHBRUSH
+					this.setCoatColour(SWEMCoatColor.TOOTHBRUSH_BOATY);
 				break;
 			}
 			case CHESTNUT: {
@@ -1787,13 +1787,13 @@ public class SWEMHorseEntityBase
 				else if (randomNum <= 50)
 					this.setCoatColour(SWEMCoatColor.WILDANDFREE);
 				else if (randomNum <= 55)
-					this.setCoatColour(SWEMCoatColor.CHESTNUT); //TODO: Change to MANOWAR
+					this.setCoatColour(SWEMCoatColor.MAN_O_WAR);
 				else if (randomNum <= 60)
 					this.setCoatColour(SWEMCoatColor.SECRETARIAT);
 				else if (randomNum <= 65)
 					this.setCoatColour(SWEMCoatColor.SERGEANT_RECKLESS);
 				else if (randomNum <= 75)
-					this.setCoatColour(SWEMCoatColor.CHESTNUT); // TODO: CHANGE TO DOLLOR JOHN
+					this.setCoatColour(SWEMCoatColor.DOLLAR_JOHN_WAYNE);
 				else if (randomNum <= 85)
 					this.setCoatColour(SWEMCoatColor.ARIALS_MALLI);
 				else if (randomNum <= 95)

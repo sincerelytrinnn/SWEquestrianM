@@ -1,5 +1,8 @@
+1.16.5-0.3.2.5:
+- Added the missing coats in coat-transformer from Vanilla.
+
 1.16.5-0.3.2.4:
-- Fixed client thinking they had slow fall, after a certain scenario and removing the Amethyst riding boots..
+- Fixed client thinking they had slow fall, after a certain scenario and removing the Amethyst riding boots.
 
 1.16.5-0.3.2.3:
 - Added horse name to saved horse data.
