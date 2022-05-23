@@ -328,8 +328,12 @@ public class SWEM
 
     public static void updateSaveHorseData(SWEMHorseEntityBase horse) {
         HorseData data = horseDataMap.get(horse.getUUID());
-        data.setName(horse.getDisplayName().getString());
-        data.setPos(horse.blockPosition());
+        if (data == null) {
+            data = new HorseData(horse.getUUID(), horse.blockPosition(), horse.getDisplayName().getString());
+        } else {
+            data.setName(horse.getDisplayName().getString());
+            data.setPos(horse.blockPosition());
+        }
         horseDataMap.put(horse.getUUID(), data);
     }
 
