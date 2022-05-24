@@ -1,17 +1,20 @@
-1.16.5-0.3.2.5:
+1.16.5-0.3.2.6-b:
+- Added decorative driving harness
+
+1.16.5-0.3.2.5-b:
 - Added the missing coats in coat-transformer from Vanilla.
 
-1.16.5-0.3.2.4:
+1.16.5-0.3.2.4-b:
 - Fixed client thinking they had slow fall, after a certain scenario and removing the Amethyst riding boots.
 
-1.16.5-0.3.2.3:
+1.16.5-0.3.2.3-b:
 - Added horse name to saved horse data.
 
-1.16.5-0.3.2.2:
+1.16.5-0.3.2.2-b:
 - Fixed a bug where you could set incorrect level values with the /swem setlevel command.
 
-1.16.5-0.3.2.1:
+1.16.5-0.3.2.1-b:
 - Fixed slowfall issue with Amethyst Horse Armor #208
 
-1.16.5-0.3.2.0:
+1.16.5-0.3.2.0-b:
 - Updated player renderer (Way more performant)

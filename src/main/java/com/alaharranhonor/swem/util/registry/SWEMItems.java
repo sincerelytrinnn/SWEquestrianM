@@ -386,6 +386,8 @@ public class SWEMItems {
 	public static final RegistryObject<EnglishLegWraps> ENGLISH_LEG_WRAPS_YELLOW = ITEMS.register("english_leg_wraps_yellow", () -> new EnglishLegWraps("english_leg_wraps_yellow", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
 
 	// BREAST COLLAR
+
+	public static final RegistryObject<WesternBreastCollarItem> DRIVING_HARNESS = ITEMS.register("driving_harness", () -> new WesternBreastCollarItem("driving_harness", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
 	public static final RegistryObject<AdventureBreastCollarItem> ADVENTURE_BREAST_COLLAR = ITEMS.register("adventure_breast_collar", () -> new AdventureBreastCollarItem("adventure_breast_collar", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
 	public static final RegistryObject<WesternBreastCollarItem> WESTERN_BREAST_COLLAR_WHITE = ITEMS.register("western_breast_collar_white", () -> new WesternBreastCollarItem("western_breast_collar_white", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
 	public static final RegistryObject<WesternBreastCollarItem> WESTERN_BREAST_COLLAR_BLACK = ITEMS.register("western_breast_collar_black", () -> new WesternBreastCollarItem("western_breast_collar_black", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
