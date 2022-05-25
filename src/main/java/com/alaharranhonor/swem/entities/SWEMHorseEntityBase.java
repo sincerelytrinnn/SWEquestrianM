@@ -180,6 +180,7 @@ public class SWEMHorseEntityBase
 	public boolean isWalkingBackwards = false;
 	public int kickAnimationTimer;
 	public final static DataParameter<Boolean> IS_EATING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	public int eatAnimationTick;
 	public final static DataParameter<Boolean> IS_LAYING_DOWN = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public final static DataParameter<Boolean> IS_SAD = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 
@@ -252,13 +253,16 @@ public class SWEMHorseEntityBase
 	 */
 	@Override
 	public void handleEntityEvent(byte pId) {
-		if (pId == 127) { // Poop goal
+		if (pId == 10) {
+			this.eatAnimationTick = 63;
+		} else if (pId == 127) { // Poop goal
 			this.poopAnimationTick = 79;
 		} else if (pId == 126) { // Pee goal
 			this.peeAnimationTick = 79;
 		} else {
 			super.handleEntityEvent(pId);
 		}
+
 	}
 
 	/**
@@ -367,6 +371,7 @@ public class SWEMHorseEntityBase
 		this.poopAnimationTick = Math.max(0, this.poopAnimationTick - 1);
 		this.standAnimationTick = Math.max(0, this.standAnimationTick - 1);
 		this.standingTimer = Math.max(0, this.standingTimer - 1);
+		this.eatAnimationTick = Math.max(0, this.eatAnimationTick - 1);
 		this.kickAnimationTimer = Math.max(0, this.kickAnimationTimer - 1);
 		if (!this.level.isClientSide) {
 			if (this.isCrossTied()) {
