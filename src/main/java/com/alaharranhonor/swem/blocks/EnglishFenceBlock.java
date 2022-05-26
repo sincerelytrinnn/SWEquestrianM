@@ -47,7 +47,17 @@ public class EnglishFenceBlock extends HorizontalBlock {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return VoxelShapes.box(0.01, 0.01, 0.01, 0.99, 0.99, 0.99);
+		if (state.getValue(FACING).getAxis() == Direction.Axis.X) {
+			if (state.getValue(PART) == SWEMBlockStateProperties.DoubleBlockSide.RIGHT)
+				return VoxelShapes.box(0.375, 0.75, 0.01, 0.625, 0.99, 0.99); // Beam facing East/West
+
+			return VoxelShapes.box(0.375, 0.01, 0.01, 0.625, 0.99, 0.99); // Arch facing East/West
+		} else {
+			if (state.getValue(PART) == SWEMBlockStateProperties.DoubleBlockSide.RIGHT)
+				return VoxelShapes.box(0.01, 0.75, 0.375, 0.99, 0.99, 0.625); // Beam facing North/south
+
+			return VoxelShapes.box(0.01, 0.01, 0.375, 0.99, 0.99, 0.625); // Arch facing North/South
+		}
 	}
 
 	@Nullable
