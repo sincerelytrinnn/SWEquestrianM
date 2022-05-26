@@ -156,27 +156,10 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 		boolean isInWater = horse.level.getBlockStates(horse.getBoundingBox().contract(0, 0, 0)).allMatch((bs) -> bs.getBlock() == Blocks.WATER);
 
 		if (!isInWater && horse.jumpHeight != 0) {
-			if (horse.jumpHeight > 5.0F) {
-				playRiderAnimation("JumpLvl5Player", "IdlePlayer");
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_5", false).addAnimation(anim.animationName, anim.loop));
-				return PlayState.CONTINUE;
-			} else if (horse.jumpHeight > 4.0F) {
-				playRiderAnimation("JumpLvl4Player", "IdlePlayer");
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_4", false).addAnimation(anim.animationName, anim.loop));
-				return PlayState.CONTINUE;
-			} else if (horse.jumpHeight > 3.0F) {
-				playRiderAnimation("JumpLvl3Player", "IdlePlayer");
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_3", false).addAnimation(anim.animationName, anim.loop));
-				return PlayState.CONTINUE;
-			} else if (horse.jumpHeight > 2.0F) {
-				playRiderAnimation("JumpLvl2Player", "IdlePlayer");
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_2", false).addAnimation(anim.animationName, anim.loop));
-				return PlayState.CONTINUE;
-			} else {
-				playRiderAnimation("JumpLvl1Player", "IdlePlayer");
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Lvl_1", false).addAnimation(anim.animationName, anim.loop));
-				return PlayState.CONTINUE;
-			}
+			int jumpHeight = Math.min((int) horse.jumpHeight, 5);
+			playRiderAnimation(String.format("JumpLvl%dPlayer", jumpHeight), "IdlePlayer");
+			event.getController().setAnimation(new AnimationBuilder().addAnimation(String.format("Jump_Lvl_%d", jumpHeight), false).addAnimation(anim.animationName, anim.loop));
+			return PlayState.CONTINUE;
 		}
 
 
@@ -304,8 +287,8 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
 
 
-		event.getController().setAnimation(new AnimationBuilder().addAnimation("Jump_Level_3", false));
-		return PlayState.CONTINUE;
+		SWEM.LOGGER.error("No animation was found.");
+		return PlayState.STOP;
 	}
 
 	public <E extends IAnimatable> PlayState babyPredicate(AnimationEvent<E> event) {
