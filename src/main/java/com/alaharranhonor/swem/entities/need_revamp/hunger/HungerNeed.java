@@ -67,11 +67,11 @@ public class HungerNeed implements INeed {
 		// 7AM Reset amount of times fed.
 		if (this.getCheckTimes().get(0) == checkTime) {
 			this.removeOverfedEffect();
-			Arrays.fill(this.timesFed, 0);
 		}
 
 		// Reset points every check.
 		Arrays.fill(pointsFromCategory, 0);
+		Arrays.fill(this.timesFed, 0);
 
 		if (this.currentLevel == HungerLevel.STARVING) {
 			this.maxHealthRemoved++;
@@ -179,7 +179,7 @@ public class HungerNeed implements INeed {
 		}
 	}
 
-	private boolean canAddPointsToCategory(int index) {
+	public boolean canAddPointsToCategory(int index) {
 		if (index == 0) {
 			return pointsFromCategory[index] < MAX_TREAT_POINTS;
 		} else if (index == 1) {
