@@ -15,32 +15,34 @@ package com.alaharranhonor.swem.blocks;
  * THE SOFTWARE.
  */
 
-import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.tileentity.GrainFeederTE;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.item.*;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.DyeColor;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
+import net.minecraft.world.World;
+import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nullable;
-
-import net.minecraft.block.AbstractBlock.Properties;
-import net.minecraft.world.World;
 
 public class GrainFeederBlock extends HorizontalBlock {
 
@@ -72,6 +74,36 @@ public class GrainFeederBlock extends HorizontalBlock {
 		return this.colour;
 	}
 
+	/**
+	 * Called throughout the code as a replacement for block instanceof BlockContainer
+	 * Moving this to the Block base class allows for mods that wish to extend vanilla
+	 * blocks, and also want to have a tile entity on that block, may.
+	 * <p>
+	 * Return true from this function to specify this block has a tile entity.
+	 *
+	 * @param state State of the current block
+	 * @return True if block has a tile entity, false otherwise
+	 */
+	@Override
+	public boolean hasTileEntity(BlockState state) {
+		return true;
+	}
+
+	/**
+	 * Called throughout the code as a replacement for ITileEntityProvider.createNewTileEntity
+	 * Return the same thing you would from that function.
+	 * This will fall back to ITileEntityProvider.createNewTileEntity(World) if this block is a ITileEntityProvider
+	 *
+	 * @param state The state of the current block
+	 * @param world The world to create the TE in
+	 * @return A instance of a class extending TileEntity
+	 */
+	@org.jetbrains.annotations.Nullable
+	@Override
+	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+		return new GrainFeederTE();
+	}
+
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
@@ -92,17 +124,23 @@ public class GrainFeederBlock extends HorizontalBlock {
 
 	@Override
 	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		ItemStack itemstack = player.getItemInHand(handIn);
+		ItemStack itemStack = player.getItemInHand(handIn);
 		boolean isOccupied = state.getValue(OCCUPIED);
-		if (itemstack.isEmpty() || isOccupied) {
+		if (itemStack.isEmpty() || isOccupied) {
 			return ActionResultType.PASS;
 		} else {
-			Item item = itemstack.getItem();
+			Item item = itemStack.getItem();
 			if (item == SWEMItems.SWEET_FEED_OPENED.get()) {
+
+				GrainFeederTE te = (GrainFeederTE) worldIn.getBlockEntity(pos);
+
+				te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent((handler) -> {
+					handler.insertItem(0, itemStack, false);
+				});
+
 				if (!player.abilities.instabuild) {
 					player.getItemInHand(handIn).hurtAndBreak(1, player, playerEntity -> {});
 				}
-				this.occupyBlock(worldIn, pos, state);
 
 				return ActionResultType.CONSUME;
 			} else {

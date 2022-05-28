@@ -15,27 +15,33 @@ package com.alaharranhonor.swem.blocks;
  * THE SOFTWARE.
  */
 
-import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.tileentity.SlowFeederTE;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SixWayBlock;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.item.*;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.DyeColor;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.items.CapabilityItemHandler;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 public class SlowFeederBlock extends Block {
 
@@ -68,10 +74,39 @@ public class SlowFeederBlock extends Block {
 		return this.colour;
 	}
 
+	/**
+	 * Called throughout the code as a replacement for block instanceof BlockContainer
+	 * Moving this to the Block base class allows for mods that wish to extend vanilla
+	 * blocks, and also want to have a tile entity on that block, may.
+	 * <p>
+	 * Return true from this function to specify this block has a tile entity.
+	 *
+	 * @param state State of the current block
+	 * @return True if block has a tile entity, false otherwise
+	 */
+	@Override
+	public boolean hasTileEntity(BlockState state) {
+		return true;
+	}
+
+	/**
+	 * Called throughout the code as a replacement for ITileEntityProvider.createNewTileEntity
+	 * Return the same thing you would from that function.
+	 * This will fall back to ITileEntityProvider.createNewTileEntity(World) if this block is a ITileEntityProvider
+	 *
+	 * @param state The state of the current block
+	 * @param world The world to create the TE in
+	 * @return A instance of a class extending TileEntity
+	 */
+	@Nullable
+	@Override
+	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+		return new SlowFeederTE();
+	}
+
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		IBlockReader iblockreader = context.getLevel();
 		BlockPos blockpos = context.getClickedPos();
-		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
 		BlockPos blockpos1 = blockpos.north();
 		BlockPos blockpos2 = blockpos.east();
 		BlockPos blockpos3 = blockpos.south();
@@ -89,40 +124,28 @@ public class SlowFeederBlock extends Block {
 		if (itemstack.isEmpty()) {
 			return ActionResultType.PASS;
 		} else {
-			int level_swem = state.getValue(LEVEL);
+			int hayLevel = state.getValue(LEVEL);
 			Item item = itemstack.getItem();
-			if (item == SWEMBlocks.QUALITY_BALE_ITEM.get()) {
-				if (level_swem == 0) {
-					this.setHayLevel(worldIn, pos, state, 2);
-					if (!player.isCreative()) {
-						itemstack.shrink(1);
-					}
-					return ActionResultType.sidedSuccess(worldIn.isClientSide);
-				} else if (level_swem == 1) {
-					this.setHayLevel(worldIn, pos, state, level_swem + 1);
-					if (!player.isCreative()) {
-						itemstack.shrink(1);
-						player.addItem(new ItemStack(SWEMBlocks.QUALITY_BALE_SLAB_ITEM.get()));
-					}
-					return ActionResultType.sidedSuccess(worldIn.isClientSide);
-				} else {
-					return ActionResultType.PASS;
-				}
+			SlowFeederTE te = (SlowFeederTE) worldIn.getBlockEntity(pos);
 
-			} else if (item == SWEMBlocks.QUALITY_BALE_SLAB_ITEM.get()) {
-				if (level_swem < 2) {
-					this.setHayLevel(worldIn, pos, state, level_swem + 1);
-					if (!player.isCreative()) {
-						itemstack.shrink(1);
-					}
-					return ActionResultType.sidedSuccess(worldIn.isClientSide);
-				} else {
-					return ActionResultType.PASS;
-				}
-			} else {
-				return ActionResultType.PASS;
+			ItemStack copy = itemstack.copy();
+
+			if (!player.isCreative())
+				itemstack.shrink(1);
+
+			copy.setCount(1);
+			AtomicReference<ItemStack> returnedStack = new AtomicReference<>();
+			te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent((handler) -> {
+				returnedStack.set(handler.insertItem(0, copy, false));
+			});
+
+			if (returnedStack.get() != null && !player.isCreative()) {
+				player.addItem(returnedStack.get());
 			}
+
+			return ActionResultType.CONSUME;
 		}
+
 	}
 
 	/**
@@ -153,47 +176,4 @@ public class SlowFeederBlock extends Block {
 		return VoxelShapes.box(0.01, 0.01, 0.01, 0.99, 1.5, 0.99);
 	}
 
-	/**
-	 * Is feedable boolean.
-	 *
-	 * @param worldIn the world in
-	 * @param state   the state
-	 * @return the boolean
-	 */
-	public boolean isFeedable(World worldIn, BlockState state) {
-		int level = state.getValue(LEVEL);
-
-		if (level > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Sets hay level.
-	 *
-	 * @param worldIn the world in
-	 * @param pos     the pos
-	 * @param state   the state
-	 * @param level   the level
-	 */
-	public void setHayLevel(World worldIn, BlockPos pos, BlockState state, int level) {
-		worldIn.setBlock(pos, state.setValue(LEVEL, Integer.valueOf(MathHelper.clamp(level, 0, 2))), 3);
-	}
-
-	/**
-	 * Eat.
-	 *
-	 * @param worldIn the world in
-	 * @param pos     the pos
-	 * @param state   the state
-	 */
-	public void eat(World worldIn, BlockPos pos, BlockState state) {
-		int level = state.getValue(LEVEL);
-
-		if ( level > 0 ) {
-			worldIn.setBlock(pos, state.setValue(LEVEL, Integer.valueOf(MathHelper.clamp(level - 1, 0, 2))), 3);
-		}
-	}
 }
