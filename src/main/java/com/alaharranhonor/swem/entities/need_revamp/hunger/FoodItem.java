@@ -16,11 +16,16 @@ package com.alaharranhonor.swem.entities.need_revamp.hunger;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 
 import java.util.function.BiConsumer;
 
+/**
+ * The ordinal (index of the element in this enum) is the priority. So lower down in this file = higher priority, when selecting what to eat.
+ */
 public enum FoodItem {
 
 	// Grass Feeds.
@@ -30,8 +35,8 @@ public enum FoodItem {
 	ALFALFA_BUSHEL(Ingredient.of(SWEMItems.ALFALFA_BUSHEL.get()), 1, 14, 4, 5, "", FoodItem::doNothing),
 	//TIMOTHY_BALE(Ingredient.of(SWEMBlocks.TIMOTHY_BALE.get()), 1, 10, 4, 5, "", FoodItem::doNothing),
 	//ALFALFA_BALE(Ingredient.of(SWEMBlocks.ALFALFA_BALE.get()), 1, 56, 2, 3, "", FoodItem::doNothing),
-	QUALITY_BALE(Ingredient.of(SWEMBlocks.QUALITY_BALE.get()), 1, 224, 1, 2, "", FoodItem::doNothing),
 	QUALITY_SLAB(Ingredient.of(SWEMBlocks.QUALITY_BALE_SLAB.get()), 1, 112, 2, 3, "", FoodItem::doNothing),
+	QUALITY_BALE(Ingredient.of(SWEMBlocks.QUALITY_BALE.get()), 1, 224, 1, 2, "", FoodItem::doNothing),
 
 	// Sweet feed category.
 	SWEET_FEED(Ingredient.of(SWEMItems.SWEET_FEED_OPENED.get()), 2, 112, 1, 2, "", FoodItem::doNothing);
@@ -86,4 +91,25 @@ public enum FoodItem {
 		int affinityPoints = Integer.parseInt(item.extraData);
 	}
 
+
+	public static int indexOfByItem(Item item) {
+		for (int i = 0; i < values().length; i++) {
+			FoodItem foodItem = values()[i];
+			if (foodItem.getItem().test(new ItemStack(item))) {
+				return i;
+			}
+		}
+		return -1;
+	};
+
+	@Override
+	public String toString() {
+		return "FoodItem{" +
+			"item=" + item +
+			", categoryIndex=" + categoryIndex +
+			", points=" + points +
+			", min=" + min +
+			", max=" + max +
+			'}';
+	}
 }
