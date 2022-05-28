@@ -19,7 +19,6 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.blocks.jumps.JumpBlock;
 import com.alaharranhonor.swem.tileentity.*;
 import net.minecraft.block.Block;
-import net.minecraft.tileentity.SignTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
@@ -53,6 +52,8 @@ public class SWEMTileEntities {
 	public static final RegistryObject<TileEntityType<LockerTE>> LOCKER_TILE_ENTITY = TILE_ENTITY_TYPES.register("locker", () -> TileEntityType.Builder.of(LockerTE::new, SWEMBlocks.LOCKER.get()).build(null));
 	public static final RegistryObject<TileEntityType<HorseArmorRackTE>> HORSE_ARMOR_RACK_TILE_ENTITY = TILE_ENTITY_TYPES.register("horse_armor_rack", () -> TileEntityType.Builder.of(HorseArmorRackTE::new, SWEMBlocks.HORSE_ARMOR_RACK.get()).build(null));
 	public static final RegistryObject<TileEntityType<SWEMSignTE>> SWEM_SIGN = TILE_ENTITY_TYPES.register("swem_sign", () -> TileEntityType.Builder.of(SWEMSignTE::new, SWEMBlocks.WHITEWASH_SIGN.get(), SWEMBlocks.WHITEWASH_WALL_SIGN.get()).build(null));
+	public static final RegistryObject<TileEntityType<SlowFeederTE>> SLOW_FEEDER = TILE_ENTITY_TYPES.register("slow_feeder", () -> TileEntityType.Builder.of(SlowFeederTE::new, SWEMBlocks.SLOW_FEEDERS.stream().map(RegistryObject::get).collect(Collectors.toList()).toArray(new Block[SWEMBlocks.SLOW_FEEDERS.size()])).build(null));
+	public static final RegistryObject<TileEntityType<GrainFeederTE>> GRAIN_FEEDER = TILE_ENTITY_TYPES.register("grain_feeder", () -> TileEntityType.Builder.of(GrainFeederTE::new, SWEMBlocks.GRAIN_FEEDERS.stream().map(RegistryObject::get).collect(Collectors.toList()).toArray(new Block[SWEMBlocks.GRAIN_FEEDERS.size()])).build(null));
 
 	/**
 	 * Get all jump blocks block [ ].
