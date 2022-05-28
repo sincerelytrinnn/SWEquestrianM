@@ -15,10 +15,12 @@ package com.alaharranhonor.swem.entities;
  */
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.client.coats.SWEMCoatColor;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.ai.*;
 import com.alaharranhonor.swem.entities.need_revamp.NeedManager;
+import com.alaharranhonor.swem.entities.need_revamp.hunger.FoodItem;
 import com.alaharranhonor.swem.entities.need_revamp.hunger.HungerNeed;
 import com.alaharranhonor.swem.entities.need_revamp.thirst.ThirstNeed;
 import com.alaharranhonor.swem.entities.progression.ProgressionManager;
@@ -26,11 +28,11 @@ import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
-import com.alaharranhonor.swem.client.coats.SWEMCoatColor;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.items.TrackerItem;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.network.*;
+import com.alaharranhonor.swem.tileentity.HorseFeedable;
 import com.alaharranhonor.swem.util.ClientEventHandlers;
 import com.alaharranhonor.swem.util.SWEMUtil;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
@@ -83,6 +85,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ITag;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -190,6 +193,7 @@ public class SWEMHorseEntityBase
 	public final static DataParameter<Boolean> IS_EATING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public final static DataParameter<Boolean> IS_LAYING_DOWN = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
 	public final static DataParameter<Boolean> IS_SAD = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+	private HorseEatFoodGoal eatFoodGoal;
 
 
 	/**
@@ -238,20 +242,24 @@ public class SWEMHorseEntityBase
 		// TODO: ADD AI TO FOLLOW WHISTLE POSITION AS TOP PRIORITY
 		this.peeGoal = new PeeGoal(this, 4.0d);
 		this.poopGoal = new PoopGoal(this);
+		this.eatFoodGoal = new HorseEatFoodGoal(this);
 		//this.goalSelector.addGoal(0, new SwimGoal(this));
+
 		this.goalSelector.addGoal(1, new PanicGoal(this, 4.0D)); // Unsure why this needs a lower value than the other goals. 4.0 Would make it run at insane speeds.
 		this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 4.0D));
 		this.goalSelector.addGoal(2, new BreedGoal(this, 4.0d));
+		this.goalSelector.addGoal(2, new HorseAvoidEntityGoal<>(this, PigEntity.class, 12.0f, 4.0d, 5.5d));
 		this.goalSelector.addGoal(3, new TemptGoal(this, 4.0D, TEMPTATION_ITEMS, false));
 		this.goalSelector.addGoal(4, new FollowParentGoal(this, 4.0D));
-		this.goalSelector.addGoal(2, new HorseAvoidEntityGoal<>(this, PigEntity.class, 12.0f, 4.0d, 5.5d));
-		this.goalSelector.addGoal(5, this.poopGoal);
-		this.goalSelector.addGoal(5, this.peeGoal);
-		this.goalSelector.addGoal(6, new HorseWaterAvoidingRandomWalkingGoal(this, 4.0D)); //Speed 4.0 looks like a good speed, plus it triggers anim.
-		this.goalSelector.addGoal(7, new LookForFoodGoal(this, 4.0d));
-		this.goalSelector.addGoal(7, new LookForWaterGoal(this, 4.0d));
+		this.goalSelector.addGoal(5, this.eatFoodGoal);
+		this.goalSelector.addGoal(6, new HorseEatGrassGoal(this));
+		this.goalSelector.addGoal(7, this.poopGoal);
+		this.goalSelector.addGoal(7, this.peeGoal);
+		//this.goalSelector.addGoal(7, new LookForFoodGoal(this, 4.0d));
+		//this.goalSelector.addGoal(7, new LookForWaterGoal(this, 4.0d));
 		//this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-		this.goalSelector.addGoal(9, new CustomLookRandomlyGoal(this));
+		this.goalSelector.addGoal(8, new HorseWaterAvoidingRandomWalkingGoal(this, 4.0D)); //Speed 4.0 looks like a good speed, plus it triggers anim.
+		//this.goalSelector.addGoal(9, new CustomLookRandomlyGoal(this));
 	}
 
 
@@ -362,7 +370,69 @@ public class SWEMHorseEntityBase
 	protected void customServerAiStep() {
 		this.peeAnimationTick = this.peeGoal.getPeeTimer();
 		this.poopAnimationTick = this.poopGoal.getPoopTimer();
+
+		if (this.tickCount % 100 == 0) {
+			// Do bestFoodSourcePos check.
+			checkForBestFoodSource();
+		}
+
+
 		super.customServerAiStep();
+	}
+
+
+	public void checkForBestFoodSource() {
+		if (this.eatFoodGoal.hasTarget()) {
+			return;
+		}
+		BlockPos currentPos = this.blockPosition();
+
+		final BlockPos[] bestPos = new BlockPos[1];
+		final int[] bestIndex = {-1};
+
+
+		BlockPos.betweenClosedStream(new AxisAlignedBB(currentPos).inflate(30, 3, 30)).forEach((pos) -> {
+			BlockState state = this.level.getBlockState(pos);
+
+			Item checkItem;
+			if (state.hasTileEntity()) {
+				TileEntity te = this.level.getBlockEntity(pos);
+
+				if (te instanceof HorseFeedable) {
+					HorseFeedable feedable = (HorseFeedable) te;
+					if (!feedable.isEmpty(0)) {
+						checkItem = feedable.peekStack(0).getItem();
+					} else {
+						// Empty feedable.
+						checkItem = Items.AIR;
+					}
+				} else {
+					// Not a Feedable TE.
+					checkItem = Items.AIR;
+				}
+				// Check if TileEntity is instanceof HorseFeedable or smth.
+
+			} else {
+				checkItem = state.getBlock().asItem();
+			}
+
+			int foundIndex = FoodItem.indexOfByItem(checkItem);
+			boolean canAddPoints = false;
+			if (foundIndex > -1) {
+				canAddPoints = ((HungerNeed) this.getNeeds().getNeed("hunger")).canAddPointsToCategory(FoodItem.values()[foundIndex].getCategoryIndex());
+			}
+
+			if (foundIndex > 0 && foundIndex > bestIndex[0] && canAddPoints) {
+				bestIndex[0] = foundIndex;
+				bestPos[0] = pos.immutable();
+			}
+
+		});
+
+		if (bestIndex[0] > 0) {
+			this.eatFoodGoal.setup(bestPos[0]);
+		}
+
 	}
 
 	public void awardIntegerStat(DataParameter<Integer> stat, int amount) {
@@ -3647,6 +3717,10 @@ public class SWEMHorseEntityBase
 	public Vector3d getLeashOffset() {
 		// Makes the leash render from the head of the horse instead of the front body.
 		return super.getLeashOffset().add(0, 0, this.getBbWidth() * 0.7);
+	}
+
+	public HorseEatFoodGoal getEatFoodGoal() {
+		return this.eatFoodGoal;
 	}
 
 	public enum HorseSpeed {
