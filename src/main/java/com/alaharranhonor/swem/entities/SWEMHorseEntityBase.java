@@ -1752,7 +1752,7 @@ public class SWEMHorseEntityBase
 				else if (randomNum <= 76)
 					this.setCoatColour(SWEMCoatColor.FINBAR_FOALEY_JACKSEPTICEYE);
 				else if (randomNum <= 86)
-					this.setCoatColour(SWEMCoatColor.THIS_ESME_JOEY);
+					this.setCoatColour(SWEMCoatColor.JOEY_THIS_ESME);
 				else if (randomNum <= 93)
 					this.setCoatColour(SWEMCoatColor.GOOSEBERRY_JUSTPEACHY);
 				else
@@ -1773,7 +1773,7 @@ public class SWEMHorseEntityBase
 				else if (randomNum <= 70)
 					this.setCoatColour(SWEMCoatColor.LEOPARD);
 				else if (randomNum <= 77)
-					this.setCoatColour(SWEMCoatColor.ARIALS_MALLI);
+					this.setCoatColour(SWEMCoatColor.ARIELS_MALLI);
 				else if (randomNum <= 84)
 					this.setCoatColour(SWEMCoatColor.NERO_STARDUST);
 				else if (randomNum <= 93)
@@ -1800,7 +1800,7 @@ public class SWEMHorseEntityBase
 				else if (randomNum <= 75)
 					this.setCoatColour(SWEMCoatColor.DOLLAR_JOHN_WAYNE);
 				else if (randomNum <= 85)
-					this.setCoatColour(SWEMCoatColor.ARIALS_MALLI);
+					this.setCoatColour(SWEMCoatColor.ARIELS_MALLI);
 				else if (randomNum <= 95)
 					this.setCoatColour(SWEMCoatColor.EL_CAZADOR_MALLI);
 				else
@@ -1838,7 +1838,7 @@ public class SWEMHorseEntityBase
 				else if (randomNum <= 75)
 					this.setCoatColour(SWEMCoatColor.APPY);
 				else if (randomNum <= 82)
-					this.setCoatColour(SWEMCoatColor.ARIALS_MALLI);
+					this.setCoatColour(SWEMCoatColor.ARIELS_MALLI);
 				else if (randomNum <= 83)
 					this.setCoatColour(SWEMCoatColor.FRANK_STEVECV);
 				else
