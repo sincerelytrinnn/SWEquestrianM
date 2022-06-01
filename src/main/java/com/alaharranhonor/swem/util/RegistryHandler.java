@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.util;
 
-
 /*
  * All Rights Reserved
  *
@@ -23,47 +22,38 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 
 public class RegistryHandler {
 
-	/**
-	 * Sets .
-	 *
-	 * @param <T>   the type parameter
-	 * @param entry the entry
-	 * @param name  the name
-	 * @return the
-	 */
-	public static <T extends IForgeRegistryEntry<T>> T setup(final T entry, final String name) {
-        return setup(entry, new ResourceLocation(SWEM.MOD_ID, name));
-    }
+  /**
+   * Sets .
+   *
+   * @param <T> the type parameter
+   * @param entry the entry
+   * @param name the name
+   * @return the
+   */
+  public static <T extends IForgeRegistryEntry<T>> T setup(final T entry, final String name) {
+    return setup(entry, new ResourceLocation(SWEM.MOD_ID, name));
+  }
 
-	/**
-	 * Sets .
-	 *
-	 * @param <T>          the type parameter
-	 * @param entry        the entry
-	 * @param registryName the registry name
-	 * @return the
-	 */
-	public static <T extends IForgeRegistryEntry<T>> T setup(final T entry, final ResourceLocation registryName) {
-        entry.setRegistryName(registryName);
-        return entry;
-    }
+  /**
+   * Sets .
+   *
+   * @param <T> the type parameter
+   * @param entry the entry
+   * @param registryName the registry name
+   * @return the
+   */
+  public static <T extends IForgeRegistryEntry<T>> T setup(
+      final T entry, final ResourceLocation registryName) {
+    entry.setRegistryName(registryName);
+    return entry;
+  }
 
-	/**
-	 * Init.
-	 *
-	 * @param modBus the mod bus
-	 */
-	public static void init(IEventBus modBus){
-        SWEMItems.init(modBus);
-        SWEMBlocks.init(modBus);
-        SWEMEntities.init(modBus);
-        SWEMContainers.init(modBus);
-        SWEMParticles.init(modBus);
-        SWEMTileEntities.init(modBus);
-        SWEMPaintings.init(modBus);
-        SWEMStructure.init(modBus);
-        SWEMEnchantments.init(modBus);
-        SWEMLootModifiers.init(modBus);
-    }
+  /**
+   * Init.
+   *
+   * @param modBus the mod bus
+   */
+  public static void init(IEventBus modBus) {
 
+  }
 }

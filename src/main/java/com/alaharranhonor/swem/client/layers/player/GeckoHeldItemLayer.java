@@ -29,46 +29,83 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.math.vector.Vector3f;
 
-public class GeckoHeldItemLayer extends LayerRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>> implements IGeckoRenderLayer {
-	private RiderRenderPlayer renderPlayerAnimated;
-	public GeckoHeldItemLayer(RiderRenderPlayer entityRendererIn) {
-		super(entityRendererIn);
-		renderPlayerAnimated = entityRendererIn;
-	}
+public class GeckoHeldItemLayer
+    extends LayerRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>>
+    implements IGeckoRenderLayer {
+  private RiderRenderPlayer renderPlayerAnimated;
 
-	@Override
-	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, AbstractClientPlayerEntity entitylivingbaseIn, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
-		if (!renderPlayerAnimated.getAnimatedPlayerModel().isInitialized()) return;
-		boolean flag = entitylivingbaseIn.getMainArm() == HandSide.RIGHT;
-		ItemStack mainHandStack = entitylivingbaseIn.getMainHandItem();
-		ItemStack offHandStack = entitylivingbaseIn.getOffhandItem();
+  public GeckoHeldItemLayer(RiderRenderPlayer entityRendererIn) {
+    super(entityRendererIn);
+    renderPlayerAnimated = entityRendererIn;
+  }
 
-		ItemStack itemstack = flag ? offHandStack : mainHandStack;
-		ItemStack itemstack1 = flag ? mainHandStack : offHandStack;
-		if (!itemstack.isEmpty() || !itemstack1.isEmpty()) {
-			matrixStackIn.pushPose();
-			if (this.getParentModel().young) {
-				float f = 0.5F;
-				matrixStackIn.translate(0.0D, 0.75D, 0.0D);
-				matrixStackIn.scale(0.5F, 0.5F, 0.5F);
-			}
+  @Override
+  public void render(
+      MatrixStack matrixStackIn,
+      IRenderTypeBuffer bufferIn,
+      int packedLightIn,
+      AbstractClientPlayerEntity entitylivingbaseIn,
+      float pLimbSwing,
+      float pLimbSwingAmount,
+      float pPartialTicks,
+      float pAgeInTicks,
+      float pNetHeadYaw,
+      float pHeadPitch) {
+    if (!renderPlayerAnimated.getAnimatedPlayerModel().isInitialized()) return;
+    boolean flag = entitylivingbaseIn.getMainArm() == HandSide.RIGHT;
+    ItemStack mainHandStack = entitylivingbaseIn.getMainHandItem();
+    ItemStack offHandStack = entitylivingbaseIn.getOffhandItem();
 
-			this.func_229135_a_(entitylivingbaseIn, itemstack1, ItemCameraTransforms.TransformType.THIRD_PERSON_RIGHT_HAND, HandSide.RIGHT, matrixStackIn, bufferIn, packedLightIn);
-			this.func_229135_a_(entitylivingbaseIn, itemstack, ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND, HandSide.LEFT, matrixStackIn, bufferIn, packedLightIn);
-			matrixStackIn.popPose();
-		}
-	}
+    ItemStack itemstack = flag ? offHandStack : mainHandStack;
+    ItemStack itemstack1 = flag ? mainHandStack : offHandStack;
+    if (!itemstack.isEmpty() || !itemstack1.isEmpty()) {
+      matrixStackIn.pushPose();
+      if (this.getParentModel().young) {
+        float f = 0.5F;
+        matrixStackIn.translate(0.0D, 0.75D, 0.0D);
+        matrixStackIn.scale(0.5F, 0.5F, 0.5F);
+      }
 
-	private void func_229135_a_(LivingEntity entity, ItemStack itemStack, ItemCameraTransforms.TransformType transformType, HandSide side, MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLightIn) {
-		if (!itemStack.isEmpty()) {
-			String boneName = side == HandSide.RIGHT ? "RightHeldItem" : "LeftHeldItem";
-			CustomGeoBone bone = renderPlayerAnimated.getAnimatedPlayerModel().getCustomBone(boneName);
-			MatrixStack newMatrixStack = new MatrixStack();
-			newMatrixStack.last().normal().mul(bone.getWorldSpaceNormal());
-			newMatrixStack.last().pose().multiply(bone.getWorldSpaceXform());
-			newMatrixStack.mulPose(Vector3f.XP.rotationDegrees(-90.0F));
-			boolean flag = side == HandSide.LEFT;
-			Minecraft.getInstance().getItemInHandRenderer().renderItem(entity, itemStack, transformType, flag, newMatrixStack, buffer, packedLightIn);
-		}
-	}
+      this.func_229135_a_(
+          entitylivingbaseIn,
+          itemstack1,
+          ItemCameraTransforms.TransformType.THIRD_PERSON_RIGHT_HAND,
+          HandSide.RIGHT,
+          matrixStackIn,
+          bufferIn,
+          packedLightIn);
+      this.func_229135_a_(
+          entitylivingbaseIn,
+          itemstack,
+          ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND,
+          HandSide.LEFT,
+          matrixStackIn,
+          bufferIn,
+          packedLightIn);
+      matrixStackIn.popPose();
+    }
+  }
+
+  private void func_229135_a_(
+      LivingEntity entity,
+      ItemStack itemStack,
+      ItemCameraTransforms.TransformType transformType,
+      HandSide side,
+      MatrixStack matrixStack,
+      IRenderTypeBuffer buffer,
+      int packedLightIn) {
+    if (!itemStack.isEmpty()) {
+      String boneName = side == HandSide.RIGHT ? "RightHeldItem" : "LeftHeldItem";
+      CustomGeoBone bone = renderPlayerAnimated.getAnimatedPlayerModel().getCustomBone(boneName);
+      MatrixStack newMatrixStack = new MatrixStack();
+      newMatrixStack.last().normal().mul(bone.getWorldSpaceNormal());
+      newMatrixStack.last().pose().multiply(bone.getWorldSpaceXform());
+      newMatrixStack.mulPose(Vector3f.XP.rotationDegrees(-90.0F));
+      boolean flag = side == HandSide.LEFT;
+      Minecraft.getInstance()
+          .getItemInHandRenderer()
+          .renderItem(
+              entity, itemStack, transformType, flag, newMatrixStack, buffer, packedLightIn);
+    }
+  }
 }

@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.blocks;
 
-
 /*
  * All Rights Reserved
  *
@@ -15,23 +14,18 @@ package com.alaharranhonor.swem.blocks;
  * THE SOFTWARE.
  */
 
-import net.minecraft.block.Block;
-import net.minecraft.block.RotatedPillarBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.RotatedPillarBlock;
+import net.minecraft.util.Direction;
 
 public class HayBlockBase extends RotatedPillarBlock {
-	/**
-	 * Instantiates a new Hay block base.
-	 *
-	 * @param properties the properties
-	 */
-	public HayBlockBase(AbstractBlock.Properties properties) {
-        super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(AXIS, Direction.Axis.Y));
-    }
+  /**
+   * Instantiates a new Hay block base.
+   *
+   * @param properties the properties
+   */
+  public HayBlockBase(AbstractBlock.Properties properties) {
+    super(properties);
+    this.registerDefaultState(this.stateDefinition.any().setValue(AXIS, Direction.Axis.Y));
+  }
 }

@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.items;
 
-
 /*
  * All Rights Reserved
  *
@@ -15,5 +14,4 @@ package com.alaharranhonor.swem.items;
  * THE SOFTWARE.
  */
 
-public class PoopItem extends ItemBase{
-}
+public class PoopItem extends ItemBase {}

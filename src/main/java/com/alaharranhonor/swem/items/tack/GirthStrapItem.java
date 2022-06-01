@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.items.tack;
 
-
 /*
  * All Rights Reserved
  *
@@ -19,7 +18,6 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.ISWEMEquipable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -29,61 +27,64 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import net.minecraft.item.Item.Properties;
-
 public class GirthStrapItem extends HorseTackItem {
 
-	private final ResourceLocation texture;
+  private final ResourceLocation texture;
 
-	/**
-	 * Instantiates a new Girth strap item.
-	 *
-	 * @param textureName the texture name
-	 * @param properties  the properties
-	 */
-	public GirthStrapItem(String textureName, Properties properties) {
-		this(new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/girth_strap/" + textureName + ".png"), properties);
+  /**
+   * Instantiates a new Girth strap item.
+   *
+   * @param textureName the texture name
+   * @param properties the properties
+   */
+  public GirthStrapItem(String textureName, Properties properties) {
+    this(
+        new ResourceLocation(
+            SWEM.MOD_ID, "textures/entity/horse/girth_strap/" + textureName + ".png"),
+        properties);
+  }
 
-	}
+  /**
+   * Instantiates a new Girth strap item.
+   *
+   * @param texture the texture
+   * @param properties the properties
+   */
+  public GirthStrapItem(ResourceLocation texture, Properties properties) {
+    super(properties);
+    this.texture = texture;
+  }
 
-	/**
-	 * Instantiates a new Girth strap item.
-	 *
-	 * @param texture    the texture
-	 * @param properties the properties
-	 */
-	public GirthStrapItem(ResourceLocation texture, Properties properties) {
-		super(properties);
-		this.texture = texture;
-	}
+  public ActionResultType interactLivingEntity(
+      ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+    if (target instanceof ISWEMEquipable && target.isAlive()) {
+      ISWEMEquipable iequipable = (ISWEMEquipable) target;
+      if (playerIn.level.isClientSide && !iequipable.canEquipGirthStrap()) {
+        playerIn.displayClientMessage(
+            new StringTextComponent("You need to equip a Saddle first."), true);
+        return ActionResultType.FAIL;
+      }
+      if ((!iequipable.hasGirthStrap() || playerIn.isSecondaryUseActive())
+          && iequipable.isSaddleable(playerIn)
+          && iequipable.canEquipGirthStrap()) {
+        if (!playerIn.level.isClientSide) {
+          iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
+          if (!playerIn.abilities.instabuild) stack.shrink(1);
+        }
 
-	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-		if (target instanceof ISWEMEquipable && target.isAlive()) {
-			ISWEMEquipable iequipable = (ISWEMEquipable)target;
-			if (playerIn.level.isClientSide && !iequipable.canEquipGirthStrap()) {
-				playerIn.displayClientMessage(new StringTextComponent("You need to equip a Saddle first."), true);
-				return ActionResultType.FAIL;
-			}
-			if ((!iequipable.hasGirthStrap() || playerIn.isSecondaryUseActive()) && iequipable.isSaddleable(playerIn) && iequipable.canEquipGirthStrap()) {
-				if (!playerIn.level.isClientSide) {
-					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
-					if (!playerIn.abilities.instabuild)
-						stack.shrink(1);
-				}
+        return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
+      }
+    }
+    return ActionResultType.PASS;
+  }
 
-				return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
-			}
-		}
-		return ActionResultType.PASS;
-	}
-
-	/**
-	 * Gets armor texture.
-	 *
-	 * @return the armor texture
-	 */
-	@OnlyIn(Dist.CLIENT)
-	public ResourceLocation getArmorTexture() {
-		return texture;
-	}
+  /**
+   * Gets armor texture.
+   *
+   * @return the armor texture
+   */
+  @OnlyIn(Dist.CLIENT)
+  public ResourceLocation getArmorTexture() {
+    return texture;
+  }
 }

@@ -14,15 +14,14 @@ package com.alaharranhonor.swem.items.tack;
  * THE SOFTWARE.
  */
 
-
 public class AdventureLegWraps extends LegWrapsItem {
-	/**
-	 * Instantiates a new Adventure leg wraps item.
-	 *
-	 * @param textureName the texture name
-	 * @param properties  the properties
-	 */
-	public AdventureLegWraps(String textureName, Properties properties) {
-		super(textureName, properties);
-	}
+  /**
+   * Instantiates a new Adventure leg wraps item.
+   *
+   * @param textureName the texture name
+   * @param properties the properties
+   */
+  public AdventureLegWraps(String textureName, Properties properties) {
+    super(textureName, properties);
+  }
 }

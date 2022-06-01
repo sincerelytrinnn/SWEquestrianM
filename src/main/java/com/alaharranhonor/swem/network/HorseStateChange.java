@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.network;
 
-
 /*
  * All Rights Reserved
  *
@@ -15,142 +14,169 @@ package com.alaharranhonor.swem.network;
  * THE SOFTWARE.
  */
 
+import static com.alaharranhonor.swem.entities.HorseFlightController.*;
+
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
+import java.util.function.Supplier;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 
-import java.util.function.Supplier;
-
-import static com.alaharranhonor.swem.entities.HorseFlightController.*;
-
 public class HorseStateChange {
 
-	private int action;
-	private int entityID;
+  private int action;
+  private int entityID;
 
-	private boolean failed;
+  private boolean failed;
 
-	/**
-	 * Instantiates a new Horse state change.
-	 *
-	 * @param action   the action
-	 * @param entityID the entity id
-	 */
-	public HorseStateChange(int action, int entityID) {
-		this.action = action;
-		this.entityID = entityID;
-		this.failed = false;
-	}
+  /**
+   * Instantiates a new Horse state change.
+   *
+   * @param action the action
+   * @param entityID the entity id
+   */
+  public HorseStateChange(int action, int entityID) {
+    this.action = action;
+    this.entityID = entityID;
+    this.failed = false;
+  }
 
-	/**
-	 * Instantiates a new Horse state change.
-	 *
-	 * @param failed the failed
-	 */
-	public HorseStateChange(boolean failed) {
-		this.failed = failed;
-	}
+  /**
+   * Instantiates a new Horse state change.
+   *
+   * @param failed the failed
+   */
+  public HorseStateChange(boolean failed) {
+    this.failed = failed;
+  }
 
-	/**
-	 * Decode horse state change.
-	 *
-	 * @param buf the buf
-	 * @return the horse state change
-	 */
-	public static HorseStateChange decode(ByteBuf buf) {
-		try {
-			int action = buf.readInt();
-			int entityID = buf.readInt();
-			return new HorseStateChange(action, entityID);
-		} catch (IndexOutOfBoundsException e) {
-			SWEM.LOGGER.error("HorseStateChange: Unexpected end of packet.\nMessage: " + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()), e);
-			return new HorseStateChange(true);
-		}
-	}
+  /**
+   * Decode horse state change.
+   *
+   * @param buf the buf
+   * @return the horse state change
+   */
+  public static HorseStateChange decode(ByteBuf buf) {
+    try {
+      int action = buf.readInt();
+      int entityID = buf.readInt();
+      return new HorseStateChange(action, entityID);
+    } catch (IndexOutOfBoundsException e) {
+      SWEM.LOGGER.error(
+          "HorseStateChange: Unexpected end of packet.\nMessage: "
+              + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()),
+          e);
+      return new HorseStateChange(true);
+    }
+  }
 
-	/**
-	 * Encode.
-	 *
-	 * @param msg    the msg
-	 * @param buffer the buffer
-	 */
-	public static void encode(HorseStateChange msg, PacketBuffer buffer) {
-		buffer.writeInt(msg.action);
-		buffer.writeInt(msg.entityID);
-	}
+  /**
+   * Encode.
+   *
+   * @param msg the msg
+   * @param buffer the buffer
+   */
+  public static void encode(HorseStateChange msg, PacketBuffer buffer) {
+    buffer.writeInt(msg.action);
+    buffer.writeInt(msg.entityID);
+  }
 
-	/**
-	 * Handle.
-	 *
-	 * @param msg the msg
-	 * @param ctx the ctx
-	 */
-	public static void handle(HorseStateChange msg, Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) ctx.get().getSender().level.getEntity(msg.entityID);
-			switch (msg.action) {
-
-				case 0: {
-					horse.getNeeds().getThirst().incrementState();
-					break;
-				}
-				case 1: {
-					horse.progressionManager.getAffinityLeveling().desensitize(new ItemStack(SWEMItems.BELLS.get()));
-					break;
-				}
-				case 2: {
-					horse.progressionManager.getAffinityLeveling().desensitize(new ItemStack(SWEMItems.HOOLAHOOP.get()));
-					break;
-				}
-				case 3: {
-					horse.progressionManager.getAffinityLeveling().desensitize(new ItemStack(SWEMItems.POMPOM.get()));
-					break;
-				}
-				case 4: {
-					horse.progressionManager.getAffinityLeveling().desensitize(new ItemStack(SWEMItems.SHOPPING_BAG.get()));
-					break;
-				}
-				case 5: {
-					horse.progressionManager.getAffinityLeveling().desensitize(new ItemStack(SWEMItems.TARP.get()));
-					break;
-				}
-				case 7: {
-					horse.getEntityData().set(SWEMHorseEntityBase.JUMPING, true);
-					break;
-				}
-				case 8: {
-					horse.setIsJumping(false);
-					break;
-				}
-				case 9: {
-					horse.cycleRidingPermission();
-					break;
-				}
-				case 10: {
-					horse.setFlying(!horse.isFlying());
-					if (!horse.isFlying()) {
-						horse.getEntityData().set(isFloating, false);
-						horse.getEntityData().set(isAccelerating, false);
-						horse.getEntityData().set(isSlowingDown, false);
-						horse.getEntityData().set(isTurningLeft, false);
-						horse.getEntityData().set(isTurning, false);
-						horse.getEntityData().set(isStillTurning, false);
-						horse.getEntityData().set(didFlap, false);
-						horse.getEntityData().set(isDiving, false);
-						horse.getEntityData().set(isLaunching, false);
-					} else {
-						horse.getEntityData().set(isLaunching, true);
-					}
-				}
-
-			}
-
-		});
-		ctx.get().setPacketHandled(true);
-	}
+  /**
+   * Handle.
+   *
+   * @param msg the msg
+   * @param ctx the ctx
+   */
+  public static void handle(HorseStateChange msg, Supplier<NetworkEvent.Context> ctx) {
+    ctx.get()
+        .enqueueWork(
+            () -> {
+              SWEMHorseEntityBase horse =
+                  (SWEMHorseEntityBase) ctx.get().getSender().level.getEntity(msg.entityID);
+              switch (msg.action) {
+                case 0:
+                  {
+                    horse.getNeeds().getThirst().incrementState();
+                    break;
+                  }
+                case 1:
+                  {
+                    horse
+                        .progressionManager
+                        .getAffinityLeveling()
+                        .desensitize(new ItemStack(SWEMItems.BELLS.get()));
+                    break;
+                  }
+                case 2:
+                  {
+                    horse
+                        .progressionManager
+                        .getAffinityLeveling()
+                        .desensitize(new ItemStack(SWEMItems.HOOLAHOOP.get()));
+                    break;
+                  }
+                case 3:
+                  {
+                    horse
+                        .progressionManager
+                        .getAffinityLeveling()
+                        .desensitize(new ItemStack(SWEMItems.POMPOM.get()));
+                    break;
+                  }
+                case 4:
+                  {
+                    horse
+                        .progressionManager
+                        .getAffinityLeveling()
+                        .desensitize(new ItemStack(SWEMItems.SHOPPING_BAG.get()));
+                    break;
+                  }
+                case 5:
+                  {
+                    horse
+                        .progressionManager
+                        .getAffinityLeveling()
+                        .desensitize(new ItemStack(SWEMItems.TARP.get()));
+                    break;
+                  }
+                case 7:
+                  {
+                    horse.getEntityData().set(SWEMHorseEntityBase.JUMPING, true);
+                    break;
+                  }
+                case 8:
+                  {
+                    horse.setIsJumping(false);
+                    break;
+                  }
+                case 9:
+                  {
+                    horse.cycleRidingPermission();
+                    break;
+                  }
+                case 10:
+                  {
+                    horse.setFlying(!horse.isFlying());
+                    if (!horse.isFlying()) {
+                      horse.getEntityData().set(isFloating, false);
+                      horse.getEntityData().set(isAccelerating, false);
+                      horse.getEntityData().set(isSlowingDown, false);
+                      horse.getEntityData().set(isTurningLeft, false);
+                      horse.getEntityData().set(isTurning, false);
+                      horse.getEntityData().set(isStillTurning, false);
+                      horse.getEntityData().set(didFlap, false);
+                      horse.getEntityData().set(isDiving, false);
+                      horse.getEntityData().set(isLaunching, false);
+                    } else {
+                      horse.getEntityData().set(isLaunching, true);
+                    }
+                  }
+              }
+            });
+    ctx.get().setPacketHandled(true);
+  }
 }

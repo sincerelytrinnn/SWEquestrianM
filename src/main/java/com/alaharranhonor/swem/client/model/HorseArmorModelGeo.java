@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.client.model;
 
-
 /*
  * All Rights Reserved
  *
@@ -21,20 +20,20 @@ import net.minecraft.util.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 public class HorseArmorModelGeo extends AnimatedGeoModel<SWEMHorseArmorItem> {
-	@Override
-	public ResourceLocation getModelLocation(SWEMHorseArmorItem swemHorseArmorItem) {
-		return new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/armor/" + swemHorseArmorItem.type + ".geo.json");
-	}
+  @Override
+  public ResourceLocation getModelLocation(SWEMHorseArmorItem swemHorseArmorItem) {
+    return new ResourceLocation(
+        SWEM.MOD_ID, "geo/entity/horse/armor/" + swemHorseArmorItem.type + ".geo.json");
+  }
 
-	@Override
-	public ResourceLocation getTextureLocation(SWEMHorseArmorItem swemHorseArmorItem) {
-		return new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + swemHorseArmorItem.type + ".png");
-	}
+  @Override
+  public ResourceLocation getTextureLocation(SWEMHorseArmorItem swemHorseArmorItem) {
+    return new ResourceLocation(
+        SWEM.MOD_ID, "textures/entity/horse/armor/" + swemHorseArmorItem.type + ".png");
+  }
 
-	@Override
-	public ResourceLocation getAnimationFileLocation(SWEMHorseArmorItem swemHorseArmorItem) {
-		return new ResourceLocation(SWEM.MOD_ID, "animations/swem_horse.json"); // Make it dynamic
-	}
-
-
+  @Override
+  public ResourceLocation getAnimationFileLocation(SWEMHorseArmorItem swemHorseArmorItem) {
+    return new ResourceLocation(SWEM.MOD_ID, "animations/swem_horse.json"); // Make it dynamic
+  }
 }

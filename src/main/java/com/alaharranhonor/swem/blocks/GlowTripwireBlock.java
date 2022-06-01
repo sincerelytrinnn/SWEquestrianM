@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.blocks;
 
-
 /*
  * All Rights Reserved
  *
@@ -21,21 +20,19 @@ import net.minecraft.block.TripWireHookBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 
-import net.minecraft.block.AbstractBlock.Properties;
-
 public class GlowTripwireBlock extends TripWireBlock {
-	/**
-	 * Instantiates a new Glow tripwire block.
-	 *
-	 * @param hook       the hook
-	 * @param properties the properties
-	 */
-	public GlowTripwireBlock(TripWireHookBlock hook, Properties properties) {
-		super(hook, properties);
-	}
+  /**
+   * Instantiates a new Glow tripwire block.
+   *
+   * @param hook the hook
+   * @param properties the properties
+   */
+  public GlowTripwireBlock(TripWireHookBlock hook, Properties properties) {
+    super(hook, properties);
+  }
 
-	@Override
-	public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
-		return 15;
-	}
+  @Override
+  public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
+    return 15;
+  }
 }

@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.client.layers;
 
-
 /*
  * All Rights Reserved
  *
@@ -32,43 +31,61 @@ import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 
 public class GirthStrapLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
-	private IGeoRenderer<SWEMHorseEntity> entityRenderer;
+  private IGeoRenderer<SWEMHorseEntity> entityRenderer;
 
-	/**
-	 * Instantiates a new Girth strap layer.
-	 *
-	 * @param entityRendererIn the entity renderer in
-	 */
-	public GirthStrapLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
-		super(entityRendererIn);
-		this.entityRenderer = entityRendererIn;
-	}
+  /**
+   * Instantiates a new Girth strap layer.
+   *
+   * @param entityRendererIn the entity renderer in
+   */
+  public GirthStrapLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
+    super(entityRendererIn);
+    this.entityRenderer = entityRendererIn;
+  }
 
-	@Override
-	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, SWEMHorseEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		ItemStack stack = entity.getGirthStrap();
+  @Override
+  public void render(
+      MatrixStack matrixStackIn,
+      IRenderTypeBuffer bufferIn,
+      int packedLightIn,
+      SWEMHorseEntity entity,
+      float limbSwing,
+      float limbSwingAmount,
+      float partialTicks,
+      float ageInTicks,
+      float netHeadYaw,
+      float headPitch) {
+    ItemStack stack = entity.getGirthStrap();
 
-		if (!stack.isEmpty() && stack.getItem() instanceof GirthStrapItem && entity.getEntityData().get(SWEMHorseEntityBase.RENDER_GIRTH_STRAP) && !GeneralEventHandlers.no_render_tack) {
+    if (!stack.isEmpty()
+        && stack.getItem() instanceof GirthStrapItem
+        && entity.getEntityData().get(SWEMHorseEntityBase.RENDER_GIRTH_STRAP)
+        && !GeneralEventHandlers.no_render_tack) {
 
-			GeoModel horseModel = getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json"));
-			// Hide unneeded bones for performance improvement.
-			horseModel.getBone("main").get().setHidden(false);
+      GeoModel horseModel =
+          getEntityModel()
+              .getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json"));
+      // Hide unneeded bones for performance improvement.
+      horseModel.getBone("main").get().setHidden(false);
 
+      GirthStrapItem girthStrap = (GirthStrapItem) stack.getItem();
 
+      this.entityRenderer.render(
+          horseModel,
+          entity,
+          partialTicks,
+          RenderType.entityCutout(girthStrap.getArmorTexture()),
+          matrixStackIn,
+          bufferIn,
+          bufferIn.getBuffer(RenderType.entityCutout(girthStrap.getArmorTexture())),
+          packedLightIn,
+          OverlayTexture.NO_OVERLAY,
+          1,
+          1,
+          1,
+          1);
 
-			GirthStrapItem girthStrap = (GirthStrapItem)stack.getItem();
-
-			this.entityRenderer.render(horseModel,
-					entity,
-					partialTicks,
-					RenderType.entityCutout(girthStrap.getArmorTexture()),
-					matrixStackIn,
-					bufferIn,
-					bufferIn.getBuffer(RenderType.entityCutout(girthStrap.getArmorTexture())),
-					packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
-			);
-
-			horseModel.getBone("main").get().setHidden(true);
-		}
-	}
+      horseModel.getBone("main").get().setHidden(true);
+    }
+  }
 }

@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.client.layers;
 
-
 /*
  * All Rights Reserved
  *
@@ -31,39 +30,58 @@ import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 
 public class BreastCollarLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
-	private IGeoRenderer<SWEMHorseEntity> entityRenderer;
+  private IGeoRenderer<SWEMHorseEntity> entityRenderer;
 
-	/**
-	 * Instantiates a new Breast collar layer.
-	 *
-	 * @param entityRendererIn the entity renderer in
-	 */
-	public BreastCollarLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
-		super(entityRendererIn);
-		this.entityRenderer = entityRendererIn;
-	}
+  /**
+   * Instantiates a new Breast collar layer.
+   *
+   * @param entityRendererIn the entity renderer in
+   */
+  public BreastCollarLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
+    super(entityRendererIn);
+    this.entityRenderer = entityRendererIn;
+  }
 
-	@Override
-	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, SWEMHorseEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		ItemStack stack = entity.getBreastCollar();
-		if (!stack.isEmpty() && stack.getItem() instanceof BreastCollarItem && !GeneralEventHandlers.no_render_tack) {
+  @Override
+  public void render(
+      MatrixStack matrixStackIn,
+      IRenderTypeBuffer bufferIn,
+      int packedLightIn,
+      SWEMHorseEntity entity,
+      float limbSwing,
+      float limbSwingAmount,
+      float partialTicks,
+      float ageInTicks,
+      float netHeadYaw,
+      float headPitch) {
+    ItemStack stack = entity.getBreastCollar();
+    if (!stack.isEmpty()
+        && stack.getItem() instanceof BreastCollarItem
+        && !GeneralEventHandlers.no_render_tack) {
 
-			GeoModel horseModel = getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json"));
-			// Hide unneeded bones for performance improvement.
-			horseModel.getBone("main").get().setHidden(false);
+      GeoModel horseModel =
+          getEntityModel()
+              .getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json"));
+      // Hide unneeded bones for performance improvement.
+      horseModel.getBone("main").get().setHidden(false);
 
-			BreastCollarItem breastCollar = (BreastCollarItem)stack.getItem();
-			this.entityRenderer.render(horseModel,
-					entity,
-					partialTicks,
-					RenderType.entityCutout(breastCollar.getArmorTexture()),
-					matrixStackIn,
-					bufferIn,
-					bufferIn.getBuffer(RenderType.entityCutout(breastCollar.getArmorTexture())),
-					packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
-			);
+      BreastCollarItem breastCollar = (BreastCollarItem) stack.getItem();
+      this.entityRenderer.render(
+          horseModel,
+          entity,
+          partialTicks,
+          RenderType.entityCutout(breastCollar.getArmorTexture()),
+          matrixStackIn,
+          bufferIn,
+          bufferIn.getBuffer(RenderType.entityCutout(breastCollar.getArmorTexture())),
+          packedLightIn,
+          OverlayTexture.NO_OVERLAY,
+          1,
+          1,
+          1,
+          1);
 
-			horseModel.getBone("main").get().setHidden(true);
-		}
-	}
+      horseModel.getBone("main").get().setHidden(true);
+    }
+  }
 }

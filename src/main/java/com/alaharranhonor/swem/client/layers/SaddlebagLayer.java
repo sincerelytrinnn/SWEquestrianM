@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.client.layers;
 
-
 /*
  * All Rights Reserved
  *
@@ -31,42 +30,61 @@ import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 
 public class SaddlebagLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
-	private IGeoRenderer entityRenderer;
+  private IGeoRenderer entityRenderer;
 
-	/**
-	 * Instantiates a new Saddlebag layer.
-	 *
-	 * @param entityRendererIn the entity renderer in
-	 */
-	public SaddlebagLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
-		super(entityRendererIn);
-		this.entityRenderer = entityRendererIn;
-	}
+  /**
+   * Instantiates a new Saddlebag layer.
+   *
+   * @param entityRendererIn the entity renderer in
+   */
+  public SaddlebagLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
+    super(entityRendererIn);
+    this.entityRenderer = entityRendererIn;
+  }
 
-	@Override
-	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, SWEMHorseEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		ItemStack stack = entity.getSaddlebag();
+  @Override
+  public void render(
+      MatrixStack matrixStackIn,
+      IRenderTypeBuffer bufferIn,
+      int packedLightIn,
+      SWEMHorseEntity entity,
+      float limbSwing,
+      float limbSwingAmount,
+      float partialTicks,
+      float ageInTicks,
+      float netHeadYaw,
+      float headPitch) {
+    ItemStack stack = entity.getSaddlebag();
 
-		if (!stack.isEmpty() && stack.getItem() instanceof SaddlebagItem && !GeneralEventHandlers.no_render_tack) {
+    if (!stack.isEmpty()
+        && stack.getItem() instanceof SaddlebagItem
+        && !GeneralEventHandlers.no_render_tack) {
 
-			GeoModel horseModel = getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json"));
-			// Hide unneeded bones for performance improvement.
-			horseModel.getBone("saddlebag").get().setHidden(false);
-			horseModel.getBone("bedroll").get().setHidden(false);
+      GeoModel horseModel =
+          getEntityModel()
+              .getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json"));
+      // Hide unneeded bones for performance improvement.
+      horseModel.getBone("saddlebag").get().setHidden(false);
+      horseModel.getBone("bedroll").get().setHidden(false);
 
-			SaddlebagItem bagItem = (SaddlebagItem)stack.getItem();
-			this.entityRenderer.render(horseModel,
-					entity,
-					partialTicks,
-					RenderType.entityCutout(bagItem.getArmorTexture()),
-					matrixStackIn,
-					bufferIn,
-					bufferIn.getBuffer(RenderType.entityCutout(bagItem.getArmorTexture())),
-					packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1
-			);
+      SaddlebagItem bagItem = (SaddlebagItem) stack.getItem();
+      this.entityRenderer.render(
+          horseModel,
+          entity,
+          partialTicks,
+          RenderType.entityCutout(bagItem.getArmorTexture()),
+          matrixStackIn,
+          bufferIn,
+          bufferIn.getBuffer(RenderType.entityCutout(bagItem.getArmorTexture())),
+          packedLightIn,
+          OverlayTexture.NO_OVERLAY,
+          1,
+          1,
+          1,
+          1);
 
-			horseModel.getBone("saddlebag").get().setHidden(true);
-			horseModel.getBone("bedroll").get().setHidden(true);
-		}
-	}
+      horseModel.getBone("saddlebag").get().setHidden(true);
+      horseModel.getBone("bedroll").get().setHidden(true);
+    }
+  }
 }

@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.gui.widgets;
 
-
 /*
  * All Rights Reserved
  *
@@ -16,7 +15,6 @@ package com.alaharranhonor.swem.gui.widgets;
  */
 
 import com.alaharranhonor.swem.blocks.jumps.JumpLayer;
-import com.alaharranhonor.swem.blocks.jumps.StandardLayer;
 import com.alaharranhonor.swem.gui.JumpScreen;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.network.jumps.CChangeLayerPacket;
@@ -25,95 +23,95 @@ import net.minecraft.util.text.StringTextComponent;
 
 public class LayerChangerButton extends CycableButton {
 
-	private JumpScreen screen;
-	private JumpLayer currentLayer;
-	private int id = -1;
-	private int layer = -1;
+  private JumpScreen screen;
+  private JumpLayer currentLayer;
+  private int id = -1;
+  private int layer = -1;
 
-	/**
-	 * Instantiates a new Layer changer button.
-	 *
-	 * @param x      the x
-	 * @param y      the y
-	 * @param width  the width
-	 * @param height the height
-	 * @param title  the title
-	 * @param screen the screen
-	 */
-	public LayerChangerButton(int x, int y, int width, int height, ITextComponent title, JumpScreen screen) {
-		super(x, y, width, height, title, new Press());
-		this.screen = screen;
+  /**
+   * Instantiates a new Layer changer button.
+   *
+   * @param x the x
+   * @param y the y
+   * @param width the width
+   * @param height the height
+   * @param title the title
+   * @param screen the screen
+   */
+  public LayerChangerButton(
+      int x, int y, int width, int height, ITextComponent title, JumpScreen screen) {
+    super(x, y, width, height, title, new Press());
+    this.screen = screen;
+  }
 
-	}
+  /**
+   * Gets screen.
+   *
+   * @return the screen
+   */
+  public JumpScreen getScreen() {
+    return screen;
+  }
 
-	/**
-	 * Gets screen.
-	 *
-	 * @return the screen
-	 */
-	public JumpScreen getScreen() {
-		return screen;
-	}
+  /**
+   * Sets layer.
+   *
+   * @param layer the layer
+   */
+  public void setLayer(int layer) {
+    this.layer = layer;
+  }
 
+  /**
+   * Sets selected.
+   *
+   * @param layer the layer
+   */
+  public void setSelected(JumpLayer layer) {
+    this.currentLayer = layer;
+  }
 
-	/**
-	 * Sets layer.
-	 *
-	 * @param layer the layer
-	 */
-	public void setLayer(int layer) {
-		this.layer = layer;
-	}
+  /**
+   * Gets current layer.
+   *
+   * @return the current layer
+   */
+  public JumpLayer getCurrentLayer() {
+    return this.currentLayer;
+  }
 
-	/**
-	 * Sets selected.
-	 *
-	 * @param layer the layer
-	 */
-	public void setSelected(JumpLayer layer) {
-		this.currentLayer = layer;
-	}
+  @Override
+  public void onPress() {
+    super.onPress();
+  }
 
-	/**
-	 * Gets current layer.
-	 *
-	 * @return the current layer
-	 */
-	public JumpLayer getCurrentLayer() {
-		return this.currentLayer;
-	}
+  @Override
+  public ITextComponent getMessage() {
+    // return new StringTextComponent("LAYER");
 
-	@Override
-	public void onPress() {
-		super.onPress();
-	}
+    if (this.layer == -1) {
+      return new StringTextComponent("Option");
+    }
+    if (this.screen.layerTypes.get(this.layer) == null) {
+      return new StringTextComponent("Option");
+    }
+    return new StringTextComponent(this.screen.layerTypes.get(this.layer).getDisplayName());
+  }
 
+  public static class Press implements LayerChangerButton.IPressable {
 
-	@Override
-	public ITextComponent getMessage() {
-		//return new StringTextComponent("LAYER");
+    @Override
+    public void onPress(CycableButton press) {
+      LayerChangerButton button = (LayerChangerButton) press;
+      SWEMPacketHandler.INSTANCE.sendToServer(
+          new CChangeLayerPacket(button.screen.controllerPos, button.layer, false));
+    }
 
-		if (this.layer == -1) {
-			return new StringTextComponent("Option");
-		}
-		if (this.screen.layerTypes.get(this.layer) == null) {
-			return new StringTextComponent("Option");
-		}
-		return new StringTextComponent(this.screen.layerTypes.get(this.layer).getDisplayName());
-	}
-
-	public static class Press implements LayerChangerButton.IPressable {
-
-		@Override
-		public void onPress(CycableButton press) {
-			LayerChangerButton button = (LayerChangerButton) press;
-			SWEMPacketHandler.INSTANCE.sendToServer(new CChangeLayerPacket(button.screen.controllerPos, button.layer, false));
-		}
-
-		@Override
-		public void onRightPress(CycableButton press) {
-			LayerChangerButton button = (LayerChangerButton) press;
-			SWEMPacketHandler.INSTANCE.sendToServer(new CChangeLayerPacket(button.screen.controllerPos, button.layer, true));
-		}
-	}
+    @Override
+    public void onRightPress(CycableButton press) {
+      LayerChangerButton button = (LayerChangerButton) press;
+      SWEMPacketHandler.INSTANCE.sendToServer(
+          new CChangeLayerPacket(button.screen.controllerPos, button.layer, true));
+    }
+  }
 }

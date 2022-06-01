@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.client.layers;
 
-
 /*
  * All Rights Reserved
  *
@@ -32,60 +31,77 @@ import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 
 public class LegWrapsLayer extends GeoLayerRenderer<SWEMHorseEntity> {
 
-	private IGeoRenderer<SWEMHorseEntity> entityRenderer;
+  private IGeoRenderer<SWEMHorseEntity> entityRenderer;
 
-	/**
-	 * Instantiates a new Leg wraps layer.
-	 *
-	 * @param entityRendererIn the entity renderer in
-	 */
-	public LegWrapsLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
-		super(entityRendererIn);
-		this.entityRenderer = entityRendererIn;
-	}
+  /**
+   * Instantiates a new Leg wraps layer.
+   *
+   * @param entityRendererIn the entity renderer in
+   */
+  public LegWrapsLayer(IGeoRenderer<SWEMHorseEntity> entityRendererIn) {
+    super(entityRendererIn);
+    this.entityRenderer = entityRendererIn;
+  }
 
-	@Override
-	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, SWEMHorseEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		ItemStack stack = entity.getLegWraps();
-		boolean skipRender = false;
+  @Override
+  public void render(
+      MatrixStack matrixStackIn,
+      IRenderTypeBuffer bufferIn,
+      int packedLightIn,
+      SWEMHorseEntity entity,
+      float limbSwing,
+      float limbSwingAmount,
+      float partialTicks,
+      float ageInTicks,
+      float netHeadYaw,
+      float headPitch) {
+    ItemStack stack = entity.getLegWraps();
+    boolean skipRender = false;
 
-		if (!stack.isEmpty() && stack.getItem() instanceof LegWrapsItem && !GeneralEventHandlers.no_render_tack) {
-			LegWrapsItem legWraps = (LegWrapsItem) stack.getItem();
-			float f, f1, f2;
-			if (stack.getItem() instanceof IDyeableArmorItem) {
-				IDyeableArmorItem dyeArmor = (IDyeableArmorItem) stack.getItem();
+    if (!stack.isEmpty()
+        && stack.getItem() instanceof LegWrapsItem
+        && !GeneralEventHandlers.no_render_tack) {
+      LegWrapsItem legWraps = (LegWrapsItem) stack.getItem();
+      float f, f1, f2;
+      if (stack.getItem() instanceof IDyeableArmorItem) {
+        IDyeableArmorItem dyeArmor = (IDyeableArmorItem) stack.getItem();
 
-				int i = dyeArmor.getColor(stack);
+        int i = dyeArmor.getColor(stack);
 
-				f = (float)(i >> 16 & 255) / 255.0F;
-				f1 = (float)(i >> 8 & 255) / 255.0F;
-				f2 = (float)(i & 255) / 255.0F;
+        f = (float) (i >> 16 & 255) / 255.0F;
+        f1 = (float) (i >> 8 & 255) / 255.0F;
+        f2 = (float) (i & 255) / 255.0F;
+      } /* else {
+        	f = 1.0F;
+        	f1 = 1.0F;
+        	f2 = 1.0F;
+        }*/
+      f = 1.0F;
+      f1 = 1.0F;
+      f2 = 1.0F;
 
-			}/* else {
-				f = 1.0F;
-				f1 = 1.0F;
-				f2 = 1.0F;
-			}*/
-			f = 1.0F;
-			f1 = 1.0F;
-			f2 = 1.0F;
+      GeoModel horseModel =
+          getEntityModel()
+              .getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json"));
+      // Hide unneeded bones for performance improvement.
+      horseModel.getBone("main").get().setHidden(false);
 
-			GeoModel horseModel = getEntityModel().getModel(new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/swem_horse.geo.json"));
-			// Hide unneeded bones for performance improvement.
-			horseModel.getBone("main").get().setHidden(false);
+      this.entityRenderer.render(
+          horseModel,
+          entity,
+          partialTicks,
+          RenderType.entityCutout(legWraps.getArmorTexture()),
+          matrixStackIn,
+          bufferIn,
+          bufferIn.getBuffer(RenderType.entityCutout(legWraps.getArmorTexture())),
+          packedLightIn,
+          OverlayTexture.NO_OVERLAY,
+          f,
+          f1,
+          f2,
+          1);
 
-			this.entityRenderer.render(horseModel,
-					entity,
-					partialTicks,
-					RenderType.entityCutout(legWraps.getArmorTexture()),
-					matrixStackIn,
-					bufferIn,
-					bufferIn.getBuffer(RenderType.entityCutout(legWraps.getArmorTexture())),
-					packedLightIn, OverlayTexture.NO_OVERLAY, f, f1, f2, 1
-			);
-
-			horseModel.getBone("main").get().setHidden(true);
-
-		}
-	}
+      horseModel.getBone("main").get().setHidden(true);
+    }
+  }
 }

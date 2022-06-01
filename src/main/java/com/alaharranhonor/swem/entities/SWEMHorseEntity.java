@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.entities;
 
-
 /*
  * All Rights Reserved
  *
@@ -15,8 +14,10 @@ package com.alaharranhonor.swem.entities;
  * THE SOFTWARE.
  */
 
+import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.client.render.player.GeckoRider;
 import com.alaharranhonor.swem.client.tools.geckolib.CustomAnimationController;
+import java.util.Random;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -35,377 +36,479 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-import java.util.Random;
-
 public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable {
 
-	private AnimationFactory factory = new AnimationFactory(this);
+  private AnimationFactory factory = new AnimationFactory(this);
 
-	private int animTimer = 0;
-	private int idleAnimCooldown = 0;
+  private int animTimer = 0;
+  private int idleAnimCooldown = 0;
 
-	/**
-	 * Instantiates a new Swem horse entity.
-	 *
-	 * @param type    the type
-	 * @param worldIn the world in
-	 */
-	public SWEMHorseEntity(EntityType<? extends SWEMHorseEntityBase> type, World worldIn) {
-		super(type, worldIn);
-		this.noCulling = true;
-	}
+  /**
+   * Instantiates a new Swem horse entity.
+   *
+   * @param type the type
+   * @param worldIn the world in
+   */
+  public SWEMHorseEntity(EntityType<? extends SWEMHorseEntityBase> type, World worldIn) {
+    super(type, worldIn);
+    this.noCulling = true;
+  }
 
-	@Override
-	public void tick() {
-		if (this.level.isClientSide) {
-			animTimer = Math.max(animTimer - 1, 0);
-			idleAnimCooldown = Math.max(idleAnimCooldown - 1, 0);
-		}
-		super.tick();
-	}
+  @Override
+  public void tick() {
+    if (this.level.isClientSide) {
+      animTimer = Math.max(animTimer - 1, 0);
+      idleAnimCooldown = Math.max(idleAnimCooldown - 1, 0);
+    }
+    super.tick();
+  }
 
-	/**
-	 * Predicate play state.
-	 *
-	 * @param <E>   the type parameter
-	 * @param event the event
-	 * @return the play state
-	 */
-	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
-	{
+  /**
+   * Predicate play state.
+   *
+   * @param <E> the type parameter
+   * @param event the event
+   * @return the play state
+   */
+  public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
-		SWEMHorseEntityBase horse = (SWEMHorseEntityBase) event.getAnimatable();
-		if (horse.isBaby()) return babyPredicate(event);
-		// Rearing happens on all jumps, because minecraft internally uses the Rear animation for jump animation while pushing the enitity
-		// into the sky. So find another check, maybe for like isAngry or some of the sort, to play rear animation instead, of isRearing.
-		// This is called from AbstractHorseEntity#handleStartJump()
+    SWEMHorseEntityBase horse = (SWEMHorseEntityBase) event.getAnimatable();
+    if (horse.isBaby()) return babyPredicate(event);
+    // Rearing happens on all jumps, because minecraft internally uses the Rear animation for jump
+    // animation while pushing the enitity
+    // into the sky. So find another check, maybe for like isAngry or some of the sort, to play rear
+    // animation instead, of isRearing.
+    // This is called from AbstractHorseEntity#handleStartJump()
 
-		/*if (horse.isRearing()) { //
+    /*if (horse.isRearing()) { //
 
-			String animationName = event.getController().getCurrentAnimation().animationName;
-			if (animationName.equals("Rear") || animationName.equals("Buck")) // Exit early if the animation is already playing.
-				return PlayState.CONTINUE;
+    	String animationName = event.getController().getCurrentAnimation().animationName;
+    	if (animationName.equals("Rear") || animationName.equals("Buck")) // Exit early if the animation is already playing.
+    		return PlayState.CONTINUE;
 
-			float animationValue = horse.getRNG().nextFloat();
-			GeckoLibCache.getInstance().parser.setValue("anim_speed", 3);
-			if (animationValue < 0.5) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Rear"));
-			} else {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("buck"));
-			}
-			return PlayState.CONTINUE;
-		}*/
+    	float animationValue = horse.getRNG().nextFloat();
+    	GeckoLibCache.getInstance().parser.setValue("anim_speed", 3);
+    	if (animationValue < 0.5) {
+    		event.getController().setAnimation(new AnimationBuilder().addAnimation("Rear"));
+    	} else {
+    		event.getController().setAnimation(new AnimationBuilder().addAnimation("buck"));
+    	}
+    	return PlayState.CONTINUE;
+    }*/
 
-		Animation anim = event.getController().getCurrentAnimation();
-		if (anim != null) {
-			if ((anim.animationName.equals("Jump_Lvl_1")
-					|| anim.animationName.equals("Jump_Lvl_2")
-					|| anim.animationName.equals("Jump_Lvl_3")
-					|| anim.animationName.equals("Jump_Lvl_4")
-					|| anim.animationName.equals("Jump_Lvl_5")
-			) && event.getController().getAnimationState() != AnimationState.Stopped) {
-				return PlayState.CONTINUE;
-			}
-		}
+    Animation anim = event.getController().getCurrentAnimation();
+    if (anim != null) {
+      if ((anim.animationName.equals("Jump_Lvl_1")
+              || anim.animationName.equals("Jump_Lvl_2")
+              || anim.animationName.equals("Jump_Lvl_3")
+              || anim.animationName.equals("Jump_Lvl_4")
+              || anim.animationName.equals("Jump_Lvl_5"))
+          && event.getController().getAnimationState() != AnimationState.Stopped) {
+        return PlayState.CONTINUE;
+      }
+    }
 
-		if (horse.isFlying()) {
+    if (horse.isFlying()) {
 
-			if (horse.getEntityData().get(HorseFlightController.isTurning)) {
-				if (event.getController().getCurrentAnimation().animationName.equals("Turn_Cycle")) {
-					return PlayState.CONTINUE;
-				}
-				if (horse.getEntityData().get(HorseFlightController.isTurningLeft)) {
-					if (!event.getController().getCurrentAnimation().animationName.equals("Turn")) {
-						event.getController().setAnimation(new AnimationBuilder().addAnimation("Turn", false).addAnimation("Turn_Cycle", true));
-						return PlayState.CONTINUE;
-					}
+      if (horse.getEntityData().get(HorseFlightController.isTurning)) {
+        if (event.getController().getCurrentAnimation().animationName.equals("Turn_Cycle")) {
+          return PlayState.CONTINUE;
+        }
+        if (horse.getEntityData().get(HorseFlightController.isTurningLeft)) {
+          if (!event.getController().getCurrentAnimation().animationName.equals("Turn")) {
+            event
+                .getController()
+                .setAnimation(
+                    new AnimationBuilder()
+                        .addAnimation("Turn", false)
+                        .addAnimation("Turn_Cycle", true));
+            return PlayState.CONTINUE;
+          }
+        }
 
-				}
+        if (event.getController().getCurrentAnimation().animationName.equals("Turn")) {
+          return PlayState.CONTINUE;
+        }
+      }
 
-				if (event.getController().getCurrentAnimation().animationName.equals("Turn")) {
-					return PlayState.CONTINUE;
-				}
+      if (horse.getEntityData().get(HorseFlightController.isLaunching)) {
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("Launch"));
+        return PlayState.CONTINUE;
+      }
+      if (horse.getEntityData().get(HorseFlightController.isDiving)) {
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("Dive"));
+        return PlayState.CONTINUE;
+      }
+      if (horse.getEntityData().get(HorseFlightController.didFlap)) {
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("Going_Up"));
+        return PlayState.CONTINUE;
+      } else if (horse.getEntityData().get(HorseFlightController.isSlowingDown)) {
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("Slow_Down"));
+        return PlayState.CONTINUE;
+      } else if (horse.getEntityData().get(HorseFlightController.isFloating)) {
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("Float_Down"));
+        return PlayState.CONTINUE;
+      } else if (horse.getEntityData().get(HorseFlightController.isAccelerating)) {
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("Speed_Up"));
+        return PlayState.CONTINUE;
+      }
+    }
 
-			}
+    // No idea why this needs to be up here, but something in the following jump if statement,
+    // blocks the code execution when jumping into water.
+    boolean isInWater =
+        horse
+            .level
+            .getBlockStates(horse.getBoundingBox().contract(0, 0, 0))
+            .allMatch((bs) -> bs.getBlock() == Blocks.WATER);
 
-			if (horse.getEntityData().get(HorseFlightController.isLaunching)) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Launch"));
-				return PlayState.CONTINUE;
-			}
-			if (horse.getEntityData().get(HorseFlightController.isDiving)) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Dive"));
-				return PlayState.CONTINUE;
-			}
-			if (horse.getEntityData().get(HorseFlightController.didFlap)) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Going_Up"));
-				return PlayState.CONTINUE;
-			} else if (horse.getEntityData().get(HorseFlightController.isSlowingDown)) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Slow_Down"));
-				return PlayState.CONTINUE;
-			} else if (horse.getEntityData().get(HorseFlightController.isFloating)) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Float_Down"));
-				return PlayState.CONTINUE;
-			} else if (horse.getEntityData().get(HorseFlightController.isAccelerating)) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Speed_Up"));
-				return PlayState.CONTINUE;
-			}
-		}
+    if (!isInWater && horse.jumpHeight != 0) {
+      int jumpHeight = Math.min((int) horse.jumpHeight, 5);
+      playRiderAnimation(String.format("JumpLvl%dPlayer", jumpHeight), "IdlePlayer");
+      event
+          .getController()
+          .setAnimation(
+              new AnimationBuilder()
+                  .addAnimation(String.format("Jump_Lvl_%d", jumpHeight), false)
+                  .addAnimation(anim.animationName, anim.loop));
+      return PlayState.CONTINUE;
+    }
 
+    if (horse.kickAnimationTimer > 0) {
+      playRiderAnimation("KickPlayer", "IdlePlayer");
+      event
+          .getController()
+          .setAnimation(
+              new AnimationBuilder().addAnimation("Kick", false).addAnimation("Stand_Idle", false));
+      return PlayState.CONTINUE;
+    }
 
-		// No idea why this needs to be up here, but something in the following jump if statement, blocks the code execution when jumping into water.
-		boolean isInWater = horse.level.getBlockStates(horse.getBoundingBox().contract(0, 0, 0)).allMatch((bs) -> bs.getBlock() == Blocks.WATER);
+    if (horse.isStanding()) {
+      if (anim != null) {
+        if (anim.animationName.equals("Rear") || anim.animationName.equals("Buck")) {
+          return PlayState.CONTINUE;
+        }
+      }
+      playRiderAnimation(horse.getStandVariant() == 2 ? "BuckPlayer" : "RearPlayer", "IdlePlayer");
+      event
+          .getController()
+          .setAnimation(
+              new AnimationBuilder()
+                  .addAnimation(horse.getStandVariant() == 2 ? "Buck" : "Rear", false)
+                  .addAnimation("Stand_Idle", false));
 
-		if (!isInWater && horse.jumpHeight != 0) {
-			int jumpHeight = Math.min((int) horse.jumpHeight, 5);
-			playRiderAnimation(String.format("JumpLvl%dPlayer", jumpHeight), "IdlePlayer");
-			event.getController().setAnimation(new AnimationBuilder().addAnimation(String.format("Jump_Lvl_%d", jumpHeight), false).addAnimation(anim.animationName, anim.loop));
-			return PlayState.CONTINUE;
-		}
+      return PlayState.CONTINUE;
+    }
 
+    if (horse.isInWater() || isInWater) {
+      playRiderAnimation("SwimPlayer", true);
+      event.getController().setAnimation(new AnimationBuilder().addAnimation("Swim"));
+      return PlayState.CONTINUE;
+    }
 
-		if (horse.kickAnimationTimer > 0) {
-			playRiderAnimation("KickPlayer", "IdlePlayer");
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("Kick", false).addAnimation("Stand_Idle", false));
-			return PlayState.CONTINUE;
-		}
+    if (horse.getEntityData().get(IS_EATING) || horse.eatAnimationTick > 0) {
+      if (anim != null && !anim.animationName.equals("Eating_Loop"))
+        event
+            .getController()
+            .setAnimation(
+                new AnimationBuilder()
+                    .addAnimation("Lean_In", false)
+                    .addAnimation("Eating_Loop", true));
+      return PlayState.CONTINUE;
+    } else {
+      if (anim != null && anim.animationName.equals("Eating_Loop")) {
+        event
+            .getController()
+            .setAnimation(
+                new AnimationBuilder()
+                    .addAnimation("Lean_Out", false)
+                    .addAnimation("Stand_Idle", false));
+        return PlayState.CONTINUE;
+      } else if (anim != null && anim.animationName.equals("Lean_Out")) return PlayState.CONTINUE;
+    }
 
+    if (horse.getEntityData().get(IS_LAYING_DOWN)) {
+      if (anim != null && !anim.animationName.equals("Laying_Down_Loop"))
+        event
+            .getController()
+            .setAnimation(
+                new AnimationBuilder()
+                    .addAnimation("Laying_Down", false)
+                    .addAnimation("Laying_Down_Loop", true));
+      return PlayState.CONTINUE;
+    } else {
+      // Add lean out here.
+    }
 
-		if (horse.isStanding()) {
-			if (anim != null) {
-				if (anim.animationName.equals("Rear") || anim.animationName.equals("Buck")) {
-					return PlayState.CONTINUE;
-				}
-			}
-			playRiderAnimation(horse.getStandVariant() == 2 ? "BuckPlayer" : "RearPlayer", "IdlePlayer");
-			event.getController().setAnimation(new AnimationBuilder().addAnimation(horse.getStandVariant() == 2 ? "Buck" : "Rear", false).addAnimation("Stand_Idle", false));
+    boolean playerMovesHorse = false;
+    if (horse.getControllingPassenger() != null) {
+      playerMovesHorse = ((PlayerEntity) horse.getControllingPassenger()).xxa > 0;
+      if (!playerMovesHorse) {
+        playerMovesHorse = ((PlayerEntity) horse.getControllingPassenger()).zza > 0;
+      }
+    }
 
-			return PlayState.CONTINUE;
-		}
+    if (!event.isMoving() && !playerMovesHorse) {
+      if (animTimer < 2
+          || (event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Walk")
+              || event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Trot")
+              || event
+                  .getController()
+                  .getCurrentAnimation()
+                  .animationName
+                  .equalsIgnoreCase("Canter")
+              || event
+                  .getController()
+                  .getCurrentAnimation()
+                  .animationName
+                  .equalsIgnoreCase("Extended_Canter")
+              || event
+                  .getController()
+                  .getCurrentAnimation()
+                  .animationName
+                  .equalsIgnoreCase("Gallop")
+              || event
+                  .getController()
+                  .getCurrentAnimation()
+                  .animationName
+                  .equalsIgnoreCase("Walking_Backwards"))) {
 
-		if (horse.isInWater() || isInWater) {
-			playRiderAnimation("SwimPlayer", true);
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("Swim"));
-			return PlayState.CONTINUE;
-		}
+        if (horse.getEntityData().get(IS_SAD)) {
+          event.getController().setAnimation(new AnimationBuilder().addAnimation("Sad_Stand_Idle"));
+          return PlayState.CONTINUE;
+        }
+        float chance = new Random().nextFloat();
+        if (chance < 0.9f || idleAnimCooldown > 1) {
+          playRiderAnimation("IdlePlayer", true);
+          event
+              .getController()
+              .setAnimation(new AnimationBuilder().addAnimation("Stand_Idle", true));
+          animTimer = 79;
+          event.getController().markNeedsReload();
+        } else if (chance > 0.9f && chance < 0.93f && idleAnimCooldown < 1) {
+          event
+              .getController()
+              .setAnimation(
+                  new AnimationBuilder()
+                      .addAnimation("Scratch", false)
+                      .addAnimation("Stand_Idle", false));
+          animTimer = 79 + 90;
+          idleAnimCooldown = animTimer + 100;
+          event.getController().markNeedsReload();
+        } else if (chance > 0.93f && chance < 0.96f && idleAnimCooldown < 1) {
+          event
+              .getController()
+              .setAnimation(
+                  new AnimationBuilder()
+                      .addAnimation("Shake", false)
+                      .addAnimation("Stand_Idle", false));
+          animTimer = 79 + 62;
+          idleAnimCooldown = animTimer + 100;
+          event.getController().markNeedsReload();
+        } else if (idleAnimCooldown < 1) {
+          playRiderAnimation("TailSwishPlayer", "IdlePlayer");
+          event
+              .getController()
+              .setAnimation(
+                  new AnimationBuilder()
+                      .addAnimation("Tail_Swish", false)
+                      .addAnimation("Stand_Idle", false));
+          animTimer = 79 + 79;
+          idleAnimCooldown = animTimer + 100;
+          event.getController().markNeedsReload();
+        }
+      }
+      return PlayState.CONTINUE;
+    } else if (playerMovesHorse || event.isMoving()) {
+      if (horse.isWalkingBackwards) {
+        playRiderAnimation("WalkingBackwardsPlayer", true);
+        event
+            .getController()
+            .setAnimation(new AnimationBuilder().addAnimation("Walking_Backwards"));
+        return PlayState.CONTINUE;
+      }
+      if (horse.getEntityData().get(SPEED_LEVEL) == 0) {
+        playRiderAnimation("WalkPlayer", true);
+        if (horse.getEntityData().get(IS_SAD)) {
+          event.getController().setAnimation(new AnimationBuilder().addAnimation("Sad_Walk"));
+        } else {
+          event.getController().setAnimation(new AnimationBuilder().addAnimation("Walk"));
+        }
+      } else if (horse.getEntityData().get(SPEED_LEVEL) == 1) {
+        playRiderAnimation("TrotPlayer", true);
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("Trot"));
+      } else if (horse.getEntityData().get(SPEED_LEVEL) == 2) {
+        playRiderAnimation("CanterPlayer", true);
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("Canter"));
+      } else if (horse.getEntityData().get(SPEED_LEVEL) == 3) {
+        playRiderAnimation("ExtendedCanterPlayer", true);
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("Extended_Canter"));
+      } else if (horse.getEntityData().get(SPEED_LEVEL) == 4) {
+        playRiderAnimation("GallopPlayer", true);
+        event
+            .getController()
+            .setAnimation(
+                new AnimationBuilder()
+                    .addAnimation("Gallop_Transition", false)
+                    .addAnimation("Gallop"));
+      }
+      return PlayState.CONTINUE;
+    }
 
-		if (horse.getEntityData().get(IS_EATING) || horse.eatAnimationTick > 0) {
-			if (anim != null && !anim.animationName.equals("Eating_Loop"))
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Lean_In", false).addAnimation("Eating_Loop", true));
-			return PlayState.CONTINUE;
-		} else {
-			if (anim != null && anim.animationName.equals("Eating_Loop")) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Lean_Out", false).addAnimation("Stand_Idle", false));
-				return PlayState.CONTINUE;
-			} else if (anim != null && anim.animationName.equals("Lean_Out"))
-				return PlayState.CONTINUE;
-		}
+    SWEM.LOGGER.error("No animation was found.");
+    return PlayState.STOP;
+  }
 
-		if (horse.getEntityData().get(IS_LAYING_DOWN)) {
-			if (anim != null && !anim.animationName.equals("Laying_Down_Loop"))
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Laying_Down", false).addAnimation("Laying_Down_Loop", true));
-			return PlayState.CONTINUE;
-		} else {
-			// Add lean out here.
-		}
+  public <E extends IAnimatable> PlayState babyPredicate(AnimationEvent<E> event) {
+    SWEMHorseEntityBase horse = (SWEMHorseEntityBase) event.getAnimatable();
 
-		boolean playerMovesHorse = false;
-		if ( horse.getControllingPassenger() != null) {
-			playerMovesHorse = ((PlayerEntity)horse.getControllingPassenger()).xxa > 0;
-			if (!playerMovesHorse) {
-				playerMovesHorse = ((PlayerEntity)horse.getControllingPassenger()).zza > 0;
-			}
-		}
+    if (event.isMoving()) {
+      event.getController().setAnimation(new AnimationBuilder().addAnimation("gait.walk"));
+    } else {
+      if (event.getController().getAnimationState() == AnimationState.Stopped
+          || event
+              .getController()
+              .getCurrentAnimation()
+              .animationName
+              .equalsIgnoreCase("gait.walk")) {
+        float chance = new Random().nextFloat();
+        if (chance < 0.95f) {
+          event
+              .getController()
+              .setAnimation(new AnimationBuilder().addAnimation("idle.stand", false));
+        } else {
+          event
+              .getController()
+              .setAnimation(new AnimationBuilder().addAnimation("idle.shake", false));
+        }
+      }
+    }
 
-		if (!event.isMoving() && !playerMovesHorse) {
-			if (animTimer < 2 || (
-				event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Walk")
-				|| event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Trot")
-				|| event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Canter")
-				|| event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Extended_Canter")
-				|| event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Gallop")
-				|| event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Walking_Backwards")
+    return PlayState.CONTINUE;
+  }
 
-			)) {
+  public void playRiderAnimation(
+      PlayerEntity player,
+      String animationName,
+      GeckoRider.Perspective perspective,
+      boolean shouldLoop) {
+    if (player.level.isClientSide()) {
+      AnimationBuilder newActiveAnimation =
+          new AnimationBuilder().addAnimation(animationName, shouldLoop);
 
-				if (horse.getEntityData().get(IS_SAD)) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Sad_Stand_Idle"));
-					return PlayState.CONTINUE;
-				}
-				float chance = new Random().nextFloat();
-				if (chance < 0.9f || idleAnimCooldown > 1) {
-					playRiderAnimation("IdlePlayer", true);
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Stand_Idle", true));
-					animTimer = 79;
-					event.getController().markNeedsReload();
-				} else if (chance > 0.9f && chance < 0.93f && idleAnimCooldown < 1) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Scratch", false).addAnimation("Stand_Idle", false));
-					animTimer = 79 + 90;
-					idleAnimCooldown = animTimer + 100;
-					event.getController().markNeedsReload();
-				} else if (chance > 0.93f && chance < 0.96f && idleAnimCooldown < 1) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Shake", false).addAnimation("Stand_Idle", false));
-					animTimer = 79 + 62;
-					idleAnimCooldown = animTimer + 100;
-					event.getController().markNeedsReload();
-				} else if (idleAnimCooldown < 1) {
-					playRiderAnimation("TailSwishPlayer", "IdlePlayer");
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Tail_Swish", false).addAnimation("Stand_Idle", false));
-					animTimer = 79 + 79;
-					idleAnimCooldown = animTimer + 100;
-					event.getController().markNeedsReload();
-				}
-			}
-			return PlayState.CONTINUE;
-		} else if (playerMovesHorse || event.isMoving()) {
-			if (horse.isWalkingBackwards) {
-				playRiderAnimation("WalkingBackwardsPlayer", true);
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Walking_Backwards"));
-				return PlayState.CONTINUE;
-			}
-			if (horse.getEntityData().get(SPEED_LEVEL) == 0) {
-				playRiderAnimation("WalkPlayer", true);
-				if (horse.getEntityData().get(IS_SAD)) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Sad_Walk"));
-				} else {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("Walk"));
-				}
-			} else if (horse.getEntityData().get(SPEED_LEVEL) == 1) {
-				playRiderAnimation("TrotPlayer", true);
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Trot"));
-			} else if (horse.getEntityData().get(SPEED_LEVEL) == 2) {
-				playRiderAnimation("CanterPlayer", true);
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Canter"));
-			} else if ( horse.getEntityData().get(SPEED_LEVEL) == 3) {
-				playRiderAnimation("ExtendedCanterPlayer", true);
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Extended_Canter"));
-			} else if (horse.getEntityData().get(SPEED_LEVEL) == 4) {
-				playRiderAnimation("GallopPlayer", true);
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("Gallop_Transition", false).addAnimation("Gallop"));
-			}
-			return PlayState.CONTINUE;
-		}
+      CustomAnimationController<GeckoRider> controller =
+          GeckoRider.getAnimationController(player, perspective);
+      GeckoRider geckoPlayer = GeckoRider.getRiderPlayer(player, perspective);
+      if (controller != null && geckoPlayer != null) {
+        controller.playAnimation(geckoPlayer, newActiveAnimation);
+      }
+    }
+  }
 
+  public void playRiderAnimation(String animationName, boolean shouldLoop) {
+    if (!this.getPassengers().isEmpty()) {
+      for (Entity entity : this.getPassengers()) {
+        if (entity instanceof PlayerEntity) {
+          AnimationBuilder animationBuilder;
+          if (animationName.equals("JumpLvl1Player")
+              || animationName.equals("JumpLvl2Player")
+              || animationName.equals("JumpLvl3Player")
+              || animationName.equals("JumpLvl4Player")
+              || animationName.equals("JumpLvl5Player")) {
+            String anim =
+                GeckoRider.getRiderPlayer(
+                        (PlayerEntity) entity, GeckoRider.Perspective.THIRD_PERSON)
+                    .animationName;
+            animationBuilder =
+                new AnimationBuilder()
+                    .addAnimation(animationName, shouldLoop)
+                    .addAnimation(anim, false);
+          } else {
+            animationBuilder = new AnimationBuilder().addAnimation(animationName, shouldLoop);
+          }
+          GeckoRider.getRiderPlayer((PlayerEntity) entity, GeckoRider.Perspective.THIRD_PERSON)
+                  .animationBuilder =
+              animationBuilder;
+          GeckoRider.getRiderPlayer((PlayerEntity) entity, GeckoRider.Perspective.FIRST_PERSON)
+                  .animationBuilder =
+              animationBuilder;
+        }
+      }
+    }
+  }
 
+  public void playRiderAnimation(String animationName, String animationName2) {
+    if (!this.getPassengers().isEmpty()) {
+      for (Entity entity : this.getPassengers()) {
+        if (entity instanceof PlayerEntity) {
+          AnimationBuilder animationBuilder;
 
-		SWEM.LOGGER.error("No animation was found.");
-		return PlayState.STOP;
-	}
+          animationBuilder =
+              new AnimationBuilder()
+                  .addAnimation(animationName, false)
+                  .addAnimation(animationName2, false);
 
-	public <E extends IAnimatable> PlayState babyPredicate(AnimationEvent<E> event) {
-		SWEMHorseEntityBase horse = (SWEMHorseEntityBase) event.getAnimatable();
+          GeckoRider.getRiderPlayer((PlayerEntity) entity, GeckoRider.Perspective.THIRD_PERSON)
+                  .animationBuilder =
+              animationBuilder;
+          GeckoRider.getRiderPlayer((PlayerEntity) entity, GeckoRider.Perspective.FIRST_PERSON)
+                  .animationBuilder =
+              animationBuilder;
+        }
+      }
+    }
+  }
 
-		if (event.isMoving()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("gait.walk"));
-		} else {
-			if (event.getController().getAnimationState() == AnimationState.Stopped || event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("gait.walk")) {
-				float chance = new Random().nextFloat();
-				if (chance < 0.95f) {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("idle.stand", false));
-				} else {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("idle.shake", false));
-				}
-			}
-		}
+  /**
+   * @param event
+   * @param <E>
+   * @return
+   */
+  private <E extends Entity> SoundEvent soundListener(SoundKeyframeEvent<E> event) {
+    // Sound event should be added in the animation.json file.
+    //		if (event.sound.equals("moving"))
+    //		{
+    //			return (SoundEvent)
+    // ForgeRegistries.SOUND_EVENTS.getValues().toArray()[rand.nextInt((ForgeRegistries.SOUND_EVENTS.getValues().size()))];
+    //		}
+    //		else if (event.sound.equals("ambient"))
+    //		{
+    //			return getAmbientSound();
+    //		} else {
+    //			return null;
+    //		}
+    return null;
+  }
 
-		return PlayState.CONTINUE;
-	}
+  /**
+   * Particle listener.
+   *
+   * @param <E> the type parameter
+   * @param event the event
+   */
+  private <E extends Entity> void particleListener(ParticleKeyFrameEvent<E> event) {
+    // Particle effects should be added in the animation.json file.
+    //		if (event.effect.equals("moving"))
+    //		{
+    //
+    //		}
+    //		else if (event.effect.equals("ambient"))
+    //		{
+    //
+    //		} else {
+    //
+    //		}
 
-	public void playRiderAnimation(PlayerEntity player, String animationName, GeckoRider.Perspective perspective, boolean shouldLoop) {
-		if (player.level.isClientSide()) {
-			AnimationBuilder newActiveAnimation = new AnimationBuilder().addAnimation(animationName, shouldLoop);
+  }
 
-			CustomAnimationController<GeckoRider> controller = GeckoRider.getAnimationController(player, perspective);
-			GeckoRider geckoPlayer = GeckoRider.getRiderPlayer(player, perspective);
-			if (controller != null && geckoPlayer != null) {
-				controller.playAnimation(geckoPlayer, newActiveAnimation);
-			}
-		}
-	}
+  @Override
+  public void registerControllers(AnimationData animationData) {
+    animationData.addAnimationController(
+        new AnimationController<>(this, "controller", 2, this::predicate));
+  }
 
-	public void playRiderAnimation(String animationName, boolean shouldLoop) {
-		if (!this.getPassengers().isEmpty()) {
-			for (Entity entity : this.getPassengers()) {
-				if (entity instanceof PlayerEntity) {
-					AnimationBuilder animationBuilder;
-					if (animationName.equals("JumpLvl1Player") || animationName.equals("JumpLvl2Player")  || animationName.equals("JumpLvl3Player")  || animationName.equals("JumpLvl4Player")  || animationName.equals("JumpLvl5Player")) {
-						String anim = GeckoRider.getRiderPlayer((PlayerEntity) entity, GeckoRider.Perspective.THIRD_PERSON).animationName;
-						animationBuilder = new AnimationBuilder().addAnimation(animationName, shouldLoop).addAnimation(anim, false);
-					} else {
-						animationBuilder = new AnimationBuilder().addAnimation(animationName, shouldLoop);
-					}
-					GeckoRider.getRiderPlayer((PlayerEntity) entity, GeckoRider.Perspective.THIRD_PERSON).animationBuilder = animationBuilder;
-					GeckoRider.getRiderPlayer((PlayerEntity) entity, GeckoRider.Perspective.FIRST_PERSON).animationBuilder = animationBuilder;
-				}
-			}
-		}
-	}
-
-	public void playRiderAnimation(String animationName, String animationName2) {
-		if (!this.getPassengers().isEmpty()) {
-			for (Entity entity : this.getPassengers()) {
-				if (entity instanceof PlayerEntity) {
-					AnimationBuilder animationBuilder;
-
-					animationBuilder = new AnimationBuilder().addAnimation(animationName, false).addAnimation(animationName2, false);
-
-					GeckoRider.getRiderPlayer((PlayerEntity) entity, GeckoRider.Perspective.THIRD_PERSON).animationBuilder = animationBuilder;
-					GeckoRider.getRiderPlayer((PlayerEntity) entity, GeckoRider.Perspective.FIRST_PERSON).animationBuilder = animationBuilder;
-				}
-			}
-		}
-	}
-
-	/**
-	 *
-	 * @param event
-	 * @param <E>
-	 * @return
-	 */
-	private <E extends Entity> SoundEvent soundListener(SoundKeyframeEvent<E> event)
-	{
-		// Sound event should be added in the animation.json file.
-//		if (event.sound.equals("moving"))
-//		{
-//			return (SoundEvent) ForgeRegistries.SOUND_EVENTS.getValues().toArray()[rand.nextInt((ForgeRegistries.SOUND_EVENTS.getValues().size()))];
-//		}
-//		else if (event.sound.equals("ambient"))
-//		{
-//			return getAmbientSound();
-//		} else {
-//			return null;
-//		}
-		return null;
-	}
-
-	/**
-	 * Particle listener.
-	 *
-	 * @param <E>   the type parameter
-	 * @param event the event
-	 */
-	private <E extends Entity> void particleListener(ParticleKeyFrameEvent<E> event)
-	{
-		// Particle effects should be added in the animation.json file.
-//		if (event.effect.equals("moving"))
-//		{
-//
-//		}
-//		else if (event.effect.equals("ambient"))
-//		{
-//
-//		} else {
-//
-//		}
-
-	}
-
-	@Override
-	public void registerControllers(AnimationData animationData) {
-		animationData.addAnimationController(new AnimationController<>(this, "controller", 2, this::predicate));
-	}
-
-	@Override
-	public AnimationFactory getFactory() {
-		return this.factory;
-	}
+  @Override
+  public AnimationFactory getFactory() {
+    return this.factory;
+  }
 }

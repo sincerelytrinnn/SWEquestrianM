@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.entities.ai;
 
-
 /*
  * All Rights Reserved
  *
@@ -19,25 +18,25 @@ import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 
 public class HorseWaterAvoidingRandomWalkingGoal extends WaterAvoidingRandomWalkingGoal {
-	private final SWEMHorseEntityBase horse;
+  private final SWEMHorseEntityBase horse;
 
-	/**
-	 * Instantiates a new Horse water avoiding random walking goal.
-	 *
-	 * @param p_i47301_1_ the p i 47301 1
-	 * @param p_i47301_2_ the p i 47301 2
-	 */
-	public HorseWaterAvoidingRandomWalkingGoal(SWEMHorseEntityBase p_i47301_1_, double p_i47301_2_) {
-		super(p_i47301_1_, p_i47301_2_);
-		this.horse = p_i47301_1_;
-	}
+  /**
+   * Instantiates a new Horse water avoiding random walking goal.
+   *
+   * @param p_i47301_1_ the p i 47301 1
+   * @param p_i47301_2_ the p i 47301 2
+   */
+  public HorseWaterAvoidingRandomWalkingGoal(SWEMHorseEntityBase p_i47301_1_, double p_i47301_2_) {
+    super(p_i47301_1_, p_i47301_2_);
+    this.horse = p_i47301_1_;
+  }
 
-	@Override
-	public void start() {
-		super.start();
+  @Override
+  public void start() {
+    super.start();
 
-		SWEMHorseEntityBase.HorseSpeed oldSpeed = this.horse.currentSpeed;
-		this.horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
-		this.horse.updateSelectedSpeed(oldSpeed);
-	}
+    SWEMHorseEntityBase.HorseSpeed oldSpeed = this.horse.currentSpeed;
+    this.horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
+    this.horse.updateSelectedSpeed(oldSpeed);
+  }
 }

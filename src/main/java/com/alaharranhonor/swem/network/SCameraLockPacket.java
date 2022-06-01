@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.network;
 
-
 /*
  * All Rights Reserved
  *
@@ -19,94 +18,93 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
+import java.util.function.Supplier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.PacketDistributor;
-
-import java.util.UUID;
-import java.util.function.Supplier;
 
 public class SCameraLockPacket {
-	private int horseId;
-	private float yRot;
-	private float xRot;
-	private boolean failed;
+  private int horseId;
+  private float yRot;
+  private float xRot;
+  private boolean failed;
 
-	/**
-	 * Instantiates a new S camera lock packet.
-	 *
-	 * @param horseId the horse id
-	 * @param yRot    the y rot
-	 * @param xRot    the x rot
-	 */
-	public SCameraLockPacket(int horseId, float yRot, float xRot) {
-		this.horseId = horseId;
-		this.yRot = yRot;
-		this.xRot = xRot;
-		this.failed = false;
-	}
+  /**
+   * Instantiates a new S camera lock packet.
+   *
+   * @param horseId the horse id
+   * @param yRot the y rot
+   * @param xRot the x rot
+   */
+  public SCameraLockPacket(int horseId, float yRot, float xRot) {
+    this.horseId = horseId;
+    this.yRot = yRot;
+    this.xRot = xRot;
+    this.failed = false;
+  }
 
-	/**
-	 * Instantiates a new S camera lock packet.
-	 *
-	 * @param failed the failed
-	 */
-	public SCameraLockPacket(boolean failed) {
-		this.failed = failed;
-	}
+  /**
+   * Instantiates a new S camera lock packet.
+   *
+   * @param failed the failed
+   */
+  public SCameraLockPacket(boolean failed) {
+    this.failed = failed;
+  }
 
-	/**
-	 * Decode s camera lock packet.
-	 *
-	 * @param buf the buf
-	 * @return the s camera lock packet
-	 */
-	public static SCameraLockPacket decode(ByteBuf buf) {
-		try {
-			int horseUUID = buf.readInt();
-			float yRot = buf.readFloat();
-			float xRot = buf.readFloat();
+  /**
+   * Decode s camera lock packet.
+   *
+   * @param buf the buf
+   * @return the s camera lock packet
+   */
+  public static SCameraLockPacket decode(ByteBuf buf) {
+    try {
+      int horseUUID = buf.readInt();
+      float yRot = buf.readFloat();
+      float xRot = buf.readFloat();
 
-			return new SCameraLockPacket(horseUUID, yRot, xRot);
-		} catch (IndexOutOfBoundsException e) {
-			SWEM.LOGGER.error("SCameraLockPacket: Unexpected end of packet.\nMessage: " + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()), e);
-			return new SCameraLockPacket(true);
-		}
-	}
+      return new SCameraLockPacket(horseUUID, yRot, xRot);
+    } catch (IndexOutOfBoundsException e) {
+      SWEM.LOGGER.error(
+          "SCameraLockPacket: Unexpected end of packet.\nMessage: "
+              + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()),
+          e);
+      return new SCameraLockPacket(true);
+    }
+  }
 
-	/**
-	 * Encode.
-	 *
-	 * @param msg    the msg
-	 * @param buffer the buffer
-	 */
-	public static void encode(SCameraLockPacket msg, PacketBuffer buffer) {
-		buffer.writeInt(msg.horseId);
-		buffer.writeFloat(msg.yRot);
-		buffer.writeFloat(msg.xRot);
-	}
+  /**
+   * Encode.
+   *
+   * @param msg the msg
+   * @param buffer the buffer
+   */
+  public static void encode(SCameraLockPacket msg, PacketBuffer buffer) {
+    buffer.writeInt(msg.horseId);
+    buffer.writeFloat(msg.yRot);
+    buffer.writeFloat(msg.xRot);
+  }
 
-	/**
-	 * Handle.
-	 *
-	 * @param msg the msg
-	 * @param ctx the ctx
-	 */
-	public static void handle(SCameraLockPacket msg, Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Entity entity = Minecraft.getInstance().level.getEntity(msg.horseId);
-			if (!(entity instanceof SWEMHorseEntityBase)) {
-				return;
-			}
-			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+  /**
+   * Handle.
+   *
+   * @param msg the msg
+   * @param ctx the ctx
+   */
+  public static void handle(SCameraLockPacket msg, Supplier<NetworkEvent.Context> ctx) {
+    ctx.get()
+        .enqueueWork(
+            () -> {
+              Entity entity = Minecraft.getInstance().level.getEntity(msg.horseId);
+              if (!(entity instanceof SWEMHorseEntityBase)) {
+                return;
+              }
+              SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 
-			horse.setLockedRotations(msg.xRot, msg.yRot);
-		});
-		ctx.get().setPacketHandled(true);
-	}
+              horse.setLockedRotations(msg.xRot, msg.yRot);
+            });
+    ctx.get().setPacketHandled(true);
+  }
 }

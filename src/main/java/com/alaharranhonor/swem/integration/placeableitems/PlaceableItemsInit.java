@@ -17,11 +17,9 @@ import com.alaharranhonor.swem.util.registry.SWEMItems;
 import me.ferdz.placeableitems.init.PlaceableItemsMap;
 
 public class PlaceableItemsInit {
-	/**
-	 * Init map.
-	 */
-	public static void initMap() {
-		PlaceableItemsMap map = PlaceableItemsMap.instance();
-		map.put(SWEMItems.LEATHER_HELMET.get(), PlaceableItemsSWEMBlockRegistry.LEATHER_HELMET);
-	}
+  /** Init map. */
+  public static void initMap() {
+    PlaceableItemsMap map = PlaceableItemsMap.instance();
+    map.put(SWEMItems.LEATHER_HELMET.get(), PlaceableItemsSWEMBlockRegistry.LEATHER_HELMET);
+  }
 }

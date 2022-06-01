@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.items;
 
-
 /*
  * All Rights Reserved
  *
@@ -32,104 +31,106 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-import net.minecraft.item.Item.Properties;
-
 public class SWEMHorseArmorItem extends HorseArmorItem implements IAnimatable {
-	public final String type;
-	private final AnimationFactory factory = new AnimationFactory(this);
+  public final String type;
+  private final AnimationFactory factory = new AnimationFactory(this);
 
-	public final HorseArmorTier tier;
+  public final HorseArmorTier tier;
 
-	private final ResourceLocation rackTexture;
+  private final ResourceLocation rackTexture;
 
+  /**
+   * Instantiates a new Swem horse armor item.
+   *
+   * @param tier the tier
+   * @param armorValue the armor value
+   * @param texture the texture
+   * @param builder the builder
+   */
+  public SWEMHorseArmorItem(
+      HorseArmorTier tier, int armorValue, String texture, Properties builder) {
+    super(
+        armorValue,
+        new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + texture + ".png"),
+        builder);
+    this.type = texture;
+    this.tier = tier;
+    this.rackTexture =
+        new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + texture + "_rack.png");
+  }
 
-	/**
-	 * Instantiates a new Swem horse armor item.
-	 *
-	 * @param tier       the tier
-	 * @param armorValue the armor value
-	 * @param texture    the texture
-	 * @param builder    the builder
-	 */
-	public SWEMHorseArmorItem(HorseArmorTier tier, int armorValue, String texture, Properties builder) {
-		super(armorValue, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + texture + ".png"), builder);
-		this.type = texture;
-		this.tier = tier;
-		this.rackTexture = new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + texture + "_rack.png");
-	}
+  public ActionResultType interactLivingEntity(
+      ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+    if (target instanceof ISWEMEquipable && target.isAlive()) {
+      ISWEMEquipable iequipable = (ISWEMEquipable) target;
+      if (iequipable.isSaddleable(playerIn) && iequipable.canEquipArmor()) {
+        if (!playerIn.level.isClientSide) {
+          iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
+          if (!playerIn.abilities.instabuild) stack.shrink(1);
+        }
 
-	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-		if (target instanceof ISWEMEquipable && target.isAlive()) {
-			ISWEMEquipable iequipable = (ISWEMEquipable)target;
-			if (iequipable.isSaddleable(playerIn) && iequipable.canEquipArmor()) {
-				if (!playerIn.level.isClientSide) {
-					iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
-					if (!playerIn.abilities.instabuild)
-						stack.shrink(1);
-				}
+        return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
+      }
+    }
+    return ActionResultType.PASS;
+  }
 
-				return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
-			}
-		}
-		return ActionResultType.PASS;
-	}
+  /**
+   * Gets rack texture.
+   *
+   * @return the rack texture
+   */
+  public ResourceLocation getRackTexture() {
+    return this.rackTexture;
+  }
 
-	/**
-	 * Gets rack texture.
-	 *
-	 * @return the rack texture
-	 */
-	public ResourceLocation getRackTexture() {
-		return this.rackTexture;
-	}
+  /**
+   * Predicate play state.
+   *
+   * @param <E> the type parameter
+   * @param event the event
+   * @return the play state
+   */
+  public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+    return PlayState.CONTINUE;
+  }
 
-	/**
-	 * Predicate play state.
-	 *
-	 * @param <E>   the type parameter
-	 * @param event the event
-	 * @return the play state
-	 */
-	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		return PlayState.CONTINUE;
-	}
+  @Override
+  public void registerControllers(AnimationData animationData) {
+    animationData.addAnimationController(
+        new AnimationController(this, "controller", 0, this::predicate));
+  }
 
-	@Override
-	public void registerControllers(AnimationData animationData) {
-		animationData.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
-	}
+  @Override
+  public AnimationFactory getFactory() {
+    return this.factory;
+  }
 
-	@Override
-	public AnimationFactory getFactory() {
-		return this.factory;
-	}
+  public static enum HorseArmorTier {
+    CLOTH(0),
+    IRON(1),
+    GOLD(2),
+    DIAMOND(3),
+    AMETHYST(4);
 
+    private int id;
 
-	public static enum HorseArmorTier {
-		CLOTH(0),
-		IRON(1),
-		GOLD(2),
-		DIAMOND(3),
-		AMETHYST(4);
+    /**
+     * Instantiates a new Horse armor tier.
+     *
+     * @param id the id
+     */
+    HorseArmorTier(int id) {
+      this.id = id;
+    }
 
-		private int id;
-
-		/**
-		 * Instantiates a new Horse armor tier.
-		 *
-		 * @param id the id
-		 */
-		HorseArmorTier(int id) {
-			this.id = id;
-		}
-
-		/**
-		 * Gets id.
-		 *
-		 * @return the id
-		 */
-		public int getId() {
-			return this.id;
-		}
-	}
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
+    public int getId() {
+      return this.id;
+    }
+  }
 }

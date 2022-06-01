@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.tileentity;
 
-
 /*
  * All Rights Reserved
  *
@@ -18,6 +17,7 @@ package com.alaharranhonor.swem.tileentity;
 import com.alaharranhonor.swem.blocks.TackBoxBlock;
 import com.alaharranhonor.swem.container.TackBoxContainer;
 import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -49,221 +49,215 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-import javax.annotation.Nullable;
+public class TackBoxTE extends LockableLootTileEntity
+    implements INamedContainerProvider, IAnimatable {
 
-public class TackBoxTE extends LockableLootTileEntity implements INamedContainerProvider, IAnimatable {
+  private AnimationFactory factory = new AnimationFactory(this);
+  private NonNullList<ItemStack> tackContents =
+      NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+  private int numPlayersUsing;
+  private IItemHandlerModifiable items = createHandler();
+  private LazyOptional<IItemHandlerModifiable> itemHandler = LazyOptional.of(() -> items);
 
-	private AnimationFactory factory = new AnimationFactory(this);
-	private NonNullList<ItemStack> tackContents = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-	private int numPlayersUsing;
-	private IItemHandlerModifiable items = createHandler();
-	private LazyOptional<IItemHandlerModifiable> itemHandler = LazyOptional.of(() -> items);
+  /** Instantiates a new Tack box te. */
+  public TackBoxTE() {
+    super(SWEMTileEntities.TACK_BOX_TILE_ENTITY.get());
+  }
 
-	/**
-	 * Instantiates a new Tack box te.
-	 */
-	public TackBoxTE() {
-		super(SWEMTileEntities.TACK_BOX_TILE_ENTITY.get());
-	}
+  @Override
+  public ITextComponent getDisplayName() {
+    return new TranslationTextComponent("container.swem.tack_box");
+  }
 
-	@Override
-	public ITextComponent getDisplayName() {
-		return new TranslationTextComponent("container.swem.tack_box");
-	}
+  @Override
+  protected ITextComponent getDefaultName() {
+    return new TranslationTextComponent("container.swem.tack_box");
+  }
 
-	@Override
-	protected ITextComponent getDefaultName() {
-		return new TranslationTextComponent("container.swem.tack_box");
-	}
+  @Override
+  public NonNullList<ItemStack> getItems() {
+    return this.tackContents;
+  }
 
-	@Override
-	public NonNullList<ItemStack> getItems() {
-		return this.tackContents;
-	}
+  @Override
+  public void setItems(NonNullList<ItemStack> itemsIn) {
+    this.tackContents = itemsIn;
+  }
 
-	@Override
-	public void setItems(NonNullList<ItemStack> itemsIn) {
-		this.tackContents = itemsIn;
-	}
+  @Override
+  protected Container createMenu(int id, PlayerInventory player) {
+    return new TackBoxContainer(id, player, this);
+  }
 
-	@Override
-	protected Container createMenu(int id, PlayerInventory player) {
-		return new TackBoxContainer(id, player, this);
-	}
+  @Override
+  public CompoundNBT save(CompoundNBT compound) {
+    super.save(compound);
+    if (!this.trySaveLootTable(compound)) {
+      ItemStackHelper.saveAllItems(compound, this.tackContents);
+    }
+    return compound;
+  }
 
-	@Override
-	public CompoundNBT save(CompoundNBT compound) {
-		super.save(compound);
-		if (!this.trySaveLootTable(compound)) {
-			ItemStackHelper.saveAllItems(compound, this.tackContents);
-		}
-		return compound;
-	}
+  @Override
+  public void load(BlockState state, CompoundNBT nbt) {
+    super.load(state, nbt);
+    this.tackContents = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+    if (!this.tryLoadLootTable(nbt)) {
+      ItemStackHelper.loadAllItems(nbt, this.tackContents);
+    }
+  }
 
+  /**
+   * Play sound.
+   *
+   * @param event the event
+   */
+  private void playSound(SoundEvent event) {
+    double dx = (double) this.getBlockPos().getX() + 0.5d;
+    double dy = (double) this.getBlockPos().getY() + 0.5d;
+    double dz = (double) this.getBlockPos().getZ() + 0.5d;
 
+    this.level.playSound(
+        (PlayerEntity) null,
+        dx,
+        dy,
+        dz,
+        event,
+        SoundCategory.BLOCKS,
+        0.5f,
+        this.level.random.nextFloat() * 0.1f + 0.9f);
+  }
 
-	@Override
-	public void load(BlockState state, CompoundNBT nbt) {
-		super.load(state, nbt);
-		this.tackContents = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-		if (!this.tryLoadLootTable(nbt)) {
-			ItemStackHelper.loadAllItems(nbt, this.tackContents);
-		}
+  @Override
+  public boolean triggerEvent(int id, int type) {
+    if (id == 1) {
+      this.numPlayersUsing = type;
+      return true;
+    } else {
+      return super.triggerEvent(id, type);
+    }
+  }
 
-	}
+  @Override
+  public void startOpen(PlayerEntity player) {
+    if (!player.isSpectator()) {
+      if (this.numPlayersUsing < 0) {
+        this.numPlayersUsing = 0;
+      }
 
-	/**
-	 * Play sound.
-	 *
-	 * @param event the event
-	 */
-	private void playSound(SoundEvent event) {
-		double dx = (double) this.getBlockPos().getX() + 0.5d;
-		double dy = (double) this.getBlockPos().getY() + 0.5d;
-		double dz = (double) this.getBlockPos().getZ() + 0.5d;
+      ++this.numPlayersUsing;
+      this.onOpenOrClose();
+    }
+  }
 
-		this.level.playSound((PlayerEntity)null, dx, dy, dz, event, SoundCategory.BLOCKS, 0.5f, this.level.random.nextFloat() * 0.1f + 0.9f);
-	}
+  @Override
+  public void stopOpen(PlayerEntity player) {
+    if (!player.isSpectator()) {
+      --this.numPlayersUsing;
+      this.onOpenOrClose();
+    }
+  }
 
-	@Override
-	public boolean triggerEvent(int id, int type) {
-		if (id == 1) {
-			this.numPlayersUsing = type;
-			return true;
-		} else {
-			return super.triggerEvent(id, type);
-		}
-	}
+  /** On open or close. */
+  protected void onOpenOrClose() {
+    Block block = this.getBlockState().getBlock();
+    if (block instanceof TackBoxBlock) {
+      this.level.blockEvent(this.getBlockPos(), block, 1, this.numPlayersUsing);
+      this.level.updateNeighborsAt(this.getBlockPos(), block);
+    }
+  }
 
-	@Override
-	public void startOpen(PlayerEntity player) {
-		if (!player.isSpectator()) {
-			if (this.numPlayersUsing < 0) {
-				this.numPlayersUsing = 0;
-			}
+  /**
+   * Gets players using.
+   *
+   * @param reader the reader
+   * @param pos the pos
+   * @return the players using
+   */
+  public static int getPlayersUsing(IBlockReader reader, BlockPos pos) {
+    BlockState state = reader.getBlockState(pos);
+    if (state.hasTileEntity()) {
+      TileEntity tileEntity = reader.getBlockEntity(pos);
+      if (tileEntity instanceof TackBoxTE) {
+        return ((TackBoxTE) tileEntity).numPlayersUsing;
+      }
+    }
+    return 0;
+  }
 
-			++this.numPlayersUsing;
-			this.onOpenOrClose();
-		}
-	}
+  /**
+   * Swap contents.
+   *
+   * @param te the te
+   * @param otherTe the other te
+   */
+  public static void swapContents(TackBoxTE te, TackBoxTE otherTe) {
+    NonNullList<ItemStack> list = te.getItems();
+    te.setItems(otherTe.getItems());
+    otherTe.setItems(list);
+  }
 
-	@Override
-	public void stopOpen(PlayerEntity player) {
-		if (!player.isSpectator()) {
-			--this.numPlayersUsing;
-			this.onOpenOrClose();
-		}
-	}
+  @Override
+  public void clearCache() {
+    super.clearCache();
+    if (this.itemHandler != null) {
+      this.itemHandler.invalidate();
+      this.itemHandler = null;
+    }
+  }
 
-	/**
-	 * On open or close.
-	 */
-	protected void onOpenOrClose() {
-		Block block = this.getBlockState().getBlock();
-		if (block instanceof TackBoxBlock) {
-			this.level.blockEvent(this.getBlockPos(), block, 1, this.numPlayersUsing);
-			this.level.updateNeighborsAt(this.getBlockPos(), block);
-		}
-	}
+  @Nullable
+  @Override
+  public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
+    if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+      return itemHandler.cast();
+    }
+    return super.getCapability(cap, side);
+  }
 
-	/**
-	 * Gets players using.
-	 *
-	 * @param reader the reader
-	 * @param pos    the pos
-	 * @return the players using
-	 */
-	public static int getPlayersUsing(IBlockReader reader, BlockPos pos) {
-		BlockState state = reader.getBlockState(pos);
-		if (state.hasTileEntity()) {
-			TileEntity tileEntity = reader.getBlockEntity(pos);
-			if (tileEntity instanceof TackBoxTE) {
-				return ((TackBoxTE) tileEntity).numPlayersUsing;
-			}
-		}
-		return 0;
+  /**
+   * Create handler item handler modifiable.
+   *
+   * @return the item handler modifiable
+   */
+  private IItemHandlerModifiable createHandler() {
+    return new InvWrapper(this);
+  }
 
-	}
+  /** invalidates a tile entity */
+  @Override
+  public void setRemoved() {
+    super.setRemoved();
+    if (itemHandler != null) {
+      itemHandler.invalidate();
+    }
+  }
 
-	/**
-	 * Swap contents.
-	 *
-	 * @param te      the te
-	 * @param otherTe the other te
-	 */
-	public static void swapContents(TackBoxTE te, TackBoxTE otherTe) {
-		NonNullList<ItemStack> list = te.getItems();
-		te.setItems(otherTe.getItems());
-		otherTe.setItems(list);
-	}
+  /** Returns the number of slots in the inventory. */
+  @Override
+  public int getContainerSize() {
+    return 31;
+  }
 
-	@Override
-	public void clearCache() {
-		super.clearCache();
-		if (this.itemHandler != null) {
-			this.itemHandler.invalidate();
-			this.itemHandler = null;
-		}
-	}
+  /**
+   * Predicate play state.
+   *
+   * @param <E> the type parameter
+   * @param event the event
+   * @return the play state
+   */
+  public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+    return PlayState.CONTINUE;
+  }
 
-	@Nullable
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return itemHandler.cast();
-		}
-		return super.getCapability(cap, side);
-	}
+  @Override
+  public void registerControllers(AnimationData animationData) {
+    animationData.addAnimationController(
+        new AnimationController(this, "controller", 0, this::predicate));
+  }
 
-	/**
-	 * Create handler item handler modifiable.
-	 *
-	 * @return the item handler modifiable
-	 */
-	private IItemHandlerModifiable createHandler() {
-		return new InvWrapper(this);
-	}
-
-	/**
-	 * invalidates a tile entity
-	 */
-	@Override
-	public void setRemoved() {
-		super.setRemoved();
-		if (itemHandler != null) {
-			itemHandler.invalidate();
-		}
-	}
-
-	/**
-	 * Returns the number of slots in the inventory.
-	 */
-	@Override
-	public int getContainerSize() {
-		return 31;
-	}
-
-
-	/**
-	 * Predicate play state.
-	 *
-	 * @param <E>   the type parameter
-	 * @param event the event
-	 * @return the play state
-	 */
-	public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		return PlayState.CONTINUE;
-	}
-
-	@Override
-	public void registerControllers(AnimationData animationData) {
-		animationData.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
-	}
-
-	@Override
-	public AnimationFactory getFactory() {
-		return this.factory;
-	}
-
-
+  @Override
+  public AnimationFactory getFactory() {
+    return this.factory;
+  }
 }

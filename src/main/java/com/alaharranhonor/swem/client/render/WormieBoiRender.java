@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.client.render;
 
-
 /*
  * All Rights Reserved
  *
@@ -16,32 +15,30 @@ package com.alaharranhonor.swem.client.render;
  */
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.entities.WormieBoiEntity;
 import com.alaharranhonor.swem.client.model.WormieBoiModel;
+import com.alaharranhonor.swem.entities.WormieBoiEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 public class WormieBoiRender extends GeoEntityRenderer<WormieBoiEntity> {
 
-	/**
-	 * Instantiates a new Wormie boi render.
-	 *
-	 * @param renderManagerIn the render manager in
-	 */
-	public WormieBoiRender(EntityRendererManager renderManagerIn) {
-		super(renderManagerIn, new WormieBoiModel());
-	}
+  /**
+   * Instantiates a new Wormie boi render.
+   *
+   * @param renderManagerIn the render manager in
+   */
+  public WormieBoiRender(EntityRendererManager renderManagerIn) {
+    super(renderManagerIn, new WormieBoiModel());
+  }
 
-	@Override
-	public ResourceLocation getTextureLocation(WormieBoiEntity entity) {
-		return new ResourceLocation(SWEM.MOD_ID, "textures/entity/wormieboi.png");
-	}
+  @Override
+  public ResourceLocation getTextureLocation(WormieBoiEntity entity) {
+    return new ResourceLocation(SWEM.MOD_ID, "textures/entity/wormieboi.png");
+  }
 
-	@Override
-	public EntityRendererManager getDispatcher() {
-		return super.getDispatcher();
-	}
-
-
+  @Override
+  public EntityRendererManager getDispatcher() {
+    return super.getDispatcher();
+  }
 }

@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.gui.widgets;
 
-
 /*
  * All Rights Reserved
  *
@@ -22,34 +21,36 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.ITextComponent;
 
 public class DeleteLayerButton extends Button {
-	private JumpScreen screen;
+  private JumpScreen screen;
 
-	/**
-	 * Instantiates a new Delete layer button.
-	 *
-	 * @param x      the x
-	 * @param y      the y
-	 * @param width  the width
-	 * @param height the height
-	 * @param title  the title
-	 * @param screen the screen
-	 */
-	public DeleteLayerButton(int x, int y, int width, int height, ITextComponent title, JumpScreen screen) {
-		super(x, y, width, height, title, new DeletePressable());
-		this.screen = screen;
+  /**
+   * Instantiates a new Delete layer button.
+   *
+   * @param x the x
+   * @param y the y
+   * @param width the width
+   * @param height the height
+   * @param title the title
+   * @param screen the screen
+   */
+  public DeleteLayerButton(
+      int x, int y, int width, int height, ITextComponent title, JumpScreen screen) {
+    super(x, y, width, height, title, new DeletePressable());
+    this.screen = screen;
 
-		if (screen.getMenu().layerAmount == 1) this.active = false;
-	}
+    if (screen.getMenu().layerAmount == 1) this.active = false;
+  }
 
-	private static class DeletePressable implements Button.IPressable {
+  private static class DeletePressable implements Button.IPressable {
 
-		@Override
-		public void onPress(Button p_onPress_1_) {
-			DeleteLayerButton btn = (DeleteLayerButton) p_onPress_1_;
-			int layerToRemove = btn.screen.layerAmount;
-			btn.active = false;
-			btn.screen.addLayerButton.active = false;
-			SWEMPacketHandler.INSTANCE.sendToServer(new CRemoveLayerPacket(btn.screen.controllerPos, layerToRemove));
-		}
-	}
+    @Override
+    public void onPress(Button p_onPress_1_) {
+      DeleteLayerButton btn = (DeleteLayerButton) p_onPress_1_;
+      int layerToRemove = btn.screen.layerAmount;
+      btn.active = false;
+      btn.screen.addLayerButton.active = false;
+      SWEMPacketHandler.INSTANCE.sendToServer(
+          new CRemoveLayerPacket(btn.screen.controllerPos, layerToRemove));
+    }
+  }
 }

@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.tools;
 
-
 /*
  * All Rights Reserved
  *
@@ -16,68 +15,72 @@ package com.alaharranhonor.swem.tools;
  */
 
 import com.alaharranhonor.swem.util.registry.SWEMItems;
+import java.util.function.Supplier;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.crafting.Ingredient;
 
-import java.util.function.Supplier;
-
 public enum SWEMItemTier implements IItemTier {
+  AMETHYST(4, 10000, 8, 13.0F, 0, () -> Ingredient.of(SWEMItems.AMETHYST_SWORD.get()));
 
-    AMETHYST(4, 10000, 8, 13.0F, 0, () -> Ingredient.of(SWEMItems.AMETHYST_SWORD.get()));
+  private final int harvestLevel;
+  private final int maxUses;
+  private final float efficiency;
+  private final float attackDamage;
+  private final int enchantibility;
+  private final Supplier<Ingredient> repairMaterial;
 
-    private final int harvestLevel;
-    private final int maxUses;
-    private final float efficiency;
-    private final float attackDamage;
-    private final int enchantibility;
-    private final Supplier<Ingredient> repairMaterial;
+  /**
+   * Instantiates a new Swem item tier.
+   *
+   * @param harvestLevel the harvest level
+   * @param maxUses the max uses
+   * @param efficiency the efficiency
+   * @param attackDamage the attack damage
+   * @param enchantibility the enchantibility
+   * @param repairMaterial the repair material
+   */
+  SWEMItemTier(
+      int harvestLevel,
+      int maxUses,
+      float efficiency,
+      float attackDamage,
+      int enchantibility,
+      Supplier<Ingredient> repairMaterial) {
+    this.harvestLevel = harvestLevel;
+    this.maxUses = maxUses;
+    this.efficiency = efficiency;
+    this.attackDamage = attackDamage;
+    this.enchantibility = enchantibility;
+    this.repairMaterial = repairMaterial;
+  }
 
-    /**
-     * Instantiates a new Swem item tier.
-     *
-     * @param harvestLevel   the harvest level
-     * @param maxUses        the max uses
-     * @param efficiency     the efficiency
-     * @param attackDamage   the attack damage
-     * @param enchantibility the enchantibility
-     * @param repairMaterial the repair material
-     */
-    SWEMItemTier(int harvestLevel, int maxUses, float efficiency, float attackDamage, int enchantibility, Supplier<Ingredient> repairMaterial){
-        this.harvestLevel = harvestLevel;
-        this.maxUses = maxUses;
-        this.efficiency = efficiency;
-        this.attackDamage = attackDamage;
-        this.enchantibility = enchantibility;
-        this.repairMaterial = repairMaterial;
-    }
+  @Override
+  public int getUses() {
+    return maxUses;
+  }
 
-    @Override
-    public int getUses() {
-        return maxUses;
-    }
+  @Override
+  public float getSpeed() {
+    return efficiency;
+  }
 
-    @Override
-    public float getSpeed() {
-        return efficiency;
-    }
+  @Override
+  public float getAttackDamageBonus() {
+    return attackDamage;
+  }
 
-    @Override
-    public float getAttackDamageBonus() {
-        return attackDamage;
-    }
+  @Override
+  public int getLevel() {
+    return harvestLevel;
+  }
 
-    @Override
-    public int getLevel() {
-        return harvestLevel;
-    }
+  @Override
+  public int getEnchantmentValue() {
+    return enchantibility;
+  }
 
-    @Override
-    public int getEnchantmentValue() {
-        return enchantibility;
-    }
-
-    @Override
-    public Ingredient getRepairIngredient() {
-        return repairMaterial.get();
-    }
+  @Override
+  public Ingredient getRepairIngredient() {
+    return repairMaterial.get();
+  }
 }

@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.datagen;
 
-
 /*
  * All Rights Reserved
  *
@@ -18,47 +17,45 @@ package com.alaharranhonor.swem.datagen;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 
-
 public class Languages extends LanguageProvider {
 
-	private String[][] translations;
-	private int localeIndex;
+  private String[][] translations;
+  private int localeIndex;
 
-	/**
-	 * Instantiates a new Languages.
-	 *
-	 * @param gen          the gen
-	 * @param modid        the modid
-	 * @param locale       the locale
-	 * @param translations the translations
-	 * @param localeIndex  the locale index
-	 */
-	public Languages(DataGenerator gen, String modid, String locale, String[][] translations, int localeIndex) {
-		this(gen, modid, locale);
-		this.translations = translations;
-		this.localeIndex = localeIndex;
-	}
+  /**
+   * Instantiates a new Languages.
+   *
+   * @param gen the gen
+   * @param modid the modid
+   * @param locale the locale
+   * @param translations the translations
+   * @param localeIndex the locale index
+   */
+  public Languages(
+      DataGenerator gen, String modid, String locale, String[][] translations, int localeIndex) {
+    this(gen, modid, locale);
+    this.translations = translations;
+    this.localeIndex = localeIndex;
+  }
 
-	/**
-	 * Instantiates a new Languages.
-	 *
-	 * @param gen    the gen
-	 * @param modid  the modid
-	 * @param locale the locale
-	 */
-	public Languages(DataGenerator gen, String modid, String locale) {
-		super(gen, modid, locale);
-	}
+  /**
+   * Instantiates a new Languages.
+   *
+   * @param gen the gen
+   * @param modid the modid
+   * @param locale the locale
+   */
+  public Languages(DataGenerator gen, String modid, String locale) {
+    super(gen, modid, locale);
+  }
 
-	@Override
-	protected void addTranslations() {
-		for (String[] set : this.translations) {
-			String key = set[0];
-			if (set.length - 1 < this.localeIndex)
-				continue;
-			String translation = set[this.localeIndex];
-			this.add(key, translation);
-
-		}
-	}
+  @Override
+  protected void addTranslations() {
+    for (String[] set : this.translations) {
+      String key = set[0];
+      if (set.length - 1 < this.localeIndex) continue;
+      String translation = set[this.localeIndex];
+      this.add(key, translation);
+    }
+  }
 }
