@@ -43,7 +43,7 @@ public class LockerScreen extends ContainerScreen<LockerContainer>
     this.passEvents = false;
     int i = 222;
     int j = 114;
-    this.inventoryRows = 3;
+    this.inventoryRows = 2;
     this.imageHeight = 114 + this.inventoryRows * 18;
     this.inventoryLabelY = this.imageHeight - 94;
   }

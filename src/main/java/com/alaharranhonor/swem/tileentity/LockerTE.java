@@ -40,7 +40,7 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 
 public class LockerTE extends LockableLootTileEntity implements INamedContainerProvider {
 
-  private NonNullList<ItemStack> lockerContents = NonNullList.withSize(54, ItemStack.EMPTY);
+  private NonNullList<ItemStack> lockerContents = NonNullList.withSize(36, ItemStack.EMPTY);
   protected int numPlayersUsing;
 
   private IItemHandlerModifiable items = createHandler();
@@ -64,7 +64,9 @@ public class LockerTE extends LockableLootTileEntity implements INamedContainerP
 
   @Override
   public ITextComponent getDisplayName() {
-    return new TranslationTextComponent("container.swem.tack_box");
+    return this.leftSideOpened
+        ? new TranslationTextComponent("container.swem.locker.left")
+        : new TranslationTextComponent("container.swem.locker.right");
   }
 
   @Override
@@ -88,7 +90,7 @@ public class LockerTE extends LockableLootTileEntity implements INamedContainerP
 
   @Override
   public int getContainerSize() {
-    return 54;
+    return 36;
   }
 
   @Override
