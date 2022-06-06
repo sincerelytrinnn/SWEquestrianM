@@ -258,7 +258,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
         new PanicGoal(
             this,
             4.0D)); // Unsure why this needs a lower value than the other goals. 4.0 Would make it
-                    // run at insane speeds.
+    // run at insane speeds.
     this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 4.0D));
     this.goalSelector.addGoal(2, new BreedGoal(this, 4.0d));
     this.goalSelector.addGoal(3, new TemptGoal(this, 4.0D, TEMPTATION_ITEMS, false));
@@ -905,12 +905,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
   @Override
   @OnlyIn(Dist.CLIENT)
   public void setDelayedLeashHolderId(int pLeashHolderID) {
-    System.out.println("Arg: " + pLeashHolderID);
-    System.out.println("Holder ID: " + this.delayedLeashHolderId);
-    System.out.println("Holder ID2: " + this.delayedLeashHolderId2);
-    System.out.println("Arg entity: " + this.level.getEntity(pLeashHolderID));
-    System.out.println("holder entity: " + this.level.getEntity(this.delayedLeashHolderId));
-    System.out.println("holder2 entity: " + this.level.getEntity(this.delayedLeashHolderId2));
 
     if (pLeashHolderID == 0) {
       this.delayedLeashHolderId2 = pLeashHolderID;
@@ -934,9 +928,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
           this.delayedLeashHolderId2 = pLeashHolderID;
         }
       }
-
-      System.out.println("Holder ID: " + this.delayedLeashHolderId);
-      System.out.println("Holder ID2: " + this.delayedLeashHolderId2);
     }
     this.dropLeash(false, false);
   }
@@ -2001,14 +1992,14 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
             .05,
             this.getDeltaMovement()
                 .z); // Set the motion on y with a positive force, because the horse is floating to
-                     // the top, pull it down, until wasEyeInWater returns true.
+        // the top, pull it down, until wasEyeInWater returns true.
       } else {
         this.setDeltaMovement(
             this.getDeltaMovement().x,
             -.05,
             this.getDeltaMovement()
                 .z); // Set the motion on y with a negative force, because the horse is floating to
-                     // the top, pull it down, until wasEyeInWater returns false.
+        // the top, pull it down, until wasEyeInWater returns false.
       }
 
     } else if (this.isInLava() && !this.isEyeInFluid(FluidTags.LAVA) && !this.isVehicle()) {
@@ -2017,7 +2008,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
           -.5,
           this.getDeltaMovement()
               .z); // Set the motion on y with a negative force, because the horse is floating to
-                   // the top, pull it down, until wasEyeInWater returns true.
+      // the top, pull it down, until wasEyeInWater returns true.
     }
   }
 
@@ -2277,8 +2268,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
             && !flag
             && this.getDeltaMovement().y
                 < 0) { // Check if the eyes is in water level, and we don't have a solid block the
-                       // way we are facing. If not, then apply an inverse force, to float the
-                       // horse.
+          // way we are facing. If not, then apply an inverse force, to float the
+          // horse.
           this.setDeltaMovement(this.getDeltaMovement().multiply(1, -1.9, 1));
         }
 
@@ -3582,7 +3573,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
       if (this.getHealth() <= 6.0F) {
         amount =
             0; // Don't damage the horse, when below 6 HP. Still play hurt animations, and deduct
-               // affinity.
+        // affinity.
       } else if (this.getHealth() - amount < 6.0f) {
         amount = this.getHealth() - 6.0f;
       }
