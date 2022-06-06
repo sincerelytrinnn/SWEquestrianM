@@ -1,3 +1,6 @@
+1.16.5-0.3.5.1-b:
+- Updated western pole hitbox.
+
 1.16.5-0.3.5.0-b:
 - Added more descriptive titles to lockers
 - Removed a row from each locker side.

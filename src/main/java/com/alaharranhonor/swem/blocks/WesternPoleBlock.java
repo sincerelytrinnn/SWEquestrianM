@@ -51,12 +51,14 @@ public class WesternPoleBlock extends Block {
   @Override
   public VoxelShape getShape(
       BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    VoxelShape shape = Block.box(3, 0, 3, 13, 48, 13);
+
     if (state.getValue(PART) == SWEMBlockStateProperties.TripleBlockSide.RIGHT) {
-      return Block.box(7, 0, 7, 9, 48, 9).move(0.0d, -2.0d, 0.0d);
+      return shape.move(0.0d, -2.0d, 0.0d);
     } else if (state.getValue(PART) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
-      return Block.box(7, 0, 7, 9, 48, 9).move(0.0d, -1.0d, 0.0d);
+      return shape.move(0.0d, -1.0d, 0.0d);
     } else {
-      return Block.box(7, 0, 7, 9, 48, 9);
+      return shape;
     }
   }
 
