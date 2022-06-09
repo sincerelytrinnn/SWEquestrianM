@@ -246,28 +246,42 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
     if (!event.isMoving() && !playerMovesHorse) {
       if (animTimer < 2
-          || (event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Walk")
-              || event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Trot")
-              || event
-                  .getController()
-                  .getCurrentAnimation()
-                  .animationName
-                  .equalsIgnoreCase("Canter")
-              || event
-                  .getController()
-                  .getCurrentAnimation()
-                  .animationName
-                  .equalsIgnoreCase("Extended_anter")
-              || event
-                  .getController()
-                  .getCurrentAnimation()
-                  .animationName
-                  .equalsIgnoreCase("Gallop")
-              || event
-                  .getController()
-                  .getCurrentAnimation()
-                  .animationName
-                  .equalsIgnoreCase("WalkingBackwards"))) {
+          || (anim != null
+                  && event
+                      .getController()
+                      .getCurrentAnimation()
+                      .animationName
+                      .equalsIgnoreCase("Walk")
+              || (anim != null
+                  && event
+                      .getController()
+                      .getCurrentAnimation()
+                      .animationName
+                      .equalsIgnoreCase("Trot"))
+              || (anim != null
+                  && event
+                      .getController()
+                      .getCurrentAnimation()
+                      .animationName
+                      .equalsIgnoreCase("Canter"))
+              || (anim != null
+                  && event
+                      .getController()
+                      .getCurrentAnimation()
+                      .animationName
+                      .equalsIgnoreCase("Extended_anter"))
+              || (anim != null
+                  && event
+                      .getController()
+                      .getCurrentAnimation()
+                      .animationName
+                      .equalsIgnoreCase("Gallop"))
+              || (anim != null
+                  && event
+                      .getController()
+                      .getCurrentAnimation()
+                      .animationName
+                      .equalsIgnoreCase("WalkingBackwards")))) {
 
         if (horse.getEntityData().get(IS_SAD)) {
           event.getController().setAnimation(new AnimationBuilder().addAnimation("SadStandIdle"));
