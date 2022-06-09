@@ -174,6 +174,7 @@ public class HorseStateChange {
                     } else {
                       horse.getEntityData().set(isLaunching, true);
                     }
+                    break;
                   }
               }
             });
