@@ -32,11 +32,6 @@ import com.alaharranhonor.swem.util.registry.SWEMItems;
 import com.alaharranhonor.swem.world.gen.OreGenUtils;
 import com.alaharranhonor.swem.world.gen.SWEMOreGen;
 import com.alaharranhonor.swem.world.structure.SWEMConfiguredStructures;
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.util.UUID;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -69,6 +64,12 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
+
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.UUID;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 @Mod.EventBusSubscriber(modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class GeneralEventHandlers {
@@ -284,16 +285,15 @@ public class GeneralEventHandlers {
         }
 
         if (keyBindings[3].consumeClick()) {
-          /*
+
           Entity entity = Minecraft.getInstance().player.getVehicle();
           if (entity instanceof SWEMHorseEntityBase) {
-          	SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+            SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 
-          	if (!horse.isFlying() && horse.canFly())  {
-          		SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(10, horse.getId()));
-          	}
+            if (!horse.isFlying() && horse.canFly()) {
+              SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(10, horse.getId()));
+            }
           }
-           */
         }
 
         KEY_PRESS_COUNTER = 0;
