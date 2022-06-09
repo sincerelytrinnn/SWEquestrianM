@@ -6,6 +6,7 @@
   "mixins": [
     "AbstractHorseEntityMixin",
     "AbstractVillagerEntityMixin",
+    "HorseMovementCheck",
     "LilyPadBlockMixin"
   ],
   "client": [
