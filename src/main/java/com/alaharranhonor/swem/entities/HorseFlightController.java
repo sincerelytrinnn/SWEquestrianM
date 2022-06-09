@@ -233,7 +233,7 @@ public class HorseFlightController {
             .getEntityData()
             .get(
                 isAccelerating)) { // If move forward is checked, but the w key is not held anymore,
-                                   // start the slowing down.
+      // start the slowing down.
       SWEMPacketHandler.INSTANCE.sendToServer(new HorseFlightPacket(2, horse.getId()));
     }
 
@@ -289,7 +289,5 @@ public class HorseFlightController {
   }
 
   /** Land. */
-  public void land() {
-    horse.setPos(launchPos.getX(), launchPos.getY(), launchPos.getZ());
-  }
+  public void land() {}
 }
