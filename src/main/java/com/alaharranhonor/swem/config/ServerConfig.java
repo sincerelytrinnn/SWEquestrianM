@@ -223,7 +223,7 @@ public final class ServerConfig {
     this.maxAffinityXP =
         builder
             .comment(
-                "Specify how much xp is needed for reaching max affinity level. The level ranges will be decided by an internal formula.")
+                "Specify how much xp that last level is. The level ranges and total xp required will be decided by an internal formula.")
             .translation("swem.config.maxAffinityXP")
             .defineInRange("maxAffinityXP", 40_000, 1, Integer.MAX_VALUE);
     builder.push("Tack Dependencies");

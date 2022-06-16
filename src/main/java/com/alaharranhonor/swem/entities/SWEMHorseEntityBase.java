@@ -14,8 +14,6 @@ package com.alaharranhonor.swem.entities;
  * THE SOFTWARE.
  */
 
-import static com.alaharranhonor.swem.entities.HorseFlightController.*;
-
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.client.coats.SWEMCoatColor;
 import com.alaharranhonor.swem.config.ConfigHolder;
@@ -39,9 +37,6 @@ import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import com.alaharranhonor.swem.util.registry.SWEMEntities;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
 import com.alaharranhonor.swem.util.registry.SWEMParticles;
-import java.util.*;
-import java.util.stream.Collectors;
-import javax.annotation.Nullable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
@@ -111,6 +106,12 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.wrapper.InvWrapper;
+
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.alaharranhonor.swem.entities.HorseFlightController.*;
 
 public class SWEMHorseEntityBase extends AbstractHorseEntity
     implements ISWEMEquipable, IEntityAdditionalSpawnData {
@@ -2705,7 +2706,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
         playerEntity.sendMessage(
             new StringTextComponent(
                 "Values is: "
-                    + Arrays.toString(this.progressionManager.getSpeedLeveling().requiredXpArray)),
+                    + Arrays.toString(
+                        this.progressionManager.getAffinityLeveling().requiredXpArray)),
             Util.NIL_UUID);
       }
       return ActionResultType.sidedSuccess(this.level.isClientSide);

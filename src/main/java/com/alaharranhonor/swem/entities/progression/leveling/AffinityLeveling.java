@@ -14,6 +14,7 @@ package com.alaharranhonor.swem.entities.progression.leveling;
  * THE SOFTWARE.
  */
 
+import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.item.ItemStack;
@@ -32,8 +33,7 @@ public class AffinityLeveling implements ILeveling {
       EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
   public static final DataParameter<Float> XP =
       EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
-  private final float[] requiredXpArray =
-      new float[] {100, 500, 1000, 1500, 2000, 3000, 4000, 5000, 7000, 10000, 13000, 17000};
+  public final float[] requiredXpArray;
   private final String[] levelNames =
       new String[] {
         "Unwilling",
@@ -50,7 +50,7 @@ public class AffinityLeveling implements ILeveling {
         "Bonded",
       };
   private final float[] obeyDebuff =
-      new float[] {1.0f, 0.9f, 0.75f, 0.65f, 0.5f, 0.4f, 0.35f, 0.3f, 0.25f, 0.2f, 0.1f, 0};
+      new float[] {1.0f, 0.95f, 0.9f, 0.85f, 0.75f, 0.65f, 0.5f, 0.35f, 0.2f, 0.1f, 0.05f, 0};
 
   public static final DataParameter<ItemStack> CURRENT_DESENSITIZING_ITEM =
       EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.ITEM_STACK);
@@ -66,6 +66,11 @@ public class AffinityLeveling implements ILeveling {
   public AffinityLeveling(SWEMHorseEntityBase horse) {
     this.horse = horse;
     this.dataManager = this.horse.getEntityData();
+    this.requiredXpArray = new float[this.obeyDebuff.length];
+    this.requiredXpArray[0] = 100; // For initial taming level. TODO: Remove this level entirely.
+    for (int i = 1; i < this.obeyDebuff.length; i++) {
+      this.requiredXpArray[i] = ConfigHolder.SERVER.maxAffinityXP.get() * (1 - this.obeyDebuff[i]);
+    }
   }
 
   /**

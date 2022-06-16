@@ -30,7 +30,7 @@ public class SpeedLeveling implements ILeveling {
       EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
   public static final DataParameter<Float> XP =
       EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
-  public final float[] requiredXpArray;
+  private final float[] requiredXpArray;
   private final String[] levelNames =
       new String[] {"Speed I", "Speed II", "Speed III", "Speed IV", "Speed V"};
 
