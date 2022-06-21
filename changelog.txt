@@ -1,3 +1,6 @@
+1.16.5-3.6.1-b:
+- Updated horse animations
+
 1.16.5-0.3.6.0-b:
 - Introduced a config option for affinity xp.
 
