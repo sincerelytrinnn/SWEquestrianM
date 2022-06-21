@@ -15,6 +15,7 @@ package com.alaharranhonor.swem.client.coats;
  */
 
 import com.alaharranhonor.swem.SWEM;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -81,6 +82,7 @@ public enum SWEMCoatColor {
   TOOTHBRUSH_BOATY(102, true),
   KODIAK_DELPHI(103, true),
   ANNIE_LACE(104, true),
+  LUCY_HANNAH(25000, false),
   FOAL_BLACK(70000, false),
   FOAL_BROWN(70001, false),
   FOAL_CHESTNUT(70002, false),

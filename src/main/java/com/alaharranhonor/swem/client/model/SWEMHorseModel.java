@@ -18,10 +18,11 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.client.coats.SWEMCoatColor;
 import com.alaharranhonor.swem.entities.SWEMHorseEntity;
 import com.google.common.collect.Maps;
-import java.util.Map;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
+
+import java.util.Map;
 
 public class SWEMHorseModel extends AnimatedGeoModel<SWEMHorseEntity> {
 
@@ -242,6 +243,9 @@ public class SWEMHorseModel extends AnimatedGeoModel<SWEMHorseEntity> {
             iter.put(
                 SWEMCoatColor.ANNIE_LACE,
                 new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/annie_lace.png"));
+            iter.put(
+                SWEMCoatColor.LUCY_HANNAH,
+                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/lucy_hannah.png"));
             iter.put(
                 SWEMCoatColor.FOAL_BLACK,
                 new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/foal/black.png"));
