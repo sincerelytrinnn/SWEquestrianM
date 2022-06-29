@@ -165,9 +165,9 @@ public class SWEMBlocks {
                       .sound(SoundType.STONE)
                       .harvestTool(ToolType.PICKAXE)
                       .harvestLevel(2)));
-  public static final RegistryObject<Block> TIMOTHY_GRASS =
+  public static final RegistryObject<Block> TIMOTHY_PLANT =
       BLOCKS.register(
-          "timothy_grass", () -> new TimothyGrass(AbstractBlock.Properties.copy(Blocks.WHEAT)));
+          "timothy_plant", () -> new TimothyPlant(AbstractBlock.Properties.copy(Blocks.WHEAT)));
   public static final RegistryObject<Block> ALFALFA_PLANT =
       BLOCKS.register(
           "alfalfa_plant", () -> new AlfalfaPlant(AbstractBlock.Properties.copy(Blocks.WHEAT)));

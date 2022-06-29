@@ -14,7 +14,7 @@ package com.alaharranhonor.swem;
  * THE SOFTWARE.
  */
 
-import com.alaharranhonor.swem.blocks.TimothyGrass;
+import com.alaharranhonor.swem.blocks.TimothyPlant;
 import com.alaharranhonor.swem.capability.CapabilityHandler;
 import com.alaharranhonor.swem.client.model.tools.SWEMGeoBuilder;
 import com.alaharranhonor.swem.config.ConfigHolder;
@@ -145,7 +145,7 @@ public class SWEM {
 
     SWEMBlocks.BLOCKS.getEntries().stream()
         .map(RegistryObject::get)
-        .filter(block -> !(block instanceof TimothyGrass))
+        .filter(block -> !(block instanceof TimothyPlant))
         .forEach(
             block -> {
               final Item.Properties properties = new Item.Properties().tab(TAB);

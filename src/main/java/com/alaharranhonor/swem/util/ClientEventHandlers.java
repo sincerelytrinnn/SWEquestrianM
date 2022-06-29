@@ -201,7 +201,7 @@ public class ClientEventHandlers {
 
   /** Sets render layers. */
   public static void setRenderLayers() {
-    RenderTypeLookup.setRenderLayer(SWEMBlocks.TIMOTHY_GRASS.get(), RenderType.cutout());
+    RenderTypeLookup.setRenderLayer(SWEMBlocks.TIMOTHY_PLANT.get(), RenderType.cutout());
     RenderTypeLookup.setRenderLayer(SWEMBlocks.OAT_PLANT.get(), RenderType.cutout());
     RenderTypeLookup.setRenderLayer(SWEMBlocks.ALFALFA_PLANT.get(), RenderType.cutout());
     RenderTypeLookup.setRenderLayer(SWEMBlocks.WATER_TROUGH.get(), RenderType.translucent());

@@ -24,7 +24,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 
-public class TimothyGrass extends CropsBlock {
+public class TimothyPlant extends CropsBlock {
   private static final VoxelShape[] SHAPE_BY_AGE =
       new VoxelShape[] {
         Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D),
@@ -42,7 +42,7 @@ public class TimothyGrass extends CropsBlock {
    *
    * @param builder the builder
    */
-  public TimothyGrass(Properties builder) {
+  public TimothyPlant(Properties builder) {
     super(builder);
   }
 

@@ -1,6 +1,6 @@
 {
   "parent": "block/crop",
   "textures": {
-    "crop": "swem:blocks/timothy_grass_4"
+    "crop": "swem:blocks/timothy_plant_5"
   }
 }

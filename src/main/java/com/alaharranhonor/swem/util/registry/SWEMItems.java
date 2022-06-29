@@ -214,11 +214,12 @@ public class SWEMItems {
   public static final RegistryObject<Item> AMETHYST = ITEMS.register("amethyst", AmethystItem::new);
   public static final RegistryObject<Item> TIMOTHY_BUSHEL =
       ITEMS.register("timothy_bushel", ItemBase::new);
-  public static final RegistryObject<Item> OAT_BUSHEL = ITEMS.register("oat_bushel", ItemBase::new);
+  public static final RegistryObject<Item> OAT_BUSHEL =
+          ITEMS.register("oat_bushel", ItemBase::new);
   public static final RegistryObject<Item> ALFALFA_BUSHEL =
       ITEMS.register("alfalfa_bushel", ItemBase::new);
   public static final RegistryObject<Item> TIMOTHY_SEEDS =
-      ITEMS.register("timothy_seeds", () -> new BlockItemBase(SWEMBlocks.TIMOTHY_GRASS.get()));
+      ITEMS.register("timothy_seeds", () -> new BlockItemBase(SWEMBlocks.TIMOTHY_PLANT.get()));
   public static final RegistryObject<Item> ALFALFA_SEEDS =
       ITEMS.register("alfalfa_seeds", () -> new BlockItemBase(SWEMBlocks.ALFALFA_PLANT.get()));
   public static final RegistryObject<Item> OAT_SEEDS =
