@@ -211,19 +211,19 @@ public class SWEMHorseModel extends AnimatedGeoModel<SWEMHorseEntity> {
                                         SWEM.MOD_ID, "textures/entity/horse/coats/lunar_arishant.png"));
                         iter.put(
                                 SWEMCoatColor.ORION_ARISHANT,
-                                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/orion_arishant"));
+                                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/orion_arishant.png"));
                         iter.put(
                                 SWEMCoatColor.PARIS_ARISHANT,
-                                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/paris_arishant"));
+                                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/paris_arishant.png"));
                         iter.put(
                                 SWEMCoatColor.ROSITA_ARISHANT,
-                                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/rosita_arishant"));
+                                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/rosita_arishant.png"));
                         iter.put(
                                 SWEMCoatColor.IBIS_ARISHANT,
-                                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/ibis_arishant"));
+                                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/ibis_arishant.png"));
                         iter.put(
                                 SWEMCoatColor.DOMINO_ARISHANT,
-                                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/domino_arishant"));
+                                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/domino_arishant.png"));
                         iter.put(
                                 SWEMCoatColor.NERO_STARDUST,
                                 new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/nero_stardust.png"));
