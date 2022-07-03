@@ -302,7 +302,7 @@ public class SaddlebagAndBedrollContainer extends Container {
                 new Slot(horseInventory, 19, 116, startSaddlebagInvY + 18) {
                     @Override
                     public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof MercyBlade;
+                        return stack.getItem() instanceof MercyBladeItem;
                     }
 
                     @Override

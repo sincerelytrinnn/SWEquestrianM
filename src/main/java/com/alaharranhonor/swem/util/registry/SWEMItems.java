@@ -345,7 +345,7 @@ public class SWEMItems {
                     "bone_meal_compost", () -> new BoneMealItem(new Item.Properties().tab(SWEM.TAB)));
     public static final RegistryObject<Item> BRUSH = ITEMS.register("brush", BrushItem::new);
     public static final RegistryObject<Item> MERCY_BLADE =
-            ITEMS.register("mercy_blade", MercyBlade::new);
+            ITEMS.register("mercy_blade", () -> new MercyBladeItem(new Item.Properties().tab(SWEM.TAB).durability(1)));
     public static final RegistryObject<Item> LEAD_ANCHOR =
             ITEMS.register("lead_anchor", LeadAnchorItem::new);
     public static final RegistryObject<Item> WARMER_EGG = ITEMS.register("warmer_egg", ItemBase::new);
