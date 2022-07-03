@@ -25,27 +25,27 @@ import net.minecraft.potion.Effects;
 import net.minecraft.world.World;
 
 public class AmethystHelmet extends SWEMArmorItem {
-  /**
-   * Instantiates a new Amethyst helmet.
-   *
-   * @param path the path
-   * @param materialIn the material in
-   * @param slot the slot
-   * @param builder the builder
-   */
-  public AmethystHelmet(
-      String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builder) {
-    super(path, materialIn, slot, builder);
-  }
+    /**
+     * Instantiates a new Amethyst helmet.
+     *
+     * @param path       the path
+     * @param materialIn the material in
+     * @param slot       the slot
+     * @param builder    the builder
+     */
+    public AmethystHelmet(
+            String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builder) {
+        super(path, materialIn, slot, builder);
+    }
 
-  @Override
-  public boolean makesPiglinsNeutral(ItemStack stack, LivingEntity wearer) {
-    return true;
-  }
+    @Override
+    public boolean makesPiglinsNeutral(ItemStack stack, LivingEntity wearer) {
+        return true;
+    }
 
-  @Override
-  public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
-    player.addEffect(new EffectInstance(Effects.WATER_BREATHING, 1, 2));
-    super.onArmorTick(stack, world, player);
-  }
+    @Override
+    public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
+        player.addEffect(new EffectInstance(Effects.WATER_BREATHING, 1, 2));
+        super.onArmorTick(stack, world, player);
+    }
 }

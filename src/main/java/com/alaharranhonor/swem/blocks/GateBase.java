@@ -17,12 +17,12 @@ package com.alaharranhonor.swem.blocks;
 import net.minecraft.block.FenceGateBlock;
 
 public class GateBase extends FenceGateBlock {
-  /**
-   * Instantiates a new Gate base.
-   *
-   * @param builder the builder
-   */
-  public GateBase(Properties builder) {
-    super(builder);
-  }
+    /**
+     * Instantiates a new Gate base.
+     *
+     * @param builder the builder
+     */
+    public GateBase(Properties builder) {
+        super(builder);
+    }
 }

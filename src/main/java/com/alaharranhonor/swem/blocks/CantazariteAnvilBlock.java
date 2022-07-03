@@ -16,7 +16,6 @@ package com.alaharranhonor.swem.blocks;
 
 import com.alaharranhonor.swem.tileentity.CantazariteAnvilTE;
 import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
-import javax.annotation.Nullable;
 import net.minecraft.block.AnvilBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -37,66 +36,68 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
+import javax.annotation.Nullable;
+
 public class CantazariteAnvilBlock extends AnvilBlock {
 
-  /**
-   * Instantiates a new Cantazarite anvil block.
-   *
-   * @param properties the properties
-   */
-  public CantazariteAnvilBlock(Properties properties) {
-    super(properties);
-    this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
-  }
-
-  @Override
-  public ActionResultType use(
-      BlockState state,
-      World worldIn,
-      BlockPos pos,
-      PlayerEntity player,
-      Hand handIn,
-      BlockRayTraceResult hit) {
-    if (!worldIn.isClientSide) {
-      TileEntity tile = worldIn.getBlockEntity(pos);
-      if (tile instanceof CantazariteAnvilTE) {
-        NetworkHooks.openGui(
-            (ServerPlayerEntity) player,
-            (CantazariteAnvilTE) tile,
-            (buffer) -> {
-              buffer.writeBlockPos(pos);
-            });
-      }
+    /**
+     * Instantiates a new Cantazarite anvil block.
+     *
+     * @param properties the properties
+     */
+    public CantazariteAnvilBlock(Properties properties) {
+        super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
-    return ActionResultType.SUCCESS;
-  }
 
-  @Override
-  public boolean hasTileEntity(BlockState state) {
-    return true;
-  }
+    @Override
+    public ActionResultType use(
+            BlockState state,
+            World worldIn,
+            BlockPos pos,
+            PlayerEntity player,
+            Hand handIn,
+            BlockRayTraceResult hit) {
+        if (!worldIn.isClientSide) {
+            TileEntity tile = worldIn.getBlockEntity(pos);
+            if (tile instanceof CantazariteAnvilTE) {
+                NetworkHooks.openGui(
+                        (ServerPlayerEntity) player,
+                        (CantazariteAnvilTE) tile,
+                        (buffer) -> {
+                            buffer.writeBlockPos(pos);
+                        });
+            }
+        }
+        return ActionResultType.SUCCESS;
+    }
 
-  @Nullable
-  @Override
-  public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-    return SWEMTileEntities.CANTAZARITE_ANVIL_TILE_ENTITY.get().create();
-  }
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
 
-  @Override
-  public VoxelShape getShape(
-      BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-    double xStart = state.getValue(FACING).getAxis() == Direction.Axis.Z ? 0.125D : 0.3125D;
-    double zStart = state.getValue(FACING).getAxis() == Direction.Axis.X ? 0.125D : 0.3125D;
-    return VoxelShapes.box(xStart, 0.0d, zStart, 1.0D - xStart, 0.5d, 1.0D - zStart);
-  }
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+        return SWEMTileEntities.CANTAZARITE_ANVIL_TILE_ENTITY.get().create();
+    }
 
-  @Override
-  public BlockState getStateForPlacement(BlockItemUseContext context) {
-    return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
-  }
+    @Override
+    public VoxelShape getShape(
+            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        double xStart = state.getValue(FACING).getAxis() == Direction.Axis.Z ? 0.125D : 0.3125D;
+        double zStart = state.getValue(FACING).getAxis() == Direction.Axis.X ? 0.125D : 0.3125D;
+        return VoxelShapes.box(xStart, 0.0d, zStart, 1.0D - xStart, 0.5d, 1.0D - zStart);
+    }
 
-  @Override
-  protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-    builder.add(FACING);
-  }
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(FACING);
+    }
 }

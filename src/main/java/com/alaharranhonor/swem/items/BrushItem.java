@@ -23,20 +23,20 @@ import net.minecraft.world.server.ServerWorld;
 
 public class BrushItem extends ItemBase {
 
-  @Override
-  public ActionResultType interactLivingEntity(
-      ItemStack pStack, PlayerEntity pPlayer, LivingEntity pTarget, Hand pHand) {
-    if (!pPlayer.level.isClientSide) {
-      if (pTarget instanceof SWEMHorseEntityBase) {
-        SWEMHorseEntityBase horse = (SWEMHorseEntityBase) pTarget;
-        if (horse.canAccessHorse(pPlayer) && horse.isTamed()) {
-          horse.brush();
-        } else {
-          horse.emitBadParticles((ServerWorld) pPlayer.level, 4);
+    @Override
+    public ActionResultType interactLivingEntity(
+            ItemStack pStack, PlayerEntity pPlayer, LivingEntity pTarget, Hand pHand) {
+        if (!pPlayer.level.isClientSide) {
+            if (pTarget instanceof SWEMHorseEntityBase) {
+                SWEMHorseEntityBase horse = (SWEMHorseEntityBase) pTarget;
+                if (horse.canAccessHorse(pPlayer) && horse.isTamed()) {
+                    horse.brush();
+                } else {
+                    horse.emitBadParticles((ServerWorld) pPlayer.level, 4);
+                }
+                return ActionResultType.CONSUME;
+            }
         }
-        return ActionResultType.CONSUME;
-      }
+        return super.interactLivingEntity(pStack, pPlayer, pTarget, pHand);
     }
-    return super.interactLivingEntity(pStack, pPlayer, pTarget, pHand);
-  }
 }

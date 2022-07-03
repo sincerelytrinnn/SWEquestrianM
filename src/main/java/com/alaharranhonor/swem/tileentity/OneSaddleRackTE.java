@@ -16,8 +16,6 @@ package com.alaharranhonor.swem.tileentity;
 
 import com.alaharranhonor.swem.items.tack.HorseSaddleItem;
 import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
-import java.util.Random;
-import javax.annotation.Nullable;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
@@ -38,146 +36,154 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
+import javax.annotation.Nullable;
+import java.util.Random;
+
 public class OneSaddleRackTE extends TileEntity implements IAnimatable {
 
-  private AnimationFactory factory = new AnimationFactory(this);
-  public ItemStackHandler itemHandler = createHandler();
+    public ItemStackHandler itemHandler = createHandler();
+    private AnimationFactory factory = new AnimationFactory(this);
+    private LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
 
-  private LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
-
-  /** Instantiates a new One saddle rack te. */
-  public OneSaddleRackTE() {
-    super(SWEMTileEntities.ONE_SADDLE_RACK_TILE_ENTITY.get());
-  }
-
-  @Override
-  public CompoundNBT save(CompoundNBT compound) {
-    compound.put("inv", itemHandler.serializeNBT());
-    return super.save(compound);
-  }
-
-  @Override
-  public CompoundNBT getUpdateTag() {
-    CompoundNBT nbt = new CompoundNBT();
-    CompoundNBT saddle = new CompoundNBT();
-    this.itemHandler.getStackInSlot(0).save(saddle);
-    nbt.put("saddle", saddle);
-    return this.save(nbt);
-  }
-
-  @Override
-  public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-    if (tag.contains("saddle")) {
-      this.itemHandler.setStackInSlot(0, ItemStack.of((CompoundNBT) tag.get("saddle")));
+    /**
+     * Instantiates a new One saddle rack te.
+     */
+    public OneSaddleRackTE() {
+        super(SWEMTileEntities.ONE_SADDLE_RACK_TILE_ENTITY.get());
     }
-  }
 
-  @Nullable
-  @Override
-  public SUpdateTileEntityPacket getUpdatePacket() {
-    CompoundNBT nbt = new CompoundNBT();
-    this.itemHandler.getStackInSlot(0).save(nbt);
-
-    return new SUpdateTileEntityPacket(this.getBlockPos(), 0, nbt);
-  }
-
-  @Override
-  public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-    this.itemHandler.setStackInSlot(0, ItemStack.of(pkt.getTag()));
-  }
-
-  @Override
-  public void load(BlockState state, CompoundNBT nbt) {
-    itemHandler.deserializeNBT(nbt.getCompound("inv"));
-    super.load(state, nbt);
-  }
-
-  @Nullable
-  @Override
-  public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-    if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-      return handler.cast();
+    @Override
+    public CompoundNBT save(CompoundNBT compound) {
+        compound.put("inv", itemHandler.serializeNBT());
+        return super.save(compound);
     }
-    return super.getCapability(cap, side);
-  }
 
-  /**
-   * Create handler item stack handler.
-   *
-   * @return the item stack handler
-   */
-  private ItemStackHandler createHandler() {
-    return new ItemStackHandler(1) {
-      @Override
-      protected void onContentsChanged(int slot) {
-        setChanged();
-      }
+    @Override
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT nbt = new CompoundNBT();
+        CompoundNBT saddle = new CompoundNBT();
+        this.itemHandler.getStackInSlot(0).save(saddle);
+        nbt.put("saddle", saddle);
+        return this.save(nbt);
+    }
 
-      @Override
-      public boolean isItemValid(int slot, ItemStack stack) {
-        return stack.getItem() instanceof HorseSaddleItem;
-      }
-
-      @Override
-      public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-        if (!this.isItemValid(slot, stack)) {
-          return stack;
+    @Override
+    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+        if (tag.contains("saddle")) {
+            this.itemHandler.setStackInSlot(0, ItemStack.of((CompoundNBT) tag.get("saddle")));
         }
-        return super.insertItem(slot, stack, simulate);
-      }
-    };
-  }
-
-  /** invalidates a tile entity */
-  @Override
-  public void setRemoved() {
-    super.setRemoved();
-    if (itemHandler != null) {
-      handler.invalidate();
     }
-  }
 
-  /** Drop items. */
-  public void dropItems() {
-    for (int i = 0; i < itemHandler.getSlots(); i++) {
-      if (this.itemHandler.getStackInSlot(i) != ItemStack.EMPTY) {
-        ItemEntity entity =
-            new ItemEntity(
-                this.level,
-                this.getBlockPos().getX(),
-                this.getBlockPos().getY(),
-                this.getBlockPos().getZ(),
-                this.itemHandler.getStackInSlot(i));
-        Random RANDOM = this.level.getRandom();
-        entity.setDeltaMovement(
-            RANDOM.nextGaussian() * (double) 0.05F,
-            RANDOM.nextGaussian() * (double) 0.05F + (double) 0.2F,
-            RANDOM.nextGaussian() * (double) 0.05F);
-        this.level.addFreshEntity(entity);
-        this.itemHandler.setStackInSlot(i, ItemStack.EMPTY);
-      }
+    @Nullable
+    @Override
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        CompoundNBT nbt = new CompoundNBT();
+        this.itemHandler.getStackInSlot(0).save(nbt);
+
+        return new SUpdateTileEntityPacket(this.getBlockPos(), 0, nbt);
     }
-  }
 
-  /**
-   * Predicate play state.
-   *
-   * @param <E> the type parameter
-   * @param event the event
-   * @return the play state
-   */
-  public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-    return PlayState.CONTINUE;
-  }
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+        this.itemHandler.setStackInSlot(0, ItemStack.of(pkt.getTag()));
+    }
 
-  @Override
-  public void registerControllers(AnimationData animationData) {
-    animationData.addAnimationController(
-        new AnimationController(this, "controller", 0, this::predicate));
-  }
+    @Override
+    public void load(BlockState state, CompoundNBT nbt) {
+        itemHandler.deserializeNBT(nbt.getCompound("inv"));
+        super.load(state, nbt);
+    }
 
-  @Override
-  public AnimationFactory getFactory() {
-    return this.factory;
-  }
+    @Nullable
+    @Override
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
+        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return handler.cast();
+        }
+        return super.getCapability(cap, side);
+    }
+
+    /**
+     * Create handler item stack handler.
+     *
+     * @return the item stack handler
+     */
+    private ItemStackHandler createHandler() {
+        return new ItemStackHandler(1) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                setChanged();
+            }
+
+            @Override
+            public boolean isItemValid(int slot, ItemStack stack) {
+                return stack.getItem() instanceof HorseSaddleItem;
+            }
+
+            @Override
+            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+                if (!this.isItemValid(slot, stack)) {
+                    return stack;
+                }
+                return super.insertItem(slot, stack, simulate);
+            }
+        };
+    }
+
+    /**
+     * invalidates a tile entity
+     */
+    @Override
+    public void setRemoved() {
+        super.setRemoved();
+        if (itemHandler != null) {
+            handler.invalidate();
+        }
+    }
+
+    /**
+     * Drop items.
+     */
+    public void dropItems() {
+        for (int i = 0; i < itemHandler.getSlots(); i++) {
+            if (this.itemHandler.getStackInSlot(i) != ItemStack.EMPTY) {
+                ItemEntity entity =
+                        new ItemEntity(
+                                this.level,
+                                this.getBlockPos().getX(),
+                                this.getBlockPos().getY(),
+                                this.getBlockPos().getZ(),
+                                this.itemHandler.getStackInSlot(i));
+                Random RANDOM = this.level.getRandom();
+                entity.setDeltaMovement(
+                        RANDOM.nextGaussian() * (double) 0.05F,
+                        RANDOM.nextGaussian() * (double) 0.05F + (double) 0.2F,
+                        RANDOM.nextGaussian() * (double) 0.05F);
+                this.level.addFreshEntity(entity);
+                this.itemHandler.setStackInSlot(i, ItemStack.EMPTY);
+            }
+        }
+    }
+
+    /**
+     * Predicate play state.
+     *
+     * @param <E>   the type parameter
+     * @param event the event
+     * @return the play state
+     */
+    public <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        return PlayState.CONTINUE;
+    }
+
+    @Override
+    public void registerControllers(AnimationData animationData) {
+        animationData.addAnimationController(
+                new AnimationController(this, "controller", 0, this::predicate));
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return this.factory;
+    }
 }

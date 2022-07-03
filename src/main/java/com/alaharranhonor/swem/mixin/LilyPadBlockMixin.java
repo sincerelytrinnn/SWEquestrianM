@@ -28,11 +28,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LilyPadBlock.class)
 public class LilyPadBlockMixin {
 
-  @Inject(method = "entityInside", at = @At("HEAD"))
-  public void entityInside(
-      BlockState pState, World pLevel, BlockPos pPos, Entity pEntity, CallbackInfo cb) {
-    if (pLevel instanceof ServerWorld && pEntity instanceof SWEMHorseEntityBase) {
-      pLevel.destroyBlock(new BlockPos(pPos), true, pEntity);
+    @Inject(method = "entityInside", at = @At("HEAD"))
+    public void entityInside(
+            BlockState pState, World pLevel, BlockPos pPos, Entity pEntity, CallbackInfo cb) {
+        if (pLevel instanceof ServerWorld && pEntity instanceof SWEMHorseEntityBase) {
+            pLevel.destroyBlock(new BlockPos(pPos), true, pEntity);
+        }
     }
-  }
 }

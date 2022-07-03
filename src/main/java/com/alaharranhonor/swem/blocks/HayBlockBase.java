@@ -19,13 +19,13 @@ import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.util.Direction;
 
 public class HayBlockBase extends RotatedPillarBlock {
-  /**
-   * Instantiates a new Hay block base.
-   *
-   * @param properties the properties
-   */
-  public HayBlockBase(AbstractBlock.Properties properties) {
-    super(properties);
-    this.registerDefaultState(this.stateDefinition.any().setValue(AXIS, Direction.Axis.Y));
-  }
+    /**
+     * Instantiates a new Hay block base.
+     *
+     * @param properties the properties
+     */
+    public HayBlockBase(AbstractBlock.Properties properties) {
+        super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(AXIS, Direction.Axis.Y));
+    }
 }

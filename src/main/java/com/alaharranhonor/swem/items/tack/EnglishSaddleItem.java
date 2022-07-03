@@ -15,13 +15,13 @@ package com.alaharranhonor.swem.items.tack;
  */
 
 public class EnglishSaddleItem extends HorseSaddleItem {
-  /**
-   * Instantiates a new English saddle item.
-   *
-   * @param textureName the texture name
-   * @param properties the properties
-   */
-  public EnglishSaddleItem(String textureName, Properties properties) {
-    super(textureName, properties);
-  }
+    /**
+     * Instantiates a new English saddle item.
+     *
+     * @param textureName the texture name
+     * @param properties  the properties
+     */
+    public EnglishSaddleItem(String textureName, Properties properties) {
+        super(textureName, properties);
+    }
 }

@@ -25,35 +25,35 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 
 public class TimothyGrass extends CropsBlock {
-  private static final VoxelShape[] SHAPE_BY_AGE =
-      new VoxelShape[] {
-        Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D),
-        Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D),
-        Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D),
-        Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D),
-        Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D),
-        Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D),
-        Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D),
-        Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)
-      };
+    private static final VoxelShape[] SHAPE_BY_AGE =
+            new VoxelShape[]{
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)
+            };
 
-  /**
-   * Instantiates a new Timothy grass.
-   *
-   * @param builder the builder
-   */
-  public TimothyGrass(Properties builder) {
-    super(builder);
-  }
+    /**
+     * Instantiates a new Timothy grass.
+     *
+     * @param builder the builder
+     */
+    public TimothyGrass(Properties builder) {
+        super(builder);
+    }
 
-  @Override
-  protected IItemProvider getBaseSeedId() {
-    return SWEMItems.TIMOTHY_SEEDS.get();
-  }
+    @Override
+    protected IItemProvider getBaseSeedId() {
+        return SWEMItems.TIMOTHY_SEEDS.get();
+    }
 
-  @Override
-  public VoxelShape getShape(
-      BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-    return SHAPE_BY_AGE[state.getValue(this.getAgeProperty())];
-  }
+    @Override
+    public VoxelShape getShape(
+            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return SHAPE_BY_AGE[state.getValue(this.getAgeProperty())];
+    }
 }

@@ -19,24 +19,24 @@ import net.minecraft.item.ItemStack;
 
 public class MercyBlade extends ItemBase {
 
-  /**
-   * Called when the player Left Clicks (attacks) an entity. Processed before damage is done, if
-   * return value is true further processing is canceled and the entity is not attacked.
-   *
-   * @param stack The Item being used
-   * @param player The player that is attacking
-   * @param entity The entity being attacked
-   * @return True to cancel the rest of the interaction.
-   */
-  @Override
-  public boolean onLeftClickEntity(ItemStack stack, PlayerEntity player, Entity entity) {
-    if (entity.getType().getCategory().isFriendly()
-        && !player.level.isClientSide
-        && !(entity instanceof PlayerEntity)) {
-      entity.setSilent(true);
-      entity.kill();
-      return true;
+    /**
+     * Called when the player Left Clicks (attacks) an entity. Processed before damage is done, if
+     * return value is true further processing is canceled and the entity is not attacked.
+     *
+     * @param stack  The Item being used
+     * @param player The player that is attacking
+     * @param entity The entity being attacked
+     * @return True to cancel the rest of the interaction.
+     */
+    @Override
+    public boolean onLeftClickEntity(ItemStack stack, PlayerEntity player, Entity entity) {
+        if (entity.getType().getCategory().isFriendly()
+                && !player.level.isClientSide
+                && !(entity instanceof PlayerEntity)) {
+            entity.setSilent(true);
+            entity.kill();
+            return true;
+        }
+        return super.onLeftClickEntity(stack, player, entity);
     }
-    return super.onLeftClickEntity(stack, player, entity);
-  }
 }

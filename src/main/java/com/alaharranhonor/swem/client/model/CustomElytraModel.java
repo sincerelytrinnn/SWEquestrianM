@@ -22,18 +22,18 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 
 public class CustomElytraModel<T extends LivingEntity> extends ElytraModel<T> {
-  public ModelRendererMatrix bipedBody;
+    public ModelRendererMatrix bipedBody;
 
-  public CustomElytraModel(ModelRenderer bipedBody) {
-    this.bipedBody = new ModelRendererMatrix(bipedBody);
-    this.bipedBody.cubes.clear();
-    this.bipedBody.addChild(rightWing);
-    this.bipedBody.addChild(leftWing);
-    rightWing.zRot = 2;
-    leftWing.zRot = 2;
-  }
+    public CustomElytraModel(ModelRenderer bipedBody) {
+        this.bipedBody = new ModelRendererMatrix(bipedBody);
+        this.bipedBody.cubes.clear();
+        this.bipedBody.addChild(rightWing);
+        this.bipedBody.addChild(leftWing);
+        rightWing.zRot = 2;
+        leftWing.zRot = 2;
+    }
 
-  protected Iterable<ModelRenderer> getBodyParts() {
-    return ImmutableList.of(this.bipedBody);
-  }
+    protected Iterable<ModelRenderer> getBodyParts() {
+        return ImmutableList.of(this.bipedBody);
+    }
 }

@@ -15,7 +15,6 @@ package com.alaharranhonor.swem.entities;
  */
 
 import com.alaharranhonor.swem.util.registry.SWEMEntities;
-import javax.annotation.Nullable;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
@@ -33,76 +32,80 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
+import javax.annotation.Nullable;
+
 public class WormieBoiEntity extends SheepEntity implements IAnimatable {
 
-  private final AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = new AnimationFactory(this);
 
-  /**
-   * Instantiates a new Wormie boi entity.
-   *
-   * @param type the type
-   * @param worldIn the world in
-   */
-  public WormieBoiEntity(EntityType<? extends SheepEntity> type, World worldIn) {
-    super(type, worldIn);
-    this.noCulling = true;
-  }
-
-  /**
-   * Sets custom attributes.
-   *
-   * @return the custom attributes
-   */
-  public static AttributeModifierMap.MutableAttribute setCustomAttributes() {
-    return MobEntity.createMobAttributes()
-        .add(Attributes.MAX_HEALTH, 8.0D)
-        .add(Attributes.MOVEMENT_SPEED, (double) 0.15f);
-  }
-
-  @Override
-  public boolean readyForShearing() {
-    return false;
-  }
-
-  @Nullable
-  @Override
-  public SheepEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
-
-    return SWEMEntities.WORMIE_BOI_ENTITY.get().create(this.level);
-  }
-
-  /** Plays living's sound at its position */
-  @Override
-  public void playAmbientSound() {
-    this.playSound(SoundEvents.FOX_AMBIENT, 0.15f, 1.0f);
-  }
-
-  /**
-   * Predicate play state.
-   *
-   * @param <E> the type parameter
-   * @param event the event
-   * @return the play state
-   */
-  private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-    if (event.isMoving()) {
-
-      event.getController().setAnimation(new AnimationBuilder().addAnimation("slither2.io", true));
-      return PlayState.CONTINUE;
-    } else {
-      event.getController().setAnimation(new AnimationBuilder().addAnimation("idle"));
-      return PlayState.CONTINUE;
+    /**
+     * Instantiates a new Wormie boi entity.
+     *
+     * @param type    the type
+     * @param worldIn the world in
+     */
+    public WormieBoiEntity(EntityType<? extends SheepEntity> type, World worldIn) {
+        super(type, worldIn);
+        this.noCulling = true;
     }
-  }
 
-  @Override
-  public void registerControllers(AnimationData animationData) {
-    animationData.addAnimationController(
-        new AnimationController<>(this, "controller", 0, this::predicate));
-  }
+    /**
+     * Sets custom attributes.
+     *
+     * @return the custom attributes
+     */
+    public static AttributeModifierMap.MutableAttribute setCustomAttributes() {
+        return MobEntity.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 8.0D)
+                .add(Attributes.MOVEMENT_SPEED, (double) 0.15f);
+    }
 
-  @Override
-  public AnimationFactory getFactory() {
-    return this.factory;
-  }
+    @Override
+    public boolean readyForShearing() {
+        return false;
+    }
+
+    @Nullable
+    @Override
+    public SheepEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
+
+        return SWEMEntities.WORMIE_BOI_ENTITY.get().create(this.level);
+    }
+
+    /**
+     * Plays living's sound at its position
+     */
+    @Override
+    public void playAmbientSound() {
+        this.playSound(SoundEvents.FOX_AMBIENT, 0.15f, 1.0f);
+    }
+
+    /**
+     * Predicate play state.
+     *
+     * @param <E>   the type parameter
+     * @param event the event
+     * @return the play state
+     */
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        if (event.isMoving()) {
+
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("slither2.io", true));
+            return PlayState.CONTINUE;
+        } else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("idle"));
+            return PlayState.CONTINUE;
+        }
+    }
+
+    @Override
+    public void registerControllers(AnimationData animationData) {
+        animationData.addAnimationController(
+                new AnimationController<>(this, "controller", 0, this::predicate));
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return this.factory;
+    }
 }

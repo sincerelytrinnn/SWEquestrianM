@@ -14,7 +14,6 @@ package com.alaharranhonor.swem.blocks;
  * THE SOFTWARE.
  */
 
-import javax.annotation.Nullable;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -44,259 +43,262 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nullable;
+
 public class HalfDoorBlock extends Block {
-  public static final DirectionProperty FACING = HorizontalBlock.FACING;
-  public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
-  public static final EnumProperty<DoorHingeSide> HINGE = BlockStateProperties.DOOR_HINGE;
-  protected static final VoxelShape SOUTH_AABB = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 3.0D);
-  protected static final VoxelShape NORTH_AABB = Block.box(0.0D, 0.0D, 13.0D, 16.0D, 16.0D, 16.0D);
-  protected static final VoxelShape WEST_AABB = Block.box(13.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
-  protected static final VoxelShape EAST_AABB = Block.box(0.0D, 0.0D, 0.0D, 3.0D, 16.0D, 16.0D);
+    public static final DirectionProperty FACING = HorizontalBlock.FACING;
+    public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
+    public static final EnumProperty<DoorHingeSide> HINGE = BlockStateProperties.DOOR_HINGE;
+    protected static final VoxelShape SOUTH_AABB = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 3.0D);
+    protected static final VoxelShape NORTH_AABB = Block.box(0.0D, 0.0D, 13.0D, 16.0D, 16.0D, 16.0D);
+    protected static final VoxelShape WEST_AABB = Block.box(13.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
+    protected static final VoxelShape EAST_AABB = Block.box(0.0D, 0.0D, 0.0D, 3.0D, 16.0D, 16.0D);
 
-  /**
-   * Instantiates a new Half door block.
-   *
-   * @param builder the builder
-   */
-  public HalfDoorBlock(AbstractBlock.Properties builder) {
-    super(builder);
-    this.registerDefaultState(
-        this.stateDefinition
-            .any()
-            .setValue(FACING, Direction.NORTH)
-            .setValue(OPEN, Boolean.valueOf(false))
-            .setValue(HINGE, DoorHingeSide.LEFT));
-  }
-
-  public VoxelShape getShape(
-      BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-    Direction direction = state.getValue(FACING);
-    boolean flag = !state.getValue(OPEN);
-    boolean flag1 = state.getValue(HINGE) == DoorHingeSide.RIGHT;
-    switch (direction) {
-      case EAST:
-      default:
-        return flag ? EAST_AABB : (flag1 ? NORTH_AABB : SOUTH_AABB);
-      case SOUTH:
-        return flag ? SOUTH_AABB : (flag1 ? EAST_AABB : WEST_AABB);
-      case WEST:
-        return flag ? WEST_AABB : (flag1 ? SOUTH_AABB : NORTH_AABB);
-      case NORTH:
-        return flag ? NORTH_AABB : (flag1 ? WEST_AABB : EAST_AABB);
+    /**
+     * Instantiates a new Half door block.
+     *
+     * @param builder the builder
+     */
+    public HalfDoorBlock(AbstractBlock.Properties builder) {
+        super(builder);
+        this.registerDefaultState(
+                this.stateDefinition
+                        .any()
+                        .setValue(FACING, Direction.NORTH)
+                        .setValue(OPEN, Boolean.valueOf(false))
+                        .setValue(HINGE, DoorHingeSide.LEFT));
     }
-  }
 
-  public boolean isPathfindable(
-      BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
-    switch (type) {
-      case LAND:
+    /**
+     * Is wooden boolean.
+     *
+     * @param world the world
+     * @param pos   the pos
+     * @return the boolean
+     */
+    public static boolean isWooden(World world, BlockPos pos) {
+        return isWooden(world.getBlockState(pos));
+    }
+
+    /**
+     * Is wooden boolean.
+     *
+     * @param state the state
+     * @return the boolean
+     */
+    public static boolean isWooden(BlockState state) {
+        return state.getBlock() instanceof HorseDoorBlock
+                && (state.getMaterial() == Material.WOOD || state.getMaterial() == Material.NETHER_WOOD);
+    }
+
+    public VoxelShape getShape(
+            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        Direction direction = state.getValue(FACING);
+        boolean flag = !state.getValue(OPEN);
+        boolean flag1 = state.getValue(HINGE) == DoorHingeSide.RIGHT;
+        switch (direction) {
+            case EAST:
+            default:
+                return flag ? EAST_AABB : (flag1 ? NORTH_AABB : SOUTH_AABB);
+            case SOUTH:
+                return flag ? SOUTH_AABB : (flag1 ? EAST_AABB : WEST_AABB);
+            case WEST:
+                return flag ? WEST_AABB : (flag1 ? SOUTH_AABB : NORTH_AABB);
+            case NORTH:
+                return flag ? NORTH_AABB : (flag1 ? WEST_AABB : EAST_AABB);
+        }
+    }
+
+    public boolean isPathfindable(
+            BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
+        switch (type) {
+            case LAND:
+                return state.getValue(OPEN);
+            case WATER:
+                return false;
+            case AIR:
+                return state.getValue(OPEN);
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * Gets close sound.
+     *
+     * @return the close sound
+     */
+    private int getCloseSound() {
+        return this.material == Material.METAL ? 1011 : 1012;
+    }
+
+    /**
+     * Gets open sound.
+     *
+     * @return the open sound
+     */
+    private int getOpenSound() {
+        return this.material == Material.METAL ? 1005 : 1006;
+    }
+
+    @Nullable
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection())
+                .setValue(HINGE, this.getHingeSide(context));
+    }
+
+    /**
+     * Gets hinge side.
+     *
+     * @param context the context
+     * @return the hinge side
+     */
+    private DoorHingeSide getHingeSide(BlockItemUseContext context) {
+        IBlockReader iblockreader = context.getLevel();
+        BlockPos blockpos = context.getClickedPos();
+        Direction direction = context.getHorizontalDirection();
+        Direction direction1 = direction.getCounterClockWise();
+        BlockPos blockpos2 = blockpos.relative(direction1);
+        BlockState blockstate = iblockreader.getBlockState(blockpos2);
+        Direction direction2 = direction.getClockWise();
+        BlockPos blockpos4 = blockpos.relative(direction2);
+        BlockState blockstate2 = iblockreader.getBlockState(blockpos4);
+        int i =
+                (blockstate.isCollisionShapeFullBlock(iblockreader, blockpos2) ? -1 : 0)
+                        + (blockstate2.isCollisionShapeFullBlock(iblockreader, blockpos4) ? 1 : 0);
+        boolean flag = blockstate.is(this);
+        boolean flag1 = blockstate2.is(this);
+        if ((!flag || flag1) && i <= 0) {
+            if ((!flag1 || flag) && i >= 0) {
+                int j = direction.getStepX();
+                int k = direction.getStepZ();
+                Vector3d vector3d = context.getClickLocation();
+                double d0 = vector3d.x - (double) blockpos.getX();
+                double d1 = vector3d.z - (double) blockpos.getZ();
+                return (j >= 0 || !(d1 < 0.5D))
+                        && (j <= 0 || !(d1 > 0.5D))
+                        && (k >= 0 || !(d0 > 0.5D))
+                        && (k <= 0 || !(d0 < 0.5D))
+                        ? DoorHingeSide.LEFT
+                        : DoorHingeSide.RIGHT;
+            } else {
+                return DoorHingeSide.LEFT;
+            }
+        } else {
+            return DoorHingeSide.RIGHT;
+        }
+    }
+
+    public ActionResultType use(
+            BlockState state,
+            World worldIn,
+            BlockPos pos,
+            PlayerEntity player,
+            Hand handIn,
+            BlockRayTraceResult hit) {
+
+        if (!worldIn.isClientSide) {
+            worldIn.setBlock(pos, state.setValue(OPEN, !state.getValue(OPEN)), 10);
+            worldIn.levelEvent(
+                    player, state.getValue(OPEN) ? this.getOpenSound() : this.getCloseSound(), pos, 0);
+        }
+        return ActionResultType.sidedSuccess(worldIn.isClientSide);
+    }
+
+    /**
+     * Is open boolean.
+     *
+     * @param state the state
+     * @return the boolean
+     */
+    public boolean isOpen(BlockState state) {
         return state.getValue(OPEN);
-      case WATER:
-        return false;
-      case AIR:
-        return state.getValue(OPEN);
-      default:
-        return false;
     }
-  }
 
-  /**
-   * Gets close sound.
-   *
-   * @return the close sound
-   */
-  private int getCloseSound() {
-    return this.material == Material.METAL ? 1011 : 1012;
-  }
-
-  /**
-   * Gets open sound.
-   *
-   * @return the open sound
-   */
-  private int getOpenSound() {
-    return this.material == Material.METAL ? 1005 : 1006;
-  }
-
-  @Nullable
-  public BlockState getStateForPlacement(BlockItemUseContext context) {
-    return this.defaultBlockState()
-        .setValue(FACING, context.getHorizontalDirection())
-        .setValue(HINGE, this.getHingeSide(context));
-  }
-
-  /**
-   * Gets hinge side.
-   *
-   * @param context the context
-   * @return the hinge side
-   */
-  private DoorHingeSide getHingeSide(BlockItemUseContext context) {
-    IBlockReader iblockreader = context.getLevel();
-    BlockPos blockpos = context.getClickedPos();
-    Direction direction = context.getHorizontalDirection();
-    Direction direction1 = direction.getCounterClockWise();
-    BlockPos blockpos2 = blockpos.relative(direction1);
-    BlockState blockstate = iblockreader.getBlockState(blockpos2);
-    Direction direction2 = direction.getClockWise();
-    BlockPos blockpos4 = blockpos.relative(direction2);
-    BlockState blockstate2 = iblockreader.getBlockState(blockpos4);
-    int i =
-        (blockstate.isCollisionShapeFullBlock(iblockreader, blockpos2) ? -1 : 0)
-            + (blockstate2.isCollisionShapeFullBlock(iblockreader, blockpos4) ? 1 : 0);
-    boolean flag = blockstate.is(this);
-    boolean flag1 = blockstate2.is(this);
-    if ((!flag || flag1) && i <= 0) {
-      if ((!flag1 || flag) && i >= 0) {
-        int j = direction.getStepX();
-        int k = direction.getStepZ();
-        Vector3d vector3d = context.getClickLocation();
-        double d0 = vector3d.x - (double) blockpos.getX();
-        double d1 = vector3d.z - (double) blockpos.getZ();
-        return (j >= 0 || !(d1 < 0.5D))
-                && (j <= 0 || !(d1 > 0.5D))
-                && (k >= 0 || !(d0 > 0.5D))
-                && (k <= 0 || !(d0 < 0.5D))
-            ? DoorHingeSide.LEFT
-            : DoorHingeSide.RIGHT;
-      } else {
-        return DoorHingeSide.LEFT;
-      }
-    } else {
-      return DoorHingeSide.RIGHT;
+    /**
+     * Open door.
+     *
+     * @param worldIn the world in
+     * @param state   the state
+     * @param pos     the pos
+     * @param open    the open
+     */
+    public void openDoor(World worldIn, BlockState state, BlockPos pos, boolean open) {
+        if (state.is(this)) {
+            // Open normally
+            worldIn.setBlock(pos, state.setValue(OPEN, open), 10);
+        }
     }
-  }
 
-  public ActionResultType use(
-      BlockState state,
-      World worldIn,
-      BlockPos pos,
-      PlayerEntity player,
-      Hand handIn,
-      BlockRayTraceResult hit) {
-
-    if (!worldIn.isClientSide) {
-      worldIn.setBlock(pos, state.setValue(OPEN, !state.getValue(OPEN)), 10);
-      worldIn.levelEvent(
-          player, state.getValue(OPEN) ? this.getOpenSound() : this.getCloseSound(), pos, 0);
+    public void neighborChanged(
+            BlockState state,
+            World worldIn,
+            BlockPos pos,
+            Block blockIn,
+            BlockPos fromPos,
+            boolean isMoving) {
     }
-    return ActionResultType.sidedSuccess(worldIn.isClientSide);
-  }
 
-  /**
-   * Is open boolean.
-   *
-   * @param state the state
-   * @return the boolean
-   */
-  public boolean isOpen(BlockState state) {
-    return state.getValue(OPEN);
-  }
-
-  /**
-   * Open door.
-   *
-   * @param worldIn the world in
-   * @param state the state
-   * @param pos the pos
-   * @param open the open
-   */
-  public void openDoor(World worldIn, BlockState state, BlockPos pos, boolean open) {
-    if (state.is(this)) {
-      // Open normally
-      worldIn.setBlock(pos, state.setValue(OPEN, open), 10);
+    /**
+     * Is valid position boolean.
+     *
+     * @param state   the state
+     * @param worldIn the world in
+     * @param pos     the pos
+     * @return the boolean
+     */
+    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
+        return true;
     }
-  }
 
-  public void neighborChanged(
-      BlockState state,
-      World worldIn,
-      BlockPos pos,
-      Block blockIn,
-      BlockPos fromPos,
-      boolean isMoving) {}
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public boolean addDestroyEffects(
+            BlockState state, World world, BlockPos pos, ParticleManager manager) {
+        return true;
+    }
 
-  /**
-   * Is valid position boolean.
-   *
-   * @param state the state
-   * @param worldIn the world in
-   * @param pos the pos
-   * @return the boolean
-   */
-  public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-    return true;
-  }
+    /**
+     * Play sound.
+     *
+     * @param worldIn   the world in
+     * @param pos       the pos
+     * @param isOpening the is opening
+     */
+    private void playSound(World worldIn, BlockPos pos, boolean isOpening) {
+        worldIn.levelEvent(
+                null, isOpening ? this.getOpenSound() : this.getCloseSound(), pos, 0);
+    }
 
-  @OnlyIn(Dist.CLIENT)
-  @Override
-  public boolean addDestroyEffects(
-      BlockState state, World world, BlockPos pos, ParticleManager manager) {
-    return true;
-  }
+    @Override
+    public PushReaction getPistonPushReaction(BlockState pState) {
+        return PushReaction.BLOCK;
+    }
 
-  /**
-   * Play sound.
-   *
-   * @param worldIn the world in
-   * @param pos the pos
-   * @param isOpening the is opening
-   */
-  private void playSound(World worldIn, BlockPos pos, boolean isOpening) {
-    worldIn.levelEvent(
-        (PlayerEntity) null, isOpening ? this.getOpenSound() : this.getCloseSound(), pos, 0);
-  }
+    public BlockState rotate(BlockState state, Rotation rot) {
+        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
+    }
 
-  @Override
-  public PushReaction getPistonPushReaction(BlockState pState) {
-    return PushReaction.BLOCK;
-  }
+    public BlockState mirror(BlockState state, Mirror mirrorIn) {
+        return mirrorIn == Mirror.NONE
+                ? state
+                : state.rotate(mirrorIn.getRotation(state.getValue(FACING))).cycle(HINGE);
+    }
 
-  public BlockState rotate(BlockState state, Rotation rot) {
-    return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
-  }
+    /**
+     * Gets position random.
+     *
+     * @param state the state
+     * @param pos   the pos
+     * @return the position random
+     */
+    @OnlyIn(Dist.CLIENT)
+    public long getPositionRandom(BlockState state, BlockPos pos) {
+        return MathHelper.getSeed(pos.getX(), pos.getY(), pos.getZ());
+    }
 
-  public BlockState mirror(BlockState state, Mirror mirrorIn) {
-    return mirrorIn == Mirror.NONE
-        ? state
-        : state.rotate(mirrorIn.getRotation(state.getValue(FACING))).cycle(HINGE);
-  }
-
-  /**
-   * Gets position random.
-   *
-   * @param state the state
-   * @param pos the pos
-   * @return the position random
-   */
-  @OnlyIn(Dist.CLIENT)
-  public long getPositionRandom(BlockState state, BlockPos pos) {
-    return MathHelper.getSeed(pos.getX(), pos.getY(), pos.getZ());
-  }
-
-  protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-    builder.add(FACING, OPEN, HINGE);
-  }
-
-  /**
-   * Is wooden boolean.
-   *
-   * @param world the world
-   * @param pos the pos
-   * @return the boolean
-   */
-  public static boolean isWooden(World world, BlockPos pos) {
-    return isWooden(world.getBlockState(pos));
-  }
-
-  /**
-   * Is wooden boolean.
-   *
-   * @param state the state
-   * @return the boolean
-   */
-  public static boolean isWooden(BlockState state) {
-    return state.getBlock() instanceof HorseDoorBlock
-        && (state.getMaterial() == Material.WOOD || state.getMaterial() == Material.NETHER_WOOD);
-  }
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(FACING, OPEN, HINGE);
+    }
 }

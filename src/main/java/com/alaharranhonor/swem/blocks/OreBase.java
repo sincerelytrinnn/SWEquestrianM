@@ -15,7 +15,6 @@ package com.alaharranhonor.swem.blocks;
  */
 
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
-import java.util.Random;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.OreBlock;
 import net.minecraft.item.ItemStack;
@@ -23,37 +22,39 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.server.ServerWorld;
 
+import java.util.Random;
+
 public class OreBase extends OreBlock {
-  /**
-   * Instantiates a new Ore base.
-   *
-   * @param p_i48357_1_ the p i 48357 1
-   */
-  public OreBase(Properties p_i48357_1_) {
-    super(p_i48357_1_);
-  }
-
-  @Override
-  public int xpOnDrop(Random p_220281_1_) {
-    if (this == SWEMBlocks.CANTAZARITE_ORE.get()) {
-      return MathHelper.nextInt(p_220281_1_, 2, 5);
-    } else {
-      return this == SWEMBlocks.AMETHYST_ORE.get() ? MathHelper.nextInt(p_220281_1_, 3, 7) : 0;
+    /**
+     * Instantiates a new Ore base.
+     *
+     * @param p_i48357_1_ the p i 48357 1
+     */
+    public OreBase(Properties p_i48357_1_) {
+        super(p_i48357_1_);
     }
-  }
 
-  public void spawnAfterBreak(
-      BlockState pState, ServerWorld pLevel, BlockPos pPos, ItemStack pStack) {
-    super.spawnAfterBreak(pState, pLevel, pPos, pStack);
-  }
+    @Override
+    public int xpOnDrop(Random p_220281_1_) {
+        if (this == SWEMBlocks.CANTAZARITE_ORE.get()) {
+            return MathHelper.nextInt(p_220281_1_, 2, 5);
+        } else {
+            return this == SWEMBlocks.AMETHYST_ORE.get() ? MathHelper.nextInt(p_220281_1_, 3, 7) : 0;
+        }
+    }
 
-  @Override
-  public int getExpDrop(
-      BlockState state,
-      net.minecraft.world.IWorldReader reader,
-      BlockPos pos,
-      int fortune,
-      int silktouch) {
-    return silktouch == 0 ? this.xpOnDrop(RANDOM) : 0;
-  }
+    public void spawnAfterBreak(
+            BlockState pState, ServerWorld pLevel, BlockPos pPos, ItemStack pStack) {
+        super.spawnAfterBreak(pState, pLevel, pPos, pStack);
+    }
+
+    @Override
+    public int getExpDrop(
+            BlockState state,
+            net.minecraft.world.IWorldReader reader,
+            BlockPos pos,
+            int fortune,
+            int silktouch) {
+        return silktouch == 0 ? this.xpOnDrop(RANDOM) : 0;
+    }
 }

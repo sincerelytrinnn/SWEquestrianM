@@ -14,7 +14,6 @@ package com.alaharranhonor.swem.blocks;
  * THE SOFTWARE.
  */
 
-import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -32,87 +31,89 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+
 public class WesternPoleBlock extends Block {
 
-  public static final EnumProperty<SWEMBlockStateProperties.TripleBlockSide> PART =
-      SWEMBlockStateProperties.T_SIDE;
+    public static final EnumProperty<SWEMBlockStateProperties.TripleBlockSide> PART =
+            SWEMBlockStateProperties.T_SIDE;
 
-  /**
-   * Instantiates a new Western pole block.
-   *
-   * @param properties the properties
-   */
-  public WesternPoleBlock(Properties properties) {
-    super(properties);
-    this.registerDefaultState(
-        this.stateDefinition.any().setValue(PART, SWEMBlockStateProperties.TripleBlockSide.LEFT));
-  }
-
-  @Override
-  public VoxelShape getShape(
-      BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-    VoxelShape shape = Block.box(3, 0, 3, 13, 48, 13);
-
-    if (state.getValue(PART) == SWEMBlockStateProperties.TripleBlockSide.RIGHT) {
-      return shape.move(0.0d, -2.0d, 0.0d);
-    } else if (state.getValue(PART) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
-      return shape.move(0.0d, -1.0d, 0.0d);
-    } else {
-      return shape;
+    /**
+     * Instantiates a new Western pole block.
+     *
+     * @param properties the properties
+     */
+    public WesternPoleBlock(Properties properties) {
+        super(properties);
+        this.registerDefaultState(
+                this.stateDefinition.any().setValue(PART, SWEMBlockStateProperties.TripleBlockSide.LEFT));
     }
-  }
 
-  @Override
-  protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-    builder.add(PART);
-  }
+    @Override
+    public VoxelShape getShape(
+            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        VoxelShape shape = Block.box(3, 0, 3, 13, 48, 13);
 
-  @Override
-  public void setPlacedBy(
-      World worldIn,
-      BlockPos pos,
-      BlockState state,
-      @Nullable LivingEntity placer,
-      ItemStack stack) {
-    super.setPlacedBy(worldIn, pos, state, placer, stack);
-    if (!worldIn.isClientSide) {
-      BlockPos blockpos = pos.relative(Direction.UP);
-      worldIn.setBlock(
-          blockpos, state.setValue(PART, SWEMBlockStateProperties.TripleBlockSide.MIDDLE), 3);
-      worldIn.setBlock(
-          blockpos.above(),
-          state.setValue(PART, SWEMBlockStateProperties.TripleBlockSide.RIGHT),
-          3);
-      state.updateNeighbourShapes(worldIn, pos, 3);
+        if (state.getValue(PART) == SWEMBlockStateProperties.TripleBlockSide.RIGHT) {
+            return shape.move(0.0d, -2.0d, 0.0d);
+        } else if (state.getValue(PART) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+            return shape.move(0.0d, -1.0d, 0.0d);
+        } else {
+            return shape;
+        }
     }
-  }
 
-  @Override
-  public void playerWillDestroy(
-      World p_176208_1_, BlockPos p_176208_2_, BlockState p_176208_3_, PlayerEntity p_176208_4_) {
-    super.playerWillDestroy(p_176208_1_, p_176208_2_, p_176208_3_, p_176208_4_);
-
-    if (p_176208_3_.getValue(PART) == SWEMBlockStateProperties.TripleBlockSide.LEFT) {
-      p_176208_1_.setBlock(p_176208_2_.above(), Blocks.AIR.defaultBlockState(), 3);
-      p_176208_1_.setBlock(p_176208_2_.above().above(), Blocks.AIR.defaultBlockState(), 3);
-    } else if (p_176208_3_.getValue(PART) == SWEMBlockStateProperties.TripleBlockSide.RIGHT) {
-      p_176208_1_.setBlock(p_176208_2_.below(), Blocks.AIR.defaultBlockState(), 3);
-      p_176208_1_.setBlock(p_176208_2_.below().below(), Blocks.AIR.defaultBlockState(), 3);
-    } else if (p_176208_3_.getValue(PART) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
-      p_176208_1_.setBlock(p_176208_2_.below(), Blocks.AIR.defaultBlockState(), 3);
-      p_176208_1_.setBlock(p_176208_2_.above(), Blocks.AIR.defaultBlockState(), 3);
+    @Override
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(PART);
     }
-  }
 
-  @Override
-  public boolean canSurvive(BlockState pState, IWorldReader pLevel, BlockPos pPos) {
-    return pLevel.getBlockState(pPos).isAir()
-        && pLevel.getBlockState(pPos.above()).isAir()
-        && pLevel.getBlockState(pPos.above(2)).isAir();
-  }
+    @Override
+    public void setPlacedBy(
+            World worldIn,
+            BlockPos pos,
+            BlockState state,
+            @Nullable LivingEntity placer,
+            ItemStack stack) {
+        super.setPlacedBy(worldIn, pos, state, placer, stack);
+        if (!worldIn.isClientSide) {
+            BlockPos blockpos = pos.relative(Direction.UP);
+            worldIn.setBlock(
+                    blockpos, state.setValue(PART, SWEMBlockStateProperties.TripleBlockSide.MIDDLE), 3);
+            worldIn.setBlock(
+                    blockpos.above(),
+                    state.setValue(PART, SWEMBlockStateProperties.TripleBlockSide.RIGHT),
+                    3);
+            state.updateNeighbourShapes(worldIn, pos, 3);
+        }
+    }
 
-  @Override
-  public PushReaction getPistonPushReaction(BlockState pState) {
-    return PushReaction.BLOCK;
-  }
+    @Override
+    public void playerWillDestroy(
+            World p_176208_1_, BlockPos p_176208_2_, BlockState p_176208_3_, PlayerEntity p_176208_4_) {
+        super.playerWillDestroy(p_176208_1_, p_176208_2_, p_176208_3_, p_176208_4_);
+
+        if (p_176208_3_.getValue(PART) == SWEMBlockStateProperties.TripleBlockSide.LEFT) {
+            p_176208_1_.setBlock(p_176208_2_.above(), Blocks.AIR.defaultBlockState(), 3);
+            p_176208_1_.setBlock(p_176208_2_.above().above(), Blocks.AIR.defaultBlockState(), 3);
+        } else if (p_176208_3_.getValue(PART) == SWEMBlockStateProperties.TripleBlockSide.RIGHT) {
+            p_176208_1_.setBlock(p_176208_2_.below(), Blocks.AIR.defaultBlockState(), 3);
+            p_176208_1_.setBlock(p_176208_2_.below().below(), Blocks.AIR.defaultBlockState(), 3);
+        } else if (p_176208_3_.getValue(PART) == SWEMBlockStateProperties.TripleBlockSide.MIDDLE) {
+            p_176208_1_.setBlock(p_176208_2_.below(), Blocks.AIR.defaultBlockState(), 3);
+            p_176208_1_.setBlock(p_176208_2_.above(), Blocks.AIR.defaultBlockState(), 3);
+        }
+    }
+
+    @Override
+    public boolean canSurvive(BlockState pState, IWorldReader pLevel, BlockPos pPos) {
+        return pLevel.getBlockState(pPos).isAir()
+                && pLevel.getBlockState(pPos.above()).isAir()
+                && pLevel.getBlockState(pPos.above(2)).isAir();
+    }
+
+    @Override
+    public PushReaction getPistonPushReaction(BlockState pState) {
+        return PushReaction.BLOCK;
+    }
 }

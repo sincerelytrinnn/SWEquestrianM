@@ -27,57 +27,57 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
 public class SaddlebagAndBedrollScreen extends ContainerScreen<SaddlebagAndBedrollContainer>
-    implements IHasContainer<SaddlebagAndBedrollContainer> {
+        implements IHasContainer<SaddlebagAndBedrollContainer> {
 
-  private static final ResourceLocation SADDLE_BAG_TEXTURE =
-      new ResourceLocation(SWEM.MOD_ID, "textures/gui/container/saddle_bag_and_bedroll.png");
+    private static final ResourceLocation SADDLE_BAG_TEXTURE =
+            new ResourceLocation(SWEM.MOD_ID, "textures/gui/container/saddle_bag_and_bedroll.png");
 
-  private final PlayerEntity player;
-  private SaddlebagAndBedrollContainer container;
-  private PlayerInventory inventory;
-  private ITextComponent text;
+    private final PlayerEntity player;
+    private SaddlebagAndBedrollContainer container;
+    private PlayerInventory inventory;
+    private ITextComponent text;
 
-  /**
-   * Instantiates a new Saddlebag screen.
-   *
-   * @param screenContainer the screen container
-   * @param inv the inv
-   * @param titleIn the title in
-   */
-  public SaddlebagAndBedrollScreen(
-      SaddlebagAndBedrollContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
-    super(screenContainer, inv, titleIn);
-    this.imageWidth = 176;
-    this.imageHeight = 198;
-    this.player = inv.player;
-    this.titleLabelX = 7;
-    this.titleLabelY = 38;
-    this.inventoryLabelX = 7;
-    this.inventoryLabelY = 105;
-    this.container = screenContainer;
-    this.inventory = inv;
-    this.text = titleIn;
-  }
+    /**
+     * Instantiates a new Saddlebag screen.
+     *
+     * @param screenContainer the screen container
+     * @param inv             the inv
+     * @param titleIn         the title in
+     */
+    public SaddlebagAndBedrollScreen(
+            SaddlebagAndBedrollContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
+        super(screenContainer, inv, titleIn);
+        this.imageWidth = 176;
+        this.imageHeight = 198;
+        this.player = inv.player;
+        this.titleLabelX = 7;
+        this.titleLabelY = 38;
+        this.inventoryLabelX = 7;
+        this.inventoryLabelY = 105;
+        this.container = screenContainer;
+        this.inventory = inv;
+        this.text = titleIn;
+    }
 
-  @Override
-  protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
-    RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-    this.minecraft.getTextureManager().bind(SADDLE_BAG_TEXTURE);
-    int i = (this.width - this.imageWidth) / 2;
-    int j = (this.height - this.imageHeight) / 2;
-    blit(matrixStack, i, j, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
-  }
+    @Override
+    protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        this.minecraft.getTextureManager().bind(SADDLE_BAG_TEXTURE);
+        int i = (this.width - this.imageWidth) / 2;
+        int j = (this.height - this.imageHeight) / 2;
+        blit(matrixStack, i, j, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
+    }
 
-  @Override
-  protected void renderLabels(MatrixStack matrixStack, int x, int y) {
-    super.renderLabels(matrixStack, x, y);
-    this.font.draw(matrixStack, new StringTextComponent("Bedroll"), 7, 6, 4210752);
-  }
+    @Override
+    protected void renderLabels(MatrixStack matrixStack, int x, int y) {
+        super.renderLabels(matrixStack, x, y);
+        this.font.draw(matrixStack, new StringTextComponent("Bedroll"), 7, 6, 4210752);
+    }
 
-  @Override
-  public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-    this.renderBackground(matrixStack);
-    super.render(matrixStack, mouseX, mouseY, partialTicks);
-    this.renderTooltip(matrixStack, mouseX, mouseY);
-  }
+    @Override
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(matrixStack);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.renderTooltip(matrixStack, mouseX, mouseY);
+    }
 }

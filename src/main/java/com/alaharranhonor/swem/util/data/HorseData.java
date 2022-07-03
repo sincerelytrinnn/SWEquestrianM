@@ -13,41 +13,42 @@ package com.alaharranhonor.swem.util.data;
  * THE SOFTWARE.
  */
 
-import java.util.UUID;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.UUID;
+
 public class HorseData {
-  private UUID uuid;
-  private BlockPos pos;
-  private String name;
+    private UUID uuid;
+    private BlockPos pos;
+    private String name;
 
-  public HorseData(UUID uuid, BlockPos pos, String name) {
-    this.uuid = uuid;
-    this.pos = pos;
-    this.name = name;
-  }
+    public HorseData(UUID uuid, BlockPos pos, String name) {
+        this.uuid = uuid;
+        this.pos = pos;
+        this.name = name;
+    }
 
-  public UUID getUuid() {
-    return uuid;
-  }
+    public UUID getUuid() {
+        return uuid;
+    }
 
-  public void setUuid(UUID uuid) {
-    this.uuid = uuid;
-  }
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
 
-  public BlockPos getPos() {
-    return pos;
-  }
+    public BlockPos getPos() {
+        return pos;
+    }
 
-  public void setPos(BlockPos pos) {
-    this.pos = pos;
-  }
+    public void setPos(BlockPos pos) {
+        this.pos = pos;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 }
