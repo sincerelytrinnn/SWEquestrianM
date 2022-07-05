@@ -202,25 +202,25 @@ public final class ServerConfig {
                         .comment(
                                 "Specify how much xp is needed for reaching max speed level. The level ranges will be decided by an internal formula.")
                         .translation("swem.config.maxSpeedXP")
-                        .defineInRange("maxSpeedXP", 40_000, 1, Integer.MAX_VALUE);
+                        .defineInRange("maxSpeedXP", 13_500, 1, Integer.MAX_VALUE);
         this.maxJumpXP =
                 builder
                         .comment(
                                 "Specify how much xp is needed for reaching max jump level. The level ranges will be decided by an internal formula.")
                         .translation("swem.config.maxJumpXP")
-                        .defineInRange("maxJumpXP", 40_000, 1, Integer.MAX_VALUE);
+                        .defineInRange("maxJumpXP", 13_500, 1, Integer.MAX_VALUE);
         this.maxHealthXP =
                 builder
                         .comment(
                                 "Specify how much xp is needed for reaching max health level. The level ranges will be decided by an internal formula.")
                         .translation("swem.config.maxHealthXP")
-                        .defineInRange("maxHealthXP", 40_000, 1, Integer.MAX_VALUE);
+                        .defineInRange("maxHealthXP", 13_500, 1, Integer.MAX_VALUE);
         this.maxAffinityXP =
                 builder
                         .comment(
                                 "Specify how much xp that last level is. The level ranges and total xp required will be decided by an internal formula.")
                         .translation("swem.config.maxAffinityXP")
-                        .defineInRange("maxAffinityXP", 40_000, 1, Integer.MAX_VALUE);
+                        .defineInRange("maxAffinityXP", 17_000, 1, Integer.MAX_VALUE);
         builder.push("Tack Dependencies");
         this.halterDependency =
                 builder
