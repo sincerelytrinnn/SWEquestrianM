@@ -68,9 +68,14 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
             "WesternSaddle", "WesternSaddleMiddle", "WesternSaddleLeftSide", "WesternSaddleRightSide"
     };
 
-    private static final String[] WESTERN_BRIDLE_REIN_BONE_NAMES = {
+    private static final String[] WESTERN_BRIDLE_BONE_NAMES = {
+            "WesternBridle",
             "WesternBridleLeftBit",
             "WesternBridleRightBit",
+    };
+
+    private static final String[] WESTERN_BRIDLE_REIN_BONE_NAMES = {
+
             "WesternBridleLeftRein",
             "WesternBridleLeftRein1",
             "WesternBridleLeftRein2",
@@ -79,9 +84,14 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
             "WesternBridleRightRein2"
     };
 
-    private static final String[] ENGLISH_BRIDLE_REIN_BONE_NAMES = {
+    private static final String[] ENGLISH_BRIDLE_BONE_NAMES = {
+            "EnglishBridle",
             "EnglishBridleLeftBit",
             "EnglishBridleRightBit",
+    };
+
+    private static final String[] ENGLISH_BRIDLE_REIN_BONE_NAMES = {
+
             "EnglishBridleLeftRein",
             "EnglishBridleLeftRein1",
             "EnglishBridleLeftRein2",
@@ -229,28 +239,28 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
                 && bridleRenderFlag
                 && shouldRenderTackFlag
         ) {
-            this.showBone("WesternBridle", entity);
+            Arrays.stream(WESTERN_BRIDLE_BONE_NAMES).forEach((n) -> this.showBone(n, entity));
             if (!entity.isBridleLeashed()) {
                 Arrays.stream(WESTERN_BRIDLE_REIN_BONE_NAMES).forEach((n) -> this.showBone(n, entity));
             } else {
                 Arrays.stream(WESTERN_BRIDLE_REIN_BONE_NAMES).forEach((n) -> this.hideBone(n, entity));
             }
         } else {
-            this.hideBone("WesternBridle", entity);
+            Arrays.stream(WESTERN_BRIDLE_BONE_NAMES).forEach((n) -> this.hideBone(n, entity));
             Arrays.stream(WESTERN_BRIDLE_REIN_BONE_NAMES).forEach((n) -> this.hideBone(n, entity));
         }
 
         if (bridleStack.getItem() instanceof EnglishBridleItem
                 && bridleRenderFlag
                 && shouldRenderTackFlag) {
-            this.showBone("EnglishBridle", entity);
+            Arrays.stream(ENGLISH_BRIDLE_BONE_NAMES).forEach((n) -> this.showBone(n, entity));
             if (!entity.isBridleLeashed()) {
                 Arrays.stream(ENGLISH_BRIDLE_REIN_BONE_NAMES).forEach((n) -> this.showBone(n, entity));
             } else {
                 Arrays.stream(ENGLISH_BRIDLE_REIN_BONE_NAMES).forEach((n) -> this.hideBone(n, entity));
             }
         } else {
-            this.hideBone("EnglishBridle", entity);
+            Arrays.stream(ENGLISH_BRIDLE_BONE_NAMES).forEach((n) -> this.hideBone(n, entity));
             Arrays.stream(ENGLISH_BRIDLE_REIN_BONE_NAMES).forEach((n) -> this.hideBone(n, entity));
         }
     }
