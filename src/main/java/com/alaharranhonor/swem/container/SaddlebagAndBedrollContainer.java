@@ -119,7 +119,7 @@ public class SaddlebagAndBedrollContainer extends Container {
                 new Slot(horseInventory, 5, 26, startSaddlebagInvY) {
                     @Override
                     public boolean mayPlace(ItemStack stack) {
-                        return false; // stack.getItem() instanceof LeadAndAnchorItem;
+                        return stack.getItem() instanceof LeadAnchorItem;
                     }
 
                     @Override
@@ -172,7 +172,7 @@ public class SaddlebagAndBedrollContainer extends Container {
                 new Slot(horseInventory, 9, 98, startSaddlebagInvY) {
                     @Override
                     public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof BucketItem;
+                        return stack.getItem() instanceof BucketItem || stack.getItem() instanceof MilkBucketItem;
                     }
 
                     @Override
@@ -289,8 +289,8 @@ public class SaddlebagAndBedrollContainer extends Container {
                 new Slot(horseInventory, 18, 98, startSaddlebagInvY + 18) {
                     @Override
                     public boolean mayPlace(ItemStack stack) {
-                        return false;
-                    } // 2 buckets?
+                        return stack.getItem() instanceof BucketItem || stack.getItem() instanceof MilkBucketItem;
+                    }
 
                     @Override
                     public int getMaxStackSize() {
