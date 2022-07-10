@@ -131,6 +131,8 @@ public class SWEMBlocks {
     return () -> new BlockItem(block.get(), new Item.Properties().tab(itemGroup));
   }
 
+  public static final RegistryObject<Block> BLOCK_O_WATER =
+          BLOCKS.register("block_o_water", BlockOWater::new);
   public static final RegistryObject<Block> CHARCOAL_BLOCK =
       BLOCKS.register("charcoal_block", FuelBlock::new);
   public static final RegistryObject<Block> FUEL_BLOCK =
@@ -1243,6 +1245,9 @@ public class SWEMBlocks {
   }
 
   // Block Items
+  public static final RegistryObject<Item> BLOCK_O_WATER_ITEM =
+          SWEMItems.ITEMS.register("block_o_water", () -> new BlockItemBase(BLOCK_O_WATER.get()));
+
   public static final RegistryObject<Item> FUEL_BLOCK_ITEM =
       SWEMItems.ITEMS.register("fuel_block", () -> new FuelBlockItemBase(FUEL_BLOCK.get(), 1600));
   public static final RegistryObject<Item> CANTAZARITE_BLOCK_ITEM =
