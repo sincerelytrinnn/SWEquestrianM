@@ -13,9 +13,14 @@ package com.alaharranhonor.swem.items;
  * THE SOFTWARE.
  */
 
+import com.google.common.collect.ImmutableSet;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+
+import java.util.Set;
 
 public class MercyBlade extends ItemBase {
 
@@ -38,5 +43,18 @@ public class MercyBlade extends ItemBase {
       return true;
     }
     return super.onLeftClickEntity(stack, player, entity);
+  }
+
+  @Override
+  public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+    Set e = ImmutableSet.of(
+            Enchantments.SHARPNESS,
+            Enchantments.SWEEPING_EDGE,
+            Enchantments.MOB_LOOTING,
+            Enchantments.FIRE_ASPECT,
+            Enchantments.UNBREAKING,
+            Enchantments.KNOCKBACK
+    );
+    return e.contains(enchantment);
   }
 }
