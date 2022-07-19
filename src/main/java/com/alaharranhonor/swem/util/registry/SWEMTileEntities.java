@@ -41,12 +41,6 @@ public class SWEMTileEntities {
     TILE_ENTITY_TYPES.register(modBus);
   }
 
-  public static final RegistryObject<TileEntityType<BridleRackTE>> BLOCK_O_WATER_TILE_ENTITY =
-          TILE_ENTITY_TYPES.register(
-                  "block_o_water",
-                  () ->
-                          TileEntityType.Builder.of(BridleRackTE::new, SWEMBlocks.BLOCK_O_WATER.get())
-                                  .build(null));
   public static final RegistryObject<TileEntityType<TackBoxTE>> TACK_BOX_TILE_ENTITY =
       TILE_ENTITY_TYPES.register(
           "tack_box",
