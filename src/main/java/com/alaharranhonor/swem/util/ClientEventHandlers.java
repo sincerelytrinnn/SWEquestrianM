@@ -45,10 +45,12 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.IDyeableArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemModelsProperties;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.Color;
@@ -610,6 +612,26 @@ public class ClientEventHandlers {
                 if (geckoPlayer != null) geckoPlayer.tick();
                 if (player == Minecraft.getInstance().player)
                     RiderFirstPersonRenderer.GECKO_PLAYER_FIRST_PERSON.tick();
+            }
+        }
+
+        @SubscribeEvent
+        public static void fogDensity(EntityViewRenderEvent.FogDensity event) {
+            ClientPlayerEntity player = Minecraft.getInstance().player;
+            if (player == null) return;
+            Item item = player.getItemBySlot(EquipmentSlotType.FEET).getItem();
+            if (item instanceof DiamondRidingBoots && player.isEyeInFluid(FluidTags.LAVA)) {
+                event.setDensity(0.075F);
+                event.setCanceled(true);
+            }
+        }
+
+        @SubscribeEvent
+        public static void onFireOverlayRender(RenderBlockOverlayEvent event) {
+            if (event.getOverlayType() != RenderBlockOverlayEvent.OverlayType.FIRE) return;
+
+            if (event.getPlayer().getItemBySlot(EquipmentSlotType.FEET).getItem() instanceof DiamondRidingBoots) {
+                event.getMatrixStack().translate(0, -0.25, 0);
             }
         }
     }
