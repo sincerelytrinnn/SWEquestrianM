@@ -1919,10 +1919,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
                 if (blockpos.closerThan(this.blockPosition(), f)) {
                     blockpos$mutable.set(blockpos.getX(), blockpos.getY() + 1, blockpos.getZ());
                     BlockState blockstate1 = level.getBlockState(blockpos$mutable);
-                    if (blockstate1.isAir(level, blockpos$mutable)) {
+                    if (blockstate1.getBlock().isAir(blockstate1, level, blockpos$mutable)) {
                         BlockState blockstate2 = level.getBlockState(blockpos);
                         boolean isFull = blockstate2.getBlock() == Blocks.WATER && blockstate2.getValue(FlowingFluidBlock.LEVEL) == 0; // TODO: Forge, modded waters?
-                        if (blockstate2.getMaterial() == Material.WATER && isFull && blockstate.canSurvive(level, blockpos) && level.isUnobstructed(blockstate, blockpos, ISelectionContext.empty()) && !ForgeEventFactory.onBlockPlace(this, BlockSnapshot.create(level.dimension(), level, blockpos), Direction.UP)) {
+                        if (((blockstate2.getMaterial() == Material.WATER && isFull) || blockstate2.getMaterial() == Material.WATER_PLANT) && blockstate.canSurvive(level, blockpos) && level.isUnobstructed(blockstate, blockpos, ISelectionContext.empty()) && !ForgeEventFactory.onBlockPlace(this, BlockSnapshot.create(level.dimension(), level, blockpos), Direction.UP)) {
                             level.setBlock(blockpos, blockstate, 3);
                             level.getBlockTicks().scheduleTick(blockpos, Blocks.FROSTED_ICE, 20);
                         }

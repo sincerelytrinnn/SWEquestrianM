@@ -44,8 +44,7 @@ public class GoldRidingBoots extends IronRidingBoots {
      * @param slot       the slot
      * @param builderIn  the builder in
      */
-    public GoldRidingBoots(
-            String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
+    public GoldRidingBoots(String path, IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {
         super(path, materialIn, slot, builderIn);
     }
 
@@ -55,14 +54,8 @@ public class GoldRidingBoots extends IronRidingBoots {
     }
 
     @Override
-    public void appendHoverText(
-            ItemStack p_77624_1_,
-            @Nullable World p_77624_2_,
-            List<ITextComponent> p_77624_3_,
-            ITooltipFlag p_77624_4_) {
-        p_77624_3_.add(
-                new StringTextComponent("Ice, Ice baby.")
-                        .setStyle(Style.EMPTY.withColor(Color.parseColor("#585858"))));
+    public void appendHoverText(ItemStack p_77624_1_, @Nullable World p_77624_2_, List<ITextComponent> p_77624_3_, ITooltipFlag p_77624_4_) {
+        p_77624_3_.add(new StringTextComponent("Ice, Ice baby.").setStyle(Style.EMPTY.withColor(Color.parseColor("#585858"))));
     }
 
     @Override
@@ -86,26 +79,14 @@ public class GoldRidingBoots extends IronRidingBoots {
 
             BlockPos pos = player.blockPosition();
 
-            for (BlockPos blockpos :
-                    BlockPos.betweenClosed(pos.offset(-f, -1.0D, -f), pos.offset(f, -1.0D, f))) {
+            for (BlockPos blockpos : BlockPos.betweenClosed(pos.offset(-f, -1.0D, -f), pos.offset(f, -1.0D, f))) {
                 if (blockpos.closerThan(player.position(), (double) f)) {
                     blockpos$mutable.set(blockpos.getX(), blockpos.getY() + 1, blockpos.getZ());
                     BlockState blockstate1 = world.getBlockState(blockpos$mutable);
-                    if (blockstate1.isAir(world, blockpos$mutable)) {
+                    if (blockstate1.getBlock().isAir(blockstate1, world, blockpos$mutable)) {
                         BlockState blockstate2 = world.getBlockState(blockpos);
-                        boolean isFull =
-                                blockstate2.getBlock() == Blocks.WATER
-                                        && blockstate2.getValue(FlowingFluidBlock.LEVEL)
-                                        == 0; // TODO: Forge, modded waters?
-                        if (blockstate2.getMaterial() == Material.WATER
-                                && isFull
-                                && blockstate.canSurvive(world, blockpos)
-                                && world.isUnobstructed(blockstate, blockpos, ISelectionContext.empty())
-                                && !net.minecraftforge.event.ForgeEventFactory.onBlockPlace(
-                                player,
-                                net.minecraftforge.common.util.BlockSnapshot.create(
-                                        world.dimension(), world, blockpos),
-                                net.minecraft.util.Direction.UP)) {
+                        boolean isFull = blockstate2.getBlock() == Blocks.WATER && blockstate2.getValue(FlowingFluidBlock.LEVEL) == 0; // TODO: Forge, modded waters?
+                        if (((blockstate2.getMaterial() == Material.WATER && isFull) || blockstate2.getMaterial() == Material.WATER_PLANT) && blockstate.canSurvive(world, blockpos) && world.isUnobstructed(blockstate, blockpos, ISelectionContext.empty()) && !net.minecraftforge.event.ForgeEventFactory.onBlockPlace(player, net.minecraftforge.common.util.BlockSnapshot.create(world.dimension(), world, blockpos), net.minecraft.util.Direction.UP)) {
                             world.setBlock(blockpos, blockstate, 3);
                             world.getBlockTicks().scheduleTick(blockpos, Blocks.FROSTED_ICE, 20);
                         }
