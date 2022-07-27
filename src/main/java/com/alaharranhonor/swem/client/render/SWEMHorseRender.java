@@ -609,7 +609,8 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
     }
 
     @Override
-    protected void preRenderBlock(BlockState block, String boneName, SWEMHorseEntity currentEntity) {
+    protected void preRenderBlock(MatrixStack matrixStack, BlockState block, String boneName, SWEMHorseEntity currentEntity) {
+
     }
 
     @Override
@@ -622,7 +623,7 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
     }
 
     @Override
-    protected void postRenderBlock(
-            BlockState block, String boneName, SWEMHorseEntity currentEntity) {
+    protected void postRenderBlock(MatrixStack matrixStack, BlockState block, String boneName, SWEMHorseEntity currentEntity) {
+
     }
 }

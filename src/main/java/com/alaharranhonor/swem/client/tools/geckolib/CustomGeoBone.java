@@ -66,6 +66,19 @@ public class CustomGeoBone extends GeoBone {
         return new Vector3d(-vec.x() * 16f, vec.y() * 16f, vec.z() * 16f);
     }
 
+    public Matrix4f getWorldSpaceXform() {
+        setTrackXform(true);
+        return worldSpaceXform;
+    }
+
+    public Vector3d getWorldSpace() {
+        Matrix4f matrix = getWorldSpaceXform();
+        Vector4f vec = new Vector4f(0, 0, 0, 1);
+        vec.transform(matrix);
+        return new Vector3d(vec.x(), vec.y(), vec.z());
+    }
+
+
     public void setModelPosition(Vector3d pos) {
         // TODO: Doesn't work on bones with parent transforms
         CustomGeoBone parent = getParent();
@@ -97,9 +110,6 @@ public class CustomGeoBone extends GeoBone {
         this.worldSpaceNormal = worldSpaceNormal;
     }
 
-    public Matrix4f getWorldSpaceXform() {
-        return worldSpaceXform;
-    }
 
     public void setWorldSpaceXform(Matrix4f worldSpaceXform) {
         this.worldSpaceXform = worldSpaceXform;

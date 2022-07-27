@@ -58,35 +58,30 @@ import java.util.Iterator;
 
 public class RiderRenderPlayer extends PlayerRenderer implements IGeoRenderer<GeckoRider> {
 
-    private static HashMap<Class<? extends GeckoRider>, RiderRenderPlayer> modelsToLoad =
-            new HashMap<>();
+    private static HashMap<Class<? extends GeckoRider>, RiderRenderPlayer> modelsToLoad = new HashMap<>();
 
     static {
-        AnimationController.addModelFetcher(
-                (IAnimatable object) -> {
-                    if (object instanceof GeckoRider.GeckoRiderThirdPerson) {
-                        RiderRenderPlayer render = modelsToLoad.get(object.getClass());
-                        return (IAnimatableModel<Object>) render.getGeoModelProvider();
-                    } else {
-                        return null;
-                    }
-                });
+        AnimationController.addModelFetcher((IAnimatable object) -> {
+            if (object instanceof GeckoRider.GeckoRiderThirdPerson) {
+                RiderRenderPlayer render = modelsToLoad.get(object.getClass());
+                return (IAnimatableModel<Object>) render.getGeoModelProvider();
+            } else {
+                return null;
+            }
+        });
     }
 
     public Vector3d betweenHandsPos;
     private ModelGeckoRiderThirdPerson modelProvider;
     private Matrix4f worldRenderMat;
 
-    public RiderRenderPlayer(
-            EntityRendererManager renderManager, ModelGeckoRiderThirdPerson modelProvider) {
+    public RiderRenderPlayer(EntityRendererManager renderManager, ModelGeckoRiderThirdPerson modelProvider) {
         super(renderManager, false);
 
         this.model = new ModelPlayerAnimated<>(0.0f, false);
 
         this.layers.clear();
-        this.addLayer(
-                new BipedArmorLayer<>(
-                        this, new ModelBipedAnimated<>(0.5F), new ModelBipedAnimated<>(1.0F)));
+        this.addLayer(new BipedArmorLayer<>(this, new ModelBipedAnimated<>(0.5F), new ModelBipedAnimated<>(1.0F)));
         this.addLayer(new GeckoHeldItemLayer(this));
         this.addLayer(new ArrowLayer<>(this));
         this.addLayer(new Deadmau5HeadLayer(this));
@@ -131,17 +126,9 @@ public class RiderRenderPlayer extends PlayerRenderer implements IGeoRenderer<Ge
         this.modelProvider.setUseSmallArms(true);
     }
 
-    public void render(
-            AbstractClientPlayerEntity entityIn,
-            float entityYaw,
-            float partialTicks,
-            MatrixStack matrixStackIn,
-            IRenderTypeBuffer bufferIn,
-            int packedLightIn,
-            GeckoRider geckoRider) {
+    public void render(AbstractClientPlayerEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, GeckoRider geckoRider) {
         this.setModelVisibilities(entityIn);
-        renderLiving(
-                entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn, geckoRider);
+        renderLiving(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn, geckoRider);
     }
 
     private void setModelVisibilities(AbstractClientPlayerEntity clientPlayer) {
@@ -154,29 +141,16 @@ public class RiderRenderPlayer extends PlayerRenderer implements IGeoRenderer<Ge
             } else {
                 playermodel.setVisible(true);
                 playermodel.bipedHeadwear().setHidden(!clientPlayer.isModelPartShown(PlayerModelPart.HAT));
-                playermodel
-                        .bipedBodywear()
-                        .setHidden(!clientPlayer.isModelPartShown(PlayerModelPart.JACKET));
-                playermodel
-                        .bipedLeftLegwear()
-                        .setHidden(!clientPlayer.isModelPartShown(PlayerModelPart.LEFT_PANTS_LEG));
-                playermodel
-                        .bipedRightLegwear()
-                        .setHidden(!clientPlayer.isModelPartShown(PlayerModelPart.RIGHT_PANTS_LEG));
-                playermodel
-                        .bipedLeftArmwear()
-                        .setHidden(!clientPlayer.isModelPartShown(PlayerModelPart.LEFT_SLEEVE));
-                playermodel
-                        .bipedRightArmwear()
-                        .setHidden(!clientPlayer.isModelPartShown(PlayerModelPart.RIGHT_SLEEVE));
+                playermodel.bipedBodywear().setHidden(!clientPlayer.isModelPartShown(PlayerModelPart.JACKET));
+                playermodel.bipedLeftLegwear().setHidden(!clientPlayer.isModelPartShown(PlayerModelPart.LEFT_PANTS_LEG));
+                playermodel.bipedRightLegwear().setHidden(!clientPlayer.isModelPartShown(PlayerModelPart.RIGHT_PANTS_LEG));
+                playermodel.bipedLeftArmwear().setHidden(!clientPlayer.isModelPartShown(PlayerModelPart.LEFT_SLEEVE));
+                playermodel.bipedRightArmwear().setHidden(!clientPlayer.isModelPartShown(PlayerModelPart.RIGHT_SLEEVE));
                 playermodel.isSneak = clientPlayer.isCrouching();
                 BipedModel.ArmPose bipedmodel$armpose = getArmPose(clientPlayer, Hand.MAIN_HAND);
                 BipedModel.ArmPose bipedmodel$armpose1 = getArmPose(clientPlayer, Hand.OFF_HAND);
                 if (bipedmodel$armpose.isTwoHanded()) {
-                    bipedmodel$armpose1 =
-                            clientPlayer.getOffhandItem().isEmpty()
-                                    ? BipedModel.ArmPose.EMPTY
-                                    : BipedModel.ArmPose.ITEM;
+                    bipedmodel$armpose1 = clientPlayer.getOffhandItem().isEmpty() ? BipedModel.ArmPose.EMPTY : BipedModel.ArmPose.ITEM;
                 }
 
                 if (clientPlayer.getMainArm() == HandSide.RIGHT) {
@@ -190,14 +164,7 @@ public class RiderRenderPlayer extends PlayerRenderer implements IGeoRenderer<Ge
         }
     }
 
-    public void renderLiving(
-            AbstractClientPlayerEntity entityIn,
-            float entityYaw,
-            float partialTicks,
-            MatrixStack matrixStackIn,
-            IRenderTypeBuffer bufferIn,
-            int packedLightIn,
-            GeckoRider geckoPlayer) {
+    public void renderLiving(AbstractClientPlayerEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, GeckoRider geckoPlayer) {
         //        if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new
         // net.minecraftforge.client.event.RenderLivingEvent.Pre<AbstractClientPlayerEntity,
         // PlayerModel<AbstractClientPlayerEntity>>(entityIn, this, partialTicks, matrixStackIn,
@@ -205,9 +172,7 @@ public class RiderRenderPlayer extends PlayerRenderer implements IGeoRenderer<Ge
         matrixStackIn.pushPose();
         this.model.attackTime = this.getAttackAnim(entityIn, partialTicks);
 
-        boolean shouldSit =
-                entityIn.isPassenger()
-                        && (entityIn.getVehicle() != null && entityIn.getVehicle().shouldRiderSit());
+        boolean shouldSit = entityIn.isPassenger() && (entityIn.getVehicle() != null && entityIn.getVehicle().shouldRiderSit());
         this.model.riding = shouldSit;
         this.model.young = entityIn.isBaby();
         float f = MathHelper.rotLerp(partialTicks, entityIn.yBodyRotO, entityIn.yBodyRot);
@@ -246,10 +211,7 @@ public class RiderRenderPlayer extends PlayerRenderer implements IGeoRenderer<Ge
             Direction direction = entityIn.getBedOrientation();
             if (direction != null) {
                 float f4 = entityIn.getEyeHeight(Pose.STANDING) - 0.1F;
-                matrixStackIn.translate(
-                        (double) ((float) (-direction.getStepX()) * f4),
-                        0.0D,
-                        (double) ((float) (-direction.getStepZ()) * f4));
+                matrixStackIn.translate((double) ((float) (-direction.getStepX()) * f4), 0.0D, (double) ((float) (-direction.getStepZ()) * f4));
             }
         }
 
@@ -273,8 +235,7 @@ public class RiderRenderPlayer extends PlayerRenderer implements IGeoRenderer<Ge
         if (this.modelProvider.isInitialized()) {
             this.applyRotationsPlayerRenderer(entityIn, matrixStackIn, f7, f, partialTicks, f1);
             float bodyRotateAmount = this.modelProvider.getControllerValue("BodyRotateController");
-            this.modelProvider.setRotationAngles(
-                    entityIn, f5, f8, f7, MathHelper.rotLerp(bodyRotateAmount, 0, f2), f6, partialTicks);
+            this.modelProvider.setRotationAngles(entityIn, f5, f8, f7, MathHelper.rotLerp(bodyRotateAmount, 0, f2), f6, partialTicks);
 
             CustomGeoBone leftHeldItem = modelProvider.getCustomBone("LeftHeldItem");
             CustomGeoBone rightHeldItem = modelProvider.getCustomBone("RightHeldItem");
@@ -292,17 +253,14 @@ public class RiderRenderPlayer extends PlayerRenderer implements IGeoRenderer<Ge
             Vector4f leftHeldItemPos = new Vector4f(0, 0, 0, 1);
             leftHeldItemPos.transform(leftHeldItem.getWorldSpaceXform());
             leftHeldItemPos.transform(toWorldSpace.last().pose());
-            Vector3d leftHeldItemPos3 =
-                    new Vector3d(leftHeldItemPos.x(), leftHeldItemPos.y(), leftHeldItemPos.z());
+            Vector3d leftHeldItemPos3 = new Vector3d(leftHeldItemPos.x(), leftHeldItemPos.y(), leftHeldItemPos.z());
 
             Vector4f rightHeldItemPos = new Vector4f(0, 0, 0, 1);
             rightHeldItemPos.transform(rightHeldItem.getWorldSpaceXform());
             rightHeldItemPos.transform(toWorldSpace.last().pose());
-            Vector3d rightHeldItemPos3 =
-                    new Vector3d(rightHeldItemPos.x(), rightHeldItemPos.y(), rightHeldItemPos.z());
+            Vector3d rightHeldItemPos3 = new Vector3d(rightHeldItemPos.x(), rightHeldItemPos.y(), rightHeldItemPos.z());
 
-            betweenHandsPos =
-                    rightHeldItemPos3.add(leftHeldItemPos3.subtract(rightHeldItemPos3).scale(0.5));
+            betweenHandsPos = rightHeldItemPos3.add(leftHeldItemPos3.subtract(rightHeldItemPos3).scale(0.5));
         }
         Minecraft minecraft = Minecraft.getInstance();
         boolean flag = this.isBodyVisible(entityIn);
@@ -314,77 +272,35 @@ public class RiderRenderPlayer extends PlayerRenderer implements IGeoRenderer<Ge
             int i = getOverlayCoords(entityIn, this.getWhiteOverlayProgress(entityIn, partialTicks));
             matrixStackIn.pushPose();
             worldRenderMat.set(matrixStackIn.last().pose());
-            render(
-                    getGeoModelProvider().getModel(getGeoModelProvider().getModelLocation(geckoPlayer)),
-                    geckoPlayer,
-                    partialTicks,
-                    rendertype,
-                    matrixStackIn,
-                    bufferIn,
-                    ivertexbuilder,
-                    packedLightIn,
-                    i,
-                    1.0F,
-                    1.0F,
-                    1.0F,
-                    flag1 ? 0.15F : 1.0F);
+            render(getGeoModelProvider().getModel(getGeoModelProvider().getModelLocation(geckoPlayer)), geckoPlayer, partialTicks, rendertype, matrixStackIn, bufferIn, ivertexbuilder, packedLightIn, i, 1.0F, 1.0F, 1.0F, flag1 ? 0.15F : 1.0F);
             matrixStackIn.popPose();
             this.model.setupAnim(entityIn, f5, f8, f7, f2, f6);
             ModelBipedAnimated.copyFromGeckoModel(this.model, this.modelProvider);
         }
 
         if (!entityIn.isSpectator()) {
-            for (LayerRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>>
-                    layerrenderer : this.layers) {
-                layerrenderer.render(
-                        matrixStackIn, bufferIn, packedLightIn, entityIn, f5, f8, partialTicks, f7, f2, f6);
+            for (LayerRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>> layerrenderer : this.layers) {
+                layerrenderer.render(matrixStackIn, bufferIn, packedLightIn, entityIn, f5, f8, partialTicks, f7, f2, f6);
             }
         }
 
         matrixStackIn.popPose();
         renderEntity(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(
-                new net.minecraftforge.client.event.RenderLivingEvent.Post<
-                        AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>>(
-                        entityIn, this, partialTicks, matrixStackIn, bufferIn, packedLightIn));
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.RenderLivingEvent.Post<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>>(entityIn, this, partialTicks, matrixStackIn, bufferIn, packedLightIn));
     }
 
-    public void renderEntity(
-            AbstractClientPlayerEntity entityIn,
-            float entityYaw,
-            float partialTicks,
-            MatrixStack matrixStackIn,
-            IRenderTypeBuffer bufferIn,
-            int packedLightIn) {
-        net.minecraftforge.client.event.RenderNameplateEvent renderNameplateEvent =
-                new net.minecraftforge.client.event.RenderNameplateEvent(
-                        entityIn,
-                        entityIn.getDisplayName(),
-                        this,
-                        matrixStackIn,
-                        bufferIn,
-                        packedLightIn,
-                        partialTicks);
+    public void renderEntity(AbstractClientPlayerEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+        net.minecraftforge.client.event.RenderNameplateEvent renderNameplateEvent = new net.minecraftforge.client.event.RenderNameplateEvent(entityIn, entityIn.getDisplayName(), this, matrixStackIn, bufferIn, packedLightIn, partialTicks);
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(renderNameplateEvent);
-        if (renderNameplateEvent.getResult() != net.minecraftforge.eventbus.api.Event.Result.DENY
-                && (renderNameplateEvent.getResult() == net.minecraftforge.eventbus.api.Event.Result.ALLOW
-                || this.shouldShowName(entityIn))) {
-            this.renderNameTag(
-                    entityIn, renderNameplateEvent.getContent(), matrixStackIn, bufferIn, packedLightIn);
+        if (renderNameplateEvent.getResult() != net.minecraftforge.eventbus.api.Event.Result.DENY && (renderNameplateEvent.getResult() == net.minecraftforge.eventbus.api.Event.Result.ALLOW || this.shouldShowName(entityIn))) {
+            this.renderNameTag(entityIn, renderNameplateEvent.getContent(), matrixStackIn, bufferIn, packedLightIn);
         }
     }
 
-    protected void applyRotationsPlayerRenderer(
-            AbstractClientPlayerEntity entityLiving,
-            MatrixStack matrixStackIn,
-            float ageInTicks,
-            float rotationYaw,
-            float partialTicks,
-            float headYaw) {
+    protected void applyRotationsPlayerRenderer(AbstractClientPlayerEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks, float headYaw) {
         float f = entityLiving.getSwimAmount(partialTicks);
         if (entityLiving.isFallFlying()) {
-            this.applyRotationsLivingRenderer(
-                    entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks, headYaw);
+            this.applyRotationsLivingRenderer(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks, headYaw);
             float f1 = (float) entityLiving.getFallFlyingTicks() + partialTicks;
             float f2 = MathHelper.clamp(f1 * f1 / 100.0F, 0.0F, 1.0F);
             if (!entityLiving.isAutoSpinAttack()) {
@@ -402,8 +318,7 @@ public class RiderRenderPlayer extends PlayerRenderer implements IGeoRenderer<Ge
             }
         } else if (f > 0.0F) {
             float swimController = this.modelProvider.getControllerValue("SwimController");
-            this.applyRotationsLivingRenderer(
-                    entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks, headYaw);
+            this.applyRotationsLivingRenderer(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks, headYaw);
             float f3 = entityLiving.isInWater() ? -90.0F - entityLiving.xRot : -90.0F;
             float f4 = MathHelper.lerp(f, 0.0F, f3) * swimController;
             matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(f4));
@@ -411,29 +326,19 @@ public class RiderRenderPlayer extends PlayerRenderer implements IGeoRenderer<Ge
                 matrixStackIn.translate(0.0D, -1.0D, (double) 0.3F);
             }
         } else {
-            this.applyRotationsLivingRenderer(
-                    entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks, headYaw);
+            this.applyRotationsLivingRenderer(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks, headYaw);
         }
     }
 
-    protected void applyRotationsLivingRenderer(
-            AbstractClientPlayerEntity entityLiving,
-            MatrixStack matrixStackIn,
-            float ageInTicks,
-            float rotationYaw,
-            float partialTicks,
-            float headYaw) {
+    protected void applyRotationsLivingRenderer(AbstractClientPlayerEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks, float headYaw) {
         if (this.isShaking(entityLiving)) {
-            rotationYaw +=
-                    (float) (Math.cos((double) entityLiving.tickCount * 3.25D) * Math.PI * (double) 0.4F);
+            rotationYaw += (float) (Math.cos((double) entityLiving.tickCount * 3.25D) * Math.PI * (double) 0.4F);
         }
 
         Pose pose = entityLiving.getPose();
         if (pose != Pose.SLEEPING) {
             float bodyRotateAmount = this.modelProvider.getControllerValue("BodyRotateController");
-            matrixStackIn.mulPose(
-                    Vector3f.YP.rotationDegrees(
-                            180.0F - MathHelper.rotLerp(bodyRotateAmount, headYaw, rotationYaw)));
+            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0F - MathHelper.rotLerp(bodyRotateAmount, headYaw, rotationYaw)));
         }
 
         if (entityLiving.deathTime > 0) {
@@ -446,8 +351,7 @@ public class RiderRenderPlayer extends PlayerRenderer implements IGeoRenderer<Ge
             matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(f * this.getFlipDegrees(entityLiving)));
         } else if (entityLiving.isAutoSpinAttack()) {
             matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(-90.0F - entityLiving.xRot));
-            matrixStackIn.mulPose(
-                    Vector3f.YP.rotationDegrees(((float) entityLiving.tickCount + partialTicks) * -75.0F));
+            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(((float) entityLiving.tickCount + partialTicks) * -75.0F));
         } else if (pose == Pose.SLEEPING) {
             Direction direction = entityLiving.getBedOrientation();
             float f1 = direction != null ? getFacingAngle(direction) : rotationYaw;
@@ -456,9 +360,7 @@ public class RiderRenderPlayer extends PlayerRenderer implements IGeoRenderer<Ge
             matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(270.0F));
         } else if (entityLiving.hasCustomName() || entityLiving instanceof PlayerEntity) {
             String s = TextFormatting.stripFormatting(entityLiving.getName().getString());
-            if (("Dinnerbone".equals(s) || "Grumm".equals(s))
-                    && (!(entityLiving instanceof PlayerEntity)
-                    || ((PlayerEntity) entityLiving).isModelPartShown(PlayerModelPart.CAPE))) {
+            if (("Dinnerbone".equals(s) || "Grumm".equals(s)) && (!(entityLiving instanceof PlayerEntity) || ((PlayerEntity) entityLiving).isModelPartShown(PlayerModelPart.CAPE))) {
                 matrixStackIn.translate(0.0D, (double) (entityLiving.getBbHeight() + 0.1F), 0.0D);
                 matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
             }
@@ -480,16 +382,7 @@ public class RiderRenderPlayer extends PlayerRenderer implements IGeoRenderer<Ge
     }
 
     @Override
-    public void renderRecursively(
-            GeoBone bone,
-            MatrixStack matrixStack,
-            IVertexBuilder bufferIn,
-            int packedLightIn,
-            int packedOverlayIn,
-            float red,
-            float green,
-            float blue,
-            float alpha) {
+    public void renderRecursively(GeoBone bone, MatrixStack matrixStack, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         matrixStack.pushPose();
         RenderUtils.translate(bone, matrixStack);
         RenderUtils.moveToPivot(bone, matrixStack);
@@ -498,14 +391,7 @@ public class RiderRenderPlayer extends PlayerRenderer implements IGeoRenderer<Ge
         // Record xform matrices for relevant bones
         if (bone instanceof CustomGeoBone) {
             CustomGeoBone mowzieBone = (CustomGeoBone) bone;
-            if (mowzieBone.name.equals("LeftHeldItem")
-                    || mowzieBone.name.equals("RightHeldItem")
-                    || mowzieBone.name.equals("Head")
-                    || mowzieBone.name.equals("Body")
-                    || mowzieBone.name.equals("LeftArm")
-                    || mowzieBone.name.equals("RightArm")
-                    || mowzieBone.name.equals("RightLeg")
-                    || mowzieBone.name.equals("LeftLeg")) {
+            if (mowzieBone.name.equals("LeftHeldItem") || mowzieBone.name.equals("RightHeldItem") || mowzieBone.name.equals("Head") || mowzieBone.name.equals("Body") || mowzieBone.name.equals("LeftArm") || mowzieBone.name.equals("RightArm") || mowzieBone.name.equals("RightLeg") || mowzieBone.name.equals("LeftLeg")) {
                 matrixStack.pushPose();
                 if (!mowzieBone.name.equals("LeftHeldItem") && !mowzieBone.name.equals("RightHeldItem")) {
                     matrixStack.scale(-1.0F, -1.0F, 1.0F);
@@ -532,8 +418,7 @@ public class RiderRenderPlayer extends PlayerRenderer implements IGeoRenderer<Ge
             while (var10.hasNext()) {
                 GeoCube cube = (GeoCube) var10.next();
                 matrixStack.pushPose();
-                this.renderCube(
-                        cube, matrixStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+                this.renderCube(cube, matrixStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
                 matrixStack.popPose();
             }
 
@@ -541,35 +426,15 @@ public class RiderRenderPlayer extends PlayerRenderer implements IGeoRenderer<Ge
 
             while (var10.hasNext()) {
                 GeoBone childBone = (GeoBone) var10.next();
-                this.renderRecursively(
-                        childBone,
-                        matrixStack,
-                        bufferIn,
-                        packedLightIn,
-                        packedOverlayIn,
-                        red,
-                        green,
-                        blue,
-                        alpha);
+                this.renderRecursively(childBone, matrixStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
             }
         }
 
         matrixStack.popPose();
 
-        for (LayerRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>>
-                layerrenderer : this.layers) {
+        for (LayerRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>> layerrenderer : this.layers) {
             if (layerrenderer instanceof IGeckoRenderLayer)
-                ((IGeckoRenderLayer) layerrenderer)
-                        .renderRecursively(
-                                bone,
-                                matrixStack,
-                                bufferIn,
-                                packedLightIn,
-                                packedOverlayIn,
-                                red,
-                                green,
-                                blue,
-                                alpha);
+                ((IGeckoRenderLayer) layerrenderer).renderRecursively(bone, matrixStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         }
     }
 }
