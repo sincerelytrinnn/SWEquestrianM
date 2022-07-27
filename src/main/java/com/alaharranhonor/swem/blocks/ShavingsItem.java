@@ -17,15 +17,21 @@ package com.alaharranhonor.swem.blocks;
 import com.alaharranhonor.swem.SWEM;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class ShavingsItem extends BlockItem {
     /**
@@ -93,6 +99,20 @@ public class ShavingsItem extends BlockItem {
                 pPlayer.addItem(shavings);
             }
             return super.use(pLevel, pPlayer, pHand);
+        }
+
+        /**
+         * allows items to add custom lines of information to the mouseover description
+         *
+         * @param pStack
+         * @param pLevel
+         * @param pTooltip
+         * @param pFlag
+         */
+        @Override
+        public void appendHoverText(ItemStack pStack, @org.jetbrains.annotations.Nullable World pLevel, List<ITextComponent> pTooltip, ITooltipFlag pFlag) {
+            super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
+            pTooltip.add(new StringTextComponent("Right click to open").setStyle(Style.EMPTY.withColor(TextFormatting.GRAY).withItalic(true)));
         }
     }
 }
