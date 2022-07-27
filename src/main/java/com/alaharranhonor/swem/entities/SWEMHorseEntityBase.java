@@ -113,65 +113,39 @@ import java.util.stream.Collectors;
 
 import static com.alaharranhonor.swem.entities.HorseFlightController.*;
 
-public class SWEMHorseEntityBase extends AbstractHorseEntity
-        implements ISWEMEquipable, IEntityAdditionalSpawnData {
+public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEquipable, IEntityAdditionalSpawnData {
 
     public static final Ingredient TEMPTATION_ITEMS = Ingredient.of(SWEMItems.SUGAR_CUBE.get());
     public static final Ingredient BREEDING_ITEMS = Ingredient.of(SWEMItems.SWEET_FEED_OPENED.get());
-    public static final Ingredient FOOD_ITEMS =
-            Ingredient.of(
-                    Items.APPLE,
-                    Items.CARROT,
-                    SWEMItems.OAT_BUSHEL.get(),
-                    SWEMItems.TIMOTHY_BUSHEL.get(),
-                    SWEMItems.ALFALFA_BUSHEL.get(),
-                    SWEMBlocks.QUALITY_BALE_ITEM.get(),
-                    SWEMItems.SUGAR_CUBE.get());
+    public static final Ingredient FOOD_ITEMS = Ingredient.of(Items.APPLE, Items.CARROT, SWEMItems.OAT_BUSHEL.get(), SWEMItems.TIMOTHY_BUSHEL.get(), SWEMItems.ALFALFA_BUSHEL.get(), SWEMBlocks.QUALITY_BALE_ITEM.get(), SWEMItems.SUGAR_CUBE.get());
     public static final Ingredient NEGATIVE_FOOD_ITEMS = Ingredient.of(Items.WHEAT, Items.HAY_BLOCK);
-    public static final DataParameter<Boolean> JUMPING =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
-    public static final DataParameter<Integer> SPEED_LEVEL =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
-    public static final DataParameter<String> PERMISSION_STRING =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
-    public static final DataParameter<Boolean> TRACKED =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
-    public static final DataParameter<Boolean> RENDER_SADDLE =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
-    public static final DataParameter<Boolean> RENDER_BRIDLE =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
-    public static final DataParameter<Boolean> RENDER_BLANKET =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
-    public static final DataParameter<Boolean> RENDER_GIRTH_STRAP =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
-    public static final DataParameter<Boolean> IS_BRIDLE_LEASHED =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+    public static final DataParameter<Boolean> JUMPING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+    public static final DataParameter<Integer> SPEED_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+    public static final DataParameter<String> PERMISSION_STRING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
+    public static final DataParameter<Boolean> TRACKED = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+    public static final DataParameter<Boolean> RENDER_SADDLE = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+    public static final DataParameter<Boolean> RENDER_BRIDLE = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+    public static final DataParameter<Boolean> RENDER_BLANKET = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+    public static final DataParameter<Boolean> RENDER_GIRTH_STRAP = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+    public static final DataParameter<Boolean> IS_BRIDLE_LEASHED = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
     // Animation variables.
-    public static final DataParameter<Integer> JUMP_ANIM_TIMER =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
-    public static final DataParameter<Boolean> IS_EATING =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
-    public static final DataParameter<Boolean> IS_LAYING_DOWN =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
-    public static final DataParameter<Boolean> IS_SAD =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
-    private static final UUID ARMOR_MODIFIER_UUID =
-            UUID.fromString("556E1665-8B10-40C8-8F9D-CF9B1667F295");
-    private static final DataParameter<Integer> HORSE_VARIANT =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
-    private static final DataParameter<Boolean> FLYING =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<String> OWNER_NAME =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
-    private static final DataParameter<Boolean> CAMERA_LOCK =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+    public static final DataParameter<Integer> JUMP_ANIM_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+    public static final DataParameter<Boolean> IS_EATING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+    public static final DataParameter<Boolean> IS_LAYING_DOWN = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+    public static final DataParameter<Boolean> IS_SAD = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+    private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("556E1665-8B10-40C8-8F9D-CF9B1667F295");
+    private static final DataParameter<Integer> HORSE_VARIANT = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+    private static final DataParameter<Boolean> FLYING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<String> OWNER_NAME = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
+    private static final DataParameter<Boolean> CAMERA_LOCK = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Integer> GALLOP_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+    private static final DataParameter<Integer> GALLOP_COOLDOWN_TIMER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+    private static final DataParameter<Boolean> GALLOP_ON_COOLDOWN = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
+    public static final DataParameter<Boolean> IS_MOVING_FORWARD = EntityDataManager.defineId((SWEMHorseEntityBase.class), DataSerializers.BOOLEAN);
+    public static final DataParameter<Boolean> IS_MOVING_BACKWARDS = EntityDataManager.defineId((SWEMHorseEntityBase.class), DataSerializers.BOOLEAN);
+    public static final DataParameter<Boolean> IS_MOVING_LEFT = EntityDataManager.defineId((SWEMHorseEntityBase.class), DataSerializers.BOOLEAN);
+    public static final DataParameter<Boolean> IS_MOVING_RIGHT = EntityDataManager.defineId((SWEMHorseEntityBase.class), DataSerializers.BOOLEAN);
     private static final Random rand = new Random();
-    private static final DataParameter<Integer> GALLOP_TIMER =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
-    private static final DataParameter<Integer> GALLOP_COOLDOWN_TIMER =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
-    private static final DataParameter<Boolean> GALLOP_ON_COOLDOWN =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
     public final ProgressionManager progressionManager;
     private final ArrayList<UUID> allowedList = new ArrayList<>();
     private final NeedManager needs;
@@ -227,10 +201,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
      */
     // createMobAttributes -> registerAttributes()
     public static AttributeModifierMap.MutableAttribute setCustomAttributes() {
-        return MobEntity.createMobAttributes()
-                .add(Attributes.MAX_HEALTH)
-                .add(Attributes.JUMP_STRENGTH)
-                .add(Attributes.MOVEMENT_SPEED);
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH).add(Attributes.JUMP_STRENGTH).add(Attributes.MOVEMENT_SPEED);
     }
 
     @Override
@@ -246,24 +217,16 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
         this.peeGoal = new PeeGoal(this, 4.0d);
         this.poopGoal = new PoopGoal(this);
         // this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(
-                1,
-                new PanicGoal(
-                        this,
-                        4.0D)); // Unsure why this needs a lower value than the other goals. 4.0 Would make it
+        this.goalSelector.addGoal(1, new PanicGoal(this, 4.0D)); // Unsure why this needs a lower value than the other goals. 4.0 Would make it
         // run at insane speeds.
         this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 4.0D));
         this.goalSelector.addGoal(2, new BreedGoal(this, 4.0d));
         this.goalSelector.addGoal(3, new TemptGoal(this, 4.0D, TEMPTATION_ITEMS, false));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 4.0D));
-        this.goalSelector.addGoal(
-                2, new HorseAvoidEntityGoal<>(this, PigEntity.class, 12.0f, 4.0d, 5.5d));
+        this.goalSelector.addGoal(2, new HorseAvoidEntityGoal<>(this, PigEntity.class, 12.0f, 4.0d, 5.5d));
         this.goalSelector.addGoal(5, this.poopGoal);
         this.goalSelector.addGoal(5, this.peeGoal);
-        this.goalSelector.addGoal(
-                6,
-                new HorseWaterAvoidingRandomWalkingGoal(
-                        this, 4.0D)); // Speed 4.0 looks like a good speed, plus it triggers anim.
+        this.goalSelector.addGoal(6, new HorseWaterAvoidingRandomWalkingGoal(this, 4.0D)); // Speed 4.0 looks like a good speed, plus it triggers anim.
         this.goalSelector.addGoal(7, new LookForFoodGoal(this, 4.0d));
         this.goalSelector.addGoal(7, new LookForWaterGoal(this, 4.0d));
         // this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
@@ -410,8 +373,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                 this.goalSelector.enableControlFlag(Goal.Flag.TARGET);
             }
             // Tick entity data anim timers
-            this.getEntityData()
-                    .set(JUMP_ANIM_TIMER, Math.max(-1, this.getEntityData().get(JUMP_ANIM_TIMER) - 1));
+            this.getEntityData().set(JUMP_ANIM_TIMER, Math.max(-1, this.getEntityData().get(JUMP_ANIM_TIMER) - 1));
 
             if (this.isInWater()) {
                 if (this.currentSpeed != HorseSpeed.WALK) {
@@ -422,15 +384,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
             }
 
             if (this.getLeashHolder() instanceof PlayerEntity) {
-                this.getLookControl()
-                        .setLookAt(
-                                this.getLeashHolder(),
-                                (float) this.getHeadRotSpeed(),
-                                (float) this.getMaxHeadXRot());
+                this.getLookControl().setLookAt(this.getLeashHolder(), (float) this.getHeadRotSpeed(), (float) this.getMaxHeadXRot());
             }
             if (this.whistlePos != null) {
-                this.getNavigation()
-                        .moveTo(whistlePos.getX(), whistlePos.getY(), whistlePos.getZ(), this.getSpeed());
+                this.getNavigation().moveTo(whistlePos.getX(), whistlePos.getY(), whistlePos.getZ(), this.getSpeed());
                 if (this.blockPosition().closerThan(this.whistlePos, 2)) {
                     this.whistlePos = null;
                     this.getNavigation().stop();
@@ -438,19 +395,12 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
             }
 
             if (this.standAnimationTick == 20 && this.getStandVariant() == 2) {
-                this.level
-                        .getNearbyEntities(
-                                LivingEntity.class,
-                                new EntityPredicate().range(5),
-                                this,
-                                this.getBoundingBox().inflate(2))
-                        .forEach(
-                                (entity) -> {
-                                    if (entity.getVehicle() != this) {
-                                        entity.hurt(DamageSource.GENERIC, 5);
-                                        entity.knockback(0.5f, 0.5, 0.5);
-                                    }
-                                });
+                this.level.getNearbyEntities(LivingEntity.class, new EntityPredicate().range(5), this, this.getBoundingBox().inflate(2)).forEach((entity) -> {
+                    if (entity.getVehicle() != this) {
+                        entity.hurt(DamageSource.GENERIC, 5);
+                        entity.knockback(0.5f, 0.5, 0.5);
+                    }
+                });
                 this.standAnimationVariant = -1;
             }
 
@@ -470,8 +420,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                 if (currentTimer >= cooldownTimer) {
                     this.resetGallopCooldown();
                 }
-            } else if (this.currentSpeed == HorseSpeed.GALLOP
-                    && !this.entityData.get(GALLOP_ON_COOLDOWN)) {
+            } else if (this.currentSpeed == HorseSpeed.GALLOP && !this.entityData.get(GALLOP_ON_COOLDOWN)) {
                 // COUNT
                 int timer = this.entityData.get(GALLOP_TIMER);
                 this.entityData.set(GALLOP_TIMER, this.entityData.get(GALLOP_TIMER) + 1);
@@ -493,15 +442,13 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
     }
 
     private boolean isCrossTied() {
-        return this.leashHolder instanceof LeashKnotEntity
-                && this.leashHolder2 instanceof LeashKnotEntity;
+        return this.leashHolder instanceof LeashKnotEntity && this.leashHolder2 instanceof LeashKnotEntity;
     }
 
     private Vector3d getCrossTieMiddlePoint() {
         Vector3d leashOne = this.leashHolder.position();
         Vector3d leashTwo = this.leashHolder2.position();
-        return new Vector3d(
-                (leashOne.x + leashTwo.x) / 2, this.getEyeY(), (leashOne.z + leashTwo.z) / 2);
+        return new Vector3d((leashOne.x + leashTwo.x) / 2, this.getEyeY(), (leashOne.z + leashTwo.z) / 2);
     }
 
     /**
@@ -653,6 +600,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
         this.entityData.define(RENDER_GIRTH_STRAP, true);
 
         this.entityData.define(IS_BRIDLE_LEASHED, false);
+
+        this.entityData.define(IS_MOVING_FORWARD, false);
+        this.entityData.define(IS_MOVING_BACKWARDS, false);
+        this.entityData.define(IS_MOVING_LEFT, false);
+        this.entityData.define(IS_MOVING_RIGHT, false);
     }
 
     public void setMaxGallopSeconds(int gallopSeconds) {
@@ -699,9 +651,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
     @Override
     protected void tickLeash() {
 
-        if (this.getLeashHolder() != null
-                && !this.getLeashHolder().isAlive()
-                && this.level.isEmptyBlock(this.getLeashHolder().blockPosition())) {
+        if (this.getLeashHolder() != null && !this.getLeashHolder().isAlive() && this.level.isEmptyBlock(this.getLeashHolder().blockPosition())) {
             this.dropLeash(true, false);
             return;
         }
@@ -742,28 +692,12 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                 double d0 = (entity.getX() - this.getX()) / (double) f;
                 double d1 = (entity.getY() - this.getY()) / (double) f;
                 double d2 = (entity.getZ() - this.getZ()) / (double) f;
-                this.setDeltaMovement(
-                        this.getDeltaMovement()
-                                .add(
-                                        Math.copySign(d0 * d0 * 0.4D, d0),
-                                        Math.copySign(d1 * d1 * 0.4D, d1),
-                                        Math.copySign(d2 * d2 * 0.4D, d2)));
+                this.setDeltaMovement(this.getDeltaMovement().add(Math.copySign(d0 * d0 * 0.4D, d0), Math.copySign(d1 * d1 * 0.4D, d1), Math.copySign(d2 * d2 * 0.4D, d2)));
             } else {
                 this.goalSelector.enableControlFlag(Goal.Flag.MOVE);
                 float f1 = 2.0F;
-                Vector3d vector3d =
-                        (new Vector3d(
-                                entity.getX() - this.getX(),
-                                entity.getY() - this.getY(),
-                                entity.getZ() - this.getZ()))
-                                .normalize()
-                                .scale((double) Math.max(f - 2.0F, 0.0F));
-                this.getNavigation()
-                        .moveTo(
-                                this.getX() + vector3d.x,
-                                this.getY() + vector3d.y,
-                                this.getZ() + vector3d.z,
-                                this.followLeashSpeed());
+                Vector3d vector3d = (new Vector3d(entity.getX() - this.getX(), entity.getY() - this.getY(), entity.getZ() - this.getZ())).normalize().scale((double) Math.max(f - 2.0F, 0.0F));
+                this.getNavigation().moveTo(this.getX() + vector3d.x, this.getY() + vector3d.y, this.getZ() + vector3d.z, this.followLeashSpeed());
             }
         }
         // CreatureEntity#tickLeash - End
@@ -798,9 +732,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
             }
 
             if (!this.level.isClientSide && pSendPacket && this.level instanceof ServerWorld) {
-                ((ServerWorld) this.level)
-                        .getChunkSource()
-                        .broadcast(this, new SMountEntityPacket(this, (Entity) null));
+                ((ServerWorld) this.level).getChunkSource().broadcast(this, new SMountEntityPacket(this, (Entity) null));
             }
         }
 
@@ -817,19 +749,14 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
             }
 
             if (!this.level.isClientSide && pSendPacket && this.level instanceof ServerWorld) {
-                ((ServerWorld) this.level)
-                        .getChunkSource()
-                        .broadcast(this, new SMountEntityPacket(this, (Entity) null));
+                ((ServerWorld) this.level).getChunkSource().broadcast(this, new SMountEntityPacket(this, (Entity) null));
             }
         }
     }
 
     @Override
     public boolean canBeLeashed(PlayerEntity p_184652_1_) {
-        return this.canAccessHorse(p_184652_1_) && !this.isLeashed()
-                || (this.isLeashed()
-                && !(this.getLeashHolder() instanceof PlayerEntity)
-                && this.leashHolder2 == null);
+        return this.canAccessHorse(p_184652_1_) && !this.isLeashed() || (this.isLeashed() && !(this.getLeashHolder() instanceof PlayerEntity) && this.leashHolder2 == null);
     }
 
     @Override
@@ -881,9 +808,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
             }
 
             if (!this.level.isClientSide && pBroadcastPacket && this.level instanceof ServerWorld) {
-                ((ServerWorld) this.level)
-                        .getChunkSource()
-                        .broadcast(this, new SMountEntityPacket(this, this.leashHolder));
+                ((ServerWorld) this.level).getChunkSource().broadcast(this, new SMountEntityPacket(this, this.leashHolder));
             }
         } else if (this.leashHolder2 == null || this.leashHolder2 instanceof PlayerEntity) {
             this.leashHolder2 = pLeashHolder;
@@ -894,9 +819,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
             }
 
             if (!this.level.isClientSide && pBroadcastPacket && this.level instanceof ServerWorld) {
-                ((ServerWorld) this.level)
-                        .getChunkSource()
-                        .broadcast(this, new SMountEntityPacket(this, this.leashHolder2));
+                ((ServerWorld) this.level).getChunkSource().broadcast(this, new SMountEntityPacket(this, this.leashHolder2));
             }
         }
 
@@ -915,13 +838,9 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
         } else {
             Entity setTo = this.level.getEntity(pLeashHolderID);
             if (setTo instanceof LeashKnotEntity || setTo == null) {
-                if (this.level.getEntity(this.delayedLeashHolderId) instanceof PlayerEntity
-                        || (this.level.getEntity(this.delayedLeashHolderId) == null
-                        && this.delayedLeashHolderId == 0)) {
+                if (this.level.getEntity(this.delayedLeashHolderId) instanceof PlayerEntity || (this.level.getEntity(this.delayedLeashHolderId) == null && this.delayedLeashHolderId == 0)) {
                     this.delayedLeashHolderId = pLeashHolderID;
-                } else if (this.level.getEntity(this.delayedLeashHolderId) instanceof LeashKnotEntity
-                        || (this.level.getEntity(this.delayedLeashHolderId) == null
-                        && this.delayedLeashHolderId != 0)) {
+                } else if (this.level.getEntity(this.delayedLeashHolderId) instanceof LeashKnotEntity || (this.level.getEntity(this.delayedLeashHolderId) == null && this.delayedLeashHolderId != 0)) {
                     this.delayedLeashHolderId2 = pLeashHolderID;
                 }
             } else if (setTo instanceof PlayerEntity) {
@@ -945,14 +864,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                     this.setLeashedTo(entity, true);
                     return;
                 }
-            } else if (this.leashInfoTag.contains("X", 99)
-                    && this.leashInfoTag.contains("Y", 99)
-                    && this.leashInfoTag.contains("Z", 99)) {
-                BlockPos blockpos =
-                        new BlockPos(
-                                this.leashInfoTag.getInt("X"),
-                                this.leashInfoTag.getInt("Y"),
-                                this.leashInfoTag.getInt("Z"));
+            } else if (this.leashInfoTag.contains("X", 99) && this.leashInfoTag.contains("Y", 99) && this.leashInfoTag.contains("Z", 99)) {
+                BlockPos blockpos = new BlockPos(this.leashInfoTag.getInt("X"), this.leashInfoTag.getInt("Y"), this.leashInfoTag.getInt("Z"));
                 this.setLeashedTo(LeashKnotEntity.getOrCreateKnot(this.level, blockpos), true);
                 return;
             }
@@ -973,14 +886,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                     this.setLeashedTo(entity, true);
                     return;
                 }
-            } else if (this.leashInfoTag2.contains("X", 99)
-                    && this.leashInfoTag2.contains("Y", 99)
-                    && this.leashInfoTag2.contains("Z", 99)) {
-                BlockPos blockpos =
-                        new BlockPos(
-                                this.leashInfoTag2.getInt("X"),
-                                this.leashInfoTag2.getInt("Y"),
-                                this.leashInfoTag2.getInt("Z"));
+            } else if (this.leashInfoTag2.contains("X", 99) && this.leashInfoTag2.contains("Y", 99) && this.leashInfoTag2.contains("Z", 99)) {
+                BlockPos blockpos = new BlockPos(this.leashInfoTag2.getInt("X"), this.leashInfoTag2.getInt("Y"), this.leashInfoTag2.getInt("Z"));
                 this.setLeashedTo(LeashKnotEntity.getOrCreateKnot(this.level, blockpos), true);
                 return;
             }
@@ -1030,12 +937,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
      * @return boolean Returns wether this horse can be mounted by this player.
      */
     public boolean canMountPlayer(PlayerEntity player) {
-        if (this.isStanding()
-                && this.getLastDamageSource() != DamageSource.IN_FIRE
-                && this.getLastDamageSource() != DamageSource.LAVA
-                && this.getLastDamageSource() != DamageSource.DROWN
-                && this.getLastDamageSource() != DamageSource.ON_FIRE
-                && this.getLastDamageSource() != DamageSource.HOT_FLOOR) return false;
+        if (this.isStanding() && this.getLastDamageSource() != DamageSource.IN_FIRE && this.getLastDamageSource() != DamageSource.LAVA && this.getLastDamageSource() != DamageSource.DROWN && this.getLastDamageSource() != DamageSource.ON_FIRE && this.getLastDamageSource() != DamageSource.HOT_FLOOR)
+            return false;
         if (!this.isTamed()) return true;
         return canAccessHorse(player);
     }
@@ -1066,8 +969,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
         return this.isAlive() && !this.isBaby() && this.isTamed() && this.canAccessHorse(player);
     }
 
-    public void equipSaddle(
-            @Nullable SoundCategory p_230266_1_, ItemStack stackIn, PlayerEntity player) {
+    public void equipSaddle(@Nullable SoundCategory p_230266_1_, ItemStack stackIn, PlayerEntity player) {
         ItemStack stack = stackIn.copy();
         stack.setCount(1);
         boolean flag = player.isSecondaryUseActive();
@@ -1076,8 +978,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                 player.addItem(this.inventory.getItem(2));
             }
             this.inventory.setItem(2, stack);
-            SWEMPacketHandler.INSTANCE.send(
-                    PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 2, stack));
+            SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 2, stack));
             if (p_230266_1_ != null) {
                 this.level.playSound(null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
             }
@@ -1086,8 +987,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                 player.addItem(this.inventory.getItem(1));
             }
             this.inventory.setItem(1, stack);
-            SWEMPacketHandler.INSTANCE.send(
-                    PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 1, stack));
+            SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 1, stack));
             if (p_230266_1_ != null) {
                 this.level.playSound(null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
             }
@@ -1096,8 +996,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                 player.addItem(this.inventory.getItem(3));
             }
             this.inventory.setItem(3, stack);
-            SWEMPacketHandler.INSTANCE.send(
-                    PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 3, stack));
+            SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 3, stack));
             if (p_230266_1_ != null) {
                 this.level.playSound(null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
             }
@@ -1106,8 +1005,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                 player.addItem(this.inventory.getItem(0));
             }
             this.inventory.setItem(0, stack);
-            SWEMPacketHandler.INSTANCE.send(
-                    PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 0, stack));
+            SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 0, stack));
             if (p_230266_1_ != null) {
                 this.level.playSound(null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
             }
@@ -1116,8 +1014,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                 player.addItem(this.inventory.getItem(5));
             }
             this.inventory.setItem(5, stack);
-            SWEMPacketHandler.INSTANCE.send(
-                    PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 5, stack));
+            SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 5, stack));
             if (p_230266_1_ != null) {
                 this.level.playSound(null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
             }
@@ -1126,8 +1023,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                 player.addItem(this.inventory.getItem(4));
             }
             this.inventory.setItem(4, stack);
-            SWEMPacketHandler.INSTANCE.send(
-                    PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 4, stack));
+            SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 4, stack));
             if (p_230266_1_ != null) {
                 this.level.playSound(null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
             }
@@ -1137,8 +1033,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                 player.addItem(this.inventory.getItem(6));
             }
             this.inventory.setItem(6, stack);
-            SWEMPacketHandler.INSTANCE.send(
-                    PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 6, stack));
+            SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 6, stack));
             if (p_230266_1_ != null) {
                 this.level.playSound(null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
             }
@@ -1148,8 +1043,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                 player.addItem(this.inventory.getItem(6));
             }
             this.inventory.setItem(7, stack);
-            SWEMPacketHandler.INSTANCE.send(
-                    PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 7, stack));
+            SWEMPacketHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new UpdateHorseInventoryMessage(this.getId(), 7, stack));
             if (p_230266_1_ != null) {
                 this.level.playSound(null, this, SoundEvents.HORSE_SADDLE, p_230266_1_, 0.5F, 1.0F);
             }
@@ -1189,16 +1083,13 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
         if (this.getPassengers().size() > 1) {
             int i = this.getPassengers().indexOf(entity);
             xzOffset = i == 0 ? 0.1f : -0.5f;
-        } else if (this.getPassengers().size() > 0
-                && !(this.getPassengers().get(0) instanceof PlayerEntity)) {
+        } else if (this.getPassengers().size() > 0 && !(this.getPassengers().get(0) instanceof PlayerEntity)) {
             xzOffset = -0.5f;
         }
 
         double yOffset = entity.getMyRidingOffset() + this.getPassengersRidingOffset();
 
-        Vector3d vec3 =
-                new Vector3d(xzOffset, 0, 0)
-                        .yRot(-this.yBodyRot * ((float) Math.PI / 180f) - ((float) Math.PI / 2F));
+        Vector3d vec3 = new Vector3d(xzOffset, 0, 0).yRot(-this.yBodyRot * ((float) Math.PI / 180f) - ((float) Math.PI / 2F));
         entity.setPos(this.getX() + vec3.x, this.getY() + yOffset, this.getZ() + vec3.z);
         this.applyYaw(entity);
         if (entity instanceof AnimalEntity) {
@@ -1223,8 +1114,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
 
     @Override
     protected boolean canAddPassenger(Entity passenger) {
-        if (!passenger.getType().getCategory().isFriendly() && passenger.getType() != EntityType.PLAYER)
-            return false;
+        if (!passenger.getType().getCategory().isFriendly() && passenger.getType() != EntityType.PLAYER) return false;
 
         if (passenger instanceof WaterMobEntity) return false;
 
@@ -1463,8 +1353,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
         }
 
         compound.put("allowedList", allowedList);
-        compound.putString(
-                "permissionState", RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)).name());
+        compound.putString("permissionState", RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)).name());
         compound.putBoolean("tracked", this.entityData.get(TRACKED));
     }
 
@@ -1694,9 +1583,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                 Vector3d vector3d2 = this.getDeltaMovement();
                 vector3d = vector3d.scale(pMotionScale);
                 double d2 = 0.003D;
-                if (Math.abs(vector3d2.x) < 0.003D
-                        && Math.abs(vector3d2.z) < 0.003D
-                        && vector3d.length() < 0.0045000000000000005D) {
+                if (Math.abs(vector3d2.x) < 0.003D && Math.abs(vector3d2.z) < 0.003D && vector3d.length() < 0.0045000000000000005D) {
                     vector3d = vector3d.normalize().scale(0.0045000000000000005D);
                 }
 
@@ -1718,8 +1605,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
         if (!this.saddlebagInventory.isEmpty()) {
             CompoundNBT saddlebag = new CompoundNBT();
             for (int i = 0; i < this.saddlebagInventory.getContainerSize(); i++) {
-                saddlebag.put(
-                        Integer.toString(i), this.saddlebagInventory.getItem(i).save(new CompoundNBT()));
+                saddlebag.put(Integer.toString(i), this.saddlebagInventory.getItem(i).save(new CompoundNBT()));
             }
             compound.put("saddlebag", saddlebag);
         }
@@ -1905,12 +1791,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
             if (this.isSWEMArmor(p_213804_1_)) {
                 int i = ((HorseArmorItem) p_213804_1_.getItem()).getProtection();
                 if (i != 0) {
-                    armorAttribute.addTransientModifier(
-                            new AttributeModifier(
-                                    ARMOR_MODIFIER_UUID,
-                                    "Horse armor bonus",
-                                    i,
-                                    AttributeModifier.Operation.ADDITION));
+                    armorAttribute.addTransientModifier(new AttributeModifier(ARMOR_MODIFIER_UUID, "Horse armor bonus", i, AttributeModifier.Operation.ADDITION));
                 }
             }
         }
@@ -1937,27 +1818,20 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                         int dist = ((int) Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)));
                         if (dist > 0 && dist < 25) {
                             boolean speedLevelUp = false;
-                            speedLevelUp =
-                                    this.progressionManager
-                                            .getSpeedLeveling()
-                                            .addXP(dist * this.currentSpeed.getSkillMultiplier());
+                            speedLevelUp = this.progressionManager.getSpeedLeveling().addXP(dist * this.currentSpeed.getSkillMultiplier());
 
                             if (speedLevelUp) {
                                 this.levelUpSpeed();
                             }
                             // Affinity leveling, is not affected by speed. so no matter the speed, just add 1xp
                             // per block.
-                            this.progressionManager
-                                    .getAffinityLeveling()
-                                    .addXP(dist * this.currentSpeed.getSkillMultiplier());
+                            this.progressionManager.getAffinityLeveling().addXP(dist * this.currentSpeed.getSkillMultiplier());
                         }
                     }
                 }
 
                 // Kick off rider, if no girth strap is equipped.
-                if (this.isSWEMSaddled()
-                        && (!this.hasGirthStrap() || !ConfigHolder.SERVER.riderNeedsGirthStrap.get())
-                        && this.isVehicle()) {
+                if (this.isSWEMSaddled() && (!this.hasGirthStrap() || !ConfigHolder.SERVER.riderNeedsGirthStrap.get()) && this.isVehicle()) {
                     if (this.tickCount % 20 == 0) {
                         int rand = this.getRandom().nextInt(5);
                         if (rand == 0) {
@@ -1966,8 +1840,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                             ItemStack saddle = this.hasSaddle();
                             this.inventory.setItem(2, ItemStack.EMPTY);
                             this.setSWEMSaddled();
-                            this.level.addFreshEntity(
-                                    new ItemEntity(this.level, this.getX(), this.getY(), this.getZ(), saddle));
+                            this.level.addFreshEntity(new ItemEntity(this.level, this.getX(), this.getY(), this.getZ(), saddle));
                         }
                     }
                 }
@@ -1979,19 +1852,13 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
             }
 
         } else {
-            if (Minecraft.getInstance().player != null
-                    && Minecraft.getInstance().player.getVehicle() != null
-                    && Minecraft.getInstance().player.getVehicle().getUUID().equals(this.getUUID())) {
+            if (Minecraft.getInstance().player != null && Minecraft.getInstance().player.getVehicle() != null && Minecraft.getInstance().player.getVehicle().getUUID().equals(this.getUUID())) {
 
-                if (ClientEventHandlers.keyBindings[7].isDown()
-                        && this.isCameraLocked()
-                        && this.getPassengers().get(0) == Minecraft.getInstance().player) {
+                if (ClientEventHandlers.keyBindings[7].isDown() && this.isCameraLocked() && this.getPassengers().get(0) == Minecraft.getInstance().player) {
                     SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), false));
                     this.setLockedRotations(this.xRot, this.yRot);
 
-                } else if (!ClientEventHandlers.keyBindings[7].isDown()
-                        && !this.isCameraLocked()
-                        && this.getPassengers().get(0) == Minecraft.getInstance().player) {
+                } else if (!ClientEventHandlers.keyBindings[7].isDown() && !this.isCameraLocked() && this.getPassengers().get(0) == Minecraft.getInstance().player) {
                     SWEMPacketHandler.INSTANCE.sendToServer(new CCameraLockPacket(this.getUUID(), true));
                 }
             }
@@ -1999,27 +1866,15 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
         super.tick();
         if (this.isInWater() && !this.isVehicle()) {
             if (this.wasEyeInWater) {
-                this.setDeltaMovement(
-                        this.getDeltaMovement().x,
-                        .05,
-                        this.getDeltaMovement()
-                                .z); // Set the motion on y with a positive force, because the horse is floating to
+                this.setDeltaMovement(this.getDeltaMovement().x, .05, this.getDeltaMovement().z); // Set the motion on y with a positive force, because the horse is floating to
                 // the top, pull it down, until wasEyeInWater returns true.
             } else {
-                this.setDeltaMovement(
-                        this.getDeltaMovement().x,
-                        -.05,
-                        this.getDeltaMovement()
-                                .z); // Set the motion on y with a negative force, because the horse is floating to
+                this.setDeltaMovement(this.getDeltaMovement().x, -.05, this.getDeltaMovement().z); // Set the motion on y with a negative force, because the horse is floating to
                 // the top, pull it down, until wasEyeInWater returns false.
             }
 
         } else if (this.isInLava() && !this.isEyeInFluid(FluidTags.LAVA) && !this.isVehicle()) {
-            this.setDeltaMovement(
-                    this.getDeltaMovement().x,
-                    -.5,
-                    this.getDeltaMovement()
-                            .z); // Set the motion on y with a negative force, because the horse is floating to
+            this.setDeltaMovement(this.getDeltaMovement().x, -.5, this.getDeltaMovement().z); // Set the motion on y with a negative force, because the horse is floating to
             // the top, pull it down, until wasEyeInWater returns true.
         }
     }
@@ -2060,23 +1915,14 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
 
             BlockPos pos = this.blockPosition();
 
-            for (BlockPos blockpos :
-                    BlockPos.betweenClosed(pos.offset(-f, -1.0D, -f), pos.offset(f, -1.0D, f))) {
+            for (BlockPos blockpos : BlockPos.betweenClosed(pos.offset(-f, -1.0D, -f), pos.offset(f, -1.0D, f))) {
                 if (blockpos.closerThan(this.blockPosition(), f)) {
                     blockpos$mutable.set(blockpos.getX(), blockpos.getY() + 1, blockpos.getZ());
                     BlockState blockstate1 = level.getBlockState(blockpos$mutable);
                     if (blockstate1.isAir(level, blockpos$mutable)) {
                         BlockState blockstate2 = level.getBlockState(blockpos);
-                        boolean isFull =
-                                blockstate2.getBlock() == Blocks.WATER
-                                        && blockstate2.getValue(FlowingFluidBlock.LEVEL)
-                                        == 0; // TODO: Forge, modded waters?
-                        if (blockstate2.getMaterial() == Material.WATER
-                                && isFull
-                                && blockstate.canSurvive(level, blockpos)
-                                && level.isUnobstructed(blockstate, blockpos, ISelectionContext.empty())
-                                && !ForgeEventFactory.onBlockPlace(
-                                this, BlockSnapshot.create(level.dimension(), level, blockpos), Direction.UP)) {
+                        boolean isFull = blockstate2.getBlock() == Blocks.WATER && blockstate2.getValue(FlowingFluidBlock.LEVEL) == 0; // TODO: Forge, modded waters?
+                        if (blockstate2.getMaterial() == Material.WATER && isFull && blockstate.canSurvive(level, blockpos) && level.isUnobstructed(blockstate, blockpos, ISelectionContext.empty()) && !ForgeEventFactory.onBlockPlace(this, BlockSnapshot.create(level.dimension(), level, blockpos), Direction.UP)) {
                             level.setBlock(blockpos, blockstate, 3);
                             level.getBlockTicks().scheduleTick(blockpos, Blocks.FROSTED_ICE, 20);
                         }
@@ -2097,23 +1943,14 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
 
             BlockPos pos = this.blockPosition();
 
-            for (BlockPos blockpos :
-                    BlockPos.betweenClosed(pos.offset(-f, -1.0D, -f), pos.offset(f, -1.0D, f))) {
+            for (BlockPos blockpos : BlockPos.betweenClosed(pos.offset(-f, -1.0D, -f), pos.offset(f, -1.0D, f))) {
                 if (blockpos.closerThan(this.blockPosition(), f)) {
                     blockpos$mutable.set(blockpos.getX(), blockpos.getY() + 1, blockpos.getZ());
                     BlockState blockstate1 = level.getBlockState(blockpos$mutable);
                     if (blockstate1.isAir(level, blockpos$mutable)) {
                         BlockState blockstate2 = level.getBlockState(blockpos);
-                        boolean isFull =
-                                blockstate2.getBlock() == Blocks.LAVA
-                                        && blockstate2.getValue(FlowingFluidBlock.LEVEL)
-                                        == 0; // TODO: Forge, modded waters?
-                        if (blockstate2.getMaterial() == Material.LAVA
-                                && isFull
-                                && blockstate.canSurvive(level, blockpos)
-                                && level.isUnobstructed(blockstate, blockpos, ISelectionContext.empty())
-                                && !ForgeEventFactory.onBlockPlace(
-                                this, BlockSnapshot.create(level.dimension(), level, blockpos), Direction.UP)) {
+                        boolean isFull = blockstate2.getBlock() == Blocks.LAVA && blockstate2.getValue(FlowingFluidBlock.LEVEL) == 0; // TODO: Forge, modded waters?
+                        if (blockstate2.getMaterial() == Material.LAVA && isFull && blockstate.canSurvive(level, blockpos) && level.isUnobstructed(blockstate, blockpos, ISelectionContext.empty()) && !ForgeEventFactory.onBlockPlace(this, BlockSnapshot.create(level.dimension(), level, blockpos), Direction.UP)) {
                             level.setBlock(blockpos, blockstate, 3);
                             level.getBlockTicks().scheduleTick(blockpos, SWEMBlocks.TEARING_MAGMA.get(), 20);
                         }
@@ -2174,38 +2011,31 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
             if (this.isVehicle() && this.canBeControlledByRider() && this.isHorseSaddled()) {
                 PlayerEntity livingentity = (PlayerEntity) this.getControllingPassenger();
 
-                float f = livingentity.xxa * 0.5F;
-                float f1 = livingentity.zza;
-                if (f1 <= 0.0F) {
+                float sidewaysMovement = livingentity.xxa * 0.5F;
+                float forwardMovement = livingentity.zza;
+                if (forwardMovement <= 0.0F) {
                     this.gallopSoundCounter = 0;
                 }
 
-                if (this.onGround
-                        && this.playerJumpPendingScale == 0.0F
-                        && this.isStanding()
-                        && !this.allowStandSliding) {
-                    f = 0.0F;
-                    f1 = 0.0F;
+                if (this.level.isClientSide()) {
+                    this.updateMovementVariables(sidewaysMovement, forwardMovement);
+                }
+
+                if (this.onGround && this.playerJumpPendingScale == 0.0F && this.isStanding() && !this.allowStandSliding) {
+                    sidewaysMovement = 0.0F;
+                    forwardMovement = 0.0F;
                 }
 
                 // Check if RNG is higher roll, than disobeying debuff, if so, then do the jump.
                 if (this.playerJumpPendingScale > 0.0F && !this.isJumping() && this.onGround) {
-                    double d0 =
-                            this.getCustomJump()
-                                    * (double) this.playerJumpPendingScale
-                                    * (double) this.getBlockJumpFactor();
+                    double d0 = this.getCustomJump() * (double) this.playerJumpPendingScale * (double) this.getBlockJumpFactor();
                     double d1;
                     if (this.hasEffect(Effects.JUMP)) {
                         d1 = d0 + (double) ((float) (this.getEffect(Effects.JUMP).getAmplifier() + 1) * 0.1F);
                     } else {
                         d1 = d0;
                     }
-                    float jumpHeight =
-                            (float)
-                                    (-0.1817584952 * ((float) Math.pow(d1, 3.0F))
-                                            + 3.689713992 * ((float) Math.pow(d1, 2.0F))
-                                            + 2.128599134 * d1
-                                            - 0.343930367);
+                    float jumpHeight = (float) (-0.1817584952 * ((float) Math.pow(d1, 3.0F)) + 3.689713992 * ((float) Math.pow(d1, 2.0F)) + 2.128599134 * d1 - 0.343930367);
                     if (this.getRandom().nextDouble() > this.getJumpDisobey(jumpHeight)) {
 
                         // if (this.getDisobedienceFactor() >
@@ -2232,15 +2062,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
 
                         this.hasImpulse = true;
                         ForgeHooks.onLivingJump(this);
-                        if (f1 > 0.0F) {
+                        if (forwardMovement > 0.0F) {
                             float f2 = MathHelper.sin(this.yRot * ((float) Math.PI / 180F));
                             float f3 = MathHelper.cos(this.yRot * ((float) Math.PI / 180F));
-                            this.setDeltaMovement(
-                                    this.getDeltaMovement()
-                                            .add(
-                                                    -0.4F * f2 * this.playerJumpPendingScale,
-                                                    0.0D,
-                                                    0.4F * f3 * this.playerJumpPendingScale));
+                            this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * f2 * this.playerJumpPendingScale, 0.0D, 0.4F * f3 * this.playerJumpPendingScale));
                         }
                     } else {
                         this.setStandingAnim();
@@ -2252,7 +2077,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                 this.flyingSpeed = this.getSpeed() * 0.1F;
                 if (this.isControlledByLocalInstance()) {
                     this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
-                    if (f1 < 0.0f) { // Backwards movement.
+                    if (forwardMovement < 0.0f) { // Backwards movement.
                         HorseSpeed oldSpeed = this.currentSpeed;
                         this.currentSpeed = HorseSpeed.WALK;
                         this.updateSelectedSpeed(oldSpeed);
@@ -2270,7 +2095,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                         SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(this.getId(), 4));
                     }
 
-                    super.travel(new Vector3d(f, travelVector.y, f1));
+                    super.travel(new Vector3d(sidewaysMovement, travelVector.y, forwardMovement));
                 } else {
                     this.setDeltaMovement(Vector3d.ZERO);
                 }
@@ -2282,16 +2107,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
 
                 this.calculateEntityAnimation(this, false);
 
-                boolean flag =
-                        this.level
-                                .getBlockState(this.blockPosition().offset(this.getDirection().getNormal()))
-                                .canOcclude();
+                boolean flag = this.level.getBlockState(this.blockPosition().offset(this.getDirection().getNormal())).canOcclude();
 
                 // Handles the swimming. Travel is only called when player is riding the entity.
-                if ((this.wasEyeInWater || this.fluidOnEyes == FluidTags.LAVA)
-                        && !flag
-                        && this.getDeltaMovement().y
-                        < 0) { // Check if the eyes is in water level, and we don't have a solid block the
+                if ((this.wasEyeInWater || this.fluidOnEyes == FluidTags.LAVA) && !flag && this.getDeltaMovement().y < 0) { // Check if the eyes is in water level, and we don't have a solid block the
                     // way we are facing. If not, then apply an inverse force, to float the
                     // horse.
                     this.setDeltaMovement(this.getDeltaMovement().multiply(1, -1.9, 1));
@@ -2316,6 +2135,16 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                 super.travel(travelVector);
             }
         }
+    }
+
+    private void updateMovementVariables(float sidewaysMovement, float forwardMovement) {
+        CSyncMovementIdentifiersPacket.MovementPacketData movementPacketData = new CSyncMovementIdentifiersPacket.MovementPacketData(
+                forwardMovement > 0.0F,
+                forwardMovement < 0.0F,
+                sidewaysMovement > 0.0F,
+                sidewaysMovement < 0.0F
+        );
+        SWEMPacketHandler.INSTANCE.sendToServer(new CSyncMovementIdentifiersPacket(movementPacketData, this.getUUID()));
     }
 
     /**
@@ -2350,8 +2179,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
 
     @Override
     public void moveRelative(float pAmount, Vector3d pRelative) {
-        Vector3d vector3d =
-                getInputVector(pRelative, pAmount, this.isCameraLocked() ? this.yRot : this.lockedYRot);
+        Vector3d vector3d = getInputVector(pRelative, pAmount, this.isCameraLocked() ? this.yRot : this.lockedYRot);
         this.setDeltaMovement(this.getDeltaMovement().add(vector3d));
     }
 
@@ -2388,9 +2216,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
      * @return the jump disobey
      */
     public double getJumpDisobey(float jumpHeight) {
-        return 0.25 * (this.progressionManager.getJumpLeveling().getLevel() + 1 - 5) / 4
-                + 0.05 * (jumpHeight - 1) / 4
-                + 0.7 * this.progressionManager.getAffinityLeveling().getDebuff();
+        return 0.25 * (this.progressionManager.getJumpLeveling().getLevel() + 1 - 5) / 4 + 0.05 * (jumpHeight - 1) / 4 + 0.7 * this.progressionManager.getAffinityLeveling().getDebuff();
     }
 
     @Override
@@ -2484,13 +2310,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
     @Nullable
     @Override
     public Entity getControllingPassenger() {
-        List<Entity> playerEntities =
-                this.getPassengers().stream()
-                        .filter((entity) -> entity instanceof PlayerEntity)
-                        .collect(Collectors.toList());
-        return this.getPassengers().isEmpty()
-                ? null
-                : playerEntities.isEmpty() ? null : playerEntities.get(0);
+        List<Entity> playerEntities = this.getPassengers().stream().filter((entity) -> entity instanceof PlayerEntity).collect(Collectors.toList());
+        return this.getPassengers().isEmpty() ? null : playerEntities.isEmpty() ? null : playerEntities.get(0);
     }
 
     /**
@@ -2505,10 +2326,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
         if (source == DamageSource.DROWN) return true;
-        if (DamageSource.IN_FIRE.equals(source)
-                || DamageSource.ON_FIRE.equals(source)
-                || DamageSource.LAVA.equals(source)
-                || DamageSource.HOT_FLOOR.equals(source)) {
+        if (DamageSource.IN_FIRE.equals(source) || DamageSource.ON_FIRE.equals(source) || DamageSource.LAVA.equals(source) || DamageSource.HOT_FLOOR.equals(source)) {
             ItemStack stack = this.getSWEMArmor();
             if (!stack.isEmpty() && ((SWEMHorseArmorItem) stack.getItem()).tier.getId() >= 3) {
                 return true;
@@ -2526,11 +2344,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
         if (jumpStrength != null) {
             double currentSpeed = jumpStrength.getValue();
             double newSpeed = this.getAlteredJumpStrength();
-            jumpStrength.addPermanentModifier(
-                    new AttributeModifier(
-                            this.progressionManager.getJumpLeveling().getLevelName(),
-                            newSpeed - currentSpeed,
-                            AttributeModifier.Operation.ADDITION));
+            jumpStrength.addPermanentModifier(new AttributeModifier(this.progressionManager.getJumpLeveling().getLevelName(), newSpeed - currentSpeed, AttributeModifier.Operation.ADDITION));
         } else {
             SWEM.LOGGER.error("Jump Strength Attribute is null");
         }
@@ -2575,9 +2389,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
         }
         if (this.level.isClientSide) return;
         for (int i = 0; i < invBasic.getContainerSize(); i++) {
-            SWEMPacketHandler.INSTANCE.send(
-                    PacketDistributor.TRACKING_ENTITY.with(() -> this),
-                    new UpdateHorseInventoryMessage(getId(), i, invBasic.getItem(i)));
+            SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new UpdateHorseInventoryMessage(getId(), i, invBasic.getItem(i)));
         }
     }
 
@@ -2613,8 +2425,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
     protected void playGallopSound(SoundType p_190680_1_) {
         super.playGallopSound(p_190680_1_);
         if (this.getRandom().nextInt(10) == 0) {
-            this.playSound(
-                    SoundEvents.HORSE_BREATHE, p_190680_1_.getVolume() * 0.6F, p_190680_1_.getPitch());
+            this.playSound(SoundEvents.HORSE_BREATHE, p_190680_1_.getVolume() * 0.6F, p_190680_1_.getPitch());
         }
 
         ItemStack stack = this.inventory.getItem(1);
@@ -2639,31 +2450,20 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
 
     @Override
     public void openInventory(PlayerEntity playerEntity) {
-        if (!this.level.isClientSide
-                && (!this.isVehicle() || this.hasPassenger(playerEntity))
-                && this.isTamed()) {
-            ITextComponent horseDisplayName =
-                    new StringTextComponent(
-                            SWEMUtil.checkTextOverflow(this.getDisplayName().getString(), 18));
-            INamedContainerProvider provider =
-                    new INamedContainerProvider() {
-                        @Override
-                        public ITextComponent getDisplayName() {
-                            return horseDisplayName;
-                        }
+        if (!this.level.isClientSide && (!this.isVehicle() || this.hasPassenger(playerEntity)) && this.isTamed()) {
+            ITextComponent horseDisplayName = new StringTextComponent(SWEMUtil.checkTextOverflow(this.getDisplayName().getString(), 18));
+            INamedContainerProvider provider = new INamedContainerProvider() {
+                @Override
+                public ITextComponent getDisplayName() {
+                    return horseDisplayName;
+                }
 
-                        @Override
-                        public Container createMenu(
-                                int p_createMenu_1_,
-                                PlayerInventory p_createMenu_2_,
-                                PlayerEntity p_createMenu_3_) {
-                            return new SWEMHorseInventoryContainer(p_createMenu_1_, p_createMenu_2_, getId());
-                        }
-                    };
-            NetworkHooks.openGui(
-                    (ServerPlayerEntity) playerEntity,
-                    provider,
-                    buffer -> buffer.writeInt(getId()).writeInt(getId()));
+                @Override
+                public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
+                    return new SWEMHorseInventoryContainer(p_createMenu_1_, p_createMenu_2_, getId());
+                }
+            };
+            NetworkHooks.openGui((ServerPlayerEntity) playerEntity, provider, buffer -> buffer.writeInt(getId()).writeInt(getId()));
         }
     }
 
@@ -2675,44 +2475,36 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
      * @return the boolean
      */
     public boolean checkIsCoatTransformItem(PlayerEntity playerEntity, ItemStack stack) {
-        if (stack.getItem() == SWEMItems.WHISTLE.get()
-                && stack.getStack().getHoverName().getString().equals("Ocarina")) {
+        if (stack.getItem() == SWEMItems.WHISTLE.get() && stack.getStack().getHoverName().getString().equals("Ocarina")) {
             stack.shrink(1);
             playerEntity.addItem(new ItemStack(SWEMItems.WHISTLE.get()));
             this.setCoatColour(SWEMCoatColor.EPONA_ZELDA);
             return true;
-        } else if (stack.getItem() == Items.IRON_NUGGET
-                && stack.getStack().getHoverName().getString().equals("Coin")) {
+        } else if (stack.getItem() == Items.IRON_NUGGET && stack.getStack().getHoverName().getString().equals("Coin")) {
             stack.shrink(1);
             this.setCoatColour(SWEMCoatColor.ROACH_WITCHER);
             return true;
-        } else if (stack.getItem() == Items.LILY_OF_THE_VALLEY
-                && stack.getStack().getHoverName().getString().equals("Mono")) {
+        } else if (stack.getItem() == Items.LILY_OF_THE_VALLEY && stack.getStack().getHoverName().getString().equals("Mono")) {
             stack.shrink(1);
             this.setCoatColour(SWEMCoatColor.AGRO_SOC);
             return true;
-        } else if (stack.getItem() == Items.IRON_SWORD
-                && stack.getStack().getHoverName().getString().equals("Sithus")) {
+        } else if (stack.getItem() == Items.IRON_SWORD && stack.getStack().getHoverName().getString().equals("Sithus")) {
             stack.shrink(1);
             this.setCoatColour(SWEMCoatColor.SHADOWMERE_OBLIVION);
             return true;
-        } else if (stack.getItem() == Items.BLAZE_ROD
-                && stack.getStack().getHoverName().getString().equals("Ponyta")) {
+        } else if (stack.getItem() == Items.BLAZE_ROD && stack.getStack().getHoverName().getString().equals("Ponyta")) {
             stack.shrink(1);
             this.setCoatColour(SWEMCoatColor.RAPIDASH_POKEMON);
             return true;
-        } else if (stack.getItem() == Items.DIAMOND
-                && stack.getStack().getHoverName().getString().equals("Power of Grayskull")) {
+        } else if (stack.getItem() == Items.DIAMOND && stack.getStack().getHoverName().getString().equals("Power of Grayskull")) {
             stack.shrink(1);
             this.setCoatColour(SWEMCoatColor.SWIFT_WIND_SHE_RA);
             return true;
-        } else if (stack.getItem() == SWEMItems.ENGLISH_BRIDLE_BLACK.get()
-                && stack.getStack().getHoverName().getString().equals("Becky")) {
+        } else if (stack.getItem() == SWEMItems.ENGLISH_BRIDLE_BLACK.get() && stack.getStack().getHoverName().getString().equals("Becky")) {
             stack.shrink(1);
             this.setCoatColour(SWEMCoatColor.BOB_FREE_REIN);
             return true;
-        } else if (stack.getItem() == Items.NETHER_STAR
-                && stack.getHoverName().getString().equals("Lady In Memory")) {
+        } else if (stack.getItem() == Items.NETHER_STAR && stack.getHoverName().getString().equals("Lady In Memory")) {
             stack.shrink(1);
             this.setCoatColour(SWEMCoatColor.LADY_JENNY);
             return true;
@@ -2726,10 +2518,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
     public ActionResultType mobInteract(PlayerEntity playerEntity, Hand hand) {
         ItemStack itemstack = playerEntity.getItemInHand(hand);
         if (!this.isBaby()) {
-            if (this.isTamed()
-                    && playerEntity.isSecondaryUseActive()
-                    && !(itemstack.getItem() instanceof TrackerItem)
-                    && !(itemstack.getItem() instanceof HorseTackItem)) {
+            if (this.isTamed() && playerEntity.isSecondaryUseActive() && !(itemstack.getItem() instanceof TrackerItem) && !(itemstack.getItem() instanceof HorseTackItem)) {
                 this.openInventory(playerEntity);
                 return ActionResultType.sidedSuccess(this.level.isClientSide);
             }
@@ -2745,12 +2534,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
         // Debug item, can fetch both client and server side variables.
         if (item == Items.DEBUG_STICK) {
             if (!this.level.isClientSide) {
-                playerEntity.sendMessage(
-                        new StringTextComponent(
-                                "Values is: "
-                                        + Arrays.toString(
-                                        this.progressionManager.getAffinityLeveling().requiredXpArray)),
-                        Util.NIL_UUID);
+                playerEntity.sendMessage(new StringTextComponent("Values is: " + Arrays.toString(this.progressionManager.getAffinityLeveling().requiredXpArray)), Util.NIL_UUID);
             }
             return ActionResultType.sidedSuccess(this.level.isClientSide);
         }
@@ -2765,9 +2549,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
 
         if (!itemstack.isEmpty() && item != Items.SADDLE) {
 
-            if (item == Items.LAPIS_LAZULI
-                    && !this.isBaby()
-                    && playerEntity.getUUID().equals(this.getOwnerUUID())) {
+            if (item == Items.LAPIS_LAZULI && !this.isBaby() && playerEntity.getUUID().equals(this.getOwnerUUID())) {
                 if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
                     this.setHorseVariant(SWEMCoatColor.getNextCyclableCoat(this.getHorseVariant()).getId());
                     ItemStack heldItemCopy = itemstack.copy();
@@ -2777,12 +2559,9 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
                 }
             }
 
-            if (item == Items.REDSTONE
-                    && !this.isBaby()
-                    && playerEntity.getUUID().equals(this.getOwnerUUID())) {
+            if (item == Items.REDSTONE && !this.isBaby() && playerEntity.getUUID().equals(this.getOwnerUUID())) {
                 if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
-                    this.setHorseVariant(
-                            SWEMCoatColor.getPreviousCyclableCoat(this.getHorseVariant()).getId());
+                    this.setHorseVariant(SWEMCoatColor.getPreviousCyclableCoat(this.getHorseVariant()).getId());
                     ItemStack heldItemCopy = itemstack.copy();
                     if (!playerEntity.abilities.instabuild) heldItemCopy.shrink(1);
                     playerEntity.setItemInHand(hand, heldItemCopy);
@@ -2835,8 +2614,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
             if (item == Items.WATER_BUCKET) {
                 if (!this.level.isClientSide && this.getNeeds().getThirst().canIncrementState()) {
                     this.getNeeds().getThirst().incrementState();
-                    playerEntity.setItemInHand(
-                            hand, ((BucketItem) item).getEmptySuccessItem(itemstack, playerEntity));
+                    playerEntity.setItemInHand(hand, ((BucketItem) item).getEmptySuccessItem(itemstack, playerEntity));
                     this.emitYayParticles((ServerWorld) this.level, 4);
                     return ActionResultType.CONSUME;
                 } else if (this.level.isClientSide && !this.getNeeds().getThirst().canIncrementState()) {
@@ -2923,14 +2701,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
         }
 
         if (this.isBaby() && i > 0) {
-            this.level.addParticle(
-                    ParticleTypes.HAPPY_VILLAGER,
-                    this.getRandomX(1.0D),
-                    this.getRandomY() + 0.5D,
-                    this.getRandomZ(1.0D),
-                    0.0D,
-                    0.0D,
-                    0.0D);
+            this.level.addParticle(ParticleTypes.HAPPY_VILLAGER, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), 0.0D, 0.0D, 0.0D);
             if (!this.level.isClientSide) {
                 this.ageUp(i);
             }
@@ -2948,16 +2719,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
      * @param count the count
      */
     public void emitBadParticles(ServerWorld world, int count) {
-        world.sendParticles(
-                SWEMParticles.BAD.get(),
-                this.getX(),
-                this.getY() + 2.5,
-                this.getZ(),
-                count,
-                0.3D,
-                0.3D,
-                0.3D,
-                0.3D);
+        world.sendParticles(SWEMParticles.BAD.get(), this.getX(), this.getY() + 2.5, this.getZ(), count, 0.3D, 0.3D, 0.3D, 0.3D);
     }
 
     /**
@@ -2967,16 +2729,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
      * @param count the count
      */
     public void emitEchParticles(ServerWorld world, int count) {
-        world.sendParticles(
-                SWEMParticles.ECH.get(),
-                this.getX(),
-                this.getY() + 2.5,
-                this.getZ(),
-                count,
-                0.3D,
-                0.3D,
-                0.3D,
-                0.3D);
+        world.sendParticles(SWEMParticles.ECH.get(), this.getX(), this.getY() + 2.5, this.getZ(), count, 0.3D, 0.3D, 0.3D, 0.3D);
     }
 
     /**
@@ -2986,16 +2739,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
      * @param count the count
      */
     public void emitMehParticles(ServerWorld world, int count) {
-        world.sendParticles(
-                SWEMParticles.MEH.get(),
-                this.getX(),
-                this.getY() + 2.5,
-                this.getZ(),
-                count,
-                0.3D,
-                0.3D,
-                0.3D,
-                0.3D);
+        world.sendParticles(SWEMParticles.MEH.get(), this.getX(), this.getY() + 2.5, this.getZ(), count, 0.3D, 0.3D, 0.3D, 0.3D);
     }
 
     /**
@@ -3005,16 +2749,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
      * @param count the count
      */
     public void emitYayParticles(ServerWorld world, int count) {
-        world.sendParticles(
-                SWEMParticles.YAY.get(),
-                this.getX(),
-                this.getY() + 2.5,
-                this.getZ(),
-                count,
-                0.3D,
-                0.3D,
-                0.3D,
-                0.3D);
+        world.sendParticles(SWEMParticles.YAY.get(), this.getX(), this.getY() + 2.5, this.getZ(), count, 0.3D, 0.3D, 0.3D, 0.3D);
     }
 
     /**
@@ -3024,16 +2759,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
      * @param count the count
      */
     public void emitWootParticles(ServerWorld world, int count) {
-        world.sendParticles(
-                SWEMParticles.WOOT.get(),
-                this.getX(),
-                this.getY() + 2.5,
-                this.getZ(),
-                count,
-                0.3D,
-                0.3D,
-                0.3D,
-                0.3D);
+        world.sendParticles(SWEMParticles.WOOT.get(), this.getX(), this.getY() + 2.5, this.getZ(), count, 0.3D, 0.3D, 0.3D, 0.3D);
     }
 
     @Override
@@ -3190,11 +2916,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
     public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity partner) {
         SWEMHorseEntityBase foal = SWEMEntities.SWEM_HORSE_ENTITY.get().create(world);
         if (foal == null) {
-            SWEM.LOGGER.error(
-                    "Uh oh - A foal could not be spawned, something went wrong.\nPartner 1: "
-                            + this
-                            + "\nPartner 2: "
-                            + partner);
+            SWEM.LOGGER.error("Uh oh - A foal could not be spawned, something went wrong.\nPartner 1: " + this + "\nPartner 2: " + partner);
             return null;
         }
         SWEMHorseEntity swemPartner = (SWEMHorseEntity) partner;
@@ -3216,12 +2938,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
     }
 
     @Nullable
-    public ILivingEntityData finalizeSpawn(
-            IServerWorld levelIn,
-            DifficultyInstance difficultyIn,
-            SpawnReason reason,
-            @Nullable ILivingEntityData spawnDataIn,
-            @Nullable CompoundNBT dataTag) {
+    public ILivingEntityData finalizeSpawn(IServerWorld levelIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         SWEMCoatColor coatcolors;
         if (spawnDataIn instanceof SWEMHorseData) {
             coatcolors = ((SWEMHorseData) spawnDataIn).variant;
@@ -3308,23 +3025,14 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
         HorseSpeed oldSpeed = this.currentSpeed;
         if (oldSpeed == HorseSpeed.GALLOP) return; // Return if current gait is already max.
 
-        if (this.getRandom().nextDouble()
-                < ((this.progressionManager.getAffinityLeveling().getDebuff()
-                * this.currentSpeed.getSkillMultiplier())
-                * (this.standingTimer > 0 ? 0.5 : 1))) {
+        if (this.getRandom().nextDouble() < ((this.progressionManager.getAffinityLeveling().getDebuff() * this.currentSpeed.getSkillMultiplier()) * (this.standingTimer > 0 ? 0.5 : 1))) {
             this.setStandingAnim();
             return;
         } else if (oldSpeed == HorseSpeed.CANTER_EXT) {
             if (this.entityData.get(GALLOP_ON_COOLDOWN)) {
                 ArrayList<String> args = new ArrayList<>();
-                args.add(
-                        String.valueOf(
-                                Math.round(
-                                        (this.entityData.get(GALLOP_COOLDOWN_TIMER) - this.entityData.get(GALLOP_TIMER))
-                                                / 20)));
-                SWEMPacketHandler.INSTANCE.send(
-                        PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)),
-                        new ClientStatusMessagePacket(0, 1, args));
+                args.add(String.valueOf(Math.round((this.entityData.get(GALLOP_COOLDOWN_TIMER) - this.entityData.get(GALLOP_TIMER)) / 20)));
+                SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)), new ClientStatusMessagePacket(0, 1, args));
                 return;
             }
             this.currentSpeed = HorseSpeed.GALLOP;
@@ -3332,16 +3040,12 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
             this.currentSpeed = HorseSpeed.CANTER_EXT;
         } else if (oldSpeed == HorseSpeed.TROT) {
             if (this.needs.getThirst().getState() == ThirstNeed.ThirstState.EXICCOSIS) {
-                SWEMPacketHandler.INSTANCE.send(
-                        PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)),
-                        new ClientStatusMessagePacket(1, 0, new ArrayList<>()));
+                SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)), new ClientStatusMessagePacket(1, 0, new ArrayList<>()));
                 return;
             }
 
             if (this.needs.getHunger().getState() == HungerNeed.HungerState.STARVING) {
-                SWEMPacketHandler.INSTANCE.send(
-                        PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)),
-                        new ClientStatusMessagePacket(3, 0, new ArrayList<>()));
+                SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)), new ClientStatusMessagePacket(3, 0, new ArrayList<>()));
                 return;
             }
 
@@ -3370,10 +3074,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
             this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getAlteredMovementSpeed());
         }
         this.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(oldSpeed.getModifier());
-        if (!this.getAttribute(Attributes.MOVEMENT_SPEED)
-                .hasModifier(this.currentSpeed.getModifier())) {
-            this.getAttribute(Attributes.MOVEMENT_SPEED)
-                    .addTransientModifier(this.currentSpeed.getModifier());
+        if (!this.getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(this.currentSpeed.getModifier())) {
+            this.getAttribute(Attributes.MOVEMENT_SPEED).addTransientModifier(this.currentSpeed.getModifier());
         }
 
         this.entityData.set(SPEED_LEVEL, this.currentSpeed.speedLevel);
@@ -3388,8 +3090,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
         if (!(this.getSWEMArmor().getItem() instanceof SWEMHorseArmorItem)) {
             return false;
         }
-        return this.hasSaddle().getItem() instanceof AdventureSaddleItem
-                && ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() == 4;
+        return this.hasSaddle().getItem() instanceof AdventureSaddleItem && ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() == 4;
     }
 
     /**
@@ -3405,8 +3106,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
     public void cycleRidingPermission() {
         if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.NONE) {
             this.setPermissionState("TRUST");
-        } else if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING))
-                == RidingPermission.TRUST) {
+        } else if (RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)) == RidingPermission.TRUST) {
             this.setPermissionState("ALL");
         } else {
             this.setPermissionState("NONE");
@@ -3531,21 +3231,14 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
 
     @Override
     public boolean canEquipArmor() {
-        return hasAdventureSaddle()
-                && getHalter().getItem() instanceof AdventureBridleItem
-                && getBreastCollar().getItem() instanceof AdventureBreastCollarItem
-                && getGirthStrap().getItem() instanceof AdventureGirthStrapItem
-                && getLegWraps().getItem() instanceof AdventureLegWraps
-                && getBlanket().getItem() instanceof AdventureBlanketItem;
+        return hasAdventureSaddle() && getHalter().getItem() instanceof AdventureBridleItem && getBreastCollar().getItem() instanceof AdventureBreastCollarItem && getGirthStrap().getItem() instanceof AdventureGirthStrapItem && getLegWraps().getItem() instanceof AdventureLegWraps && getBlanket().getItem() instanceof AdventureBlanketItem;
     }
 
     @Override
     public boolean canBeControlledByRider() {
         if (this.hasBridle() || !ConfigHolder.SERVER.needBridleToSteer.get()) {
 
-            if (this.getControllingPassenger() instanceof LivingEntity
-                    && !(this.getControllingPassenger() instanceof AnimalEntity)
-                    && this.getControllingPassenger() instanceof PlayerEntity) {
+            if (this.getControllingPassenger() instanceof LivingEntity && !(this.getControllingPassenger() instanceof AnimalEntity) && this.getControllingPassenger() instanceof PlayerEntity) {
                 return true;
             }
 
@@ -3614,15 +3307,12 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
 
         if (this.isVehicle() && !this.level.isClientSide) {
             this.progressionManager.getAffinityLeveling().removeXp(amount * 15);
-        } else if (source.getEntity() != null
-                && source.getEntity().getUUID().equals(this.getOwnerUUID())
-                && !this.level.isClientSide) {
+        } else if (source.getEntity() != null && source.getEntity().getUUID().equals(this.getOwnerUUID()) && !this.level.isClientSide) {
             this.progressionManager.getAffinityLeveling().removeXp(amount * 15);
         }
         if (source == DamageSource.FALL) {
             if (this.getHealth() <= 6.0F) {
-                amount =
-                        0; // Don't damage the horse, when below 6 HP. Still play hurt animations, and deduct
+                amount = 0; // Don't damage the horse, when below 6 HP. Still play hurt animations, and deduct
                 // affinity.
             } else if (this.getHealth() - amount < 6.0f) {
                 amount = this.getHealth() - 6.0f;
@@ -3657,32 +3347,28 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
      */
     private float calculateArrowDamage(AbstractArrowEntity arrow, float amount) {
         if (!this.isWearingArmor()) return amount;
-        if (((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier
-                == SWEMHorseArmorItem.HorseArmorTier.IRON) {
+        if (((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier == SWEMHorseArmorItem.HorseArmorTier.IRON) {
             boolean shouldBlock = this.random.nextFloat() > 0.5;
             if (shouldBlock && !arrow.isCritArrow()) {
                 amount = 0;
             } else if (shouldBlock && arrow.isCritArrow()) {
                 amount = 2;
             }
-        } else if (((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier
-                == SWEMHorseArmorItem.HorseArmorTier.GOLD) {
+        } else if (((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier == SWEMHorseArmorItem.HorseArmorTier.GOLD) {
             boolean shouldBlock = this.random.nextFloat() > 0.5;
             if (shouldBlock && !arrow.isCritArrow()) {
                 amount = 0;
             } else if (shouldBlock && arrow.isCritArrow()) {
                 amount = 2;
             }
-        } else if (((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier
-                == SWEMHorseArmorItem.HorseArmorTier.DIAMOND) {
+        } else if (((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier == SWEMHorseArmorItem.HorseArmorTier.DIAMOND) {
             boolean shouldBlock = this.random.nextFloat() > 0.25;
             if (shouldBlock && !arrow.isCritArrow()) {
                 amount = 0;
             } else if (shouldBlock && arrow.isCritArrow()) {
                 amount = 2;
             }
-        } else if (((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier
-                == SWEMHorseArmorItem.HorseArmorTier.AMETHYST) {
+        } else if (((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier == SWEMHorseArmorItem.HorseArmorTier.AMETHYST) {
             if (arrow.isCritArrow()) amount = 2;
             else amount = 0;
         }
@@ -3707,14 +3393,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
         this.standAnimationVariant = this.getRandom().nextDouble() > 0.5 ? 2 : 1;
 
         if (this.level.isClientSide) {
-            SWEMPacketHandler.INSTANCE.sendToServer(
-                    new SHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
+            SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
             if (this.entityData.get(SPEED_LEVEL) != 0)
                 SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, this.getId()));
         } else {
-            SWEMPacketHandler.INSTANCE.send(
-                    PacketDistributor.TRACKING_ENTITY.with(() -> this),
-                    new CHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
+            SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new CHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
         }
         this.standingTimer = 142;
     }
@@ -3769,11 +3452,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
      */
     public float getJumpHeight() {
         float jumpStrength = (float) this.getCustomJump();
-        return (float)
-                (-0.1817584952 * ((float) Math.pow(jumpStrength, 3.0F))
-                        + 3.689713992 * ((float) Math.pow(jumpStrength, 2.0F))
-                        + 2.128599134 * jumpStrength
-                        - 0.343930367);
+        return (float) (-0.1817584952 * ((float) Math.pow(jumpStrength, 3.0F)) + 3.689713992 * ((float) Math.pow(jumpStrength, 2.0F)) + 2.128599134 * jumpStrength - 0.343930367);
     }
 
     /**
@@ -3809,32 +3488,12 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
         return super.getLeashOffset().add(0, 0, this.getBbWidth() * 0.7);
     }
 
+    protected boolean isBeingMovedByPlayer() {
+        return this.getEntityData().get(IS_MOVING_FORWARD) || this.getEntityData().get(IS_MOVING_BACKWARDS) || this.getEntityData().get(IS_MOVING_LEFT) || this.getEntityData().get(IS_MOVING_RIGHT);
+    }
+
     public enum HorseSpeed {
-        WALK(
-                new AttributeModifier("HORSE_WALK", 0, AttributeModifier.Operation.ADDITION),
-                0,
-                0.05f,
-                "Walk"),
-        TROT(
-                new AttributeModifier("HORSE_TROT", 0, AttributeModifier.Operation.ADDITION),
-                1,
-                0.1f,
-                "Trot"),
-        CANTER(
-                new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.ADDITION),
-                2,
-                0.5f,
-                "Canter"),
-        CANTER_EXT(
-                new AttributeModifier("HORSE_CANTER_EXT", 0, AttributeModifier.Operation.ADDITION),
-                3,
-                0.8f,
-                "Extended Canter"),
-        GALLOP(
-                new AttributeModifier("HORSE_GALLOP", 0.2d, AttributeModifier.Operation.MULTIPLY_TOTAL),
-                4,
-                1.0f,
-                "Gallop");
+        WALK(new AttributeModifier("HORSE_WALK", 0, AttributeModifier.Operation.ADDITION), 0, 0.05f, "Walk"), TROT(new AttributeModifier("HORSE_TROT", 0, AttributeModifier.Operation.ADDITION), 1, 0.1f, "Trot"), CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.ADDITION), 2, 0.5f, "Canter"), CANTER_EXT(new AttributeModifier("HORSE_CANTER_EXT", 0, AttributeModifier.Operation.ADDITION), 3, 0.8f, "Extended Canter"), GALLOP(new AttributeModifier("HORSE_GALLOP", 0.2d, AttributeModifier.Operation.MULTIPLY_TOTAL), 4, 1.0f, "Gallop");
         private final AttributeModifier modifier;
         private final int speedLevel;
         private final float skillMultiplier;
@@ -3893,9 +3552,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
     }
 
     public enum RidingPermission {
-        NONE,
-        TRUST,
-        ALL
+        NONE, TRUST, ALL
     }
 
     public static class SWEMHorseData extends AgeableData {

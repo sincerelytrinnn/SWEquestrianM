@@ -91,20 +91,17 @@ public class SWEM {
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "swem";
-    public static final ItemGroup TAB =
-            new ItemGroup("SWEMTab") {
-                @Override
-                public ItemStack makeIcon() {
-                    return new ItemStack(SWEMItems.WESTERN_SADDLE_LIGHT_BLUE.get());
-                }
+    public static final ItemGroup TAB = new ItemGroup("SWEMTab") {
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(SWEMItems.WESTERN_SADDLE_LIGHT_BLUE.get());
+        }
 
-                @Override
-                public boolean hasSearchBar() {
-                    return true;
-                }
-            }.setBackgroundImage(
-                    new ResourceLocation(
-                            "minecraft", "textures/gui/container/creative_inventory/tab_item_search.png"));
+        @Override
+        public boolean hasSearchBar() {
+            return true;
+        }
+    }.setBackgroundImage(new ResourceLocation("minecraft", "textures/gui/container/creative_inventory/tab_item_search.png"));
     public static WoodType WHITEWASH_WT;
     private static Map<UUID, HorseData> horseDataMap = new HashMap<>();
     private static ServerWorld serverOverWorld;
@@ -122,7 +119,7 @@ public class SWEM {
     private static Method GETCODEC_METHOD;
 
     static {
-        GeckoLibMod.DISABLE_IN_DEV = false;
+        GeckoLibMod.DISABLE_IN_DEV = true;
     }
 
     /**
@@ -172,16 +169,12 @@ public class SWEM {
     public static void onRegisterItems(final RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
 
-        SWEMBlocks.BLOCKS.getEntries().stream()
-                .map(RegistryObject::get)
-                .filter(block -> !(block instanceof TimothyGrass))
-                .forEach(
-                        block -> {
-                            final Item.Properties properties = new Item.Properties().tab(TAB);
-                            final BlockItem blockItem = new BlockItem(block, properties);
-                            blockItem.setRegistryName(block.getRegistryName());
-                            registry.register(blockItem);
-                        });
+        SWEMBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get).filter(block -> !(block instanceof TimothyGrass)).forEach(block -> {
+            final Item.Properties properties = new Item.Properties().tab(TAB);
+            final BlockItem blockItem = new BlockItem(block, properties);
+            blockItem.setRegistryName(block.getRegistryName());
+            registry.register(blockItem);
+        });
 
         LOGGER.debug("Registered BlockItems!");
     }
@@ -211,8 +204,7 @@ public class SWEM {
     public static void updateSaveHorseData(SWEMHorseEntityBase horse) {
         HorseData data = horseDataMap.get(horse.getUUID());
         if (data == null) {
-            data =
-                    new HorseData(horse.getUUID(), horse.blockPosition(), horse.getDisplayName().getString());
+            data = new HorseData(horse.getUUID(), horse.blockPosition(), horse.getDisplayName().getString());
         } else {
             data.setName(horse.getDisplayName().getString());
             data.setPos(horse.blockPosition());
@@ -231,34 +223,28 @@ public class SWEM {
         if (ModList.get().isLoaded("placeableitems")) {
             PlaceableItemsInit.initMap();
         }
-        event.enqueueWork(
-                () -> {
-                    GlobalEntityTypeAttributes.put(
-                            SWEMEntities.SWEM_HORSE_ENTITY.get(),
-                            SWEMHorseEntityBase.setCustomAttributes().build());
-                    GlobalEntityTypeAttributes.put(
-                            SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiEntity.setCustomAttributes().build());
-                    GlobalEntityTypeAttributes.put(
-                            SWEMEntities.HORSE_POOP_ENTITY.get(), PoopEntity.createLivingAttributes().build());
-                    BrewingRecipeRegistry.addRecipe(new BrewingRecipes.CantazariteBrewingRecipe());
-                    BrewingRecipeRegistry.addRecipe(new BrewingRecipes.RainbowChicPotion());
+        event.enqueueWork(() -> {
+            GlobalEntityTypeAttributes.put(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseEntityBase.setCustomAttributes().build());
+            GlobalEntityTypeAttributes.put(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiEntity.setCustomAttributes().build());
+            GlobalEntityTypeAttributes.put(SWEMEntities.HORSE_POOP_ENTITY.get(), PoopEntity.createLivingAttributes().build());
+            BrewingRecipeRegistry.addRecipe(new BrewingRecipes.CantazariteBrewingRecipe());
+            BrewingRecipeRegistry.addRecipe(new BrewingRecipes.RainbowChicPotion());
 
-                    ComposterBlock.COMPOSTABLES.put(SWEMItems.ALFALFA_SEEDS.get(), 0.3F);
-                    ComposterBlock.COMPOSTABLES.put(SWEMItems.ALFALFA_BUSHEL.get(), 0.65F);
-                    ComposterBlock.COMPOSTABLES.put(SWEMItems.OAT_SEEDS.get(), 0.3F);
-                    ComposterBlock.COMPOSTABLES.put(SWEMItems.OAT_BUSHEL.get(), 0.65F);
-                    ComposterBlock.COMPOSTABLES.put(SWEMItems.TIMOTHY_SEEDS.get(), 0.3F);
-                    ComposterBlock.COMPOSTABLES.put(SWEMItems.TIMOTHY_BUSHEL.get(), 0.65F);
-                    ComposterBlock.COMPOSTABLES.put(SWEMBlocks.QUALITY_BALE_ITEM.get(), 0.85F);
-                    ComposterBlock.COMPOSTABLES.put(SWEMBlocks.WET_COMPOST_ITEM.get(), 0.85F);
-                    ComposterBlock.COMPOSTABLES.put(SWEMBlocks.COMPOST_ITEM.get(), 0.85F);
+            ComposterBlock.COMPOSTABLES.put(SWEMItems.ALFALFA_SEEDS.get(), 0.3F);
+            ComposterBlock.COMPOSTABLES.put(SWEMItems.ALFALFA_BUSHEL.get(), 0.65F);
+            ComposterBlock.COMPOSTABLES.put(SWEMItems.OAT_SEEDS.get(), 0.3F);
+            ComposterBlock.COMPOSTABLES.put(SWEMItems.OAT_BUSHEL.get(), 0.65F);
+            ComposterBlock.COMPOSTABLES.put(SWEMItems.TIMOTHY_SEEDS.get(), 0.3F);
+            ComposterBlock.COMPOSTABLES.put(SWEMItems.TIMOTHY_BUSHEL.get(), 0.65F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.QUALITY_BALE_ITEM.get(), 0.85F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.WET_COMPOST_ITEM.get(), 0.85F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.COMPOST_ITEM.get(), 0.85F);
 
-                    ShovelItem.FLATTENABLES.put(
-                            Blocks.SANDSTONE, SWEMBlocks.METER_POINT.get().defaultBlockState());
+            ShovelItem.FLATTENABLES.put(Blocks.SANDSTONE, SWEMBlocks.METER_POINT.get().defaultBlockState());
 
-                    SWEMStructure.setupStructures();
-                    SWEMConfiguredStructures.registerConfiguredStructures();
-                });
+            SWEMStructure.setupStructures();
+            SWEMConfiguredStructures.registerConfiguredStructures();
+        });
 
         SWEMPacketHandler.init();
     }
@@ -280,18 +266,11 @@ public class SWEM {
              */
             try {
                 if (GETCODEC_METHOD == null)
-                    GETCODEC_METHOD =
-                            ObfuscationReflectionHelper.findMethod(ChunkGenerator.class, "func_230347_a_");
-                ResourceLocation cgRL =
-                        Registry.CHUNK_GENERATOR.getKey(
-                                (Codec<? extends ChunkGenerator>)
-                                        GETCODEC_METHOD.invoke(serverWorld.getChunkSource().generator));
+                    GETCODEC_METHOD = ObfuscationReflectionHelper.findMethod(ChunkGenerator.class, "func_230347_a_");
+                ResourceLocation cgRL = Registry.CHUNK_GENERATOR.getKey((Codec<? extends ChunkGenerator>) GETCODEC_METHOD.invoke(serverWorld.getChunkSource().generator));
                 if (cgRL != null && cgRL.getNamespace().equals("terraforged")) return;
             } catch (Exception e) {
-                SWEM.LOGGER.error(
-                        "Was unable to check if "
-                                + serverWorld.dimension().location()
-                                + " is using Terraforged's ChunkGenerator.");
+                SWEM.LOGGER.error("Was unable to check if " + serverWorld.dimension().location() + " is using Terraforged's ChunkGenerator.");
             }
 
             /*
@@ -299,8 +278,7 @@ public class SWEM {
              * people seem to want their superflat worlds free of modded structures.
              * Also that vanilla superflat is really tricky and buggy to work with in my experience.
              */
-            if (serverWorld.getChunkSource().getGenerator() instanceof FlatChunkGenerator
-                    && serverWorld.dimension().equals(World.OVERWORLD)) {
+            if (serverWorld.getChunkSource().getGenerator() instanceof FlatChunkGenerator && serverWorld.dimension().equals(World.OVERWORLD)) {
                 return;
             }
 
@@ -312,11 +290,8 @@ public class SWEM {
              * already added your default structure spacing to some dimensions. You would need to override the spacing with .put(...)
              * And if you want to do dimension blacklisting, you need to remove the spacing entry entirely from the map below to prevent generation safely.
              */
-            Map<Structure<?>, StructureSeparationSettings> tempMap =
-                    new HashMap<>(serverWorld.getChunkSource().generator.getSettings().structureConfig());
-            tempMap.putIfAbsent(
-                    SWEMStructure.BARN.get(),
-                    DimensionStructuresSettings.DEFAULTS.get(SWEMStructure.BARN.get()));
+            Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld.getChunkSource().generator.getSettings().structureConfig());
+            tempMap.putIfAbsent(SWEMStructure.BARN.get(), DimensionStructuresSettings.DEFAULTS.get(SWEMStructure.BARN.get()));
             serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
         }
     }
@@ -356,15 +331,7 @@ public class SWEM {
     private void serverShutdown(FMLServerStoppingEvent event) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        try (JsonWriter writer =
-                     gson.newJsonWriter(
-                             new FileWriter(
-                                     new File(
-                                             event
-                                                     .getServer()
-                                                     .getWorldPath(new FolderName("serverconfig/swem"))
-                                                     .resolve("horseData.json")
-                                                     .toUri())))) {
+        try (JsonWriter writer = gson.newJsonWriter(new FileWriter(new File(event.getServer().getWorldPath(new FolderName("serverconfig/swem")).resolve("horseData.json").toUri())))) {
             gson.toJson(gson.toJsonTree(horseDataMap), writer);
             writer.flush();
         } catch (IOException e) {

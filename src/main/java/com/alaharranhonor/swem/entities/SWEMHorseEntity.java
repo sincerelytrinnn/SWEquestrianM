@@ -99,8 +99,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
         Animation anim = event.getController().getCurrentAnimation();
         if (anim != null) {
-            if (anim.animationName.startsWith("JumpLvl")
-                    && event.getController().getAnimationState() != AnimationState.Stopped) {
+            if (anim.animationName.startsWith("JumpLvl") && event.getController().getAnimationState() != AnimationState.Stopped) {
                 return PlayState.CONTINUE;
             }
         }
@@ -113,12 +112,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
                 }
                 if (horse.getEntityData().get(HorseFlightController.isTurningLeft)) {
                     if (!event.getController().getCurrentAnimation().animationName.equals("Turn")) {
-                        event
-                                .getController()
-                                .setAnimation(
-                                        new AnimationBuilder()
-                                                .addAnimation("Turn", false)
-                                                .addAnimation("TurnCycle", true));
+                        event.getController().setAnimation(new AnimationBuilder().addAnimation("Turn", false).addAnimation("TurnCycle", true));
                         return PlayState.CONTINUE;
                     }
                 }
@@ -153,30 +147,18 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
         // No idea why this needs to be up here, but something in the following jump if statement,
         // blocks the code execution when jumping into water.
-        boolean isInWater =
-                horse
-                        .level
-                        .getBlockStates(horse.getBoundingBox().contract(0, 0, 0))
-                        .allMatch((bs) -> bs.getBlock() == Blocks.WATER);
+        boolean isInWater = horse.level.getBlockStates(horse.getBoundingBox().contract(0, 0, 0)).allMatch((bs) -> bs.getBlock() == Blocks.WATER);
 
         if (!isInWater && horse.jumpHeight != 0) {
             int jumpHeight = Math.min((int) horse.jumpHeight, 5);
             playRiderAnimation(String.format("JumpLvl%dPlayer", jumpHeight), "IdlePlayer");
-            event
-                    .getController()
-                    .setAnimation(
-                            new AnimationBuilder()
-                                    .addAnimation(String.format("JumpLvl%d", jumpHeight), false)
-                                    .addAnimation(anim.animationName, anim.loop));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation(String.format("JumpLvl%d", jumpHeight), false).addAnimation(anim.animationName, anim.loop));
             return PlayState.CONTINUE;
         }
 
         if (horse.kickAnimationTimer > 0) {
             playRiderAnimation("KickPlayer", "IdlePlayer");
-            event
-                    .getController()
-                    .setAnimation(
-                            new AnimationBuilder().addAnimation("Kick", false).addAnimation("StandIdle", false));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("Kick", false).addAnimation("StandIdle", false));
             return PlayState.CONTINUE;
         }
 
@@ -187,12 +169,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
                 }
             }
             playRiderAnimation(horse.getStandVariant() == 2 ? "BuckPlayer" : "RearPlayer", "IdlePlayer");
-            event
-                    .getController()
-                    .setAnimation(
-                            new AnimationBuilder()
-                                    .addAnimation(horse.getStandVariant() == 2 ? "Buck" : "Rear", false)
-                                    .addAnimation("StandIdle", false));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation(horse.getStandVariant() == 2 ? "Buck" : "Rear", false).addAnimation("StandIdle", false));
 
             return PlayState.CONTINUE;
         }
@@ -205,84 +182,27 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
         if (horse.getEntityData().get(IS_EATING) || horse.eatAnimationTick > 0) {
             if (anim != null && !anim.animationName.equals("EatingLoop"))
-                event
-                        .getController()
-                        .setAnimation(
-                                new AnimationBuilder()
-                                        .addAnimation("LeanIn", false)
-                                        .addAnimation("EatingLoop", true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("LeanIn", false).addAnimation("EatingLoop", true));
             return PlayState.CONTINUE;
         } else {
             if (anim != null && anim.animationName.equals("EatingLoop")) {
-                event
-                        .getController()
-                        .setAnimation(
-                                new AnimationBuilder()
-                                        .addAnimation("LeanOut", false)
-                                        .addAnimation("StandIdle", false));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("LeanOut", false).addAnimation("StandIdle", false));
                 return PlayState.CONTINUE;
             } else if (anim != null && anim.animationName.equals("LeanOut")) return PlayState.CONTINUE;
         }
 
         if (horse.getEntityData().get(IS_LAYING_DOWN)) {
             if (anim != null && !anim.animationName.equals("LayingDownLoop"))
-                event
-                        .getController()
-                        .setAnimation(
-                                new AnimationBuilder()
-                                        .addAnimation("LayingDown", false)
-                                        .addAnimation("LayingDownLoop", true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("LayingDown", false).addAnimation("LayingDownLoop", true));
             return PlayState.CONTINUE;
         } else {
             // Add lean out here.
         }
 
-        boolean playerMovesHorse = false;
-        if (horse.getControllingPassenger() != null) {
-            playerMovesHorse = ((PlayerEntity) horse.getControllingPassenger()).xxa > 0;
-            if (!playerMovesHorse) {
-                playerMovesHorse = ((PlayerEntity) horse.getControllingPassenger()).zza > 0;
-            }
-        }
 
-        if (!event.isMoving() && !playerMovesHorse) {
-            if (animTimer < 2
-                    || (anim != null
-                    && event
-                    .getController()
-                    .getCurrentAnimation()
-                    .animationName
-                    .equalsIgnoreCase("Walk")
-                    || (anim != null
-                    && event
-                    .getController()
-                    .getCurrentAnimation()
-                    .animationName
-                    .equalsIgnoreCase("Trot"))
-                    || (anim != null
-                    && event
-                    .getController()
-                    .getCurrentAnimation()
-                    .animationName
-                    .equalsIgnoreCase("Canter"))
-                    || (anim != null
-                    && event
-                    .getController()
-                    .getCurrentAnimation()
-                    .animationName
-                    .equalsIgnoreCase("Extended_anter"))
-                    || (anim != null
-                    && event
-                    .getController()
-                    .getCurrentAnimation()
-                    .animationName
-                    .equalsIgnoreCase("Gallop"))
-                    || (anim != null
-                    && event
-                    .getController()
-                    .getCurrentAnimation()
-                    .animationName
-                    .equalsIgnoreCase("WalkingBackwards")))) {
+
+        if (!event.isMoving() && !horse.isBeingMovedByPlayer()) {
+            if (animTimer < 2 || (anim != null && event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Walk") || (anim != null && event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Trot")) || (anim != null && event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Canter")) || (anim != null && event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Extended_anter")) || (anim != null && event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Gallop")) || (anim != null && event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("WalkingBackwards")))) {
 
                 if (horse.getEntityData().get(IS_SAD)) {
                     event.getController().setAnimation(new AnimationBuilder().addAnimation("SadStandIdle"));
@@ -291,46 +211,29 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
                 float chance = new Random().nextFloat();
                 if (chance < 0.9f || idleAnimCooldown > 1) {
                     playRiderAnimation("IdlePlayer", true);
-                    event
-                            .getController()
-                            .setAnimation(new AnimationBuilder().addAnimation("StandIdle", true));
+                    event.getController().setAnimation(new AnimationBuilder().addAnimation("StandIdle", true));
                     animTimer = 79;
                     event.getController().markNeedsReload();
                 } else if (chance > 0.9f && chance < 0.93f && idleAnimCooldown < 1) {
-                    event
-                            .getController()
-                            .setAnimation(
-                                    new AnimationBuilder()
-                                            .addAnimation("Scratch", false)
-                                            .addAnimation("StandIdle", false));
+                    event.getController().setAnimation(new AnimationBuilder().addAnimation("Scratch", false).addAnimation("StandIdle", false));
                     animTimer = 79 + 90;
                     idleAnimCooldown = animTimer + 100;
                     event.getController().markNeedsReload();
                 } else if (chance > 0.93f && chance < 0.96f && idleAnimCooldown < 1) {
-                    event
-                            .getController()
-                            .setAnimation(
-                                    new AnimationBuilder()
-                                            .addAnimation("Shake", false)
-                                            .addAnimation("StandIdle", false));
+                    event.getController().setAnimation(new AnimationBuilder().addAnimation("Shake", false).addAnimation("StandIdle", false));
                     animTimer = 79 + 62;
                     idleAnimCooldown = animTimer + 100;
                     event.getController().markNeedsReload();
                 } else if (idleAnimCooldown < 1) {
                     playRiderAnimation("TailSwishPlayer", "IdlePlayer");
-                    event
-                            .getController()
-                            .setAnimation(
-                                    new AnimationBuilder()
-                                            .addAnimation("TailSwish", false)
-                                            .addAnimation("StandIdle", false));
+                    event.getController().setAnimation(new AnimationBuilder().addAnimation("TailSwish", false).addAnimation("StandIdle", false));
                     animTimer = 79 + 79;
                     idleAnimCooldown = animTimer + 100;
                     event.getController().markNeedsReload();
                 }
             }
             return PlayState.CONTINUE;
-        } else if (playerMovesHorse || event.isMoving()) {
+        } else if (horse.isBeingMovedByPlayer() || event.isMoving()) {
             if (horse.isWalkingBackwards) {
                 playRiderAnimation("WalkingBackwardsPlayer", true);
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("WalkingBackwards"));
@@ -354,12 +257,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("ExtendedCanter"));
             } else if (horse.getEntityData().get(SPEED_LEVEL) == 4) {
                 playRiderAnimation("GallopPlayer", true);
-                event
-                        .getController()
-                        .setAnimation(
-                                new AnimationBuilder()
-                                        .addAnimation("GallopTransition", false)
-                                        .addAnimation("Gallop"));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("GallopTransition", false).addAnimation("Gallop"));
             }
             return PlayState.CONTINUE;
         }
@@ -374,21 +272,12 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
         if (event.isMoving()) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("gait.walk"));
         } else {
-            if (event.getController().getAnimationState() == AnimationState.Stopped
-                    || event
-                    .getController()
-                    .getCurrentAnimation()
-                    .animationName
-                    .equalsIgnoreCase("gait.walk")) {
+            if (event.getController().getAnimationState() == AnimationState.Stopped || event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("gait.walk")) {
                 float chance = new Random().nextFloat();
                 if (chance < 0.95f) {
-                    event
-                            .getController()
-                            .setAnimation(new AnimationBuilder().addAnimation("idle.stand", false));
+                    event.getController().setAnimation(new AnimationBuilder().addAnimation("idle.stand", false));
                 } else {
-                    event
-                            .getController()
-                            .setAnimation(new AnimationBuilder().addAnimation("idle.shake", false));
+                    event.getController().setAnimation(new AnimationBuilder().addAnimation("idle.shake", false));
                 }
             }
         }
@@ -396,17 +285,11 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
         return PlayState.CONTINUE;
     }
 
-    public void playRiderAnimation(
-            PlayerEntity player,
-            String animationName,
-            GeckoRider.Perspective perspective,
-            boolean shouldLoop) {
+    public void playRiderAnimation(PlayerEntity player, String animationName, GeckoRider.Perspective perspective, boolean shouldLoop) {
         if (player.level.isClientSide()) {
-            AnimationBuilder newActiveAnimation =
-                    new AnimationBuilder().addAnimation(animationName, shouldLoop);
+            AnimationBuilder newActiveAnimation = new AnimationBuilder().addAnimation(animationName, shouldLoop);
 
-            CustomAnimationController<GeckoRider> controller =
-                    GeckoRider.getAnimationController(player, perspective);
+            CustomAnimationController<GeckoRider> controller = GeckoRider.getAnimationController(player, perspective);
             GeckoRider geckoPlayer = GeckoRider.getRiderPlayer(player, perspective);
             if (controller != null && geckoPlayer != null) {
                 controller.playAnimation(geckoPlayer, newActiveAnimation);
@@ -419,28 +302,14 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
             for (Entity entity : this.getPassengers()) {
                 if (entity instanceof PlayerEntity) {
                     AnimationBuilder animationBuilder;
-                    if (animationName.equals("JumpLvl1Player")
-                            || animationName.equals("JumpLvl2Player")
-                            || animationName.equals("JumpLvl3Player")
-                            || animationName.equals("JumpLvl4Player")
-                            || animationName.equals("JumpLvl5Player")) {
-                        String anim =
-                                GeckoRider.getRiderPlayer(
-                                        (PlayerEntity) entity, GeckoRider.Perspective.THIRD_PERSON)
-                                        .animationName;
-                        animationBuilder =
-                                new AnimationBuilder()
-                                        .addAnimation(animationName, shouldLoop)
-                                        .addAnimation(anim, false);
+                    if (animationName.equals("JumpLvl1Player") || animationName.equals("JumpLvl2Player") || animationName.equals("JumpLvl3Player") || animationName.equals("JumpLvl4Player") || animationName.equals("JumpLvl5Player")) {
+                        String anim = GeckoRider.getRiderPlayer((PlayerEntity) entity, GeckoRider.Perspective.THIRD_PERSON).animationName;
+                        animationBuilder = new AnimationBuilder().addAnimation(animationName, shouldLoop).addAnimation(anim, false);
                     } else {
                         animationBuilder = new AnimationBuilder().addAnimation(animationName, shouldLoop);
                     }
-                    GeckoRider.getRiderPlayer((PlayerEntity) entity, GeckoRider.Perspective.THIRD_PERSON)
-                            .animationBuilder =
-                            animationBuilder;
-                    GeckoRider.getRiderPlayer((PlayerEntity) entity, GeckoRider.Perspective.FIRST_PERSON)
-                            .animationBuilder =
-                            animationBuilder;
+                    GeckoRider.getRiderPlayer((PlayerEntity) entity, GeckoRider.Perspective.THIRD_PERSON).animationBuilder = animationBuilder;
+                    GeckoRider.getRiderPlayer((PlayerEntity) entity, GeckoRider.Perspective.FIRST_PERSON).animationBuilder = animationBuilder;
                 }
             }
         }
@@ -452,17 +321,10 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
                 if (entity instanceof PlayerEntity) {
                     AnimationBuilder animationBuilder;
 
-                    animationBuilder =
-                            new AnimationBuilder()
-                                    .addAnimation(animationName, false)
-                                    .addAnimation(animationName2, false);
+                    animationBuilder = new AnimationBuilder().addAnimation(animationName, false).addAnimation(animationName2, false);
 
-                    GeckoRider.getRiderPlayer((PlayerEntity) entity, GeckoRider.Perspective.THIRD_PERSON)
-                            .animationBuilder =
-                            animationBuilder;
-                    GeckoRider.getRiderPlayer((PlayerEntity) entity, GeckoRider.Perspective.FIRST_PERSON)
-                            .animationBuilder =
-                            animationBuilder;
+                    GeckoRider.getRiderPlayer((PlayerEntity) entity, GeckoRider.Perspective.THIRD_PERSON).animationBuilder = animationBuilder;
+                    GeckoRider.getRiderPlayer((PlayerEntity) entity, GeckoRider.Perspective.FIRST_PERSON).animationBuilder = animationBuilder;
                 }
             }
         }
@@ -512,8 +374,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
 
     @Override
     public void registerControllers(AnimationData animationData) {
-        animationData.addAnimationController(
-                new AnimationController<>(this, "controller", 2, this::predicate));
+        animationData.addAnimationController(new AnimationController<>(this, "controller", 2, this::predicate));
     }
 
     @Override
