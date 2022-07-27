@@ -45,20 +45,14 @@ public class SWEMHorseArmorItem extends HorseArmorItem implements IAnimatable {
      * @param texture    the texture
      * @param builder    the builder
      */
-    public SWEMHorseArmorItem(
-            HorseArmorTier tier, int armorValue, String texture, Properties builder) {
-        super(
-                armorValue,
-                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + texture + ".png"),
-                builder);
+    public SWEMHorseArmorItem(HorseArmorTier tier, int armorValue, String texture, Properties builder) {
+        super(armorValue, new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + texture + ".png"), builder);
         this.type = texture;
         this.tier = tier;
-        this.rackTexture =
-                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + texture + "_rack.png");
+        this.rackTexture = new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/armor/" + texture + "_rack.png");
     }
 
-    public ActionResultType interactLivingEntity(
-            ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+    public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
         if (target instanceof ISWEMEquipable && target.isAlive()) {
             ISWEMEquipable iequipable = (ISWEMEquipable) target;
             if (iequipable.isSaddleable(playerIn) && iequipable.canEquipArmor()) {
@@ -95,8 +89,7 @@ public class SWEMHorseArmorItem extends HorseArmorItem implements IAnimatable {
 
     @Override
     public void registerControllers(AnimationData animationData) {
-        animationData.addAnimationController(
-                new AnimationController(this, "controller", 0, this::predicate));
+        animationData.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
     }
 
     @Override
@@ -104,12 +97,8 @@ public class SWEMHorseArmorItem extends HorseArmorItem implements IAnimatable {
         return this.factory;
     }
 
-    public static enum HorseArmorTier {
-        CLOTH(0),
-        IRON(1),
-        GOLD(2),
-        DIAMOND(3),
-        AMETHYST(4);
+    public enum HorseArmorTier {
+        CLOTH(0), IRON(1), GOLD(2), DIAMOND(3), AMETHYST(4);
 
         private int id;
 

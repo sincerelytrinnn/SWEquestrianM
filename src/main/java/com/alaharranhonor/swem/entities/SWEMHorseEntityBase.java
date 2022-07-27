@@ -3320,6 +3320,15 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         if (source.getDirectEntity() instanceof AbstractArrowEntity) {
             amount = this.calculateArrowDamage((AbstractArrowEntity) source.getDirectEntity(), amount);
         }
+
+        if (source == DamageSource.MAGIC || source == DamageSource.WITHER) {
+            if (this.getSWEMArmor().getItem() instanceof SWEMHorseArmorItem
+                    && ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() >= SWEMHorseArmorItem.HorseArmorTier.IRON.getId()
+            ) {
+                amount /= 2;
+            }
+        }
+
         if (!this.level.isClientSide()) {
             this.emitBadParticles((ServerWorld) this.level, 5);
         }
@@ -3339,6 +3348,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
         return flag;
     }
+
 
     @Override
     protected int calculateFallDamage(float pDistance, float pDamageMultiplier) {
