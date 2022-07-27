@@ -22,6 +22,7 @@ import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -66,6 +67,12 @@ public class SaddlebagAndBedrollScreen extends ContainerScreen<SaddlebagAndBedro
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
         blit(matrixStack, i, j, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
+
+        for (Slot slot : this.menu.slots) {
+            if (slot.hasItem()) {
+                blit(matrixStack, this.leftPos + slot.x, this.topPos + slot.y, 180, 4, 16, 16);
+            }
+        }
     }
 
     @Override
