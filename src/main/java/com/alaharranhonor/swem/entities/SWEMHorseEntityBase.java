@@ -540,15 +540,15 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity
     private double getAlteredJumpStrength() {
         switch (this.progressionManager.getJumpLeveling().getLevel()) {
             case 1:
-                return 0.642707;
+                return 0.673033;
             case 2:
-                return 0.783313;
+                return 0.810082;
             case 3:
-                return 0.90862;
+                return 0.93249;
             case 4:
-                return 1.02295;
+                return 1.04454;
             default: {
-                return 0.478591;
+                return 0.51268;
             }
         }
     }
