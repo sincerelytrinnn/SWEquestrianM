@@ -2138,12 +2138,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     }
 
     private void updateMovementVariables(float sidewaysMovement, float forwardMovement) {
-        CSyncMovementIdentifiersPacket.MovementPacketData movementPacketData = new CSyncMovementIdentifiersPacket.MovementPacketData(
-                forwardMovement > 0.0F,
-                forwardMovement < 0.0F,
-                sidewaysMovement > 0.0F,
-                sidewaysMovement < 0.0F
-        );
+        CSyncMovementIdentifiersPacket.MovementPacketData movementPacketData = new CSyncMovementIdentifiersPacket.MovementPacketData(forwardMovement > 0.0F, forwardMovement < 0.0F, sidewaysMovement > 0.0F, sidewaysMovement < 0.0F);
         SWEMPacketHandler.INSTANCE.sendToServer(new CSyncMovementIdentifiersPacket(movementPacketData, this.getUUID()));
     }
 
@@ -3318,9 +3313,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
                 amount = this.getHealth() - 6.0f;
             }
         }
-        if (this.standingTimer == 0) {
-            this.setStandingAnim();
-        }
+
         if (source.isExplosion()) {
             amount /= 2;
         }
@@ -3330,7 +3323,21 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         if (!this.level.isClientSide()) {
             this.emitBadParticles((ServerWorld) this.level, 5);
         }
-        return super.hurt(source, amount);
+
+        if (amount <= 0) {
+            return false;
+        }
+
+
+        boolean flag = super.hurt(source, amount);
+
+        if (flag && amount > 1.0F) {
+            if (this.standingTimer == 0) {
+                this.setStandingAnim();
+            }
+        }
+
+        return flag;
     }
 
     @Override
