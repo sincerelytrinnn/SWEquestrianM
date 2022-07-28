@@ -14,12 +14,15 @@ package com.alaharranhonor.swem.util;
  * THE SOFTWARE.
  */
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SWEMUtil {
 
@@ -28,6 +31,19 @@ public class SWEMUtil {
         {
         }
       };
+
+  public static boolean isInDistanceOfBlock(World level, BlockPos pos, int distance, Block blockToCheck) {
+    for (int x = -distance; x <= distance; x++) {
+      for (int z = -distance; z <= distance; z++) {
+        for (int y = -distance; y <= distance; y++) {
+          if (level.getBlockState(pos.offset(x, y, z)).getBlock() == blockToCheck) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
 
   /**
    * Check text overflow string.
