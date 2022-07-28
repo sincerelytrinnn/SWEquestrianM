@@ -819,7 +819,7 @@ public class SWEMBlocks {
       BLOCKS.register(
           "spigot",
           () ->
-              new Spigot(
+              new SpigotBlock(
                   AbstractBlock.Properties.of(Material.STONE)
                       .sound(SoundType.STONE)
                       .harvestTool(ToolType.PICKAXE)
