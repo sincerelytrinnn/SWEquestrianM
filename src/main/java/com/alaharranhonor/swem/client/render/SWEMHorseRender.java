@@ -485,6 +485,15 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
     }
 
     @Override
+    public void renderRecursively(GeoBone bone, MatrixStack stack, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+
+        if (Arrays.stream(WING_BONE_NAMES).anyMatch((name) -> name.equalsIgnoreCase(bone.getName()))) {
+            alpha = ConfigHolder.CLIENT.wingsTransparency.get() * 0.5f;
+        }
+        super.renderRecursively(bone, stack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+    }
+
+    @Override
     public RenderType getRenderType(
             SWEMHorseEntity animatable,
             float partialTicks,
