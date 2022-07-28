@@ -3336,13 +3336,27 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
         boolean flag = super.hurt(source, amount);
 
-        if (flag && amount > 1.0F) {
-            if (this.standingTimer == 0) {
-                this.setStandingAnim();
+        if (flag) {
+            if (!this.level.isClientSide()) {
+                this.emitBadParticles((ServerWorld) this.level, 5);
+            }
+            if (amount > 1) {
+                if (this.standingTimer == 0) {
+                    this.setStandingAnim();
+                }
             }
         }
 
         return flag;
+    }
+
+    /**
+     * Return whether this entity should be rendered as on fire.
+     */
+    @Override
+    public boolean displayFireAnimation() {
+        return this.getSWEMArmor().getItem() instanceof SWEMHorseArmorItem
+                ? ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() < SWEMHorseArmorItem.HorseArmorTier.DIAMOND.getId() && super.displayFireAnimation() : super.displayFireAnimation();
     }
 
 
