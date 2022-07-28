@@ -288,7 +288,7 @@
 			"to": [10.71, 7.01, 14.51],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 1.5, 8]},
 			"faces": {
-				"up": { "texture": "#water", "tintindex": 0, "cullface": "up" }
+				"up": { "texture": "#water", "tintindex": 0 }
 			}
 		},
 		{
@@ -296,7 +296,7 @@
 			"to": [5.29, 7.01, 14.51],
 			"rotation": {"angle": 0, "axis": "y", "origin": [1.23, 1.5, 8]},
 			"faces": {
-				"up": { "texture": "#water", "tintindex": 0, "cullface": "up" }
+				"up": { "texture": "#water", "tintindex": 0 }
 			}
 		},
 		{
@@ -304,7 +304,7 @@
 			"to": [14.73, 7.01, 11.51],
 			"rotation": {"angle": 0, "axis": "y", "origin": [10.67, 1.5, 8]},
 			"faces": {
-				"up": { "texture": "#water", "tintindex": 0, "cullface": "up" }
+				"up": { "texture": "#water", "tintindex": 0 }
 			}
 		},
 		{
@@ -312,7 +312,7 @@
 			"to": [4.29, 7.01, 13.51],
 			"rotation": {"angle": 0, "axis": "y", "origin": [0.23, 1.5, 8]},
 			"faces": {
-				"up": { "texture": "#water", "tintindex": 0, "cullface": "up" }
+				"up": { "texture": "#water", "tintindex": 0 }
 			}
 		},
 		{
@@ -320,7 +320,7 @@
 			"to": [13.73, 7.01, 12.51],
 			"rotation": {"angle": 0, "axis": "y", "origin": [9.67, 1.5, 8]},
 			"faces": {
-				"up": { "texture": "#water", "tintindex": 0, "cullface": "up" }
+				"up": { "texture": "#water", "tintindex": 0 }
 			}
 		},
 		{
@@ -328,7 +328,7 @@
 			"to": [3.29, 7.01, 12.51],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.77, 1.5, 8]},
 			"faces": {
-				"up": { "texture": "#water", "tintindex": 0, "cullface": "up" }
+				"up": { "texture": "#water", "tintindex": 0 }
 			}
 		},
 		{
@@ -336,7 +336,7 @@
 			"to": [12.73, 7.01, 13.51],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8.67, 1.5, 8]},
 			"faces": {
-				"up": { "texture": "#water", "tintindex": 0, "cullface": "up" }
+				"up": { "texture": "#water", "tintindex": 0 }
 			}
 		},
 		{
@@ -344,7 +344,7 @@
 			"to": [2.29, 7.01, 11.51],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-1.77, 1.5, 8]},
 			"faces": {
-				"up": { "texture": "#water", "tintindex": 0, "cullface": "up" }
+				"up": { "texture": "#water", "tintindex": 0 }
 			}
 		},
 		{
@@ -352,7 +352,7 @@
 			"to": [11.73, 7.01, 14.51],
 			"rotation": {"angle": 0, "axis": "y", "origin": [7.67, 1.5, 8]},
 			"faces": {
-				"up": { "texture": "#water", "tintindex": 0, "cullface": "up" }
+				"up": { "texture": "#water", "tintindex": 0 }
 			}
 		}
 	],
