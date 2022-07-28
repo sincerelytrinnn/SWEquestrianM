@@ -467,15 +467,15 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     private double getAlteredMovementSpeed() {
         switch (this.progressionManager.getSpeedLeveling().getLevel()) {
             case 1:
-                return 0.357d;
+                return SWEMUtil.getInternalSpeedFromBlocksPerSecond(13D);
             case 2:
-                return 0.408d;
+                return SWEMUtil.getInternalSpeedFromBlocksPerSecond(15D);
             case 3:
-                return 0.452d;
+                return SWEMUtil.getInternalSpeedFromBlocksPerSecond(17D);
             case 4:
-                return 0.5d;
+                return SWEMUtil.getInternalSpeedFromBlocksPerSecond(19D);
             default:
-                return 0.3096d;
+                return SWEMUtil.getInternalSpeedFromBlocksPerSecond(11D);
         }
     }
 
@@ -487,15 +487,15 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     private double getAlteredJumpStrength() {
         switch (this.progressionManager.getJumpLeveling().getLevel()) {
             case 1:
-                return 0.673033;
+                return SWEMUtil.getInternalJumpFromBlocks(2.7D);
             case 2:
-                return 0.810082;
+                return SWEMUtil.getInternalJumpFromBlocks(3.7D);
             case 3:
-                return 0.93249;
+                return SWEMUtil.getInternalJumpFromBlocks(4.7D);
             case 4:
-                return 1.04454;
+                return SWEMUtil.getInternalJumpFromBlocks(5.7D);
             default: {
-                return 0.51268;
+                return SWEMUtil.getInternalJumpFromBlocks(1.7D);
             }
         }
     }
@@ -3060,11 +3060,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     public void updateSelectedSpeed(HorseSpeed oldSpeed) {
 
         if (this.currentSpeed == HorseSpeed.TROT) {
-            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.123d);
+            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(SWEMUtil.getInternalSpeedFromBlocksPerSecond(5.5D));
         } else if (this.currentSpeed == HorseSpeed.WALK) {
-            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0425d);
+            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(SWEMUtil.getInternalSpeedFromBlocksPerSecond(1.8D));
         } else if (this.currentSpeed == HorseSpeed.CANTER) {
-            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.261d);
+            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(SWEMUtil.getInternalSpeedFromBlocksPerSecond(11D));
         } else {
             this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getAlteredMovementSpeed());
         }
@@ -3329,10 +3329,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
             }
         }
 
-        if (!this.level.isClientSide()) {
-            this.emitBadParticles((ServerWorld) this.level, 5);
-        }
-
         if (amount <= 0) {
             return false;
         }
@@ -3510,7 +3506,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     }
 
     public enum HorseSpeed {
-        WALK(new AttributeModifier("HORSE_WALK", 0, AttributeModifier.Operation.ADDITION), 0, 0.05f, "Walk"), TROT(new AttributeModifier("HORSE_TROT", 0, AttributeModifier.Operation.ADDITION), 1, 0.1f, "Trot"), CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.ADDITION), 2, 0.5f, "Canter"), CANTER_EXT(new AttributeModifier("HORSE_CANTER_EXT", 0, AttributeModifier.Operation.ADDITION), 3, 0.8f, "Extended Canter"), GALLOP(new AttributeModifier("HORSE_GALLOP", 0.2d, AttributeModifier.Operation.MULTIPLY_TOTAL), 4, 1.0f, "Gallop");
+        WALK(new AttributeModifier("HORSE_WALK", 0, AttributeModifier.Operation.ADDITION), 0, 0.05f, "Walk"),
+        TROT(new AttributeModifier("HORSE_TROT", 0, AttributeModifier.Operation.ADDITION), 1, 0.1f, "Trot"),
+        CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.ADDITION), 2, 0.5f, "Canter"),
+        CANTER_EXT(new AttributeModifier("HORSE_CANTER_EXT", 0, AttributeModifier.Operation.ADDITION), 3, 0.8f, "Extended Canter"),
+        GALLOP(new AttributeModifier("HORSE_GALLOP", 0.2d, AttributeModifier.Operation.MULTIPLY_TOTAL), 4, 1.0f, "Gallop");
         private final AttributeModifier modifier;
         private final int speedLevel;
         private final float skillMultiplier;
