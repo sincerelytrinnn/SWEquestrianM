@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.blocks.jumps;
 
-
 /*
  * All Rights Reserved
  *
@@ -30,36 +29,38 @@ import javax.annotation.Nullable;
 
 public class JumpStandardBlock extends HorizontalBlock {
 
-	public static final EnumProperty<SWEMBlockStateProperties.TripleBlockSide> STANDARD_PIECE = SWEMBlockStateProperties.T_SIDE;
+    public static final EnumProperty<SWEMBlockStateProperties.TripleBlockSide> STANDARD_PIECE =
+            SWEMBlockStateProperties.T_SIDE;
 
-	/**
-	 * Instantiates a new Jump standard block.
-	 *
-	 * @param properties the properties
-	 */
-	public JumpStandardBlock(Properties properties) {
-		super(properties);
-	}
+    /**
+     * Instantiates a new Jump standard block.
+     *
+     * @param properties the properties
+     */
+    public JumpStandardBlock(Properties properties) {
+        super(properties);
+    }
 
-	@Nullable
-	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
-	}
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
+    }
 
-	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(FACING, STANDARD_PIECE);
-	}
+    @Override
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(FACING, STANDARD_PIECE);
+    }
 
-	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
-	}
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
 
-	@Nullable
-	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return SWEMTileEntities.JUMP_PASSER_TILE_ENTITY.get().create();
-	}
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+        return SWEMTileEntities.JUMP_PASSER_TILE_ENTITY.get().create();
+    }
 }

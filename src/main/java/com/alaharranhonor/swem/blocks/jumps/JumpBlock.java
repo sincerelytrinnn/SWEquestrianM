@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.blocks.jumps;
 
-
 /*
  * All Rights Reserved
  *
@@ -35,46 +34,46 @@ import javax.annotation.Nullable;
 
 public class JumpBlock extends HorizontalBlock {
 
-	public static final EnumProperty<SWEMBlockStateProperties.TripleBlockSide> JUMP_PIECE = SWEMBlockStateProperties.T_SIDE;
-	private VoxelShape ew;
-	private VoxelShape ns;
+    public static final EnumProperty<SWEMBlockStateProperties.TripleBlockSide> JUMP_PIECE =
+            SWEMBlockStateProperties.T_SIDE;
+    private final VoxelShape ew;
+    private final VoxelShape ns;
 
-	/**
-	 * Instantiates a new Jump block.
-	 *
-	 * @param ew the ew
-	 * @param ns the ns
-	 */
-	public JumpBlock(VoxelShape ew, VoxelShape ns) {
-		super(AbstractBlock.Properties.of(Material.METAL).noOcclusion());
-		this.ew = ew;
-		this.ns = ns;
-	}
+    /**
+     * Instantiates a new Jump block.
+     *
+     * @param ew the ew
+     * @param ns the ns
+     */
+    public JumpBlock(VoxelShape ew, VoxelShape ns) {
+        super(AbstractBlock.Properties.of(Material.METAL).noOcclusion());
+        this.ew = ew;
+        this.ns = ns;
+    }
 
-	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		if (state.getValue(FACING).getAxis() == Direction.Axis.X) {
-			return this.ew;
-		} else {
-			return this.ns;
-		}
-	}
+    @Override
+    public VoxelShape getShape(
+            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        if (state.getValue(FACING).getAxis() == Direction.Axis.X) {
+            return this.ew;
+        } else {
+            return this.ns;
+        }
+    }
 
+    @Override
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(FACING, JUMP_PIECE);
+    }
 
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
 
-	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(FACING, JUMP_PIECE);
-	}
-
-	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
-	}
-
-	@Nullable
-	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return SWEMTileEntities.JUMP_PASSER_TILE_ENTITY.get().create();
-	}
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+        return SWEMTileEntities.JUMP_PASSER_TILE_ENTITY.get().create();
+    }
 }

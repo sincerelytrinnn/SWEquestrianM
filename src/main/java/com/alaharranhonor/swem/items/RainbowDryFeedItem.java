@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.items;
 
-
 /*
  * All Rights Reserved
  *
@@ -24,21 +23,22 @@ import net.minecraft.world.World;
 
 public class RainbowDryFeedItem extends ItemBase {
 
-	private int counter = 0;
+    private int counter = 0;
 
-	@Override
-	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if (!isSelected) return;
-		if (!worldIn.getLevelData().isRaining()) {
-			counter = 0;
-			return;
-		};
-		counter++;
-		if (counter % 80 == 0) {
-			PlayerEntity entity = (PlayerEntity) entityIn;
-			ItemStack din = new ItemStack(SWEMItems.RAINBOW_DINDIN.get());
-			entity.setItemInHand(Hand.MAIN_HAND, din);
-		}
-	}
-
+    @Override
+    public void inventoryTick(
+            ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+        if (!isSelected) return;
+        if (!worldIn.getLevelData().isRaining()) {
+            counter = 0;
+            return;
+        }
+        ;
+        counter++;
+        if (counter % 80 == 0) {
+            PlayerEntity entity = (PlayerEntity) entityIn;
+            ItemStack din = new ItemStack(SWEMItems.RAINBOW_DINDIN.get());
+            entity.setItemInHand(Hand.MAIN_HAND, din);
+        }
+    }
 }

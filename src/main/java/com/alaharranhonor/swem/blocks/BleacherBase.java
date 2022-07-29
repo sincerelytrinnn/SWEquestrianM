@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.blocks;
 
-
 /*
  * All Rights Reserved
  *
@@ -16,7 +15,6 @@ package com.alaharranhonor.swem.blocks;
  */
 
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
-import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
@@ -39,118 +37,141 @@ import java.util.stream.Stream;
 
 public class BleacherBase extends SlabBlock {
 
-	private VoxelShape BOTTOM_SHAPE_TOP_BLEACHER = Stream.of(
-			Block.box(14, 0, 14, 16, 7, 16),
-			Block.box(0, 0, 14, 2, 7, 16),
-			Block.box(14, 0, 0, 16, 7, 2),
-			Block.box(0, 0, 0, 2, 7, 2),
-			// The 4 pillars ^^^
-			Block.box(0, 7, 0, 16, 8, 16),
-			// Top plate ^^
-			Block.box(0.0625, 0, 0.0625, 13.9375, 7, 0.9375),
-			Block.box(0.0625, 0, 15.0625, 13.9375, 7, 15.9375),
-			Block.box(0.0625, 0, 2.0625, 0.9375, 7, 15.9375),
-			Block.box(15.0625, 0, 2.0625, 15.9375, 7, 15.9375)
-	).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get();
-	private VoxelShape TOP_SHAPE_TOP_BLEACHER = Stream.of(
-			Block.box(14, 8, 14, 16, 15, 16),
-			Block.box(0, 8, 14, 2, 15, 16),
-			Block.box(14, 8, 0, 16, 15, 2),
-			Block.box(0, 8, 0, 2, 15, 2),
-			// The 4 pillars ^^^
-			Block.box(0, 15, 0, 16, 16, 16),
-			// Top plate ^^
-			Block.box(0.0625, 8, 0.0625, 13.9375, 15, 0.9375),
-			Block.box(0.0625, 8, 15.0625, 13.9375, 15, 15.9375),
-			Block.box(0.0625, 8, 2.0625, 0.9375, 15, 15.9375),
-			Block.box(15.0625, 8, 2.0625, 15.9375, 15, 15.9375)
-	).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get();
+    private final VoxelShape BOTTOM_SHAPE_TOP_BLEACHER =
+            Stream.of(
+                            Block.box(14, 0, 14, 16, 7, 16),
+                            Block.box(0, 0, 14, 2, 7, 16),
+                            Block.box(14, 0, 0, 16, 7, 2),
+                            Block.box(0, 0, 0, 2, 7, 2),
+                            // The 4 pillars ^^^
+                            Block.box(0, 7, 0, 16, 8, 16),
+                            // Top plate ^^
+                            Block.box(0.0625, 0, 0.0625, 13.9375, 7, 0.9375),
+                            Block.box(0.0625, 0, 15.0625, 13.9375, 7, 15.9375),
+                            Block.box(0.0625, 0, 2.0625, 0.9375, 7, 15.9375),
+                            Block.box(15.0625, 0, 2.0625, 15.9375, 7, 15.9375))
+                    .reduce(
+                            (v1, v2) -> {
+                                return VoxelShapes.join(v1, v2, IBooleanFunction.OR);
+                            })
+                    .get();
+    private final VoxelShape TOP_SHAPE_TOP_BLEACHER =
+            Stream.of(
+                            Block.box(14, 8, 14, 16, 15, 16),
+                            Block.box(0, 8, 14, 2, 15, 16),
+                            Block.box(14, 8, 0, 16, 15, 2),
+                            Block.box(0, 8, 0, 2, 15, 2),
+                            // The 4 pillars ^^^
+                            Block.box(0, 15, 0, 16, 16, 16),
+                            // Top plate ^^
+                            Block.box(0.0625, 8, 0.0625, 13.9375, 15, 0.9375),
+                            Block.box(0.0625, 8, 15.0625, 13.9375, 15, 15.9375),
+                            Block.box(0.0625, 8, 2.0625, 0.9375, 15, 15.9375),
+                            Block.box(15.0625, 8, 2.0625, 15.9375, 15, 15.9375))
+                    .reduce(
+                            (v1, v2) -> {
+                                return VoxelShapes.join(v1, v2, IBooleanFunction.OR);
+                            })
+                    .get();
 
-	private VoxelShape FULL_BLOCK_BLEACHER = Stream.of(
-			Block.box(14, 8, 14, 16, 15, 16),
-			Block.box(0, 8, 14, 2, 15, 16),
-			Block.box(14, 8, 0, 16, 15, 2),
-			Block.box(0, 8, 0, 2, 15, 2),
-			// Pillars
+    private final VoxelShape FULL_BLOCK_BLEACHER =
+            Stream.of(
+                            Block.box(14, 8, 14, 16, 15, 16),
+                            Block.box(0, 8, 14, 2, 15, 16),
+                            Block.box(14, 8, 0, 16, 15, 2),
+                            Block.box(0, 8, 0, 2, 15, 2),
+                            // Pillars
 
-			Block.box(0, 15, 0, 16, 16, 16),
-			// Top plate
+                            Block.box(0, 15, 0, 16, 16, 16),
+                            // Top plate
 
-			Block.box(0.0625, 0, 0.0625, 13.9375, 16, 0.9375),
-			Block.box(0.0625, 0, 15.0625, 13.9375, 16, 15.9375),
-			Block.box(0.0625, 0, 2.0625, 0.9375, 16, 15.9375),
-			Block.box(15.0625, 0, 2.0625, 15.9375, 16, 15.9375),
-			// Sides
-			// Top bleacher
+                            Block.box(0.0625, 0, 0.0625, 13.9375, 16, 0.9375),
+                            Block.box(0.0625, 0, 15.0625, 13.9375, 16, 15.9375),
+                            Block.box(0.0625, 0, 2.0625, 0.9375, 16, 15.9375),
+                            Block.box(15.0625, 0, 2.0625, 15.9375, 16, 15.9375),
+                            // Sides
+                            // Top bleacher
 
+                            Block.box(14, 0, 14, 16, 8, 16),
+                            Block.box(0, 0, 14, 2, 8, 16),
+                            Block.box(14, 0, 0, 16, 8, 2),
+                            Block.box(0, 0, 0, 2, 8, 2)
+                            // Pillars
+                            // Bottom wireframe bleacher
 
-			Block.box(14, 0, 14, 16, 8, 16),
-			Block.box(0, 0, 14, 2, 8, 16),
-			Block.box(14, 0, 0, 16, 8, 2),
-			Block.box(0, 0, 0, 2, 8, 2)
-			// Pillars
-			// Bottom wireframe bleacher
+                    )
+                    .reduce(
+                            (v1, v2) -> {
+                                return VoxelShapes.join(v1, v2, IBooleanFunction.OR);
+                            })
+                    .get();
 
-	).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get();
+    /**
+     * Instantiates a new Bleacher base.
+     *
+     * @param properties the properties
+     */
+    public BleacherBase(Properties properties) {
+        super(properties);
+    }
 
+    @Override
+    public VoxelShape getShape(
+            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        SlabType slab_type = state.getValue(TYPE);
+        switch (slab_type) {
+            case TOP:
+                return TOP_SHAPE_TOP_BLEACHER;
+            case BOTTOM:
+                return BOTTOM_SHAPE_TOP_BLEACHER;
+            default:
+                return FULL_BLOCK_BLEACHER;
+        }
+    }
 
-	/**
-	 * Instantiates a new Bleacher base.
-	 *
-	 * @param properties the properties
-	 */
-	public BleacherBase(Properties properties) {
-		super(properties);
-	}
+    /**
+     * Update the provided state given the provided neighbor facing and neighbor state, returning a
+     * new state. For example, fences make their connections to the passed in state if possible, and
+     * wet concrete powder immediately returns its solidified counterpart. Note that this method
+     * should ideally consider only the specific face passed in.
+     *
+     * @param stateIn
+     * @param facing
+     * @param facingState
+     * @param worldIn
+     * @param currentPos
+     * @param facingPos
+     */
+    @Override
+    public BlockState updateShape(
+            BlockState stateIn,
+            Direction facing,
+            BlockState facingState,
+            IWorld worldIn,
+            BlockPos currentPos,
+            BlockPos facingPos) {
+        World world = (World) worldIn;
+        if (facing == Direction.UP
+                && stateIn.getValue(TYPE) == SlabType.DOUBLE
+                && world.getBlockState(currentPos.above()).getBlock() == SWEMBlocks.BLEACHER_SLAB.get()) {
+            Block wireframe = SWEMBlocks.BLEACHER_WIREFRAME.get();
+            return wireframe
+                    .defaultBlockState()
+                    .setValue(BlockStateProperties.SLAB_TYPE, SlabType.DOUBLE);
+        }
+        return stateIn;
+    }
 
-	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		SlabType slab_type = state.getValue(TYPE);
-		switch (slab_type) {
-			case TOP:
-				return TOP_SHAPE_TOP_BLEACHER;
-			case BOTTOM:
-				return BOTTOM_SHAPE_TOP_BLEACHER;
-			default:
-				return FULL_BLOCK_BLEACHER;
-		}
-	}
-
-
-
-	/**
-	 * Update the provided state given the provided neighbor facing and neighbor state, returning a new state.
-	 * For example, fences make their connections to the passed in state if possible, and wet concrete powder immediately
-	 * returns its solidified counterpart.
-	 * Note that this method should ideally consider only the specific face passed in.
-	 *
-	 * @param stateIn
-	 * @param facing
-	 * @param facingState
-	 * @param worldIn
-	 * @param currentPos
-	 * @param facingPos
-	 */
-	@Override
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		World world = (World) worldIn;
-		if (facing == Direction.UP && stateIn.getValue(TYPE) == SlabType.DOUBLE && world.getBlockState(currentPos.above()).getBlock() == SWEMBlocks.BLEACHER_SLAB.get()) {
-			Block wireframe = SWEMBlocks.BLEACHER_WIREFRAME.get();
-			return wireframe.defaultBlockState().setValue(BlockStateProperties.SLAB_TYPE, SlabType.DOUBLE);
-		}
-		return stateIn;
-	}
-
-	@Override
-	public List<ItemStack> getDrops(BlockState p_220076_1_, LootContext.Builder p_220076_2_) {
-		List<ItemStack> stacks = super.getDrops(p_220076_1_, p_220076_2_);
-		for (ItemStack stack : stacks) {
-			if (stack.getItem() == SWEMBlocks.BLEACHER_SLAB_ITEM.get()) {
-				if (stack.getCount() == 1 && p_220076_1_.getValue(TYPE) == SlabType.DOUBLE) {
-					stack.setCount(2);
-				}
-			}
-		}
-		return stacks;
-	}
+    @Override
+    public List<ItemStack> getDrops(BlockState p_220076_1_, LootContext.Builder p_220076_2_) {
+        List<ItemStack> stacks = super.getDrops(p_220076_1_, p_220076_2_);
+        for (ItemStack stack : stacks) {
+            if (stack.getItem() == SWEMBlocks.BLEACHER_SLAB_ITEM.get()) {
+                if (stack.getCount() == 1 && p_220076_1_.getValue(TYPE) == SlabType.DOUBLE) {
+                    stack.setCount(2);
+                }
+            }
+        }
+        return stacks;
+    }
 }

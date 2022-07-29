@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "swem:blocks/alfalfa_bale_top",
+    "top": "swem:blocks/alfalfa_bale_top",
+    "side": "swem:blocks/alfalfa_bale_side"
+  }
+}

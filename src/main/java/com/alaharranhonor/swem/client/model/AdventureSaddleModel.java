@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.client.model;
 
-
 /*
  * All Rights Reserved
  *
@@ -21,18 +20,18 @@ import net.minecraft.util.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 public class AdventureSaddleModel extends AnimatedGeoModel<AdventureSaddleItem> {
-	@Override
-	public ResourceLocation getModelLocation(AdventureSaddleItem westernSaddleItem) {
-		return new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/saddles/adventure_saddle.geo.json");
-	}
+    @Override
+    public ResourceLocation getModelLocation(AdventureSaddleItem westernSaddleItem) {
+        return new ResourceLocation(SWEM.MOD_ID, "geo/entity/horse/saddles/adventure_saddle.geo.json");
+    }
 
-	@Override
-	public ResourceLocation getTextureLocation(AdventureSaddleItem westernSaddleItem) {
-		return westernSaddleItem.getTexture();
-	}
+    @Override
+    public ResourceLocation getTextureLocation(AdventureSaddleItem westernSaddleItem) {
+        return westernSaddleItem.getTexture();
+    }
 
-	@Override
-	public ResourceLocation getAnimationFileLocation(AdventureSaddleItem westernSaddleItem) {
-		return new ResourceLocation(SWEM.MOD_ID, "animations/swem_horse.json");
-	}
+    @Override
+    public ResourceLocation getAnimationFileLocation(AdventureSaddleItem westernSaddleItem) {
+        return new ResourceLocation(SWEM.MOD_ID, "animations/swem_horse.json");
+    }
 }

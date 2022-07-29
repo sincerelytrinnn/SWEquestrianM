@@ -13,7 +13,6 @@ package com.alaharranhonor.swem.mixin;
  * THE SOFTWARE.
  */
 
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.LeashKnotRenderer;
@@ -26,22 +25,28 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LeashKnotRenderer.class)
 public class LeashKnotRendererMixin {
 
-	/**
-	 * Render.
-	 *
-	 * @param pEntity       the p entity
-	 * @param pEntityYaw    the p entity yaw
-	 * @param pPartialTicks the p partial ticks
-	 * @param pMatrixStack  the p matrix stack
-	 * @param pBuffer       the p buffer
-	 * @param pPackedLight  the p packed light
-	 * @param cb            the cb
-	 */
-	@Inject(method = "render", at = @At("HEAD"), cancellable = true)
-	public void render(LeashKnotEntity pEntity, float pEntityYaw, float pPartialTicks, MatrixStack pMatrixStack, IRenderTypeBuffer pBuffer, int pPackedLight, CallbackInfo cb) {
-		if (pEntity.isInvisible()) {
-			cb.cancel();
-
-		}
-	}
+    /**
+     * Render.
+     *
+     * @param pEntity       the p entity
+     * @param pEntityYaw    the p entity yaw
+     * @param pPartialTicks the p partial ticks
+     * @param pMatrixStack  the p matrix stack
+     * @param pBuffer       the p buffer
+     * @param pPackedLight  the p packed light
+     * @param cb            the cb
+     */
+    @Inject(method = "render", at = @At("HEAD"), cancellable = true)
+    public void render(
+            LeashKnotEntity pEntity,
+            float pEntityYaw,
+            float pPartialTicks,
+            MatrixStack pMatrixStack,
+            IRenderTypeBuffer pBuffer,
+            int pPackedLight,
+            CallbackInfo cb) {
+        if (pEntity.isInvisible()) {
+            cb.cancel();
+        }
+    }
 }

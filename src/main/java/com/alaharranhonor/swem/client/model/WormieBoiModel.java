@@ -1,7 +1,5 @@
 package com.alaharranhonor.swem.client.model;
 
-
-
 /*
  * All Rights Reserved
  *
@@ -23,18 +21,18 @@ import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 public class WormieBoiModel extends AnimatedGeoModel<WormieBoiEntity> {
 
-	@Override
-	public ResourceLocation getModelLocation(WormieBoiEntity wormieBoiEntity) {
-		return new ResourceLocation(SWEM.MOD_ID, "geo/entity/wormieboi.geo.json");
-	}
+    @Override
+    public ResourceLocation getModelLocation(WormieBoiEntity wormieBoiEntity) {
+        return new ResourceLocation(SWEM.MOD_ID, "geo/entity/wormieboi.geo.json");
+    }
 
-	@Override
-	public ResourceLocation getTextureLocation(WormieBoiEntity wormieBoiEntity) {
-		return new ResourceLocation(SWEM.MOD_ID, "textures/entity/wormieboi.png");
-	}
+    @Override
+    public ResourceLocation getTextureLocation(WormieBoiEntity wormieBoiEntity) {
+        return new ResourceLocation(SWEM.MOD_ID, "textures/entity/wormieboi.png");
+    }
 
-	@Override
-	public ResourceLocation getAnimationFileLocation(WormieBoiEntity wormieBoiEntity) {
-		return new ResourceLocation(SWEM.MOD_ID, "animations/wormieboi.json");
-	}
+    @Override
+    public ResourceLocation getAnimationFileLocation(WormieBoiEntity wormieBoiEntity) {
+        return new ResourceLocation(SWEM.MOD_ID, "animations/wormieboi.json");
+    }
 }

@@ -18,10 +18,9 @@ package com.alaharranhonor.swem.client.tools;
 import net.minecraft.util.math.vector.Matrix4f;
 
 public class RigUtils {
-	public static void removeMatrixTranslation(Matrix4f matrix)
-	{
-		matrix.m03 = 0;
-		matrix.m13 = 0;
-		matrix.m23 = 0;
-	}
+    public static void removeMatrixTranslation(Matrix4f matrix) {
+        matrix.m03 = 0;
+        matrix.m13 = 0;
+        matrix.m23 = 0;
+    }
 }

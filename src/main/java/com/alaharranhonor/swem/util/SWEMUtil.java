@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.util;
 
-
 /*
  * All Rights Reserved
  *
@@ -24,6 +23,8 @@ import java.util.Arrays;
 
 public class SWEMUtil {
 
+	public static DyeColor[] COLOURS = {DyeColor.WHITE, DyeColor.LIGHT_BLUE, DyeColor.CYAN, DyeColor.BLUE, DyeColor.PINK, DyeColor.MAGENTA, DyeColor.PURPLE, DyeColor.YELLOW, DyeColor.ORANGE, DyeColor.RED, DyeColor.LIME, DyeColor.GREEN, DyeColor.LIGHT_GRAY, DyeColor.GRAY, DyeColor.BLACK, DyeColor.BROWN,};
+	private static final DyeColor[] BY_INDEX = Arrays.stream(COLOURS).toArray(DyeColor[]::new);
 
 	public static void damageOrShrink(ItemStack stack, PlayerEntity player) {
 		if (stack.getItem() instanceof BucketItem) {
@@ -41,54 +42,77 @@ public class SWEMUtil {
 	}
 
 
-	/**
-	 * Check text overflow string.
-	 *
-	 * @param text     the text
-	 * @param maxLimit the max limit
-	 * @return the string
-	 */
-	public static String checkTextOverflow(String text, int maxLimit) {
-		if (text.length() > maxLimit - 2) {
-			return text.substring(0, maxLimit - 2) + "...";
-		} else {
-			return text;
-		}
-	}
+    /**
+     * Check text overflow string.
+     *
+     * @param text     the text
+     * @param maxLimit the max limit
+     * @return the string
+     */
+    public static String checkTextOverflow(String text, int maxLimit) {
+        if (text.length() > maxLimit - 2) {
+            return text.substring(0, maxLimit - 2) + "...";
+        } else {
+            return text;
+        }
+    }
 
+    /**
+     * Logical by id dye color.
+     *
+     * @param pColorId the p color id
+     * @return the dye color
+     */
+    public static DyeColor logicalByIndex(int pColorId) {
+        if (pColorId < 0 || pColorId >= BY_INDEX.length) {
+            pColorId = 0;
+        }
 
-	public static DyeColor[] COLOURS = {
-		DyeColor.WHITE,
-		DyeColor.LIGHT_BLUE,
-		DyeColor.CYAN,
-		DyeColor.BLUE,
-		DyeColor.PINK,
-		DyeColor.MAGENTA,
-		DyeColor.PURPLE,
-		DyeColor.YELLOW,
-		DyeColor.ORANGE,
-		DyeColor.RED,
-		DyeColor.LIME,
-		DyeColor.GREEN,
-		DyeColor.LIGHT_GRAY,
-		DyeColor.GRAY,
-		DyeColor.BLACK,
-		DyeColor.BROWN,
-	};
+        return BY_INDEX[pColorId];
+    }
 
-	private static final DyeColor[] BY_INDEX = Arrays.stream(COLOURS).toArray(DyeColor[]::new);
+    /**
+     * Helper function for converting internal jump value to jump height in blocks.
+     *
+     * @param internal The internal jump value.
+     * @return The jump height in blocks.
+     * @see <a href="https://minecraft.fandom.com/wiki/Tutorials/Horses#Jump_Strength">Jump Strength Wiki</a>
+     */
+    public static double getJumpBlocksFromInternalJump(double internal) {
+        return Math.pow(internal, 1.7D) * 5.293D;
+    }
 
-	/**
-	 * Logical by id dye color.
-	 *
-	 * @param pColorId the p color id
-	 * @return the dye color
-	 */
-	public static DyeColor logicalByIndex(int pColorId) {
-		if (pColorId < 0 || pColorId >= BY_INDEX.length) {
-			pColorId = 0;
-		}
+    /**
+     * Helper function for converting Jump height in blocks to internal jump value.
+     *
+     * @param blocks The jump height in blocks.
+     * @return The internal jump value.
+     * @see <a href="https://minecraft.fandom.com/wiki/Tutorials/Horses#Jump_Strength">Jump Strength Wiki</a>
+     */
+    public static double getInternalJumpFromBlocks(double blocks) {
+        return Math.pow(blocks / 5.293D, 1 / 1.7D);
+    }
 
-		return BY_INDEX[pColorId];
-	}
+    /**
+     * Helper function for converting internal speed value to blocks per second.
+     *
+     * @param internal The internals speed value.
+     * @return The blocks per second.
+     * @see <a href="https://minecraft.fandom.com/wiki/Tutorials/Horses#Speed">Horse Speed Wiki</a>
+     */
+    public static double getBlocksPerSecondFromInternalSpeed(double internal) {
+        return internal * 43.17;
+    }
+
+    /**
+     * Helper function for converting blocks per seconds to internal speed value.
+     *
+     * @param blocksPerSecond The blocks per seconds.
+     * @return The internal speed value.
+     * @see <a href="https://minecraft.fandom.com/wiki/Tutorials/Horses#Speed">Horse Speed Wiki</a>
+     */
+    public static double getInternalSpeedFromBlocksPerSecond(double blocksPerSecond) {
+        return blocksPerSecond / 43.17;
+    }
+
 }

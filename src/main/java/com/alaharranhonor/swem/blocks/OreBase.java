@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.blocks;
 
-
 /*
  * All Rights Reserved
  *
@@ -16,25 +15,22 @@ package com.alaharranhonor.swem.blocks;
  */
 
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.OreBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.ToolType;
 
 import java.util.Random;
 
 public class OreBase extends OreBlock {
-	/**
-	 * Instantiates a new Ore base.
-	 *
-	 * @param p_i48357_1_ the p i 48357 1
-	 */
-	public OreBase(Properties p_i48357_1_) {
+    /**
+     * Instantiates a new Ore base.
+     *
+     * @param p_i48357_1_ the p i 48357 1
+     */
+    public OreBase(Properties p_i48357_1_) {
         super(p_i48357_1_);
     }
 
@@ -47,13 +43,18 @@ public class OreBase extends OreBlock {
         }
     }
 
-    public void spawnAfterBreak(BlockState pState, ServerWorld pLevel, BlockPos pPos, ItemStack pStack) {
+    public void spawnAfterBreak(
+            BlockState pState, ServerWorld pLevel, BlockPos pPos, ItemStack pStack) {
         super.spawnAfterBreak(pState, pLevel, pPos, pStack);
     }
 
     @Override
-    public int getExpDrop (BlockState state, net.minecraft.world.IWorldReader reader, BlockPos pos,int fortune, int silktouch){
+    public int getExpDrop(
+            BlockState state,
+            net.minecraft.world.IWorldReader reader,
+            BlockPos pos,
+            int fortune,
+            int silktouch) {
         return silktouch == 0 ? this.xpOnDrop(RANDOM) : 0;
     }
 }
-

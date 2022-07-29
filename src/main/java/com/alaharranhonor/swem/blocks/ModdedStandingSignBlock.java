@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.blocks;
 
-
 /*
  * All Rights Reserved
  *
@@ -23,23 +22,23 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
 
 public class ModdedStandingSignBlock extends StandingSignBlock {
-	/**
-	 * Instantiates a new Modded standing sign block.
-	 *
-	 * @param p_i225764_1_ the p i 225764 1
-	 * @param p_i225764_2_ the p i 225764 2
-	 */
-	public ModdedStandingSignBlock(Properties p_i225764_1_, WoodType p_i225764_2_) {
-		super(p_i225764_1_, p_i225764_2_);
-	}
+    /**
+     * Instantiates a new Modded standing sign block.
+     *
+     * @param p_i225764_1_ the p i 225764 1
+     * @param p_i225764_2_ the p i 225764 2
+     */
+    public ModdedStandingSignBlock(Properties p_i225764_1_, WoodType p_i225764_2_) {
+        super(p_i225764_1_, p_i225764_2_);
+    }
 
-	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
-	}
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
 
-	@Override
-	public TileEntity newBlockEntity(IBlockReader p_196283_1_) {
-		return SWEMTileEntities.SWEM_SIGN.get().create();
-	}
+    @Override
+    public TileEntity newBlockEntity(IBlockReader p_196283_1_) {
+        return SWEMTileEntities.SWEM_SIGN.get().create();
+    }
 }

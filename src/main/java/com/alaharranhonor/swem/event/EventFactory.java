@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.event;
 
-
 /*
  * All Rights Reserved
  *
@@ -29,35 +28,37 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class EventFactory {
-	/**
-	 * On hose use action result.
-	 *
-	 * @param player the player
-	 * @param world  the world
-	 * @param stack  the stack
-	 * @param target the target
-	 * @return the action result
-	 */
-	@Nullable
-	public static ActionResult<ItemStack> onHoseUse(@Nonnull PlayerEntity player, @Nonnull World world, @Nonnull ItemStack stack, @Nullable RayTraceResult target)
-	{
-		FillHoseEvent event = new FillHoseEvent(player, stack, world, target);
-		if (MinecraftForge.EVENT_BUS.post(event)) return new ActionResult<ItemStack>(ActionResultType.FAIL, stack);
+    /**
+     * On hose use action result.
+     *
+     * @param player the player
+     * @param world  the world
+     * @param stack  the stack
+     * @param target the target
+     * @return the action result
+     */
+    @Nullable
+    public static ActionResult<ItemStack> onHoseUse(
+            @Nonnull PlayerEntity player,
+            @Nonnull World world,
+            @Nonnull ItemStack stack,
+            @Nullable RayTraceResult target) {
+        FillHoseEvent event = new FillHoseEvent(player, stack, world, target);
+        if (MinecraftForge.EVENT_BUS.post(event))
+            return new ActionResult<ItemStack>(ActionResultType.FAIL, stack);
 
-		if (event.getResult() == Event.Result.ALLOW)
-		{
-			if (player.abilities.instabuild)
-				return new ActionResult<ItemStack>(ActionResultType.SUCCESS, stack);
+        if (event.getResult() == Event.Result.ALLOW) {
+            if (player.abilities.instabuild)
+                return new ActionResult<ItemStack>(ActionResultType.SUCCESS, stack);
 
-			stack.shrink(1);
-			if (stack.isEmpty())
-				return new ActionResult<ItemStack>(ActionResultType.SUCCESS, event.getFilledHose());
+            stack.shrink(1);
+            if (stack.isEmpty())
+                return new ActionResult<ItemStack>(ActionResultType.SUCCESS, event.getFilledHose());
 
-			if (!player.inventory.add(event.getFilledHose()))
-				player.drop(event.getFilledHose(), false);
+            if (!player.inventory.add(event.getFilledHose())) player.drop(event.getFilledHose(), false);
 
-			return new ActionResult<ItemStack>(ActionResultType.SUCCESS, stack);
-		}
-		return null;
-	}
+            return new ActionResult<ItemStack>(ActionResultType.SUCCESS, stack);
+        }
+        return null;
+    }
 }

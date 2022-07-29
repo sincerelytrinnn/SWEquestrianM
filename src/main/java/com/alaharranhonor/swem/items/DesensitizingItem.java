@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.items;
 
-
 /*
  * All Rights Reserved
  *
@@ -26,44 +25,45 @@ import net.minecraft.util.Hand;
 
 public class DesensitizingItem extends ItemBase {
 
-	private int id;
+    private int id;
 
-	/**
-	 * Instantiates a new Desensitizing item.
-	 *
-	 * @param id the id
-	 */
-	public DesensitizingItem(int id) {
-		this.id = id;
-	}
+    /**
+     * Instantiates a new Desensitizing item.
+     *
+     * @param id the id
+     */
+    public DesensitizingItem(int id) {
+        this.id = id;
+    }
 
-	@Override
-	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-		if (target instanceof SWEMHorseEntityBase && target.level.isClientSide) {
-			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
-			switch (this.id) {
-				case 0: {
-					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(1, horse.getId()));
-					return ActionResultType.CONSUME;
-				}
-				case 1: {
-					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(2, horse.getId()));
-					return ActionResultType.CONSUME;
-				}
-				case 2: {
-					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(3, horse.getId()));
-					return ActionResultType.CONSUME;
-				}
-				case 3: {
-					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(4, horse.getId()));
-					return ActionResultType.CONSUME;
-				}
-				case 4: {
-					SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(5, horse.getId()));
-					return ActionResultType.CONSUME;
-				}
-			}
-		}
-		return ActionResultType.CONSUME;
-	}
+    @Override
+    public ActionResultType interactLivingEntity(
+            ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+        if (target instanceof SWEMHorseEntityBase && target.level.isClientSide) {
+            SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
+            switch (this.id) {
+                case 0: {
+                    SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(1, horse.getId()));
+                    return ActionResultType.CONSUME;
+                }
+                case 1: {
+                    SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(2, horse.getId()));
+                    return ActionResultType.CONSUME;
+                }
+                case 2: {
+                    SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(3, horse.getId()));
+                    return ActionResultType.CONSUME;
+                }
+                case 3: {
+                    SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(4, horse.getId()));
+                    return ActionResultType.CONSUME;
+                }
+                case 4: {
+                    SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(5, horse.getId()));
+                    return ActionResultType.CONSUME;
+                }
+            }
+        }
+        return ActionResultType.CONSUME;
+    }
 }

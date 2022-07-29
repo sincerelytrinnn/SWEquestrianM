@@ -39,10 +39,11 @@ public class TackBoxBlockItem extends BlockItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable World pLevel, List<ITextComponent> pTooltip, ITooltipFlag pFlag) {
+    public void appendHoverText(
+            ItemStack pStack, @Nullable World pLevel, List<ITextComponent> pTooltip, ITooltipFlag pFlag) {
         super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
-        if (pStack.hasTag()){
-            if (pStack.getTag().contains("horseName")){
+        if (pStack.hasTag()) {
+            if (pStack.getTag().contains("horseName")) {
                 pTooltip.add(new StringTextComponent(pStack.getTag().getString("horseName")));
             }
         }
@@ -57,14 +58,14 @@ public class TackBoxBlockItem extends BlockItem {
      * @param hand
      */
     @Override
-    public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+    public ActionResultType interactLivingEntity(
+            ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
         if (target instanceof SWEMHorseEntityBase) {
             SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
             // TODO: ONLY ALLOW HORSES TAMED BY THE PLAYER TO SET THE HORSE ID
             stack.getOrCreateTag().putUUID("horseUUID", horse.getUUID());
             stack.getOrCreateTag().putString("horseName", horse.getDisplayName().getString());
             return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
-
         }
         return ActionResultType.FAIL;
     }

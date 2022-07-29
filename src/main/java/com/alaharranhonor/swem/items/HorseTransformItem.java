@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.items;
 
-
 /*
  * All Rights Reserved
  *
@@ -15,8 +14,8 @@ package com.alaharranhonor.swem.items;
  * THE SOFTWARE.
  */
 
-import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.client.coats.SWEMCoatColor;
+import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -27,30 +26,31 @@ import net.minecraft.util.math.BlockPos;
 
 public class HorseTransformItem extends Item {
 
-	private SWEMCoatColor coat;
+    private SWEMCoatColor coat;
 
-	/**
-	 * Instantiates a new Horse transform item.
-	 *
-	 * @param coat the coat
-	 */
-	public HorseTransformItem(SWEMCoatColor coat) {
-		super(new Item.Properties());
-		this.coat = coat;
-	}
+    /**
+     * Instantiates a new Horse transform item.
+     *
+     * @param coat the coat
+     */
+    public HorseTransformItem(SWEMCoatColor coat) {
+        super(new Item.Properties());
+        this.coat = coat;
+    }
 
-	@Override
-	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-		if (target instanceof SWEMHorseEntityBase) {
-			SWEMHorseEntityBase horseEntity = (SWEMHorseEntityBase) target;
+    @Override
+    public ActionResultType interactLivingEntity(
+            ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+        if (target instanceof SWEMHorseEntityBase) {
+            SWEMHorseEntityBase horseEntity = (SWEMHorseEntityBase) target;
 
-			if (!playerIn.level.isClientSide) {
-				BlockPos targetPos = target.blockPosition();
-				horseEntity.setCoatColour(this.coat);
-			}
-			stack.shrink(1);
-			return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
-		}
-		return ActionResultType.PASS;
-	}
+            if (!playerIn.level.isClientSide) {
+                BlockPos targetPos = target.blockPosition();
+                horseEntity.setCoatColour(this.coat);
+            }
+            stack.shrink(1);
+            return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
+        }
+        return ActionResultType.PASS;
+    }
 }

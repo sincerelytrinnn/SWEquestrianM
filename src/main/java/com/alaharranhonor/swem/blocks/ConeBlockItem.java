@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.blocks;
 
-
 /*
  * All Rights Reserved
  *
@@ -26,18 +25,18 @@ import javax.annotation.Nullable;
 
 public class ConeBlockItem extends BlockItem {
 
-	/**
-	 * Instantiates a new Cone block item.
-	 *
-	 * @param blockIn the block in
-	 */
-	public ConeBlockItem(Block blockIn) {
-		super(blockIn, new Item.Properties().tab(SWEM.TAB));
-	}
+    /**
+     * Instantiates a new Cone block item.
+     *
+     * @param blockIn the block in
+     */
+    public ConeBlockItem(Block blockIn) {
+        super(blockIn, new Item.Properties().tab(SWEM.TAB));
+    }
 
-	@Nullable
-	@Override
-	public EquipmentSlotType getEquipmentSlot(ItemStack stack) {
-		return EquipmentSlotType.HEAD;
-	}
+    @Nullable
+    @Override
+    public EquipmentSlotType getEquipmentSlot(ItemStack stack) {
+        return EquipmentSlotType.HEAD;
+    }
 }

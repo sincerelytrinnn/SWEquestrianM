@@ -14,17 +14,14 @@ package com.alaharranhonor.swem.items.tack;
  * THE SOFTWARE.
  */
 
-import net.minecraft.item.Item.Properties;
-
-
 public class AdventureBlanketItem extends BlanketItem {
-	/**
-	 * Instantiates a new Adventure blanket item.
-	 *
-	 * @param textureName the texture name
-	 * @param properties  the properties
-	 */
-	public AdventureBlanketItem(String textureName, Properties properties) {
-		super(textureName, properties);
-	}
+    /**
+     * Instantiates a new Adventure blanket item.
+     *
+     * @param textureName the texture name
+     * @param properties  the properties
+     */
+    public AdventureBlanketItem(String textureName, Properties properties) {
+        super(textureName, properties);
+    }
 }

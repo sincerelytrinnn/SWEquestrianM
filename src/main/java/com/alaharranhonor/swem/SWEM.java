@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem;
 
-
 /*
  * All Rights Reserved
  *
@@ -25,13 +24,9 @@ import com.alaharranhonor.swem.entities.WormieBoiEntity;
 import com.alaharranhonor.swem.integration.placeableitems.PlaceableItemsInit;
 import com.alaharranhonor.swem.items.potions.BrewingRecipes;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
-import com.alaharranhonor.swem.util.RegistryHandler;
 import com.alaharranhonor.swem.util.SWLRegistryHandler;
 import com.alaharranhonor.swem.util.data.HorseData;
-import com.alaharranhonor.swem.util.registry.SWEMBlocks;
-import com.alaharranhonor.swem.util.registry.SWEMEntities;
-import com.alaharranhonor.swem.util.registry.SWEMItems;
-import com.alaharranhonor.swem.util.registry.SWEMStructure;
+import com.alaharranhonor.swem.util.registry.*;
 import com.alaharranhonor.swem.world.structure.SWEMConfiguredStructures;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -92,17 +87,39 @@ import java.util.Map;
 import java.util.UUID;
 
 @Mod("swem")
-public class SWEM
-{
+public class SWEM {
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "swem";
+    public static final ItemGroup TAB = new ItemGroup("SWEMTab") {
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(SWEMItems.WESTERN_SADDLE_LIGHT_BLUE.get());
+        }
+
+        @Override
+        public boolean hasSearchBar() {
+            return true;
+        }
+    }.setBackgroundImage(new ResourceLocation("minecraft", "textures/gui/container/creative_inventory/tab_item_search.png"));
+    public static WoodType WHITEWASH_WT;
     private static Map<UUID, HorseData> horseDataMap = new HashMap<>();
     private static ServerWorld serverOverWorld;
-    public static WoodType WHITEWASH_WT;
+    /**
+     * Will go into the world's chunkgenerator and manually add our structure spacing. If the spacing
+     * is not added, the structure doesn't spawn.
+     *
+     * <p>Use this for dimension blacklists for your structure. (Don't forget to attempt to remove
+     * your structure too from the map if you are blacklisting that dimension!) (It might have your
+     * structure in it already.)
+     *
+     * <p>Basically use this to make absolutely sure the chunkgenerator can or cannot spawn your
+     * structure.
+     */
+    private static Method GETCODEC_METHOD;
 
     static {
-        GeckoLibMod.DISABLE_IN_DEV = false;
+        GeckoLibMod.DISABLE_IN_DEV = true;
     }
 
     /**
@@ -114,8 +131,17 @@ public class SWEM
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 
-        RegistryHandler.init(modEventBus);
-        SWLRegistryHandler.init();
+        SWEMItems.init(modEventBus);
+        SWEMBlocks.init(modEventBus);
+        SWEMEntities.init(modEventBus);
+        SWEMContainers.init(modEventBus);
+        SWEMParticles.init(modEventBus);
+        SWEMTileEntities.init(modEventBus);
+        SWEMPaintings.init(modEventBus);
+        SWEMStructure.init(modEventBus);
+        SWEMEnchantments.init(modEventBus);
+        SWEMLootModifiers.init(modEventBus);
+        SWLRegistryHandler.init(modEventBus);
 
         SWEMGeoBuilder.registerGeoBuilder(MOD_ID, new SWEMGeoBuilder());
         GeckoLib.initialize();
@@ -143,17 +169,47 @@ public class SWEM
     public static void onRegisterItems(final RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
 
-        SWEMBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)
-                .filter(block -> !(block instanceof TimothyGrass))
-                .forEach(block -> {
-                    final Item.Properties properties = new Item.Properties().tab(TAB);
-                    final BlockItem blockItem = new BlockItem(block, properties);
-                    blockItem.setRegistryName(block.getRegistryName());
-                    registry.register(blockItem);
-                });
+        SWEMBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get).filter(block -> !(block instanceof TimothyGrass)).forEach(block -> {
+            final Item.Properties properties = new Item.Properties().tab(TAB);
+            final BlockItem blockItem = new BlockItem(block, properties);
+            blockItem.setRegistryName(block.getRegistryName());
+            registry.register(blockItem);
+        });
 
         LOGGER.debug("Registered BlockItems!");
+    }
 
+    /**
+     * Gets a horse position from the world if loaded and update the map, if not loaded, check the map
+     * for an entry.
+     *
+     * @param horse
+     * @return
+     */
+    @Nullable
+    public static HorseData getHorseData(UUID horse) {
+        Entity entity = serverOverWorld.getEntity(horse);
+        if (entity != null) {
+            if (entity instanceof SWEMHorseEntityBase) {
+                updateSaveHorseData((SWEMHorseEntityBase) entity);
+                return horseDataMap.get(horse);
+            }
+        }
+        if (horseDataMap.containsKey(horse)) {
+            return horseDataMap.get(horse);
+        }
+        return null;
+    }
+
+    public static void updateSaveHorseData(SWEMHorseEntityBase horse) {
+        HorseData data = horseDataMap.get(horse.getUUID());
+        if (data == null) {
+            data = new HorseData(horse.getUUID(), horse.blockPosition(), horse.getDisplayName().getString());
+        } else {
+            data.setName(horse.getDisplayName().getString());
+            data.setPos(horse.blockPosition());
+        }
+        horseDataMap.put(horse.getUUID(), data);
     }
 
     /**
@@ -165,7 +221,7 @@ public class SWEM
         CapabilityHandler.register();
 
         if (ModList.get().isLoaded("placeableitems")) {
-           PlaceableItemsInit.initMap();
+            PlaceableItemsInit.initMap();
         }
         event.enqueueWork(() -> {
             GlobalEntityTypeAttributes.put(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseEntityBase.setCustomAttributes().build());
@@ -180,7 +236,14 @@ public class SWEM
             ComposterBlock.COMPOSTABLES.put(SWEMItems.OAT_BUSHEL.get(), 0.65F);
             ComposterBlock.COMPOSTABLES.put(SWEMItems.TIMOTHY_SEEDS.get(), 0.3F);
             ComposterBlock.COMPOSTABLES.put(SWEMItems.TIMOTHY_BUSHEL.get(), 0.65F);
-            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.QUALITY_BALE_ITEM.get(), 0.85F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.QUALITY_BALE_SLAB.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.TIMOTHY_BALE_SLAB.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.OAT_BALE_SLAB.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.ALFALFA_BALE_SLAB.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.QUALITY_BALE.get().asItem(), 0.85F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.TIMOTHY_BALE.get().asItem(), 0.85F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.OAT_BALE.get().asItem(), 0.85F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.ALFALFA_BALE.get().asItem(), 0.85F);
             ComposterBlock.COMPOSTABLES.put(SWEMBlocks.WET_COMPOST_ITEM.get(), 0.85F);
             ComposterBlock.COMPOSTABLES.put(SWEMBlocks.COMPOST_ITEM.get(), 0.85F);
 
@@ -188,30 +251,10 @@ public class SWEM
 
             SWEMStructure.setupStructures();
             SWEMConfiguredStructures.registerConfiguredStructures();
-
         });
 
         SWEMPacketHandler.init();
-
-
     }
-
-
-
-
-
-
-    /**
-     * Will go into the world's chunkgenerator and manually add our structure spacing.
-     * If the spacing is not added, the structure doesn't spawn.
-     *
-     * Use this for dimension blacklists for your structure.
-     * (Don't forget to attempt to remove your structure too from the map if you are blacklisting that dimension!)
-     * (It might have your structure in it already.)
-     *
-     * Basically use this to make absolutely sure the chunkgenerator can or cannot spawn your structure.
-     */
-    private static Method GETCODEC_METHOD;
 
     /**
      * Add dimensional spacing.
@@ -220,7 +263,7 @@ public class SWEM
      */
     public void addDimensionalSpacing(final WorldEvent.Load event) {
         if (event.getWorld() instanceof ServerWorld) {
-            ServerWorld serverWorld = (ServerWorld)event.getWorld();
+            ServerWorld serverWorld = (ServerWorld) event.getWorld();
 
             /*
              * Skip Terraforged's chunk generator as they are a special case of a mod locking down their chunkgenerator.
@@ -229,11 +272,11 @@ public class SWEM
              * If you are using mixins, you can call the codec method with an invoker mixin instead of using reflection.
              */
             try {
-                if(GETCODEC_METHOD == null) GETCODEC_METHOD = ObfuscationReflectionHelper.findMethod(ChunkGenerator.class, "func_230347_a_");
+                if (GETCODEC_METHOD == null)
+                    GETCODEC_METHOD = ObfuscationReflectionHelper.findMethod(ChunkGenerator.class, "func_230347_a_");
                 ResourceLocation cgRL = Registry.CHUNK_GENERATOR.getKey((Codec<? extends ChunkGenerator>) GETCODEC_METHOD.invoke(serverWorld.getChunkSource().generator));
-                if(cgRL != null && cgRL.getNamespace().equals("terraforged")) return;
-            }
-            catch(Exception e){
+                if (cgRL != null && cgRL.getNamespace().equals("terraforged")) return;
+            } catch (Exception e) {
                 SWEM.LOGGER.error("Was unable to check if " + serverWorld.dimension().location() + " is using Terraforged's ChunkGenerator.");
             }
 
@@ -242,8 +285,7 @@ public class SWEM
              * people seem to want their superflat worlds free of modded structures.
              * Also that vanilla superflat is really tricky and buggy to work with in my experience.
              */
-            if(serverWorld.getChunkSource().getGenerator() instanceof FlatChunkGenerator &&
-                    serverWorld.dimension().equals(World.OVERWORLD)){
+            if (serverWorld.getChunkSource().getGenerator() instanceof FlatChunkGenerator && serverWorld.dimension().equals(World.OVERWORLD)) {
                 return;
             }
 
@@ -283,10 +325,10 @@ public class SWEM
         }
 
         try (JsonReader reader = gson.newJsonReader(new FileReader(new File(file.toUri())))) {
-            Type type = new TypeToken<Map<UUID, HorseData>>(){}.getType();
+            Type type = new TypeToken<Map<UUID, HorseData>>() {
+            }.getType();
             Map<UUID, HorseData> horsePos = gson.fromJson(reader, type);
-            if (horsePos != null)
-               horseDataMap = horsePos;
+            if (horsePos != null) horseDataMap = horsePos;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -294,54 +336,13 @@ public class SWEM
     }
 
     private void serverShutdown(FMLServerStoppingEvent event) {
-        Gson gson = new GsonBuilder()
-            .setPrettyPrinting()
-            .create();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        try (JsonWriter writer = gson.newJsonWriter(new FileWriter(new File(event.getServer().getWorldPath(new FolderName("serverconfig/swem")).resolve("horseData.json").toUri())))){
+        try (JsonWriter writer = gson.newJsonWriter(new FileWriter(new File(event.getServer().getWorldPath(new FolderName("serverconfig/swem")).resolve("horseData.json").toUri())))) {
             gson.toJson(gson.toJsonTree(horseDataMap), writer);
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Gets a horse position from the world if loaded and update the map, if not loaded, check the map for an entry.
-     * @param horse
-     * @return
-     */
-    @Nullable
-    public static HorseData getHorseData(UUID horse) {
-        Entity entity = serverOverWorld.getEntity(horse);
-        if (entity != null) {
-            if (entity instanceof SWEMHorseEntityBase) {
-                updateSaveHorseData((SWEMHorseEntityBase) entity);
-                return horseDataMap.get(horse);
-            }
-        }
-        if (horseDataMap.containsKey(horse)) {
-            return horseDataMap.get(horse);
-        }
-        return null;
-    }
-
-    public static void updateSaveHorseData(SWEMHorseEntityBase horse) {
-        HorseData data = horseDataMap.get(horse.getUUID());
-        data.setName(horse.getDisplayName().getString());
-        data.setPos(horse.blockPosition());
-        horseDataMap.put(horse.getUUID(), data);
-    }
-
-
-    public static final ItemGroup TAB = new ItemGroup("SWEMTab") {
-        @Override
-        public ItemStack makeIcon() {
-            return new ItemStack(SWEMItems.WESTERN_SADDLE_LIGHT_BLUE.get());
-        }
-        @Override
-        public boolean hasSearchBar() {
-            return true;
-        }
-    }.setBackgroundImage(new ResourceLocation("minecraft", "textures/gui/container/creative_inventory/tab_item_search.png"));
 }

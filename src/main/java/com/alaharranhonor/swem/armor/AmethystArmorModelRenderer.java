@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.armor;
 
-
 /*
  * All Rights Reserved
  *
@@ -19,20 +18,19 @@ import com.alaharranhonor.swem.items.SWEMArmorItem;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
 public class AmethystArmorModelRenderer extends GeoArmorRenderer<SWEMArmorItem> {
-	/**
-	 * Instantiates a new Amethyst armor model renderer.
-	 */
-	public AmethystArmorModelRenderer() {
-		super (new AmethystArmorModel());
+    /**
+     * Instantiates a new Amethyst armor model renderer.
+     */
+    public AmethystArmorModelRenderer() {
+        super(new AmethystArmorModel());
 
-		this.headBone = "Head";
-		this.bodyBone = "Body";
-		this.rightArmBone = "RightArm";
-		this.leftArmBone = "LeftArm";
-		this.rightLegBone = "LeftLeg";
-		this.leftLegBone = "RightLeg";
-		this.rightBootBone = "LeftBoot";
-		this.leftBootBone = "RightBoot";
-	}
-
+        this.headBone = "Head";
+        this.bodyBone = "Body";
+        this.rightArmBone = "RightArm";
+        this.leftArmBone = "LeftArm";
+        this.rightLegBone = "LeftLeg";
+        this.leftLegBone = "RightLeg";
+        this.rightBootBone = "LeftBoot";
+        this.leftBootBone = "RightBoot";
+    }
 }

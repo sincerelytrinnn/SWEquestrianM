@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.util.registry;
 
-
 /*
  * All Rights Reserved
  *
@@ -25,16 +24,17 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class SWEMLootModifiers {
 
-	public static final DeferredRegister<GlobalLootModifierSerializer<?>> LOOT_MODIFIERS = DeferredRegister.create(ForgeRegistries.LOOT_MODIFIER_SERIALIZERS, SWEM.MOD_ID);
+    public static final DeferredRegister<GlobalLootModifierSerializer<?>> LOOT_MODIFIERS =
+            DeferredRegister.create(ForgeRegistries.LOOT_MODIFIER_SERIALIZERS, SWEM.MOD_ID);
+    public static final RegistryObject<GrassDropsModifier.Serializer> GRASS_DROPS =
+            LOOT_MODIFIERS.register("grass_drops", GrassDropsModifier.Serializer::new);
 
-	/**
-	 * Init.
-	 *
-	 * @param modBus the mod bus
-	 */
-	public static void init(IEventBus modBus) {
-		LOOT_MODIFIERS.register(modBus);
-	}
-
-	public static final RegistryObject<GrassDropsModifier.Serializer> GRASS_DROPS = LOOT_MODIFIERS.register("grass_drops", GrassDropsModifier.Serializer::new);
+    /**
+     * Init.
+     *
+     * @param modBus the mod bus
+     */
+    public static void init(IEventBus modBus) {
+        LOOT_MODIFIERS.register(modBus);
+    }
 }

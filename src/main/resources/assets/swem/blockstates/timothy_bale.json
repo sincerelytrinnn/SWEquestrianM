@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "swem:block/timothy_bale"
+    },
+    "axis=z": {
+      "model": "swem:block/timothy_bale",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "swem:block/timothy_bale",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

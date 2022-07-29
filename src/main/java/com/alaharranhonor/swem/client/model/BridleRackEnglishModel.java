@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.client.model;
 
-
 /*
  * All Rights Reserved
  *
@@ -22,19 +21,18 @@ import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 public class BridleRackEnglishModel extends AnimatedGeoModel<EnglishBridleItem> {
 
+    @Override
+    public ResourceLocation getModelLocation(EnglishBridleItem englishBridleItem) {
+        return new ResourceLocation(SWEM.MOD_ID, "geo/tile/bridle_rack/bridle_rack_english.geo.json");
+    }
 
-	@Override
-	public ResourceLocation getModelLocation(EnglishBridleItem englishBridleItem) {
-		return new ResourceLocation(SWEM.MOD_ID, "geo/tile/bridle_rack/bridle_rack_english.geo.json");
-	}
+    @Override
+    public ResourceLocation getTextureLocation(EnglishBridleItem englishBridleItem) {
+        return englishBridleItem.getBridleRackTexture();
+    }
 
-	@Override
-	public ResourceLocation getTextureLocation(EnglishBridleItem englishBridleItem) {
-		return englishBridleItem.getBridleRackTexture();
-	}
-
-	@Override
-	public ResourceLocation getAnimationFileLocation(EnglishBridleItem englishBridleItem) {
-		return null;
-	}
+    @Override
+    public ResourceLocation getAnimationFileLocation(EnglishBridleItem englishBridleItem) {
+        return null;
+    }
 }

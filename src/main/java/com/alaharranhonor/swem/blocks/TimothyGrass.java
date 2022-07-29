@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.blocks;
 
-
 /*
  * All Rights Reserved
  *
@@ -26,23 +25,24 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 
 public class TimothyGrass extends CropsBlock {
-    private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[]{
-            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)
-    };
+    private static final VoxelShape[] SHAPE_BY_AGE =
+            new VoxelShape[]{
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)
+            };
 
-	/**
-	 * Instantiates a new Timothy grass.
-	 *
-	 * @param builder the builder
-	 */
-	public TimothyGrass(Properties builder) {
+    /**
+     * Instantiates a new Timothy grass.
+     *
+     * @param builder the builder
+     */
+    public TimothyGrass(Properties builder) {
         super(builder);
     }
 
@@ -52,7 +52,8 @@ public class TimothyGrass extends CropsBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(
+            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return SHAPE_BY_AGE[state.getValue(this.getAgeProperty())];
     }
 }

@@ -21,32 +21,36 @@ import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 
-public class CustomAnimationController<T extends IAnimatable & IAnimationTickable> extends AnimationController<T> {
-	private double tickOffset;
+public class CustomAnimationController<T extends IAnimatable & IAnimationTickable>
+        extends AnimationController<T> {
+    private double tickOffset;
 
+    public CustomAnimationController(
+            T animatable,
+            String name,
+            float transitionLengthTicks,
+            IAnimationPredicate<T> animationPredicate) {
+        super(animatable, name, transitionLengthTicks, animationPredicate);
+        tickOffset = 0.0d;
+    }
 
-	public CustomAnimationController(T animatable, String name, float transitionLengthTicks, IAnimationPredicate<T> animationPredicate) {
-		super(animatable, name, transitionLengthTicks, animationPredicate);
-		tickOffset = 0.0d;
-	}
+    public void playAnimation(T animatable, AnimationBuilder animationBuilder) {
+        setAnimation(animationBuilder);
+        currentAnimation = this.animationQueue.poll();
+        isJustStarting = true;
+        adjustTick(animatable.tickTimer());
+    }
 
-	public void playAnimation(T animatable, AnimationBuilder animationBuilder) {
-		setAnimation(animationBuilder);
-		currentAnimation = this.animationQueue.poll();
-		isJustStarting = true;
-		adjustTick(animatable.tickTimer());
-	}
-
-	@Override
-	protected double adjustTick(double tick) {
-		if (this.shouldResetTick) {
-			if (getAnimationState() == AnimationState.Transitioning) {
-				this.tickOffset = tick;
-			} else if (getAnimationState() == AnimationState.Running) {
-				this.tickOffset = tick;
-			}
-			this.shouldResetTick = false;
-		}
-		return Math.max(tick - this.tickOffset, 0.0D);
-	}
+    @Override
+    protected double adjustTick(double tick) {
+        if (this.shouldResetTick) {
+            if (getAnimationState() == AnimationState.Transitioning) {
+                this.tickOffset = tick;
+            } else if (getAnimationState() == AnimationState.Running) {
+                this.tickOffset = tick;
+            }
+            this.shouldResetTick = false;
+        }
+        return Math.max(tick - this.tickOffset, 0.0D);
+    }
 }

@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.blocks;
 
-
 /*
  * All Rights Reserved
  *
@@ -19,22 +18,24 @@ import com.alaharranhonor.swem.SWEM;
 import net.minecraft.block.Block;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 
 public class BlockItemBase extends BlockItem {
 
-	public BlockItemBase(Block block, Item.Properties props) {
-		super(block, props);
-	}
+    public BlockItemBase(Block block, Item.Properties props) {
+        super(block, props);
+    }
 
-	/**
-	 * Instantiates a new Block item base.
-	 *
-	 * @param block the block
-	 */
-	public BlockItemBase(Block block) {
+    /**
+     * Instantiates a new Block item base.
+     *
+     * @param block the block
+     */
+    public BlockItemBase(Block block) {
         super(block, new Item.Properties().tab(SWEM.TAB));
     }
 
@@ -47,7 +48,8 @@ public class BlockItemBase extends BlockItem {
      * @param hand
      */
     @Override
-    public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+    public ActionResultType interactLivingEntity(
+            ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
         return super.interactLivingEntity(stack, playerIn, target, hand);
     }
 }

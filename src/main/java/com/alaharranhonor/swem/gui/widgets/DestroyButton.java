@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.gui.widgets;
 
-
 /*
  * All Rights Reserved
  *
@@ -22,30 +21,31 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.ITextComponent;
 
 public class DestroyButton extends Button {
-	private JumpScreen screen;
+    private JumpScreen screen;
 
-	/**
-	 * Instantiates a new Destroy button.
-	 *
-	 * @param x      the x
-	 * @param y      the y
-	 * @param width  the width
-	 * @param height the height
-	 * @param title  the title
-	 * @param screen the screen
-	 */
-	public DestroyButton(int x, int y, int width, int height, ITextComponent title, JumpScreen screen) {
-		super(x, y, width, height, title, new DestroyButton.DestroyPressable());
-		this.screen = screen;
-	}
+    /**
+     * Instantiates a new Destroy button.
+     *
+     * @param x      the x
+     * @param y      the y
+     * @param width  the width
+     * @param height the height
+     * @param title  the title
+     * @param screen the screen
+     */
+    public DestroyButton(
+            int x, int y, int width, int height, ITextComponent title, JumpScreen screen) {
+        super(x, y, width, height, title, new DestroyButton.DestroyPressable());
+        this.screen = screen;
+    }
 
-	private static class DestroyPressable implements Button.IPressable {
+    private static class DestroyPressable implements Button.IPressable {
 
-		@Override
-		public void onPress(Button p_onPress_1_) {
-			DestroyButton btn = (DestroyButton) p_onPress_1_;
-			SWEMPacketHandler.INSTANCE.sendToServer(new CDestroyPacket(btn.screen.controllerPos));
-			btn.screen.onClose();
-		}
-	}
+        @Override
+        public void onPress(Button p_onPress_1_) {
+            DestroyButton btn = (DestroyButton) p_onPress_1_;
+            SWEMPacketHandler.INSTANCE.sendToServer(new CDestroyPacket(btn.screen.controllerPos));
+            btn.screen.onClose();
+        }
+    }
 }

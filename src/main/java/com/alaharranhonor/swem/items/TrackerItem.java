@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.items;
 
-
 /*
  * All Rights Reserved
  *
@@ -33,89 +32,103 @@ import java.util.UUID;
 
 public class TrackerItem extends ItemBase {
 
+    @Override
+    public ActionResultType interactLivingEntity(
+            ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+        if (target instanceof SWEMHorseEntityBase) {
+            SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
 
-	@Override
-	public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-		if (target instanceof SWEMHorseEntityBase) {
-			SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
+            if (horse.isBaby() || !horse.isTamed()) return ActionResultType.FAIL;
 
-			if (horse.isBaby() || !horse.isTamed()) return ActionResultType.FAIL;
+            if (!horse.getOwnerUUID().equals(playerIn.getUUID())) {
+                playerIn.displayClientMessage(
+                        new StringTextComponent("You can't track horses, that aren't yours."), true);
+                return ActionResultType.FAIL;
+            }
 
-			if (!horse.getOwnerUUID().equals(playerIn.getUUID())) {
-				playerIn.displayClientMessage(new StringTextComponent("You can't track horses, that aren't yours."), true);
-				return ActionResultType.FAIL;
-			}
+            if (playerIn.isShiftKeyDown()) {
+                // Remove tracking status
+                CompoundNBT tracked = playerIn.getPersistentData().getCompound("tracked");
+                CompoundNBT trackedNew = new CompoundNBT();
+                boolean removed = false;
+                for (int i = 0; i < tracked.size(); i++) {
 
-			if (playerIn.isShiftKeyDown()) {
-				// Remove tracking status
-				CompoundNBT tracked = playerIn.getPersistentData().getCompound("tracked");
-				CompoundNBT trackedNew = new CompoundNBT();
-				boolean removed = false;
-				for (int i = 0; i < tracked.size(); i++) {
+                    if (tracked.getUUID(String.valueOf(i)).equals(horse.getUUID())) {
+                        playerIn.displayClientMessage(
+                                new StringTextComponent("Horse is no longer being tracked"), true);
+                        removed = true;
+                        horse.setTracked(false);
+                        continue;
+                    }
+                    trackedNew.putUUID(
+                            String.valueOf(removed ? i - 1 : i), tracked.getUUID(String.valueOf(i)));
+                }
 
-					if (tracked.getUUID(String.valueOf(i)).equals(horse.getUUID())) {
-						playerIn.displayClientMessage(new StringTextComponent("Horse is no longer being tracked"), true);
-						removed = true;
-						horse.setTracked(false);
-						continue;
-					}
-					trackedNew.putUUID(String.valueOf(removed ? i - 1 : i), tracked.getUUID(String.valueOf(i)));
+                playerIn.getPersistentData().put("tracked", trackedNew);
+            } else {
+                // Add tracking status
+                CompoundNBT tracked = playerIn.getPersistentData().getCompound("tracked");
 
-				}
+                for (int i = 0; i < tracked.size(); i++) {
+                    if (tracked.getUUID(String.valueOf(i)).equals(horse.getUUID())) {
+                        playerIn.displayClientMessage(
+                                new StringTextComponent("Horse is already being tracked."), true);
+                        return ActionResultType.FAIL;
+                    }
+                }
+                tracked.putUUID(Integer.toString(tracked.size()), horse.getUUID());
 
+                horse.setTracked(true);
 
-				playerIn.getPersistentData().put("tracked", trackedNew);
-			} else {
-				//Add tracking status
-				CompoundNBT tracked = playerIn.getPersistentData().getCompound("tracked");
+                playerIn.displayClientMessage(new StringTextComponent("Horse is now being tracked"), true);
 
-				for (int i = 0; i < tracked.size(); i++) {
-					if (tracked.getUUID(String.valueOf(i)).equals(horse.getUUID())) {
-						playerIn.displayClientMessage(new StringTextComponent("Horse is already being tracked."), true);
-						return ActionResultType.FAIL;
-					}
-				}
-				tracked.putUUID(Integer.toString(tracked.size()), horse.getUUID());
+                playerIn.getPersistentData().put("tracked", tracked);
+            }
 
-				horse.setTracked(true);
+            return ActionResultType.CONSUME;
+        }
+        return ActionResultType.PASS;
+    }
 
-				playerIn.displayClientMessage(new StringTextComponent("Horse is now being tracked"), true);
+    @Override
+    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        if (!worldIn.isClientSide) {
 
-				playerIn.getPersistentData().put("tracked", tracked);
-			}
+            CompoundNBT tracked = playerIn.getPersistentData().getCompound("tracked");
 
-			return ActionResultType.CONSUME;
-		}
-		return ActionResultType.PASS;
-	}
+            StringBuilder builder = new StringBuilder();
 
-	@Override
-	public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		if (!worldIn.isClientSide) {
+            int horsesNotFound = 0;
+            for (int i = 0; i < tracked.size(); i++) {
+                UUID uuid = tracked.getUUID(Integer.toString(i));
+                HorseData data = SWEM.getHorseData(uuid);
+                if (data != null) {
+                    builder
+                            .append("Name: ")
+                            .append(data.getName())
+                            .append(" x: ")
+                            .append(data.getPos().getX())
+                            .append(" - y: ")
+                            .append(data.getPos().getY())
+                            .append(" - z: ")
+                            .append(data.getPos().getZ())
+                            .append("\n");
+                } else {
+                    horsesNotFound++;
+                }
+            }
 
-			CompoundNBT tracked = playerIn.getPersistentData().getCompound("tracked");
+            if (horsesNotFound > 0) {
+                builder
+                        .append(horsesNotFound)
+                        .append(" horse")
+                        .append(horsesNotFound > 1 ? "s" : "")
+                        .append(" was not found.");
+            }
+            playerIn.sendMessage(new StringTextComponent(builder.toString()), Util.NIL_UUID);
+            return ActionResult.consume(playerIn.getItemInHand(handIn));
+        }
 
-			StringBuilder builder = new StringBuilder();
-
-			int horsesNotFound = 0;
-			for (int i = 0; i < tracked.size(); i++) {
-				UUID uuid = tracked.getUUID(Integer.toString(i));
-				HorseData data = SWEM.getHorseData(uuid);
-				if (data != null) {
-					builder.append("Name: ").append(data.getName()).append(" x: ").append(data.getPos().getX()).append(" - y: ").append(data.getPos().getY()).append(" - z: ").append(data.getPos().getZ()).append("\n");
-				} else {
-					 horsesNotFound++;
-				}
-			}
-
-			if (horsesNotFound > 0) {
-				builder.append(horsesNotFound).append(" horse").append(horsesNotFound > 1 ? "s" : "").append(" was not found.");
-			}
-			playerIn.sendMessage(new StringTextComponent(builder.toString()), Util.NIL_UUID);
-			return ActionResult.consume(playerIn.getItemInHand(handIn));
-		}
-
-		return super.use(worldIn, playerIn, handIn);
-
-	}
+        return super.use(worldIn, playerIn, handIn);
+    }
 }

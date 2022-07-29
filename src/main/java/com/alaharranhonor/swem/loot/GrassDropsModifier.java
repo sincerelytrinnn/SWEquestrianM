@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.loot;
 
-
 /*
  * All Rights Reserved
  *
@@ -30,40 +29,41 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class GrassDropsModifier extends LootModifier {
-	private final Item itemToAdd;
-	/**
-	 * Constructs a LootModifier.
-	 *
-	 * @param conditionsIn the ILootConditions that need to be matched before the loot is modified.
-	 */
-	protected GrassDropsModifier(ILootCondition[] conditionsIn, Item itemToAdd) {
-		super(conditionsIn);
-		this.itemToAdd = itemToAdd;
-	}
+    private final Item itemToAdd;
 
-	@NotNull
-	@Override
-	protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
-		generatedLoot.add(new ItemStack(this.itemToAdd));
-		return generatedLoot;
-	}
+    /**
+     * Constructs a LootModifier.
+     *
+     * @param conditionsIn the ILootConditions that need to be matched before the loot is modified.
+     */
+    protected GrassDropsModifier(ILootCondition[] conditionsIn, Item itemToAdd) {
+        super(conditionsIn);
+        this.itemToAdd = itemToAdd;
+    }
 
-	public static class Serializer extends GlobalLootModifierSerializer<GrassDropsModifier> {
+    @NotNull
+    @Override
+    protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
+        generatedLoot.add(new ItemStack(this.itemToAdd));
+        return generatedLoot;
+    }
 
-		@Override
-		public GrassDropsModifier read(ResourceLocation location, JsonObject object, ILootCondition[] ailootcondition) {
-			Item itemToAdd = ForgeRegistries.ITEMS.getValue(new ResourceLocation((JSONUtils.getAsString(object, "name"))));
-			return new GrassDropsModifier(ailootcondition, itemToAdd);
+    public static class Serializer extends GlobalLootModifierSerializer<GrassDropsModifier> {
 
-		}
+        @Override
+        public GrassDropsModifier read(
+                ResourceLocation location, JsonObject object, ILootCondition[] ailootcondition) {
+            Item itemToAdd =
+                    ForgeRegistries.ITEMS.getValue(
+                            new ResourceLocation((JSONUtils.getAsString(object, "name"))));
+            return new GrassDropsModifier(ailootcondition, itemToAdd);
+        }
 
-		@Override
-		public JsonObject write(GrassDropsModifier instance) {
-			JsonObject json = makeConditions(instance.conditions);
-			json.addProperty("name", ForgeRegistries.ITEMS.getKey(instance.itemToAdd).toString());
-			return json;
-		}
-
-
-	}
+        @Override
+        public JsonObject write(GrassDropsModifier instance) {
+            JsonObject json = makeConditions(instance.conditions);
+            json.addProperty("name", ForgeRegistries.ITEMS.getKey(instance.itemToAdd).toString());
+            return json;
+        }
+    }
 }

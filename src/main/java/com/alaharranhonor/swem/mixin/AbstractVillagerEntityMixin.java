@@ -23,8 +23,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AbstractVillagerEntity.class)
 public class AbstractVillagerEntityMixin {
 
-	@Inject(method = "canBeLeashed", at = @At("HEAD"), cancellable = true)
-	public void canBeLeashed(PlayerEntity player, CallbackInfoReturnable<Boolean> callback) {
-		callback.setReturnValue(true);
-	}
+    @Inject(method = "canBeLeashed", at = @At("HEAD"), cancellable = true)
+    public void canBeLeashed(PlayerEntity player, CallbackInfoReturnable<Boolean> callback) {
+        callback.setReturnValue(true);
+    }
 }

@@ -14,17 +14,14 @@ package com.alaharranhonor.swem.items.tack;
  * THE SOFTWARE.
  */
 
-import net.minecraft.item.Item.Properties;
-
-
-public class WesternBridleItem extends BridleItem{
-	/**
-	 * Instantiates a new Western bridle item.
-	 *
-	 * @param textureName the texture name
-	 * @param properties  the properties
-	 */
-	public WesternBridleItem(String textureName, Properties properties) {
-		super(textureName, properties);
-	}
+public class WesternBridleItem extends BridleItem {
+    /**
+     * Instantiates a new Western bridle item.
+     *
+     * @param textureName the texture name
+     * @param properties  the properties
+     */
+    public WesternBridleItem(String textureName, Properties properties) {
+        super(textureName, properties);
+    }
 }

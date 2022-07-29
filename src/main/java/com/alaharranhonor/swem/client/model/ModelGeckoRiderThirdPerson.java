@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.client.model;
 
-
 /*
  * All Rights Reserved
  *
@@ -22,55 +21,60 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class ModelGeckoRiderThirdPerson extends GeckoBipedModel {
 
-	public CustomGeoBone bipedLeftArmwear() {
-		return getCustomBone("LeftArmLayer");
-	}
+    public CustomGeoBone bipedLeftArmwear() {
+        return getCustomBone("LeftArmLayer");
+    }
 
-	public CustomGeoBone bipedRightArmwear() {
-		return getCustomBone("RightArmLayer");
-	}
+    public CustomGeoBone bipedRightArmwear() {
+        return getCustomBone("RightArmLayer");
+    }
 
-	public CustomGeoBone bipedLeftLegwear() {
-		return getCustomBone("LeftLegLayer");
-	}
+    public CustomGeoBone bipedLeftLegwear() {
+        return getCustomBone("LeftLegLayer");
+    }
 
-	public CustomGeoBone bipedRightLegwear() {
-		return getCustomBone("RightLegLayer");
-	}
+    public CustomGeoBone bipedRightLegwear() {
+        return getCustomBone("RightLegLayer");
+    }
 
-	public CustomGeoBone bipedBodywear() {
-		return getCustomBone("BodyLayer");
-	}
+    public CustomGeoBone bipedBodywear() {
+        return getCustomBone("BodyLayer");
+    }
 
-	public void setVisible(boolean visible) {
-		super.setVisible(visible);
-		this.bipedLeftArmwear().setHidden(!visible);
-		this.bipedRightArmwear().setHidden(!visible);
-		this.bipedLeftLegwear().setHidden(!visible);
-		this.bipedRightLegwear().setHidden(!visible);
-		this.bipedBodywear().setHidden(!visible);
-	}
+    public void setVisible(boolean visible) {
+        super.setVisible(visible);
+        this.bipedLeftArmwear().setHidden(!visible);
+        this.bipedRightArmwear().setHidden(!visible);
+        this.bipedLeftLegwear().setHidden(!visible);
+        this.bipedRightLegwear().setHidden(!visible);
+        this.bipedBodywear().setHidden(!visible);
+    }
 
-	@Override
-	public void setRotationAngles(PlayerEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float partialTick) {
-		super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, partialTick);
-		CustomGeoBone rightArmLayerClassic = getCustomBone("RightArmLayerClassic");
-		CustomGeoBone leftArmLayerClassic = getCustomBone("LeftArmLayerClassic");
-		CustomGeoBone rightArmLayerSlim = getCustomBone("RightArmLayerSlim");
-		CustomGeoBone leftArmLayerSlim = getCustomBone("LeftArmLayerSlim");
-		if (useSmallArms) {
-			rightArmLayerClassic.setHidden(true);
-			leftArmLayerClassic.setHidden(true);
-			rightArmLayerSlim.setHidden(false);
-			leftArmLayerSlim.setHidden(false);
-		}
-		else {
-			rightArmLayerSlim.setHidden(true);
-			leftArmLayerSlim.setHidden(true);
-			rightArmLayerClassic.setHidden(false);
-			leftArmLayerClassic.setHidden(false);
-		}
-	}
-
-
+    @Override
+    public void setRotationAngles(
+            PlayerEntity entityIn,
+            float limbSwing,
+            float limbSwingAmount,
+            float ageInTicks,
+            float netHeadYaw,
+            float headPitch,
+            float partialTick) {
+        super.setRotationAngles(
+                entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, partialTick);
+        CustomGeoBone rightArmLayerClassic = getCustomBone("RightArmLayerClassic");
+        CustomGeoBone leftArmLayerClassic = getCustomBone("LeftArmLayerClassic");
+        CustomGeoBone rightArmLayerSlim = getCustomBone("RightArmLayerSlim");
+        CustomGeoBone leftArmLayerSlim = getCustomBone("LeftArmLayerSlim");
+        if (useSmallArms) {
+            rightArmLayerClassic.setHidden(true);
+            leftArmLayerClassic.setHidden(true);
+            rightArmLayerSlim.setHidden(false);
+            leftArmLayerSlim.setHidden(false);
+        } else {
+            rightArmLayerSlim.setHidden(true);
+            leftArmLayerSlim.setHidden(true);
+            rightArmLayerClassic.setHidden(false);
+            leftArmLayerClassic.setHidden(false);
+        }
+    }
 }

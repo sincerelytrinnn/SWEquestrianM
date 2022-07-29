@@ -1,6 +1,5 @@
 package com.alaharranhonor.swem.blocks;
 
-
 /*
  * All Rights Reserved
  *
@@ -15,10 +14,9 @@ package com.alaharranhonor.swem.blocks;
  * THE SOFTWARE.
  */
 
-import javax.annotation.Nullable;
-
 import com.alaharranhonor.swem.tools.PitchforkTool;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -35,35 +33,50 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.*;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.World;
 
-import net.minecraft.block.AbstractBlock;
+import javax.annotation.Nullable;
 
 public class Shavings extends Block {
     public static final IntegerProperty LAYERS = BlockStateProperties.LAYERS;
-    public static final VoxelShape[] SHAPES = new VoxelShape[]{VoxelShapes.empty(), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
+    public static final VoxelShape[] SHAPES =
+            new VoxelShape[]{
+                    VoxelShapes.empty(),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D),
+                    Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)
+            };
 
-	/**
-	 * Instantiates a new Shavings.
-	 *
-	 * @param properties the properties
-	 */
-	public Shavings(AbstractBlock.Properties properties) {
+    /**
+     * Instantiates a new Shavings.
+     *
+     * @param properties the properties
+     */
+    public Shavings(AbstractBlock.Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, Integer.valueOf(1)));
     }
 
-	/**
-	 * Allows movement boolean.
-	 *
-	 * @param state   the state
-	 * @param worldIn the world in
-	 * @param pos     the pos
-	 * @param type    the type
-	 * @return the boolean
-	 */
-	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
-        switch(type) {
+    /**
+     * Allows movement boolean.
+     *
+     * @param state   the state
+     * @param worldIn the world in
+     * @param pos     the pos
+     * @param type    the type
+     * @return the boolean
+     */
+    public boolean allowsMovement(
+            BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
+        switch (type) {
             case LAND:
                 return true;
             case WATER:
@@ -75,11 +88,13 @@ public class Shavings extends Block {
         }
     }
 
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(
+            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return SHAPES[state.getValue(LAYERS)];
     }
 
-    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getCollisionShape(
+            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return SHAPES[state.getValue(LAYERS) - 1];
     }
 
@@ -92,7 +107,8 @@ public class Shavings extends Block {
         Block block = blockstate.getBlock();
         if (block != Blocks.ICE && block != Blocks.PACKED_ICE && block != Blocks.BARRIER) {
             if (block != Blocks.HONEY_BLOCK && block != Blocks.SOUL_SAND) {
-                return Block.isFaceFull(blockstate.getCollisionShape(worldIn, pos.below()), Direction.UP) || block == this && blockstate.getValue(LAYERS) == 8;
+                return Block.isFaceFull(blockstate.getCollisionShape(worldIn, pos.below()), Direction.UP)
+                        || block == this && blockstate.getValue(LAYERS) == 8;
             } else {
                 return true;
             }
@@ -102,13 +118,21 @@ public class Shavings extends Block {
     }
 
     /**
-     * Update the provided state given the provided neighbor facing and neighbor state, returning a new state.
-     * For example, fences make their connections to the passed in state if possible, and wet concrete powder immediately
-     * returns its solidified counterpart.
-     * Note that this method should ideally consider only the specific face passed in.
+     * Update the provided state given the provided neighbor facing and neighbor state, returning a
+     * new state. For example, fences make their connections to the passed in state if possible, and
+     * wet concrete powder immediately returns its solidified counterpart. Note that this method
+     * should ideally consider only the specific face passed in.
      */
-    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-        return !stateIn.canSurvive(worldIn, currentPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+    public BlockState updateShape(
+            BlockState stateIn,
+            Direction facing,
+            BlockState facingState,
+            IWorld worldIn,
+            BlockPos currentPos,
+            BlockPos facingPos) {
+        return !stateIn.canSurvive(worldIn, currentPos)
+                ? Blocks.AIR.defaultBlockState()
+                : super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
     }
 
     public boolean canBeReplaced(BlockState state, BlockItemUseContext useContext) {
@@ -141,22 +165,25 @@ public class Shavings extends Block {
     }
 
     @Override
-    public void playerWillDestroy(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
+    public void playerWillDestroy(
+            World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
         super.playerWillDestroy(worldIn, pos, state, player);
         if (player.abilities.instabuild) return;
         if (player.getMainHandItem().getItem() instanceof PitchforkTool) {
             int damage = state.getValue(LAYERS);
             ItemStack shavingsItem = new ItemStack(state.getBlock().asItem());
-            shavingsItem.hurtAndBreak(8 - damage, player, playerEntity -> {});
-            ItemEntity shavingEntity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), shavingsItem);
+            shavingsItem.hurtAndBreak(8 - damage, player, playerEntity -> {
+            });
+            ItemEntity shavingEntity =
+                    new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), shavingsItem);
             worldIn.addFreshEntity(shavingEntity);
         } else {
             ItemStack shavingsItem = new ItemStack(state.getBlock().asItem());
-            shavingsItem.hurtAndBreak(7, player, playerEntity -> {});
-            ItemEntity shavingEntity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), shavingsItem);
+            shavingsItem.hurtAndBreak(7, player, playerEntity -> {
+            });
+            ItemEntity shavingEntity =
+                    new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), shavingsItem);
             worldIn.addFreshEntity(shavingEntity);
         }
     }
-
-
 }
