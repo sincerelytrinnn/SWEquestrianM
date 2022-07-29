@@ -88,18 +88,13 @@ public class GeneralEventHandlers {
         if (config.getModId().equals(SWEM.MOD_ID)) {
             if (config.getSpec() == ConfigHolder.SERVER_SPEC) {
                 if (SWEMOreGen.AMETHYST_ORE == null) {
-                    SWEMOreGen.AMETHYST_ORE =
-                            OreGenUtils.buildOverWorldFeature(SWEMBlocks.AMETHYST_ORE.get().defaultBlockState());
+                    SWEMOreGen.AMETHYST_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.AMETHYST_ORE.get().defaultBlockState());
                 }
                 if (SWEMOreGen.CANTAZARITE_ORE == null) {
-                    SWEMOreGen.CANTAZARITE_ORE =
-                            OreGenUtils.buildOverWorldFeature(
-                                    SWEMBlocks.CANTAZARITE_ORE.get().defaultBlockState());
+                    SWEMOreGen.CANTAZARITE_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.CANTAZARITE_ORE.get().defaultBlockState());
                 }
                 if (SWEMOreGen.SWEM_COBBLE_ORE == null) {
-                    SWEMOreGen.SWEM_COBBLE_ORE =
-                            OreGenUtils.buildOverWorldFeature(
-                                    SWEMBlocks.STAR_WORM_COBBLE.get().defaultBlockState());
+                    SWEMOreGen.SWEM_COBBLE_ORE = OreGenUtils.buildOverWorldFeature(SWEMBlocks.STAR_WORM_COBBLE.get().defaultBlockState());
                 }
 
                 ConfigHelper.bakeServer();
@@ -138,10 +133,7 @@ public class GeneralEventHandlers {
         public static void onJoinWorld(EntityJoinWorldEvent event) {
 
             if (event.getEntity() instanceof PlayerEntity) {
-                PlayerCapability.IPlayerCapability playerCapability =
-                        CapabilityHandler.getCapability(
-                                (PlayerEntity) event.getEntity(),
-                                PlayerCapability.PlayerProvider.PLAYER_CAPABILITY);
+                PlayerCapability.IPlayerCapability playerCapability = CapabilityHandler.getCapability((PlayerEntity) event.getEntity(), PlayerCapability.PlayerProvider.PLAYER_CAPABILITY);
                 if (playerCapability != null) playerCapability.addedToWorld(event);
             }
         }
@@ -149,8 +141,7 @@ public class GeneralEventHandlers {
         @SubscribeEvent
         public static void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
             if (event.getObject() instanceof PlayerEntity) {
-                event.addCapability(
-                        new ResourceLocation(SWEM.MOD_ID, "player"), new PlayerCapability.PlayerProvider());
+                event.addCapability(new ResourceLocation(SWEM.MOD_ID, "player"), new PlayerCapability.PlayerProvider());
             }
         }
 
@@ -165,14 +156,8 @@ public class GeneralEventHandlers {
             event.getDispatcher().register(DevCommand.register());
             event.getDispatcher().register(SWEMCommand.register());
 
-            PermissionAPI.registerNode(
-                    "command.swem.reset_gallop",
-                    DefaultPermissionLevel.OP,
-                    "Gives permission to reset the gallop cooldown");
-            PermissionAPI.registerNode(
-                    "command.swem.set_gallop_time",
-                    DefaultPermissionLevel.OP,
-                    "Gives permission to set the max gallop time");
+            PermissionAPI.registerNode("command.swem.reset_gallop", DefaultPermissionLevel.OP, "Gives permission to reset the gallop cooldown");
+            PermissionAPI.registerNode("command.swem.set_gallop_time", DefaultPermissionLevel.OP, "Gives permission to set the max gallop time");
         }
 
         /**
@@ -185,51 +170,22 @@ public class GeneralEventHandlers {
             KeyBinding[] keyBindings = ClientEventHandlers.keyBindings;
             if (KEY_PRESS_COUNTER == 1) {
 
-                if (keyBindings[8].consumeClick()) {
-                    boolean value = no_render_tack;
-                    no_render_tack = !no_render_tack;
-                    if (value) {
-                        // Disable
-                        Minecraft.getInstance()
-                                .player
-                                .sendMessage(
-                                        new StringTextComponent("You have enabled all tack render"),
-                                        Minecraft.getInstance().player.getUUID());
-                    } else {
-                        Minecraft.getInstance()
-                                .player
-                                .sendMessage(
-                                        new StringTextComponent("You have disabled all tack render"),
-                                        Minecraft.getInstance().player.getUUID());
-                    }
-                }
-
-                if (event.getKey() == 'W'
-                        && event.getAction() == 0
-                        && Minecraft.getInstance().player != null) {
+                if (event.getKey() == 'W' && event.getAction() == 0 && Minecraft.getInstance().player != null) {
                     Entity check = Minecraft.getInstance().player.getVehicle();
 
                     if (check instanceof SWEMHorseEntityBase) {
-                        if (check.getControllingPassenger() != null
-                                && check
-                                .getControllingPassenger()
-                                .getUUID()
-                                .equals(Minecraft.getInstance().player.getUUID())) {
+                        if (check.getControllingPassenger() != null && check.getControllingPassenger().getUUID().equals(Minecraft.getInstance().player.getUUID())) {
                             // 'W' Key was released start the 1 second timer.
-                            executor.schedule(
-                                    new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            if (Minecraft.getInstance().options.keyUp.isDown()) {
-                                                return;
-                                            } else {
-                                                SWEMPacketHandler.INSTANCE.sendToServer(
-                                                        new SendHorseSpeedChange(2, check.getId()));
-                                            }
-                                        }
-                                    },
-                                    105,
-                                    TimeUnit.MILLISECONDS);
+                            executor.schedule(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (Minecraft.getInstance().options.keyUp.isDown()) {
+                                        return;
+                                    } else {
+                                        SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, check.getId()));
+                                    }
+                                }
+                            }, 105, TimeUnit.MILLISECONDS);
                         }
                     }
                 }
@@ -244,14 +200,8 @@ public class GeneralEventHandlers {
                     Entity entity = player.getVehicle();
                     if (entity instanceof SWEMHorseEntityBase) {
                         SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-                        player.sendMessage(
-                                new StringTextComponent(
-                                        "Speed: " + horse.getAttributeValue(Attributes.MOVEMENT_SPEED)),
-                                UUID.randomUUID());
-                        player.sendMessage(
-                                new StringTextComponent(
-                                        "Base Value: " + horse.getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue()),
-                                UUID.randomUUID());
+                        player.sendMessage(new StringTextComponent("Speed: " + horse.getAttributeValue(Attributes.MOVEMENT_SPEED)), UUID.randomUUID());
+                        player.sendMessage(new StringTextComponent("Base Value: " + horse.getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue()), UUID.randomUUID());
                     }
                 }
 
@@ -417,8 +367,7 @@ public class GeneralEventHandlers {
             if (!(event.getEntityLiving() instanceof SWEMHorseEntityBase)) return;
             if (!(event.getSource().getEntity() instanceof PlayerEntity)) return;
             PlayerEntity player = (PlayerEntity) event.getSource().getEntity();
-            if (player.getMainHandItem().getItem() instanceof AmethystSword
-                    || player.getOffhandItem().getItem() instanceof AmethystSword) {
+            if (player.getMainHandItem().getItem() instanceof AmethystSword || player.getOffhandItem().getItem() instanceof AmethystSword) {
                 event.setAmount(event.getAmount() * 0.25f);
             }
         }
@@ -450,15 +399,7 @@ public class GeneralEventHandlers {
         public static void resetHitchingPostCustomKnot(PlayerInteractEvent.EntityInteract event) {
             if (!(event.getTarget() instanceof LeashKnotEntity)) return;
             if (event.getWorld().getBlockState(event.getPos()).getBlock() instanceof HitchingPostBase) {
-                event
-                        .getWorld()
-                        .setBlock(
-                                event.getPos(),
-                                event
-                                        .getWorld()
-                                        .getBlockState(event.getPos())
-                                        .setValue(HitchingPostBase.CUSTOM_LEAD, false),
-                                3);
+                event.getWorld().setBlock(event.getPos(), event.getWorld().getBlockState(event.getPos()).setValue(HitchingPostBase.CUSTOM_LEAD, false), 3);
                 return;
             }
 
@@ -466,15 +407,7 @@ public class GeneralEventHandlers {
                 event.getTarget().remove();
                 event.getWorld().setBlock(event.getPos(), Blocks.AIR.defaultBlockState(), 3);
                 if (!event.getPlayer().isCreative()) {
-                    event
-                            .getWorld()
-                            .addFreshEntity(
-                                    new ItemEntity(
-                                            event.getWorld(),
-                                            event.getPos().getX(),
-                                            event.getPos().getY(),
-                                            event.getPos().getZ(),
-                                            new ItemStack(SWEMItems.LEAD_ANCHOR.get())));
+                    event.getWorld().addFreshEntity(new ItemEntity(event.getWorld(), event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), new ItemStack(SWEMItems.LEAD_ANCHOR.get())));
                 }
                 event.setCanceled(true);
             }
@@ -491,16 +424,9 @@ public class GeneralEventHandlers {
                 LocalDateTime time = LocalDateTime.now();
                 if (time.getMonth() == Month.DECEMBER && time.getDayOfMonth() == 31) {
 
-                    IFormattableTextComponent hi =
-                            new StringTextComponent("[SWEM] Hi " + event.getEntity().getName().getString())
-                                    .withStyle(TextFormatting.RED);
-                    IFormattableTextComponent content =
-                            new StringTextComponent(
-                                    "\n Us here at the SWEM team, hope you have a good new years! We hope you get a good start on 2022, and we thank you for helping out the project become a reality! Thank you for supporting us and happy new years! //legenden")
-                                    .setStyle(Style.EMPTY.withColor(Color.parseColor("#FF7F7F")));
-                    IFormattableTextComponent fireworks =
-                            new StringTextComponent("\n Now go out and set off some pretty fireworks!")
-                                    .setStyle(Style.EMPTY.withColor(Color.parseColor("#545454")));
+                    IFormattableTextComponent hi = new StringTextComponent("[SWEM] Hi " + event.getEntity().getName().getString()).withStyle(TextFormatting.RED);
+                    IFormattableTextComponent content = new StringTextComponent("\n Us here at the SWEM team, hope you have a good new years! We hope you get a good start on 2022, and we thank you for helping out the project become a reality! Thank you for supporting us and happy new years! //legenden").setStyle(Style.EMPTY.withColor(Color.parseColor("#FF7F7F")));
+                    IFormattableTextComponent fireworks = new StringTextComponent("\n Now go out and set off some pretty fireworks!").setStyle(Style.EMPTY.withColor(Color.parseColor("#545454")));
 
                     event.getEntity().sendMessage(hi.append(content).append(fireworks), Util.NIL_UUID);
                 }
@@ -515,10 +441,7 @@ public class GeneralEventHandlers {
         @SubscribeEvent
         public static void hideLeadKnotEntity(EntityJoinWorldEvent event) {
             if (event.getEntity() instanceof LeashKnotEntity && !event.getEntity().level.isClientSide) {
-                if (event.getWorld().getBlockState(event.getEntity().blockPosition()).getBlock()
-                        instanceof HitchingPostBase
-                        || event.getWorld().getBlockState(event.getEntity().blockPosition()).getBlock()
-                        instanceof LeadAnchorBlock) {
+                if (event.getWorld().getBlockState(event.getEntity().blockPosition()).getBlock() instanceof HitchingPostBase || event.getWorld().getBlockState(event.getEntity().blockPosition()).getBlock() instanceof LeadAnchorBlock) {
                     event.getEntity().setInvisible(true);
                 }
             }
@@ -552,8 +475,7 @@ public class GeneralEventHandlers {
                 DamageSource source = event.getSource();
                 SWEMHorseEntityBase horse = (SWEMHorseEntityBase) event.getEntity();
                 if (source.equals(DamageSource.LIGHTNING_BOLT)) {
-                    horse.level.playSound(
-                            null, horse, SoundEvents.MUSIC_DISC_PIGSTEP, SoundCategory.NEUTRAL, 1.0f, 1.0f);
+                    horse.level.playSound(null, horse, SoundEvents.MUSIC_DISC_PIGSTEP, SoundCategory.NEUTRAL, 1.0f, 1.0f);
                     event.setAmount(0.0f);
                     horse.setRemainingFireTicks(0);
                 }
