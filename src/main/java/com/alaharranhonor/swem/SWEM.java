@@ -236,7 +236,14 @@ public class SWEM {
             ComposterBlock.COMPOSTABLES.put(SWEMItems.OAT_BUSHEL.get(), 0.65F);
             ComposterBlock.COMPOSTABLES.put(SWEMItems.TIMOTHY_SEEDS.get(), 0.3F);
             ComposterBlock.COMPOSTABLES.put(SWEMItems.TIMOTHY_BUSHEL.get(), 0.65F);
-            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.QUALITY_BALE_ITEM.get(), 0.85F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.QUALITY_BALE_SLAB.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.TIMOTHY_BALE_SLAB.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.OAT_BALE_SLAB.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.ALFALFA_BALE_SLAB.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.QUALITY_BALE.get().asItem(), 0.85F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.TIMOTHY_BALE.get().asItem(), 0.85F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.OAT_BALE.get().asItem(), 0.85F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.ALFALFA_BALE.get().asItem(), 0.85F);
             ComposterBlock.COMPOSTABLES.put(SWEMBlocks.WET_COMPOST_ITEM.get(), 0.85F);
             ComposterBlock.COMPOSTABLES.put(SWEMBlocks.COMPOST_ITEM.get(), 0.85F);
 

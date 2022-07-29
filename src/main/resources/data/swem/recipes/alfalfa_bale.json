@@ -1,15 +1,12 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "xyx",
-    "yzy",
-    "xyx"
+    " x ",
+    "xzx",
+    " x "
   ],
   "key": {
     "x": {
-      "item": "swem:timothy_bushel"
-    },
-    "y": {
       "item": "swem:alfalfa_bushel"
     },
     "z": {
@@ -17,7 +14,7 @@
     }
   },
   "result": {
-    "item": "swem:quality_bale",
+    "item": "swem:alfalfa_bale",
     "count": 1
   }
 }

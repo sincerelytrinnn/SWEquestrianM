@@ -134,7 +134,7 @@ public class PaddockFeederBlock extends Block {
                                 pos.getX(),
                                 pos.getY(),
                                 pos.getZ(),
-                                new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get(), level));
+                                new ItemStack(SWEMBlocks.QUALITY_BALE.get(), level));
                 worldIn.addFreshEntity(itemEntity);
             }
             this.getAllParts(state, pos, worldIn).stream()
@@ -250,7 +250,7 @@ public class PaddockFeederBlock extends Block {
             }
 
             Item item = stack.getItem();
-            if (item == SWEMBlocks.QUALITY_BALE_ITEM.get()) {
+            if (item == SWEMBlocks.QUALITY_BALE.get().asItem()) {
                 level++;
                 worldIn.setBlock(pos1, state1.setValue(LEVEL, MathHelper.clamp(level, 0, 3)), 3);
                 worldIn.setBlock(posOther, stateOther.setValue(LEVEL, MathHelper.clamp(level, 0, 3)), 3);

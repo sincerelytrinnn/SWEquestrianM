@@ -46,7 +46,7 @@ public class HungerNeed {
                                     Ingredient.of(SWEMItems.OAT_BUSHEL.get()),
                                     Ingredient.of(SWEMItems.TIMOTHY_BUSHEL.get()),
                                     Ingredient.of(SWEMItems.ALFALFA_BUSHEL.get()),
-                                    Ingredient.of(SWEMBlocks.QUALITY_BALE_ITEM.get()),
+                                    Ingredient.of(SWEMBlocks.QUALITY_BALE.get().asItem()),
                                     Ingredient.of(Items.GRASS_BLOCK),
                                     Ingredient.of(SWEMItems.SUGAR_CUBE.get()),
                                     Ingredient.of(SWEMItems.SWEET_FEED.get()))

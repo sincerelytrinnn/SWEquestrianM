@@ -132,7 +132,7 @@ public class SaddlebagAndBedrollContainer extends Container {
                 new Slot(horseInventory, 6, 44, startSaddlebagInvY) {
                     @Override
                     public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() == SWEMBlocks.QUALITY_BALE_ITEM.get();
+                        return stack.getItem() == SWEMBlocks.QUALITY_BALE.get().asItem();
                     }
 
                     @Override

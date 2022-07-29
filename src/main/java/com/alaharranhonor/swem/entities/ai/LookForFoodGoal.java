@@ -127,7 +127,7 @@ public class LookForFoodGoal extends Goal {
                                             this.horse
                                                     .getNeeds()
                                                     .getHunger()
-                                                    .getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get())))
+                                                    .getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem())))
                                     < this.horse
                                     .getNeeds()
                                     .getHunger()
@@ -135,7 +135,7 @@ public class LookForFoodGoal extends Goal {
                                             this.horse
                                                     .getNeeds()
                                                     .getHunger()
-                                                    .getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get())))) {
+                                                    .getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem())))) {
                                 qualityBalePos.add(checkPos);
                             }
                         } else if (checkState.getBlock() instanceof SlowFeederBlock) {
@@ -147,7 +147,7 @@ public class LookForFoodGoal extends Goal {
                                                 this.horse
                                                         .getNeeds()
                                                         .getHunger()
-                                                        .getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get())))
+                                                        .getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem())))
                                         < this.horse
                                         .getNeeds()
                                         .getHunger()
@@ -155,7 +155,7 @@ public class LookForFoodGoal extends Goal {
                                                 this.horse
                                                         .getNeeds()
                                                         .getHunger()
-                                                        .getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get())))) {
+                                                        .getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem())))) {
                                     slowFeederPos.add(checkPos);
                                 }
                             }
@@ -168,7 +168,7 @@ public class LookForFoodGoal extends Goal {
                                                 this.horse
                                                         .getNeeds()
                                                         .getHunger()
-                                                        .getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get())))
+                                                        .getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem())))
                                         < this.horse
                                         .getNeeds()
                                         .getHunger()
@@ -176,7 +176,7 @@ public class LookForFoodGoal extends Goal {
                                                 this.horse
                                                         .getNeeds()
                                                         .getHunger()
-                                                        .getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get())))) {
+                                                        .getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem())))) {
                                     paddockFeederPos.add(checkPos);
                                 }
                             }
@@ -268,7 +268,7 @@ public class LookForFoodGoal extends Goal {
                     if (this.horse
                             .getNeeds()
                             .getHunger()
-                            .addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get()))) {
+                            .addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem()))) {
                         this.horse.level.setBlock(
                                 foundFood, SWEMBlocks.QUALITY_BALE_SLAB.get().defaultBlockState(), 3);
                     }
@@ -277,7 +277,7 @@ public class LookForFoodGoal extends Goal {
                     if (this.horse
                             .getNeeds()
                             .getHunger()
-                            .addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get()))) {
+                            .addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem()))) {
                         if (foundState.getValue(SlabBlock.TYPE) != SlabType.DOUBLE) {
                             this.horse.level.setBlock(foundFood, Blocks.AIR.defaultBlockState(), 3);
                         } else {
@@ -290,7 +290,7 @@ public class LookForFoodGoal extends Goal {
                     if (this.horse
                             .getNeeds()
                             .getHunger()
-                            .addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get()))) {
+                            .addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem()))) {
                         ((SlowFeederBlock) this.horse.level.getBlockState(foundFood).getBlock())
                                 .eat(this.horse.level, foundFood, foundState);
                     }
@@ -308,7 +308,7 @@ public class LookForFoodGoal extends Goal {
                     if (this.horse
                             .getNeeds()
                             .getHunger()
-                            .addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get()))) {
+                            .addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem()))) {
                         ((PaddockFeederBlock) this.horse.level.getBlockState(foundFood).getBlock())
                                 .eat(this.horse.level, foundFood, this.horse.level.getBlockState(foundFood));
                     }
