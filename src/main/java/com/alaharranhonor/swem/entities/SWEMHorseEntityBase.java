@@ -443,7 +443,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
             }
         } else if (stat == JUMP_STAT) {
             if (this.getEntityData().get(stat) % 50 == 0) {
-                this.getNeeds().getNeed("thirst").usageIncrement();
+                //this.getNeeds().getNeed("thirst").usageIncrement();
             }
         }
     }

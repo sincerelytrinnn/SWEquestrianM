@@ -14,7 +14,7 @@ package com.alaharranhonor.swem.entities.ai;
  */
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.blocks.HayBlockBase;
+import com.alaharranhonor.swem.blocks.BaseBaleBlock;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.entities.need_revamp.hunger.FoodItem;
 import com.alaharranhonor.swem.tileentity.HorseFeedable;
@@ -101,12 +101,10 @@ public class HorseEatFoodGoal extends Goal {
 			if (FoodItem.indexOfByItem(this.horse.level.getBlockState(this.bestFoodSourcePos).getBlock().asItem()) == -1 && !(this.horse.level.getBlockEntity(this.bestFoodSourcePos) instanceof HorseFeedable)) {
 				// Block Disappeared
 				// Start the lean out.
-				System.out.println("Stopping");
 				this.horse.getEntityData().set(SWEMHorseEntityBase.IS_EATING, false);
 			} else {
 				if (this.eatTickTimer == 20) {
 					// Eat block
-					System.out.println("20");
 					if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.horse.level, this.horse)) {
 						BlockState state = this.horse.level.getBlockState(this.bestFoodSourcePos);
 						Item edibleItem;
@@ -149,7 +147,7 @@ public class HorseEatFoodGoal extends Goal {
 	}
 
 	private void handleWildBlockEating(BlockState state) {
-		if (state.getBlock() instanceof HayBlockBase) {
+		if (state.getBlock() instanceof BaseBaleBlock) {
 			// Full hay block, eat a slab.
 			Block slabBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(state.getBlock().getRegistryName().getNamespace(), state.getBlock().getRegistryName().getPath() + "_slab"));
 
