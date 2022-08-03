@@ -38,8 +38,13 @@
 					]
 				},
 				{
-					"name": "WingsScapularLeft",
+					"name": "WingsScapularLeftGROUP",
 					"parent": "BaseFront",
+					"pivot": [-11, 32, -6]
+				},
+				{
+					"name": "WingsScapularLeft",
+					"parent": "WingsScapularLeftGROUP",
 					"pivot": [-11, 32, -6],
 					"rotation": [0, 90, 0],
 					"cubes": [
@@ -79,8 +84,13 @@
 					]
 				},
 				{
-					"name": "WingsScapularRight",
+					"name": "WingsScapularRightGROUP",
 					"parent": "BaseFront",
+					"pivot": [-11, 32, 6]
+				},
+				{
+					"name": "WingsScapularRight",
+					"parent": "WingsScapularRightGROUP",
 					"pivot": [-11, 32, 6],
 					"rotation": [0, 90, 0],
 					"cubes": [
@@ -938,7 +948,7 @@
 					"parent": "ArmorCloth",
 					"pivot": [1.75, 29.96667, 0],
 					"cubes": [
-						{"origin": [-3.25, 13.775, -7], "size": [8, 17, 1], "inflate": 0.125, "uv": [1, 227]}
+						{"origin": [-3.25, 13.9, -7], "size": [8, 17, 1], "inflate": 0.125, "uv": [1, 227]}
 					]
 				},
 				{
@@ -946,7 +956,7 @@
 					"parent": "ArmorCloth",
 					"pivot": [1.75, 29.9667, 0],
 					"cubes": [
-						{"origin": [-3.25, 13.775, 6], "size": [8, 17, 1], "inflate": 0.125, "uv": [19, 227]}
+						{"origin": [-3.25, 13.9, 6], "size": [8, 17, 1], "inflate": 0.125, "uv": [19, 227]}
 					]
 				},
 				{

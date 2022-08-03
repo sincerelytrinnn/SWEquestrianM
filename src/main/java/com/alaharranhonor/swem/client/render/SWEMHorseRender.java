@@ -113,11 +113,13 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
             "ArmorButt"
     };
     private static final String[] WING_BONE_NAMES = {
+            "WingsScapularLeftGROUP",
             "WingsScapularLeft",
             "WingsMarginalLeft",
             "WingsMarginal2Left",
             "WingsAlulaLeft",
             "WingsFlightFeathersRight",
+            "WingsScapularRightGROUP",
             "WingsScapularRight",
             "WingsMarginalRight",
             "WingsMarginal2Right",

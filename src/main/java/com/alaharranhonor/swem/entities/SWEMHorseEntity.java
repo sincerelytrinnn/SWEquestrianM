@@ -200,7 +200,6 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
         }
 
 
-
         if (!event.isMoving() && !horse.isBeingMovedByPlayer()) {
             if (animTimer < 2 || (anim != null && event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Walk") || (anim != null && event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Trot")) || (anim != null && event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Canter")) || (anim != null && event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Extended_anter")) || (anim != null && event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Gallop")) || (anim != null && event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("WalkingBackwards")))) {
 
@@ -215,11 +214,13 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
                     animTimer = 79;
                     event.getController().markNeedsReload();
                 } else if (chance > 0.9f && chance < 0.93f && idleAnimCooldown < 1) {
+                    playRiderAnimation("ScratchPlayer", "IdlePlayer");
                     event.getController().setAnimation(new AnimationBuilder().addAnimation("Scratch", false).addAnimation("StandIdle", false));
                     animTimer = 79 + 90;
                     idleAnimCooldown = animTimer + 100;
                     event.getController().markNeedsReload();
                 } else if (chance > 0.93f && chance < 0.96f && idleAnimCooldown < 1) {
+                    playRiderAnimation("ShakePlayer", "IdlePlayer");
                     event.getController().setAnimation(new AnimationBuilder().addAnimation("Shake", false).addAnimation("StandIdle", false));
                     animTimer = 79 + 62;
                     idleAnimCooldown = animTimer + 100;
