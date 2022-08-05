@@ -27,10 +27,8 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.*;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.MavenVersionStringHelper;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.RegistryObject;
@@ -302,7 +300,7 @@ public class SWEMBlocks {
      * @param modBus the mod bus
      */
     public static void init(IEventBus modBus) {
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> SWEMBlocks::checkAccess);
+        //DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> SWEMBlocks::checkAccess);
         BLOCKS.register(modBus);
     }
 

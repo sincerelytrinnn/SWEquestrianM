@@ -802,10 +802,10 @@ public class SWEMCommand {
                                             horse.progressionManager.getSpeedLeveling().setLevel(0);
 
                                             Inventory inv = horse.getHorseInventory();
-                                            inv.setItem(0, new ItemStack(SWEMItems.WESTERN_BRIDLE_GRAY.get()));
-                                            inv.setItem(1, new ItemStack(SWEMItems.WESTERN_BLANKET_GRAY.get()));
-                                            inv.setItem(2, new ItemStack(SWEMItems.WESTERN_SADDLE_GRAY.get()));
-                                            inv.setItem(5, new ItemStack(SWEMItems.WESTERN_GIRTH_STRAP_GRAY.get()));
+                                            inv.setItem(0, new ItemStack(SWEMItems.WESTERN_BRIDLES.get(2).get()));
+                                            inv.setItem(1, new ItemStack(SWEMItems.WESTERN_BLANKETS.get(2).get()));
+                                            inv.setItem(2, new ItemStack(SWEMItems.WESTERN_SADDLES.get(2).get()));
+                                            inv.setItem(5, new ItemStack(SWEMItems.WESTERN_GIRTH_STRAPS.get(2).get()));
 
                                             ctx.getSource()
                                                     .sendSuccess(new StringTextComponent("Wild mode activated"), false);

@@ -16,6 +16,7 @@ package com.alaharranhonor.swem.container;
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.items.tack.HorseSaddleItem;
+import com.alaharranhonor.swem.items.tack.PastureBlanketItem;
 import com.alaharranhonor.swem.util.registry.SWEMContainers;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -72,16 +73,6 @@ public class SWEMHorseInventoryContainer extends Container {
                     }
 
                     /**
-                     * Actualy only call when we want to render the white square effect over the slots. Return
-                     * always True, except for the armor slot of the Donkey/Mule (we can't interact with the
-                     * Undead and Skeleton horses)
-                     */
-                    @OnlyIn(Dist.CLIENT)
-                    public boolean isEnabled() {
-                        return horse.canWearArmor();
-                    }
-
-                    /**
                      * Returns the maximum stack size for a given slot (usually the same as
                      * getInventoryStackLimit(), but 1 in the case of armor slots)
                      */
@@ -99,7 +90,16 @@ public class SWEMHorseInventoryContainer extends Container {
                      * as furnace fuel.
                      */
                     public boolean mayPlace(ItemStack stack) {
-                        return horse.isBlanket(stack) && horse.hasHalter();
+                        return horse.isBlanket(stack) && horse.hasHalter() && !(horseInventory.getItem(6).getItem() instanceof PastureBlanketItem);
+                    }
+
+                    /**
+                     * Actualy only call when we want to render the white square effect over the slots. Return always True, except for
+                     * the armor slot of the Donkey/Mule (we can't interact with the Undead and Skeleton horses)
+                     */
+                    @Override
+                    public boolean isActive() {
+                        return super.isActive() && !(horseInventory.getItem(6).getItem() instanceof PastureBlanketItem);
                     }
 
                     @Override
@@ -125,17 +125,16 @@ public class SWEMHorseInventoryContainer extends Container {
                      * as furnace fuel.
                      */
                     public boolean mayPlace(ItemStack stack) {
-                        return horse.isSaddle(stack) && horse.canEquipSaddle();
+                        return horse.isSaddle(stack) && horse.canEquipSaddle() && !(horseInventory.getItem(6).getItem() instanceof PastureBlanketItem);
                     }
 
                     /**
-                     * Actualy only call when we want to render the white square effect over the slots. Return
-                     * always True, except for the armor slot of the Donkey/Mule (we can't interact with the
-                     * Undead and Skeleton horses)
+                     * Actualy only call when we want to render the white square effect over the slots. Return always True, except for
+                     * the armor slot of the Donkey/Mule (we can't interact with the Undead and Skeleton horses)
                      */
-                    @OnlyIn(Dist.CLIENT)
-                    public boolean isEnabled() {
-                        return horse.canWearArmor();
+                    @Override
+                    public boolean isActive() {
+                        return super.isActive() && !(horseInventory.getItem(6).getItem() instanceof PastureBlanketItem);
                     }
 
                     /**
@@ -193,17 +192,17 @@ public class SWEMHorseInventoryContainer extends Container {
                      * as furnace fuel.
                      */
                     public boolean mayPlace(ItemStack stack) {
-                        return horse.isBreastCollar(stack) && horse.hasHalter();
+                        return horse.isBreastCollar(stack) && horse.hasHalter() && !(horseInventory.getItem(6).getItem() instanceof PastureBlanketItem);
                     }
 
+
                     /**
-                     * Actualy only call when we want to render the white square effect over the slots. Return
-                     * always True, except for the armor slot of the Donkey/Mule (we can't interact with the
-                     * Undead and Skeleton horses)
+                     * Actualy only call when we want to render the white square effect over the slots. Return always True, except for
+                     * the armor slot of the Donkey/Mule (we can't interact with the Undead and Skeleton horses)
                      */
-                    @OnlyIn(Dist.CLIENT)
-                    public boolean isEnabled() {
-                        return horse.canWearArmor();
+                    @Override
+                    public boolean isActive() {
+                        return super.isActive() && !(horseInventory.getItem(6).getItem() instanceof PastureBlanketItem);
                     }
 
                     /**
@@ -265,7 +264,7 @@ public class SWEMHorseInventoryContainer extends Container {
                      */
                     @Override
                     public boolean isActive() {
-                        return super.isActive();
+                        return super.isActive() && !(horseInventory.getItem(6).getItem() instanceof PastureBlanketItem);
                     }
 
                     /**
@@ -286,7 +285,7 @@ public class SWEMHorseInventoryContainer extends Container {
                      * as furnace fuel.
                      */
                     public boolean mayPlace(ItemStack stack) {
-                        return horse.isSWEMArmor(stack) && horse.canEquipArmor();
+                        return horse.isSWEMArmor(stack) && (horse.canEquipArmor() || (canEquipPastureBlanket() && stack.getItem() instanceof PastureBlanketItem));
                     }
 
                     /**
@@ -317,17 +316,16 @@ public class SWEMHorseInventoryContainer extends Container {
                      * as furnace fuel.
                      */
                     public boolean mayPlace(ItemStack stack) {
-                        return horse.isSaddlebag(stack);
+                        return horse.isSaddlebag(stack) && !(horseInventory.getItem(6).getItem() instanceof PastureBlanketItem);
                     }
 
                     /**
-                     * Actualy only call when we want to render the white square effect over the slots. Return
-                     * always True, except for the armor slot of the Donkey/Mule (we can't interact with the
-                     * Undead and Skeleton horses)
+                     * Actualy only call when we want to render the white square effect over the slots. Return always True, except for
+                     * the armor slot of the Donkey/Mule (we can't interact with the Undead and Skeleton horses)
                      */
-                    @OnlyIn(Dist.CLIENT)
-                    public boolean isEnabled() {
-                        return horse.canWearArmor();
+                    @Override
+                    public boolean isActive() {
+                        return super.isActive() && !(horseInventory.getItem(6).getItem() instanceof PastureBlanketItem);
                     }
 
                     /**
@@ -395,6 +393,10 @@ public class SWEMHorseInventoryContainer extends Container {
         for (int col = 0; col < 9; ++col) {
             this.addSlot(new Slot(playerInventory, col, 8 + col * 18, hotBarY));
         }
+    }
+
+    private boolean canEquipPastureBlanket() {
+        return horseInventory.getItem(1).isEmpty() && horseInventory.getItem(2).isEmpty() && horseInventory.getItem(3).isEmpty() && horseInventory.getItem(5).isEmpty() && horseInventory.getItem(6).isEmpty() && horseInventory.getItem(7).isEmpty();
     }
 
     /**

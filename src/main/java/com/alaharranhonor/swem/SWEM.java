@@ -91,10 +91,10 @@ public class SWEM {
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "swem";
-    public static final ItemGroup TAB = new ItemGroup("SWEMTab") {
+    public static final ItemGroup TAB = new ItemGroup("swemtab") {
         @Override
         public ItemStack makeIcon() {
-            return new ItemStack(SWEMItems.WESTERN_SADDLE_LIGHT_BLUE.get());
+            return new ItemStack(SWEMItems.WESTERN_SADDLES.get(3).get());
         }
 
         @Override

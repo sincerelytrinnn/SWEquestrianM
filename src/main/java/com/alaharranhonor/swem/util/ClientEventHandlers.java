@@ -47,7 +47,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.DyeColor;
-import net.minecraft.item.IDyeableArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.tags.FluidTags;
@@ -282,9 +281,9 @@ public class ClientEventHandlers {
      */
     @SubscribeEvent
     public static void onRegisterItemColors(ColorHandlerEvent.Item event) {
-        event.getItemColors().register((p_210239_0_, p_210239_1_) -> {
+        /*event.getItemColors().register((p_210239_0_, p_210239_1_) -> {
             return p_210239_1_ > 0 ? -1 : ((IDyeableArmorItem) p_210239_0_.getItem()).getColor(p_210239_0_);
-        }, SWEMItems.WESTERN_LEG_WRAPS.get(), SWEMItems.ENGLISH_LEG_WRAPS.get());
+        }, SWEMItems.WESTERN_LEG_WRAPS.get(), SWEMItems.ENGLISH_LEG_WRAPS.get());*/
     }
 
     /**

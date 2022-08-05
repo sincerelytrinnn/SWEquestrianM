@@ -18,9 +18,7 @@ import com.alaharranhonor.swem.SWEM;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.MavenVersionStringHelper;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.DeferredRegister;
@@ -43,7 +41,7 @@ public class SWLRegistryHandler {
      * Init.
      */
     public static void init(IEventBus eventBus) {
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> SWLRegistryHandler::checkAccess);
+        //DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> SWLRegistryHandler::checkAccess);
         ITEMS.register(eventBus);
         BLOCKS.register(eventBus);
     }

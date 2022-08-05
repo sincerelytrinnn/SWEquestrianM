@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:recipes/pasture_blanket_green_armored_from_blanket"
+    ]
+  },
+  "criteria": {
+    "has_pasture_blanket_armored": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "minecraft:carpets"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:recipes/pasture_blanket_green_armored_from_blanket"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_pasture_blanket_armored",
+      "has_the_recipe"
+    ]
+  ]
+}

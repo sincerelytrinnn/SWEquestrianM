@@ -240,7 +240,12 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
     }
 
     private void checkPastureBlanketForRendering(SWEMHorseEntity entity) {
-
+        ItemStack stack = entity.getSWEMArmor();
+        if (stack.getItem() instanceof PastureBlanketItem) {
+            Arrays.stream(PASTURE_BLANKET_BONE_NAMES).forEach((boneName) -> showBone(boneName, entity));
+        } else {
+            Arrays.stream(PASTURE_BLANKET_BONE_NAMES).forEach((boneName) -> hideBone(boneName, entity));
+        }
     }
 
     private void checkBridlesForRendering(SWEMHorseEntity entity) {
@@ -310,7 +315,7 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
     private void checkArmorForRendering(SWEMHorseEntity entity) {
         ItemStack saddleStack = entity.getSWEMArmor();
         boolean shouldRenderTackFlag = !GeneralEventHandlers.no_render_tack;
-        if (saddleStack.getItem() instanceof SWEMHorseArmorItem && shouldRenderTackFlag) {
+        if (saddleStack.getItem() instanceof SWEMHorseArmorItem && !(saddleStack.getItem() instanceof PastureBlanketItem) && shouldRenderTackFlag) {
             SWEMHorseArmorItem armorItem = (SWEMHorseArmorItem) saddleStack.getItem();
 
             if (shouldRenderArmor(entity)) {
@@ -458,6 +463,11 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
             if (!stack.isEmpty()) {
                 HorseSaddleItem saddleItem = ((HorseSaddleItem) currentEntity.hasSaddle().getItem());
                 return saddleItem.getTexture();
+            }
+        } else if (boneName.contains("PB")) {
+            ItemStack stack = currentEntity.getSWEMArmor();
+            if (!stack.isEmpty()) {
+                return ((PastureBlanketItem) stack.getItem()).getTexture();
             }
         }
         return this.getGeoModelProvider().getTextureLocation(currentEntity);

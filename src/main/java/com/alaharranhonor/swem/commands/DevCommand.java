@@ -50,10 +50,10 @@ public class DevCommand {
                                             if (riding instanceof SWEMHorseEntityBase) {
                                                 SWEMHorseEntityBase horse = (SWEMHorseEntityBase) riding;
                                                 Inventory inv = horse.getHorseInventory();
-                                                inv.setItem(0, new ItemStack(SWEMItems.WESTERN_BRIDLE_ORANGE.get()));
-                                                inv.setItem(1, new ItemStack(SWEMItems.WESTERN_BLANKET_ORANGE.get()));
-                                                inv.setItem(2, new ItemStack(SWEMItems.WESTERN_SADDLE_ORANGE.get()));
-                                                inv.setItem(5, new ItemStack(SWEMItems.WESTERN_GIRTH_STRAP_ORANGE.get()));
+                                                inv.setItem(0, new ItemStack(SWEMItems.WESTERN_BRIDLES.get(0).get()));
+                                                inv.setItem(1, new ItemStack(SWEMItems.WESTERN_BLANKETS.get(0).get()));
+                                                inv.setItem(2, new ItemStack(SWEMItems.WESTERN_SADDLES.get(0).get()));
+                                                inv.setItem(5, new ItemStack(SWEMItems.WESTERN_GIRTH_STRAPS.get(0).get()));
                                             }
 
                                             ctx.getSource()
