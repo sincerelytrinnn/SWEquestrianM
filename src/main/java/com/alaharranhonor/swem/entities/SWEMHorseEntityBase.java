@@ -227,8 +227,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         this.goalSelector.addGoal(5, this.poopGoal);
         this.goalSelector.addGoal(5, this.peeGoal);
         this.goalSelector.addGoal(6, new HorseWaterAvoidingRandomWalkingGoal(this, 4.0D)); // Speed 4.0 looks like a good speed, plus it triggers anim.
+        this.goalSelector.addGoal(6, new LookForWaterGoal(this, 4.0d));
         this.goalSelector.addGoal(7, new LookForFoodGoal(this, 4.0d));
-        this.goalSelector.addGoal(7, new LookForWaterGoal(this, 4.0d));
         // this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(9, new CustomLookRandomlyGoal(this));
     }

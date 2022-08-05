@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -23,6 +24,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -45,7 +47,8 @@ public class SpigotBlock extends HorizontalBlock {
      */
     public SpigotBlock(AbstractBlock.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.HANGING, false));
+        ;
     }
 
     @Override
@@ -112,30 +115,47 @@ public class SpigotBlock extends HorizontalBlock {
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        if (!state.getValue(BlockStateProperties.HANGING)) {
+            return VoxelShapes.box(0.375D, 0.0D, 0.375D, 0.625D, 0.75D, 0.625D);
+        }
+
         switch (state.getValue(FACING)) {
             case EAST: {
-                return SHAPE_E;
+                return VoxelShapes.box(1D, 0.5D, 0.1875D, 0.6875D, 0.75D, 0.8125D);
             }
             case SOUTH: {
-                return SHAPE_S;
+                return VoxelShapes.box(0.1875D, 0.5D, 1D, 0.8125D, 0.75D, 0.6875D);
             }
             case WEST: {
-                return SHAPE_W;
+                return VoxelShapes.box(0D, 0.5D, 0.1875D, 0.3125D, 0.75D, 0.8125D);
             }
             default: {
-                return SHAPE_N;
+                return VoxelShapes.box(0.1875D, 0.5D, 0D, 0.8125D, 0.75D, 0.3125D);
             }
         }
+    }
+
+    @Override
+    public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
+        if (worldIn.getBlockState(pos.below()).isFaceSturdy(worldIn, pos.below(), Direction.UP)) {
+            return true;
+        } else return worldIn.getBlockState(pos.relative(state.getValue(FACING))).isFaceSturdy(worldIn, pos.relative(state.getValue(FACING)), state.getValue(FACING).getOpposite());
     }
 
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
+        BlockState state = this.defaultBlockState().setValue(FACING, context.getClickedFace().getAxis().getPlane() == Direction.Plane.HORIZONTAL ? context.getClickedFace().getOpposite() : context.getHorizontalDirection());
+        if (context.getLevel().getBlockState(context.getClickedPos().below()).isFaceSturdy(context.getLevel(), context.getClickedPos().below(), Direction.UP) && context.getClickedFace() == Direction.UP) {
+            return state.setValue(BlockStateProperties.HANGING, false);
+        } else {
+            return state.setValue(BlockStateProperties.HANGING, true);
+        }
     }
+
 
     @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING, BlockStateProperties.HANGING);
     }
 }
