@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "swem:recipes/pasture_blanket_light_blue_armored_from_blanket"
+      "swem:pasture_blanket_light_blue_armored_from_blanket"
     ]
   },
   "criteria": {
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "swem:recipes/pasture_blanket_light_blue_armored_from_blanket"
+        "recipe": "swem:pasture_blanket_light_blue_armored_from_blanket"
       }
     }
   },

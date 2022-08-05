@@ -1,24 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "horse_armor",
-  "pattern":
-  [
-    "x x",
-    "xyx",
-    "x x"
+  "pattern": [
+    "x  x",
+    "x  x",
+    "x  x"
   ],
-  "key":
-  {
+  "key": {
     "x": {
       "tag": "minecraft:carpets"
-    },
-    "y": {
-      "item": "swem:adventure_saddle_glow"
     }
   },
-  "result":
-  {
-    "item": "swem:cloth_horse_armor",
-    "count": 1
+  "result": {
+    "item": "swem:cloth_horse_armor"
   }
 }

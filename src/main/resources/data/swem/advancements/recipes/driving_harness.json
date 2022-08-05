@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "swem:pasture_blanket_light_gray"
+      "swem:driving_harness"
     ]
   },
   "criteria": {
-    "has_pasture_blanket": {
+    "has_black_carpet": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "tag": "minecraft:carpets"
+            "item": "minecraft:black_carpet"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "swem:pasture_blanket_light_gray"
+        "recipe": "swem:driving_harness"
       }
     }
   },
   "requirements": [
     [
-      "has_pasture_blanket",
+      "has_black_carpet",
       "has_the_recipe"
     ]
   ]

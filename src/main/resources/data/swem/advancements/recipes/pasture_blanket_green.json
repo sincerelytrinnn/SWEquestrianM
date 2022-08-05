@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "swem:recipes/pasture_blanket_green"
+      "swem:pasture_blanket_green"
     ]
   },
   "criteria": {
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "swem:recipes/pasture_blanket_green"
+        "recipe": "swem:pasture_blanket_green"
       }
     }
   },
