@@ -23,81 +23,81 @@ import net.minecraft.util.text.StringTextComponent;
 
 public class StandardChangerButton extends CycableButton {
 
-  private JumpScreen screen;
-  private StandardLayer currentLayer;
+    private JumpScreen screen;
+    private StandardLayer currentLayer;
 
-  /**
-   * Instantiates a new Standard changer button.
-   *
-   * @param x the x
-   * @param y the y
-   * @param width the width
-   * @param height the height
-   * @param title the title
-   * @param screen the screen
-   */
-  public StandardChangerButton(
-      int x, int y, int width, int height, ITextComponent title, JumpScreen screen) {
-    super(x, y, width, height, title, new StandardChangerButton.Press());
-    this.screen = screen;
-  }
-
-  /**
-   * Gets screen.
-   *
-   * @return the screen
-   */
-  public JumpScreen getScreen() {
-    return screen;
-  }
-
-  /**
-   * Sets selected.
-   *
-   * @param layer the layer
-   */
-  public void setSelected(StandardLayer layer) {
-    this.currentLayer = layer;
-  }
-
-  /**
-   * Gets current layer.
-   *
-   * @return the current layer
-   */
-  public StandardLayer getCurrentLayer() {
-    return this.currentLayer;
-  }
-
-  @Override
-  public void onPress() {
-    super.onPress();
-  }
-
-  @Override
-  public ITextComponent getMessage() {
-
-    // return new StringTextComponent("STANDARD");
-    if (this.getCurrentLayer() == null) {
-      return new StringTextComponent("Option");
+    /**
+     * Instantiates a new Standard changer button.
+     *
+     * @param x      the x
+     * @param y      the y
+     * @param width  the width
+     * @param height the height
+     * @param title  the title
+     * @param screen the screen
+     */
+    public StandardChangerButton(
+            int x, int y, int width, int height, ITextComponent title, JumpScreen screen) {
+        super(x, y, width, height, title, new StandardChangerButton.Press());
+        this.screen = screen;
     }
-    return new StringTextComponent(this.getCurrentLayer().getDisplayName());
-  }
 
-  public static class Press implements StandardChangerButton.IPressable {
+    /**
+     * Gets screen.
+     *
+     * @return the screen
+     */
+    public JumpScreen getScreen() {
+        return screen;
+    }
 
-    @Override
-    public void onPress(CycableButton press) {
-      StandardChangerButton button = (StandardChangerButton) press;
-      SWEMPacketHandler.INSTANCE.sendToServer(
-          new CChangeStandardPacket(button.screen.controllerPos, false));
+    /**
+     * Sets selected.
+     *
+     * @param layer the layer
+     */
+    public void setSelected(StandardLayer layer) {
+        this.currentLayer = layer;
+    }
+
+    /**
+     * Gets current layer.
+     *
+     * @return the current layer
+     */
+    public StandardLayer getCurrentLayer() {
+        return this.currentLayer;
     }
 
     @Override
-    public void onRightPress(CycableButton press) {
-      StandardChangerButton button = (StandardChangerButton) press;
-      SWEMPacketHandler.INSTANCE.sendToServer(
-          new CChangeStandardPacket(button.screen.controllerPos, true));
+    public void onPress() {
+        super.onPress();
     }
-  }
+
+    @Override
+    public ITextComponent getMessage() {
+
+        // return new StringTextComponent("STANDARD");
+        if (this.getCurrentLayer() == null) {
+            return new StringTextComponent("Option");
+        }
+        return new StringTextComponent(this.getCurrentLayer().getDisplayName());
+    }
+
+    public static class Press implements StandardChangerButton.IPressable {
+
+        @Override
+        public void onPress(CycableButton press) {
+            StandardChangerButton button = (StandardChangerButton) press;
+            SWEMPacketHandler.INSTANCE.sendToServer(
+                    new CChangeStandardPacket(button.screen.controllerPos, false));
+        }
+
+        @Override
+        public void onRightPress(CycableButton press) {
+            StandardChangerButton button = (StandardChangerButton) press;
+            SWEMPacketHandler.INSTANCE.sendToServer(
+                    new CChangeStandardPacket(button.screen.controllerPos, true));
+        }
+    }
 }

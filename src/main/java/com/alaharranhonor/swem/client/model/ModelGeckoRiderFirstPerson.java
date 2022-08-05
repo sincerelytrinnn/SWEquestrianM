@@ -25,71 +25,71 @@ import net.minecraft.util.ResourceLocation;
 
 public class ModelGeckoRiderFirstPerson extends CustomAnimatedGeoModel<GeckoRider> {
 
-  private ResourceLocation animationFileLocation;
-  private ResourceLocation modelLocation;
-  private ResourceLocation textureLocation;
+    public BipedModel.ArmPose leftArmPose = BipedModel.ArmPose.EMPTY;
+    public BipedModel.ArmPose rightArmPose = BipedModel.ArmPose.EMPTY;
+    protected boolean useSmallArms;
+    private ResourceLocation animationFileLocation;
+    private ResourceLocation modelLocation;
+    private ResourceLocation textureLocation;
 
-  public BipedModel.ArmPose leftArmPose = BipedModel.ArmPose.EMPTY;
-  public BipedModel.ArmPose rightArmPose = BipedModel.ArmPose.EMPTY;
-
-  protected boolean useSmallArms;
-
-  @Override
-  public ResourceLocation getAnimationFileLocation(GeckoRider animatable) {
-    return animationFileLocation;
-  }
-
-  @Override
-  public ResourceLocation getModelLocation(GeckoRider animatable) {
-    return modelLocation;
-  }
-
-  @Override
-  public ResourceLocation getTextureLocation(GeckoRider animatable) {
-    return textureLocation;
-  }
-
-  public void setUseSmallArms(boolean useSmallArms) {
-    this.useSmallArms = useSmallArms;
-  }
-
-  public boolean isUsingSmallArms() {
-    return useSmallArms;
-  }
-
-  @Override
-  public void setLivingAnimations(GeckoRider entity, Integer uniqueID) {
-    super.setLivingAnimations(entity, uniqueID);
-    if (isInitialized()) {
-      CustomGeoBone rightArmLayerClassic = getCustomBone("RightArmLayerClassic");
-      CustomGeoBone leftArmLayerClassic = getCustomBone("LeftArmLayerClassic");
-      CustomGeoBone rightArmLayerSlim = getCustomBone("RightArmLayerSlim");
-      CustomGeoBone leftArmLayerSlim = getCustomBone("LeftArmLayerSlim");
-      CustomGeoBone rightArmClassic = getCustomBone("RightArmClassic");
-      CustomGeoBone leftArmClassic = getCustomBone("LeftArmClassic");
-      CustomGeoBone rightArmSlim = getCustomBone("RightArmSlim");
-      CustomGeoBone leftArmSlim = getCustomBone("LeftArmSlim");
-      getCustomBone("LeftHeldItem").setHidden(true);
-      getCustomBone("RightHeldItem").setHidden(true);
-      rightArmClassic.setHidden(true);
-      leftArmClassic.setHidden(true);
-      rightArmLayerClassic.setHidden(true);
-      leftArmLayerClassic.setHidden(true);
-      rightArmSlim.setHidden(true);
-      leftArmSlim.setHidden(true);
-      rightArmLayerSlim.setHidden(true);
-      leftArmLayerSlim.setHidden(true);
+    @Override
+    public ResourceLocation getAnimationFileLocation(GeckoRider animatable) {
+        return animationFileLocation;
     }
-  }
 
-  /** Check if the modelId has some ResourceLocation * */
-  @Override
-  public boolean resourceForModelId(AbstractClientPlayerEntity player) {
-    this.animationFileLocation =
-        new ResourceLocation(SWEM.MOD_ID, "animations/animated_player_first_person.animation.json");
-    this.modelLocation =
-        new ResourceLocation(SWEM.MOD_ID, "geo/animated_player_first_person.geo.json");
-    this.textureLocation = player.getSkinTextureLocation();
-    return true;
-  }
+    @Override
+    public ResourceLocation getModelLocation(GeckoRider animatable) {
+        return modelLocation;
+    }
+
+    @Override
+    public ResourceLocation getTextureLocation(GeckoRider animatable) {
+        return textureLocation;
+    }
+
+    public void setUseSmallArms(boolean useSmallArms) {
+        this.useSmallArms = useSmallArms;
+    }
+
+    public boolean isUsingSmallArms() {
+        return useSmallArms;
+    }
+
+    @Override
+    public void setLivingAnimations(GeckoRider entity, Integer uniqueID) {
+        super.setLivingAnimations(entity, uniqueID);
+        if (isInitialized()) {
+            CustomGeoBone rightArmLayerClassic = getCustomBone("RightArmLayerClassic");
+            CustomGeoBone leftArmLayerClassic = getCustomBone("LeftArmLayerClassic");
+            CustomGeoBone rightArmLayerSlim = getCustomBone("RightArmLayerSlim");
+            CustomGeoBone leftArmLayerSlim = getCustomBone("LeftArmLayerSlim");
+            CustomGeoBone rightArmClassic = getCustomBone("RightArmClassic");
+            CustomGeoBone leftArmClassic = getCustomBone("LeftArmClassic");
+            CustomGeoBone rightArmSlim = getCustomBone("RightArmSlim");
+            CustomGeoBone leftArmSlim = getCustomBone("LeftArmSlim");
+            getCustomBone("LeftHeldItem").setHidden(true);
+            getCustomBone("RightHeldItem").setHidden(true);
+            rightArmClassic.setHidden(true);
+            leftArmClassic.setHidden(true);
+            rightArmLayerClassic.setHidden(true);
+            leftArmLayerClassic.setHidden(true);
+            rightArmSlim.setHidden(true);
+            leftArmSlim.setHidden(true);
+            rightArmLayerSlim.setHidden(true);
+            leftArmLayerSlim.setHidden(true);
+        }
+    }
+
+    /**
+     * Check if the modelId has some ResourceLocation *
+     */
+    @Override
+    public boolean resourceForModelId(AbstractClientPlayerEntity player) {
+        this.animationFileLocation =
+                new ResourceLocation(SWEM.MOD_ID, "animations/animated_player_first_person.animation.json");
+        this.modelLocation =
+                new ResourceLocation(SWEM.MOD_ID, "geo/animated_player_first_person.geo.json");
+        this.textureLocation = player.getSkinTextureLocation();
+        return true;
+    }
 }

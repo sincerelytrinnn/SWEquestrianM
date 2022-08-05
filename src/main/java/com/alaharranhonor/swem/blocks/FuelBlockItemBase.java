@@ -21,21 +21,21 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class FuelBlockItemBase extends BlockItem {
-  private int ticks;
+    private final int ticks;
 
-  /**
-   * Instantiates a new Fuel block item base.
-   *
-   * @param block the block
-   * @param ticks the ticks
-   */
-  public FuelBlockItemBase(Block block, int ticks) {
-    super(block, new Item.Properties().tab(SWEM.TAB));
-    this.ticks = ticks;
-  }
+    /**
+     * Instantiates a new Fuel block item base.
+     *
+     * @param block the block
+     * @param ticks the ticks
+     */
+    public FuelBlockItemBase(Block block, int ticks) {
+        super(block, new Item.Properties().tab(SWEM.TAB));
+        this.ticks = ticks;
+    }
 
-  @Override
-  public int getBurnTime(ItemStack itemStack) {
-    return ticks;
-  }
+    @Override
+    public int getBurnTime(ItemStack itemStack) {
+        return ticks;
+    }
 }

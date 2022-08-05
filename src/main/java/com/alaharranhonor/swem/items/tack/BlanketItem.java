@@ -29,61 +29,61 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BlanketItem extends HorseTackItem {
 
-  private final ResourceLocation texture;
+    private final ResourceLocation texture;
 
-  /**
-   * Instantiates a new Blanket item.
-   *
-   * @param textureName the texture name
-   * @param properties the properties
-   */
-  public BlanketItem(String textureName, Properties properties) {
-    this(
-        new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/blanket/" + textureName + ".png"),
-        properties);
-  }
-
-  /**
-   * Instantiates a new Blanket item.
-   *
-   * @param texture the texture
-   * @param properties the properties
-   */
-  public BlanketItem(ResourceLocation texture, Properties properties) {
-    super(properties);
-    this.texture = texture;
-  }
-
-  public ActionResultType interactLivingEntity(
-      ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-    if (target instanceof ISWEMEquipable && target.isAlive()) {
-      ISWEMEquipable iequipable = (ISWEMEquipable) target;
-      if (playerIn.level.isClientSide && !iequipable.hasHalter()) {
-        playerIn.displayClientMessage(
-            new StringTextComponent("You need to equip a Halter/Bridle first."), true);
-        return ActionResultType.FAIL;
-      }
-      if ((!iequipable.hasBlanket() || playerIn.isSecondaryUseActive())
-          && iequipable.isSaddleable(playerIn)
-          && iequipable.hasHalter()) {
-        if (!playerIn.level.isClientSide) {
-          iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
-          if (!playerIn.abilities.instabuild) stack.shrink(1);
-        }
-
-        return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
-      }
+    /**
+     * Instantiates a new Blanket item.
+     *
+     * @param textureName the texture name
+     * @param properties  the properties
+     */
+    public BlanketItem(String textureName, Properties properties) {
+        this(
+                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/blanket/" + textureName + ".png"),
+                properties);
     }
-    return ActionResultType.PASS;
-  }
 
-  /**
-   * Gets armor texture.
-   *
-   * @return the armor texture
-   */
-  @OnlyIn(Dist.CLIENT)
-  public ResourceLocation getArmorTexture() {
-    return texture;
-  }
+    /**
+     * Instantiates a new Blanket item.
+     *
+     * @param texture    the texture
+     * @param properties the properties
+     */
+    public BlanketItem(ResourceLocation texture, Properties properties) {
+        super(properties);
+        this.texture = texture;
+    }
+
+    public ActionResultType interactLivingEntity(
+            ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+        if (target instanceof ISWEMEquipable && target.isAlive()) {
+            ISWEMEquipable iequipable = (ISWEMEquipable) target;
+            if (playerIn.level.isClientSide && !iequipable.hasHalter()) {
+                playerIn.displayClientMessage(
+                        new StringTextComponent("You need to equip a Halter/Bridle first."), true);
+                return ActionResultType.FAIL;
+            }
+            if ((!iequipable.hasBlanket() || playerIn.isSecondaryUseActive())
+                    && iequipable.isSaddleable(playerIn)
+                    && iequipable.hasHalter()) {
+                if (!playerIn.level.isClientSide) {
+                    iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
+                    if (!playerIn.abilities.instabuild) stack.shrink(1);
+                }
+
+                return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
+            }
+        }
+        return ActionResultType.PASS;
+    }
+
+    /**
+     * Gets armor texture.
+     *
+     * @return the armor texture
+     */
+    @OnlyIn(Dist.CLIENT)
+    public ResourceLocation getArmorTexture() {
+        return texture;
+    }
 }

@@ -17,8 +17,6 @@ package com.alaharranhonor.swem.items;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMParticles;
-import java.util.Objects;
-import java.util.UUID;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -30,73 +28,78 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
+import java.util.Objects;
+import java.util.UUID;
+
 public class WhistleItem extends Item {
 
-  /** Instantiates a new Whistle item. */
-  public WhistleItem() {
-    super(new Properties().tab(SWEM.TAB).stacksTo(1));
-  }
-
-  @Override
-  public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
-    if (worldIn.isClientSide) {
-      return ActionResult.pass(playerIn.getItemInHand(handIn));
+    /**
+     * Instantiates a new Whistle item.
+     */
+    public WhistleItem() {
+        super(new Properties().tab(SWEM.TAB).stacksTo(1));
     }
 
-    ItemStack stack = playerIn.getItemInHand(handIn);
-    CompoundNBT tag = stack.getOrCreateTag();
+    @Override
+    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        if (worldIn.isClientSide) {
+            return ActionResult.pass(playerIn.getItemInHand(handIn));
+        }
 
-    if (!tag.contains("boundHorse")) {
-      return ActionResult.fail(stack);
+        ItemStack stack = playerIn.getItemInHand(handIn);
+        CompoundNBT tag = stack.getOrCreateTag();
+
+        if (!tag.contains("boundHorse")) {
+            return ActionResult.fail(stack);
+        }
+
+        UUID horseUUID = tag.getUUID("boundHorse");
+        SWEMHorseEntityBase horse =
+                ((SWEMHorseEntityBase) ((ServerWorld) worldIn).getEntity(horseUUID));
+
+        if (horse == null) {
+            return ActionResult.fail(stack);
+        }
+
+        if (!horse.blockPosition().closerThan(playerIn.blockPosition(), 100.0f)) {
+            return ActionResult.fail(stack);
+        }
+
+        horse.setWhistlePos(playerIn.blockPosition());
+        worldIn.addParticle(
+                SWEMParticles.YAY.get(), horse.getX(), horse.getY(), horse.getZ(), 20.0, 0.0, 0.0);
+        return ActionResult.consume(stack);
+
+        //
     }
 
-    UUID horseUUID = tag.getUUID("boundHorse");
-    SWEMHorseEntityBase horse =
-        ((SWEMHorseEntityBase) ((ServerWorld) worldIn).getEntity(horseUUID));
+    /**
+     * Returns true if the item can be used on the given entity, e.g. shears on sheep.
+     *
+     * @param stack
+     * @param playerIn
+     * @param target
+     * @param hand
+     */
+    @Override
+    public ActionResultType interactLivingEntity(
+            ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+        CompoundNBT tag = stack.getOrCreateTag();
 
-    if (horse == null) {
-      return ActionResult.fail(stack);
+        if (!(target instanceof SWEMHorseEntityBase)) {
+            return ActionResultType.PASS;
+        }
+
+        SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
+        UUID horseOwnerId = horse.getOwnerUUID();
+        UUID playerId = playerIn.getUUID();
+
+        if (!Objects.equals(playerId, horseOwnerId)) {
+            return ActionResultType.FAIL;
+        }
+
+        tag.putUUID("boundHorse", horse.getUUID());
+
+        return ActionResultType.sidedSuccess(playerIn.getCommandSenderWorld().isClientSide);
     }
-
-    if (!horse.blockPosition().closerThan(playerIn.blockPosition(), 100.0f)) {
-      return ActionResult.fail(stack);
-    }
-
-    horse.setWhistlePos(playerIn.blockPosition());
-    worldIn.addParticle(
-        SWEMParticles.YAY.get(), horse.getX(), horse.getY(), horse.getZ(), 20.0, 0.0, 0.0);
-    return ActionResult.consume(stack);
-
-    //
-  }
-
-  /**
-   * Returns true if the item can be used on the given entity, e.g. shears on sheep.
-   *
-   * @param stack
-   * @param playerIn
-   * @param target
-   * @param hand
-   */
-  @Override
-  public ActionResultType interactLivingEntity(
-      ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-    CompoundNBT tag = stack.getOrCreateTag();
-
-    if (!(target instanceof SWEMHorseEntityBase)) {
-      return ActionResultType.PASS;
-    }
-
-    SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
-    UUID horseOwnerId = horse.getOwnerUUID();
-    UUID playerId = playerIn.getUUID();
-
-    if (!Objects.equals(playerId, horseOwnerId)) {
-      return ActionResultType.FAIL;
-    }
-
-    tag.putUUID("boundHorse", horse.getUUID());
-
-    return ActionResultType.sidedSuccess(playerIn.getCommandSenderWorld().isClientSide);
-  }
 }

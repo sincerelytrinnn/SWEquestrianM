@@ -23,22 +23,22 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 public class WormieBoiRender extends GeoEntityRenderer<WormieBoiEntity> {
 
-  /**
-   * Instantiates a new Wormie boi render.
-   *
-   * @param renderManagerIn the render manager in
-   */
-  public WormieBoiRender(EntityRendererManager renderManagerIn) {
-    super(renderManagerIn, new WormieBoiModel());
-  }
+    /**
+     * Instantiates a new Wormie boi render.
+     *
+     * @param renderManagerIn the render manager in
+     */
+    public WormieBoiRender(EntityRendererManager renderManagerIn) {
+        super(renderManagerIn, new WormieBoiModel());
+    }
 
-  @Override
-  public ResourceLocation getTextureLocation(WormieBoiEntity entity) {
-    return new ResourceLocation(SWEM.MOD_ID, "textures/entity/wormieboi.png");
-  }
+    @Override
+    public ResourceLocation getTextureLocation(WormieBoiEntity entity) {
+        return new ResourceLocation(SWEM.MOD_ID, "textures/entity/wormieboi.png");
+    }
 
-  @Override
-  public EntityRendererManager getDispatcher() {
-    return super.getDispatcher();
-  }
+    @Override
+    public EntityRendererManager getDispatcher() {
+        return super.getDispatcher();
+    }
 }

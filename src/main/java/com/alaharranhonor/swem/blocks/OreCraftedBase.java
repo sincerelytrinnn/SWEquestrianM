@@ -21,13 +21,15 @@ import net.minecraft.block.material.Material;
 import net.minecraftforge.common.ToolType;
 
 public class OreCraftedBase extends Block {
-  /** Instantiates a new Ore crafted base. */
-  public OreCraftedBase() {
-    super(
-        AbstractBlock.Properties.of(Material.METAL)
-            .strength(2.0f, 6.0f)
-            .sound(SoundType.STONE)
-            .harvestLevel(2)
-            .harvestTool(ToolType.PICKAXE));
-  }
+    /**
+     * Instantiates a new Ore crafted base.
+     */
+    public OreCraftedBase() {
+        super(
+                AbstractBlock.Properties.of(Material.METAL)
+                        .strength(2.0f, 6.0f)
+                        .sound(SoundType.STONE)
+                        .harvestLevel(2)
+                        .harvestTool(ToolType.PICKAXE));
+    }
 }

@@ -27,102 +27,102 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 public class MedicalItem extends Item {
-  private float heal;
-  private float xp;
+    private float heal;
+    private float xp;
 
-  /**
-   * Instantiates a new Medical item.
-   *
-   * @param properties the properties
-   * @param heal the heal
-   * @param xp the xp
-   */
-  public MedicalItem(Properties properties, float heal, float xp) {
-    super(properties);
-    this.heal = heal;
-    this.xp = xp;
-  }
-
-  @Override
-  public ActionResultType interactLivingEntity(
-      ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-    if (!playerIn.level.isClientSide) {
-      if (target instanceof SWEMHorseEntityBase) {
-        SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
-
-        if (horse.getHealth() == horse.getMaxHealth()) {
-          return ActionResultType.FAIL;
-        }
-
-        horse.heal(heal, xp);
-        stack.shrink(1);
-        return ActionResultType.CONSUME;
-      } else {
-        if (target.getType().getCategory() != EntityClassification.CREATURE
-            && !(target instanceof PlayerEntity)) {
-          return ActionResultType.FAIL;
-        }
-        if (target.getHealth() == target.getMaxHealth()) {
-          return ActionResultType.FAIL;
-        }
-
-        target.heal(heal);
-        stack.shrink(1);
-        return ActionResultType.CONSUME;
-      }
+    /**
+     * Instantiates a new Medical item.
+     *
+     * @param properties the properties
+     * @param heal       the heal
+     * @param xp         the xp
+     */
+    public MedicalItem(Properties properties, float heal, float xp) {
+        super(properties);
+        this.heal = heal;
+        this.xp = xp;
     }
-    return ActionResultType.PASS;
-  }
 
-  /**
-   * How long it takes to use or consume an item
-   *
-   * @param pStack
-   */
-  @Override
-  public int getUseDuration(ItemStack pStack) {
-    return 20;
-  }
+    @Override
+    public ActionResultType interactLivingEntity(
+            ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+        if (!playerIn.level.isClientSide) {
+            if (target instanceof SWEMHorseEntityBase) {
+                SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
 
-  /**
-   * returns the action that specifies what animation to play when the items is being used
-   *
-   * @param pStack
-   */
-  @Override
-  public UseAction getUseAnimation(ItemStack pStack) {
-    return UseAction.BOW;
-  }
+                if (horse.getHealth() == horse.getMaxHealth()) {
+                    return ActionResultType.FAIL;
+                }
 
-  /**
-   * Called when the player finishes using this Item (E.g. finishes eating.). Not called when the
-   * player stops using the Item before the action is complete.
-   *
-   * @param pStack
-   * @param pLevel
-   * @param pEntityLiving
-   */
-  @Override
-  public ItemStack finishUsingItem(ItemStack pStack, World pLevel, LivingEntity pEntityLiving) {
-    pEntityLiving.heal(heal);
-    pStack.shrink(1);
-    return pStack;
-  }
+                horse.heal(heal, xp);
+                stack.shrink(1);
+                return ActionResultType.CONSUME;
+            } else {
+                if (target.getType().getCategory() != EntityClassification.CREATURE
+                        && !(target instanceof PlayerEntity)) {
+                    return ActionResultType.FAIL;
+                }
+                if (target.getHealth() == target.getMaxHealth()) {
+                    return ActionResultType.FAIL;
+                }
 
-  /**
-   * Called to trigger the item's "innate" right click behavior. To handle when this item is used on
-   * a Block, see
-   *
-   * @param pLevel
-   * @param pPlayer
-   * @param pHand
-   */
-  @Override
-  public ActionResult<ItemStack> use(World pLevel, PlayerEntity pPlayer, Hand pHand) {
-    if (pPlayer.getHealth() == pPlayer.getMaxHealth()) {
-      return ActionResult.fail(pPlayer.getItemInHand(pHand));
+                target.heal(heal);
+                stack.shrink(1);
+                return ActionResultType.CONSUME;
+            }
+        }
+        return ActionResultType.PASS;
     }
-    pPlayer.startUsingItem(pHand);
-    return ActionResult.consume(pPlayer.getItemInHand(pHand));
-  }
+
+    /**
+     * How long it takes to use or consume an item
+     *
+     * @param pStack
+     */
+    @Override
+    public int getUseDuration(ItemStack pStack) {
+        return 20;
+    }
+
+    /**
+     * returns the action that specifies what animation to play when the items is being used
+     *
+     * @param pStack
+     */
+    @Override
+    public UseAction getUseAnimation(ItemStack pStack) {
+        return UseAction.BOW;
+    }
+
+    /**
+     * Called when the player finishes using this Item (E.g. finishes eating.). Not called when the
+     * player stops using the Item before the action is complete.
+     *
+     * @param pStack
+     * @param pLevel
+     * @param pEntityLiving
+     */
+    @Override
+    public ItemStack finishUsingItem(ItemStack pStack, World pLevel, LivingEntity pEntityLiving) {
+        pEntityLiving.heal(heal);
+        pStack.shrink(1);
+        return pStack;
+    }
+
+    /**
+     * Called to trigger the item's "innate" right click behavior. To handle when this item is used on
+     * a Block, see
+     *
+     * @param pLevel
+     * @param pPlayer
+     * @param pHand
+     */
+    @Override
+    public ActionResult<ItemStack> use(World pLevel, PlayerEntity pPlayer, Hand pHand) {
+        if (pPlayer.getHealth() == pPlayer.getMaxHealth()) {
+            return ActionResult.fail(pPlayer.getItemInHand(pHand));
+        }
+        pPlayer.startUsingItem(pHand);
+        return ActionResult.consume(pPlayer.getItemInHand(pHand));
+    }
 }

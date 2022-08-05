@@ -2,16 +2,23 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "swem:quality_bale_slab"
+      "swem:quality_bale",
+      "swem:quality_bale_slab",
+      "swem:timothy_bale",
+      "swem:timothy_bale_slab",
+      "swem:alfalfa_bale",
+      "swem:alfalfa_bale_slab",
+      "swem:oat_bale",
+      "swem:oat_bale_slab"
     ]
   },
   "criteria": {
-    "has_quality_bale": {
+    "has_oat_bushel": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:quality_bale"
+            "item": "swem:oat_bushel"
           }
         ]
       }
@@ -19,13 +26,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "swem:quality_bale_slab"
+        "recipe": "swem:quality_bale"
       }
     }
   },
   "requirements": [
     [
-      "has_quality_bale",
+      "has_oat_bushel",
       "has_the_recipe"
     ]
   ]

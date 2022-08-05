@@ -20,12 +20,14 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 
 public class RubberMatBase extends Block {
-  /** Instantiates a new Rubber mat base. */
-  public RubberMatBase() {
-    super(
-        AbstractBlock.Properties.of(Material.METAL)
-            .strength(1.0f, 3.0f)
-            .sound(SoundType.STONE)
-            .harvestLevel(0));
-  }
+    /**
+     * Instantiates a new Rubber mat base.
+     */
+    public RubberMatBase() {
+        super(
+                AbstractBlock.Properties.of(Material.METAL)
+                        .strength(1.0f, 3.0f)
+                        .sound(SoundType.STONE)
+                        .harvestLevel(0));
+    }
 }

@@ -17,97 +17,98 @@ package com.alaharranhonor.swem.client.model;
 
 import com.alaharranhonor.swem.client.model.tools.ModelRendererMatrix;
 import com.google.common.collect.Lists;
-import java.util.List;
-import java.util.Random;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 
+import java.util.List;
+import java.util.Random;
+
 public class ModelPlayerAnimated<T extends LivingEntity> extends PlayerModel<T> {
-  private List<ModelRenderer> modelRenderers = Lists.newArrayList();
+    private List<ModelRenderer> modelRenderers = Lists.newArrayList();
 
-  public ModelPlayerAnimated(float modelSize, boolean smallArmsIn) {
-    super(modelSize, smallArmsIn);
-    this.body = new ModelRendererMatrix(body);
-    this.head = new ModelRendererMatrix(head);
-    this.rightArm = new ModelRendererMatrix(rightArm);
-    this.leftArm = new ModelRendererMatrix(leftArm);
-    this.rightLeg = new ModelRendererMatrix(rightLeg);
-    this.leftLeg = new ModelRendererMatrix(leftLeg);
+    public ModelPlayerAnimated(float modelSize, boolean smallArmsIn) {
+        super(modelSize, smallArmsIn);
+        this.body = new ModelRendererMatrix(body);
+        this.head = new ModelRendererMatrix(head);
+        this.rightArm = new ModelRendererMatrix(rightArm);
+        this.leftArm = new ModelRendererMatrix(leftArm);
+        this.rightLeg = new ModelRendererMatrix(rightLeg);
+        this.leftLeg = new ModelRendererMatrix(leftLeg);
 
-    this.hat = new ModelRendererMatrix(hat);
-    this.jacket = new ModelRendererMatrix(jacket);
-    this.leftSleeve = new ModelRendererMatrix(leftSleeve);
-    this.rightSleeve = new ModelRendererMatrix(rightSleeve);
-    this.leftPants = new ModelRendererMatrix(leftPants);
-    this.rightPants = new ModelRendererMatrix(rightPants);
+        this.hat = new ModelRendererMatrix(hat);
+        this.jacket = new ModelRendererMatrix(jacket);
+        this.leftSleeve = new ModelRendererMatrix(leftSleeve);
+        this.rightSleeve = new ModelRendererMatrix(rightSleeve);
+        this.leftPants = new ModelRendererMatrix(leftPants);
+        this.rightPants = new ModelRendererMatrix(rightPants);
 
-    modelRenderers.add(this.cloak);
-    if (smallArmsIn) {
-      modelRenderers.add(leftArm);
-      modelRenderers.add(rightArm);
-      modelRenderers.add(leftSleeve);
-      modelRenderers.add(rightSleeve);
-    } else {
-      modelRenderers.add(leftArm);
-      modelRenderers.add(leftSleeve);
-      modelRenderers.add(rightSleeve);
+        modelRenderers.add(this.cloak);
+        if (smallArmsIn) {
+            modelRenderers.add(leftArm);
+            modelRenderers.add(rightArm);
+            modelRenderers.add(leftSleeve);
+            modelRenderers.add(rightSleeve);
+        } else {
+            modelRenderers.add(leftArm);
+            modelRenderers.add(leftSleeve);
+            modelRenderers.add(rightSleeve);
+        }
+        modelRenderers.add(leftLeg);
+        modelRenderers.add(leftPants);
+        modelRenderers.add(rightPants);
+        modelRenderers.add(jacket);
     }
-    modelRenderers.add(leftLeg);
-    modelRenderers.add(leftPants);
-    modelRenderers.add(rightPants);
-    modelRenderers.add(jacket);
-  }
 
-  @Override
-  public void setupAnim(
-      T entityIn,
-      float limbSwing,
-      float limbSwingAmount,
-      float ageInTicks,
-      float netHeadYaw,
-      float headPitch) {
-    this.leftPants.copyFrom(this.leftLeg);
-    this.rightPants.copyFrom(this.rightLeg);
-    this.leftSleeve.copyFrom(this.leftArm);
-    this.rightSleeve.copyFrom(this.rightArm);
-    this.jacket.copyFrom(this.body);
-    this.hat.copyFrom(this.head);
-  }
-
-  @Override
-  public ModelRenderer getRandomModelPart(Random pRandom) {
-    return this.modelRenderers.get(pRandom.nextInt(this.modelRenderers.size()));
-  }
-
-  @Override
-  public void copyPropertiesTo(EntityModel<T> pModel) {
-    super.copyPropertiesTo(pModel);
-    if (pModel instanceof CustomElytraModel) {
-      CustomElytraModel<?> elytraModel = (CustomElytraModel<?>) pModel;
-      elytraModel.bipedBody.copyFrom(this.body);
+    public static void setUseMatrixMode(
+            BipedModel<? extends LivingEntity> bipedModel, boolean useMatrixMode) {
+        ModelBipedAnimated.setUseMatrixMode(bipedModel, useMatrixMode);
     }
-  }
 
-  @Override
-  public void copyPropertiesTo(BipedModel<T> pModel) {
-    if (!(pModel.body instanceof ModelRendererMatrix)) {
-      pModel.head = new ModelRendererMatrix(pModel.head);
-      pModel.hat = new ModelRendererMatrix(pModel.hat);
-      pModel.body = new ModelRendererMatrix(pModel.body);
-      pModel.leftArm = new ModelRendererMatrix(pModel.leftArm);
-      pModel.rightArm = new ModelRendererMatrix(pModel.rightArm);
-      pModel.leftLeg = new ModelRendererMatrix(pModel.leftLeg);
-      pModel.rightLeg = new ModelRendererMatrix(pModel.rightLeg);
+    @Override
+    public void setupAnim(
+            T entityIn,
+            float limbSwing,
+            float limbSwingAmount,
+            float ageInTicks,
+            float netHeadYaw,
+            float headPitch) {
+        this.leftPants.copyFrom(this.leftLeg);
+        this.rightPants.copyFrom(this.rightLeg);
+        this.leftSleeve.copyFrom(this.leftArm);
+        this.rightSleeve.copyFrom(this.rightArm);
+        this.jacket.copyFrom(this.body);
+        this.hat.copyFrom(this.head);
     }
-    setUseMatrixMode(pModel, true);
-    super.copyPropertiesTo(pModel);
-  }
 
-  public static void setUseMatrixMode(
-      BipedModel<? extends LivingEntity> bipedModel, boolean useMatrixMode) {
-    ModelBipedAnimated.setUseMatrixMode(bipedModel, useMatrixMode);
-  }
+    @Override
+    public ModelRenderer getRandomModelPart(Random pRandom) {
+        return this.modelRenderers.get(pRandom.nextInt(this.modelRenderers.size()));
+    }
+
+    @Override
+    public void copyPropertiesTo(EntityModel<T> pModel) {
+        super.copyPropertiesTo(pModel);
+        if (pModel instanceof CustomElytraModel) {
+            CustomElytraModel<?> elytraModel = (CustomElytraModel<?>) pModel;
+            elytraModel.bipedBody.copyFrom(this.body);
+        }
+    }
+
+    @Override
+    public void copyPropertiesTo(BipedModel<T> pModel) {
+        if (!(pModel.body instanceof ModelRendererMatrix)) {
+            pModel.head = new ModelRendererMatrix(pModel.head);
+            pModel.hat = new ModelRendererMatrix(pModel.hat);
+            pModel.body = new ModelRendererMatrix(pModel.body);
+            pModel.leftArm = new ModelRendererMatrix(pModel.leftArm);
+            pModel.rightArm = new ModelRendererMatrix(pModel.rightArm);
+            pModel.leftLeg = new ModelRendererMatrix(pModel.leftLeg);
+            pModel.rightLeg = new ModelRendererMatrix(pModel.rightLeg);
+        }
+        setUseMatrixMode(pModel, true);
+        super.copyPropertiesTo(pModel);
+    }
 }

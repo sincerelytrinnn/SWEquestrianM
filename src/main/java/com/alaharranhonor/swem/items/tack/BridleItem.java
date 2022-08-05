@@ -15,69 +15,70 @@ package com.alaharranhonor.swem.items.tack;
  */
 
 import com.alaharranhonor.swem.SWEM;
+import net.minecraft.util.ResourceLocation;
+
 import java.util.Arrays;
 import java.util.stream.Collectors;
-import net.minecraft.util.ResourceLocation;
 
 public class BridleItem extends HalterItem {
 
-  private ResourceLocation modelTexture;
+    private ResourceLocation modelTexture;
 
-  private ResourceLocation bridleRackTexture;
+    private ResourceLocation bridleRackTexture;
 
-  /**
-   * Instantiates a new Bridle item.
-   *
-   * @param textureName the texture name
-   * @param properties the properties
-   */
-  public BridleItem(String textureName, Properties properties) {
-    super(
-        new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/bridle/" + textureName + ".png"),
-        properties);
-    this.modelTexture =
-        new ResourceLocation(
-            SWEM.MOD_ID, "textures/entity/horse/bridle/" + textureName + "_model.png");
-    if (textureName.contains("bridle_")) {
-      this.bridleRackTexture =
-          new ResourceLocation(
-              SWEM.MOD_ID,
-              "textures/tile/bridle_rack/bridle_rack_"
-                  + Arrays.stream(textureName.split("bridle_")).collect(Collectors.joining(""))
-                  + ".png");
+    /**
+     * Instantiates a new Bridle item.
+     *
+     * @param textureName the texture name
+     * @param properties  the properties
+     */
+    public BridleItem(String textureName, Properties properties) {
+        super(
+                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/bridle/" + textureName + ".png"),
+                properties);
+        this.modelTexture =
+                new ResourceLocation(
+                        SWEM.MOD_ID, "textures/entity/horse/bridle/" + textureName + "_model.png");
+        if (textureName.contains("bridle_")) {
+            this.bridleRackTexture =
+                    new ResourceLocation(
+                            SWEM.MOD_ID,
+                            "textures/tile/bridle_rack/bridle_rack_"
+                                    + Arrays.stream(textureName.split("bridle_")).collect(Collectors.joining(""))
+                                    + ".png");
+        }
     }
-  }
 
-  /**
-   * Instantiates a new Bridle item.
-   *
-   * @param textureName the texture name
-   * @param bridleRackTextureName the bridle rack texture name
-   * @param properties the properties
-   */
-  public BridleItem(String textureName, String bridleRackTextureName, Properties properties) {
-    super(
-        new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/bridle/" + textureName + ".png"),
-        properties);
-    this.modelTexture =
-        new ResourceLocation(
-            SWEM.MOD_ID, "textures/entity/horse/bridle/" + textureName + "_model.png");
-    this.bridleRackTexture =
-        new ResourceLocation(
-            SWEM.MOD_ID, "textures/tile/bridle_rack/bridle_rack_" + bridleRackTextureName + ".png");
-  }
+    /**
+     * Instantiates a new Bridle item.
+     *
+     * @param textureName           the texture name
+     * @param bridleRackTextureName the bridle rack texture name
+     * @param properties            the properties
+     */
+    public BridleItem(String textureName, String bridleRackTextureName, Properties properties) {
+        super(
+                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/bridle/" + textureName + ".png"),
+                properties);
+        this.modelTexture =
+                new ResourceLocation(
+                        SWEM.MOD_ID, "textures/entity/horse/bridle/" + textureName + "_model.png");
+        this.bridleRackTexture =
+                new ResourceLocation(
+                        SWEM.MOD_ID, "textures/tile/bridle_rack/bridle_rack_" + bridleRackTextureName + ".png");
+    }
 
-  /**
-   * Gets model texture.
-   *
-   * @return the model texture
-   */
-  public ResourceLocation getModelTexture() {
-    return this.modelTexture;
-  }
+    /**
+     * Gets model texture.
+     *
+     * @return the model texture
+     */
+    public ResourceLocation getModelTexture() {
+        return this.modelTexture;
+    }
 
-  @Override
-  public ResourceLocation getBridleRackTexture() {
-    return this.bridleRackTexture;
-  }
+    @Override
+    public ResourceLocation getBridleRackTexture() {
+        return this.bridleRackTexture;
+    }
 }

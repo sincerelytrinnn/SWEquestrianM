@@ -29,49 +29,49 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public class PeeBlock extends Block {
-  /**
-   * Instantiates a new Pee block.
-   *
-   * @param properties the properties
-   */
-  public PeeBlock(Properties properties) {
-    super(properties);
-  }
-
-  @Override
-  public VoxelShape getShape(
-      BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-    return VoxelShapes.box(0, 0.05, 0, 0, 0.055, 0);
-  }
-
-  @Override
-  public BlockState updateShape(
-      BlockState stateIn,
-      Direction facing,
-      BlockState facingState,
-      IWorld worldIn,
-      BlockPos currentPos,
-      BlockPos facingPos) {
-    if (facing == Direction.DOWN) {
-      if (!facingState.canOcclude()) {
-        return Blocks.AIR.defaultBlockState();
-      }
+    /**
+     * Instantiates a new Pee block.
+     *
+     * @param properties the properties
+     */
+    public PeeBlock(Properties properties) {
+        super(properties);
     }
-    return stateIn;
-  }
 
-  @Override
-  public boolean canBeReplaced(BlockState pState, BlockItemUseContext pUseContext) {
-    return pUseContext.getItemInHand().getItem() instanceof ShavingsItem
-        || super.canBeReplaced(pState, pUseContext);
-  }
-
-  @Override
-  public void onRemove(
-      BlockState pState, World pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
-    super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
-    if (pNewState.getBlock() instanceof Shavings) {
-      pLevel.setBlock(pPos, SWEMBlocks.SOILED_SHAVINGS.get().defaultBlockState(), 3);
+    @Override
+    public VoxelShape getShape(
+            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return VoxelShapes.box(0, 0.05, 0, 0, 0.055, 0);
     }
-  }
+
+    @Override
+    public BlockState updateShape(
+            BlockState stateIn,
+            Direction facing,
+            BlockState facingState,
+            IWorld worldIn,
+            BlockPos currentPos,
+            BlockPos facingPos) {
+        if (facing == Direction.DOWN) {
+            if (!facingState.canOcclude()) {
+                return Blocks.AIR.defaultBlockState();
+            }
+        }
+        return stateIn;
+    }
+
+    @Override
+    public boolean canBeReplaced(BlockState pState, BlockItemUseContext pUseContext) {
+        return pUseContext.getItemInHand().getItem() instanceof ShavingsItem
+                || super.canBeReplaced(pState, pUseContext);
+    }
+
+    @Override
+    public void onRemove(
+            BlockState pState, World pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
+        super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
+        if (pNewState.getBlock() instanceof Shavings) {
+            pLevel.setBlock(pPos, SWEMBlocks.SOILED_SHAVINGS.get().defaultBlockState(), 3);
+        }
+    }
 }

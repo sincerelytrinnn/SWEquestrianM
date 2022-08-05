@@ -18,94 +18,95 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.container.JumpContainer;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
-import java.util.function.Supplier;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
 
+import java.util.function.Supplier;
+
 public class CChangeColorPacket {
-  private BlockPos controllerPos;
-  private int layerToChange;
-  private boolean rightClick;
-  private boolean failed;
+    private BlockPos controllerPos;
+    private int layerToChange;
+    private boolean rightClick;
+    private boolean failed;
 
-  /**
-   * Instantiates a new C change color packet.
-   *
-   * @param controllerPos the controller pos
-   * @param layerToChange the layer to change
-   * @param rightClick the right click
-   */
-  public CChangeColorPacket(BlockPos controllerPos, int layerToChange, boolean rightClick) {
-    this.controllerPos = controllerPos;
-    this.layerToChange = layerToChange;
-    this.rightClick = rightClick;
-    this.failed = false;
-  }
-
-  /**
-   * Instantiates a new C change color packet.
-   *
-   * @param failed the failed
-   */
-  public CChangeColorPacket(boolean failed) {
-    this.failed = failed;
-  }
-
-  /**
-   * Decode c change color packet.
-   *
-   * @param buf the buf
-   * @return the c change color packet
-   */
-  public static CChangeColorPacket decode(ByteBuf buf) {
-    try {
-      BlockPos controllerPos = ((PacketBuffer) buf).readBlockPos();
-      int layerToChange = ((PacketBuffer) buf).readVarInt();
-      boolean rightClick = buf.readBoolean();
-      return new CChangeColorPacket(controllerPos, layerToChange, rightClick);
-    } catch (IndexOutOfBoundsException e) {
-      SWEM.LOGGER.error(
-          "CChangeColorPacket: Unexpected end of packet.\nMessage: "
-              + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()),
-          e);
-      return new CChangeColorPacket(true);
+    /**
+     * Instantiates a new C change color packet.
+     *
+     * @param controllerPos the controller pos
+     * @param layerToChange the layer to change
+     * @param rightClick    the right click
+     */
+    public CChangeColorPacket(BlockPos controllerPos, int layerToChange, boolean rightClick) {
+        this.controllerPos = controllerPos;
+        this.layerToChange = layerToChange;
+        this.rightClick = rightClick;
+        this.failed = false;
     }
-  }
 
-  /**
-   * Encode.
-   *
-   * @param msg the msg
-   * @param buffer the buffer
-   */
-  public static void encode(CChangeColorPacket msg, PacketBuffer buffer) {
-    buffer.writeBlockPos(msg.controllerPos);
-    buffer.writeVarInt(msg.layerToChange);
-    buffer.writeBoolean(msg.rightClick);
-  }
+    /**
+     * Instantiates a new C change color packet.
+     *
+     * @param failed the failed
+     */
+    public CChangeColorPacket(boolean failed) {
+        this.failed = failed;
+    }
 
-  /**
-   * Handle.
-   *
-   * @param msg the msg
-   * @param ctx the ctx
-   */
-  public static void handle(CChangeColorPacket msg, Supplier<NetworkEvent.Context> ctx) {
-    ctx.get()
-        .enqueueWork(
-            () -> {
-              Container container = ctx.get().getSender().containerMenu;
-              if (container instanceof JumpContainer) {
-                JumpContainer jumpContainer = (JumpContainer) container;
-                if (msg.rightClick) {
-                  jumpContainer.controller.decrementColorVariant(msg.layerToChange);
-                } else {
-                  jumpContainer.controller.incrementColorVariant(msg.layerToChange);
-                }
-              }
-            });
-    ctx.get().setPacketHandled(true);
-  }
+    /**
+     * Decode c change color packet.
+     *
+     * @param buf the buf
+     * @return the c change color packet
+     */
+    public static CChangeColorPacket decode(ByteBuf buf) {
+        try {
+            BlockPos controllerPos = ((PacketBuffer) buf).readBlockPos();
+            int layerToChange = ((PacketBuffer) buf).readVarInt();
+            boolean rightClick = buf.readBoolean();
+            return new CChangeColorPacket(controllerPos, layerToChange, rightClick);
+        } catch (IndexOutOfBoundsException e) {
+            SWEM.LOGGER.error(
+                    "CChangeColorPacket: Unexpected end of packet.\nMessage: "
+                            + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()),
+                    e);
+            return new CChangeColorPacket(true);
+        }
+    }
+
+    /**
+     * Encode.
+     *
+     * @param msg    the msg
+     * @param buffer the buffer
+     */
+    public static void encode(CChangeColorPacket msg, PacketBuffer buffer) {
+        buffer.writeBlockPos(msg.controllerPos);
+        buffer.writeVarInt(msg.layerToChange);
+        buffer.writeBoolean(msg.rightClick);
+    }
+
+    /**
+     * Handle.
+     *
+     * @param msg the msg
+     * @param ctx the ctx
+     */
+    public static void handle(CChangeColorPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get()
+                .enqueueWork(
+                        () -> {
+                            Container container = ctx.get().getSender().containerMenu;
+                            if (container instanceof JumpContainer) {
+                                JumpContainer jumpContainer = (JumpContainer) container;
+                                if (msg.rightClick) {
+                                    jumpContainer.controller.decrementColorVariant(msg.layerToChange);
+                                } else {
+                                    jumpContainer.controller.incrementColorVariant(msg.layerToChange);
+                                }
+                            }
+                        });
+        ctx.get().setPacketHandled(true);
+    }
 }

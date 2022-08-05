@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " x ",
+    "xzx",
+    " x "
+  ],
+  "key": {
+    "x": {
+      "item": "swem:timothy_bushel"
+    },
+    "z": {
+      "tag": "forge:string"
+    }
+  },
+  "result": {
+    "item": "swem:timothy_bale",
+    "count": 1
+  }
+}

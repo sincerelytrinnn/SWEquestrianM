@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "swem:blocks/oat_bale_top",
+    "side": "swem:blocks/oat_bale_side"
+  }
+}

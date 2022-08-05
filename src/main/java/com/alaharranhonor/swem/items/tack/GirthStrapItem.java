@@ -29,62 +29,62 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class GirthStrapItem extends HorseTackItem {
 
-  private final ResourceLocation texture;
+    private final ResourceLocation texture;
 
-  /**
-   * Instantiates a new Girth strap item.
-   *
-   * @param textureName the texture name
-   * @param properties the properties
-   */
-  public GirthStrapItem(String textureName, Properties properties) {
-    this(
-        new ResourceLocation(
-            SWEM.MOD_ID, "textures/entity/horse/girth_strap/" + textureName + ".png"),
-        properties);
-  }
-
-  /**
-   * Instantiates a new Girth strap item.
-   *
-   * @param texture the texture
-   * @param properties the properties
-   */
-  public GirthStrapItem(ResourceLocation texture, Properties properties) {
-    super(properties);
-    this.texture = texture;
-  }
-
-  public ActionResultType interactLivingEntity(
-      ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-    if (target instanceof ISWEMEquipable && target.isAlive()) {
-      ISWEMEquipable iequipable = (ISWEMEquipable) target;
-      if (playerIn.level.isClientSide && !iequipable.canEquipGirthStrap()) {
-        playerIn.displayClientMessage(
-            new StringTextComponent("You need to equip a Saddle first."), true);
-        return ActionResultType.FAIL;
-      }
-      if ((!iequipable.hasGirthStrap() || playerIn.isSecondaryUseActive())
-          && iequipable.isSaddleable(playerIn)
-          && iequipable.canEquipGirthStrap()) {
-        if (!playerIn.level.isClientSide) {
-          iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
-          if (!playerIn.abilities.instabuild) stack.shrink(1);
-        }
-
-        return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
-      }
+    /**
+     * Instantiates a new Girth strap item.
+     *
+     * @param textureName the texture name
+     * @param properties  the properties
+     */
+    public GirthStrapItem(String textureName, Properties properties) {
+        this(
+                new ResourceLocation(
+                        SWEM.MOD_ID, "textures/entity/horse/girth_strap/" + textureName + ".png"),
+                properties);
     }
-    return ActionResultType.PASS;
-  }
 
-  /**
-   * Gets armor texture.
-   *
-   * @return the armor texture
-   */
-  @OnlyIn(Dist.CLIENT)
-  public ResourceLocation getArmorTexture() {
-    return texture;
-  }
+    /**
+     * Instantiates a new Girth strap item.
+     *
+     * @param texture    the texture
+     * @param properties the properties
+     */
+    public GirthStrapItem(ResourceLocation texture, Properties properties) {
+        super(properties);
+        this.texture = texture;
+    }
+
+    public ActionResultType interactLivingEntity(
+            ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+        if (target instanceof ISWEMEquipable && target.isAlive()) {
+            ISWEMEquipable iequipable = (ISWEMEquipable) target;
+            if (playerIn.level.isClientSide && !iequipable.canEquipGirthStrap()) {
+                playerIn.displayClientMessage(
+                        new StringTextComponent("You need to equip a Saddle first."), true);
+                return ActionResultType.FAIL;
+            }
+            if ((!iequipable.hasGirthStrap() || playerIn.isSecondaryUseActive())
+                    && iequipable.isSaddleable(playerIn)
+                    && iequipable.canEquipGirthStrap()) {
+                if (!playerIn.level.isClientSide) {
+                    iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
+                    if (!playerIn.abilities.instabuild) stack.shrink(1);
+                }
+
+                return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
+            }
+        }
+        return ActionResultType.PASS;
+    }
+
+    /**
+     * Gets armor texture.
+     *
+     * @return the armor texture
+     */
+    @OnlyIn(Dist.CLIENT)
+    public ResourceLocation getArmorTexture() {
+        return texture;
+    }
 }

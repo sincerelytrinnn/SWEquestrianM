@@ -15,27 +15,28 @@ package com.alaharranhonor.swem.capability;
 // Huge thanks to Mowzie's Mobs for making this custom player renderer
 // https://www.curseforge.com/minecraft/mc-mods/mowzies-mobs
 
-import javax.annotation.Nullable;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 
-public class CapabilityHandler {
-  public static void register() {
-    CapabilityManager.INSTANCE.register(
-        PlayerCapability.IPlayerCapability.class,
-        new PlayerCapability.PlayerStorage(),
-        PlayerCapability.PlayerCapabilityImp::new);
-  }
+import javax.annotation.Nullable;
 
-  @Nullable
-  public static <T> T getCapability(Entity entity, Capability<T> capability) {
-    if (entity == null) return null;
-    if (!entity.isAlive()) return null;
-    return entity.getCapability(capability).isPresent()
-        ? entity
-            .getCapability(capability)
-            .orElseThrow(() -> new IllegalArgumentException("Lazy optional must not be empty"))
-        : null;
-  }
+public class CapabilityHandler {
+    public static void register() {
+        CapabilityManager.INSTANCE.register(
+                PlayerCapability.IPlayerCapability.class,
+                new PlayerCapability.PlayerStorage(),
+                PlayerCapability.PlayerCapabilityImp::new);
+    }
+
+    @Nullable
+    public static <T> T getCapability(Entity entity, Capability<T> capability) {
+        if (entity == null) return null;
+        if (!entity.isAlive()) return null;
+        return entity.getCapability(capability).isPresent()
+                ? entity
+                .getCapability(capability)
+                .orElseThrow(() -> new IllegalArgumentException("Lazy optional must not be empty"))
+                : null;
+    }
 }

@@ -34,165 +34,163 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 public class PlayerCapability {
 
-  public interface IPlayerCapability {
-    INBT writeNBT();
+    public interface IPlayerCapability {
+        INBT writeNBT();
 
-    void readNBT(INBT nbt);
+        void readNBT(INBT nbt);
 
-    void tick(TickEvent.PlayerTickEvent event);
+        void tick(TickEvent.PlayerTickEvent event);
 
-    void addedToWorld(EntityJoinWorldEvent event);
+        void addedToWorld(EntityJoinWorldEvent event);
 
-    boolean isMouseRightDown();
+        boolean isMouseRightDown();
 
-    void setMouseRightDown(boolean mouseRightDown);
+        void setMouseRightDown(boolean mouseRightDown);
 
-    boolean isMouseLeftDown();
+        boolean isMouseLeftDown();
 
-    void setMouseLeftDown(boolean mouseLeftDown);
+        void setMouseLeftDown(boolean mouseLeftDown);
 
-    boolean isPrevSneaking();
+        boolean isPrevSneaking();
 
-    void setPrevSneaking(boolean prevSneaking);
+        void setPrevSneaking(boolean prevSneaking);
 
-    Vector3d getPrevMotion();
+        Vector3d getPrevMotion();
 
-    @OnlyIn(Dist.CLIENT)
-    GeckoRider.GeckoRiderThirdPerson getGeckoPlayer();
-  }
-
-  public static class PlayerCapabilityImp implements IPlayerCapability {
-    public boolean mouseRightDown = false;
-    public boolean mouseLeftDown = false;
-    public boolean prevSneaking;
-
-    @OnlyIn(Dist.CLIENT)
-    private GeckoRider.GeckoRiderThirdPerson geckoPlayer;
-
-    @Override
-    public boolean isMouseRightDown() {
-      return mouseRightDown;
+        @OnlyIn(Dist.CLIENT)
+        GeckoRider.GeckoRiderThirdPerson getGeckoPlayer();
     }
 
-    @Override
-    public void setMouseRightDown(boolean mouseRightDown) {
-      this.mouseRightDown = mouseRightDown;
+    public static class PlayerCapabilityImp implements IPlayerCapability {
+        public boolean mouseRightDown = false;
+        public boolean mouseLeftDown = false;
+        public boolean prevSneaking;
+        public Vector3d prevMotion;
+        @OnlyIn(Dist.CLIENT)
+        private GeckoRider.GeckoRiderThirdPerson geckoPlayer;
+
+        @Override
+        public boolean isMouseRightDown() {
+            return mouseRightDown;
+        }
+
+        @Override
+        public void setMouseRightDown(boolean mouseRightDown) {
+            this.mouseRightDown = mouseRightDown;
+        }
+
+        @Override
+        public boolean isMouseLeftDown() {
+            return mouseLeftDown;
+        }
+
+        @Override
+        public void setMouseLeftDown(boolean mouseLeftDown) {
+            this.mouseLeftDown = mouseLeftDown;
+        }
+
+        @Override
+        public boolean isPrevSneaking() {
+            return prevSneaking;
+        }
+
+        @Override
+        public void setPrevSneaking(boolean prevSneaking) {
+            this.prevSneaking = prevSneaking;
+        }
+
+        @Override
+        public Vector3d getPrevMotion() {
+            return prevMotion;
+        }
+
+        @Override
+        public GeckoRider.GeckoRiderThirdPerson getGeckoPlayer() {
+            return geckoPlayer;
+        }
+
+        @Override
+        public void addedToWorld(EntityJoinWorldEvent event) {
+            if (event.getWorld().isClientSide()) {
+                PlayerEntity player = (PlayerEntity) event.getEntity();
+                geckoPlayer = new GeckoRider.GeckoRiderThirdPerson(player);
+                if (event.getEntity() == Minecraft.getInstance().player)
+                    RiderFirstPersonRenderer.GECKO_PLAYER_FIRST_PERSON =
+                            new GeckoRider.GeckoRiderFirstPerson(player);
+            }
+        }
+
+        @Override
+        public void tick(TickEvent.PlayerTickEvent event) {
+            PlayerEntity player = event.player;
+
+            prevMotion = player.position().subtract(new Vector3d(player.xOld, player.yOld, player.zOld));
+            prevSneaking = player.isCrouching();
+        }
+
+        @Override
+        public INBT writeNBT() {
+            CompoundNBT compound = new CompoundNBT();
+
+            return compound;
+        }
+
+        @Override
+        public void readNBT(INBT nbt) {
+            CompoundNBT compound = (CompoundNBT) nbt;
+        }
     }
 
-    @Override
-    public boolean isMouseLeftDown() {
-      return mouseLeftDown;
+    public static class PlayerStorage implements Capability.IStorage<IPlayerCapability> {
+        @Override
+        public INBT writeNBT(
+                Capability<IPlayerCapability> capability, IPlayerCapability instance, Direction side) {
+            return instance.writeNBT();
+        }
+
+        @Override
+        public void readNBT(
+                Capability<IPlayerCapability> capability,
+                IPlayerCapability instance,
+                Direction side,
+                INBT nbt) {
+            instance.readNBT(nbt);
+        }
     }
 
-    @Override
-    public void setMouseLeftDown(boolean mouseLeftDown) {
-      this.mouseLeftDown = mouseLeftDown;
+    public static class PlayerProvider implements ICapabilitySerializable<INBT> {
+        @CapabilityInject(IPlayerCapability.class)
+        public static final Capability<IPlayerCapability> PLAYER_CAPABILITY = null;
+
+        private final LazyOptional<IPlayerCapability> instance =
+                LazyOptional.of(PLAYER_CAPABILITY::getDefaultInstance);
+
+        @Override
+        public INBT serializeNBT() {
+            return PLAYER_CAPABILITY
+                    .getStorage()
+                    .writeNBT(
+                            PLAYER_CAPABILITY,
+                            this.instance.orElseThrow(
+                                    () -> new IllegalArgumentException("Lazy optional must not be empty")),
+                            null);
+        }
+
+        @Override
+        public void deserializeNBT(INBT nbt) {
+            PLAYER_CAPABILITY
+                    .getStorage()
+                    .readNBT(
+                            PLAYER_CAPABILITY,
+                            this.instance.orElseThrow(
+                                    () -> new IllegalArgumentException("Lazy optional must not be empty")),
+                            null,
+                            nbt);
+        }
+
+        @Override
+        public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+            return cap == PLAYER_CAPABILITY ? instance.cast() : LazyOptional.empty();
+        }
     }
-
-    @Override
-    public boolean isPrevSneaking() {
-      return prevSneaking;
-    }
-
-    @Override
-    public void setPrevSneaking(boolean prevSneaking) {
-      this.prevSneaking = prevSneaking;
-    }
-
-    @Override
-    public Vector3d getPrevMotion() {
-      return prevMotion;
-    }
-
-    @Override
-    public GeckoRider.GeckoRiderThirdPerson getGeckoPlayer() {
-      return geckoPlayer;
-    }
-
-    public Vector3d prevMotion;
-
-    @Override
-    public void addedToWorld(EntityJoinWorldEvent event) {
-      if (event.getWorld().isClientSide()) {
-        PlayerEntity player = (PlayerEntity) event.getEntity();
-        geckoPlayer = new GeckoRider.GeckoRiderThirdPerson(player);
-        if (event.getEntity() == Minecraft.getInstance().player)
-          RiderFirstPersonRenderer.GECKO_PLAYER_FIRST_PERSON =
-              new GeckoRider.GeckoRiderFirstPerson(player);
-      }
-    }
-
-    @Override
-    public void tick(TickEvent.PlayerTickEvent event) {
-      PlayerEntity player = event.player;
-
-      prevMotion = player.position().subtract(new Vector3d(player.xOld, player.yOld, player.zOld));
-      prevSneaking = player.isCrouching();
-    }
-
-    @Override
-    public INBT writeNBT() {
-      CompoundNBT compound = new CompoundNBT();
-
-      return compound;
-    }
-
-    @Override
-    public void readNBT(INBT nbt) {
-      CompoundNBT compound = (CompoundNBT) nbt;
-    }
-  }
-
-  public static class PlayerStorage implements Capability.IStorage<IPlayerCapability> {
-    @Override
-    public INBT writeNBT(
-        Capability<IPlayerCapability> capability, IPlayerCapability instance, Direction side) {
-      return instance.writeNBT();
-    }
-
-    @Override
-    public void readNBT(
-        Capability<IPlayerCapability> capability,
-        IPlayerCapability instance,
-        Direction side,
-        INBT nbt) {
-      instance.readNBT(nbt);
-    }
-  }
-
-  public static class PlayerProvider implements ICapabilitySerializable<INBT> {
-    @CapabilityInject(IPlayerCapability.class)
-    public static final Capability<IPlayerCapability> PLAYER_CAPABILITY = null;
-
-    private final LazyOptional<IPlayerCapability> instance =
-        LazyOptional.of(PLAYER_CAPABILITY::getDefaultInstance);
-
-    @Override
-    public INBT serializeNBT() {
-      return PLAYER_CAPABILITY
-          .getStorage()
-          .writeNBT(
-              PLAYER_CAPABILITY,
-              this.instance.orElseThrow(
-                  () -> new IllegalArgumentException("Lazy optional must not be empty")),
-              null);
-    }
-
-    @Override
-    public void deserializeNBT(INBT nbt) {
-      PLAYER_CAPABILITY
-          .getStorage()
-          .readNBT(
-              PLAYER_CAPABILITY,
-              this.instance.orElseThrow(
-                  () -> new IllegalArgumentException("Lazy optional must not be empty")),
-              null,
-              nbt);
-    }
-
-    @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-      return cap == PLAYER_CAPABILITY ? instance.cast() : LazyOptional.empty();
-    }
-  }
 }

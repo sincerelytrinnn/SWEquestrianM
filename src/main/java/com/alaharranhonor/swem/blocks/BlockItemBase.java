@@ -26,30 +26,30 @@ import net.minecraft.util.Hand;
 
 public class BlockItemBase extends BlockItem {
 
-  public BlockItemBase(Block block, Item.Properties props) {
-    super(block, props);
-  }
+    public BlockItemBase(Block block, Item.Properties props) {
+        super(block, props);
+    }
 
-  /**
-   * Instantiates a new Block item base.
-   *
-   * @param block the block
-   */
-  public BlockItemBase(Block block) {
-    super(block, new Item.Properties().tab(SWEM.TAB));
-  }
+    /**
+     * Instantiates a new Block item base.
+     *
+     * @param block the block
+     */
+    public BlockItemBase(Block block) {
+        super(block, new Item.Properties().tab(SWEM.TAB));
+    }
 
-  /**
-   * Returns true if the item can be used on the given entity, e.g. shears on sheep.
-   *
-   * @param stack
-   * @param playerIn
-   * @param target
-   * @param hand
-   */
-  @Override
-  public ActionResultType interactLivingEntity(
-      ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-    return super.interactLivingEntity(stack, playerIn, target, hand);
-  }
+    /**
+     * Returns true if the item can be used on the given entity, e.g. shears on sheep.
+     *
+     * @param stack
+     * @param playerIn
+     * @param target
+     * @param hand
+     */
+    @Override
+    public ActionResultType interactLivingEntity(
+            ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+        return super.interactLivingEntity(stack, playerIn, target, hand);
+    }
 }

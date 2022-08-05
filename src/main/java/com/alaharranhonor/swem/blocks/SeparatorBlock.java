@@ -22,19 +22,19 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
 public class SeparatorBlock extends NonParallelBlock {
-  /**
-   * Instantiates a new Separator block.
-   *
-   * @param properties the properties
-   * @param colour the colour
-   */
-  public SeparatorBlock(Properties properties, DyeColor colour) {
-    super(properties, colour);
-  }
+    /**
+     * Instantiates a new Separator block.
+     *
+     * @param properties the properties
+     * @param colour     the colour
+     */
+    public SeparatorBlock(Properties properties, DyeColor colour) {
+        super(properties, colour);
+    }
 
-  @Override
-  public VoxelShape getCollisionShape(
-      BlockState pState, IBlockReader pLevel, BlockPos pPos, ISelectionContext pContext) {
-    return VoxelShapes.box(0.01, 0.01, 0.01, 0.99, 1.5, 0.99);
-  }
+    @Override
+    public VoxelShape getCollisionShape(
+            BlockState pState, IBlockReader pLevel, BlockPos pPos, ISelectionContext pContext) {
+        return VoxelShapes.box(0.01, 0.01, 0.01, 0.99, 1.5, 0.99);
+    }
 }

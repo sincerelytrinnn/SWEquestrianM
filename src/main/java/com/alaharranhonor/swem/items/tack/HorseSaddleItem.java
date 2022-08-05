@@ -30,71 +30,72 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class HorseSaddleItem extends HorseTackItem implements IAnimatable {
 
-  private ResourceLocation texture;
-  private ResourceLocation saddleRackTexture;
-  private final AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = new AnimationFactory(this);
+    private ResourceLocation texture;
+    private ResourceLocation saddleRackTexture;
 
-  /**
-   * Instantiates a new Horse saddle item.
-   *
-   * @param textureName the texture name
-   * @param properties the properties
-   */
-  public HorseSaddleItem(String textureName, Properties properties) {
-    super(properties);
-    this.texture =
-        new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/saddle/" + textureName + ".png");
-    this.saddleRackTexture =
-        new ResourceLocation(SWEM.MOD_ID, "textures/tile/saddle_rack/" + textureName + ".png");
-  }
-
-  public ActionResultType interactLivingEntity(
-      ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-    if (target instanceof ISWEMEquipable && target.isAlive()) {
-      ISWEMEquipable iequipable = (ISWEMEquipable) target;
-      if (playerIn.level.isClientSide && !iequipable.canEquipSaddle()) {
-        playerIn.displayClientMessage(
-            new StringTextComponent("You need to equip a Blanket first!"), true);
-        return ActionResultType.FAIL;
-      }
-      if ((!iequipable.isHorseSaddled() || playerIn.isSecondaryUseActive())
-          && iequipable.isSaddleable(playerIn)
-          && iequipable.canEquipSaddle()) {
-        if (!playerIn.level.isClientSide) {
-          iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
-          if (!playerIn.abilities.instabuild) stack.shrink(1);
-        }
-
-        return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
-      }
+    /**
+     * Instantiates a new Horse saddle item.
+     *
+     * @param textureName the texture name
+     * @param properties  the properties
+     */
+    public HorseSaddleItem(String textureName, Properties properties) {
+        super(properties);
+        this.texture =
+                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/saddle/" + textureName + ".png");
+        this.saddleRackTexture =
+                new ResourceLocation(SWEM.MOD_ID, "textures/tile/saddle_rack/" + textureName + ".png");
     }
 
-    return ActionResultType.PASS;
-  }
+    public ActionResultType interactLivingEntity(
+            ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+        if (target instanceof ISWEMEquipable && target.isAlive()) {
+            ISWEMEquipable iequipable = (ISWEMEquipable) target;
+            if (playerIn.level.isClientSide && !iequipable.canEquipSaddle()) {
+                playerIn.displayClientMessage(
+                        new StringTextComponent("You need to equip a Blanket first!"), true);
+                return ActionResultType.FAIL;
+            }
+            if ((!iequipable.isHorseSaddled() || playerIn.isSecondaryUseActive())
+                    && iequipable.isSaddleable(playerIn)
+                    && iequipable.canEquipSaddle()) {
+                if (!playerIn.level.isClientSide) {
+                    iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
+                    if (!playerIn.abilities.instabuild) stack.shrink(1);
+                }
 
-  /**
-   * Gets texture.
-   *
-   * @return the texture
-   */
-  public ResourceLocation getTexture() {
-    return this.texture;
-  }
+                return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
+            }
+        }
 
-  /**
-   * Gets saddle rack texture.
-   *
-   * @return the saddle rack texture
-   */
-  public ResourceLocation getSaddleRackTexture() {
-    return this.saddleRackTexture;
-  }
+        return ActionResultType.PASS;
+    }
 
-  @Override
-  public void registerControllers(AnimationData animationData) {}
+    /**
+     * Gets texture.
+     *
+     * @return the texture
+     */
+    public ResourceLocation getTexture() {
+        return this.texture;
+    }
 
-  @Override
-  public AnimationFactory getFactory() {
-    return this.factory;
-  }
+    /**
+     * Gets saddle rack texture.
+     *
+     * @return the saddle rack texture
+     */
+    public ResourceLocation getSaddleRackTexture() {
+        return this.saddleRackTexture;
+    }
+
+    @Override
+    public void registerControllers(AnimationData animationData) {
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return this.factory;
+    }
 }

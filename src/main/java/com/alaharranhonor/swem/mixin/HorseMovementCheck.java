@@ -30,16 +30,17 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
  */
 @Mixin(ServerPlayNetHandler.class)
 public class HorseMovementCheck {
-  @Shadow public ServerPlayerEntity player;
+    @Shadow
+    public ServerPlayerEntity player;
 
-  // 1.17+ first instance of 0.0625
-  // 1.16- second instance of 0.0625
-  @ModifyConstant(
-      method = "handleMoveVehicle",
-      constant = @Constant(doubleValue = 0.0625D, ordinal = 1))
-  private double horseNoMovementCheck(double value) {
-    if (this.player.getRootVehicle() instanceof SWEMHorseEntityBase)
-      return Double.POSITIVE_INFINITY;
-    return value;
-  }
+    // 1.17+ first instance of 0.0625
+    // 1.16- second instance of 0.0625
+    @ModifyConstant(
+            method = "handleMoveVehicle",
+            constant = @Constant(doubleValue = 0.0625D, ordinal = 1))
+    private double horseNoMovementCheck(double value) {
+        if (this.player.getRootVehicle() instanceof SWEMHorseEntityBase)
+            return Double.POSITIVE_INFINITY;
+        return value;
+    }
 }

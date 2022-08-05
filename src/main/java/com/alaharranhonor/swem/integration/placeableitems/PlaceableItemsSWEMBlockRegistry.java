@@ -26,21 +26,21 @@ import net.minecraftforge.registries.IForgeRegistry;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class PlaceableItemsSWEMBlockRegistry {
 
-  public static PlaceableItemsBlock LEATHER_HELMET;
+    public static PlaceableItemsBlock LEATHER_HELMET;
 
-  /**
-   * On blocks register.
-   *
-   * @param event the event
-   */
-  @SubscribeEvent
-  public static void onBlocksRegister(RegistryEvent.Register<Block> event) {
-    if (!ModList.get().isLoaded("placeableitems")) return;
-    IForgeRegistry<Block> registry = event.getRegistry();
-    LEATHER_HELMET =
-        new PlaceableItemsBlockBuilder()
-            .build()
-            .setShape(VoxelShapes.block())
-            .register("leather_helmet_pi", registry);
-  }
+    /**
+     * On blocks register.
+     *
+     * @param event the event
+     */
+    @SubscribeEvent
+    public static void onBlocksRegister(RegistryEvent.Register<Block> event) {
+        if (!ModList.get().isLoaded("placeableitems")) return;
+        IForgeRegistry<Block> registry = event.getRegistry();
+        LEATHER_HELMET =
+                new PlaceableItemsBlockBuilder()
+                        .build()
+                        .setShape(VoxelShapes.block())
+                        .register("leather_helmet_pi", registry);
+    }
 }

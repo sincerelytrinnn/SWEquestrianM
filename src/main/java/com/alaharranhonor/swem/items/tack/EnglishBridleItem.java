@@ -15,13 +15,13 @@ package com.alaharranhonor.swem.items.tack;
  */
 
 public class EnglishBridleItem extends BridleItem {
-  /**
-   * Instantiates a new English bridle item.
-   *
-   * @param textureName the texture name
-   * @param properties the properties
-   */
-  public EnglishBridleItem(String textureName, Properties properties) {
-    super(textureName, properties);
-  }
+    /**
+     * Instantiates a new English bridle item.
+     *
+     * @param textureName the texture name
+     * @param properties  the properties
+     */
+    public EnglishBridleItem(String textureName, Properties properties) {
+        super(textureName, properties);
+    }
 }

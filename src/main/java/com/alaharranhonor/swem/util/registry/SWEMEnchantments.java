@@ -26,24 +26,23 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class SWEMEnchantments {
 
-  public static final DeferredRegister<Enchantment> ENCHANTMENTS =
-      DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, SWEM.MOD_ID);
+    public static final DeferredRegister<Enchantment> ENCHANTMENTS =
+            DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, SWEM.MOD_ID);
+    public static final RegistryObject<Enchantment> GALAXY_COAT_ENCHANTMENT =
+            ENCHANTMENTS.register(
+                    "galaxy_coat",
+                    () ->
+                            new GalaxyCoatEnchantment(
+                                    Enchantment.Rarity.COMMON,
+                                    EnchantmentType.BREAKABLE,
+                                    EquipmentSlotType.MAINHAND));
 
-  /**
-   * Init.
-   *
-   * @param modBus the mod bus
-   */
-  public static void init(IEventBus modBus) {
-    ENCHANTMENTS.register(modBus);
-  }
-
-  public static final RegistryObject<Enchantment> GALAXY_COAT_ENCHANTMENT =
-      ENCHANTMENTS.register(
-          "galaxy_coat",
-          () ->
-              new GalaxyCoatEnchantment(
-                  Enchantment.Rarity.COMMON,
-                  EnchantmentType.BREAKABLE,
-                  EquipmentSlotType.MAINHAND));
+    /**
+     * Init.
+     *
+     * @param modBus the mod bus
+     */
+    public static void init(IEventBus modBus) {
+        ENCHANTMENTS.register(modBus);
+    }
 }

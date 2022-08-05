@@ -16,6 +16,8 @@ package com.alaharranhonor.swem.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.DyeColor;
+
+import java.util.Arrays;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -26,11 +28,8 @@ import java.util.Map;
 
 public class SWEMUtil {
 
-  public static final Map<Item, Block> mappings =
-      new HashMap<Item, Block>() {
-        {
-        }
-      };
+    public static DyeColor[] COLOURS = {DyeColor.WHITE, DyeColor.LIGHT_BLUE, DyeColor.CYAN, DyeColor.BLUE, DyeColor.PINK, DyeColor.MAGENTA, DyeColor.PURPLE, DyeColor.YELLOW, DyeColor.ORANGE, DyeColor.RED, DyeColor.LIME, DyeColor.GREEN, DyeColor.LIGHT_GRAY, DyeColor.GRAY, DyeColor.BLACK, DyeColor.BROWN,};
+    private static final DyeColor[] BY_INDEX = Arrays.stream(COLOURS).toArray(DyeColor[]::new);
 
   public static boolean isInDistanceOfBlock(World level, BlockPos pos, int distance, Block blockToCheck) {
     for (int x = -distance; x <= distance; x++) {
@@ -60,38 +59,62 @@ public class SWEMUtil {
     }
   }
 
-  public static DyeColor[] COLOURS = {
-    DyeColor.WHITE,
-    DyeColor.LIGHT_BLUE,
-    DyeColor.CYAN,
-    DyeColor.BLUE,
-    DyeColor.PINK,
-    DyeColor.MAGENTA,
-    DyeColor.PURPLE,
-    DyeColor.YELLOW,
-    DyeColor.ORANGE,
-    DyeColor.RED,
-    DyeColor.LIME,
-    DyeColor.GREEN,
-    DyeColor.LIGHT_GRAY,
-    DyeColor.GRAY,
-    DyeColor.BLACK,
-    DyeColor.BROWN,
-  };
+    /**
+     * Logical by id dye color.
+     *
+     * @param pColorId the p color id
+     * @return the dye color
+     */
+    public static DyeColor logicalByIndex(int pColorId) {
+        if (pColorId < 0 || pColorId >= BY_INDEX.length) {
+            pColorId = 0;
+        }
 
-  private static final DyeColor[] BY_INDEX = Arrays.stream(COLOURS).toArray(DyeColor[]::new);
-
-  /**
-   * Logical by id dye color.
-   *
-   * @param pColorId the p color id
-   * @return the dye color
-   */
-  public static DyeColor logicalByIndex(int pColorId) {
-    if (pColorId < 0 || pColorId >= BY_INDEX.length) {
-      pColorId = 0;
+        return BY_INDEX[pColorId];
     }
 
-    return BY_INDEX[pColorId];
-  }
+    /**
+     * Helper function for converting internal jump value to jump height in blocks.
+     *
+     * @param internal The internal jump value.
+     * @return The jump height in blocks.
+     * @see <a href="https://minecraft.fandom.com/wiki/Tutorials/Horses#Jump_Strength">Jump Strength Wiki</a>
+     */
+    public static double getJumpBlocksFromInternalJump(double internal) {
+        return Math.pow(internal, 1.7D) * 5.293D;
+    }
+
+    /**
+     * Helper function for converting Jump height in blocks to internal jump value.
+     *
+     * @param blocks The jump height in blocks.
+     * @return The internal jump value.
+     * @see <a href="https://minecraft.fandom.com/wiki/Tutorials/Horses#Jump_Strength">Jump Strength Wiki</a>
+     */
+    public static double getInternalJumpFromBlocks(double blocks) {
+        return Math.pow(blocks / 5.293D, 1 / 1.7D);
+    }
+
+    /**
+     * Helper function for converting internal speed value to blocks per second.
+     *
+     * @param internal The internals speed value.
+     * @return The blocks per second.
+     * @see <a href="https://minecraft.fandom.com/wiki/Tutorials/Horses#Speed">Horse Speed Wiki</a>
+     */
+    public static double getBlocksPerSecondFromInternalSpeed(double internal) {
+        return internal * 43.17;
+    }
+
+    /**
+     * Helper function for converting blocks per seconds to internal speed value.
+     *
+     * @param blocksPerSecond The blocks per seconds.
+     * @return The internal speed value.
+     * @see <a href="https://minecraft.fandom.com/wiki/Tutorials/Horses#Speed">Horse Speed Wiki</a>
+     */
+    public static double getInternalSpeedFromBlocksPerSecond(double blocksPerSecond) {
+        return blocksPerSecond / 43.17;
+    }
+
 }

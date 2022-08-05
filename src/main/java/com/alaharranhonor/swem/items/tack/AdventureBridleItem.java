@@ -15,15 +15,15 @@ package com.alaharranhonor.swem.items.tack;
  */
 
 public class AdventureBridleItem extends BridleItem {
-  /**
-   * Instantiates a new Adventure bridle item.
-   *
-   * @param textureName the texture name
-   * @param bridleRackTextureName the bridle rack texture name
-   * @param properties the properties
-   */
-  public AdventureBridleItem(
-      String textureName, String bridleRackTextureName, Properties properties) {
-    super(textureName, bridleRackTextureName, properties);
-  }
+    /**
+     * Instantiates a new Adventure bridle item.
+     *
+     * @param textureName           the texture name
+     * @param bridleRackTextureName the bridle rack texture name
+     * @param properties            the properties
+     */
+    public AdventureBridleItem(
+            String textureName, String bridleRackTextureName, Properties properties) {
+        super(textureName, bridleRackTextureName, properties);
+    }
 }

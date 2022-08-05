@@ -21,11 +21,11 @@ import net.minecraft.item.ItemStack;
 
 public class PitchforkTool extends ItemBase {
 
-  @Override
-  public float getDestroySpeed(ItemStack stack, BlockState state) {
-    if (state.getBlock() instanceof Shavings) {
-      return 5;
+    @Override
+    public float getDestroySpeed(ItemStack stack, BlockState state) {
+        if (state.getBlock() instanceof Shavings) {
+            return 5;
+        }
+        return super.getDestroySpeed(stack, state);
     }
-    return super.getDestroySpeed(stack, state);
-  }
 }

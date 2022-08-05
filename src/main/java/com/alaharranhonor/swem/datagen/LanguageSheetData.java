@@ -15,34 +15,34 @@ package com.alaharranhonor.swem.datagen;
  */
 
 public class LanguageSheetData {
-  private String range;
-  private String majorDimension;
-  private String[][] values;
+    private String range;
+    private String majorDimension;
+    private String[][] values;
 
-  /**
-   * Gets range.
-   *
-   * @return the range
-   */
-  public String getRange() {
-    return range;
-  }
+    /**
+     * Gets range.
+     *
+     * @return the range
+     */
+    public String getRange() {
+        return range;
+    }
 
-  /**
-   * Gets major dimension.
-   *
-   * @return the major dimension
-   */
-  public String getMajorDimension() {
-    return majorDimension;
-  }
+    /**
+     * Gets major dimension.
+     *
+     * @return the major dimension
+     */
+    public String getMajorDimension() {
+        return majorDimension;
+    }
 
-  /**
-   * Get values string [ ] [ ].
-   *
-   * @return the string [ ] [ ]
-   */
-  public String[][] getValues() {
-    return values;
-  }
+    /**
+     * Get values string [ ] [ ].
+     *
+     * @return the string [ ] [ ]
+     */
+    public String[][] getValues() {
+        return values;
+    }
 }

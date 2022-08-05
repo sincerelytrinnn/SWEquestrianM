@@ -20,8 +20,8 @@ import net.minecraft.tileentity.TileEntityType;
 
 public class SWEMSignTE extends SignTileEntity {
 
-  @Override
-  public TileEntityType<?> getType() {
-    return SWEMTileEntities.SWEM_SIGN.get();
-  }
+    @Override
+    public TileEntityType<?> getType() {
+        return SWEMTileEntities.SWEM_SIGN.get();
+    }
 }

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "swem:block/alfalfa_bale_slab"
+    },
+    "type=double": {
+      "model": "swem:block/alfalfa_bale"
+    },
+    "type=top": {
+      "model": "swem:block/alfalfa_bale_slab_top"
+    }
+  }
+}

@@ -31,79 +31,80 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class HalterItem extends HorseTackItem implements IAnimatable {
 
-  private final ResourceLocation texture;
+    private final ResourceLocation texture;
 
-  private ResourceLocation bridleRackTexture;
+    private ResourceLocation bridleRackTexture;
 
-  private AnimationFactory factory = new AnimationFactory(this);
+    private AnimationFactory factory = new AnimationFactory(this);
 
-  /**
-   * Instantiates a new Halter item.
-   *
-   * @param textureName the texture name
-   * @param properties the properties
-   */
-  public HalterItem(String textureName, Properties properties) {
-    this(
-        new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/halter/" + textureName + ".png"),
-        properties);
-    this.bridleRackTexture =
-        new ResourceLocation(
-            SWEM.MOD_ID, "textures/tile/bridle_rack/bridle_rack_" + textureName + ".png");
-  }
-
-  /**
-   * Instantiates a new Halter item.
-   *
-   * @param texture the texture
-   * @param properties the properties
-   */
-  public HalterItem(ResourceLocation texture, Properties properties) {
-    super(properties);
-    this.texture = texture;
-  }
-
-  public ActionResultType interactLivingEntity(
-      ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-    if (target instanceof ISWEMEquipable && target.isAlive()) {
-      ISWEMEquipable iequipable = (ISWEMEquipable) target;
-      if ((!iequipable.hasHalter() || playerIn.isSecondaryUseActive())
-          && iequipable.isSaddleable(playerIn)) {
-        if (!playerIn.level.isClientSide) {
-          iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
-          if (!playerIn.abilities.instabuild) stack.shrink(1);
-        }
-
-        return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
-      }
+    /**
+     * Instantiates a new Halter item.
+     *
+     * @param textureName the texture name
+     * @param properties  the properties
+     */
+    public HalterItem(String textureName, Properties properties) {
+        this(
+                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/halter/" + textureName + ".png"),
+                properties);
+        this.bridleRackTexture =
+                new ResourceLocation(
+                        SWEM.MOD_ID, "textures/tile/bridle_rack/bridle_rack_" + textureName + ".png");
     }
-    return ActionResultType.PASS;
-  }
 
-  /**
-   * Gets armor texture.
-   *
-   * @return the armor texture
-   */
-  @OnlyIn(Dist.CLIENT)
-  public ResourceLocation getArmorTexture() {
-    return texture;
-  }
+    /**
+     * Instantiates a new Halter item.
+     *
+     * @param texture    the texture
+     * @param properties the properties
+     */
+    public HalterItem(ResourceLocation texture, Properties properties) {
+        super(properties);
+        this.texture = texture;
+    }
 
-  /**
-   * Gets bridle rack texture.
-   *
-   * @return the bridle rack texture
-   */
-  public ResourceLocation getBridleRackTexture() {
-    return this.bridleRackTexture;
-  }
+    public ActionResultType interactLivingEntity(
+            ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+        if (target instanceof ISWEMEquipable && target.isAlive()) {
+            ISWEMEquipable iequipable = (ISWEMEquipable) target;
+            if ((!iequipable.hasHalter() || playerIn.isSecondaryUseActive())
+                    && iequipable.isSaddleable(playerIn)) {
+                if (!playerIn.level.isClientSide) {
+                    iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
+                    if (!playerIn.abilities.instabuild) stack.shrink(1);
+                }
 
-  @Override
-  public void registerControllers(AnimationData animationData) {}
+                return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
+            }
+        }
+        return ActionResultType.PASS;
+    }
 
-  @Override
-  public AnimationFactory getFactory() {
-    return this.factory;
-  }
+    /**
+     * Gets armor texture.
+     *
+     * @return the armor texture
+     */
+    @OnlyIn(Dist.CLIENT)
+    public ResourceLocation getArmorTexture() {
+        return texture;
+    }
+
+    /**
+     * Gets bridle rack texture.
+     *
+     * @return the bridle rack texture
+     */
+    public ResourceLocation getBridleRackTexture() {
+        return this.bridleRackTexture;
+    }
+
+    @Override
+    public void registerControllers(AnimationData animationData) {
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return this.factory;
+    }
 }
