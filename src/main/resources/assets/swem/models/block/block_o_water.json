@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "swem:blocks/block_o_water"
+  }
+}
