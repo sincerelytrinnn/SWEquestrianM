@@ -261,7 +261,7 @@ public class GeneralEventHandlers {
          */
         // Update horse speed when dismounted, to a walk gait.
         @SubscribeEvent
-        public static void entityMount(EntityMountEvent event) {
+        public static void entityDismount(EntityMountEvent event) {
             if (event.isMounting()) return;
             if (event.getEntityBeingMounted() == null) return;
 
@@ -270,14 +270,19 @@ public class GeneralEventHandlers {
             if (entity instanceof SWEMHorseEntityBase) {
 
                 SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-                if (horse.getPassengers().stream().allMatch((ent) -> ent instanceof PlayerEntity)) {
+                if (horse.getPassengers().size() > 1 && horse.getPassengers().stream().allMatch((ent) -> ent instanceof PlayerEntity)) {
                     return; // Early return if the horse has 2 passengers.
                 }
                 SWEMHorseEntityBase.HorseSpeed oldSpeed = horse.currentSpeed;
                 horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
                 horse.updateSelectedSpeed(oldSpeed);
 
-                if (horse.level.isClientSide) {
+                if (!horse.level.isClientSide()) {
+                    horse.getEntityData().set(SWEMHorseEntityBase.IS_MOVING_FORWARD, false);
+                    horse.getEntityData().set(SWEMHorseEntityBase.IS_MOVING_BACKWARDS, false);
+                    horse.getEntityData().set(SWEMHorseEntityBase.IS_MOVING_LEFT, false);
+                    horse.getEntityData().set(SWEMHorseEntityBase.IS_MOVING_RIGHT, false);
+                } else {
                     SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(horse.getId(), 4));
                 }
             }
