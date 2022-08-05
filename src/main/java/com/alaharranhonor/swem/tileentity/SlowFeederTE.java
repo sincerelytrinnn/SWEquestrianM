@@ -80,13 +80,21 @@ public class SlowFeederTE extends TileEntity implements HorseFeedable {
 			@Override
 			public boolean isItemValid(int slot, @NotNull ItemStack stack) {
 				// The TE Should only handle slabs.
-				return stack.getItem() == SWEMBlocks.QUALITY_BALE_SLAB_ITEM.get();
+				return stack.getItem() == SWEMBlocks.QUALITY_BALE_SLAB.get().asItem();
 			}
 
 			@NotNull
 			@Override
 			public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-				if (stack.getItem() != SWEMBlocks.QUALITY_BALE_ITEM.get() && stack.getItem() != SWEMBlocks.QUALITY_BALE_SLAB_ITEM.get()) {
+				if (
+						stack.getItem() != SWEMBlocks.QUALITY_BALE.get().asItem()
+						&& stack.getItem() != SWEMBlocks.QUALITY_BALE_SLAB.get().asItem()
+						&& stack.getItem() != SWEMBlocks.ALFALFA_BALE.get().asItem()
+						&& stack.getItem() != SWEMBlocks.ALFALFA_BALE_SLAB.get().asItem()
+						&& stack.getItem() != SWEMBlocks.TIMOTHY_BALE.get().asItem()
+						&& stack.getItem() != SWEMBlocks.OAT_BALE.get().asItem()
+						&& stack.getItem() != SWEMBlocks.OAT_BALE_SLAB.get().asItem()
+				) {
 					// Invalid block.
 					return stack;
 				}
@@ -95,13 +103,14 @@ public class SlowFeederTE extends TileEntity implements HorseFeedable {
 					return stack;
 				}
 
+				if ()
 
 				// There is room for one or two slabs.
-				if (stack.getItem() == SWEMBlocks.QUALITY_BALE_SLAB_ITEM.get()) {
+				if (stack.getItem() == SWEMBlocks.QUALITY_BALE_SLAB.get().asItem()) {
 					// Return normally, we can just return the remaining stack.
 					return super.insertItem(slot, stack, simulate);
-				} else if (stack.getItem() == SWEMBlocks.QUALITY_BALE_ITEM.get()) {
-					return super.insertItem(slot, new ItemStack(SWEMBlocks.QUALITY_BALE_SLAB_ITEM.get(), 2), simulate);
+				} else if (stack.getItem() == SWEMBlocks.QUALITY_BALE.get().asItem()) {
+					return super.insertItem(slot, new ItemStack(SWEMBlocks.QUALITY_BALE_SLAB.get().asItem(), 2), simulate);
 				}
 
 
