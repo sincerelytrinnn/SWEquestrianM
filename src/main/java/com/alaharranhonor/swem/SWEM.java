@@ -169,7 +169,7 @@ public class SWEM {
     public static void onRegisterItems(final RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
 
-        SWEMBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get).filter(block -> !(block instanceof TimothyGrass)).forEach(block -> {
+        SWEMBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get).filter(block -> !(block instanceof TimothyPlant)).forEach(block -> {
             final Item.Properties properties = new Item.Properties().tab(TAB);
             final BlockItem blockItem = new BlockItem(block, properties);
             blockItem.setRegistryName(block.getRegistryName());

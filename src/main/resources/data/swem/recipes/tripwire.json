@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "i i",
+    "O O",
+    "N N"
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "O": {
+      "item": "minecraft:planks"
+    },
+    "N": {
+      "item": "minecraft:logs"
+    }
+  },
+  "result": {
+    "item": "minecraft:tripwire_hook",
+    "count": 16
+  }
+}
