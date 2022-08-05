@@ -3309,6 +3309,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         } else if (source.getEntity() != null && source.getEntity().getUUID().equals(this.getOwnerUUID()) && !this.level.isClientSide) {
             this.progressionManager.getAffinityLeveling().removeXp(amount * 15);
         }
+        if (source == DamageSource.FALL && this.level.getFluidState(this.blockPosition()).is(FluidTags.WATER)) {
+            return false;
+        }
+
         if (source == DamageSource.FALL) {
             if (this.getHealth() <= 6.0F) {
                 amount = 0; // Don't damage the horse, when below 6 HP. Still play hurt animations, and deduct
