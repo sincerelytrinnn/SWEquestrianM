@@ -243,8 +243,12 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
         ItemStack stack = entity.getSWEMArmor();
         if (stack.getItem() instanceof PastureBlanketItem) {
             Arrays.stream(PASTURE_BLANKET_BONE_NAMES).forEach((boneName) -> showBone(boneName, entity));
+            hideBone("BreastLeft", entity);
+            hideBone("BreastRight", entity);
         } else {
             Arrays.stream(PASTURE_BLANKET_BONE_NAMES).forEach((boneName) -> hideBone(boneName, entity));
+            showBone("BreastLeft", entity);
+            showBone("BreastRight", entity);
         }
     }
 
@@ -321,6 +325,9 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
             if (shouldRenderArmor(entity)) {
                 Arrays.stream(ARMOR_BONE_NAMES).forEach((n) -> this.showBone(n, entity));
 
+                hideBone("BreastLeft", entity);
+                hideBone("BreastRight", entity);
+
                 if (armorItem.tier.getId() >= SWEMHorseArmorItem.HorseArmorTier.DIAMOND.getId()) {
                     hideBone("Mane", entity);
                     hideBone("Bang", entity);
@@ -344,6 +351,8 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
             Arrays.stream(WING_BONE_NAMES).forEach((n) -> this.hideBone(n, entity));
             showBone("Mane", entity);
             showBone("Bang", entity);
+            showBone("BreastLeft", entity);
+            showBone("BreastRight", entity);
         }
     }
 
