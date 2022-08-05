@@ -138,6 +138,12 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
             "BlanketFrontLeft",
             "BlanketConnectionMiddle"
     };
+    private static final String[] PASTURE_BLANKET_BONE_NAMES = {
+            "PBFrontLeft",
+            "PBMiddle",
+            "PBFrontRight",
+            "PBBack"
+    };
     private static final String[] GIRTH_STRAP_BONE_NAMES = {"GirthStrapMiddle", "GirthStrapBelly"};
     private static final String[] HALTER_BONE_NAMES = {
             "HalterCheeks", "HalterBridgeOfNose", "HalterSkull", "HalterMouth"
@@ -210,6 +216,7 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
             checkGirthStrapForRendering(entity);
             checkLegWrapsForRendering(entity);
             checkBreastCollarForRendering(entity);
+            checkPastureBlanketForRendering(entity);
         }
 
         if (entity.isBaby()) {
@@ -230,6 +237,10 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
                     .getModel(this.getGeoModelProvider().getModelLocation(entity))
                     .getBone("main")
                     .ifPresent((bone) -> bone.setHidden(true));
+    }
+
+    private void checkPastureBlanketForRendering(SWEMHorseEntity entity) {
+
     }
 
     private void checkBridlesForRendering(SWEMHorseEntity entity) {

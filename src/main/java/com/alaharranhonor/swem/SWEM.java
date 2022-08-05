@@ -14,7 +14,7 @@ package com.alaharranhonor.swem;
  * THE SOFTWARE.
  */
 
-import com.alaharranhonor.swem.blocks.TimothyGrass;
+import com.alaharranhonor.swem.blocks.TimothyPlant;
 import com.alaharranhonor.swem.capability.CapabilityHandler;
 import com.alaharranhonor.swem.client.model.tools.SWEMGeoBuilder;
 import com.alaharranhonor.swem.config.ConfigHolder;
