@@ -25,7 +25,9 @@ import com.alaharranhonor.swem.tools.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.MavenVersionStringHelper;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.RegistryObject;
@@ -222,7 +224,7 @@ public class SWEMItems {
      * @param modBus the mod bus
      */
     public static void init(IEventBus modBus) {
-        //DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> SWEMItems::checkAccess);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> SWEMItems::checkAccess);
         ITEMS.register(modBus);
     }
 

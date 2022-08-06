@@ -18,7 +18,9 @@ import com.alaharranhonor.swem.SWEM;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.MavenVersionStringHelper;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.DeferredRegister;
@@ -33,15 +35,15 @@ import java.net.URL;
 
 public class SWLRegistryHandler {
     public static final DeferredRegister<Item> ITEMS =
-            DeferredRegister.create(ForgeRegistries.ITEMS, SWEM.MOD_ID);
+        DeferredRegister.create(ForgeRegistries.ITEMS, SWEM.MOD_ID);
     public static final DeferredRegister<Block> BLOCKS =
-            DeferredRegister.create(ForgeRegistries.BLOCKS, SWEM.MOD_ID);
+        DeferredRegister.create(ForgeRegistries.BLOCKS, SWEM.MOD_ID);
 
     /**
      * Init.
      */
     public static void init(IEventBus eventBus) {
-        //DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> SWLRegistryHandler::checkAccess);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> SWLRegistryHandler::checkAccess);
         ITEMS.register(eventBus);
         BLOCKS.register(eventBus);
     }
@@ -55,12 +57,12 @@ public class SWLRegistryHandler {
 
         try {
             URL url =
-                    new URL(
-                            "http://auth.swequestrian.com:9542/check?uuid="
-                                    + playerUUID
-                                    + "&version="
-                                    + MavenVersionStringHelper.artifactVersionToString(
-                                    ModList.get().getModFileById("swem").getMods().get(0).getVersion()));
+                new URL(
+                    "http://auth.swequestrian.com:9542/check?uuid="
+                        + playerUUID
+                        + "&version="
+                        + MavenVersionStringHelper.artifactVersionToString(
+                        ModList.get().getModFileById("swem").getMods().get(0).getVersion()));
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 
@@ -87,9 +89,9 @@ public class SWLRegistryHandler {
         StringBuilder sb = new StringBuilder();
         sb.append("\no/\n");
         sb.append(
-                "Hello random person! Your minecraft crashed because you are not on our approved beta-tester list! :)\n");
+            "Hello random person! Your minecraft crashed because you are not on our approved beta-tester list! :)\n");
         sb.append(
-                "If this is a case of redistribution, we very much appreciate your enthusiasm about the mod, however your impatience has banned you from our official servers for a minimum of six months. :(\n");
+            "If this is a case of redistribution, we very much appreciate your enthusiasm about the mod, however your impatience has banned you from our official servers for a minimum of six months. :(\n");
         sb.append("We hope this has been a wonderful learning experience in the world of piracy.\n");
         sb.append("Have a nice day! :D");
 

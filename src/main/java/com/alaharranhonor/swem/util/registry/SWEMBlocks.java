@@ -27,8 +27,10 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.*;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.MavenVersionStringHelper;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.RegistryObject;
@@ -55,7 +57,7 @@ public class SWEMBlocks {
     public static final RegistryObject<Block> CHARCOAL_BLOCK = BLOCKS.register("charcoal_block", FuelBlock::new);
     public static final RegistryObject<Item> CHARCOAL_BLOCK_ITEM = SWEMItems.ITEMS.register("charcoal_block", () -> new FuelBlockItemBase(CHARCOAL_BLOCK.get(), 16000));
     public static final RegistryObject<Block> BLOCK_O_WATER =
-            register("block_o_water", BlockOWater::new);
+        register("block_o_water", BlockOWater::new);
     public static final RegistryObject<Block> FUEL_BLOCK = BLOCKS.register("fuel_block", FuelBlock::new);
     // Block Items
     public static final RegistryObject<Item> FUEL_BLOCK_ITEM = SWEMItems.ITEMS.register("fuel_block", () -> new FuelBlockItemBase(FUEL_BLOCK.get(), 1600));
@@ -300,7 +302,7 @@ public class SWEMBlocks {
      * @param modBus the mod bus
      */
     public static void init(IEventBus modBus) {
-        //DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> SWEMBlocks::checkAccess);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> SWEMBlocks::checkAccess);
         BLOCKS.register(modBus);
     }
 

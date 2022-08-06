@@ -1,3 +1,29 @@
+1.16.5-4.0.0-b:
+- Don't show reins when using bridle lead.
+- Many recipe changes.
+- Updated Xaero's compat icons
+- Mercy Blade is now enchantable.
+- Updated various inv. icons
+- Enable the remaining slots in saddlebag.
+- Required geckolib version is now 3.0.81 and above
+- Up the jump height for each level.
+- Added helpful tooltip for closed shavings bag.
+- Sync horse being moved against blocks for all players.
+- Replace waterlogged plants, when frost-walking.
+- Fix horse flashing red and bucking even if receiving 0 damage.
+- Iron HA halves damage taken from certain potions.
+- Don't show fire animation when Diamond HA is worn.
+- Fix water not showing in HB and WT if a block is placed above.
+- Added Spigot/Hose/Block'O'Water functionality.
+- Removed "Performance Gain" keybind.
+- Updated horse/player animations.
+- Repositioned player in saddle.
+- Added Pasture Blankets and Pasture Blankets Armored.
+- Negate fall damage if falling in one block deep water.
+- Updated Spigot model
+- Added Middle Mouse click for toggling ice effect on ground and on horse back.
+
+
 1.16.5-3.6.2-b:
 - Updated coats
 
