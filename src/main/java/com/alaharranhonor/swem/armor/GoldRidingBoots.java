@@ -72,7 +72,7 @@ public class GoldRidingBoots extends IronRidingBoots {
      */
     @Override
     public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
-        if (player.isOnGround()) {
+        if (player.isOnGround() && !player.getPersistentData().contains("blockIceEffect") && !world.isClientSide()) {
             BlockState blockstate = Blocks.FROSTED_ICE.defaultBlockState();
             float f = (float) Math.min(16, 3);
             BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();

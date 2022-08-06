@@ -175,6 +175,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     private float lockedYRot;
     private int poopAnimationTick;
     private int peeAnimationTick;
+    private boolean isIceEffectActive = true;
 
     /**
      * Instantiates a new Swem horse entity base.
@@ -1359,6 +1360,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         compound.put("allowedList", allowedList);
         compound.putString("permissionState", RidingPermission.valueOf(this.entityData.get(PERMISSION_STRING)).name());
         compound.putBoolean("tracked", this.entityData.get(TRACKED));
+
+        compound.putBoolean("toggleIce", this.isIceEffectActive);
     }
 
     /**
@@ -1472,6 +1475,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
         if (compound.contains("tracked")) {
             this.setTracked(compound.getBoolean("tracked"));
+        }
+
+        if (compound.contains("toggleIce")) {
+            this.isIceEffectActive = compound.getBoolean("toggleIce");
         }
     }
 
@@ -1912,7 +1919,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
      * Tick gold armor.
      */
     private void tickGoldArmor() {
-        if (this.isOnGround()) {
+        if (this.isOnGround() && this.isIceEffectActive && !this.level.isClientSide()) {
             BlockState blockstate = Blocks.FROSTED_ICE.defaultBlockState();
             float f = (float) Math.min(16, 3);
             BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
@@ -3230,7 +3237,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
     @Override
     public boolean canEquipArmor() {
-        return hasAdventureSaddle() && getHalter().getItem() instanceof AdventureBridleItem && getBreastCollar().getItem() instanceof AdventureBreastCollarItem && getGirthStrap().getItem() instanceof AdventureGirthStrapItem && getLegWraps().getItem() instanceof AdventureLegWraps && getBlanket().getItem() instanceof AdventureBlanketItem;
+        return hasAdventureSaddle() && getHalter().getItem() instanceof AdventureBridleItem && getBreastCollar().getItem() instanceof AdventureBreastCollarItem && getLegWraps().getItem() instanceof AdventureLegWraps && getBlanket().getItem() instanceof AdventureBlanketItem;
     }
 
     @Override
@@ -3331,7 +3338,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
         if (source == DamageSource.MAGIC || source == DamageSource.WITHER) {
             if (this.getSWEMArmor().getItem() instanceof SWEMHorseArmorItem
-                    && ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() >= SWEMHorseArmorItem.HorseArmorTier.IRON.getId()
+                && ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() >= SWEMHorseArmorItem.HorseArmorTier.IRON.getId()
             ) {
                 amount /= 2;
             }
@@ -3364,7 +3371,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     @Override
     public boolean displayFireAnimation() {
         return this.getSWEMArmor().getItem() instanceof SWEMHorseArmorItem
-                ? ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() < SWEMHorseArmorItem.HorseArmorTier.DIAMOND.getId() && super.displayFireAnimation() : super.displayFireAnimation();
+            ? ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() < SWEMHorseArmorItem.HorseArmorTier.DIAMOND.getId() && super.displayFireAnimation() : super.displayFireAnimation();
     }
 
 
@@ -3525,6 +3532,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
     protected boolean isBeingMovedByPlayer() {
         return this.getEntityData().get(IS_MOVING_FORWARD) || this.getEntityData().get(IS_MOVING_BACKWARDS) || this.getEntityData().get(IS_MOVING_LEFT) || this.getEntityData().get(IS_MOVING_RIGHT);
+    }
+
+    public void toggleIce() {
+        this.isIceEffectActive = !this.isIceEffectActive;
     }
 
     public enum HorseSpeed {

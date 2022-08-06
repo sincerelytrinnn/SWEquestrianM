@@ -64,6 +64,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
+import org.lwjgl.glfw.GLFW;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -158,6 +159,15 @@ public class GeneralEventHandlers {
 
             PermissionAPI.registerNode("command.swem.reset_gallop", DefaultPermissionLevel.OP, "Gives permission to reset the gallop cooldown");
             PermissionAPI.registerNode("command.swem.set_gallop_time", DefaultPermissionLevel.OP, "Gives permission to set the max gallop time");
+        }
+
+        @SubscribeEvent
+        public static void onMouseInput(InputEvent.MouseInputEvent event) {
+            if (event.getAction() == GLFW.GLFW_PRESS) {
+                if (event.getButton() == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
+                    SWEMPacketHandler.INSTANCE.sendToServer(new IceTogglePacket());
+                }
+            }
         }
 
         /**
