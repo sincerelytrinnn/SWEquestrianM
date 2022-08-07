@@ -3237,7 +3237,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
     @Override
     public boolean canEquipArmor() {
-        return hasAdventureSaddle() && getHalter().getItem() instanceof AdventureBridleItem && getBreastCollar().getItem() instanceof AdventureBreastCollarItem && getLegWraps().getItem() instanceof AdventureLegWraps && getBlanket().getItem() instanceof AdventureBlanketItem;
+        return hasAdventureSaddle() && getHalter().getItem() instanceof AdventureBridleItem && getBreastCollar().getItem() instanceof AdventureBreastCollarItem && getGirthStrap().getItem() instanceof AdventureGirthStrapItem && getLegWraps().getItem() instanceof AdventureLegWraps && getBlanket().getItem() instanceof AdventureBlanketItem;
     }
 
     @Override

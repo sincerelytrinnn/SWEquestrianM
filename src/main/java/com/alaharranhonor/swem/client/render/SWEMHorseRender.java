@@ -52,128 +52,34 @@ import software.bernie.geckolib3.renderers.geo.ExtendedGeoEntityRenderer;
 import java.util.Arrays;
 import java.util.List;
 
-public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
-    extends ExtendedGeoEntityRenderer<SWEMHorseEntity> {
+public class SWEMHorseRender<T extends LivingEntity & IAnimatable> extends ExtendedGeoEntityRenderer<SWEMHorseEntity> {
 
-    private static final String[] ADVENTURE_SADDLE_BONE_NAMES = {
-        "AdventureSaddle",
-        "AdventureSaddleMiddle",
-        "AdventureSaddleLeftSide",
-        "AdventureSaddleRightSide"
-    };
-    private static final String[] ENGLISH_SADDLE_BONE_NAMES = {
-        "EnglishSaddle", "EnglishSaddleMiddle", "EnglishSaddleLeftSide", "EnglishSaddleRightSide"
-    };
-    private static final String[] WESTERN_SADDLE_BONE_NAMES = {
-        "WesternSaddle", "WesternSaddleMiddle", "WesternSaddleLeftSide", "WesternSaddleRightSide"
-    };
+    private static final String[] ADVENTURE_SADDLE_BONE_NAMES = {"AdventureSaddle", "AdventureSaddleMiddle", "AdventureSaddleLeftSide", "AdventureSaddleRightSide"};
+    private static final String[] ENGLISH_SADDLE_BONE_NAMES = {"EnglishSaddle", "EnglishSaddleMiddle", "EnglishSaddleLeftSide", "EnglishSaddleRightSide"};
+    private static final String[] WESTERN_SADDLE_BONE_NAMES = {"WesternSaddle", "WesternSaddleMiddle", "WesternSaddleLeftSide", "WesternSaddleRightSide"};
 
-    private static final String[] WESTERN_BRIDLE_BONE_NAMES = {
-        "WesternBridle",
-        "WesternBridleLeftBit",
-        "WesternBridleRightBit",
-    };
+    private static final String[] WESTERN_BRIDLE_BONE_NAMES = {"WesternBridle", "WesternBridleLeftBit", "WesternBridleRightBit",};
 
     private static final String[] WESTERN_BRIDLE_REIN_BONE_NAMES = {
 
-        "WesternBridleLeftRein",
-        "WesternBridleLeftRein1",
-        "WesternBridleLeftRein2",
-        "WesternBridleRightRein",
-        "WesternBridleRightRein1",
-        "WesternBridleRightRein2"
-    };
+        "WesternBridleLeftRein", "WesternBridleLeftRein1", "WesternBridleLeftRein2", "WesternBridleRightRein", "WesternBridleRightRein1", "WesternBridleRightRein2"};
 
-    private static final String[] ENGLISH_BRIDLE_BONE_NAMES = {
-        "EnglishBridle",
-        "EnglishBridleLeftBit",
-        "EnglishBridleRightBit",
-    };
+    private static final String[] ENGLISH_BRIDLE_BONE_NAMES = {"EnglishBridle", "EnglishBridleLeftBit", "EnglishBridleRightBit",};
 
     private static final String[] ENGLISH_BRIDLE_REIN_BONE_NAMES = {
 
-        "EnglishBridleLeftRein",
-        "EnglishBridleLeftRein1",
-        "EnglishBridleLeftRein2",
-        "EnglishBridleRightRein",
-        "EnglishBridleRightRein1",
-        "EnglishBridleRightRein2"
-    };
+        "EnglishBridleLeftRein", "EnglishBridleLeftRein1", "EnglishBridleLeftRein2", "EnglishBridleRightRein", "EnglishBridleRightRein1", "EnglishBridleRightRein2"};
 
-    private static final String[] ARMOR_BONE_NAMES = {
-        "ArmorHead",
-        "ArmorHead1",
-        "ArmorNeck",
-        "ArmorNeck1",
-        "ArmorRightShoulder",
-        "ArmorLeftShoulder",
-        "ArmorCloth",
-        "ArmorClothLeft",
-        "ArmorClothRight",
-        "ArmorButt"
-    };
-    private static final String[] WING_BONE_NAMES = {
-        "WingsScapularLeftGROUP",
-        "WingsScapularLeft",
-        "WingsMarginalLeft",
-        "WingsMarginal2Left",
-        "WingsAlulaLeft",
-        "WingsFlightFeathersRight",
-        "WingsScapularRightGROUP",
-        "WingsScapularRight",
-        "WingsMarginalRight",
-        "WingsMarginal2Right",
-        "WingsAlulaRight",
-        "WingsFlightFeathersRight"
-    };
+    private static final String[] ARMOR_BONE_NAMES = {"ArmorHead", "ArmorHead1", "ArmorNeck", "ArmorNeck1", "ArmorRightShoulder", "ArmorLeftShoulder", "ArmorCloth", "ArmorClothLeft", "ArmorClothRight", "ArmorButt"};
+    private static final String[] WING_BONE_NAMES = {"WingsScapularLeftGROUP", "WingsScapularLeft", "WingsMarginalLeft", "WingsMarginal2Left", "WingsAlulaLeft", "WingsFlightFeathersRight", "WingsScapularRightGROUP", "WingsScapularRight", "WingsMarginalRight", "WingsMarginal2Right", "WingsAlulaRight", "WingsFlightFeathersRight"};
 
-    private static final String[] SADDLE_BAG_AND_BED_ROLL_BONE_NAMES = {
-        "SaddleBag", "SaddleBagLeft", "SaddleBagRight", "BedRoll"
-    };
-    private static final String[] BLANKET_BONE_NAMES = {
-        "BlanketMiddle",
-        "BlanketBaseBack",
-        "BlanketBaseFront",
-        "BlanketFrontRight",
-        "BlanketFrontLeft",
-        "BlanketConnectionMiddle"
-    };
-    private static final String[] PASTURE_BLANKET_BONE_NAMES = {
-        "PBFrontLeft",
-        "PBMiddle",
-        "PBFrontRight",
-        "PBBack"
-    };
+    private static final String[] SADDLE_BAG_AND_BED_ROLL_BONE_NAMES = {"SaddleBag", "SaddleBagLeft", "SaddleBagRight", "BedRoll"};
+    private static final String[] BLANKET_BONE_NAMES = {"BlanketMiddle", "BlanketBaseBack", "BlanketBaseFront", "BlanketFrontRight", "BlanketFrontLeft", "BlanketConnectionMiddle"};
+    private static final String[] PASTURE_BLANKET_BONE_NAMES = {"PBFrontLeft", "PBMiddle", "PBFrontRight", "PBBack"};
     private static final String[] GIRTH_STRAP_BONE_NAMES = {"GirthStrapMiddle", "GirthStrapBelly"};
-    private static final String[] HALTER_BONE_NAMES = {
-        "HalterCheeks", "HalterBridgeOfNose", "HalterSkull", "HalterMouth"
-    };
-    private static final String[] LEG_WRAPS_BONE_NAMES = {
-        "LegWrapsSkull",
-        "LegWrapsBridgeOfNose",
-        "LegWrapsEarLeft",
-        "LegWrapsEarRight",
-        "LegWrapsMiddle",
-        "LegWrapsBackRight",
-        "LegWrapsBackRightHoof",
-        "LegWrapsBackLeft",
-        "LegWrapsBackLeftHoof",
-        "LegWrapsFrontRight",
-        "LegWrapsBackFrontHoof",
-        "LegWrapsFrontLeft",
-        "LegWrapsBackFrontLeft"
-    };
-    private static final String[] BREAST_COLLAR_BONE_NAMES = {
-        "BreastCollarBaseBack",
-        "BreastCollarMiddle",
-        "BreastCollarConnectionMiddle",
-        "BreastCollarBelly",
-        "BreastCollarFrontRight",
-        "BreastCollarFrontLeft",
-        "BreastCollarBreastRight",
-        "BreastCollarBreastLeft",
-        "BreastCollarBase"
-    };
+    private static final String[] HALTER_BONE_NAMES = {"HalterCheeks", "HalterBridgeOfNose", "HalterSkull", "HalterMouth"};
+    private static final String[] LEG_WRAPS_BONE_NAMES = {"LegWrapsSkull", "LegWrapsBridgeOfNose", "LegWrapsEarLeft", "LegWrapsEarRight", "LegWrapsMiddle", "LegWrapsBackRight", "LegWrapsBackRightHoof", "LegWrapsBackLeft", "LegWrapsBackLeftHoof", "LegWrapsFrontRight", "LegWrapsBackFrontHoof", "LegWrapsFrontLeft", "LegWrapsBackFrontLeft"};
+    private static final String[] BREAST_COLLAR_BONE_NAMES = {"BreastCollarBaseBack", "BreastCollarMiddle", "BreastCollarConnectionMiddle", "BreastCollarBelly", "BreastCollarFrontRight", "BreastCollarFrontLeft", "BreastCollarBreastRight", "BreastCollarBreastLeft", "BreastCollarBase"};
 
     /**
      * Instantiates a new Swem horse render.
@@ -190,13 +96,7 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
     }
 
     @Override
-    public void render(
-        SWEMHorseEntity entity,
-        float entityYaw,
-        float partialTicks,
-        MatrixStack stack,
-        IRenderTypeBuffer bufferIn,
-        int packedLightIn) {
+    public void render(SWEMHorseEntity entity, float entityYaw, float partialTicks, MatrixStack stack, IRenderTypeBuffer bufferIn, int packedLightIn) {
 
         List<Entity> leashHolders = entity.getLeashHolders();
 
@@ -221,22 +121,14 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
 
         if (entity.isBaby()) {
             stack.pushPose();
-            float scale =
-                1.0f
-                    + (((ConfigHolder.SERVER.foalAgeInSeconds.get() * 20.0f - entity.getAge())
-                    / (ConfigHolder.SERVER.foalAgeInSeconds.get() * 20.0f))
-                    * 0.25f);
+            float scale = 1.0f + (((ConfigHolder.SERVER.foalAgeInSeconds.get() * 20.0f - entity.getAge()) / (ConfigHolder.SERVER.foalAgeInSeconds.get() * 20.0f)) * 0.25f);
             stack.scale(scale, scale, scale);
         }
         super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
         if (entity.isBaby()) {
             stack.popPose();
         }
-        if (!entity.isBaby())
-            this.getGeoModelProvider()
-                .getModel(this.getGeoModelProvider().getModelLocation(entity))
-                .getBone("main")
-                .ifPresent((bone) -> bone.setHidden(true));
+        if (!entity.isBaby()) this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("main").ifPresent((bone) -> bone.setHidden(true));
     }
 
     private void checkPastureBlanketForRendering(SWEMHorseEntity entity) {
@@ -256,11 +148,7 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
         ItemStack bridleStack = entity.getHalter();
         boolean bridleRenderFlag = entity.getEntityData().get(SWEMHorseEntityBase.RENDER_BRIDLE);
         boolean shouldRenderTackFlag = !GeneralEventHandlers.no_render_tack;
-        if ((bridleStack.getItem() instanceof AdventureBridleItem
-            || bridleStack.getItem() instanceof WesternBridleItem)
-            && bridleRenderFlag
-            && shouldRenderTackFlag
-        ) {
+        if ((bridleStack.getItem() instanceof AdventureBridleItem || bridleStack.getItem() instanceof WesternBridleItem) && bridleRenderFlag && shouldRenderTackFlag) {
             Arrays.stream(WESTERN_BRIDLE_BONE_NAMES).forEach((n) -> this.showBone(n, entity));
             if (!entity.isBridleLeashed()) {
                 Arrays.stream(WESTERN_BRIDLE_REIN_BONE_NAMES).forEach((n) -> this.showBone(n, entity));
@@ -272,9 +160,7 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
             Arrays.stream(WESTERN_BRIDLE_REIN_BONE_NAMES).forEach((n) -> this.hideBone(n, entity));
         }
 
-        if (bridleStack.getItem() instanceof EnglishBridleItem
-            && bridleRenderFlag
-            && shouldRenderTackFlag) {
+        if (bridleStack.getItem() instanceof EnglishBridleItem && bridleRenderFlag && shouldRenderTackFlag) {
             Arrays.stream(ENGLISH_BRIDLE_BONE_NAMES).forEach((n) -> this.showBone(n, entity));
             if (!entity.isBridleLeashed()) {
                 Arrays.stream(ENGLISH_BRIDLE_REIN_BONE_NAMES).forEach((n) -> this.showBone(n, entity));
@@ -291,25 +177,19 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
         ItemStack saddleStack = entity.hasSaddle();
         boolean saddleRenderFlag = entity.getEntityData().get(SWEMHorseEntityBase.RENDER_SADDLE);
         boolean shouldRenderTackFlag = !GeneralEventHandlers.no_render_tack;
-        if (saddleStack.getItem() instanceof AdventureSaddleItem
-            && saddleRenderFlag
-            && shouldRenderTackFlag) {
+        if (saddleStack.getItem() instanceof AdventureSaddleItem && saddleRenderFlag && shouldRenderTackFlag) {
             Arrays.stream(ADVENTURE_SADDLE_BONE_NAMES).forEach((n) -> this.showBone(n, entity));
         } else {
             Arrays.stream(ADVENTURE_SADDLE_BONE_NAMES).forEach((n) -> this.hideBone(n, entity));
         }
 
-        if (saddleStack.getItem() instanceof EnglishSaddleItem
-            && saddleRenderFlag
-            && shouldRenderTackFlag) {
+        if (saddleStack.getItem() instanceof EnglishSaddleItem && saddleRenderFlag && shouldRenderTackFlag) {
             Arrays.stream(ENGLISH_SADDLE_BONE_NAMES).forEach((n) -> this.showBone(n, entity));
         } else {
             Arrays.stream(ENGLISH_SADDLE_BONE_NAMES).forEach((n) -> this.hideBone(n, entity));
         }
 
-        if (saddleStack.getItem() instanceof WesternSaddleItem
-            && saddleRenderFlag
-            && shouldRenderTackFlag) {
+        if (saddleStack.getItem() instanceof WesternSaddleItem && saddleRenderFlag && shouldRenderTackFlag) {
             Arrays.stream(WESTERN_SADDLE_BONE_NAMES).forEach((n) -> this.showBone(n, entity));
         } else {
             Arrays.stream(WESTERN_SADDLE_BONE_NAMES).forEach((n) -> this.hideBone(n, entity));
@@ -381,8 +261,7 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
 
     private void checkGirthStrapForRendering(SWEMHorseEntity entity) {
         ItemStack stack = entity.getGirthStrap();
-        boolean girthStrapRenderFlag =
-            entity.getEntityData().get(SWEMHorseEntityBase.RENDER_GIRTH_STRAP);
+        boolean girthStrapRenderFlag = entity.getEntityData().get(SWEMHorseEntityBase.RENDER_GIRTH_STRAP);
         boolean shouldRenderTackFlag = !GeneralEventHandlers.no_render_tack;
 
         if (stack.getItem() instanceof GirthStrapItem && girthStrapRenderFlag && shouldRenderTackFlag) {
@@ -426,8 +305,7 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
             }
         } else if (boneName.contains("Wings")) {
             if (currentEntity.getCoatColor() == SWEMCoatColor.SWIFT_WIND_SHE_RA) {
-                return new ResourceLocation(
-                    SWEM.MOD_ID, "textures/entity/horse/wings/swift_wind_she_ra.png");
+                return new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/wings/swift_wind_she_ra.png");
             }
 
             return new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/wings/amethyst_wings.png");
@@ -489,10 +367,7 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
      * @param entity   The entity to get the model from
      */
     public void hideBone(String boneName, SWEMHorseEntity entity) {
-        this.getGeoModelProvider()
-            .getModel(this.getGeoModelProvider().getModelLocation(entity))
-            .getBone(boneName)
-            .ifPresent((bone) -> bone.setHidden(true));
+        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone(boneName).ifPresent((bone) -> bone.setHidden(true));
     }
 
     /**
@@ -502,10 +377,7 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
      * @param entity   The entity to get the model from
      */
     public void showBone(String boneName, SWEMHorseEntity entity) {
-        this.getGeoModelProvider()
-            .getModel(this.getGeoModelProvider().getModelLocation(entity))
-            .getBone(boneName)
-            .ifPresent((bone) -> bone.setHidden(false));
+        this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone(boneName).ifPresent((bone) -> bone.setHidden(false));
     }
 
     private boolean shouldRenderArmor(SWEMHorseEntity entity) {
@@ -526,14 +398,7 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
     }
 
     @Override
-    public RenderType getRenderType(
-        SWEMHorseEntity animatable,
-        float partialTicks,
-        MatrixStack stack,
-        @Nullable IRenderTypeBuffer renderTypeBuffer,
-        @Nullable IVertexBuilder vertexBuilder,
-        int packedLightIn,
-        ResourceLocation textureLocation) {
+    public RenderType getRenderType(SWEMHorseEntity animatable, float partialTicks, MatrixStack stack, @Nullable IRenderTypeBuffer renderTypeBuffer, @Nullable IVertexBuilder vertexBuilder, int packedLightIn, ResourceLocation textureLocation) {
         return RenderType.entityTranslucent(textureLocation);
     }
 
@@ -546,30 +411,17 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
      * @param bufferIn       the buffer in
      * @param leashHolder    the leash holder
      */
-    public void renderLeash(
-        SWEMHorseEntity entityLivingIn,
-        float partialTicks,
-        MatrixStack matrixStackIn,
-        IRenderTypeBuffer bufferIn,
-        Entity leashHolder) {
+    public void renderLeash(SWEMHorseEntity entityLivingIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Entity leashHolder) {
         matrixStackIn.pushPose();
         Vector3d vector3d = leashHolder.getRopeHoldPosition(partialTicks);
         vector3d = vector3d.add(this.addRopeHoldPositionOffset(leashHolder));
-        double d0 =
-            (double)
-                (MathHelper.lerp(partialTicks, entityLivingIn.yBodyRot, entityLivingIn.yBodyRotO)
-                    * ((float) Math.PI / 180F))
-                + (Math.PI / 2D);
+        double d0 = (double) (MathHelper.lerp(partialTicks, entityLivingIn.yBodyRot, entityLivingIn.yBodyRotO) * ((float) Math.PI / 180F)) + (Math.PI / 2D);
         Vector3d vector3d1 = entityLivingIn.getLeashOffset();
         double d1 = Math.cos(d0) * vector3d1.z + Math.sin(d0) * vector3d1.x;
         double d2 = Math.sin(d0) * vector3d1.z - Math.cos(d0) * vector3d1.x;
-        double d3 =
-            MathHelper.lerp((double) partialTicks, entityLivingIn.xo, entityLivingIn.getX()) + d1;
-        double d4 =
-            MathHelper.lerp((double) partialTicks, entityLivingIn.yo, entityLivingIn.getY())
-                + vector3d1.y;
-        double d5 =
-            MathHelper.lerp((double) partialTicks, entityLivingIn.zo, entityLivingIn.getZ()) + d2;
+        double d3 = MathHelper.lerp((double) partialTicks, entityLivingIn.xo, entityLivingIn.getX()) + d1;
+        double d4 = MathHelper.lerp((double) partialTicks, entityLivingIn.yo, entityLivingIn.getY()) + vector3d1.y;
+        double d5 = MathHelper.lerp((double) partialTicks, entityLivingIn.zo, entityLivingIn.getZ()) + d2;
         matrixStackIn.translate(d1, vector3d1.y, d2);
         float f = (float) (vector3d.x - d3);
         float f1 = (float) (vector3d.y - d4);
@@ -629,8 +481,7 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
     }
 
     @Override
-    protected ItemCameraTransforms.TransformType getCameraTransformForItemAtBone(
-        ItemStack boneItem, String boneName) {
+    protected ItemCameraTransforms.TransformType getCameraTransformForItemAtBone(ItemStack boneItem, String boneName) {
         return null;
     }
 
@@ -641,12 +492,7 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
     }
 
     @Override
-    protected void preRenderItem(
-        MatrixStack matrixStack,
-        ItemStack item,
-        String boneName,
-        SWEMHorseEntity currentEntity,
-        IBone bone) {
+    protected void preRenderItem(MatrixStack matrixStack, ItemStack item, String boneName, SWEMHorseEntity currentEntity, IBone bone) {
     }
 
     @Override
@@ -655,12 +501,7 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable>
     }
 
     @Override
-    protected void postRenderItem(
-        MatrixStack matrixStack,
-        ItemStack item,
-        String boneName,
-        SWEMHorseEntity currentEntity,
-        IBone bone) {
+    protected void postRenderItem(MatrixStack matrixStack, ItemStack item, String boneName, SWEMHorseEntity currentEntity, IBone bone) {
     }
 
     @Override
