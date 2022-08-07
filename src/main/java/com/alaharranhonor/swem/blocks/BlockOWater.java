@@ -12,7 +12,7 @@ public class BlockOWater extends Block {
      */
     public BlockOWater() {
         super(
-                AbstractBlock.Properties.of(Material.WATER)
+                AbstractBlock.Properties.of(Material.SPONGE)
                         .strength(2.0f, 6.0f)
                         .sound(SoundType.WET_GRASS)
                         .harvestLevel(1)
