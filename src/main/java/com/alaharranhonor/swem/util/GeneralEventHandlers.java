@@ -32,6 +32,7 @@ import com.alaharranhonor.swem.util.registry.SWEMItems;
 import com.alaharranhonor.swem.world.gen.OreGenUtils;
 import com.alaharranhonor.swem.world.gen.SWEMOreGen;
 import com.alaharranhonor.swem.world.structure.SWEMConfiguredStructures;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -50,6 +51,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
@@ -502,6 +504,17 @@ public class GeneralEventHandlers {
             if (event.getEntity() instanceof PlayerEntity) {
                 if (event.getEntity().isPassenger()) {
                     event.getEntity().stopRiding();
+                }
+            }
+        }
+
+        @SubscribeEvent
+        public static void onBlockMissingMappings(RegistryEvent.MissingMappings<Block> event) {
+            for (RegistryEvent.MissingMappings.Mapping<Block> mapping : event.getAllMappings()) {
+                if (mapping.key.getNamespace().equalsIgnoreCase("swem")) {
+                    if (mapping.key.getPath().contains("timothy_grass")) {
+                        mapping.remap(SWEMBlocks.TIMOTHY_PLANT.get());
+                    }
                 }
             }
         }
