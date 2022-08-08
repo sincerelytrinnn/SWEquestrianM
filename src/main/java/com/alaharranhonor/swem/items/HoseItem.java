@@ -79,7 +79,7 @@ public class HoseItem extends Item {
 
                 boolean isWaterNearby = SWEMUtil.isInDistanceOfBlock(pLevel, blockpos, 15, SWEMBlocks.BLOCK_O_WATER.get());
                 if (!isWaterNearby) {
-                    pPlayer.displayClientMessage(new StringTextComponent("There is no water nearby."), true);
+                    pPlayer.displayClientMessage(new StringTextComponent("text.swem.no_usable_water_nearby"), true);
                     return ActionResult.fail(itemstack);
                 }
 
