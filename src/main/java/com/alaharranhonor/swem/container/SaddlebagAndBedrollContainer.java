@@ -48,7 +48,7 @@ public class SaddlebagAndBedrollContainer extends Container {
      * @param data            the data
      */
     public SaddlebagAndBedrollContainer(
-            final int id, final PlayerInventory playerInventory, PacketBuffer data) {
+        final int id, final PlayerInventory playerInventory, PacketBuffer data) {
         this(id, playerInventory, data.readInt());
     }
 
@@ -60,7 +60,7 @@ public class SaddlebagAndBedrollContainer extends Container {
      * @param entityId        the entity id
      */
     public SaddlebagAndBedrollContainer(
-            final int id, final PlayerInventory playerInventory, final int entityId) {
+        final int id, final PlayerInventory playerInventory, final int entityId) {
         super(SWEMContainers.SADDLE_BAG_AND_BEDROLL_CONTAINER.get(), id);
         this.horse = (SWEMHorseEntityBase) playerInventory.player.level.getEntity(entityId);
         this.horseInventory = horse.getSaddlebagInventory();
@@ -69,401 +69,401 @@ public class SaddlebagAndBedrollContainer extends Container {
         int startBedrollInvY = 18;
 
         this.addSlot(
-                new Slot(horseInventory, 0, 53, startBedrollInvY) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof BedItem;
-                    }
-                });
+            new Slot(horseInventory, 0, 53, startBedrollInvY) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof BedItem;
+                }
+            });
 
         this.addSlot(
-                new Slot(horseInventory, 1, 71, startBedrollInvY) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return Block.byItem(stack.getItem()) instanceof CampfireBlock;
-                    }
-                });
+            new Slot(horseInventory, 1, 71, startBedrollInvY) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return Block.byItem(stack.getItem()) instanceof CampfireBlock;
+                }
+            });
 
         this.addSlot(
-                new Slot(horseInventory, 2, 89, startBedrollInvY) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof FuelBlockItemBase;
-                    }
-                });
+            new Slot(horseInventory, 2, 89, startBedrollInvY) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof FuelBlockItemBase;
+                }
+            });
 
         this.addSlot(
-                new Slot(horseInventory, 3, 107, startBedrollInvY) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof FlintAndSteelItem;
-                    }
-                });
+            new Slot(horseInventory, 3, 107, startBedrollInvY) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof FlintAndSteelItem;
+                }
+            });
 
         int startSaddlebagInvY = 49;
 
         this.addSlot(
-                new Slot(horseInventory, 4, 8, startSaddlebagInvY) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof HalterItem;
-                    }
+            new Slot(horseInventory, 4, 8, startSaddlebagInvY) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof HalterItem;
+                }
 
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
-
-        this.addSlot(
-                new Slot(horseInventory, 5, 26, startSaddlebagInvY) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof LeadAnchorItem;
-                    }
-
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
 
         this.addSlot(
-                new Slot(horseInventory, 6, 44, startSaddlebagInvY) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() == SWEMBlocks.QUALITY_BALE.get().asItem();
-                    }
+            new Slot(horseInventory, 5, 26, startSaddlebagInvY) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof LeadAnchorItem || stack.getItem() instanceof LeadItem;
+                }
 
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
-
-        this.addSlot(
-                new Slot(horseInventory, 7, 62, startSaddlebagInvY) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof SweetFeed
-                                || stack.getItem() instanceof SweetFeed.UnopenedSweetFeed;
-                    }
-
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
 
         this.addSlot(
-                new Slot(horseInventory, 8, 80, startSaddlebagInvY) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof BrushItem;
-                    }
+            new Slot(horseInventory, 6, 44, startSaddlebagInvY) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() == SWEMBlocks.QUALITY_BALE.get().asItem();
+                }
 
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
-
-        this.addSlot(
-                new Slot(horseInventory, 9, 98, startSaddlebagInvY) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof BucketItem || stack.getItem() instanceof MilkBucketItem;
-                    }
-
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
 
         this.addSlot(
-                new Slot(horseInventory, 10, 116, startSaddlebagInvY) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return Block.byItem(stack.getItem()) instanceof HalfBarrelBlock;
-                    }
+            new Slot(horseInventory, 7, 62, startSaddlebagInvY) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof SweetFeed
+                        || stack.getItem() instanceof SweetFeed.UnopenedSweetFeed;
+                }
 
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
-
-        this.addSlot(
-                new Slot(horseInventory, 11, 134, startSaddlebagInvY) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof MedicalItem;
-                    }
-
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
 
         this.addSlot(
-                new Slot(horseInventory, 12, 152, startSaddlebagInvY) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof TrackerItem;
-                    }
+            new Slot(horseInventory, 8, 80, startSaddlebagInvY) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof BrushItem;
+                }
 
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
-
-        this.addSlot(
-                new Slot(horseInventory, 13, 8, startSaddlebagInvY + 18) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() == Items.CRAFTING_TABLE;
-                    }
-
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
 
         this.addSlot(
-                new Slot(horseInventory, 14, 26, startSaddlebagInvY + 18) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem().is(ItemTags.LOGS) || stack.getItem().is(ItemTags.PLANKS);
-                    }
+            new Slot(horseInventory, 9, 98, startSaddlebagInvY) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof BucketItem || stack.getItem() instanceof MilkBucketItem;
+                }
 
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
-
-        this.addSlot(
-                new Slot(horseInventory, 15, 44, startSaddlebagInvY + 18) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() == Items.CHEST;
-                    }
-
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
 
         this.addSlot(
-                new Slot(horseInventory, 16, 62, startSaddlebagInvY + 18) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem().is(Tags.Items.INGOTS);
-                    }
+            new Slot(horseInventory, 10, 116, startSaddlebagInvY) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return Block.byItem(stack.getItem()) instanceof HalfBarrelBlock;
+                }
 
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
-
-        this.addSlot(
-                new Slot(horseInventory, 17, 80, startSaddlebagInvY + 18) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof BlockItem;
-                    }
-
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
 
         this.addSlot(
-                new Slot(horseInventory, 18, 98, startSaddlebagInvY + 18) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof BucketItem || stack.getItem() instanceof MilkBucketItem;
-                    }
+            new Slot(horseInventory, 11, 134, startSaddlebagInvY) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof MedicalItem;
+                }
 
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
-
-        this.addSlot(
-                new Slot(horseInventory, 19, 116, startSaddlebagInvY + 18) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof MercyBladeItem;
-                    }
-
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
 
         this.addSlot(
-                new Slot(horseInventory, 20, 134, startSaddlebagInvY + 18) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem().isEdible();
-                    }
+            new Slot(horseInventory, 12, 152, startSaddlebagInvY) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof TrackerItem;
+                }
 
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
-
-        this.addSlot(
-                new Slot(horseInventory, 21, 152, startSaddlebagInvY + 18) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return Block.byItem(stack.getItem()) instanceof TorchBlock;
-                    }
-
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
 
         this.addSlot(
-                new Slot(horseInventory, 22, 8, startSaddlebagInvY + 2 * 18) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof BowItem;
-                    }
+            new Slot(horseInventory, 13, 8, startSaddlebagInvY + 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() == Items.CRAFTING_TABLE;
+                }
 
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
-
-        this.addSlot(
-                new Slot(horseInventory, 23, 26, startSaddlebagInvY + 2 * 18) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof SwordItem;
-                    }
-
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
 
         this.addSlot(
-                new Slot(horseInventory, 24, 44, startSaddlebagInvY + 2 * 18) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof PickaxeItem;
-                    }
+            new Slot(horseInventory, 14, 26, startSaddlebagInvY + 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem().is(ItemTags.LOGS) || stack.getItem().is(ItemTags.PLANKS);
+                }
 
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
-
-        this.addSlot(
-                new Slot(horseInventory, 25, 62, startSaddlebagInvY + 2 * 18) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof AxeItem;
-                    }
-
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
 
         this.addSlot(
-                new Slot(horseInventory, 26, 80, startSaddlebagInvY + 2 * 18) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof ShovelItem;
-                    }
+            new Slot(horseInventory, 15, 44, startSaddlebagInvY + 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() == Items.CHEST;
+                }
 
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
-
-        this.addSlot(
-                new Slot(horseInventory, 27, 98, startSaddlebagInvY + 2 * 18) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof ShieldItem;
-                    }
-
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
 
         this.addSlot(
-                new Slot(horseInventory, 28, 116, startSaddlebagInvY + 2 * 18) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() instanceof ArrowItem;
-                    }
+            new Slot(horseInventory, 16, 62, startSaddlebagInvY + 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem().is(Tags.Items.INGOTS);
+                }
 
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
-
-        this.addSlot(
-                new Slot(horseInventory, 29, 134, startSaddlebagInvY + 2 * 18) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return stack.getItem() == SWEMItems.CANTAZARITE.get();
-                    }
-
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
 
         this.addSlot(
-                new Slot(horseInventory, 30, 152, startSaddlebagInvY + 2 * 18) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return Block.byItem(stack.getItem()) instanceof CantazariteAnvilBlock;
-                    }
+            new Slot(horseInventory, 17, 80, startSaddlebagInvY + 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof BlockItem;
+                }
 
-                    @Override
-                    public int getMaxStackSize() {
-                        return super.getMaxStackSize();
-                    }
-                });
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
+
+        this.addSlot(
+            new Slot(horseInventory, 18, 98, startSaddlebagInvY + 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof BucketItem || stack.getItem() instanceof MilkBucketItem;
+                }
+
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
+
+        this.addSlot(
+            new Slot(horseInventory, 19, 116, startSaddlebagInvY + 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof MercyBladeItem;
+                }
+
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
+
+        this.addSlot(
+            new Slot(horseInventory, 20, 134, startSaddlebagInvY + 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem().isEdible();
+                }
+
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
+
+        this.addSlot(
+            new Slot(horseInventory, 21, 152, startSaddlebagInvY + 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return Block.byItem(stack.getItem()) instanceof TorchBlock;
+                }
+
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
+
+        this.addSlot(
+            new Slot(horseInventory, 22, 8, startSaddlebagInvY + 2 * 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof BowItem;
+                }
+
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
+
+        this.addSlot(
+            new Slot(horseInventory, 23, 26, startSaddlebagInvY + 2 * 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof SwordItem;
+                }
+
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
+
+        this.addSlot(
+            new Slot(horseInventory, 24, 44, startSaddlebagInvY + 2 * 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof PickaxeItem;
+                }
+
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
+
+        this.addSlot(
+            new Slot(horseInventory, 25, 62, startSaddlebagInvY + 2 * 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof AxeItem;
+                }
+
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
+
+        this.addSlot(
+            new Slot(horseInventory, 26, 80, startSaddlebagInvY + 2 * 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof ShovelItem;
+                }
+
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
+
+        this.addSlot(
+            new Slot(horseInventory, 27, 98, startSaddlebagInvY + 2 * 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof ShieldItem;
+                }
+
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
+
+        this.addSlot(
+            new Slot(horseInventory, 28, 116, startSaddlebagInvY + 2 * 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof ArrowItem;
+                }
+
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
+
+        this.addSlot(
+            new Slot(horseInventory, 29, 134, startSaddlebagInvY + 2 * 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() == SWEMItems.CANTAZARITE.get();
+                }
+
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
+
+        this.addSlot(
+            new Slot(horseInventory, 30, 152, startSaddlebagInvY + 2 * 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return Block.byItem(stack.getItem()) instanceof CantazariteAnvilBlock;
+                }
+
+                @Override
+                public int getMaxStackSize() {
+                    return super.getMaxStackSize();
+                }
+            });
 
         // Player Main Inventory
         int startPlayerInvY = 116;
         for (int row = 0; row < 3; ++row) {
             for (int col = 0; col < 9; ++col) {
                 this.addSlot(
-                        new Slot(
-                                playerInventory,
-                                9 + (row * 9) + col,
-                                8 + (col * 18),
-                                startPlayerInvY + (row * 18)));
+                    new Slot(
+                        playerInventory,
+                        9 + (row * 9) + col,
+                        8 + (col * 18),
+                        startPlayerInvY + (row * 18)));
             }
         }
 
@@ -479,8 +479,8 @@ public class SaddlebagAndBedrollContainer extends Container {
      */
     public boolean stillValid(PlayerEntity playerIn) {
         return this.horseInventory.stillValid(playerIn)
-                && this.horse.isAlive()
-                && this.horse.distanceTo(playerIn) < 8.0F;
+            && this.horse.isAlive()
+            && this.horse.distanceTo(playerIn) < 8.0F;
     }
 
     /**
