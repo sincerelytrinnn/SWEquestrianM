@@ -1,3 +1,14 @@
+1.16.5-4.1.0-b:
+- Re-added Girth Straps - _Woops_
+- Fix block O water being able to be replaced by right clicking.
+- Updated translations.
+- Updated PB light blue inv icon.
+- Fix pasture blanket crash on HAR.
+- Make spigot/hose text translatable and more clear.
+- Add lead in lead/anchor slot.
+- Added helpful text when using the tack box item.
+- Updated BoW props.
+
 1.16.5-4.0.0-b:
 - Don't show reins when using bridle lead.
 - Many recipe changes.
