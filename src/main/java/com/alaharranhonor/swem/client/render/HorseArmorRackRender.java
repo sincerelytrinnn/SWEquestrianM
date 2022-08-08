@@ -14,12 +14,12 @@ package com.alaharranhonor.swem.client.render;
  * THE SOFTWARE.
  */
 
-import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.client.model.AdventureSaddleModel;
 import com.alaharranhonor.swem.client.model.HorseArmorModelGeo;
 import com.alaharranhonor.swem.client.model.HorseArmorRackModel;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.items.tack.AdventureSaddleItem;
+import com.alaharranhonor.swem.items.tack.PastureBlanketItem;
 import com.alaharranhonor.swem.tileentity.HorseArmorRackTE;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -55,25 +55,14 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
     }
 
     @Override
-    public void render(
-            HorseArmorRackTE tile,
-            float partialTicks,
-            MatrixStack stack,
-            IRenderTypeBuffer bufferIn,
-            int packedLightIn) {
+    public void render(HorseArmorRackTE tile, float partialTicks, MatrixStack stack, IRenderTypeBuffer bufferIn, int packedLightIn) {
         super.render(tile, partialTicks, stack, bufferIn, packedLightIn);
         ItemStack armor = tile.itemHandler.getStackInSlot(0);
         ItemStack saddle = tile.itemHandler.getStackInSlot(1);
 
-        if (!(armor.getItem() == Items.AIR || armor == ItemStack.EMPTY)) {
-            SWEM.LOGGER.debug("Armor not empty/air");
+        if (armor.getItem() instanceof SWEMHorseArmorItem && !(armor.getItem() instanceof PastureBlanketItem)) {
             SWEMHorseArmorItem armorItem = (SWEMHorseArmorItem) armor.getItem();
-            IVertexBuilder ivertexbuilder =
-                    ItemRenderer.getArmorFoilBuffer(
-                            bufferIn,
-                            RenderType.armorCutoutNoCull(armorItem.getRackTexture()),
-                            false,
-                            armor.hasFoil());
+            IVertexBuilder ivertexbuilder = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(armorItem.getRackTexture()), false, armor.hasFoil());
             GeoModel geoModel = armorModelGeo.getModel(armorModelGeo.getModelLocation(armorItem));
             Iterator group = geoModel.topLevelBones.iterator();
 
@@ -146,8 +135,7 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
                     head.setPivotX(19);
                     head.setPositionY(-1);
                     head.setPositionX(0);
-                    head.setRotationZ(
-                            -1.575f); // Rotations are apparently not in degrees. Also this rotation is dependent
+                    head.setRotationZ(-1.575f); // Rotations are apparently not in degrees. Also this rotation is dependent
                     // on the current pivot points and positions.
 
                 } else if (bone.getName().equals("gold")) {
@@ -161,8 +149,7 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
                     head.setPivotX(19);
                     head.setPositionY(-1);
                     head.setPositionX(0);
-                    head.setRotationZ(
-                            -1.575f); // Rotations are apparently not in degrees. Also this rotation is dependent
+                    head.setRotationZ(-1.575f); // Rotations are apparently not in degrees. Also this rotation is dependent
                     // on the current pivot points and positions.
                     feet.setPositionY(17);
 
@@ -185,29 +172,14 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
                 double[] translations = this.calculateTranslations(tile.getBlockState());
                 stack.translate(translations[0], translations[1], translations[2]);
                 stack.mulPose(this.calculateRotation(tile.getBlockState()));
-                this.renderRecursively(
-                        bone,
-                        stack,
-                        ivertexbuilder,
-                        packedLightIn,
-                        OverlayTexture.NO_OVERLAY,
-                        1.0F,
-                        1.0F,
-                        1.0F,
-                        1.0F);
+                this.renderRecursively(bone, stack, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
                 stack.popPose();
             }
         }
 
         if (!(saddle.getItem() == Items.AIR || saddle == ItemStack.EMPTY)) {
-            SWEM.LOGGER.debug("Saddle not empty/air");
             AdventureSaddleItem saddleItem = (AdventureSaddleItem) saddle.getItem();
-            IVertexBuilder ivertexbuilder =
-                    ItemRenderer.getArmorFoilBuffer(
-                            bufferIn,
-                            RenderType.armorCutoutNoCull(saddleItem.getSaddleRackTexture()),
-                            false,
-                            saddle.hasFoil());
+            IVertexBuilder ivertexbuilder = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(saddleItem.getSaddleRackTexture()), false, saddle.hasFoil());
             GeoModel geoModel = saddleModel.getModel(saddleModel.getModelLocation(saddleItem));
             Iterator group = geoModel.topLevelBones.iterator();
             while (group.hasNext()) {
@@ -218,16 +190,7 @@ public class HorseArmorRackRender extends GeoBlockRenderer<HorseArmorRackTE> {
                 stack.translate(translations[0], translations[1] + 0.5, translations[2]);
                 stack.mulPose(this.calculateRotation(tile.getBlockState()));
                 stack.mulPose(new Quaternion(0, -90f, 0, true));
-                this.renderRecursively(
-                        bone,
-                        stack,
-                        ivertexbuilder,
-                        packedLightIn,
-                        OverlayTexture.NO_OVERLAY,
-                        1.0F,
-                        1.0F,
-                        1.0F,
-                        1.0F);
+                this.renderRecursively(bone, stack, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
                 stack.popPose();
             }
         }
