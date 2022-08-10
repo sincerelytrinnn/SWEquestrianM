@@ -20,6 +20,7 @@ import com.alaharranhonor.swem.blocks.HalfBarrelBlock;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.tack.HalterItem;
+import com.alaharranhonor.swem.items.tack.PastureBlanketItem;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import com.alaharranhonor.swem.util.registry.SWEMContainers;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
@@ -172,7 +173,7 @@ public class SaddlebagAndBedrollContainer extends Container {
             new Slot(horseInventory, 9, 98, startSaddlebagInvY) {
                 @Override
                 public boolean mayPlace(ItemStack stack) {
-                    return stack.getItem() instanceof BucketItem || stack.getItem() instanceof MilkBucketItem;
+                    return stack.getItem() instanceof PastureBlanketItem;
                 }
 
                 @Override
