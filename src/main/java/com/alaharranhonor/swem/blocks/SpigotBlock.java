@@ -138,16 +138,17 @@ public class SpigotBlock extends HorizontalBlock {
 
     @Override
     public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
-        if (worldIn.getBlockState(pos.below()).isFaceSturdy(worldIn, pos.below(), Direction.UP)) {
+        if (worldIn.getBlockState(pos.below()).isFaceSturdy(worldIn, pos.below(), Direction.UP, BlockVoxelShape.CENTER)) {
             return true;
-        } else return worldIn.getBlockState(pos.relative(state.getValue(FACING))).isFaceSturdy(worldIn, pos.relative(state.getValue(FACING)), state.getValue(FACING).getOpposite());
+        } else
+            return worldIn.getBlockState(pos.relative(state.getValue(FACING))).isFaceSturdy(worldIn, pos.relative(state.getValue(FACING)), state.getValue(FACING).getOpposite(), BlockVoxelShape.CENTER);
     }
 
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         BlockState state = this.defaultBlockState().setValue(FACING, context.getClickedFace().getAxis().getPlane() == Direction.Plane.HORIZONTAL ? context.getClickedFace().getOpposite() : context.getHorizontalDirection());
-        if (context.getLevel().getBlockState(context.getClickedPos().below()).isFaceSturdy(context.getLevel(), context.getClickedPos().below(), Direction.UP) && context.getClickedFace() == Direction.UP) {
+        if (context.getLevel().getBlockState(context.getClickedPos().below()).isFaceSturdy(context.getLevel(), context.getClickedPos().below(), Direction.UP, BlockVoxelShape.CENTER) && context.getClickedFace() == Direction.UP) {
             return state.setValue(BlockStateProperties.HANGING, false);
         } else {
             return state.setValue(BlockStateProperties.HANGING, true);
