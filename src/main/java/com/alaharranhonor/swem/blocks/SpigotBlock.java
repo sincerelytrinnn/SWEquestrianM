@@ -10,6 +10,7 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -27,6 +28,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
 import java.util.stream.Stream;
@@ -79,15 +81,19 @@ public class SpigotBlock extends HorizontalBlock {
             }
         }
 
-        BlockState belowState = pLevel.getBlockState(pPos.below());
-        if (belowState.getBlock() instanceof CauldronBlock || belowState.getBlock() instanceof HalfBarrelBlock) {
+        BlockPos checkPos = pState.getValue(BlockStateProperties.HANGING) ? pPos.below() : pPos.below().relative(pState.getValue(FACING).getOpposite());
+        BlockState checkState = pLevel.getBlockState(checkPos);
+        if (checkState.getBlock() instanceof CauldronBlock || checkState.getBlock() instanceof HalfBarrelBlock) {
             if (hasWater) {
-                int i = belowState.getValue(CauldronBlock.LEVEL);
+                int i = checkState.getValue(CauldronBlock.LEVEL);
                 if (i == 3) return ActionResultType.PASS;
                 if (i < 3 && !pLevel.isClientSide) {
 
+                    for (int j = 0; j < 6; j++) {
+                        ((ServerWorld) pLevel).sendParticles(ParticleTypes.SPLASH, checkPos.getX() + Math.random(), checkPos.getY() + 1, checkPos.getZ() + Math.random(), 1, 0, 0, 0, 1);
+                    }
                     pPlayer.awardStat(Stats.FILL_CAULDRON);
-                    pLevel.setBlock(pPos.below(), belowState.setValue(CauldronBlock.LEVEL, MathHelper.clamp(3, 0, 3)), 3);
+                    pLevel.setBlock(checkPos, checkState.setValue(CauldronBlock.LEVEL, MathHelper.clamp(3, 0, 3)), 3);
                     pLevel.updateNeighbourForOutputSignal(pPos, this);
 
                     pLevel.playSound(null, pPos, SoundEvents.BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
@@ -98,11 +104,17 @@ public class SpigotBlock extends HorizontalBlock {
                 pPlayer.displayClientMessage(new StringTextComponent("text.swem.no_usable_water_nearby"), true);
                 return ActionResultType.FAIL;
             }
-        } else if (belowState.getBlock() instanceof WaterTroughBlock) {
+        } else if (checkState.getBlock() instanceof WaterTroughBlock) {
             if (hasWater) {
-                WaterTroughBlock wtBlock = (WaterTroughBlock) belowState.getBlock();
-                if (!pLevel.isClientSide())
-                    wtBlock.setWaterLevel(pLevel, pPos.below(), belowState, false);
+                if (checkState.getValue(WaterTroughBlock.LEVEL) == 16) return ActionResultType.PASS;
+
+                WaterTroughBlock wtBlock = (WaterTroughBlock) checkState.getBlock();
+                if (!pLevel.isClientSide()) {
+                    wtBlock.setWaterLevel(pLevel, checkPos, checkState, false);
+                    for (int i = 0; i < 6; i++) {
+                        ((ServerWorld) pLevel).sendParticles(ParticleTypes.SPLASH, checkPos.getX() + Math.random(), checkPos.getY() + 1, checkPos.getZ() + Math.random(), 1, 0, 0, 0, 1);
+                    }
+                }
                 pLevel.playSound(null, pPos, SoundEvents.BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 return ActionResultType.sidedSuccess(pLevel.isClientSide());
             } else {
