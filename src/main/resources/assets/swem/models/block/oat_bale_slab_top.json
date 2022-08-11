@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "swem:blocks/oat_bale_top",
+    "top": "swem:blocks/oat_bale_top",
+    "side": "swem:blocks/oat_bale_side"
+  }
+}
