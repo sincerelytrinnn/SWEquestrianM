@@ -1083,7 +1083,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
         if (this.getPassengers().size() > 1) {
             int i = this.getPassengers().indexOf(entity);
-            xzOffset = i == 0 ? xzOffset : -0.5f;
+            xzOffset = i == 0 ? xzOffset : -0.7f;
         } else if (this.getPassengers().size() > 0 && !(this.getPassengers().get(0) instanceof PlayerEntity)) {
             xzOffset = -0.5f;
         }
@@ -1091,7 +1091,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         double yOffset = entity.getMyRidingOffset() + this.getPassengersRidingOffset();
         if (entity instanceof PlayerEntity) {
             yOffset += 0.1D;
-            xzOffset = -0.05f;
         }
 
         Vector3d vec3 = new Vector3d(xzOffset, 0, 0).yRot(-this.yBodyRot * ((float) Math.PI / 180f) - ((float) Math.PI / 2F));
