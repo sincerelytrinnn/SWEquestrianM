@@ -3534,6 +3534,19 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     }
 
     public void toggleIce() {
+        if (this.isIceEffectActive) {
+            this.getPassengers().forEach((p) -> {
+                if (p instanceof PlayerEntity) {
+                    ((PlayerEntity) p).displayClientMessage(new TranslationTextComponent("text.swem.horse.ice.off"), true);
+                }
+            });
+        } else {
+            this.getPassengers().forEach((p) -> {
+                if (p instanceof PlayerEntity) {
+                    ((PlayerEntity) p).displayClientMessage(new TranslationTextComponent("text.swem.horse.ice.on"), true);
+                }
+            });
+        }
         this.isIceEffectActive = !this.isIceEffectActive;
     }
 

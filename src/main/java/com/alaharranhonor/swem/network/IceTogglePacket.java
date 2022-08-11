@@ -21,6 +21,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -66,8 +67,10 @@ public class IceTogglePacket {
 
                     if (player.getPersistentData().contains("blockIceEffect")) {
                         player.getPersistentData().remove("blockIceEffect");
+                        player.displayClientMessage(new TranslationTextComponent("text.swem.status.ice.off"), true);
                     } else {
                         player.getPersistentData().putBoolean("blockIceEffect", true);
+                        player.displayClientMessage(new TranslationTextComponent("text.swem.status.ice.on"), true);
                     }
                 }
             );
