@@ -111,6 +111,7 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable> extends Exten
             checkArmorForRendering(entity);
             checkSaddlesForRendering(entity);
             checkBridlesForRendering(entity);
+            checkHalterForRendering(entity);
             checkSaddlebagForRendering(entity);
             checkBlanketForRendering(entity);
             checkGirthStrapForRendering(entity);
@@ -141,6 +142,16 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable> extends Exten
             Arrays.stream(PASTURE_BLANKET_BONE_NAMES).forEach((boneName) -> hideBone(boneName, entity));
             showBone("BreastLeft", entity);
             showBone("BreastRight", entity);
+        }
+    }
+
+    private void checkHalterForRendering(SWEMHorseEntity entity) {
+        ItemStack bridleStack = entity.getHalter();
+        boolean bridleRenderFlag = entity.getEntityData().get(SWEMHorseEntityBase.RENDER_BRIDLE);
+        if (bridleRenderFlag && !bridleStack.isEmpty()) {
+            Arrays.stream(HALTER_BONE_NAMES).forEach((boneName) -> showBone(boneName, entity));
+        } else {
+            Arrays.stream(HALTER_BONE_NAMES).forEach((boneName) -> hideBone(boneName, entity));
         }
     }
 
