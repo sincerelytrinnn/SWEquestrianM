@@ -24,6 +24,7 @@ import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.util.GeneralEventHandlers;
+import com.alaharranhonor.swem.util.registry.SWEMItems;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.block.BlockState;
@@ -308,7 +309,13 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable> extends Exten
                 return new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/wings/swift_wind_she_ra.png");
             }
 
-            return new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/wings/amethyst_wings.png");
+            ItemStack stack = currentEntity.getSWEMArmor();
+            if (!stack.isEmpty()) {
+                SWEMHorseArmorItem armorItem = (SWEMHorseArmorItem) stack.getItem();
+                if (armorItem.tier.equals(SWEMHorseArmorItem.HorseArmorTier.AMETHYST)) {
+                    return new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/wings/"+ armorItem.type + "_wings.png");
+                }
+            }
         } else if (boneName.contains("Armor")) {
             ItemStack stack = currentEntity.getSWEMArmor();
             if (!stack.isEmpty()) {
