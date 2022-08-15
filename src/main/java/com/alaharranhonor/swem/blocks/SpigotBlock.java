@@ -19,7 +19,6 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -31,17 +30,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
-import java.util.stream.Stream;
 
 public class SpigotBlock extends HorizontalBlock {
 
     public static final DirectionProperty FACING = HorizontalBlock.FACING;
-
-    public static final VoxelShape SHAPE_N = Stream.of(Block.box(6, 8, 0, 10, 12, 5)).reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
-    public static final VoxelShape SHAPE_E = Stream.of(Block.box(11, 8, 6, 16, 12, 10)).reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
-    public static final VoxelShape SHAPE_S = Stream.of(Block.box(6, 8, 11, 10, 12, 16)).reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
-    public static final VoxelShape SHAPE_W = Stream.of(Block.box(0, 8, 6, 5, 12, 10)).reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
-
 
     /**
      * Instantiates a new Spigot.
@@ -50,7 +42,7 @@ public class SpigotBlock extends HorizontalBlock {
      */
     public SpigotBlock(AbstractBlock.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.HANGING, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.HANGING, true));
         ;
     }
 
@@ -134,16 +126,16 @@ public class SpigotBlock extends HorizontalBlock {
 
         switch (state.getValue(FACING)) {
             case EAST: {
-                return VoxelShapes.box(1D, 0.5D, 0.1875D, 0.6875D, 0.75D, 0.8125D);
+                return VoxelShapes.box(1D, 0.25D, 0.1875D, 0.6875D, 0.50D, 0.8125D);
             }
             case SOUTH: {
-                return VoxelShapes.box(0.1875D, 0.5D, 1D, 0.8125D, 0.75D, 0.6875D);
+                return VoxelShapes.box(0.1875D, 0.25D, 1D, 0.8125D, 0.50D, 0.6875D);
             }
             case WEST: {
-                return VoxelShapes.box(0D, 0.5D, 0.1875D, 0.3125D, 0.75D, 0.8125D);
+                return VoxelShapes.box(0D, 0.25D, 0.1875D, 0.3125D, 0.50D, 0.8125D);
             }
             default: {
-                return VoxelShapes.box(0.1875D, 0.5D, 0D, 0.8125D, 0.75D, 0.3125D);
+                return VoxelShapes.box(0.1875D, 0.25D, 0D, 0.8125D, 0.50D, 0.3125D);
             }
         }
     }
