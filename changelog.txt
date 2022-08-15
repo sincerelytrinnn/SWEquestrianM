@@ -1,3 +1,17 @@
+1.16.5-4.2.0-b:
+- Require Geckolib 3.0.86 or higher.
+- reposition rider to not sit in each other.
+- Fix new bales top slab model.
+- Replace seagrass when frost walking.
+- Allow for spigot placement on fences.
+- Fill below and one over if ground spigot.
+- Spigot particles.
+- Fix Water Trough single not showing water if block above.
+- Hide halter/bridle face if render bridle is hidden.
+- Send status message when ice effect is toggled.
+- Fixed eat/sad/lay
+- Added getting up animation when exiting laying down.
+
 1.16.5-4.1.0-b:
 - Re-added Girth Straps - _Woops_
 - Fix block O water being able to be replaced by right clicking.

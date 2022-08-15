@@ -1083,7 +1083,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
         if (this.getPassengers().size() > 1) {
             int i = this.getPassengers().indexOf(entity);
-            xzOffset = i == 0 ? xzOffset : -0.5f;
+            xzOffset = i == 0 ? xzOffset : -0.7f;
         } else if (this.getPassengers().size() > 0 && !(this.getPassengers().get(0) instanceof PlayerEntity)) {
             xzOffset = -0.5f;
         }
@@ -1091,7 +1091,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         double yOffset = entity.getMyRidingOffset() + this.getPassengersRidingOffset();
         if (entity instanceof PlayerEntity) {
             yOffset += 0.1D;
-            xzOffset = -0.05f;
         }
 
         Vector3d vec3 = new Vector3d(xzOffset, 0, 0).yRot(-this.yBodyRot * ((float) Math.PI / 180f) - ((float) Math.PI / 2F));
@@ -1933,7 +1932,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
                     if (blockstate1.getBlock().isAir(blockstate1, level, blockpos$mutable)) {
                         BlockState blockstate2 = level.getBlockState(blockpos);
                         boolean isFull = blockstate2.getBlock() == Blocks.WATER && blockstate2.getValue(FlowingFluidBlock.LEVEL) == 0; // TODO: Forge, modded waters?
-                        if (((blockstate2.getMaterial() == Material.WATER && isFull) || blockstate2.getMaterial() == Material.WATER_PLANT) && blockstate.canSurvive(level, blockpos) && level.isUnobstructed(blockstate, blockpos, ISelectionContext.empty()) && !ForgeEventFactory.onBlockPlace(this, BlockSnapshot.create(level.dimension(), level, blockpos), Direction.UP)) {
+                        if (((blockstate2.getMaterial() == Material.WATER && isFull) || (blockstate2.getMaterial() == Material.WATER_PLANT || blockstate2.getMaterial() == Material.REPLACEABLE_WATER_PLANT)) && blockstate.canSurvive(level, blockpos) && level.isUnobstructed(blockstate, blockpos, ISelectionContext.empty()) && !ForgeEventFactory.onBlockPlace(this, BlockSnapshot.create(level.dimension(), level, blockpos), Direction.UP)) {
                             level.setBlock(blockpos, blockstate, 3);
                             level.getBlockTicks().scheduleTick(blockpos, Blocks.FROSTED_ICE, 20);
                         }
@@ -3535,6 +3534,19 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     }
 
     public void toggleIce() {
+        if (this.isIceEffectActive) {
+            this.getPassengers().forEach((p) -> {
+                if (p instanceof PlayerEntity) {
+                    ((PlayerEntity) p).displayClientMessage(new TranslationTextComponent("text.swem.horse.ice.off"), true);
+                }
+            });
+        } else {
+            this.getPassengers().forEach((p) -> {
+                if (p instanceof PlayerEntity) {
+                    ((PlayerEntity) p).displayClientMessage(new TranslationTextComponent("text.swem.horse.ice.on"), true);
+                }
+            });
+        }
         this.isIceEffectActive = !this.isIceEffectActive;
     }
 
