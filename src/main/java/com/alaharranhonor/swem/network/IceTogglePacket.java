@@ -16,10 +16,13 @@
 package com.alaharranhonor.swem.network;
 
 import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.armor.GoldRidingBoots;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -60,18 +63,31 @@ public class IceTogglePacket {
             .enqueueWork(
                 () -> {
                     ServerPlayerEntity player = ctx.get().getSender();
-                    if (player.getVehicle() instanceof SWEMHorseEntityBase) {
-                        ((SWEMHorseEntityBase) player.getVehicle()).toggleIce();
+                    if (player != null && player.getVehicle() instanceof SWEMHorseEntityBase) {
+                        SWEMHorseEntityBase horse = (SWEMHorseEntityBase) player.getVehicle();
+
+                        boolean canToggleHorse = horse.getSWEMArmor().getItem() instanceof SWEMHorseArmorItem
+                            && ((SWEMHorseArmorItem) horse.getSWEMArmor().getItem()).tier.getId() >= SWEMHorseArmorItem.HorseArmorTier.GOLD.getId();
+
+                        if (canToggleHorse) {
+                            ((SWEMHorseEntityBase) player.getVehicle()).toggleIce();
+                        }
                         return;
                     }
 
-                    if (player.getPersistentData().contains("blockIceEffect")) {
-                        player.getPersistentData().remove("blockIceEffect");
-                        player.displayClientMessage(new TranslationTextComponent("text.swem.status.ice.off"), true);
-                    } else {
-                        player.getPersistentData().putBoolean("blockIceEffect", true);
-                        player.displayClientMessage(new TranslationTextComponent("text.swem.status.ice.on"), true);
+
+                    boolean canToggleBoots = player != null && player.getItemBySlot(EquipmentSlotType.FEET).getItem() instanceof GoldRidingBoots;
+
+                    if (canToggleBoots) {
+                        if (player.getPersistentData().contains("blockIceEffect")) {
+                            player.getPersistentData().remove("blockIceEffect");
+                            player.displayClientMessage(new TranslationTextComponent("text.swem.status.ice.off"), true);
+                        } else {
+                            player.getPersistentData().putBoolean("blockIceEffect", true);
+                            player.displayClientMessage(new TranslationTextComponent("text.swem.status.ice.on"), true);
+                        }
                     }
+
                 }
             );
         ctx.get().setPacketHandled(true);

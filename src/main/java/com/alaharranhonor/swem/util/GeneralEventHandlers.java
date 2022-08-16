@@ -16,6 +16,7 @@ package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.AmethystRidingBoots;
+import com.alaharranhonor.swem.armor.GoldRidingBoots;
 import com.alaharranhonor.swem.blocks.HitchingPostBase;
 import com.alaharranhonor.swem.blocks.LeadAnchorBlock;
 import com.alaharranhonor.swem.commands.DevCommand;
@@ -23,6 +24,7 @@ import com.alaharranhonor.swem.commands.SWEMCommand;
 import com.alaharranhonor.swem.config.ConfigHelper;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.network.*;
 import com.alaharranhonor.swem.tools.AmethystSword;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
@@ -165,7 +167,17 @@ public class GeneralEventHandlers {
         public static void onMouseInput(InputEvent.MouseInputEvent event) {
             if (event.getAction() == GLFW.GLFW_PRESS) {
                 if (event.getButton() == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
-                    SWEMPacketHandler.INSTANCE.sendToServer(new IceTogglePacket());
+                    boolean canToggleBoots = Minecraft.getInstance().player != null
+                        && Minecraft.getInstance().player.getItemBySlot(EquipmentSlotType.FEET).getItem() instanceof GoldRidingBoots;
+
+                    boolean canToggleHorse = Minecraft.getInstance().player != null
+                        && Minecraft.getInstance().player.getVehicle() instanceof SWEMHorseEntityBase
+                        && ((SWEMHorseEntityBase) Minecraft.getInstance().player.getVehicle()).getSWEMArmor().getItem() instanceof SWEMHorseArmorItem
+                        && ((SWEMHorseArmorItem) ((SWEMHorseEntityBase) Minecraft.getInstance().player.getVehicle()).getSWEMArmor().getItem()).tier.getId() >= SWEMHorseArmorItem.HorseArmorTier.GOLD.getId();
+
+                    if (canToggleBoots || canToggleHorse) {
+                        SWEMPacketHandler.INSTANCE.sendToServer(new IceTogglePacket());
+                    }
                 }
             }
         }
