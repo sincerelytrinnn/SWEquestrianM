@@ -207,6 +207,11 @@ public class JEISWEMPlugin implements IModPlugin {
                 .hideRecipe(
                         manager.byKey(new ResourceLocation(SWEM.MOD_ID, "gallaxorium")).get(),
                         VanillaRecipeCategoryUid.CRAFTING);
+        jeiRuntime
+                .getRecipeManager()
+                .hideRecipe(
+                        manager.byKey(new ResourceLocation(SWEM.MOD_ID, "amethyst_usa_horse_armor")).get(),
+                        VanillaRecipeCategoryUid.CRAFTING);
 
         IModPlugin.super.onRuntimeAvailable(jeiRuntime);
     }
