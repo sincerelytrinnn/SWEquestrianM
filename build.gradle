@@ -69,7 +69,7 @@ minecraft {
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
-            args "--username", "legendenv2", "--uuid", "0feef6f9-04c1-47e5-bd9a-a06cfb693da5"
+            args "--username", "XDelphii", "--uuid", "982efc46-99ea-4be9-9f03-5520dc9a8217"
 
             jvmArgs "-Xms2G", "-Xmx8G"
 
@@ -137,11 +137,17 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+
+    maven {
+        name = "KosmX's maven"
+        url = "https://maven.kosmx.dev/"
+    }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-36.2.26"
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${mc_version}:3.0.86")
+    implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:0.2.0-test2+1.16.5")
 
     // compile against the JEI API but do not include it at runtime
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")

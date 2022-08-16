@@ -18,8 +18,6 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.AmethystRidingBoots;
 import com.alaharranhonor.swem.blocks.HitchingPostBase;
 import com.alaharranhonor.swem.blocks.LeadAnchorBlock;
-import com.alaharranhonor.swem.capability.CapabilityHandler;
-import com.alaharranhonor.swem.capability.PlayerCapability;
 import com.alaharranhonor.swem.commands.DevCommand;
 import com.alaharranhonor.swem.commands.SWEMCommand;
 import com.alaharranhonor.swem.config.ConfigHelper;
@@ -136,15 +134,15 @@ public class GeneralEventHandlers {
         public static void onJoinWorld(EntityJoinWorldEvent event) {
 
             if (event.getEntity() instanceof PlayerEntity) {
-                PlayerCapability.IPlayerCapability playerCapability = CapabilityHandler.getCapability((PlayerEntity) event.getEntity(), PlayerCapability.PlayerProvider.PLAYER_CAPABILITY);
-                if (playerCapability != null) playerCapability.addedToWorld(event);
+                //PlayerCapability.IPlayerCapability playerCapability = CapabilityHandler.getCapability((PlayerEntity) event.getEntity(), PlayerCapability.PlayerProvider.PLAYER_CAPABILITY);
+                //if (playerCapability != null) playerCapability.addedToWorld(event);
             }
         }
 
         @SubscribeEvent
         public static void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
             if (event.getObject() instanceof PlayerEntity) {
-                event.addCapability(new ResourceLocation(SWEM.MOD_ID, "player"), new PlayerCapability.PlayerProvider());
+                //event.addCapability(new ResourceLocation(SWEM.MOD_ID, "player"), new PlayerCapability.PlayerProvider());
             }
         }
 

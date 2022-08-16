@@ -16,7 +16,6 @@ package com.alaharranhonor.swem;
 
 import com.alaharranhonor.swem.blocks.TimothyPlant;
 import com.alaharranhonor.swem.capability.CapabilityHandler;
-import com.alaharranhonor.swem.client.model.tools.SWEMGeoBuilder;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.PoopEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
@@ -143,7 +142,6 @@ public class SWEM {
         SWEMLootModifiers.init(modEventBus);
         SWLRegistryHandler.init(modEventBus);
 
-        SWEMGeoBuilder.registerGeoBuilder(MOD_ID, new SWEMGeoBuilder());
         GeckoLib.initialize();
 
         IEventBus forgeBus = MinecraftForge.EVENT_BUS;

@@ -1,4 +1,6 @@
+/*
 package com.alaharranhonor.swem.client.model;
+*/
 /*
  * All Rights Reserved
  *
@@ -11,11 +13,11 @@ package com.alaharranhonor.swem.client.model;
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- */
+ *//*
+
 // Huge thanks to Mowzie's Mobs for making this custom player renderer
 // https://www.curseforge.com/minecraft/mc-mods/mowzies-mobs
 
-import com.alaharranhonor.swem.client.model.tools.ModelRendererMatrix;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.renderer.entity.model.ElytraModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -37,3 +39,4 @@ public class CustomElytraModel<T extends LivingEntity> extends ElytraModel<T> {
         return ImmutableList.of(this.bipedBody);
     }
 }
+*/
