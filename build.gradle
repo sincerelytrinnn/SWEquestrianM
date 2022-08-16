@@ -12,6 +12,10 @@ buildscript {
         classpath 'org.spongepowered:mixingradle:0.7.+'
     }
 }
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 /*
@@ -144,6 +148,11 @@ repositories {
     }
 }
 
+configurations {
+    shade
+    implementation.extendsFrom shade
+}
+
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-36.2.26"
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${mc_version}:3.0.86")
@@ -202,6 +211,21 @@ jar {
         ])
     }
 }
+
+shadowJar {
+    archiveClassifier = ''
+    configurations = [project.configurations.shade]
+
+    finalizedBy 'reobfShadowJar'
+    //relocate 'com.tterrag.registrate', 'com.mymod.repack.registrate'
+}
+
+assemble.dependsOn shadowJar
+
+reobf {
+    shadowJar {}
+}
+
 
 // Example configuration to allow publishing using the maven-publish task
 // This is the preferred method to reobfuscate your jar file
