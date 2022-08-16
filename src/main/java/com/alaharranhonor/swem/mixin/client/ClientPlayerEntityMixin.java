@@ -1,4 +1,4 @@
-package com.alaharranhonor.swem.mixin;
+
 /*
  * All Rights Reserved
  *
@@ -12,6 +12,8 @@ package com.alaharranhonor.swem.mixin;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
+package com.alaharranhonor.swem.mixin.client;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
