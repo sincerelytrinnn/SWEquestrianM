@@ -12,8 +12,7 @@
   "client": [
     "client.ClientPlayerEntityMixin",
     "client.LeashKnotRendererMixin",
-    "client.AbstractClientPlayerEntityMixin",
-    "client.PlayerModelMixin"
+    "client.AbstractClientPlayerEntityMixin"
   ],
   "minVersion": "0.8"
 }
