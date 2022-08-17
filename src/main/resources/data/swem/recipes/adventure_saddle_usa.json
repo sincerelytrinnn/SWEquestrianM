@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "horse_armor",
+  "pattern": [
+    "#CP",
+    "FDF",
+    "RWB"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:cooked_beef"
+    },
+    "C": {
+      "item": "minecraft:crossbow"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    },
+    "F": {
+      "item": "minecraft:firework_rocket"
+    },
+    "D": {
+      "item": "swem:adventure_saddle_glow"
+    },
+    "R": {
+      "item": "minecraft:red_wool"
+    },
+    "W": {
+      "item": "minecraft:white_wool"
+    },
+    "B": {
+      "item": "minecraft:blue_wool"
+    }
+  },
+  "result": {
+    "item": "swem:adventure_saddle_usa",
+    "count": 1
+  }
+}
