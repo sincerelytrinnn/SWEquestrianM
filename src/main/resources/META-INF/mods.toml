@@ -55,6 +55,6 @@ side = "BOTH"
 [[dependencies.swem]]
 modId = "playeranimator"
 mandatory = true
-versionRange = "[0.2.0-test3+1.16.5]"
+versionRange = "[0.2.0+1.16.5,)"
 ordering = "NONE"
 side = "BOTH"
