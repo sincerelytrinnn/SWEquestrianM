@@ -208,6 +208,7 @@ public class SWEMItems {
 
     public static final RegistryObject<AdventureSaddleItem> ADVENTURE_SADDLE = ITEMS.register("adventure_saddle", () -> new AdventureSaddleItem("adventure_saddle", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
     public static final RegistryObject<AdventureSaddleItem> ADVENTURE_SADDLE_GLOW = ITEMS.register("adventure_saddle_glow", () -> new AdventureSaddleItem("adventure_saddle_glow", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
+    public static final RegistryObject<AdventureSaddleItem> ADVENTURE_SADDLE_USA = ITEMS.register("adventure_saddle_usa", () -> new AdventureSaddleItem("adventure_saddle_usa", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
     public static final RegistryObject<AdventureBlanketItem> ADVENTURE_BLANKET = ITEMS.register("adventure_blanket", () -> new AdventureBlanketItem("adventure_blanket", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
     public static final RegistryObject<AdventureBridleItem> ADVENTURE_BRIDLE = ITEMS.register("adventure_bridle", () -> new AdventureBridleItem("adventure_bridle", "adventure", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
     public static final RegistryObject<AdventureLegWraps> ADVENTURE_LEG_WRAPS = ITEMS.register("adventure_leg_wraps", () -> new AdventureLegWraps("adventure_leg_wraps", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
