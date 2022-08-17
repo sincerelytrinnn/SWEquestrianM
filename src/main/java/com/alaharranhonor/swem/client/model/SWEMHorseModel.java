@@ -206,9 +206,9 @@ public class SWEMHorseModel extends AnimatedGeoModel<SWEMHorseEntity> {
                                 new ResourceLocation(
                                         SWEM.MOD_ID, "textures/entity/horse/coats/vulcan_arishant.png"));
                         iter.put(
-                                SWEMCoatColor.LUNAR_ARISHANT,
+                                SWEMCoatColor.AVALANCHE_ARISHANT,
                                 new ResourceLocation(
-                                        SWEM.MOD_ID, "textures/entity/horse/coats/lunar_arishant.png"));
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/avalanche_arishant.png"));
                         iter.put(
                                 SWEMCoatColor.ORION_ARISHANT,
                                 new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/orion_arishant.png"));
@@ -222,8 +222,44 @@ public class SWEMHorseModel extends AnimatedGeoModel<SWEMHorseEntity> {
                                 SWEMCoatColor.IBIS_ARISHANT,
                                 new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/ibis_arishant.png"));
                         iter.put(
+                                SWEMCoatColor.MONTY_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/monty_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.HELIOS_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/helios_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.POPPY_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/poppy_arishant.png"));
+                        iter.put(
                                 SWEMCoatColor.DOMINO_ARISHANT,
                                 new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/domino_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.DAHLIA_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/dahlia_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.HIBISCUS_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/hibiscus_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.TITUS_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/titus_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.ROMEO_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/romeo_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.PRIMROSE_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/primrose_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.LUNAR_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/vulcan_arishant.png"));
                         iter.put(
                                 SWEMCoatColor.NERO_STARDUST,
                                 new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/nero_stardust.png"));
@@ -245,6 +281,86 @@ public class SWEMHorseModel extends AnimatedGeoModel<SWEMHorseEntity> {
                                 SWEMCoatColor.ASTERIA_ARISHANT,
                                 new ResourceLocation(
                                         SWEM.MOD_ID, "textures/entity/horse/coats/asteria_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.FREYJA_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/freyja_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.SYMPHONY_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/symphony_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.SONATA_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/sonata_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.HEARTBREAKER_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/heartbreaker_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.FREIGHTER_MALLI,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/freighter_malli.png"));
+                        iter.put(
+                                SWEMCoatColor.DELTA_MALLI,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/delta_malli.png"));
+                        iter.put(
+                                SWEMCoatColor.BIRDIE_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/birdie_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.CARNELIAN_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/carnelian_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.CHAMPION_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/champion_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.APHRODITE_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/aphrodite_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.INFERNO_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/inferno_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.MYSTIC_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/mystic_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.MARZAPA_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/marzapa_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.BANDIT_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/bandit_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.CAROUSEL_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/carousel_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.ANTIQUE_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/antique_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.WREN_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/wren_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.CITRINE_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/citrine_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.HURRICANE_ARISHANT,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/hurricane_arishant.png"));
+                        iter.put(
+                                SWEMCoatColor.US_MARSHALL,
+                                new ResourceLocation(
+                                        SWEM.MOD_ID, "textures/entity/horse/coats/us_marshall.png"));
                         iter.put(
                                 SWEMCoatColor.FRANK_STEVECV,
                                 new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/frank_stevecv.png"));
