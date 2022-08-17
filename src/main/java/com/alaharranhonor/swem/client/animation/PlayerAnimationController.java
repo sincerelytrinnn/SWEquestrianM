@@ -56,6 +56,11 @@ public class PlayerAnimationController {
             return;
         }
 
+        if (controller.getCurrentAnimation() == null) {
+            SWEM.LOGGER.error("Horse animation is null");
+            return;
+        }
+
         if (poseContainer.getAnimation() == null || (poseContainer.getAnimation() != null && !poseContainer.getAnimation().getData().extraData.get("name").equals(controller.getCurrentAnimation().animationName + "Player"))) {
             KeyframeAnimation animation = AnimationRegistry.animations.get(controller.getCurrentAnimation().animationName + "Player");
             if (animation != null) {
