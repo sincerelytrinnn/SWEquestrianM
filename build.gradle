@@ -84,6 +84,13 @@ minecraft {
             }
         }
 
+        clientAlt {
+            parent minecraft.runs.client
+            workingDirectory project.file('runs/' + name)
+            taskName 'ClientAlt'
+            args '--username', 'Alt'
+        }
+
         server {
             workingDirectory project.file('run')
 
