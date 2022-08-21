@@ -929,19 +929,19 @@
 					},
 					"position": {
 						"0.0": {
-							"vector": [0, 2, 0.48]
+							"vector": [0, 2, -0.52]
 						},
 						"0.25": {
-							"vector": [0, 0.8, 1.46]
+							"vector": [0, 0.8, -1.04]
 						},
 						"0.5417": {
-							"vector": [0, 2.31, 0.27]
+							"vector": [0, 2.31, -0.73]
 						},
 						"0.75": {
 							"vector": [0, 0.73, -1]
 						},
 						"1.0417": {
-							"vector": [0, 2, 0.48]
+							"vector": [0, 2, -0.52]
 						}
 					}
 				},
@@ -3746,7 +3746,6 @@
 			}
 		},
 		"JumpLvl1Player": {
-			"loop": true,
 			"animation_length": 0.92,
 			"bones": {
 				"head": {
@@ -3981,7 +3980,6 @@
 			}
 		},
 		"JumpLvl2Player": {
-			"loop": true,
 			"animation_length": 1.4,
 			"bones": {
 				"head": {
@@ -4219,7 +4217,6 @@
 			}
 		},
 		"JumpLvl3Player": {
-			"loop": true,
 			"animation_length": 1.1,
 			"bones": {
 				"head": {
@@ -4478,7 +4475,6 @@
 			}
 		},
 		"JumpLvl4Player": {
-			"loop": true,
 			"animation_length": 1.26,
 			"bones": {
 				"head": {
@@ -4791,7 +4787,6 @@
 			}
 		},
 		"JumpLvl5Player": {
-			"loop": true,
 			"animation_length": 1.68,
 			"bones": {
 				"head": {

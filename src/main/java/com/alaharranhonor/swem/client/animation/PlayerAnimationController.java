@@ -29,7 +29,7 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 
 public class PlayerAnimationController {
     private final PlayerEntity player;
-    private final ModifierLayer<KeyframeAnimationPlayer> poseContainer = new ModifierLayer(null);
+    private final ModifierLayer<KeyframeAnimationPlayer> poseContainer = new ModifierLayer<>(null);
 
     public PlayerAnimationController(PlayerEntity player) {
         this.player = player;
@@ -61,7 +61,8 @@ public class PlayerAnimationController {
             return;
         }
 
-        if (poseContainer.getAnimation() == null || (poseContainer.getAnimation() != null && !poseContainer.getAnimation().getData().extraData.get("name").equals(controller.getCurrentAnimation().animationName + "Player"))) {
+        if (poseContainer.getAnimation() == null
+            || (poseContainer.getAnimation() != null && !poseContainer.getAnimation().getData().extraData.get("name").equals(controller.getCurrentAnimation().animationName + "Player"))) {
             KeyframeAnimation animation = AnimationRegistry.animations.get(controller.getCurrentAnimation().animationName + "Player");
             if (animation != null) {
 
