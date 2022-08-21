@@ -126,16 +126,16 @@ public class SpigotBlock extends HorizontalBlock {
 
         switch (state.getValue(FACING)) {
             case EAST: {
-                return VoxelShapes.box(1D, 0.25D, 0.1875D, 0.6875D, 0.50D, 0.8125D);
+                return VoxelShapes.box(1D, 0.1875D, 0.1875D, 0.6875D, 0.4375D, 0.8125D);
             }
             case SOUTH: {
-                return VoxelShapes.box(0.1875D, 0.25D, 1D, 0.8125D, 0.50D, 0.6875D);
+                return VoxelShapes.box(0.1875D, 0.1875D, 1D, 0.8125D, 0.4375D, 0.6875D);
             }
             case WEST: {
-                return VoxelShapes.box(0D, 0.25D, 0.1875D, 0.3125D, 0.50D, 0.8125D);
+                return VoxelShapes.box(0D, 0.1875D, 0.1875D, 0.3125D, 0.4375D, 0.8125D);
             }
             default: {
-                return VoxelShapes.box(0.1875D, 0.25D, 0D, 0.8125D, 0.50D, 0.3125D);
+                return VoxelShapes.box(0.1875D, 0.1875D, 0D, 0.8125D, 0.4375D, 0.3125D);
             }
         }
     }
