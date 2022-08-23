@@ -240,21 +240,24 @@ public class MeasurementTool extends Item {
      * @return the int
      */
     private int isValidPos(BlockPos first, BlockPos second) {
+        if (first.getY() != second.getY()) {
+            return -1;
+        }
+
         if (first.getX() == second.getX()) {
-            if (second.getZ() == first.getZ() - 6) {
+            if (first.getZ() - second.getZ() == -6) {
                 return 1; // Negative Z
-            } else if (second.getZ() == first.getZ() + 6) {
+            } else if (first.getZ() - second.getZ() == 6) {
                 return 2; // Positive Z
             }
             // check < or > 5 on z
         } else if (first.getZ() == second.getZ()) {
-            if (second.getX() == first.getX() - 6) {
+            if (first.getX() - second.getX() == -6) {
                 return 3; // Negative X
-            } else if (second.getX() == first.getX() + 6) {
+            } else if (first.getX() - second.getX() == 6) {
                 return 4; // Positive X
             }
         }
-
         return -1;
     }
 
