@@ -125,7 +125,6 @@ public class SWEMItems {
     public static final RegistryObject<SWEMHorseArmorItem> DIAMOND_HORSE_ARMOR = ITEMS.register("diamond_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.DIAMOND, 37, "diamond", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
     public static final RegistryObject<SWEMHorseArmorItem> AMETHYST_HORSE_ARMOR = ITEMS.register("amethyst_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.AMETHYST, 50, "amethyst", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
     public static final RegistryObject<SWEMHorseArmorItem> AMETHYST_USA_HORSE_ARMOR = ITEMS.register("amethyst_usa_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.AMETHYST, 50, "amethyst_usa", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
-    public static final RegistryObject<SaddlebagItem> SADDLEBAG = ITEMS.register("saddlebag", () -> new SaddlebagItem("saddlebags"));
     public static final RegistryObject<MeasurementTool> MEASUREMENT_TOOL = ITEMS.register("measurement_tool", () -> new MeasurementTool(new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
     public static final RegistryObject<PoopItem> POOP = ITEMS.register("poop", PoopItem::new);
     public static final RegistryObject<TrackerItem> TRACKER = ITEMS.register("tracker", TrackerItem::new);
@@ -180,6 +179,7 @@ public class SWEMItems {
     public static final List<RegistryObject<LegWrapsItem>> ENGLISH_LEG_WRAPS = new ArrayList<>();
     public static final List<RegistryObject<PastureBlanketItem>> PASTURE_BLANKETS = new ArrayList<>();
     public static final List<RegistryObject<PastureBlanketItem>> PASTURE_BLANKETS_ARMORED = new ArrayList<>();
+    public static final List<RegistryObject<SaddlebagItem>> SADDLEBAG = new ArrayList<>();
 
     static {
         for (DyeColor color : DyeColor.values()) {
@@ -194,6 +194,7 @@ public class SWEMItems {
             ENGLISH_LEG_WRAPS.add(ITEMS.register("english_leg_wraps_" + color.getName(), () -> new EnglishLegWraps("english_leg_wraps_" + color.getName(), new Item.Properties().tab(SWEM.TAB).stacksTo(64))));
             PASTURE_BLANKETS.add(ITEMS.register("pasture_blanket_" + color.getName(), () -> new PastureBlanketItem(SWEMHorseArmorItem.HorseArmorTier.NONE, 0, "pasture_blanket_" + color.getName(), new Item.Properties().tab(SWEM.TAB).stacksTo(16))));
             PASTURE_BLANKETS_ARMORED.add(ITEMS.register("pasture_blanket_" + color.getName() + "_armored", () -> new PastureBlanketItem(SWEMHorseArmorItem.HorseArmorTier.DIAMOND, 37, "pasture_blanket_" + color.getName() + "_armored", new Item.Properties().tab(SWEM.TAB).stacksTo(16))));
+            SADDLEBAG.add(ITEMS.register("saddle_bag_" + color.getName(), () -> new SaddlebagItem("saddle_bag_" + color.getName(), new Item.Properties().tab(SWEM.TAB).stacksTo(16))));
         }
     }
 

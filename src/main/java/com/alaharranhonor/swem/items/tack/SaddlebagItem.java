@@ -39,18 +39,17 @@ import java.util.Set;
 public class SaddlebagItem extends ItemBase implements IAnimatable {
 
     private AnimationFactory factory = new AnimationFactory(this);
-    private ResourceLocation texture;
+    private final ResourceLocation texture;
 
-    /**
-     * Instantiates a new Saddlebag item.
-     *
-     * @param texturePath the texture path
-     */
-    public SaddlebagItem(String texturePath) {
-        super();
-        this.texture =
-                new ResourceLocation(
-                        SWEM.MOD_ID, "textures/entity/horse/saddlebags/" + texturePath + ".png");
+    public SaddlebagItem(String textureName, Properties properties) {
+        this(
+                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/saddle_bag/" + textureName + ".png"),
+                properties);
+    }
+
+    public SaddlebagItem(ResourceLocation texture, Properties properties) {
+        super(properties);
+        this.texture = texture;
     }
 
     public ActionResultType interactLivingEntity(
