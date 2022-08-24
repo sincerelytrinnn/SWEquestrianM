@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "horse_armor",
+  "ingredients": [
+    {
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "tag": "swem:adventure_saddle_variant"
+    }
+  ],
+  "result": {
+    "item": "swem:adventure_saddle_copper",
+    "count": 1
+  }
+}
