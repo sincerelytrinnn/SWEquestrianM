@@ -125,6 +125,7 @@ public class SWEMItems {
     public static final RegistryObject<SWEMHorseArmorItem> DIAMOND_HORSE_ARMOR = ITEMS.register("diamond_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.DIAMOND, 37, "diamond", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
     public static final RegistryObject<SWEMHorseArmorItem> AMETHYST_HORSE_ARMOR = ITEMS.register("amethyst_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.AMETHYST, 50, "amethyst", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
     public static final RegistryObject<SWEMHorseArmorItem> AMETHYST_USA_HORSE_ARMOR = ITEMS.register("amethyst_usa_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.AMETHYST, 50, "amethyst_usa", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
+    public static final RegistryObject<SWEMHorseArmorItem> AMETHYST_NETHERITE_HORSE_ARMOR = ITEMS.register("amethyst_netherite_horse_armor", () -> new SWEMHorseArmorItem(SWEMHorseArmorItem.HorseArmorTier.AMETHYST, 50, "amethyst_netherite", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
     public static final RegistryObject<MeasurementTool> MEASUREMENT_TOOL = ITEMS.register("measurement_tool", () -> new MeasurementTool(new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
     public static final RegistryObject<PoopItem> POOP = ITEMS.register("poop", PoopItem::new);
     public static final RegistryObject<TrackerItem> TRACKER = ITEMS.register("tracker", TrackerItem::new);
@@ -210,6 +211,7 @@ public class SWEMItems {
     public static final RegistryObject<AdventureSaddleItem> ADVENTURE_SADDLE = ITEMS.register("adventure_saddle", () -> new AdventureSaddleItem("adventure_saddle", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
     public static final RegistryObject<AdventureSaddleItem> ADVENTURE_SADDLE_GLOW = ITEMS.register("adventure_saddle_glow", () -> new AdventureSaddleItem("adventure_saddle_glow", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
     public static final RegistryObject<AdventureSaddleItem> ADVENTURE_SADDLE_USA = ITEMS.register("adventure_saddle_usa", () -> new AdventureSaddleItem("adventure_saddle_usa", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
+    public static final RegistryObject<AdventureSaddleItem> ADVENTURE_SADDLE_NETHERITE = ITEMS.register("adventure_saddle_netherite", () -> new AdventureSaddleItem("adventure_saddle_netherite", new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
     public static final RegistryObject<AdventureBlanketItem> ADVENTURE_BLANKET = ITEMS.register("adventure_blanket", () -> new AdventureBlanketItem("adventure_blanket", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
     public static final RegistryObject<AdventureBridleItem> ADVENTURE_BRIDLE = ITEMS.register("adventure_bridle", () -> new AdventureBridleItem("adventure_bridle", "adventure", new Item.Properties().tab(SWEM.TAB).stacksTo(16)));
     public static final RegistryObject<AdventureLegWraps> ADVENTURE_LEG_WRAPS = ITEMS.register("adventure_leg_wraps", () -> new AdventureLegWraps("adventure_leg_wraps", new Item.Properties().tab(SWEM.TAB).stacksTo(64)));
