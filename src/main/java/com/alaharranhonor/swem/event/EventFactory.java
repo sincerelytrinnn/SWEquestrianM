@@ -14,6 +14,8 @@ package com.alaharranhonor.swem.event;
  * THE SOFTWARE.
  */
 
+import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.event.entity.horse.AccessHorseCheckEvent;
 import com.alaharranhonor.swem.event.entity.player.FillHoseEvent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -39,10 +41,10 @@ public class EventFactory {
      */
     @Nullable
     public static ActionResult<ItemStack> onHoseUse(
-            @Nonnull PlayerEntity player,
-            @Nonnull World world,
-            @Nonnull ItemStack stack,
-            @Nullable RayTraceResult target) {
+        @Nonnull PlayerEntity player,
+        @Nonnull World world,
+        @Nonnull ItemStack stack,
+        @Nullable RayTraceResult target) {
         FillHoseEvent event = new FillHoseEvent(player, stack, world, target);
         if (MinecraftForge.EVENT_BUS.post(event))
             return new ActionResult<ItemStack>(ActionResultType.FAIL, stack);
@@ -60,5 +62,12 @@ public class EventFactory {
             return new ActionResult<ItemStack>(ActionResultType.SUCCESS, stack);
         }
         return null;
+    }
+
+    public static boolean accessHorseCheck(SWEMHorseEntityBase horse, PlayerEntity accessor, boolean canAccess) {
+        AccessHorseCheckEvent event = new AccessHorseCheckEvent(horse, accessor, canAccess);
+        MinecraftForge.EVENT_BUS.post(event);
+        Event.Result result = event.getResult();
+        return result == Event.Result.DEFAULT ? canAccess : result == Event.Result.ALLOW;
     }
 }

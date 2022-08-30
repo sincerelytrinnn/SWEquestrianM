@@ -27,6 +27,7 @@ import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
+import com.alaharranhonor.swem.event.EventFactory;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.items.TrackerItem;
 import com.alaharranhonor.swem.items.tack.*;
@@ -951,13 +952,16 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
      * @return boolean Returns whether or not the player has permission to access the horse.
      */
     public boolean canAccessHorse(PlayerEntity player) {
+        boolean flag;
         if (this.getPermissionState() == RidingPermission.NONE) {
-            return player.getUUID().equals(this.getOwnerUUID());
+            flag = player.getUUID().equals(this.getOwnerUUID());
         } else if (this.getPermissionState() == RidingPermission.TRUST) {
-            return this.isAllowedUUID(player.getUUID()) || player.getUUID().equals(this.getOwnerUUID());
+            flag = this.isAllowedUUID(player.getUUID()) || player.getUUID().equals(this.getOwnerUUID());
         } else {
-            return true;
+            flag = true;
         }
+
+        return EventFactory.accessHorseCheck(this, player, flag);
     }
 
     /**
@@ -2548,13 +2552,13 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
             this.fedBreedingFood(playerEntity, itemstack);
         }
 
-        if (checkIsCoatTransformItem(playerEntity, itemstack)) {
+        if (this.isTamed() && canAccessHorse(playerEntity) && checkIsCoatTransformItem(playerEntity, itemstack)) {
             return ActionResultType.SUCCESS;
         }
 
         if (!itemstack.isEmpty() && item != Items.SADDLE) {
 
-            if (item == Items.LAPIS_LAZULI && !this.isBaby() && playerEntity.getUUID().equals(this.getOwnerUUID())) {
+            if (item == Items.LAPIS_LAZULI && !this.isBaby() && this.isTamed() && canAccessHorse(playerEntity)) {
                 if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
                     this.setHorseVariant(SWEMCoatColor.getNextCyclableCoat(this.getHorseVariant()).getId());
                     ItemStack heldItemCopy = itemstack.copy();
@@ -2564,7 +2568,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
                 }
             }
 
-            if (item == Items.REDSTONE && !this.isBaby() && playerEntity.getUUID().equals(this.getOwnerUUID())) {
+            if (item == Items.REDSTONE && !this.isBaby() && this.isTamed() && canAccessHorse(playerEntity)) {
                 if (ConfigHolder.SERVER.lapisCycleCoats.get()) {
                     this.setHorseVariant(SWEMCoatColor.getPreviousCyclableCoat(this.getHorseVariant()).getId());
                     ItemStack heldItemCopy = itemstack.copy();

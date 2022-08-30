@@ -24,6 +24,7 @@ import com.alaharranhonor.swem.commands.SWEMCommand;
 import com.alaharranhonor.swem.config.ConfigHelper;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.event.entity.horse.AccessHorseCheckEvent;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.network.*;
 import com.alaharranhonor.swem.tools.AmethystSword;
@@ -110,6 +111,11 @@ public class GeneralEventHandlers {
 
         private static int KEY_PRESS_COUNTER = 0;
         private static ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+
+        @SubscribeEvent
+        public static void onAccessHorse(AccessHorseCheckEvent event) {
+            System.out.println("Current access is: " + event.canAccess());
+        }
 
         /**
          * On biome loading.
