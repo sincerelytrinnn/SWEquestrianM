@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "horse_armor",
+  "ingredients": [
+    {
+      "item": "swem:amethyst"
+    },
+    {
+      "tag": "swem:amethyst_variant_armor"
+    }
+  ],
+  "result": {
+    "item": "swem:amethyst_horse_armor",
+    "count": 1
+  }
+}

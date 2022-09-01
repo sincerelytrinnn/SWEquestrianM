@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "xxx",
+    "yzy",
+    "yyy"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "tag": "minecraft:light_blue_wool"
+    },
+    "y":
+    {
+      "item": "swem:refined_leather"
+    },
+    "z":
+    {
+      "item": "minecraft:chest"
+    }
+  },
+  "result":
+  {
+    "item": "swem:saddle_bag_light_blue",
+    "count": 1
+  }
+}

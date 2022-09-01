@@ -29,6 +29,7 @@ import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
 import com.alaharranhonor.swem.event.EventFactory;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
+import com.alaharranhonor.swem.items.SweetFeed;
 import com.alaharranhonor.swem.items.TrackerItem;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.network.*;
@@ -942,6 +943,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         if (this.isStanding() && this.getLastDamageSource() != DamageSource.IN_FIRE && this.getLastDamageSource() != DamageSource.LAVA && this.getLastDamageSource() != DamageSource.DROWN && this.getLastDamageSource() != DamageSource.ON_FIRE && this.getLastDamageSource() != DamageSource.HOT_FLOOR)
             return false;
         if (!this.isTamed()) return true;
+        Item item = player.getMainHandItem().getItem();
+        if (item instanceof SweetFeed){
+            return false;
+        }
         return canAccessHorse(player);
     }
 
