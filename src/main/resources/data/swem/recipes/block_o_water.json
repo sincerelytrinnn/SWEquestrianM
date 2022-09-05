@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#E#",
+    "DWD",
+    "#G#"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:glass_panes"
+    },
+    "E": {
+      "tag": "forge:ender_pearls"
+    },
+    "D": {
+      "item": "swem:cantazarite"
+    },
+    "W": {
+      "item": "minecraft:water_bucket"
+    },
+    "G": {
+      "tag": "forge:ingots/gold"
+    }
+  },
+  "result": {
+    "item": "swem:block_o_water",
+    "count": 1
+  }
+}

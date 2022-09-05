@@ -72,7 +72,7 @@ public class GoldRidingBoots extends IronRidingBoots {
      */
     @Override
     public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
-        if (player.isOnGround()) {
+        if (player.isOnGround() && !player.getPersistentData().contains("blockIceEffect") && !world.isClientSide()) {
             BlockState blockstate = Blocks.FROSTED_ICE.defaultBlockState();
             float f = (float) Math.min(16, 3);
             BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
@@ -86,7 +86,7 @@ public class GoldRidingBoots extends IronRidingBoots {
                     if (blockstate1.getBlock().isAir(blockstate1, world, blockpos$mutable)) {
                         BlockState blockstate2 = world.getBlockState(blockpos);
                         boolean isFull = blockstate2.getBlock() == Blocks.WATER && blockstate2.getValue(FlowingFluidBlock.LEVEL) == 0; // TODO: Forge, modded waters?
-                        if (((blockstate2.getMaterial() == Material.WATER && isFull) || blockstate2.getMaterial() == Material.WATER_PLANT) && blockstate.canSurvive(world, blockpos) && world.isUnobstructed(blockstate, blockpos, ISelectionContext.empty()) && !net.minecraftforge.event.ForgeEventFactory.onBlockPlace(player, net.minecraftforge.common.util.BlockSnapshot.create(world.dimension(), world, blockpos), net.minecraft.util.Direction.UP)) {
+                        if (((blockstate2.getMaterial() == Material.WATER && isFull) || blockstate2.getMaterial() == Material.WATER_PLANT || blockstate2.getMaterial() == Material.REPLACEABLE_WATER_PLANT) && blockstate.canSurvive(world, blockpos) && world.isUnobstructed(blockstate, blockpos, ISelectionContext.empty()) && !net.minecraftforge.event.ForgeEventFactory.onBlockPlace(player, net.minecraftforge.common.util.BlockSnapshot.create(world.dimension(), world, blockpos), net.minecraft.util.Direction.UP)) {
                             world.setBlock(blockpos, blockstate, 3);
                             world.getBlockTicks().scheduleTick(blockpos, Blocks.FROSTED_ICE, 20);
                         }

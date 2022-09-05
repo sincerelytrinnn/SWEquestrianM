@@ -18,14 +18,8 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.*;
 import com.alaharranhonor.swem.blocks.HalfBarrelBlock;
 import com.alaharranhonor.swem.blocks.WaterTroughBlock;
-import com.alaharranhonor.swem.capability.CapabilityHandler;
-import com.alaharranhonor.swem.capability.PlayerCapability;
-import com.alaharranhonor.swem.client.model.ModelGeckoRiderFirstPerson;
-import com.alaharranhonor.swem.client.model.ModelGeckoRiderThirdPerson;
+import com.alaharranhonor.swem.client.animation.AnimationRegistry;
 import com.alaharranhonor.swem.client.render.*;
-import com.alaharranhonor.swem.client.render.player.GeckoRider;
-import com.alaharranhonor.swem.client.render.player.RiderFirstPersonRenderer;
-import com.alaharranhonor.swem.client.render.player.RiderRenderPlayer;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.gui.*;
 import com.alaharranhonor.swem.items.SWEMSpawnEggItem;
@@ -33,7 +27,6 @@ import com.alaharranhonor.swem.particle.*;
 import com.alaharranhonor.swem.util.registry.*;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.Atlases;
@@ -44,15 +37,13 @@ import net.minecraft.client.renderer.tileentity.SignTileEntityRenderer;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.DyeColor;
-import net.minecraft.item.IDyeableArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemModelsProperties;
+import net.minecraft.resources.IResourceManager;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.Color;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.FoliageColors;
@@ -61,10 +52,8 @@ import net.minecraft.world.biome.BiomeRegistry;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
-import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -78,6 +67,7 @@ public class ClientEventHandlers {
 
     public static KeyBinding[] keyBindings;
 
+
     /**
      * On client setup.
      *
@@ -90,6 +80,9 @@ public class ClientEventHandlers {
         registerRenderers(event);
         setRenderLayers();
         registerKeybinds();
+
+        IResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
+        AnimationRegistry.load(resourceManager);
     }
 
     /**
@@ -158,7 +151,7 @@ public class ClientEventHandlers {
      * Sets render layers.
      */
     public static void setRenderLayers() {
-        RenderTypeLookup.setRenderLayer(SWEMBlocks.TIMOTHY_GRASS.get(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(SWEMBlocks.TIMOTHY_PLANT.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.OAT_PLANT.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.ALFALFA_PLANT.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(SWEMBlocks.WATER_TROUGH.get(), RenderType.translucent());
@@ -282,9 +275,9 @@ public class ClientEventHandlers {
      */
     @SubscribeEvent
     public static void onRegisterItemColors(ColorHandlerEvent.Item event) {
-        event.getItemColors().register((p_210239_0_, p_210239_1_) -> {
+        /*event.getItemColors().register((p_210239_0_, p_210239_1_) -> {
             return p_210239_1_ > 0 ? -1 : ((IDyeableArmorItem) p_210239_0_.getItem()).getColor(p_210239_0_);
-        }, SWEMItems.WESTERN_LEG_WRAPS.get(), SWEMItems.ENGLISH_LEG_WRAPS.get());
+        }, SWEMItems.WESTERN_LEG_WRAPS.get(), SWEMItems.ENGLISH_LEG_WRAPS.get());*/
     }
 
     /**
@@ -367,89 +360,6 @@ public class ClientEventHandlers {
             }
         }
 
-        // Huge thanks to Mowzie's Mobs for making this custom player renderer (Next 3 events)
-        // https://www.curseforge.com/minecraft/mc-mods/mowzies-mobs
-        @SubscribeEvent
-        public static void onHandRender(RenderHandEvent event) {
-            // if (!ConfigHandler.CLIENT.customPlayerAnims.get()) return; // Config option for custom
-            // player anims?
-            PlayerEntity player = Minecraft.getInstance().player;
-            if (player == null) return;
-            boolean shouldAnimate = false;
-
-            // Toggle this when first person anims are implemented. (Mowzie toggled this with his
-            // abilities)
-            if (shouldAnimate) {
-                PlayerCapability.IPlayerCapability playerCapability = CapabilityHandler.getCapability(player, PlayerCapability.PlayerProvider.PLAYER_CAPABILITY);
-                if (playerCapability != null) {
-                    GeckoRider.GeckoRiderFirstPerson geckoPlayer = RiderFirstPersonRenderer.GECKO_PLAYER_FIRST_PERSON;
-                    if (geckoPlayer != null) {
-                        ModelGeckoRiderFirstPerson geckoFirstPersonModel = (ModelGeckoRiderFirstPerson) geckoPlayer.getModel();
-                        RiderFirstPersonRenderer firstPersonRenderer = (RiderFirstPersonRenderer) geckoPlayer.getPlayerRenderer();
-
-                        if (geckoFirstPersonModel != null && firstPersonRenderer != null) {
-                            //                        if (!geckoFirstPersonModel.isUsingSmallArms() &&
-                            // ((AbstractClientPlayerEntity) player).getSkinType().equals("slim")) {
-                            firstPersonRenderer.setSmallArms();
-                            //                        }
-                            event.setCanceled(geckoFirstPersonModel.resourceForModelId((AbstractClientPlayerEntity) player));
-
-                            if (event.isCanceled()) {
-                                float delta = event.getPartialTicks();
-                                float f1 = MathHelper.lerp(delta, player.xRotO, player.xRot);
-                                firstPersonRenderer.renderItemInFirstPerson((AbstractClientPlayerEntity) player, f1, delta, event.getHand(), event.getSwingProgress(), event.getItemStack(), event.getEquipProgress(), event.getMatrixStack(), event.getBuffers(), event.getLight(), geckoPlayer);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        @SubscribeEvent
-        public static void renderLivingEvent(RenderPlayerEvent.Pre event) {
-            if (event.getEntity() instanceof PlayerEntity) {
-                // if (!ConfigHandler.CLIENT.customPlayerAnims.get()) return; // Config option for custom
-                // player anims?
-                PlayerEntity player = (PlayerEntity) event.getEntity();
-                if (player == null) return;
-                float delta = event.getPartialRenderTick();
-
-                PlayerCapability.IPlayerCapability playerCapability = CapabilityHandler.getCapability(event.getEntity(), PlayerCapability.PlayerProvider.PLAYER_CAPABILITY);
-                if (playerCapability != null) {
-                    GeckoRider.GeckoRiderThirdPerson geckoPlayer = playerCapability.getGeckoPlayer();
-                    if (geckoPlayer != null) {
-                        ModelGeckoRiderThirdPerson geckoPlayerModel = (ModelGeckoRiderThirdPerson) geckoPlayer.getModel();
-                        RiderRenderPlayer animatedPlayerRenderer = (RiderRenderPlayer) geckoPlayer.getPlayerRenderer();
-
-                        if (geckoPlayerModel != null && animatedPlayerRenderer != null && player.getVehicle() instanceof SWEMHorseEntityBase) {
-                            if (!geckoPlayerModel.isUsingSmallArms() && ((AbstractClientPlayerEntity) player).getModelName().equals("slim")) {
-                                animatedPlayerRenderer.setSmallArms();
-                            }
-
-                            event.setCanceled(geckoPlayerModel.resourceForModelId((AbstractClientPlayerEntity) player));
-
-                            if (event.isCanceled()) {
-                                animatedPlayerRenderer.render((AbstractClientPlayerEntity) event.getEntity(), event.getEntity().yRot, delta, event.getMatrixStack(), event.getBuffers(), event.getLight(), geckoPlayer);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        @SubscribeEvent
-        public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-            if (event.phase == TickEvent.Phase.START || event.player == null) {
-                return;
-            }
-            PlayerEntity player = event.player;
-            PlayerCapability.IPlayerCapability playerCapability = CapabilityHandler.getCapability(player, PlayerCapability.PlayerProvider.PLAYER_CAPABILITY);
-            if (playerCapability != null && event.side == LogicalSide.CLIENT) {
-                GeckoRider geckoPlayer = playerCapability.getGeckoPlayer();
-                if (geckoPlayer != null) geckoPlayer.tick();
-                if (player == Minecraft.getInstance().player) RiderFirstPersonRenderer.GECKO_PLAYER_FIRST_PERSON.tick();
-            }
-        }
 
         @SubscribeEvent
         public static void fogDensity(EntityViewRenderEvent.FogDensity event) {

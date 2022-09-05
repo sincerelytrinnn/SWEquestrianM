@@ -27,6 +27,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,12 +36,12 @@ import java.util.List;
 public class TackBoxBlockItem extends BlockItem {
 
     public TackBoxBlockItem(Block block) {
-        super(block, new Item.Properties().tab(SWEM.TAB));
+        super(block, new Item.Properties().tab(SWEM.TAB).stacksTo(2));
     }
 
     @Override
     public void appendHoverText(
-            ItemStack pStack, @Nullable World pLevel, List<ITextComponent> pTooltip, ITooltipFlag pFlag) {
+        ItemStack pStack, @Nullable World pLevel, List<ITextComponent> pTooltip, ITooltipFlag pFlag) {
         super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
         if (pStack.hasTag()) {
             if (pStack.getTag().contains("horseName")) {
@@ -59,12 +60,17 @@ public class TackBoxBlockItem extends BlockItem {
      */
     @Override
     public ActionResultType interactLivingEntity(
-            ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+        ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
         if (target instanceof SWEMHorseEntityBase) {
             SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
             // TODO: ONLY ALLOW HORSES TAMED BY THE PLAYER TO SET THE HORSE ID
+            if (!horse.isTamed() || !horse.getOwnerUUID().equals(playerIn.getUUID())) {
+                playerIn.displayClientMessage(new TranslationTextComponent("text.swem.status.tack_box_not_tamed"), true);
+                return ActionResultType.FAIL;
+            }
             stack.getOrCreateTag().putUUID("horseUUID", horse.getUUID());
             stack.getOrCreateTag().putString("horseName", horse.getDisplayName().getString());
+            playerIn.displayClientMessage(new TranslationTextComponent("text.swem.status.tack_box_bound", horse.getDisplayName().getString()), true);
             return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
         }
         return ActionResultType.FAIL;

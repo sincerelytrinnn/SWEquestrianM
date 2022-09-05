@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "horse_armor",
+  "ingredients": [
+    {
+      "item": "minecraft:emerald"
+    },
+    {
+      "tag": "swem:adventure_saddle_variant"
+    }
+  ],
+  "result": {
+    "item": "swem:adventure_saddle_emerald",
+    "count": 1
+  }
+}

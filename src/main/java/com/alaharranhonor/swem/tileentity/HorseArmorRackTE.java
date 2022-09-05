@@ -16,6 +16,7 @@ package com.alaharranhonor.swem.tileentity;
 
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.items.tack.AdventureSaddleItem;
+import com.alaharranhonor.swem.items.tack.PastureBlanketItem;
 import com.alaharranhonor.swem.util.registry.SWEMTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
@@ -134,7 +135,7 @@ public class HorseArmorRackTE extends TileEntity implements IAnimatable {
             @Override
             public boolean isItemValid(int slot, ItemStack stack) {
                 if (slot == 0) {
-                    return stack.getItem() instanceof SWEMHorseArmorItem;
+                    return stack.getItem() instanceof SWEMHorseArmorItem && !(stack.getItem() instanceof PastureBlanketItem);
                 } else {
                     return stack.getItem() instanceof AdventureSaddleItem;
                 }
@@ -168,17 +169,17 @@ public class HorseArmorRackTE extends TileEntity implements IAnimatable {
         for (int i = 0; i < itemHandler.getSlots(); i++) {
             if (this.itemHandler.getStackInSlot(i) != ItemStack.EMPTY) {
                 ItemEntity entity =
-                        new ItemEntity(
-                                this.level,
-                                this.getBlockPos().getX(),
-                                this.getBlockPos().getY(),
-                                this.getBlockPos().getZ(),
-                                this.itemHandler.getStackInSlot(i));
+                    new ItemEntity(
+                        this.level,
+                        this.getBlockPos().getX(),
+                        this.getBlockPos().getY(),
+                        this.getBlockPos().getZ(),
+                        this.itemHandler.getStackInSlot(i));
                 Random RANDOM = this.level.getRandom();
                 entity.setDeltaMovement(
-                        RANDOM.nextGaussian() * (double) 0.05F,
-                        RANDOM.nextGaussian() * (double) 0.05F + (double) 0.2F,
-                        RANDOM.nextGaussian() * (double) 0.05F);
+                    RANDOM.nextGaussian() * (double) 0.05F,
+                    RANDOM.nextGaussian() * (double) 0.05F + (double) 0.2F,
+                    RANDOM.nextGaussian() * (double) 0.05F);
                 this.level.addFreshEntity(entity);
                 this.itemHandler.setStackInSlot(i, ItemStack.EMPTY);
             }
@@ -199,7 +200,7 @@ public class HorseArmorRackTE extends TileEntity implements IAnimatable {
     @Override
     public void registerControllers(AnimationData animationData) {
         animationData.addAnimationController(
-                new AnimationController(this, "controller", 0, this::predicate));
+            new AnimationController(this, "controller", 0, this::predicate));
     }
 
     @Override

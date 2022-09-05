@@ -21,7 +21,7 @@ import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 public class SWEMPacketHandler {
-    private static final String PROTOCOL_VERSION = "3.6.1-b";
+    private static final String PROTOCOL_VERSION = "4.5.0-b";
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(new ResourceLocation(SWEM.MOD_ID, "main"), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
 
     /**
@@ -53,5 +53,6 @@ public class SWEMPacketHandler {
         INSTANCE.registerMessage(27, CCameraLockPacket.class, CCameraLockPacket::encode, CCameraLockPacket::decode, CCameraLockPacket::handle);
         INSTANCE.registerMessage(28, SCameraLockPacket.class, SCameraLockPacket::encode, SCameraLockPacket::decode, SCameraLockPacket::handle);
         INSTANCE.registerMessage(29, CSyncMovementIdentifiersPacket.class, CSyncMovementIdentifiersPacket::encode, CSyncMovementIdentifiersPacket::decode, CSyncMovementIdentifiersPacket::handle);
+        INSTANCE.registerMessage(30, IceTogglePacket.class, IceTogglePacket::encode, IceTogglePacket::decode, IceTogglePacket::handle);
     }
 }

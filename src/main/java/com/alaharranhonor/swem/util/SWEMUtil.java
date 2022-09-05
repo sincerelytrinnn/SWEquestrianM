@@ -14,33 +14,48 @@ package com.alaharranhonor.swem.util;
  * THE SOFTWARE.
  */
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import java.util.Arrays;
 
 public class SWEMUtil {
 
-	public static DyeColor[] COLOURS = {DyeColor.WHITE, DyeColor.LIGHT_BLUE, DyeColor.CYAN, DyeColor.BLUE, DyeColor.PINK, DyeColor.MAGENTA, DyeColor.PURPLE, DyeColor.YELLOW, DyeColor.ORANGE, DyeColor.RED, DyeColor.LIME, DyeColor.GREEN, DyeColor.LIGHT_GRAY, DyeColor.GRAY, DyeColor.BLACK, DyeColor.BROWN,};
-	private static final DyeColor[] BY_INDEX = Arrays.stream(COLOURS).toArray(DyeColor[]::new);
+    public static DyeColor[] COLOURS = {DyeColor.WHITE, DyeColor.LIGHT_BLUE, DyeColor.CYAN, DyeColor.BLUE, DyeColor.PINK, DyeColor.MAGENTA, DyeColor.PURPLE, DyeColor.YELLOW, DyeColor.ORANGE, DyeColor.RED, DyeColor.LIME, DyeColor.GREEN, DyeColor.LIGHT_GRAY, DyeColor.GRAY, DyeColor.BLACK, DyeColor.BROWN,};
+    private static final DyeColor[] BY_INDEX = Arrays.stream(COLOURS).toArray(DyeColor[]::new);
 
-	public static void damageOrShrink(ItemStack stack, PlayerEntity player) {
-		if (stack.getItem() instanceof BucketItem) {
-			player.setItemInHand(player.getUsedItemHand(), ((BucketItem) stack.getItem()).getEmptySuccessItem(stack, player));
-		}
-		if (stack.isDamageableItem()) {
-			stack.hurtAndBreak(1, player, (playerEntity) -> {
-				playerEntity.broadcastBreakEvent(playerEntity.getUsedItemHand());
-			});
-		} else {
-			if (!player.isCreative())
-				stack.shrink(1);
-			player.setItemInHand(player.getUsedItemHand(), stack);
-		}
-	}
+    public static void damageOrShrink(ItemStack stack, PlayerEntity player) {
+        if (stack.getItem() instanceof BucketItem) {
+            player.setItemInHand(player.getUsedItemHand(), ((BucketItem) stack.getItem()).getEmptySuccessItem(stack, player));
+        }
+        if (stack.isDamageableItem()) {
+            stack.hurtAndBreak(1, player, (playerEntity) -> {
+                playerEntity.broadcastBreakEvent(playerEntity.getUsedItemHand());
+            });
+        } else {
+            if (!player.isCreative())
+                stack.shrink(1);
+            player.setItemInHand(player.getUsedItemHand(), stack);
+        }
+    }
 
+    public static boolean isInDistanceOfBlock(World level, BlockPos pos, int distance, Block blockToCheck) {
+        for (int x = -distance; x <= distance; x++) {
+            for (int z = -distance; z <= distance; z++) {
+                for (int y = -distance; y <= distance; y++) {
+                    if (level.getBlockState(pos.offset(x, y, z)).getBlock() == blockToCheck) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
     /**
      * Check text overflow string.

@@ -16,15 +16,16 @@ package com.alaharranhonor.swem.util;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.armor.AmethystRidingBoots;
+import com.alaharranhonor.swem.armor.GoldRidingBoots;
 import com.alaharranhonor.swem.blocks.HitchingPostBase;
 import com.alaharranhonor.swem.blocks.LeadAnchorBlock;
-import com.alaharranhonor.swem.capability.CapabilityHandler;
-import com.alaharranhonor.swem.capability.PlayerCapability;
 import com.alaharranhonor.swem.commands.DevCommand;
 import com.alaharranhonor.swem.commands.SWEMCommand;
 import com.alaharranhonor.swem.config.ConfigHelper;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.event.entity.horse.AccessHorseCheckEvent;
+import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.network.*;
 import com.alaharranhonor.swem.tools.AmethystSword;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
@@ -32,6 +33,7 @@ import com.alaharranhonor.swem.util.registry.SWEMItems;
 import com.alaharranhonor.swem.world.gen.OreGenUtils;
 import com.alaharranhonor.swem.world.gen.SWEMOreGen;
 import com.alaharranhonor.swem.world.structure.SWEMConfiguredStructures;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -50,6 +52,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
@@ -64,6 +67,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
+import org.lwjgl.glfw.GLFW;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -108,6 +112,11 @@ public class GeneralEventHandlers {
         private static int KEY_PRESS_COUNTER = 0;
         private static ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
 
+        @SubscribeEvent
+        public static void onAccessHorse(AccessHorseCheckEvent event) {
+            System.out.println("Current access is: " + event.canAccess());
+        }
+
         /**
          * On biome loading.
          *
@@ -133,15 +142,15 @@ public class GeneralEventHandlers {
         public static void onJoinWorld(EntityJoinWorldEvent event) {
 
             if (event.getEntity() instanceof PlayerEntity) {
-                PlayerCapability.IPlayerCapability playerCapability = CapabilityHandler.getCapability((PlayerEntity) event.getEntity(), PlayerCapability.PlayerProvider.PLAYER_CAPABILITY);
-                if (playerCapability != null) playerCapability.addedToWorld(event);
+                //PlayerCapability.IPlayerCapability playerCapability = CapabilityHandler.getCapability((PlayerEntity) event.getEntity(), PlayerCapability.PlayerProvider.PLAYER_CAPABILITY);
+                //if (playerCapability != null) playerCapability.addedToWorld(event);
             }
         }
 
         @SubscribeEvent
         public static void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
             if (event.getObject() instanceof PlayerEntity) {
-                event.addCapability(new ResourceLocation(SWEM.MOD_ID, "player"), new PlayerCapability.PlayerProvider());
+                //event.addCapability(new ResourceLocation(SWEM.MOD_ID, "player"), new PlayerCapability.PlayerProvider());
             }
         }
 
@@ -158,6 +167,25 @@ public class GeneralEventHandlers {
 
             PermissionAPI.registerNode("command.swem.reset_gallop", DefaultPermissionLevel.OP, "Gives permission to reset the gallop cooldown");
             PermissionAPI.registerNode("command.swem.set_gallop_time", DefaultPermissionLevel.OP, "Gives permission to set the max gallop time");
+        }
+
+        @SubscribeEvent
+        public static void onMouseInput(InputEvent.MouseInputEvent event) {
+            if (event.getAction() == GLFW.GLFW_PRESS) {
+                if (event.getButton() == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
+                    boolean canToggleBoots = Minecraft.getInstance().player != null
+                        && Minecraft.getInstance().player.getItemBySlot(EquipmentSlotType.FEET).getItem() instanceof GoldRidingBoots;
+
+                    boolean canToggleHorse = Minecraft.getInstance().player != null
+                        && Minecraft.getInstance().player.getVehicle() instanceof SWEMHorseEntityBase
+                        && ((SWEMHorseEntityBase) Minecraft.getInstance().player.getVehicle()).getSWEMArmor().getItem() instanceof SWEMHorseArmorItem
+                        && ((SWEMHorseArmorItem) ((SWEMHorseEntityBase) Minecraft.getInstance().player.getVehicle()).getSWEMArmor().getItem()).tier.getId() >= SWEMHorseArmorItem.HorseArmorTier.GOLD.getId();
+
+                    if (canToggleBoots || canToggleHorse) {
+                        SWEMPacketHandler.INSTANCE.sendToServer(new IceTogglePacket());
+                    }
+                }
+            }
         }
 
         /**
@@ -261,7 +289,7 @@ public class GeneralEventHandlers {
          */
         // Update horse speed when dismounted, to a walk gait.
         @SubscribeEvent
-        public static void entityMount(EntityMountEvent event) {
+        public static void entityDismount(EntityMountEvent event) {
             if (event.isMounting()) return;
             if (event.getEntityBeingMounted() == null) return;
 
@@ -270,14 +298,19 @@ public class GeneralEventHandlers {
             if (entity instanceof SWEMHorseEntityBase) {
 
                 SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-                if (horse.getPassengers().stream().allMatch((ent) -> ent instanceof PlayerEntity)) {
+                if (horse.getPassengers().size() > 1 && horse.getPassengers().stream().allMatch((ent) -> ent instanceof PlayerEntity)) {
                     return; // Early return if the horse has 2 passengers.
                 }
                 SWEMHorseEntityBase.HorseSpeed oldSpeed = horse.currentSpeed;
                 horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
                 horse.updateSelectedSpeed(oldSpeed);
 
-                if (horse.level.isClientSide) {
+                if (!horse.level.isClientSide()) {
+                    horse.getEntityData().set(SWEMHorseEntityBase.IS_MOVING_FORWARD, false);
+                    horse.getEntityData().set(SWEMHorseEntityBase.IS_MOVING_BACKWARDS, false);
+                    horse.getEntityData().set(SWEMHorseEntityBase.IS_MOVING_LEFT, false);
+                    horse.getEntityData().set(SWEMHorseEntityBase.IS_MOVING_RIGHT, false);
+                } else {
                     SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(horse.getId(), 4));
                 }
             }
@@ -487,6 +520,17 @@ public class GeneralEventHandlers {
             if (event.getEntity() instanceof PlayerEntity) {
                 if (event.getEntity().isPassenger()) {
                     event.getEntity().stopRiding();
+                }
+            }
+        }
+
+        @SubscribeEvent
+        public static void onBlockMissingMappings(RegistryEvent.MissingMappings<Block> event) {
+            for (RegistryEvent.MissingMappings.Mapping<Block> mapping : event.getAllMappings()) {
+                if (mapping.key.getNamespace().equalsIgnoreCase("swem")) {
+                    if (mapping.key.getPath().contains("timothy_grass")) {
+                        mapping.remap(SWEMBlocks.TIMOTHY_PLANT.get());
+                    }
                 }
             }
         }

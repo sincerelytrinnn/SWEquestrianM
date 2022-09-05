@@ -21,6 +21,7 @@ import com.alaharranhonor.swem.blocks.SlowFeederBlock;
 import com.alaharranhonor.swem.blocks.WheelBarrowBlock;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -50,6 +51,33 @@ public class BlockStates extends BlockStateProvider {
         this.registerSlowFeeders();
         this.registerNonParallelBlock(SWEMBlocks.SEPARATORS);
         this.registerGrainFeeders();
+        this.registerSpigot();
+    }
+
+    private void registerSpigot() {
+        ModelFile.ExistingModelFile spigotWall = models().getExistingFile(new ResourceLocation(SWEM.MOD_ID, "spigot_wall"));
+        ModelFile.ExistingModelFile spigotGround = models().getExistingFile(new ResourceLocation(SWEM.MOD_ID, "spigot_ground"));
+
+        getVariantBuilder(SWEMBlocks.SPIGOT.get())
+                .forAllStates((state) -> {
+                    Direction dir = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+                    boolean hanging = state.getValue(BlockStateProperties.HANGING);
+                    int originalRotation =
+                            dir.getAxis() != Direction.Axis.Y ? ((dir.get2DDataValue() + 2) % 4) * 90 : 0;
+                    if (hanging) {
+                        return ConfiguredModel.builder()
+                                .modelFile(spigotWall)
+                                .rotationY((originalRotation + 180) % 360)
+                                .build();
+                    } else {
+                        return ConfiguredModel.builder()
+                                .modelFile(spigotGround)
+                                .rotationY((originalRotation + 180) % 360)
+                                .build();
+                    }
+                });
+
+
     }
 
     /**

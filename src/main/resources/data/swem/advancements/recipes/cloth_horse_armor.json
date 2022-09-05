@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_adventure_saddle_glow": {
+    "has_cloth_horse_armor": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "swem:adventure_saddle_glow"
+            "tag": "minecraft:carpets"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_adventure_saddle_glow",
+      "has_cloth_horse_armor",
       "has_the_recipe"
     ]
   ]

@@ -43,8 +43,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class BarrelBlock extends Block {
-    public static final EnumProperty<HitchingPostBase.PostPart> PART =
-            SWEMBlockStateProperties.POST_PART;
+    public static final EnumProperty<HitchingPostBase.PostPart> PART = SWEMBlockStateProperties.POST_PART;
 
     /**
      * Instantiates a new Barrel block.
@@ -53,18 +52,11 @@ public class BarrelBlock extends Block {
      */
     public BarrelBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(
-                this.stateDefinition.any().setValue(PART, HitchingPostBase.PostPart.LOWER));
+        this.registerDefaultState(this.stateDefinition.any().setValue(PART, HitchingPostBase.PostPart.LOWER));
     }
 
     @Override
-    public ActionResultType use(
-            BlockState state,
-            World worldIn,
-            BlockPos pos,
-            PlayerEntity player,
-            Hand handIn,
-            BlockRayTraceResult hit) {
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         ItemStack itemstack = player.getItemInHand(handIn);
         if (itemstack.getItem() == Items.SHEARS) {
             itemstack.hurtAndBreak(1, player, (entity) -> entity.broadcastBreakEvent(handIn));
@@ -77,20 +69,8 @@ public class BarrelBlock extends Block {
                 worldIn.setBlock(pos.below(), Blocks.AIR.defaultBlockState(), 3);
             }
 
-            ItemEntity entity =
-                    new ItemEntity(
-                            worldIn,
-                            pos.getX(),
-                            pos.getY(),
-                            pos.getZ(),
-                            new ItemStack(SWEMBlocks.HALF_BARRELS.get(DyeColor.WHITE.getId()).get()));
-            ItemEntity entity1 =
-                    new ItemEntity(
-                            worldIn,
-                            pos.getX(),
-                            pos.getY(),
-                            pos.getZ(),
-                            new ItemStack(SWEMBlocks.HALF_BARRELS.get(DyeColor.WHITE.getId()).get()));
+            ItemEntity entity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(SWEMBlocks.HALF_BARRELS.get(DyeColor.WHITE.getId()).get()));
+            ItemEntity entity1 = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(SWEMBlocks.HALF_BARRELS.get(DyeColor.WHITE.getId()).get()));
 
             worldIn.addFreshEntity(entity);
             worldIn.addFreshEntity(entity1);
@@ -101,8 +81,7 @@ public class BarrelBlock extends Block {
     }
 
     @Override
-    public VoxelShape getShape(
-            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         if (state.getValue(PART) == HitchingPostBase.PostPart.UPPER) {
             return VoxelShapes.box(0.01D, 0.01D, 0.01D, 0.99D, 1.45d, 0.99D).move(0.0D, -1.0D, 0.0D);
         } else {
@@ -111,8 +90,7 @@ public class BarrelBlock extends Block {
     }
 
     @Override
-    public void playerWillDestroy(
-            World p_176208_1_, BlockPos p_176208_2_, BlockState p_176208_3_, PlayerEntity p_176208_4_) {
+    public void playerWillDestroy(World p_176208_1_, BlockPos p_176208_2_, BlockState p_176208_3_, PlayerEntity p_176208_4_) {
         super.playerWillDestroy(p_176208_1_, p_176208_2_, p_176208_3_, p_176208_4_);
 
         // Destroy the other part of the barrel.
@@ -127,8 +105,7 @@ public class BarrelBlock extends Block {
      * Determines if this block should drop loot when exploded.
      */
     @Override
-    public boolean canDropFromExplosion(
-            BlockState state, IBlockReader world, BlockPos pos, Explosion explosion) {
+    public boolean canDropFromExplosion(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion) {
         return state.getValue(PART) == HitchingPostBase.PostPart.LOWER;
     }
 
@@ -143,12 +120,7 @@ public class BarrelBlock extends Block {
     }
 
     @Override
-    public void setPlacedBy(
-            World worldIn,
-            BlockPos pos,
-            BlockState state,
-            @Nullable LivingEntity placer,
-            ItemStack stack) {
+    public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(worldIn, pos, state, placer, stack);
         if (!worldIn.isClientSide) {
             BlockPos blockpos = pos.relative(Direction.UP);

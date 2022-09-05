@@ -10,8 +10,10 @@
     "LilyPadBlockMixin"
   ],
   "client": [
-    "ClientPlayerEntityMixin",
-    "LeashKnotRendererMixin"
+    "client.AbstractClientPlayerEntityMixin",
+    "client.ClientPlayerEntityMixin",
+    "client.LeashKnotRendererMixin",
+    "client.LivingRendererMixin"
   ],
   "minVersion": "0.8"
 }

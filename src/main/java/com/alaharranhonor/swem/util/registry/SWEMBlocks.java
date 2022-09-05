@@ -56,6 +56,8 @@ public class SWEMBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SWEM.MOD_ID);
     public static final RegistryObject<Block> CHARCOAL_BLOCK = BLOCKS.register("charcoal_block", FuelBlock::new);
     public static final RegistryObject<Item> CHARCOAL_BLOCK_ITEM = SWEMItems.ITEMS.register("charcoal_block", () -> new FuelBlockItemBase(CHARCOAL_BLOCK.get(), 16000));
+    public static final RegistryObject<Block> BLOCK_O_WATER =
+        register("block_o_water", BlockOWater::new);
     public static final RegistryObject<Block> FUEL_BLOCK = BLOCKS.register("fuel_block", FuelBlock::new);
     // Block Items
     public static final RegistryObject<Item> FUEL_BLOCK_ITEM = SWEMItems.ITEMS.register("fuel_block", () -> new FuelBlockItemBase(FUEL_BLOCK.get(), 1600));
@@ -71,7 +73,7 @@ public class SWEMBlocks {
     public static final RegistryObject<Item> CANTAZARITE_ORE_ITEM = SWEMItems.ITEMS.register("cantazarite_ore", () -> new BlockItemBase(CANTAZARITE_ORE.get()));
     public static final RegistryObject<OreBlock> AMETHYST_ORE = BLOCKS.register("amethyst_ore", () -> new OreBase(AbstractBlock.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(3.0f, 6.0f).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(2)));
     public static final RegistryObject<Item> AMETHYST_ORE_ITEM = SWEMItems.ITEMS.register("amethyst_ore", () -> new BlockItemBase(AMETHYST_ORE.get()));
-    public static final RegistryObject<Block> TIMOTHY_GRASS = BLOCKS.register("timothy_grass", () -> new TimothyGrass(AbstractBlock.Properties.copy(Blocks.WHEAT)));
+    public static final RegistryObject<Block> TIMOTHY_PLANT = BLOCKS.register("timothy_plant", () -> new TimothyPlant(AbstractBlock.Properties.copy(Blocks.WHEAT)));
     public static final RegistryObject<Block> TIMOTHY_BALE = register("timothy_bale", () -> new BaseBaleBlock(AbstractBlock.Properties.copy(Blocks.HAY_BLOCK)));
     public static final RegistryObject<Block> TIMOTHY_BALE_SLAB = register("timothy_bale_slab", () -> new SlabBlock(AbstractBlock.Properties.copy(Blocks.HAY_BLOCK)));
     public static final RegistryObject<Block> ALFALFA_PLANT = BLOCKS.register("alfalfa_plant", () -> new AlfalfaPlant(AbstractBlock.Properties.copy(Blocks.WHEAT)));
@@ -213,7 +215,7 @@ public class SWEMBlocks {
     public static final RegistryObject<Item> WHITEWASH_DOOR_ITEM = SWEMItems.ITEMS.register("whitewash_door", () -> new BlockItemBase(WHITEWASH_DOOR.get()));
     public static final RegistryObject<Block> WHITEWASH_LOG = register("whitewash_log", () -> new RotatedPillarBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
     public static final RegistryObject<Block> WHITEWASH_TRAPDOOR = register("whitewash_trapdoor", () -> new TrapDoorBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
-    public static final RegistryObject<Block> SPIGOT = BLOCKS.register("spigot", () -> new Spigot(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).strength(1.5f, 6.0f)));
+    public static final RegistryObject<Block> SPIGOT = BLOCKS.register("spigot", () -> new SpigotBlock(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).strength(1.5f, 6.0f)));
     public static final RegistryObject<Item> SPIGOT_ITEM = SWEMItems.ITEMS.register("spigot", () -> new BlockItemBase(SPIGOT.get()));
     public static final RegistryObject<Block> STAR_WORM_COBBLE = BLOCKS.register("star_worm_cobble", () -> new Block(Block.Properties.copy(Blocks.STONE).lightLevel((state) -> 7)));
     public static final RegistryObject<Item> STAR_WORM_COBBLE_ITEM = SWEMItems.ITEMS.register("star_worm_cobble", () -> new BlockItem(STAR_WORM_COBBLE.get(), new Item.Properties().tab(SWEM.TAB)));

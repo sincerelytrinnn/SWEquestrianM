@@ -32,7 +32,7 @@ public class Languages extends LanguageProvider {
      * @param localeIndex  the locale index
      */
     public Languages(
-            DataGenerator gen, String modid, String locale, String[][] translations, int localeIndex) {
+        DataGenerator gen, String modid, String locale, String[][] translations, int localeIndex) {
         this(gen, modid, locale);
         this.translations = translations;
         this.localeIndex = localeIndex;
@@ -55,6 +55,7 @@ public class Languages extends LanguageProvider {
             String key = set[0];
             if (set.length - 1 < this.localeIndex) continue;
             String translation = set[this.localeIndex];
+            if (translation.isEmpty()) continue;
             this.add(key, translation);
         }
     }

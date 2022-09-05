@@ -15,7 +15,7 @@ package com.alaharranhonor.swem.items.tack;
  */
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.entities.ISWEMEquipable;
+import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.items.ItemBase;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
@@ -39,24 +39,27 @@ import java.util.Set;
 public class SaddlebagItem extends ItemBase implements IAnimatable {
 
     private AnimationFactory factory = new AnimationFactory(this);
-    private ResourceLocation texture;
+    private final ResourceLocation texture;
 
-    /**
-     * Instantiates a new Saddlebag item.
-     *
-     * @param texturePath the texture path
-     */
-    public SaddlebagItem(String texturePath) {
-        super();
-        this.texture =
-                new ResourceLocation(
-                        SWEM.MOD_ID, "textures/entity/horse/saddlebags/" + texturePath + ".png");
+    public SaddlebagItem(String textureName, Properties properties) {
+        this(
+                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/saddle_bag/" + textureName + ".png"),
+                properties);
+    }
+
+    public SaddlebagItem(ResourceLocation texture, Properties properties) {
+        super(properties);
+        this.texture = texture;
     }
 
     public ActionResultType interactLivingEntity(
             ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-        if (target instanceof ISWEMEquipable && target.isAlive()) {
-            ISWEMEquipable iequipable = (ISWEMEquipable) target;
+        if (target instanceof SWEMHorseEntityBase && target.isAlive()) {
+            SWEMHorseEntityBase iequipable = (SWEMHorseEntityBase) target;
+            if (iequipable.getSWEMArmor().getItem() instanceof PastureBlanketItem) {
+                playerIn.displayClientMessage(new StringTextComponent("You can't use this on a horse with a pasture blanket!"), true);
+                return ActionResultType.FAIL;
+            }
             if (iequipable.isSaddleable(playerIn)) {
                 if (!playerIn.level.isClientSide) {
                     iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);

@@ -1,4 +1,4 @@
-package com.alaharranhonor.swem.entities.ai;
+
 /*
  * All Rights Reserved
  *
@@ -12,6 +12,8 @@ package com.alaharranhonor.swem.entities.ai;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
+package com.alaharranhonor.swem.entities.ai;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.blocks.BaseBaleBlock;

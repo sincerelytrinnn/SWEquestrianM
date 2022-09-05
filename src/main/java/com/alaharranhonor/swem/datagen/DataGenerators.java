@@ -43,21 +43,19 @@ public class DataGenerators {
     public static void gatherData(GatherDataEvent event) throws IOException {
         DataGenerator data = event.getGenerator();
         if (event.includeServer()) {
-            // data.addProvider(new Recipes(data));
+            data.addProvider(new Recipes(data));
             // data.addProvider(new LootTables(data));
         }
         if (event.includeClient()) {
             data.addProvider(new BlockStates(data, event.getExistingFileHelper()));
-            // data.addProvider(new Items(data, event.getExistingFileHelper()));
+            data.addProvider(new Items(data, SWEM.MOD_ID, event.getExistingFileHelper()));
 
             // Get the translation document.
             // parse it into GSON
             // Read the output into a Data Class.
             // get the Translation array, and then pass it into registerLanguageProviders
             String api = System.getenv("SWEM_TRANSLATION_API_KEY");
-            URL url =
-                    new URL(
-                            "https://sheets.googleapis.com/v4/spreadsheets/1nIuoznNlkud57_eE_piMSLIQAsQ9XRIiyzTBtwDC2kg/values/A60:W692?key=");
+            URL url = new URL("https://sheets.googleapis.com/v4/spreadsheets/1nIuoznNlkud57_eE_piMSLIQAsQ9XRIiyzTBtwDC2kg/values/A65:W761?key=");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 

@@ -98,7 +98,7 @@ public class SWEMHorseArmorItem extends HorseArmorItem implements IAnimatable {
     }
 
     public enum HorseArmorTier {
-        CLOTH(0), IRON(1), GOLD(2), DIAMOND(3), AMETHYST(4);
+        NONE(-1), CLOTH(0), IRON(1), GOLD(2), DIAMOND(3), AMETHYST(4);
 
         private int id;
 

@@ -14,9 +14,8 @@ package com.alaharranhonor.swem;
  * THE SOFTWARE.
  */
 
-import com.alaharranhonor.swem.blocks.TimothyGrass;
+import com.alaharranhonor.swem.blocks.TimothyPlant;
 import com.alaharranhonor.swem.capability.CapabilityHandler;
-import com.alaharranhonor.swem.client.model.tools.SWEMGeoBuilder;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.PoopEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
@@ -91,10 +90,10 @@ public class SWEM {
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "swem";
-    public static final ItemGroup TAB = new ItemGroup("SWEMTab") {
+    public static final ItemGroup TAB = new ItemGroup("swemtab") {
         @Override
         public ItemStack makeIcon() {
-            return new ItemStack(SWEMItems.WESTERN_SADDLE_LIGHT_BLUE.get());
+            return new ItemStack(SWEMItems.WESTERN_SADDLES.get(3).get());
         }
 
         @Override
@@ -143,7 +142,6 @@ public class SWEM {
         SWEMLootModifiers.init(modEventBus);
         SWLRegistryHandler.init(modEventBus);
 
-        SWEMGeoBuilder.registerGeoBuilder(MOD_ID, new SWEMGeoBuilder());
         GeckoLib.initialize();
 
         IEventBus forgeBus = MinecraftForge.EVENT_BUS;
@@ -169,7 +167,7 @@ public class SWEM {
     public static void onRegisterItems(final RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
 
-        SWEMBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get).filter(block -> !(block instanceof TimothyGrass)).forEach(block -> {
+        SWEMBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get).filter(block -> !(block instanceof TimothyPlant)).forEach(block -> {
             final Item.Properties properties = new Item.Properties().tab(TAB);
             final BlockItem blockItem = new BlockItem(block, properties);
             blockItem.setRegistryName(block.getRegistryName());

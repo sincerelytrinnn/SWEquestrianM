@@ -15,7 +15,7 @@ package com.alaharranhonor.swem.items.tack;
  */
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.entities.ISWEMEquipable;
+import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -50,8 +50,12 @@ public class HorseSaddleItem extends HorseTackItem implements IAnimatable {
 
     public ActionResultType interactLivingEntity(
             ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-        if (target instanceof ISWEMEquipable && target.isAlive()) {
-            ISWEMEquipable iequipable = (ISWEMEquipable) target;
+        if (target instanceof SWEMHorseEntityBase && target.isAlive()) {
+            SWEMHorseEntityBase iequipable = (SWEMHorseEntityBase) target;
+            if (iequipable.getSWEMArmor().getItem() instanceof PastureBlanketItem) {
+                playerIn.displayClientMessage(new StringTextComponent("You can't use this on a horse with a pasture blanket!"), true);
+                return ActionResultType.FAIL;
+            }
             if (playerIn.level.isClientSide && !iequipable.canEquipSaddle()) {
                 playerIn.displayClientMessage(
                         new StringTextComponent("You need to equip a Blanket first!"), true);
