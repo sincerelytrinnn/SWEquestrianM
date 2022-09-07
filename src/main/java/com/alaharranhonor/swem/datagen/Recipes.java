@@ -39,6 +39,8 @@ public class Recipes extends RecipeProvider {
         for (DyeColor color : DyeColor.values()) {
             pastureBlanket(color, p_200404_0_);
             halfBarrels(color, p_200404_0_);
+            englishTack(color, p_200404_0_);
+            westernTack(color, p_200404_0_);
         }
 
         ShapedRecipeBuilder.shaped(SWEMItems.CLOTH_HORSE_ARMOR.get())
@@ -69,7 +71,7 @@ public class Recipes extends RecipeProvider {
             .pattern("#x#")
             .group("pasture_blanket")
             .unlockedBy("has_pasture_blanket", has(ItemTags.CARPETS))
-            .save(p_200404_0_);
+            .save(p_200404_0_, new ResourceLocation(SWEM.MOD_ID, "pasture_blanket/pasture_blanket_" + color.getName()));
 
         ShapedRecipeBuilder.shaped(SWEMItems.PASTURE_BLANKETS_ARMORED.get(color.getId()).get())
             .define('#', ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft", color.getName() + "_carpet")))
@@ -80,14 +82,14 @@ public class Recipes extends RecipeProvider {
             .pattern("#x#")
             .group("pasture_blanket_armored")
             .unlockedBy("has_pasture_blanket_armored", has(ItemTags.CARPETS))
-            .save(p_200404_0_);
+            .save(p_200404_0_, new ResourceLocation(SWEM.MOD_ID, "pasture_blanket/pasture_blanket_armored_" + color.getName()));
 
         ShapelessRecipeBuilder.shapeless(SWEMItems.PASTURE_BLANKETS_ARMORED.get(color.getId()).get())
             .requires(SWEMItems.PASTURE_BLANKETS.get(color.getId()).get())
             .requires(Items.IRON_CHESTPLATE)
             .group("pasture_blanket_armored")
             .unlockedBy("has_pasture_blanket_armored", has(ItemTags.CARPETS))
-            .save(p_200404_0_, new ResourceLocation(SWEM.MOD_ID, "pasture_blanket_" + color.getName()) + "_armored_from_blanket");
+            .save(p_200404_0_, new ResourceLocation(SWEM.MOD_ID, "pasture_blanket/pasture_blanket_" + color.getName()) + "_armored_from_blanket");
     }
 
     private void halfBarrels(DyeColor color, Consumer<IFinishedRecipe> p_200404_0_) {
@@ -96,6 +98,58 @@ public class Recipes extends RecipeProvider {
             .requires(ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft", color.getName() + "_dye")))
             .group("half_barrels")
             .unlockedBy("has_half_barrels", has(Items.DRIED_KELP))
-            .save(p_200404_0_);
+            .save(p_200404_0_, new ResourceLocation(SWEM.MOD_ID, "half_barrel/half_barrel_" + color.getName()));
     }
+
+    private void englishTack(DyeColor color, Consumer<IFinishedRecipe> p_200404_0_) {
+        englishBlanket(color, p_200404_0_);
+        englishLegWraps(color, p_200404_0_);
+    }
+
+    private void englishBlanket(DyeColor color, Consumer<IFinishedRecipe> p_200404_0_) {
+        // Regular recipe, from coloured blanket.
+        ShapedRecipeBuilder.shaped(SWEMItems.ENGLISH_BLANKETS.get(color.getId()).get())
+            .define('x', ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft", color.getName() + "_carpet")))
+            .define('y', SWEMItems.REFINED_LEATHER.get())
+            .pattern("xyx")
+            .pattern("xx ")
+            .group("english_blanket")
+            .unlockedBy("has_english_blanket", has(ItemTags.CARPETS))
+            .save(p_200404_0_, new ResourceLocation(SWEM.MOD_ID, "english_blanket/english_blanket_" + color.getName()));
+
+        // Interchangeable blanket.
+        ShapelessRecipeBuilder.shapeless(SWEMItems.ENGLISH_BLANKETS.get(color.getId()).get())
+            .requires(SWEMTags.ENGLISH_BLANKETS)
+            .requires(ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft", color.getName() + "_dye")))
+            .group("english_blanket")
+            .unlockedBy("has_english_blanket", has(ItemTags.CARPETS))
+            .save(p_200404_0_, new ResourceLocation(SWEM.MOD_ID, "english_blanket/english_blanket_" + color.getName() + "_from_blanket"));
+    }
+
+    private void englishLegWraps(DyeColor color, Consumer<IFinishedRecipe> p_200404_0_) {
+        // Regular recipe, from coloured blanket.
+        ShapedRecipeBuilder.shaped(SWEMItems.ENGLISH_LEG_WRAPS.get(color.getId()).get())
+            .define('x', ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft", color.getName() + "_carpet")))
+            .define('y', Items.DRIED_KELP)
+            .pattern("x x")
+            .pattern("x x")
+            .pattern("y y")
+            .group("english_leg_wraps")
+            .unlockedBy("has_english_leg_wraps", has(ItemTags.CARPETS))
+            .save(p_200404_0_, new ResourceLocation(SWEM.MOD_ID, "english_leg_wraps/english_leg_wraps_" + color.getName()));
+
+        // Interchangeable leg wraps.
+        ShapelessRecipeBuilder.shapeless(SWEMItems.ENGLISH_LEG_WRAPS.get(color.getId()).get())
+            .requires(SWEMTags.ENGLISH_LEG_WRAPS)
+            .requires(ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft", color.getName() + "_dye")))
+            .group("english_leg_wraps")
+            .unlockedBy("has_english_leg_wraps", has(ItemTags.CARPETS))
+            .save(p_200404_0_, new ResourceLocation(SWEM.MOD_ID, "english_leg_wraps/english_leg_wraps_" + color.getName()) + "_from_leg_wraps");
+    }
+
+    private void westernTack(DyeColor color, Consumer<IFinishedRecipe> p_200404_0_) {
+
+    }
+
+
 }

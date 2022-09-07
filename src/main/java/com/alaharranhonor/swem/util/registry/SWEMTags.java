@@ -23,4 +23,6 @@ import net.minecraftforge.common.Tags;
 
 public class SWEMTags {
     public static final Tags.IOptionalNamedTag<Item> HALF_BARRELS = ItemTags.createOptional(new ResourceLocation(SWEM.MOD_ID, "half_barrels"));
+    public static final Tags.IOptionalNamedTag<Item> ENGLISH_BLANKETS = ItemTags.createOptional(new ResourceLocation(SWEM.MOD_ID, "english_blankets"));
+    public static final Tags.IOptionalNamedTag<Item> ENGLISH_LEG_WRAPS = ItemTags.createOptional(new ResourceLocation(SWEM.MOD_ID, "english_leg_wraps"));
 }

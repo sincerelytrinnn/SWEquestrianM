@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "english_leg_wraps",
+  "pattern": [
+    "x x",
+    "x x",
+    "y y"
+  ],
+  "key": {
+    "x": {
+      "item": "minecraft:black_carpet"
+    },
+    "y": {
+      "item": "minecraft:dried_kelp"
+    }
+  },
+  "result": {
+    "item": "swem:english_leg_wraps_black"
+  }
+}
