@@ -115,6 +115,8 @@ public enum SWEMCoatColor {
     TOOTHBRUSH_BOATY(102, true),
     KODIAK_DELPHI(103, true),
     ANNIE_LACE(104, true),
+    KHAREMA_CYTRIS(109, true),
+    ANGEL_RILEY(110, true),
     LADY_JENNY(17351, false),
     LUCY_HANNAH(62118, false),
     FOAL_BLACK(70000, false),
