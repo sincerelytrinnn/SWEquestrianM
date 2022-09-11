@@ -165,7 +165,8 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     public int delayedLeashHolderId2;
     @Nullable
     public CompoundNBT leashInfoTag2;
-    private int limitedGaitIndex = -1;
+    private int hungerLimitedGaitIndex = -1;
+    private int thirstLimitedGaitIndex = -1;
     private static final DataParameter<Float> OBEDIENCE_MODIFIER = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
     public double jumpHeight;
     public int standAnimationTick;
@@ -3092,30 +3093,55 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         this.updateSelectedSpeed(oldSpeed);
     }
 
-    public void setLimitedGait(HorseSpeed limitedGait) {
+    public void setHungerLimitedGait(HorseSpeed limitedGait) {
         if (limitedGait == null) {
-            this.limitedGaitIndex = -1;
+            this.hungerLimitedGaitIndex = -1;
         } else {
-            this.limitedGaitIndex = limitedGait.ordinal();
+            this.hungerLimitedGaitIndex = limitedGait.ordinal();
         }
     }
 
-    public void removeLimitedGait() {
-        this.setLimitedGait(null);
+    public void setThirstLimitedGait(HorseSpeed limitedGait) {
+        if (limitedGait == null) {
+            this.thirstLimitedGaitIndex = -1;
+        } else {
+            this.thirstLimitedGaitIndex = limitedGait.ordinal();
+        }
+    }
+
+    public void removeHungerLimitedGait() {
+        this.setHungerLimitedGait(null);
+    }
+
+    public void removeThirstLimitedGait() {
+        this.setThirstLimitedGait(null);
     }
 
     @Nullable
     public HorseSpeed getLimitedGait() {
-        if (this.limitedGaitIndex == -1) return null;
-        return HorseSpeed.values()[limitedGaitIndex];
+        if (this.hungerLimitedGaitIndex == -1 && this.thirstLimitedGaitIndex == -1) return null;
+
+        return HorseSpeed.values()[Math.min(this.hungerLimitedGaitIndex, this.thirstLimitedGaitIndex)];
     }
 
-    private int getLimitedGaitIndex() {
-        return this.limitedGaitIndex;
+    private int getHungerLimitedGaitIndex() {
+        return this.hungerLimitedGaitIndex;
+    }
+
+    private int getThirstLimitedGaitIndex() {
+        return this.thirstLimitedGaitIndex;
     }
 
     private boolean isGaitAllowed(HorseSpeed gait) {
-        return gait.ordinal() <= this.getLimitedGaitIndex() || this.getLimitedGaitIndex() == -1;
+        return (gait.ordinal() <= this.getHungerLimitedGaitIndex() || this.getHungerLimitedGaitIndex() == -1) && (gait.ordinal() <= this.getThirstLimitedGaitIndex() || this.getThirstLimitedGaitIndex() == -1);
+    }
+
+    private boolean isTooHungryForGait(HorseSpeed gait) {
+        return gait.ordinal() > this.getHungerLimitedGaitIndex() && this.getHungerLimitedGaitIndex() != -1;
+    }
+
+    private boolean isTooThirstyForGait(HorseSpeed gait) {
+        return gait.ordinal() > this.getThirstLimitedGaitIndex() && this.getThirstLimitedGaitIndex() != -1;
     }
 
     public float getObedienceModifier() {
@@ -3157,6 +3183,17 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         } else if (oldSpeed == HorseSpeed.WALK && this.isGaitAllowed(HorseSpeed.TROT)) {
             this.currentSpeed = HorseSpeed.TROT;
         }
+
+
+        if (this.currentSpeed == oldSpeed) {
+            if (this.getControllingPassenger() instanceof PlayerEntity) {
+                int message = this.isTooHungryForGait(HorseSpeed.values()[this.currentSpeed.ordinal() + 1]) ? 3 : this.isTooThirstyForGait(HorseSpeed.values()[this.currentSpeed.ordinal() + 1]) ? 1 : -1;
+                SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getControllingPassenger()), new ClientStatusMessagePacket(message, 1, Collections.singletonList(HorseSpeed.values()[this.currentSpeed.ordinal() + 1].text)));
+            }
+            // Going to assume it's been gait limited.
+            return;
+        }
+
         this.updateSelectedSpeed(oldSpeed);
     }
 

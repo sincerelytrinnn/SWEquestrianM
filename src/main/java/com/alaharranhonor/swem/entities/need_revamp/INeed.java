@@ -20,17 +20,17 @@ import java.util.List;
 
 public interface INeed {
 
-	void check(int checkTime);
+    void check(int checkTime);
 
-	List<Integer> getCheckTimes();
+    List<Integer> getCheckTimes();
 
-	boolean interact(ItemStack stack);
+    boolean interact(ItemStack stack);
 
-	void read(CompoundNBT nbt);
+    void read(CompoundNBT nbt);
 
-	void write(CompoundNBT nbt);
+    void write(CompoundNBT nbt);
 
-	void incrementNeedRequirement(int points);
+    void incrementNeedRequirement(int points);
 
-	void usageIncrement();
+    void usageIncrement();
 }

@@ -48,6 +48,10 @@ public class ThirstNeed implements INeed {
         this.currentLevel = ThirstLevel.QUENCHED;
     }
 
+    public ThirstLevel getCurrentLevel() {
+        return currentLevel;
+    }
+
     @Override
     public void check(int checkTime) {
 
@@ -140,7 +144,7 @@ public class ThirstNeed implements INeed {
 
     @Override
     public List<Integer> getCheckTimes() {
-        return new ArrayList<>(Arrays.asList(1000, 20000));
+        return new ArrayList<>(Arrays.asList());
     }
 
     @Override
@@ -248,17 +252,17 @@ public class ThirstNeed implements INeed {
 
 
     private static void applyExsiccosisEffects(SWEMHorseEntityBase horse) {
-        //horse.setLimitedGait(SWEMHorseEntityBase.HorseSpeed.WALK);
+        horse.setThirstLimitedGait(SWEMHorseEntityBase.HorseSpeed.WALK);
     }
 
 
     private static void applyDehydratedEffects(SWEMHorseEntityBase horse) {
-        //horse.setLimitedGait(SWEMHorseEntityBase.HorseSpeed.CANTER);
+        horse.setThirstLimitedGait(SWEMHorseEntityBase.HorseSpeed.CANTER);
     }
 
 
     private static void applyThirstyEffects(SWEMHorseEntityBase horse) {
-        //horse.setMaxGallopSeconds(horse.getMaxGallopSeconds() - 2);
+        horse.setMaxGallopSeconds(horse.getMaxGallopSeconds() - 2);
     }
 
     private static void applySatisfiedEffects(SWEMHorseEntityBase horse) {
@@ -269,17 +273,17 @@ public class ThirstNeed implements INeed {
     }
 
     private static void removeExsiccosisEffects(SWEMHorseEntityBase horse) {
-        //horse.removeLimitedGait();
+        horse.removeThirstLimitedGait();
     }
 
 
     private static void removeDehydratedEffects(SWEMHorseEntityBase horse) {
-        //horse.removeLimitedGait();
+        horse.removeThirstLimitedGait();
     }
 
 
     private static void removeThirstyEffects(SWEMHorseEntityBase horse) {
-        //horse.setMaxGallopSeconds(horse.getMaxGallopSeconds() + 2);
+        horse.setMaxGallopSeconds(horse.getMaxGallopSeconds() + 2);
     }
 
 
