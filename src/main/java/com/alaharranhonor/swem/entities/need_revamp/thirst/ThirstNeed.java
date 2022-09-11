@@ -32,8 +32,8 @@ import java.util.function.Consumer;
 public class ThirstNeed implements INeed {
     private final SWEMHorseEntityBase horse;
     private int missedBuckets = 0;
-    private final int[] pointsFromCategory = new int[3];
-    private final int[] timesFed = new int[ThirstItem.values().length];
+    private int[] pointsFromCategory = new int[3];
+    private int[] timesFed = new int[ThirstItem.values().length];
     private static final int MAX_WATER_BUCKET_POINTS = 1;
     private int requiredPointsToSatisfied = 2;
     private ThirstLevel currentLevel;
@@ -216,12 +216,33 @@ public class ThirstNeed implements INeed {
 
     @Override
     public void read(CompoundNBT nbt) {
+        this.timesFed = nbt.getIntArray("thirstTimesFed");
+        this.timesFed = this.timesFed.length == 0 ? new int[ThirstItem.values().length] : this.timesFed;
+        this.pointsFromCategory = nbt.getIntArray("thirstPointsFromCategory");
+        this.pointsFromCategory = this.pointsFromCategory.length == 0 ? new int[3] : this.pointsFromCategory;
+        this.missedBuckets = nbt.getInt("thirstMissedBuckets");
+        this.currentLevel = ThirstLevel.values()[nbt.getInt("thirstCurrentLevel")];
+        this.horse.getEntityData().set(SWEMHorseEntityBase.THIRST_LEVEL, this.currentLevel.ordinal());
+        this.currentLevel.getApplyEffectMethod().accept(this.horse);
+        this.addSpeedModifier(this.horse, this.currentLevel.getSkillModifier());
+        addObedienceModifier(this.currentLevel.getObedienceModifier());
+        this.timesUsageHasIncremented = nbt.getInt("thirstTimesUsageHasIncremented");
+        if (timesUsageHasIncremented > 0) {
+            incrementNeedRequirement(timesUsageHasIncremented * 112);
+        }
+        this.maxHealthRemoved = nbt.getInt("thirstMaxHealthRemoved");
 
+        applyHealthDamageModifier();
     }
 
     @Override
     public void write(CompoundNBT nbt) {
-
+        nbt.putInt("thirstMissedBuckets", missedBuckets);
+        nbt.putInt("thirstCurrentLevel", this.currentLevel.ordinal());
+        nbt.putIntArray("thirstTimesFed", this.timesFed);
+        nbt.putIntArray("thirstPointsFromCategory", this.pointsFromCategory);
+        nbt.putInt("thirstTimesUsageHasIncremented", this.timesUsageHasIncremented);
+        nbt.putInt("thirstMaxHealthRemoved", this.maxHealthRemoved);
     }
 
     @Override
@@ -331,7 +352,7 @@ public class ThirstNeed implements INeed {
     }
 
 
-    enum ThirstLevel {
+    public enum ThirstLevel {
         EXSICCOSIS(0, 0.3f, ThirstNeed::applyExsiccosisEffects, ThirstNeed::removeExsiccosisEffects),
         DEHYDRATED(-0.2f, 0.2f, ThirstNeed::applyDehydratedEffects, ThirstNeed::removeDehydratedEffects),
         THIRSTY(-0.1f, 0.1f, ThirstNeed::applyThirstyEffects, ThirstNeed::removeThirstyEffects),

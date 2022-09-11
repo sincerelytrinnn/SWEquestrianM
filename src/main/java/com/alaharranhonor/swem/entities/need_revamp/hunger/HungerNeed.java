@@ -33,8 +33,8 @@ public class HungerNeed implements INeed {
 
     private final SWEMHorseEntityBase horse;
     private int missedMeals = 0;
-    private final int[] pointsFromCategory = new int[3];
-    private final int[] timesFed = new int[FoodItem.values().length];
+    private int[] pointsFromCategory = new int[3];
+    private int[] timesFed = new int[FoodItem.values().length];
     private static final int MAX_TREAT_POINTS = 13;
     private static final int MAX_SWEET_FEED_POINTS = 112;
     private int requiredPointsToFed = 224;
@@ -76,6 +76,8 @@ public class HungerNeed implements INeed {
         // Reset points every check.
         Arrays.fill(pointsFromCategory, 0);
         Arrays.fill(this.timesFed, 0);
+        this.timesUsageHasIncremented = 0;
+        this.requiredPointsToFed = 224;
 
         if (this.currentLevel == HungerLevel.STARVING) {
             this.maxHealthRemoved++;
@@ -217,13 +219,33 @@ public class HungerNeed implements INeed {
 
     @Override
     public void read(CompoundNBT nbt) {
+        this.timesFed = nbt.getIntArray("hungerTimesFed");
+        this.timesFed = this.timesFed.length == 0 ? new int[FoodItem.values().length] : this.timesFed;
+        this.pointsFromCategory = nbt.getIntArray("hungerPointsFromCategory");
+        this.pointsFromCategory = this.pointsFromCategory.length == 0 ? new int[3] : this.pointsFromCategory;
+        this.missedMeals = nbt.getInt("hungerMissedMeals");
+        this.currentLevel = HungerLevel.values()[nbt.getInt("hungerCurrentLevel")];
+        this.horse.getEntityData().set(SWEMHorseEntityBase.HUNGER_LEVEL, this.currentLevel.ordinal());
+        this.currentLevel.getApplyEffectMethod().accept(this.horse);
+        this.addSpeedModifier(this.horse, this.currentLevel.getSkillModifier());
+        addObedienceModifier(this.currentLevel.getObedienceModifier());
+        this.timesUsageHasIncremented = nbt.getInt("hungerTimesUsageHasIncremented");
+        if (timesUsageHasIncremented > 0) {
+            incrementNeedRequirement(timesUsageHasIncremented * 112);
+        }
+        this.maxHealthRemoved = nbt.getInt("hungerMaxHealthRemoved");
 
         applyHealthDamageModifier();
     }
 
     @Override
     public void write(CompoundNBT nbt) {
-
+        nbt.putInt("hungerMissedMeals", missedMeals);
+        nbt.putInt("hungerCurrentLevel", this.currentLevel.ordinal());
+        nbt.putIntArray("hungerTimesFed", this.timesFed);
+        nbt.putIntArray("hungerPointsFromCategory", this.pointsFromCategory);
+        nbt.putInt("hungerTimesUsageHasIncremented", this.timesUsageHasIncremented);
+        nbt.putInt("hungerMaxHealthRemoved", this.maxHealthRemoved);
     }
 
     @Override
@@ -333,7 +355,7 @@ public class HungerNeed implements INeed {
     }
 
 
-    enum HungerLevel {
+    public enum HungerLevel {
         STARVING(0, 0.3f, HungerNeed::applyStarvingEffects, HungerNeed::removeStarvingEffects),
         MALNOURISHED(-0.2f, 0.2f, HungerNeed::applyMalnourishedEffects, HungerNeed::removeMalnourishedEffects),
         HUNGRY(-0.1f, 0.1f, HungerNeed::applyHungryEffects, HungerNeed::removeHungryEffects),
