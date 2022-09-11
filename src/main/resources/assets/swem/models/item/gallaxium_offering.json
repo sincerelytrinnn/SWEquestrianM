@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "swem:items/gallaxium"
+    "layer0": "swem:items/gallaxium_offering"
   }
 }
