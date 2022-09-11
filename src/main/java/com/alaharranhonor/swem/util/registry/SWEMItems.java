@@ -159,16 +159,16 @@ public class SWEMItems {
     public static final RegistryObject<Item> RAINBOW_HEAVY_FEED = ITEMS.register("rainbow_heavy_feed", ItemBase::new);
     public static final RegistryObject<Item> RAINBOW_DRY_FEED = ITEMS.register("rainbow_dry_feed", RainbowDryFeedItem::new);
     public static final RegistryObject<Item> RAINBOW_DINDIN = ITEMS.register("rainbow_dindin", () -> new HorseTransformItem(SWEMCoatColor.RAINBOW));
-    public static final RegistryObject<Item> LIFE_OFFERING = ITEMS.register("life_offering", ItemBase::new);
 
     // Galaxy horse recipe items.
+    public static final RegistryObject<Item> LIFE_OFFERING = ITEMS.register("life_offering", ItemBase::new);
     public static final RegistryObject<Item> EARTH_OFFERING = ITEMS.register("earth_offering", ItemBase::new);
     public static final RegistryObject<Item> VIBRANT_OFFERING = ITEMS.register("vibrant_offering", ItemBase::new);
     public static final RegistryObject<Item> OCEAN_OFFERING = ITEMS.register("ocean_offering", ItemBase::new);
     public static final RegistryObject<Item> NOVA_OFFERING = ITEMS.register("nova_offering", ItemBase::new);
-    public static final RegistryObject<Item> GALLAXORIUM = ITEMS.register("gallaxorium", Gallaxorium::new);
-    public static final RegistryObject<Item> GALLAXIUM = ITEMS.register("gallaxium", Gallaxium::new);
-    public static final RegistryObject<Item> GALLAXIA = ITEMS.register("gallaxia", () -> new HorseTransformItem(SWEMCoatColor.GALAXY));
+    public static final RegistryObject<Item> GALLAXORIUM_OFFERING = ITEMS.register("gallaxorium_offering", Gallaxorium::new);
+    public static final RegistryObject<Item> GALLAXIUM_OFFERING = ITEMS.register("gallaxium_offering", Gallaxium::new);
+    public static final RegistryObject<Item> GALLAXIA_OFFERING = ITEMS.register("gallaxia_offering", () -> new HorseTransformItem(SWEMCoatColor.GALAXY));
 
 
     public static final List<RegistryObject<HalterItem>> HALTERS = new ArrayList<>();
