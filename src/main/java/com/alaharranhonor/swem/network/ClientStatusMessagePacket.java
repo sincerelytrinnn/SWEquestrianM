@@ -23,12 +23,13 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class ClientStatusMessagePacket {
     private int action;
     private int argLength;
-    private ArrayList<String> args;
+    private List<String> args;
 
     private boolean failed;
 
@@ -39,7 +40,7 @@ public class ClientStatusMessagePacket {
      * @param argLength the arg length
      * @param args      the args
      */
-    public ClientStatusMessagePacket(int action, int argLength, ArrayList<String> args) {
+    public ClientStatusMessagePacket(int action, int argLength, List<String> args) {
         this.action = action;
         this.argLength = argLength;
         this.args = args;
@@ -72,9 +73,9 @@ public class ClientStatusMessagePacket {
             return new ClientStatusMessagePacket(action, argLength, args);
         } catch (IndexOutOfBoundsException e) {
             SWEM.LOGGER.error(
-                    "GallopCooldownPacket: Unexpected end of packet.\nMessage: "
-                            + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()),
-                    e);
+                "GallopCooldownPacket: Unexpected end of packet.\nMessage: "
+                    + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()),
+                e);
             return new ClientStatusMessagePacket(true);
         }
     }
@@ -101,43 +102,43 @@ public class ClientStatusMessagePacket {
      */
     public static void handle(ClientStatusMessagePacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get()
-                .enqueueWork(
-                        () -> {
-                            switch (msg.action) {
-                                case 0: {
-                                    Minecraft.getInstance()
-                                            .player
-                                            .displayClientMessage(
-                                                    new TranslationTextComponent("swem.horse.status.gallop_cooldown")
-                                                            .append(msg.args.get(0) + "s"),
-                                                    true);
-                                    break;
-                                }
-                                case 1: {
-                                    Minecraft.getInstance()
-                                            .player
-                                            .displayClientMessage(
-                                                    new TranslationTextComponent("swem.horse.status.too_thirsty_to_canter"),
-                                                    true);
-                                    break;
-                                }
-                                case 2: {
-                                    Minecraft.getInstance()
-                                            .player
-                                            .displayClientMessage(
-                                                    new TranslationTextComponent("swem.status.tack_box_not_bound"), true);
-                                    break;
-                                }
-                                case 3: {
-                                    Minecraft.getInstance()
-                                            .player
-                                            .displayClientMessage(
-                                                    new TranslationTextComponent("swem.horse.status.too_hungry_to_canter"),
-                                                    true);
-                                    break;
-                                }
-                            }
-                        });
+            .enqueueWork(
+                () -> {
+                    switch (msg.action) {
+                        case 0: {
+                            Minecraft.getInstance()
+                                .player
+                                .displayClientMessage(
+                                    new TranslationTextComponent("swem.horse.status.gallop_cooldown")
+                                        .append(msg.args.get(0) + "s"),
+                                    true);
+                            break;
+                        }
+                        case 1: {
+                            Minecraft.getInstance()
+                                .player
+                                .displayClientMessage(
+                                    new TranslationTextComponent("swem.horse.status.too_thirsty", msg.args.get(0)),
+                                    true);
+                            break;
+                        }
+                        case 2: {
+                            Minecraft.getInstance()
+                                .player
+                                .displayClientMessage(
+                                    new TranslationTextComponent("swem.status.tack_box_not_bound"), true);
+                            break;
+                        }
+                        case 3: {
+                            Minecraft.getInstance()
+                                .player
+                                .displayClientMessage(
+                                    new TranslationTextComponent("swem.horse.status.too_hungry", msg.args.get(0)),
+                                    true);
+                            break;
+                        }
+                    }
+                });
         ctx.get().setPacketHandled(true);
     }
 }
