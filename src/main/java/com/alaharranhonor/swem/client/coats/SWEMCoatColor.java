@@ -76,7 +76,7 @@ public enum SWEMCoatColor {
     ROSITA_ARISHANT(54, true),
     IBIS_ARISHANT(55, true),
     MONTY_ARISHANT(56, true),
-    HELIOS_ARISHANT(57,true),
+    HELIOS_ARISHANT(57, true),
     POPPY_ARISHANT(60, true),
     DOMINO_ARISHANT(64, true),
     DAHLIA_ARISHANT(65, true),
@@ -128,9 +128,9 @@ public enum SWEMCoatColor {
     FOAL_WHITE(70006, false);
 
     private static final SWEMCoatColor[] VALUES =
-            Arrays.stream(values())
-                    .sorted(Comparator.comparingInt(SWEMCoatColor::getId))
-                    .toArray(SWEMCoatColor[]::new);
+        Arrays.stream(values())
+            .sorted(Comparator.comparingInt(SWEMCoatColor::getId))
+            .toArray(SWEMCoatColor[]::new);
     private final int id;
     private final boolean lapisObtainable;
 
@@ -168,10 +168,6 @@ public enum SWEMCoatColor {
      * @return the by id
      */
     public static SWEMCoatColor getById(int id) {
-        // Block the GALAXY AND RAINBOW coats.
-        while (id == 17 || id == 18) {
-            id += 1;
-        }
         for (SWEMCoatColor color : VALUES) {
             if (color.getId() == id) {
                 return color;
@@ -265,7 +261,7 @@ public enum SWEMCoatColor {
      */
     public static SWEMCoatColor getRandomFoalCoat() {
         List<SWEMCoatColor> foalCoats =
-                Arrays.stream(VALUES).filter((coat) -> coat.getId() >= 70000).collect(Collectors.toList());
+            Arrays.stream(VALUES).filter((coat) -> coat.getId() >= 70000).collect(Collectors.toList());
         Collections.shuffle(foalCoats);
 
         return foalCoats.get(0);

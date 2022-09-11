@@ -22,7 +22,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
 
 public class HorseTransformItem extends Item {
 
@@ -40,14 +39,11 @@ public class HorseTransformItem extends Item {
 
     @Override
     public ActionResultType interactLivingEntity(
-            ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+        ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
         if (target instanceof SWEMHorseEntityBase) {
             SWEMHorseEntityBase horseEntity = (SWEMHorseEntityBase) target;
 
-            if (!playerIn.level.isClientSide) {
-                BlockPos targetPos = target.blockPosition();
-                horseEntity.setCoatColour(this.coat);
-            }
+            horseEntity.setCoatColour(this.coat);
             stack.shrink(1);
             return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
         }
