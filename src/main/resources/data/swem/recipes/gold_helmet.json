@@ -3,8 +3,8 @@
   "group": "helmet",
   "pattern":
   [
-    "xyx",
-    "yzy"
+    "xxx",
+    "xyx"
   ],
   "key":
   {
@@ -13,10 +13,6 @@
       "item": "swem:gold_rivet"
     },
 	"y":
-    {
-      "item": "swem:gold_plate"
-    },
-	"z":
     {
       "item": "swem:iron_helmet"
     }

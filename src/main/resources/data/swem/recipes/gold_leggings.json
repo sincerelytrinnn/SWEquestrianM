@@ -4,7 +4,7 @@
   "pattern":
   [
     "x x",
-    "yzy",
+    "xyx",
 	"x x"
   ],
   "key":
@@ -14,10 +14,6 @@
       "item": "swem:gold_rivet"
     },
 	"y":
-    {
-      "item": "swem:gold_plate"
-    },
-	"z":
     {
       "item": "swem:iron_leggings"
     }
