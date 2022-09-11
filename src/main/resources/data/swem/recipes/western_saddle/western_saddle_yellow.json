@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "western_saddle",
+  "pattern": [
+    "xzx",
+    "xxx",
+    "yxx"
+  ],
+  "key": {
+    "x": {
+      "item": "swem:refined_leather"
+    },
+    "y": {
+      "item": "minecraft:iron_nugget"
+    },
+    "z": {
+      "item": "minecraft:yellow_dye"
+    }
+  },
+  "result": {
+    "item": "swem:western_saddle_yellow"
+  }
+}

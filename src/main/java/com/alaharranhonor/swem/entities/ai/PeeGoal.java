@@ -1,9 +1,8 @@
-package com.alaharranhonor.swem.entities.ai;
 
 /*
  * All Rights Reserved
  *
- * Copyright (c) 2021, AlaharranHonor, Legenden.
+ * Copyright (c) 2022, AlaharranHonor, Legenden.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -13,6 +12,8 @@ package com.alaharranhonor.swem.entities.ai;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
+package com.alaharranhonor.swem.entities.ai;
 
 import com.alaharranhonor.swem.blocks.Shavings;
 import com.alaharranhonor.swem.config.ConfigHolder;

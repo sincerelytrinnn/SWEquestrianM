@@ -3,8 +3,7 @@
   "ingredient": {
     "item": "swem:rainbow_chic"
   },
-  "result": "swem:dehydrated_rainbow"
-  },
+  "result": "swem:dehydrated_rainbow",
   "experience": 1.5,
   "cookingtime": 240
 }

@@ -16,6 +16,7 @@ package com.alaharranhonor.swem.items;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.enchantments.GalaxyCoatEnchantment;
+import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -44,7 +45,7 @@ public class Gallaxorium extends ItemBase {
 
     @Override
     public int getEnchantmentValue() {
-        return 1;
+        return 20;
     }
 
     @Override
@@ -54,17 +55,17 @@ public class Gallaxorium extends ItemBase {
 
     @Override
     public void inventoryTick(
-            ItemStack p_77663_1_, World p_77663_2_, Entity p_77663_3_, int itemSlot, boolean isSelected) {
+        ItemStack p_77663_1_, World p_77663_2_, Entity p_77663_3_, int itemSlot, boolean isSelected) {
         if (!(p_77663_3_ instanceof PlayerEntity)) return;
         if (!p_77663_1_.isEnchanted()) return;
 
         PlayerEntity player = (PlayerEntity) p_77663_3_;
         player.inventory.removeItem(p_77663_1_);
-        // player.inventory.add(new ItemStack(SWEMItems.GALLAXIUM_OFFERING.get()));
+        player.inventory.add(new ItemStack(SWEMItems.GALLAXIUM.get()));
     }
 
     @Override
     public int getItemEnchantability(ItemStack stack) {
-        return 1;
+        return 20;
     }
 }

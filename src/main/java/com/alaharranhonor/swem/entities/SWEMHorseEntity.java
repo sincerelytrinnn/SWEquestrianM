@@ -173,7 +173,7 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
             return PlayState.CONTINUE;
         }
 
-        if (horse.getEntityData().get(IS_EATING) || horse.eatAnimationTick > 0) {
+        if (horse.getEntityData().get(IS_EATING)) {
             if (anim != null && !anim.animationName.equals("EatingLoop"))
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("LeanIn", false).addAnimation("EatingLoop", true));
             return PlayState.CONTINUE;

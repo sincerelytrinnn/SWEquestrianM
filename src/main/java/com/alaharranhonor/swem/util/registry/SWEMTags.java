@@ -23,4 +23,13 @@ import net.minecraftforge.common.Tags;
 
 public class SWEMTags {
     public static final Tags.IOptionalNamedTag<Item> HALF_BARRELS = ItemTags.createOptional(new ResourceLocation(SWEM.MOD_ID, "half_barrels"));
+    public static final Tags.IOptionalNamedTag<Item> ENGLISH_BLANKETS = ItemTags.createOptional(new ResourceLocation(SWEM.MOD_ID, "english_blankets"));
+    public static final Tags.IOptionalNamedTag<Item> ENGLISH_LEG_WRAPS = ItemTags.createOptional(new ResourceLocation(SWEM.MOD_ID, "english_leg_wraps"));
+    public static final Tags.IOptionalNamedTag<Item> WESTERN_BLANKETS = ItemTags.createOptional(new ResourceLocation(SWEM.MOD_ID, "western/blankets"));
+    public static final Tags.IOptionalNamedTag<Item> WESTERN_BREAST_COLLARS = ItemTags.createOptional(new ResourceLocation(SWEM.MOD_ID, "western/breast_collars"));
+    public static final Tags.IOptionalNamedTag<Item> WESTERN_BRIDLES = ItemTags.createOptional(new ResourceLocation(SWEM.MOD_ID, "western/bridles"));
+    public static final Tags.IOptionalNamedTag<Item> WESTERN_GIRTH_STRAPS = ItemTags.createOptional(new ResourceLocation(SWEM.MOD_ID, "western/girth_straps"));
+    public static final Tags.IOptionalNamedTag<Item> WESTERN_LEG_WRAPS = ItemTags.createOptional(new ResourceLocation(SWEM.MOD_ID, "western/leg_wraps"));
+    public static final Tags.IOptionalNamedTag<Item> WESTERN_SADDLES = ItemTags.createOptional(new ResourceLocation(SWEM.MOD_ID, "western/saddles"));
+
 }
