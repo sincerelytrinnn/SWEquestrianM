@@ -50,19 +50,11 @@ public class SWEMItems {
     public static final RegistryObject<Item> DIAMOND_PLATE = ITEMS.register("diamond_plate", ItemBase::new);
     public static final RegistryObject<Item> GOLD_PLATE = ITEMS.register("gold_plate", ItemBase::new);
     public static final RegistryObject<Item> IRON_PLATE = ITEMS.register("iron_plate", ItemBase::new);
-    public static final RegistryObject<Item> LEATHER_PLATE = ITEMS.register("leather_plate", ItemBase::new);
     public static final RegistryObject<Item> DIAMOND_RIVET = ITEMS.register("diamond_rivet", ItemBase::new);
     public static final RegistryObject<Item> GOLD_RIVET = ITEMS.register("gold_rivet", ItemBase::new);
     public static final RegistryObject<Item> IRON_RIVET = ITEMS.register("iron_rivet", ItemBase::new);
-    public static final RegistryObject<Item> LEATHER_RIVET = ITEMS.register("leather_rivet", ItemBase::new);
-    public static final RegistryObject<Item> LEATHER_SCYTHE = ITEMS.register("leather_scythe", NonWearableItem::new);
     public static final RegistryObject<SWEMArmorItem> LEATHER_RIDING_BOOTS = ITEMS.register("leather_riding_boots", () -> new LeatherRidingBoots("leather_layer", ModArmorMaterial.LEATHER, EquipmentSlotType.FEET, new Item.Properties().tab(SWEM.TAB).stacksTo(1))); // () -> (Supplier<ArmorBaseModel>)
 
-    public static final RegistryObject<Item> LEATHER_LONGSWORD = ITEMS.register("leather_longsword", NonWearableItem::new);
-    public static final RegistryObject<Item> LEATHER_LEGGINGS = ITEMS.register("leather_leggings", NonWearableItem::new);
-    public static final RegistryObject<Item> LEATHER_HELMET = ITEMS.register("leather_helmet", NonWearableItem::new);
-    public static final RegistryObject<Item> LEATHER_CHESTPLATE = ITEMS.register("leather_chestplate", NonWearableItem::new);
-    public static final RegistryObject<Item> LEATHER_BOW = ITEMS.register("leather_bow", NonWearableItem::new);
     public static final RegistryObject<SWEMArmorItem> GLOW_RIDING_BOOTS = ITEMS.register("glow_riding_boots", () -> new GlowRidingBoots("glow_layer", ModArmorMaterial.GLOW, EquipmentSlotType.FEET, new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
     public static final RegistryObject<Item> IRON_SCYTHE = ITEMS.register("iron_scythe", NonWearableItem::new);
     public static final RegistryObject<SWEMArmorItem> IRON_RIDING_BOOTS = ITEMS.register("iron_riding_boots", () -> new IronRidingBoots("iron_layer", ModArmorMaterial.IRON, EquipmentSlotType.FEET, new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
@@ -88,7 +80,6 @@ public class SWEMItems {
     public static final RegistryObject<SWEMArmorItem> AMETHYST_HELMET = ITEMS.register("amethyst_helmet", () -> new AmethystHelmet("amethyst_layer", ModArmorMaterial.AMETHYST, EquipmentSlotType.HEAD, new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
     public static final RegistryObject<SWEMArmorItem> AMETHYST_CHESTPLATE = ITEMS.register("amethyst_chestplate", () -> new AmethystChestplate("amethyst_layer", ModArmorMaterial.AMETHYST, EquipmentSlotType.CHEST, new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
     public static final RegistryObject<SWEMArmorItem> AMETHYST_PANTS = ITEMS.register("amethyst_pants", () -> new AmethystLeggings("amethyst_layer", ModArmorMaterial.AMETHYST, EquipmentSlotType.LEGS, new Item.Properties().tab(SWEM.TAB).stacksTo(1)));
-    public static final RegistryObject<Item> AMETHYST_SHIELD_LEATHER = ITEMS.register("amethyst_shield_leather", ItemBase::new);
     public static final RegistryObject<Item> AMETHYST_SHIELD_IRON = ITEMS.register("amethyst_shield_iron", NonWearableItem::new);
     public static final RegistryObject<Item> AMETHYST_SHIELD_GOLD = ITEMS.register("amethyst_shield_gold", NonWearableItem::new);
     public static final RegistryObject<Item> AMETHYST_SHIELD_DIAMOND = ITEMS.register("amethyst_shield_diamond", NonWearableItem::new);
