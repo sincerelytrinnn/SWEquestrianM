@@ -29,28 +29,28 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class SWEMEntities {
 
     public static DeferredRegister<EntityType<?>> ENTITY_TYPES =
-            DeferredRegister.create(ForgeRegistries.ENTITIES, SWEM.MOD_ID);
+        DeferredRegister.create(ForgeRegistries.ENTITIES, SWEM.MOD_ID);
     public static final RegistryObject<EntityType<SWEMHorseEntity>> SWEM_HORSE_ENTITY =
-            ENTITY_TYPES.register(
-                    "swem_horse",
-                    () ->
-                            EntityType.Builder.of(SWEMHorseEntity::new, EntityClassification.CREATURE)
-                                    .sized(1.60f, 1.99f) // Hitbox Size
-                                    .build(new ResourceLocation(SWEM.MOD_ID, "swem_horse").toString()));
+        ENTITY_TYPES.register(
+            "swem_horse",
+            () ->
+                EntityType.Builder.of(SWEMHorseEntity::new, EntityClassification.CREATURE)
+                    .sized(1.60f, 1.99f) // Hitbox Size
+                    .build(new ResourceLocation(SWEM.MOD_ID, "swem_horse").toString()));
     public static final RegistryObject<EntityType<WormieBoiEntity>> WORMIE_BOI_ENTITY =
-            ENTITY_TYPES.register(
-                    "wormieboi",
-                    () ->
-                            EntityType.Builder.of(WormieBoiEntity::new, EntityClassification.CREATURE)
-                                    .sized(1.0f, 0.4f)
-                                    .build(new ResourceLocation(SWEM.MOD_ID, "wormieboi").toString()));
+        ENTITY_TYPES.register(
+            "wormieboi",
+            () ->
+                EntityType.Builder.of(WormieBoiEntity::new, EntityClassification.CREATURE)
+                    .sized(1.0f, 0.4f)
+                    .build(new ResourceLocation(SWEM.MOD_ID, "wormieboi").toString()));
     public static final RegistryObject<EntityType<PoopEntity>> HORSE_POOP_ENTITY =
-            ENTITY_TYPES.register(
-                    "horse_poop",
-                    () ->
-                            EntityType.Builder.of(PoopEntity::new, EntityClassification.MISC)
-                                    .sized(0.6f, 0.2f) // 0.186f
-                                    .build(new ResourceLocation(SWEM.MOD_ID, "horse_poop").toString()));
+        ENTITY_TYPES.register(
+            "horse_poop",
+            () ->
+                EntityType.Builder.of(PoopEntity::new, EntityClassification.MISC)
+                    .sized(0.6f, 0.2f) // 0.186f
+                    .build(new ResourceLocation(SWEM.MOD_ID, "horse_poop").toString()));
 
     /**
      * Init.
