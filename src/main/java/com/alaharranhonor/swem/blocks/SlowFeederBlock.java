@@ -1,5 +1,6 @@
 package com.alaharranhonor.swem.blocks;
 
+
 /*
  * All Rights Reserved
  *
@@ -14,13 +15,12 @@ package com.alaharranhonor.swem.blocks;
  * THE SOFTWARE.
  */
 
-import com.alaharranhonor.swem.util.registry.SWEMBlocks;
+import com.alaharranhonor.swem.tileentity.SlowFeederTE;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SixWayBlock;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
@@ -28,192 +28,152 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.items.CapabilityItemHandler;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 public class SlowFeederBlock extends Block {
 
-    public static final BooleanProperty NORTH = SixWayBlock.NORTH;
-    public static final BooleanProperty EAST = SixWayBlock.EAST;
-    public static final BooleanProperty SOUTH = SixWayBlock.SOUTH;
-    public static final BooleanProperty WEST = SixWayBlock.WEST;
+	public static final BooleanProperty NORTH = SixWayBlock.NORTH;
+	public static final BooleanProperty EAST = SixWayBlock.EAST;
+	public static final BooleanProperty SOUTH = SixWayBlock.SOUTH;
+	public static final BooleanProperty WEST = SixWayBlock.WEST;
 
-    public static final IntegerProperty LEVEL = SWEMBlockStateProperties.LEVEL_0_2;
-    private final DyeColor colour;
+	public static final IntegerProperty LEVEL = SWEMBlockStateProperties.LEVEL_0_2;
+	private DyeColor colour;
 
-    /**
-     * Instantiates a new Slow feeder block.
-     *
-     * @param properties the properties
-     * @param colour     the colour
-     */
-    public SlowFeederBlock(Properties properties, DyeColor colour) {
-        super(properties);
-        this.registerDefaultState(
-                this.stateDefinition
-                        .any()
-                        .setValue(NORTH, Boolean.valueOf(false))
-                        .setValue(EAST, Boolean.valueOf(false))
-                        .setValue(SOUTH, Boolean.valueOf(false))
-                        .setValue(WEST, Boolean.valueOf(false))
-                        .setValue(LEVEL, 0));
-        this.colour = colour;
-    }
+	/**
+	 * Instantiates a new Slow feeder block.
+	 *
+	 * @param properties the properties
+	 * @param colour     the colour
+	 */
+	public SlowFeederBlock(Properties properties, DyeColor colour) {
+		super(properties);
+		this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, Boolean.valueOf(false)).setValue(EAST, Boolean.valueOf(false)).setValue(SOUTH, Boolean.valueOf(false)).setValue(WEST, Boolean.valueOf(false)).setValue(LEVEL, 0));
+		this.colour = colour;
+	}
 
-    /**
-     * Gets colour.
-     *
-     * @return the colour
-     */
-    public DyeColor getColour() {
-        return this.colour;
-    }
+	/**
+	 * Gets colour.
+	 *
+	 * @return the colour
+	 */
+	public DyeColor getColour() {
+		return this.colour;
+	}
 
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        IBlockReader iblockreader = context.getLevel();
-        BlockPos blockpos = context.getClickedPos();
-        FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        BlockPos blockpos1 = blockpos.north();
-        BlockPos blockpos2 = blockpos.east();
-        BlockPos blockpos3 = blockpos.south();
-        BlockPos blockpos4 = blockpos.west();
-        BlockState blockstate = iblockreader.getBlockState(blockpos1);
-        BlockState blockstate1 = iblockreader.getBlockState(blockpos2);
-        BlockState blockstate2 = iblockreader.getBlockState(blockpos3);
-        BlockState blockstate3 = iblockreader.getBlockState(blockpos4);
-        return this.defaultBlockState()
-                .setValue(NORTH, this.isBlock(blockstate))
-                .setValue(EAST, this.isBlock(blockstate1))
-                .setValue(SOUTH, this.isBlock(blockstate2))
-                .setValue(WEST, this.isBlock(blockstate3));
-    }
+	/**
+	 * Called throughout the code as a replacement for block instanceof BlockContainer
+	 * Moving this to the Block base class allows for mods that wish to extend vanilla
+	 * blocks, and also want to have a tile entity on that block, may.
+	 * <p>
+	 * Return true from this function to specify this block has a tile entity.
+	 *
+	 * @param state State of the current block
+	 * @return True if block has a tile entity, false otherwise
+	 */
+	@Override
+	public boolean hasTileEntity(BlockState state) {
+		return true;
+	}
 
-    @Override
-    public ActionResultType use(
-            BlockState state,
-            World worldIn,
-            BlockPos pos,
-            PlayerEntity player,
-            Hand handIn,
-            BlockRayTraceResult hit) {
-        ItemStack itemstack = player.getItemInHand(handIn);
-        if (itemstack.isEmpty()) {
-            return ActionResultType.PASS;
-        } else {
-            int level_swem = state.getValue(LEVEL);
-            Item item = itemstack.getItem();
-            if (item == SWEMBlocks.QUALITY_BALE.get().asItem()) {
-                if (level_swem == 0) {
-                    this.setHayLevel(worldIn, pos, state, 2);
-                    if (!player.isCreative()) {
-                        itemstack.shrink(1);
-                    }
-                    return ActionResultType.sidedSuccess(worldIn.isClientSide);
-                } else if (level_swem == 1) {
-                    this.setHayLevel(worldIn, pos, state, level_swem + 1);
-                    if (!player.isCreative()) {
-                        itemstack.shrink(1);
-                        player.addItem(new ItemStack(SWEMBlocks.QUALITY_BALE_SLAB.get()));
-                    }
-                    return ActionResultType.sidedSuccess(worldIn.isClientSide);
-                } else {
-                    return ActionResultType.PASS;
-                }
+	/**
+	 * Called throughout the code as a replacement for ITileEntityProvider.createNewTileEntity
+	 * Return the same thing you would from that function.
+	 * This will fall back to ITileEntityProvider.createNewTileEntity(World) if this block is a ITileEntityProvider
+	 *
+	 * @param state The state of the current block
+	 * @param world The world to create the TE in
+	 * @return A instance of a class extending TileEntity
+	 */
+	@Nullable
+	@Override
+	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+		return new SlowFeederTE();
+	}
 
-            } else if (item == SWEMBlocks.QUALITY_BALE_SLAB.get().asItem()) {
-                if (level_swem < 2) {
-                    this.setHayLevel(worldIn, pos, state, level_swem + 1);
-                    if (!player.isCreative()) {
-                        itemstack.shrink(1);
-                    }
-                    return ActionResultType.sidedSuccess(worldIn.isClientSide);
-                } else {
-                    return ActionResultType.PASS;
-                }
-            } else {
-                return ActionResultType.PASS;
-            }
-        }
-    }
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		IBlockReader iblockreader = context.getLevel();
+		BlockPos blockpos = context.getClickedPos();
+		BlockPos blockpos1 = blockpos.north();
+		BlockPos blockpos2 = blockpos.east();
+		BlockPos blockpos3 = blockpos.south();
+		BlockPos blockpos4 = blockpos.west();
+		BlockState blockstate = iblockreader.getBlockState(blockpos1);
+		BlockState blockstate1 = iblockreader.getBlockState(blockpos2);
+		BlockState blockstate2 = iblockreader.getBlockState(blockpos3);
+		BlockState blockstate3 = iblockreader.getBlockState(blockpos4);
+		return this.defaultBlockState().setValue(NORTH, this.isBlock(blockstate)).setValue(EAST, this.isBlock(blockstate1)).setValue(SOUTH, this.isBlock(blockstate2)).setValue(WEST, this.isBlock(blockstate3));
+	}
 
-    /**
-     * Is block boolean.
-     *
-     * @param state the state
-     * @return the boolean
-     */
-    private Boolean isBlock(BlockState state) {
-        if (!state.equals(Blocks.AIR.defaultBlockState())
-                && !state.equals(Blocks.CAVE_AIR.defaultBlockState())
-                && !state.equals(Blocks.VOID_AIR.defaultBlockState())) {
-            return Boolean.TRUE;
-        } else {
-            return Boolean.FALSE;
-        }
-    }
+	@Override
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		ItemStack itemstack = player.getItemInHand(handIn);
+		if (itemstack.isEmpty()) {
+			return ActionResultType.PASS;
+		} else {
+			int hayLevel = state.getValue(LEVEL);
+			Item item = itemstack.getItem();
+			SlowFeederTE te = (SlowFeederTE) worldIn.getBlockEntity(pos);
 
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(NORTH, EAST, WEST, SOUTH, LEVEL);
-    }
+			ItemStack copy = itemstack.copy();
 
-    @Override
-    public VoxelShape getShape(
-            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return Block.box(0, 0, 0, 15.99, 15.99, 15.99);
-    }
+			if (!player.isCreative())
+				itemstack.shrink(1);
 
-    @Override
-    public VoxelShape getCollisionShape(
-            BlockState pState, IBlockReader pLevel, BlockPos pPos, ISelectionContext pContext) {
-        return VoxelShapes.box(0.01, 0.01, 0.01, 0.99, 1.5, 0.99);
-    }
+			copy.setCount(1);
+			AtomicReference<ItemStack> returnedStack = new AtomicReference<>();
+			te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent((handler) -> {
+				returnedStack.set(handler.insertItem(0, copy, false));
+			});
 
-    /**
-     * Is feedable boolean.
-     *
-     * @param worldIn the world in
-     * @param state   the state
-     * @return the boolean
-     */
-    public boolean isFeedable(World worldIn, BlockState state) {
-        int level = state.getValue(LEVEL);
+			if (returnedStack.get() != null && !player.isCreative()) {
+				player.addItem(returnedStack.get());
+			}
 
-        return level > 0;
-    }
+			return ActionResultType.CONSUME;
+		}
 
-    /**
-     * Sets hay level.
-     *
-     * @param worldIn the world in
-     * @param pos     the pos
-     * @param state   the state
-     * @param level   the level
-     */
-    public void setHayLevel(World worldIn, BlockPos pos, BlockState state, int level) {
-        worldIn.setBlock(pos, state.setValue(LEVEL, Integer.valueOf(MathHelper.clamp(level, 0, 2))), 3);
-    }
+	}
 
-    /**
-     * Eat.
-     *
-     * @param worldIn the world in
-     * @param pos     the pos
-     * @param state   the state
-     */
-    public void eat(World worldIn, BlockPos pos, BlockState state) {
-        int level = state.getValue(LEVEL);
+	/**
+	 * Is block boolean.
+	 *
+	 * @param state the state
+	 * @return the boolean
+	 */
+	private Boolean isBlock(BlockState state) {
+		if (!state.equals(Blocks.AIR.defaultBlockState()) && !state.equals(Blocks.CAVE_AIR.defaultBlockState()) && !state.equals(Blocks.VOID_AIR.defaultBlockState())) {
+			return Boolean.TRUE;
+		} else {
+			return Boolean.FALSE;
+		}
+	}
 
-        if (level > 0) {
-            worldIn.setBlock(
-                    pos, state.setValue(LEVEL, Integer.valueOf(MathHelper.clamp(level - 1, 0, 2))), 3);
-        }
-    }
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(NORTH, EAST, WEST, SOUTH, LEVEL);
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		return Block.box(0, 0, 0, 15.99, 15.99, 15.99);
+	}
+
+	@Override
+	public VoxelShape getCollisionShape(BlockState pState, IBlockReader pLevel, BlockPos pPos, ISelectionContext pContext) {
+		return VoxelShapes.box(0.01, 0.01, 0.01, 0.99, 1.5, 0.99);
+	}
+
 }

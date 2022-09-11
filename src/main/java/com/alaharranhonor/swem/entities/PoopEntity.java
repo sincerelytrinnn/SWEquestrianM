@@ -41,6 +41,7 @@ public class PoopEntity extends LivingEntity implements IAnimatable {
 
     private final AnimationFactory factory = new AnimationFactory(this);
     private int washedAway = 0;
+    private int stepDelay = 0;
 
     /**
      * Instantiates a new Poop entity.
@@ -101,8 +102,12 @@ public class PoopEntity extends LivingEntity implements IAnimatable {
     @Override
     protected void doPush(Entity entityIn) {
         if (entityIn instanceof SWEMHorseEntityBase) {
-            this.spawnAtLocation(new ItemStack(SWEMItems.POOP.get()));
-            this.remove();
+            if (this.stepDelay == 0 && Math.random() <= 0.2) {
+                this.spawnAtLocation(new ItemStack(SWEMItems.POOP.get()));
+                this.remove();
+            } else {
+                this.stepDelay = 20;
+            }
         }
     }
 
@@ -126,6 +131,8 @@ public class PoopEntity extends LivingEntity implements IAnimatable {
         if (this.isInWaterOrRain() && this.level.getGameTime() % 20 == 0) {
             this.washedAway++;
         }
+
+        this.stepDelay = Math.max(0, this.stepDelay - 1);
     }
 
     @Override
@@ -158,7 +165,7 @@ public class PoopEntity extends LivingEntity implements IAnimatable {
     @Override
     public void registerControllers(AnimationData animationData) {
         animationData.addAnimationController(
-                new AnimationController<>(this, "controller", 0, this::predicate));
+            new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
     @Override

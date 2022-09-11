@@ -24,7 +24,6 @@ import com.alaharranhonor.swem.commands.SWEMCommand;
 import com.alaharranhonor.swem.config.ConfigHelper;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.event.entity.horse.AccessHorseCheckEvent;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.network.*;
 import com.alaharranhonor.swem.tools.AmethystSword;
@@ -33,7 +32,9 @@ import com.alaharranhonor.swem.util.registry.SWEMItems;
 import com.alaharranhonor.swem.world.gen.OreGenUtils;
 import com.alaharranhonor.swem.world.gen.SWEMOreGen;
 import com.alaharranhonor.swem.world.structure.SWEMConfiguredStructures;
+import net.minecraft.block.BarrelBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -45,9 +46,14 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.item.LeashKnotEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.tileentity.BarrelTileEntity;
 import net.minecraft.util.*;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.*;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -61,6 +67,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -111,11 +118,6 @@ public class GeneralEventHandlers {
 
         private static int KEY_PRESS_COUNTER = 0;
         private static ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
-
-        @SubscribeEvent
-        public static void onAccessHorse(AccessHorseCheckEvent event) {
-            System.out.println("Current access is: " + event.canAccess());
-        }
 
         /**
          * On biome loading.
@@ -521,6 +523,44 @@ public class GeneralEventHandlers {
                 if (event.getEntity().isPassenger()) {
                     event.getEntity().stopRiding();
                 }
+            }
+        }
+
+        @SubscribeEvent
+        public static void onBarrelShearing(PlayerInteractEvent.RightClickBlock event) {
+            PlayerEntity player = event.getPlayer();
+            ItemStack itemstack = event.getItemStack();
+            Hand handIn = event.getHand();
+            World worldIn = event.getWorld();
+            BlockPos pos = event.getPos();
+            BlockState state = worldIn.getBlockState(pos);
+            if (itemstack.getItem() == Items.SHEARS && player.isShiftKeyDown() && state.getBlock() instanceof BarrelBlock) {
+                itemstack.hurtAndBreak(1, player, (entity) -> entity.broadcastBreakEvent(handIn));
+
+                BarrelTileEntity te = (BarrelTileEntity) worldIn.getBlockEntity(pos);
+                for (int i = 0; i < te.getContainerSize(); i++) {
+                    ItemStack stack = te.getItem(i);
+                    if (!stack.isEmpty()) {
+                        worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), stack));
+                    }
+                }
+
+
+                // Destroy both parts of the barrel.
+                worldIn.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+
+
+                ItemEntity entity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(SWEMBlocks.HALF_BARRELS.get(DyeColor.BROWN.getId()).get()));
+                ItemEntity entity1 = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(SWEMBlocks.HALF_BARRELS.get(DyeColor.BROWN.getId()).get()));
+
+                worldIn.addFreshEntity(entity);
+                worldIn.addFreshEntity(entity1);
+
+
+                event.setUseBlock(Event.Result.DENY);
+                event.setUseItem(Event.Result.ALLOW);
+                event.setCanceled(true);
+
             }
         }
 
