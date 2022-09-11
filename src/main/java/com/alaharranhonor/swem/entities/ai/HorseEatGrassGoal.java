@@ -94,11 +94,11 @@ public class HorseEatGrassGoal extends Goal {
             } else {
                 if (this.eatTickTimer == 20) {
                     // Eat block
+                    this.horse.level.levelEvent(2001, this.grassPos, Block.getId(Blocks.GRASS_BLOCK.defaultBlockState()));
                     if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.horse.level, this.horse)) {
-                        this.horse.level.levelEvent(2001, this.grassPos, Block.getId(Blocks.GRASS_BLOCK.defaultBlockState()));
                         this.horse.level.setBlock(this.grassPos, Blocks.DIRT.defaultBlockState(), 2);
-                        this.horse.getNeeds().getNeed("hunger").interact(new ItemStack(Items.GRASS_BLOCK));
                     }
+                    this.horse.getNeeds().getNeed("hunger").interact(new ItemStack(Items.GRASS_BLOCK));
                     setRandomGrassPos();
                     this.horse.getEntityData().set(SWEMHorseEntityBase.IS_EATING, false);
                 }
@@ -108,9 +108,9 @@ public class HorseEatGrassGoal extends Goal {
         }
 
         // TODO: FIx this check, gets stuck on low value, too high value and it just eats 3 blocks out.
-        if (!this.horse.blockPosition().closerThan(this.grassPos, 2.18)) {
+        if (!this.horse.blockPosition().closerThan(this.grassPos, 2.2)) {
             // Move to location, since the horse is not close enough.
-            this.horse.getNavigation().moveTo(this.grassPos.getX(), this.grassPos.getY(), this.grassPos.getZ(), 4.0);
+            this.horse.getNavigation().moveTo(this.grassPos.getX(), this.grassPos.getY(), this.grassPos.getZ(), 5.0);
         } else {
             this.horse.getNavigation().stop();
             this.eatTickTimer = 63;

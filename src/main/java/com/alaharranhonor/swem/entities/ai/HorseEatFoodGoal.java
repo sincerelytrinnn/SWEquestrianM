@@ -138,9 +138,9 @@ public class HorseEatFoodGoal extends Goal {
         }
 
         // TODO: FIx this check, gets stuck on low value, too high value and it just eats 3 blocks out.
-        if (!this.horse.blockPosition().closerThan(this.bestFoodSourcePos, 2.18)) {
+        if (!this.horse.blockPosition().closerThan(this.bestFoodSourcePos, 2.2)) {
             // Move to location, since the horse is not close enough.
-            this.horse.getNavigation().moveTo(this.bestFoodSourcePos.getX(), this.bestFoodSourcePos.getY(), this.bestFoodSourcePos.getZ(), 4.0);
+            this.horse.getNavigation().moveTo(this.bestFoodSourcePos.getX(), this.bestFoodSourcePos.getY(), this.bestFoodSourcePos.getZ(), 5.0);
         } else {
             this.horse.getNavigation().stop();
             this.eatTickTimer = 63;
