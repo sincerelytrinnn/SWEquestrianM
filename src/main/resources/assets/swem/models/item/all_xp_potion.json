@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "swem:items/all_xp_bottle"
+    "layer0": "swem:items/all_xp_potion"
   }
 }
