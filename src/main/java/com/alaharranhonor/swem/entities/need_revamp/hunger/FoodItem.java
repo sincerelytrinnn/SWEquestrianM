@@ -36,10 +36,10 @@ public enum FoodItem {
     OAT_BALE(Ingredient.of(SWEMBlocks.OAT_BALE.get()), 1, 50, 2, 3, "", FoodItem::doNothing),
     OAT_BALE_SLAB(Ingredient.of(SWEMBlocks.OAT_BALE_SLAB.get()), 1, 25, 4, 6, "", FoodItem::doNothing),
     TIMOTHY_BALE(Ingredient.of(SWEMBlocks.TIMOTHY_BALE.get()), 1, 56, 2, 3, "", FoodItem::doNothing),
-    TIMOTHY_BLAE_SLAB(Ingredient.of(SWEMBlocks.TIMOTHY_BALE_SLAB.get()), 1, 28, 4, 6, "", FoodItem::doNothing),
+    TIMOTHY_BALE_SLAB(Ingredient.of(SWEMBlocks.TIMOTHY_BALE_SLAB.get()), 1, 28, 4, 6, "", FoodItem::doNothing),
     ALFALFA_BALE(Ingredient.of(SWEMBlocks.ALFALFA_BALE.get()), 1, 56, 2, 3, "", FoodItem::doNothing),
     ALFALFA_BALE_SLAB(Ingredient.of(SWEMBlocks.ALFALFA_BALE_SLAB.get()), 1, 28, 4, 6, "", FoodItem::doNothing),
-    QUALITY_SLAB(Ingredient.of(SWEMBlocks.QUALITY_BALE_SLAB.get()), 1, 112, 2, 3, "", FoodItem::doNothing),
+    QUALITY_BALE_SLAB(Ingredient.of(SWEMBlocks.QUALITY_BALE_SLAB.get()), 1, 112, 2, 3, "", FoodItem::doNothing),
     QUALITY_BALE(Ingredient.of(SWEMBlocks.QUALITY_BALE.get()), 1, 224, 1, 2, "", FoodItem::doNothing),
 
     // Sweet feed category.
