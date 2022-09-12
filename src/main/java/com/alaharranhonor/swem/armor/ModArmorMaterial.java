@@ -32,7 +32,7 @@ public enum ModArmorMaterial implements IArmorMaterial {
             SWEM.MOD_ID + ":leather",
             8,
             new int[]{2, 5, 6, 1},
-            0,
+            15,
             SoundEvents.ARMOR_EQUIP_LEATHER,
             0.0f,
             () -> {
@@ -43,7 +43,7 @@ public enum ModArmorMaterial implements IArmorMaterial {
             SWEM.MOD_ID + ":glow",
             12,
             new int[]{2, 5, 6, 1},
-            0,
+            15,
             SoundEvents.ARMOR_EQUIP_LEATHER,
             0.0f,
             () -> {
@@ -54,7 +54,7 @@ public enum ModArmorMaterial implements IArmorMaterial {
             SWEM.MOD_ID + ":iron",
             23,
             new int[]{2, 5, 6, 3},
-            0,
+            14,
             SoundEvents.ARMOR_EQUIP_IRON,
             0.0f,
             () -> {
@@ -65,7 +65,7 @@ public enum ModArmorMaterial implements IArmorMaterial {
             SWEM.MOD_ID + ":gold",
             27,
             new int[]{2, 5, 6, 3},
-            0,
+            25,
             SoundEvents.ARMOR_EQUIP_GOLD,
             0.0f,
             () -> {
@@ -76,7 +76,7 @@ public enum ModArmorMaterial implements IArmorMaterial {
             SWEM.MOD_ID + ":diamond",
             38,
             new int[]{2, 5, 6, 4},
-            0,
+            10,
             SoundEvents.ARMOR_EQUIP_DIAMOND,
             0.0f,
             () -> {
@@ -87,7 +87,7 @@ public enum ModArmorMaterial implements IArmorMaterial {
             SWEM.MOD_ID + ":amethyst",
             61,
             new int[]{5, 8, 14, 5},
-            0,
+            25,
             SoundEvents.ARMOR_EQUIP_DIAMOND,
             2.0f,
             () -> {
