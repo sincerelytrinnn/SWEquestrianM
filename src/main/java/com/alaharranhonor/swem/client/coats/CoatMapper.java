@@ -111,7 +111,7 @@ public class CoatMapper {
                     put(SWEMCoatColor.TOOTHBRUSH_BOATY, SWEMCoatColor.FOAL_GRAY);
                     put(SWEMCoatColor.KODIAK_DELPHI, SWEMCoatColor.FOAL_CREAMY);
                     put(SWEMCoatColor.ANNIE_LACE, SWEMCoatColor.FOAL_WHITE);
-                    //COAT #105-* put(SWEMCoatColor.LADY_GUINEVERE_ARISHANT, SWEMCoatColor.FOAL_BLACK);
+                    put (SWEMCoatColor.LADY_GUINEVERE_ARISHANT, SWEMCoatColor.FOAL_BLACK);
                     //COAT #106-* put(SWEMCoatColor.RIPPLE_BROOKE, SWEMCoatColor.FOAL_GRAY);
                     put(SWEMCoatColor.KHAREMA_CYTRIS, SWEMCoatColor.FOAL_BROWN);
                 }
