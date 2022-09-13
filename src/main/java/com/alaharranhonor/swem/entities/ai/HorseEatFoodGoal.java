@@ -77,7 +77,6 @@ public class HorseEatFoodGoal extends Goal {
     @Override
     public void start() {
         this.horse.getNavigation().stop();
-        System.out.println("Going for " + this.bestFoodSourcePos);
     }
 
 
