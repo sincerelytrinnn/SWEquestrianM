@@ -17,9 +17,7 @@ package com.alaharranhonor.swem;
 import com.alaharranhonor.swem.blocks.TimothyPlant;
 import com.alaharranhonor.swem.capability.CapabilityHandler;
 import com.alaharranhonor.swem.config.ConfigHolder;
-import com.alaharranhonor.swem.entities.PoopEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.entities.WormieBoiEntity;
 import com.alaharranhonor.swem.integration.placeableitems.PlaceableItemsInit;
 import com.alaharranhonor.swem.items.potions.BrewingRecipes;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
@@ -37,7 +35,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.WoodType;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
@@ -222,9 +219,6 @@ public class SWEM {
             PlaceableItemsInit.initMap();
         }
         event.enqueueWork(() -> {
-            GlobalEntityTypeAttributes.put(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseEntityBase.setCustomAttributes().build());
-            GlobalEntityTypeAttributes.put(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiEntity.setCustomAttributes().build());
-            GlobalEntityTypeAttributes.put(SWEMEntities.HORSE_POOP_ENTITY.get(), PoopEntity.createLivingAttributes().build());
             BrewingRecipeRegistry.addRecipe(new BrewingRecipes.CantazariteBrewingRecipe());
             BrewingRecipeRegistry.addRecipe(new BrewingRecipes.RainbowChicPotion());
 
