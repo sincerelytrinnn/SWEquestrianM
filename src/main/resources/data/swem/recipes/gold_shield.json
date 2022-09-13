@@ -3,21 +3,17 @@
   "group": "shield",
   "pattern":
   [
-    "xyx",
-    " z ",
-	" xy"
+    "xxx",
+    " y ",
+	" xx"
   ],
   "key":
   {
 	"x":
     {
-      "item": "swem:gold_plate"
-    },
-	"y":
-    {
       "item": "swem:gold_rivet"
     },
-	"z":
+	"y":
     {
       "item": "swem:amethyst_shield_iron"
     }

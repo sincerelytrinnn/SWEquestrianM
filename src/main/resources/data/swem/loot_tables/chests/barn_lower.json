@@ -186,7 +186,7 @@
         {
           "type": "minecraft:item",
           "weight": 7,
-          "name": "swem:tack_box"
+          "name": "swem:tack_box_gray"
         },
         {
           "type": "minecraft:item",

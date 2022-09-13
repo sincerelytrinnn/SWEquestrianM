@@ -110,11 +110,16 @@ public enum SWEMCoatColor {
     WREN_ARISHANT(93, true),
     CITRINE_ARISHANT(94, true),
     HURRICANE_ARISHANT(95, true),
+    PHANTOM_ARISHANT(96, true),
+    RUMBLE_ARISHANT(97, true),
+    MAPLE_ARISHANT(98, true),
     US_MARSHALL(100, true),
     FRANK_STEVECV(101, true),
     TOOTHBRUSH_BOATY(102, true),
     KODIAK_DELPHI(103, true),
     ANNIE_LACE(104, true),
+    LADY_GUINEVERE_ARISHANT(105, true),
+    MIA_ERIC(107, false),
     KHAREMA_CYTRIS(109, true),
     ANGEL_RILEY(110, true),
     LADY_JENNY(17351, false),
@@ -157,7 +162,7 @@ public enum SWEMCoatColor {
                 return i;
             }
         }
-        SWEM.LOGGER.error("Could not get any index from id: " + id + " - Returning index for white.");
+        //SWEM.LOGGER.error("Could not get any index from id: " + id + " - Returning index for white."); **Hannah requested this logger error be removed to lower user confusion in tech help
         return 1;
     }
 
