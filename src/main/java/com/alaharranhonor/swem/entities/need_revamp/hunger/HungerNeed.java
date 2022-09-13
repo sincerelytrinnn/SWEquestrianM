@@ -220,7 +220,11 @@ public class HungerNeed implements INeed {
     @Override
     public void read(CompoundNBT nbt) {
         this.timesFed = nbt.getIntArray("hungerTimesFed");
-        this.timesFed = this.timesFed.length == 0 ? new int[FoodItem.values().length] : this.timesFed;
+        if (this.timesFed.length == 0) {
+            this.timesFed = new int[FoodItem.values().length];
+        } else {
+            this.timesFed = Arrays.copyOf(this.timesFed, FoodItem.values().length);
+        }
         this.pointsFromCategory = nbt.getIntArray("hungerPointsFromCategory");
         this.pointsFromCategory = this.pointsFromCategory.length == 0 ? new int[3] : this.pointsFromCategory;
         this.missedMeals = nbt.getInt("hungerMissedMeals");

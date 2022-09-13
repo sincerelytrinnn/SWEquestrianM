@@ -16,6 +16,7 @@ package com.alaharranhonor.swem.entities.need_revamp.thirst;
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.entities.need_revamp.INeed;
+import com.alaharranhonor.swem.entities.need_revamp.hunger.FoodItem;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.item.ItemStack;
@@ -217,7 +218,11 @@ public class ThirstNeed implements INeed {
     @Override
     public void read(CompoundNBT nbt) {
         this.timesFed = nbt.getIntArray("thirstTimesFed");
-        this.timesFed = this.timesFed.length == 0 ? new int[ThirstItem.values().length] : this.timesFed;
+        if (this.timesFed.length == 0) {
+            this.timesFed = new int[FoodItem.values().length];
+        } else {
+            this.timesFed = Arrays.copyOf(this.timesFed, FoodItem.values().length);
+        }
         this.pointsFromCategory = nbt.getIntArray("thirstPointsFromCategory");
         this.pointsFromCategory = this.pointsFromCategory.length == 0 ? new int[3] : this.pointsFromCategory;
         this.missedBuckets = nbt.getInt("thirstMissedBuckets");
