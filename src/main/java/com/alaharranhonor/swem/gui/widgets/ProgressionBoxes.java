@@ -26,7 +26,6 @@ public enum ProgressionBoxes {
     GOLD_BOOTS("main/gold_boots", 101, 152),
     DIAMOND_BOOTS("main/diamond_boots", 84, 150),
     AMETHYST_BOOTS("main/amethyst_boots", 71, 159),
-    SW_DIAMOND_BLOCK("main/sw_diamond_block", 129, 114),
     AMETHYST("main/amethyst", 129, 80),
     ADVENTURE_TACK_SET("main/adventure_tack_set", 148, 68),
     AMETHYST_HELMET("main/amethyst_helmet", 173, 66),
@@ -99,6 +98,6 @@ public enum ProgressionBoxes {
      */
     public boolean isMouseOver(double mouseX, double mouseY, int guiLeftOffset, int guiTopOffset) {
         return (mouseX >= getX() + guiLeftOffset && mouseX <= getX() + guiLeftOffset + OFFSET)
-                && (mouseY >= getY() + guiTopOffset && mouseY <= getY() + guiTopOffset + OFFSET);
+            && (mouseY >= getY() + guiTopOffset && mouseY <= getY() + guiTopOffset + OFFSET);
     }
 }

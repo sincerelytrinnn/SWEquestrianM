@@ -395,7 +395,7 @@
               }
             }
           ],
-          "name": "swem:medicated"
+          "name": "swem:medicated_bandage"
         },
         {
           "type": "minecraft:item",
@@ -566,51 +566,6 @@
             }
           ],
           "name": "swem:cantazarite"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 3.0,
-                "max": 7.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "swlm:star_worm"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 5.0,
-                "max": 10.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "swlm:star_worm_goop"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 3.0,
-                "max": 7.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "swlm:star_worm_cobble"
         }
       ]
     }
