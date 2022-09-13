@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "saddle_bag",
+  "pattern": [
+    "zzz",
+    "xyx",
+    "xxx"
+  ],
+  "key": {
+    "x": {
+      "item": "swem:refined_leather"
+    },
+    "z": {
+      "item": "minecraft:gray_wool"
+    },
+    "y": {
+      "item": "minecraft:chest"
+    }
+  },
+  "result": {
+    "item": "swem:saddle_bag_gray"
+  }
+}

@@ -31,5 +31,6 @@ public class SWEMTags {
     public static final Tags.IOptionalNamedTag<Item> WESTERN_GIRTH_STRAPS = ItemTags.createOptional(new ResourceLocation(SWEM.MOD_ID, "western/girth_straps"));
     public static final Tags.IOptionalNamedTag<Item> WESTERN_LEG_WRAPS = ItemTags.createOptional(new ResourceLocation(SWEM.MOD_ID, "western/leg_wraps"));
     public static final Tags.IOptionalNamedTag<Item> WESTERN_SADDLES = ItemTags.createOptional(new ResourceLocation(SWEM.MOD_ID, "western/saddles"));
+    public static final Tags.IOptionalNamedTag<Item> SADDLE_BAGS = ItemTags.createOptional(new ResourceLocation(SWEM.MOD_ID, "saddle_bags"));
 
 }

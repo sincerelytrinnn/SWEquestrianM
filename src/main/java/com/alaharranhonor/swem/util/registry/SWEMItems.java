@@ -173,7 +173,7 @@ public class SWEMItems {
     public static final List<RegistryObject<LegWrapsItem>> ENGLISH_LEG_WRAPS = new ArrayList<>();
     public static final List<RegistryObject<PastureBlanketItem>> PASTURE_BLANKETS = new ArrayList<>();
     public static final List<RegistryObject<PastureBlanketItem>> PASTURE_BLANKETS_ARMORED = new ArrayList<>();
-    public static final List<RegistryObject<SaddlebagItem>> SADDLEBAG = new ArrayList<>();
+    public static final List<RegistryObject<SaddlebagItem>> SADDLE_BAGS = new ArrayList<>();
 
     static {
         for (DyeColor color : DyeColor.values()) {
@@ -188,7 +188,7 @@ public class SWEMItems {
             ENGLISH_LEG_WRAPS.add(ITEMS.register("english_leg_wraps_" + color.getName(), () -> new EnglishLegWraps("english_leg_wraps_" + color.getName(), new Item.Properties().tab(SWEM.TAB).stacksTo(64))));
             PASTURE_BLANKETS.add(ITEMS.register("pasture_blanket_" + color.getName(), () -> new PastureBlanketItem(SWEMHorseArmorItem.HorseArmorTier.NONE, 0, "pasture_blanket_" + color.getName(), new Item.Properties().tab(SWEM.TAB).stacksTo(16))));
             PASTURE_BLANKETS_ARMORED.add(ITEMS.register("pasture_blanket_" + color.getName() + "_armored", () -> new PastureBlanketItem(SWEMHorseArmorItem.HorseArmorTier.DIAMOND, 37, "pasture_blanket_" + color.getName() + "_armored", new Item.Properties().tab(SWEM.TAB).stacksTo(16))));
-            SADDLEBAG.add(ITEMS.register("saddle_bag_" + color.getName(), () -> new SaddlebagItem("saddle_bag_" + color.getName(), new Item.Properties().tab(SWEM.TAB).stacksTo(16))));
+            SADDLE_BAGS.add(ITEMS.register("saddle_bag_" + color.getName(), () -> new SaddlebagItem("saddle_bag_" + color.getName(), new Item.Properties().tab(SWEM.TAB).stacksTo(16))));
         }
     }
 
