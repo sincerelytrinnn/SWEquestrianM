@@ -100,9 +100,9 @@ public class CoatMapper {
                     put(SWEMCoatColor.WREN_ARISHANT, SWEMCoatColor.FOAL_BROWN);
                     put(SWEMCoatColor.CITRINE_ARISHANT, SWEMCoatColor.FOAL_CREAMY);
                     put(SWEMCoatColor.HURRICANE_ARISHANT, SWEMCoatColor.FOAL_GRAY);
-                    //COAT #96-BlackSabino* put(SWEMCoatColor.TOBEADDED, SWEMCoatColor.FOAL_BLACK);
-                    //COAT #97-BaySabino* put(SWEMCoatColor.TOBEADDED, SWEMCoatColor.FOAL_CHESTNUT);
-                    //COAT #98-ChestnutSabino* put(SWEMCoatColor.TOBEADDED, SWEMCoatColor.FOAL_CHESTNUT);
+                    put(SWEMCoatColor.PHANTOM_ARISHANT, SWEMCoatColor.FOAL_BLACK);
+                    put(SWEMCoatColor.RUMBLE_ARISHANT, SWEMCoatColor.FOAL_CHESTNUT);
+                    put(SWEMCoatColor.MAPLE_ARISHANT, SWEMCoatColor.FOAL_CHESTNUT);
                     //COAT #99-BaldSabino* put(SWEMCoatColor.TOBEADDED, SWEMCoatColor.FOAL_BROWN);
 
                     //**APPRECIATION COATS (BREEDABLE)**
