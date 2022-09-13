@@ -22,6 +22,6 @@ public class PlaceableItemsInit {
      */
     public static void initMap() {
         PlaceableItemsMap map = PlaceableItemsMap.instance();
-        map.put(SWEMItems.LEATHER_HELMET.get(), PlaceableItemsSWEMBlockRegistry.LEATHER_HELMET);
+        map.put(SWEMItems.IRON_HELMET.get(), PlaceableItemsSWEMBlockRegistry.LEATHER_HELMET);
     }
 }

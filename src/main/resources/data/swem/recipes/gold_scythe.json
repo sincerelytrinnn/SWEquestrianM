@@ -3,21 +3,17 @@
   "group": "scythe",
   "pattern":
   [
-    "xxy",
-    " z ",
-	" y "
+    "xxx",
+    " y ",
+	" x "
   ],
   "key":
   {
 	"x":
     {
-      "item": "swem:gold_plate"
-    },
-	"y":
-    {
       "item": "swem:gold_rivet"
     },
-	"z":
+	"y":
     {
       "item": "swem:iron_scythe"
     }

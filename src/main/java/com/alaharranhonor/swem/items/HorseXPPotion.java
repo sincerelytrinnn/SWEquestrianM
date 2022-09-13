@@ -21,7 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 
-public class HorseXPBottle extends ItemBase {
+public class HorseXPPotion extends ItemBase {
 
     private final String leveler;
 
@@ -30,7 +30,7 @@ public class HorseXPBottle extends ItemBase {
      *
      * @param leveler the leveler
      */
-    public HorseXPBottle(String leveler) {
+    public HorseXPPotion(String leveler) {
         super();
         this.leveler = leveler;
     }
