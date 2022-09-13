@@ -15,6 +15,8 @@ package com.alaharranhonor.swem.armor;
  */
 
 import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -61,5 +63,10 @@ public class ArmorBaseItem extends ArmorItem {
     public final String getArmorTexture(
             ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
         return armorModel.get().get().getTexture();
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        return enchantment.category == EnchantmentType.ARMOR;
     }
 }
