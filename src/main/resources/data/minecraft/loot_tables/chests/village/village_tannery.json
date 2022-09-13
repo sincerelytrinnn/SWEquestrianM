@@ -24,21 +24,6 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:leather_chestplate"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:leather_boots"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:leather_helmet"
-        },
-        {
-          "type": "minecraft:item",
           "weight": 5,
           "functions": [
             {
@@ -51,11 +36,6 @@
             }
           ],
           "name": "minecraft:bread"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:leather_leggings"
         },
         {
           "type": "minecraft:item",

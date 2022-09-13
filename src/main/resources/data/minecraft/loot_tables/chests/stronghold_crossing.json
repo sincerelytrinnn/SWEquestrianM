@@ -156,7 +156,7 @@
               }
             }
           ],
-          "name": "swem:medicated"
+          "name": "swem:medicated_bandage"
         },
         {
           "type": "minecraft:item",
