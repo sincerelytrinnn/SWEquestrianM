@@ -231,19 +231,19 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("WalkingBackwards"));
                 return PlayState.CONTINUE;
             }
-            if (horse.getEntityData().get(SPEED_LEVEL) == 0) {
+            if (horse.getEntityData().get(GAIT_LEVEL) == 0) {
                 if (horse.getEntityData().get(IS_SAD)) {
                     event.getController().setAnimation(new AnimationBuilder().addAnimation("SadWalk"));
                 } else {
                     event.getController().setAnimation(new AnimationBuilder().addAnimation("Walk"));
                 }
-            } else if (horse.getEntityData().get(SPEED_LEVEL) == 1) {
+            } else if (horse.getEntityData().get(GAIT_LEVEL) == 1) {
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("Trot"));
-            } else if (horse.getEntityData().get(SPEED_LEVEL) == 2) {
+            } else if (horse.getEntityData().get(GAIT_LEVEL) == 2) {
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("Canter"));
-            } else if (horse.getEntityData().get(SPEED_LEVEL) == 3) {
+            } else if (horse.getEntityData().get(GAIT_LEVEL) == 3) {
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("ExtendedCanter"));
-            } else if (horse.getEntityData().get(SPEED_LEVEL) == 4) {
+            } else if (horse.getEntityData().get(GAIT_LEVEL) == 4) {
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("Gallop"));
             }
             return PlayState.CONTINUE;
