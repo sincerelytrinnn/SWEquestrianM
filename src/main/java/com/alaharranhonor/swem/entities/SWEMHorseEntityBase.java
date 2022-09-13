@@ -2609,7 +2609,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
             stack.shrink(1);
             this.setCoatColour(SWEMCoatColor.AGRO_SOC);
             return true;
-        } else if (stack.getItem() == Items.IRON_SWORD && stack.getStack().getHoverName().getString().equals("Sithus")) {
+        } else if (stack.getItem() == Items.IRON_SWORD && stack.getStack().getHoverName().getString().equals("Sithis")) {
             stack.shrink(1);
             this.setCoatColour(SWEMCoatColor.SHADOWMERE_OBLIVION);
             return true;
@@ -2617,7 +2617,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
             stack.shrink(1);
             this.setCoatColour(SWEMCoatColor.RAPIDASH_POKEMON);
             return true;
-        } else if (stack.getItem() == Items.DIAMOND && stack.getStack().getHoverName().getString().equals("Power of Grayskull")) {
+        } else if (stack.getItem() == Items.DIAMOND && stack.getStack().getHoverName().getString().equals("Honor of Grayskull")) {
             stack.shrink(1);
             this.setCoatColour(SWEMCoatColor.SWIFT_WIND_SHE_RA);
             return true;
@@ -2625,9 +2625,33 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
             stack.shrink(1);
             this.setCoatColour(SWEMCoatColor.BOB_FREE_REIN);
             return true;
-        } else if (stack.getItem() == Items.NETHER_STAR && stack.getHoverName().getString().equals("Lady In Memory")) {
+        } else if (stack.getItem() == Items.ORANGE_DYE && stack.getStack().getHoverName().getString().equals("Zebra")) {
             stack.shrink(1);
-            this.setCoatColour(SWEMCoatColor.LADY_JENNY);
+            this.setCoatColour(SWEMCoatColor.FARCAH_ZORSE_TAN_HAUKET);
+            return true;
+        } else if (stack.getItem() == Items.WHITE_DYE && stack.getStack().getHoverName().getString().equals("Zebra")) {
+            stack.shrink(1);
+            this.setCoatColour(SWEMCoatColor.SARINE_ZORSE_PAINT_HAUKET);
+            return true;
+        } else if (stack.getItem() == Items.BROWN_DYE && stack.getStack().getHoverName().getString().equals("Zebra")) {
+            stack.shrink(1);
+            this.setCoatColour(SWEMCoatColor.CALIHOPE_ZORSE_DARK_HAUKET);
+            return true;
+        } else if (stack.getItem() == Items.FEATHER && stack.getStack().getHoverName().getString().equals("Herald")) {
+            stack.shrink(1);
+            this.setCoatColour(SWEMCoatColor.COURIER_CALICO_HAUKET);
+            return true;
+        } else if (stack.getItem() == Items.SHIELD && stack.getStack().getHoverName().getString().equals("Duty")) {
+            stack.shrink(1);
+            this.setCoatColour(SWEMCoatColor.GUARDIAN_BAY_GRAY_HAUKET);
+            return true;
+        } else if (stack.getItem() == Items.GOLD_INGOT && stack.getStack().getHoverName().getString().equals("Reign")) {
+            stack.shrink(1);
+            this.setCoatColour(SWEMCoatColor.ROYAL_BRINDLE_HAUKET);
+            return true;
+        } else if (stack.getItem() == Items.PRISMARINE_SHARD && stack.getStack().getHoverName().getString().equals("13 Horses")) {
+            stack.shrink(1);
+            this.setCoatColour(SWEMCoatColor.RIPTIDE_PEACOCK_HAUKET);
             return true;
         }
 
