@@ -15,7 +15,7 @@ package com.alaharranhonor.swem.util.registry;
  */
 
 import com.alaharranhonor.swem.SWEM;
-import com.alaharranhonor.swem.world.structure.BarnStructure;
+import com.alaharranhonor.swem.world.structure.CottageStructure;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.util.registry.WorldGenRegistries;
@@ -35,8 +35,8 @@ public class SWEMStructure {
 
     public static final DeferredRegister<Structure<?>> STRUCTURES =
             DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, SWEM.MOD_ID);
-    public static final RegistryObject<Structure<NoFeatureConfig>> BARN =
-            STRUCTURES.register("barn", () -> new BarnStructure(NoFeatureConfig.CODEC));
+    public static final RegistryObject<Structure<NoFeatureConfig>> COTTAGE =
+            STRUCTURES.register("lonely_cottage_abandoned", () -> new CottageStructure(NoFeatureConfig.CODEC));
 
     /**
      * Init.
@@ -53,7 +53,7 @@ public class SWEMStructure {
      */
     public static void setupStructures() {
         setupMapSpacingAndLand(
-                BARN.get(),
+                COTTAGE.get(),
                 new StructureSeparationSettings(
                         25, /* average distance apart in chunks between spawn attempts */
                         15, /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/

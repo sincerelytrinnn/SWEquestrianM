@@ -296,7 +296,7 @@ public class SWEM {
              * And if you want to do dimension blacklisting, you need to remove the spacing entry entirely from the map below to prevent generation safely.
              */
             Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld.getChunkSource().generator.getSettings().structureConfig());
-            tempMap.putIfAbsent(SWEMStructure.BARN.get(), DimensionStructuresSettings.DEFAULTS.get(SWEMStructure.BARN.get()));
+            tempMap.putIfAbsent(SWEMStructure.COTTAGE.get(), DimensionStructuresSettings.DEFAULTS.get(SWEMStructure.COTTAGE.get()));
             serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
         }
     }
