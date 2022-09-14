@@ -14,10 +14,6 @@
         },
         {
           "type": "minecraft:item",
-          "name": "swem:leather_bow"
-        },
-        {
-          "type": "minecraft:item",
           "name": "swem:iron_bow"
         },
         {

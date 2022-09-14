@@ -17,21 +17,19 @@ package com.alaharranhonor.swem.entities.progression.leveling;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+
+import static com.alaharranhonor.swem.entities.SWEMHorseEntityBase.SPEED_LEVEL;
+import static com.alaharranhonor.swem.entities.SWEMHorseEntityBase.SPEED_XP;
 
 public class SpeedLeveling implements ILeveling {
 
-    public static final DataParameter<Integer> LEVEL =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
-    public static final DataParameter<Float> XP =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
+
     private final SWEMHorseEntityBase horse;
     private final EntityDataManager dataManager;
     private final float[] requiredXpArray;
     private final String[] levelNames =
-            new String[]{"Speed I", "Speed II", "Speed III", "Speed IV", "Speed V"};
+        new String[]{"Speed I", "Speed II", "Speed III", "Speed IV", "Speed V"};
 
     /**
      * Instantiates a new Speed leveling.
@@ -42,17 +40,17 @@ public class SpeedLeveling implements ILeveling {
         this.horse = horse;
         this.dataManager = this.horse.getEntityData();
         this.requiredXpArray =
-                new float[]{
-                        ConfigHolder.SERVER.maxSpeedXP.get() * 0.1f,
-                        ConfigHolder.SERVER.maxSpeedXP.get() * 0.225f,
-                        ConfigHolder.SERVER.maxSpeedXP.get() * 0.3f,
-                        ConfigHolder.SERVER.maxSpeedXP.get() * 0.375f
-                };
+            new float[]{
+                ConfigHolder.SERVER.maxSpeedXP.get() * 0.1f,
+                ConfigHolder.SERVER.maxSpeedXP.get() * 0.225f,
+                ConfigHolder.SERVER.maxSpeedXP.get() * 0.3f,
+                ConfigHolder.SERVER.maxSpeedXP.get() * 0.375f
+            };
     }
 
     public boolean addXP(float amount) {
         if (this.getLevel() == this.getMaxLevel()) return false;
-        this.dataManager.set(XP, this.dataManager.get(XP) + amount);
+        this.dataManager.set(SPEED_XP, this.dataManager.get(SPEED_XP) + amount);
         return this.checkLevelUp();
     }
 
@@ -77,7 +75,7 @@ public class SpeedLeveling implements ILeveling {
     }
 
     public int getLevel() {
-        return this.dataManager.get(LEVEL);
+        return this.dataManager.get(SPEED_LEVEL);
     }
 
     /**
@@ -86,7 +84,7 @@ public class SpeedLeveling implements ILeveling {
      * @param level the level
      */
     public void setLevel(int level) {
-        this.dataManager.set(LEVEL, level);
+        this.dataManager.set(SPEED_LEVEL, level);
     }
 
     public int getMaxLevel() {
@@ -94,7 +92,7 @@ public class SpeedLeveling implements ILeveling {
     }
 
     public float getXp() {
-        return this.dataManager.get(XP);
+        return this.dataManager.get(SPEED_XP);
     }
 
     /**
@@ -106,23 +104,23 @@ public class SpeedLeveling implements ILeveling {
         if (xp < 0) {
             xp = 0;
         }
-        this.dataManager.set(XP, xp);
+        this.dataManager.set(SPEED_XP, xp);
     }
 
     public float getRequiredXp() {
         if (this.getLevel() == this.getMaxLevel()) {
             return -1.0f;
         }
-        return this.requiredXpArray[this.dataManager.get(LEVEL)];
+        return this.requiredXpArray[this.dataManager.get(SPEED_LEVEL)];
     }
 
     public String getLevelName() {
-        return this.levelNames[this.dataManager.get(LEVEL)];
+        return this.levelNames[this.dataManager.get(SPEED_LEVEL)];
     }
 
     public void write(CompoundNBT compound) {
-        compound.putInt("SpeedLevel", this.dataManager.get(LEVEL));
-        compound.putFloat("SpeedXP", this.dataManager.get(XP));
+        compound.putInt("SpeedLevel", this.dataManager.get(SPEED_LEVEL));
+        compound.putFloat("SpeedXP", this.dataManager.get(SPEED_XP));
     }
 
     public void read(CompoundNBT compound) {

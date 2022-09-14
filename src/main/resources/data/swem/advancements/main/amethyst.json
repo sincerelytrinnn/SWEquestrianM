@@ -15,7 +15,7 @@
     "hidden": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
-  "parent": "swem:main/sw_diamond_block",
+  "parent": "swem:main/root",
   "criteria": {
     "amethyst": {
       "trigger": "minecraft:inventory_changed",

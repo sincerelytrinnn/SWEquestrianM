@@ -48,8 +48,6 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static net.minecraft.block.Blocks.TRIPWIRE_HOOK;
-
 @SuppressWarnings("unused")
 public class SWEMBlocks {
 
@@ -190,7 +188,6 @@ public class SWEMBlocks {
     public static final RegistryObject<Block> CANTAZARITE_ANVIL = BLOCKS.register("cantazarite_anvil", () -> new CantazariteAnvilBlock(AbstractBlock.Properties.copy(Blocks.ANVIL).noOcclusion()));
     public static final RegistryObject<Item> CANTAZARITE_ANVIL_ITEM = SWEMItems.ITEMS.register("cantazarite_anvil", () -> new BlockItemBase(CANTAZARITE_ANVIL.get(), new Item.Properties().tab(SWEM.TAB).stacksTo(4)));
     public static final RegistryObject<Block> TEARING_MAGMA = BLOCKS.register("tearing_magma", () -> new TearingMagma(AbstractBlock.Properties.of(Material.STONE, MaterialColor.NETHER).requiresCorrectToolForDrops().noOcclusion().randomTicks()));
-    public static final RegistryObject<Block> GLOW_STRING = BLOCKS.register("glow_string", () -> new GlowTripwireBlock((TripWireHookBlock) TRIPWIRE_HOOK, AbstractBlock.Properties.of(Material.DECORATION).noCollission()));
     public static final RegistryObject<Block> LOCKER = BLOCKS.register("locker", () -> new LockerBlock(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).strength(1.5f, 6.0f)));
     public static final RegistryObject<Item> LOCKER_ITEM = SWEMItems.ITEMS.register("locker", () -> new BlockItemBase(LOCKER.get()));
     public static final RegistryObject<Block> PADDOCK_FEEDER = BLOCKS.register("paddock_feeder", () -> new PaddockFeederBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0f).harvestTool(ToolType.AXE)));

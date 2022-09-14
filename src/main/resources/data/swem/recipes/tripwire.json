@@ -10,10 +10,10 @@
       "item": "minecraft:iron_ingot"
     },
     "O": {
-      "item": "minecraft:planks"
+      "tag": "minecraft:planks"
     },
     "N": {
-      "item": "minecraft:logs"
+      "tag": "minecraft:logs"
     }
   },
   "result": {

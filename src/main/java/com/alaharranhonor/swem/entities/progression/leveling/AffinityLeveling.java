@@ -19,40 +19,19 @@ import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.server.ServerWorld;
 
+import static com.alaharranhonor.swem.entities.SWEMHorseEntityBase.*;
+
 public class AffinityLeveling implements ILeveling {
 
-    public static final DataParameter<Integer> LEVEL =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
-    public static final DataParameter<Float> XP =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
-    public static final DataParameter<ItemStack> CURRENT_DESENSITIZING_ITEM =
-            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.ITEM_STACK);
     public final float[] requiredXpArray;
     private final SWEMHorseEntityBase horse;
     private final EntityDataManager dataManager;
-    private final String[] levelNames =
-            new String[]{
-                    "Unwilling",
-                    "Reluctant",
-                    "Tolerant",
-                    "Indifferent",
-                    "Accepting",
-                    "Willing",
-                    "Committed",
-                    "Trusted",
-                    "Friends",
-                    "Best Friends",
-                    "Inseparable",
-                    "Bonded",
-            };
-    private final float[] obeyDebuff =
-            new float[]{1.0f, 0.95f, 0.9f, 0.85f, 0.75f, 0.65f, 0.5f, 0.35f, 0.2f, 0.1f, 0.05f, 0};
+    private final String[] levelNames = new String[]{"Unwilling", "Reluctant", "Tolerant", "Indifferent", "Accepting", "Willing", "Committed", "Trusted", "Friends", "Best Friends", "Inseparable", "Bonded",};
+    private final float[] obeyDebuff = new float[]{1.0f, 0.95f, 0.9f, 0.85f, 0.75f, 0.65f, 0.5f, 0.35f, 0.2f, 0.1f, 0.05f, 0};
     private int currentSwipes = 0;
     private int[] daysSwiped = new int[5];
     private int timesBrushed = 0;
@@ -136,7 +115,7 @@ public class AffinityLeveling implements ILeveling {
 
     @Override
     public int getLevel() {
-        return this.dataManager.get(LEVEL);
+        return this.dataManager.get(AFFINITY_LEVEL);
     }
 
     /**
@@ -145,7 +124,7 @@ public class AffinityLeveling implements ILeveling {
      * @param level the level
      */
     public void setLevel(int level) {
-        this.dataManager.set(LEVEL, MathHelper.clamp(level, 0, this.getMaxLevel()));
+        this.dataManager.set(AFFINITY_LEVEL, MathHelper.clamp(level, 0, this.getMaxLevel()));
         if (level == 2) {
             if (this.horse.progressionManager.getJumpLeveling().getLevel() < 1) {
                 this.horse.progressionManager.getJumpLeveling().levelUp();
@@ -160,7 +139,7 @@ public class AffinityLeveling implements ILeveling {
 
     @Override
     public float getXp() {
-        return this.dataManager.get(XP);
+        return this.dataManager.get(AFFINITY_XP);
     }
 
     /**
@@ -173,12 +152,12 @@ public class AffinityLeveling implements ILeveling {
             this.levelDown(xp);
             return;
         }
-        this.dataManager.set(XP, Math.max(xp, 0));
+        this.dataManager.set(AFFINITY_XP, Math.max(xp, 0));
     }
 
     @Override
     public float getRequiredXp() {
-        return this.requiredXpArray[this.dataManager.get(LEVEL)];
+        return this.requiredXpArray[this.dataManager.get(AFFINITY_LEVEL)];
     }
 
     @Override
@@ -186,7 +165,7 @@ public class AffinityLeveling implements ILeveling {
         if (this.getLevel() == this.getMaxLevel()) {
             return this.levelNames[this.levelNames.length - 1];
         }
-        return this.levelNames[this.dataManager.get(LEVEL)];
+        return this.levelNames[this.dataManager.get(AFFINITY_LEVEL)];
     }
 
     /**
@@ -195,7 +174,7 @@ public class AffinityLeveling implements ILeveling {
      * @return the debuff
      */
     public float getDebuff() {
-        return this.obeyDebuff[this.dataManager.get(LEVEL)];
+        return this.obeyDebuff[this.dataManager.get(AFFINITY_LEVEL)];
     }
 
     /**
@@ -230,9 +209,7 @@ public class AffinityLeveling implements ILeveling {
      * @param stack the stack
      */
     public void desensitize(ItemStack stack) {
-        if ((this.getCurrentDesensitizingItem().getItem() != stack.getItem()
-                && !this.getCurrentDesensitizingItem().isEmpty())
-                || this.currentSwipes >= 7) {
+        if ((this.getCurrentDesensitizingItem().getItem() != stack.getItem() && !this.getCurrentDesensitizingItem().isEmpty()) || this.currentSwipes >= 7) {
             // TODO: SEND STATUS MESSAGE TO CLIENT.
             return;
         }
@@ -289,8 +266,8 @@ public class AffinityLeveling implements ILeveling {
 
     @Override
     public void write(CompoundNBT compound) {
-        compound.putInt("AffinityLevel", this.dataManager.get(LEVEL));
-        compound.putFloat("AffinityXP", this.dataManager.get(XP));
+        compound.putInt("AffinityLevel", this.dataManager.get(AFFINITY_LEVEL));
+        compound.putFloat("AffinityXP", this.dataManager.get(AFFINITY_XP));
         CompoundNBT nbt = new CompoundNBT();
         compound.put("desensiztingItem", this.dataManager.get(CURRENT_DESENSITIZING_ITEM).save(nbt));
         compound.putInt("currentSwipes", this.currentSwipes);
@@ -306,8 +283,7 @@ public class AffinityLeveling implements ILeveling {
             this.setXp(compound.getFloat("AffinityXP"));
         }
         if (compound.contains("desensiztingItem")) {
-            this.setCurrentDesensitizingItem(
-                    ItemStack.of((CompoundNBT) compound.get("desensiztingItem")));
+            this.setCurrentDesensitizingItem(ItemStack.of((CompoundNBT) compound.get("desensiztingItem")));
         }
         if (compound.contains("currentSwipes")) {
             this.currentSwipes = compound.getInt("currentSwipes");

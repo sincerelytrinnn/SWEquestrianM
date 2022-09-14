@@ -41,6 +41,7 @@ public class Recipes extends RecipeProvider {
             halfBarrels(color, p_200404_0_);
             englishTack(color, p_200404_0_);
             westernTack(color, p_200404_0_);
+            saddleBag(color, p_200404_0_);
         }
 
         ShapedRecipeBuilder.shaped(SWEMItems.CLOTH_HORSE_ARMOR.get())
@@ -283,6 +284,28 @@ public class Recipes extends RecipeProvider {
             .group("western_saddle")
             .unlockedBy("has_western_saddle", has(SWEMItems.REFINED_LEATHER.get()))
             .save(p_200404_0_, new ResourceLocation(SWEM.MOD_ID, "western_saddle/western_saddle_" + color.getName() + "_from_saddle"));
+    }
+
+    private void saddleBag(DyeColor color, Consumer<IFinishedRecipe> p_200404_0_) {
+
+        ShapedRecipeBuilder.shaped(SWEMItems.SADDLE_BAGS.get(color.getId()).get())
+            .define('x', SWEMItems.REFINED_LEATHER.get())
+            .define('z', ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft", color.getName() + "_wool")))
+            .define('y', Items.CHEST)
+            .pattern("zzz")
+            .pattern("xyx")
+            .pattern("xxx")
+            .group("saddle_bag")
+            .unlockedBy("has_saddle_bag", has(SWEMItems.REFINED_LEATHER.get()))
+            .save(p_200404_0_, new ResourceLocation(SWEM.MOD_ID, "saddle_bag/saddle_bag_" + color.getName()));
+
+        // Interchangeable saddle bag.
+        ShapelessRecipeBuilder.shapeless(SWEMItems.SADDLE_BAGS.get(color.getId()).get())
+            .requires(SWEMTags.SADDLE_BAGS)
+            .requires(ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft", color.getName() + "_dye")))
+            .group("saddle_bag")
+            .unlockedBy("has_saddle_bag", has(SWEMItems.REFINED_LEATHER.get()))
+            .save(p_200404_0_, new ResourceLocation(SWEM.MOD_ID, "saddle_bag/saddle_bag_" + color.getName() + "_from_saddle_bag"));
     }
 
 

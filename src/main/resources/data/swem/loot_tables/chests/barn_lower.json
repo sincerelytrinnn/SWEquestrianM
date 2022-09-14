@@ -206,7 +206,7 @@
               }
             }
           ],
-          "name": "swem:jump_xp_bottle"
+          "name": "swem:jump_xp_potion"
         },
         {
           "type": "minecraft:item",
@@ -221,7 +221,7 @@
               }
             }
           ],
-          "name": "swem:health_xp_bottle"
+          "name": "swem:health_xp_potion"
         },
         {
           "type": "minecraft:item",
@@ -236,7 +236,7 @@
               }
             }
           ],
-          "name": "swem:speed_xp_bottle"
+          "name": "swem:speed_xp_potion"
         },
         {
           "type": "minecraft:item",
@@ -251,7 +251,7 @@
               }
             }
           ],
-          "name": "swem:jump_xp_bottle"
+          "name": "swem:jump_xp_potion"
         },
         {
           "type": "minecraft:item",

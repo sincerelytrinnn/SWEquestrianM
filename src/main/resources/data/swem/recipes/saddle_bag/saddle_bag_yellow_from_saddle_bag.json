@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "saddle_bag",
+  "ingredients": [
+    {
+      "tag": "swem:saddle_bags"
+    },
+    {
+      "item": "minecraft:yellow_dye"
+    }
+  ],
+  "result": {
+    "item": "swem:saddle_bag_yellow"
+  }
+}

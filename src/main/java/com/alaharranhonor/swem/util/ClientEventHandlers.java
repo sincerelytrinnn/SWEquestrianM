@@ -353,7 +353,7 @@ public class ClientEventHandlers {
             if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
 
             if (Minecraft.getInstance().player.getVehicle() instanceof SWEMHorseEntityBase) {
-                String gait = SWEMHorseEntityBase.HorseSpeed.values()[Minecraft.getInstance().player.getVehicle().getEntityData().get(SWEMHorseEntityBase.SPEED_LEVEL)].getText();
+                String gait = SWEMHorseEntityBase.HorseSpeed.values()[Minecraft.getInstance().player.getVehicle().getEntityData().get(SWEMHorseEntityBase.GAIT_LEVEL)].getText();
                 float xPos = event.getWindow().getGuiScaledWidth() / 2.0f + (4.5f * 20) + 4;
                 float yPos = event.getWindow().getGuiScaledHeight() - 14;
                 Minecraft.getInstance().font.draw(event.getMatrixStack(), gait, xPos, yPos, TextFormatting.WHITE.getColor());
