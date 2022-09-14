@@ -3,7 +3,7 @@
   "pools": [
     {
       "rolls": {
-        "min": 3.0,
+        "min": 4.0,
         "max": 7.0,
         "type": "minecraft:uniform"
       },
@@ -45,22 +45,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 7,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 5.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "swem:gold_plate"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 7,
+          "weight": 2,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -75,13 +60,13 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 7,
+          "weight": 3,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "min": 1.0,
-                "max": 5.0,
+                "max": 2.0,
                 "type": "minecraft:uniform"
               }
             }
@@ -90,7 +75,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 7,
+          "weight": 3,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -110,8 +95,8 @@
             {
               "function": "minecraft:set_count",
               "count": {
-                "min": 2.0,
-                "max": 5.0,
+                "min": 1.0,
+                "max": 2.0,
                 "type": "minecraft:uniform"
               }
             }
@@ -120,7 +105,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 7,
+          "weight": 2,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -175,12 +160,12 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 3,
+          "weight": 1,
           "name": "swem:rainbow_heavy_feed"
         },
         {
           "type": "minecraft:item",
-          "weight": 3,
+          "weight": 1,
           "name": "swem:rainbow_chic"
         },
         {
@@ -201,7 +186,7 @@
               "function": "minecraft:set_count",
               "count": {
                 "min": 1.0,
-                "max": 5.0,
+                "max": 2.0,
                 "type": "minecraft:uniform"
               }
             }
@@ -216,7 +201,7 @@
               "function": "minecraft:set_count",
               "count": {
                 "min": 1.0,
-                "max": 5.0,
+                "max": 2.0,
                 "type": "minecraft:uniform"
               }
             }
@@ -231,7 +216,7 @@
               "function": "minecraft:set_count",
               "count": {
                 "min": 1.0,
-                "max": 5.0,
+                "max": 2.0,
                 "type": "minecraft:uniform"
               }
             }
@@ -246,7 +231,7 @@
               "function": "minecraft:set_count",
               "count": {
                 "min": 1.0,
-                "max": 5.0,
+                "max": 2.0,
                 "type": "minecraft:uniform"
               }
             }
@@ -286,7 +271,7 @@
               "function": "minecraft:set_count",
               "count": {
                 "min": 1.0,
-                "max": 64.0,
+                "max": 32.0,
                 "type": "minecraft:uniform"
               }
             }

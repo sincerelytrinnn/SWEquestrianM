@@ -3,8 +3,8 @@
   "pools": [
     {
       "rolls": {
-        "min": 3.0,
-        "max": 7.0,
+        "min": 2.0,
+        "max": 5.0,
         "type": "minecraft:uniform"
       },
       "entries": [
@@ -15,28 +15,73 @@
             {
               "function": "minecraft:set_count",
               "count": {
-                "min": 1.0,
+                "min": 16.0,
+                "max": 32.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
+          "name": "minecraft:carrot"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 4.0,
                 "max": 13.0,
                 "type": "minecraft:uniform"
               }
             }
           ],
-          "name": "swem:salve"
+          "name": "minecraft:melon_slice"
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 20.0,
+                "max": 25.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
+          "name": "minecraft:wheat"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 4,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "min": 1.0,
-                "max": 7.0,
+                "max": 5.0,
                 "type": "minecraft:uniform"
               }
             }
           ],
-          "name": "swem:bandage"
+          "name": "minecraft:dried_kelp"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 1.0,
+                "max": 9.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
+          "name": "minecraft:baked_potato"
         },
         {
           "type": "minecraft:item",
@@ -51,7 +96,87 @@
               }
             }
           ],
-          "name": "swem:medicated_bandage"
+          "name": "minecraft:honey_bottle"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 1.0,
+                "max": 3.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
+          "name": "minecraft:cookie"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "minecraft:cake"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 1.0,
+                "max": 4.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
+          "name": "minecraft:apple"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 1.0,
+                "max": 7.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
+          "name": "minecraft:bread"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 1.0,
+                "max": 3.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
+          "name": "minecraft:mushroom_stew"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 1.0,
+                "max": 5.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
+          "name": "minecraft:cooked_salmon"
         },
         {
           "type": "minecraft:item",
@@ -66,27 +191,12 @@
               }
             }
           ],
-          "name": "swem:glistening_melon"
+          "name": "minecraft:cooked_porkchop"
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "swem:fence_tool"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 4,
-          "name": "swem:western_hitching_post"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 4,
-          "name": "swem:english_hitching_post"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 4,
-          "name": "swem:pasture_hitching_post"
+          "weight": 1,
+          "name": "minecraft:cooked_beef"
         },
         {
           "type": "minecraft:item",
@@ -96,112 +206,12 @@
               "function": "minecraft:set_count",
               "count": {
                 "min": 1.0,
-                "max": 2.0,
+                "max": 4.0,
                 "type": "minecraft:uniform"
               }
             }
           ],
-          "name": "swem:fuel_block"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 25.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "swem:dark_rubber_mat"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 25.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "swem:medium_rubber_mat"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 25.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "swem:light_rubber_mat"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 3,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 32.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "swem:dark_friendly_bars"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 3,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 32.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "swem:medium_friendly_bars"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 3,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 32.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "swem:light_friendly_bars"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 5,
-          "name": "swem:dark_shavings"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 5,
-          "name": "swem:light_shavings"
+          "name": "minecraft:cooked_mutton"
         }
       ]
     }
