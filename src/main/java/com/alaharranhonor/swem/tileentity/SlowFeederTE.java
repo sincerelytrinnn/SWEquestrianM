@@ -170,7 +170,7 @@ public class SlowFeederTE extends TileEntity implements HorseFeedable {
     @Override
     public void eat(int slot, SWEMHorseEntityBase horse) {
         ItemStack extractedItemStack = this.itemHandler.extractItem(slot, 1, false);
-        horse.getNeeds().getNeed("hunger").interact(extractedItemStack);
+        horse.getNeeds().getHunger().addPoints(extractedItemStack);
     }
 
     /**

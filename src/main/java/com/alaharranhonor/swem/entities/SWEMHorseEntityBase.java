@@ -19,10 +19,9 @@ import com.alaharranhonor.swem.client.coats.SWEMCoatColor;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.container.SWEMHorseInventoryContainer;
 import com.alaharranhonor.swem.entities.ai.*;
-import com.alaharranhonor.swem.entities.need_revamp.NeedManager;
-import com.alaharranhonor.swem.entities.need_revamp.hunger.FoodItem;
-import com.alaharranhonor.swem.entities.need_revamp.hunger.HungerNeed;
-import com.alaharranhonor.swem.entities.need_revamp.thirst.ThirstNeed;
+import com.alaharranhonor.swem.entities.needs.HungerNeed;
+import com.alaharranhonor.swem.entities.needs.NeedManager;
+import com.alaharranhonor.swem.entities.needs.ThirstNeed;
 import com.alaharranhonor.swem.entities.progression.ProgressionManager;
 import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
 import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
@@ -34,7 +33,6 @@ import com.alaharranhonor.swem.items.SweetFeed;
 import com.alaharranhonor.swem.items.TrackerItem;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.network.*;
-import com.alaharranhonor.swem.tileentity.HorseFeedable;
 import com.alaharranhonor.swem.util.ClientEventHandlers;
 import com.alaharranhonor.swem.util.SWEMUtil;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
@@ -87,7 +85,6 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ITag;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -190,7 +187,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     private int peeAnimationTick;
     private boolean isIceEffectActive = true;
 
-    private HorseEatFoodGoal eatFoodGoal;
 
     /**
      * Instantiates a new Swem horse entity base.
@@ -206,8 +202,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         this.currentSpeed = HorseSpeed.WALK;
         this.updateSelectedSpeed(HorseSpeed.WALK);
         this.needs = new NeedManager(this);
-        this.getNeeds().addNeed("hunger", new HungerNeed(this));
-        this.getNeeds().addNeed("thirst", new ThirstNeed(this));
         this.initSaddlebagInventory();
         this.flightController = new HorseFlightController(this);
     }
@@ -234,7 +228,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         // TODO: ADD AI TO FOLLOW WHISTLE POSITION AS TOP PRIORITY
         this.peeGoal = new PeeGoal(this, 4.0d);
         this.poopGoal = new PoopGoal(this);
-        this.eatFoodGoal = new HorseEatFoodGoal(this);
+        //this.eatFoodGoal = new HorseEatFoodGoal(this);
         //this.goalSelector.addGoal(0, new SwimGoal(this));
 
         this.goalSelector.addGoal(1, new PanicGoal(this, 4.0D)); // Unsure why this needs a lower value than the other goals. 4.0 Would make it run at insane speeds.
@@ -243,12 +237,12 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         this.goalSelector.addGoal(2, new HorseAvoidEntityGoal<>(this, PigEntity.class, 12.0f, 4.0d, 5.5d));
         this.goalSelector.addGoal(3, new TemptGoal(this, 4.0D, TEMPTATION_ITEMS, false));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 4.0D));
-        this.goalSelector.addGoal(5, this.eatFoodGoal);
-        this.goalSelector.addGoal(6, new HorseEatGrassGoal(this));
+        //this.goalSelector.addGoal(5, this.eatFoodGoal);
+        //this.goalSelector.addGoal(6, new HorseEatGrassGoal(this));
+        this.goalSelector.addGoal(6, new LookForWaterGoal(this, 4.0d));
         this.goalSelector.addGoal(7, this.poopGoal);
         this.goalSelector.addGoal(7, this.peeGoal);
-        //this.goalSelector.addGoal(7, new LookForFoodGoal(this, 4.0d));
-        //this.goalSelector.addGoal(7, new LookForWaterGoal(this, 4.0d));
+        this.goalSelector.addGoal(7, new LookForFoodGoal(this, 4.0d));
         //this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(8, new HorseWaterAvoidingRandomWalkingGoal(this, 4.0D)); //Speed 4.0 looks like a good speed, plus it triggers anim.
         //this.goalSelector.addGoal(9, new CustomLookRandomlyGoal(this));
@@ -363,10 +357,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         this.peeAnimationTick = this.peeGoal.getPeeTimer();
         this.poopAnimationTick = this.poopGoal.getPoopTimer();
 
-        if (this.tickCount % 100 == 0) {
+       /* if (this.tickCount % 100 == 0) {
             // Do bestFoodSourcePos check.
             checkForBestFoodSource();
-        }
+        }*/
 
 
         super.customServerAiStep();
@@ -374,7 +368,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
 
     public void checkForBestFoodSource() {
-        if (this.eatFoodGoal.hasTarget()) {
+        /*if (this.eatFoodGoal.hasTarget()) {
             return;
         }
         BlockPos currentPos = this.blockPosition();
@@ -423,7 +417,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
         if (bestIndex[0] > 0) {
             this.eatFoodGoal.setup(bestPos[0]);
-        }
+        }*/
 
     }
 
@@ -435,7 +429,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     private void checkIntegerStat(DataParameter<Integer> stat) {
         if (stat == BLOCKS_TRAVELLED_STAT) {
             if (this.getEntityData().get(stat) % 3000 == 0) {
-                this.getNeeds().getNeed("hunger").usageIncrement();
+                //this.getNeeds().getNeed("hunger").usageIncrement();
             }
         } else if (stat == JUMP_STAT) {
             if (this.getEntityData().get(stat) % 50 == 0) {
@@ -529,9 +523,6 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
                 }
             }
 
-            if (this.isTamed()) {
-                this.needs.tick((int) this.level.getDayTime());
-            }
 
             if (!this.isVehicle() && !this.isCameraLocked()) {
                 this.setCameraLock(true);
@@ -555,6 +546,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
      * Reset day based things.
      */
     private void resetDaily() {
+        this.needs.getHunger().resetDaily();
         this.progressionManager.getAffinityLeveling().resetDaily();
     }
 
@@ -703,6 +695,9 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         this.entityData.define(IS_MOVING_RIGHT, false);
 
         this.entityData.define(HUNGER_LEVEL, 4);
+        this.entityData.define(ThirstNeed.ThirstState.ID, 4);
+        this.entityData.define(HungerNeed.HungerState.ID, 4);
+        this.entityData.define(HungerNeed.TOTAL_TIMES_FED, 0);
         this.entityData.define(THIRST_LEVEL, 4);
 
         this.entityData.define(OBEDIENCE_MODIFIER, 1.0f);
@@ -2697,10 +2692,50 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
                 return ActionResultType.FAIL;
             }
 
-            if (!this.level.isClientSide) {
-                if (this.getNeeds().interact(itemstack)) {
-                    SWEMUtil.damageOrShrink(itemstack, playerEntity);
+            if (FOOD_ITEMS.test(itemstack)) {
+                if (this.getNeeds().getHunger().getTotalTimesFed() == 7) {
+                    // Emit negative particle effects.
+                    if (!this.level.isClientSide) this.emitEchParticles((ServerWorld) this.level, 6);
+
+                    return ActionResultType.PASS;
+                }
+
+                if (!this.level.isClientSide) {
+                    if (this.getNeeds().getHunger().addPoints(itemstack)) {
+                        if (!playerEntity.isCreative()) {
+                            itemstack.shrink(1);
+                        }
+                        if (item == SWEMItems.SUGAR_CUBE.get()) {
+                            this.progressionManager.getAffinityLeveling().addXP(5.0F);
+                        }
+
+                        this.emitYayParticles((ServerWorld) this.level, 3);
+                    } else {
+                        this.emitEchParticles((ServerWorld) this.level, 3);
+                        // Stop the swing from happening
+                        return ActionResultType.SUCCESS;
+                    }
+                }
+
+                // This here, makes the swing anim, when feeding items. on the client side.
+                // Make this fail, if you can't add points.
+                return ActionResultType.sidedSuccess(this.level.isClientSide);
+            }
+
+            if (item == Items.WATER_BUCKET) {
+                if (!this.level.isClientSide && this.getNeeds().getThirst().canIncrementState()) {
+                    this.getNeeds().getThirst().incrementState();
+                    playerEntity.setItemInHand(hand, ((BucketItem) item).getEmptySuccessItem(itemstack, playerEntity));
+                    this.emitYayParticles((ServerWorld) this.level, 4);
                     return ActionResultType.CONSUME;
+                } else if (this.level.isClientSide && !this.getNeeds().getThirst().canIncrementState()) {
+                    // Stop the swing from happening
+                    return ActionResultType.SUCCESS;
+
+                } else if (!this.level.isClientSide && !this.getNeeds().getThirst().canIncrementState()) {
+                    // Stop the swing from happening
+                    this.emitEchParticles((ServerWorld) this.level, 3);
+                    return ActionResultType.SUCCESS;
                 }
             }
 
@@ -2748,6 +2783,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
     public ActionResultType fedBreedingFood(PlayerEntity pPlayer, ItemStack pStack) {
         boolean flag = this.handleEatingBreedingFood(pPlayer, pStack);
+        this.getNeeds().getHunger().addPoints(pStack);
         if (!pPlayer.abilities.instabuild) {
             if (pStack.getItem() == SWEMItems.SWEET_FEED_OPENED.get())
                 pStack.setDamageValue(pStack.getDamageValue() + 1);
@@ -3174,13 +3210,23 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
                 return;
             }
             this.currentSpeed = HorseSpeed.GALLOP;
-        } else if (oldSpeed == HorseSpeed.CANTER && this.isGaitAllowed(HorseSpeed.CANTER_EXT)) {
+        } else if (oldSpeed == HorseSpeed.CANTER) {
             this.currentSpeed = HorseSpeed.CANTER_EXT;
-        } else if (oldSpeed == HorseSpeed.TROT && this.isGaitAllowed(HorseSpeed.CANTER)) {
+        } else if (oldSpeed == HorseSpeed.TROT) {
+
+            if (this.needs.getThirst().getState() == ThirstNeed.ThirstState.EXICCOSIS) {
+                SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)), new ClientStatusMessagePacket(1, 1, Arrays.asList("Canter")));
+                return;
+            }
+
+            if (this.needs.getHunger().getState() == HungerNeed.HungerState.STARVING) {
+                SWEMPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) this.getPassengers().get(0)), new ClientStatusMessagePacket(3, 1, Arrays.asList("Canter")));
+                return;
+            }
 
             this.currentSpeed = HorseSpeed.CANTER;
 
-        } else if (oldSpeed == HorseSpeed.WALK && this.isGaitAllowed(HorseSpeed.TROT)) {
+        } else if (oldSpeed == HorseSpeed.WALK) {
             this.currentSpeed = HorseSpeed.TROT;
         }
 
@@ -3662,9 +3708,9 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         return super.getLeashOffset().add(0, 0, this.getBbWidth() * 0.7);
     }
 
-    public HorseEatFoodGoal getEatFoodGoal() {
+   /* public HorseEatFoodGoal getEatFoodGoal() {
         return this.eatFoodGoal;
-    }
+    }*/
 
     protected boolean isBeingMovedByPlayer() {
         return this.getEntityData().get(IS_MOVING_FORWARD) || this.getEntityData().get(IS_MOVING_BACKWARDS) || this.getEntityData().get(IS_MOVING_LEFT) || this.getEntityData().get(IS_MOVING_RIGHT);
