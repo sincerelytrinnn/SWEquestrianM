@@ -40,14 +40,14 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import org.apache.logging.log4j.Level;
 
-public class BarnStructure extends Structure<NoFeatureConfig> {
+public class CottageStructure extends Structure<NoFeatureConfig> {
 
     /**
      * Instantiates a new Barn structure.
      *
      * @param codec the codec
      */
-    public BarnStructure(Codec<NoFeatureConfig> codec) {
+    public CottageStructure(Codec<NoFeatureConfig> codec) {
         super(codec);
     }
 
@@ -57,7 +57,7 @@ public class BarnStructure extends Structure<NoFeatureConfig> {
      */
     @Override
     public IStartFactory<NoFeatureConfig> getStartFactory() {
-        return BarnStructure.Start::new;
+        return CottageStructure.Start::new;
     }
 
     /**

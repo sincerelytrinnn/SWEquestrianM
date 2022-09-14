@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "x  "
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "swem:cantazarite_anvil"
+    }
+  },
+  "result":
+  {
+    "item": "swem:cantazarite_block",
+    "count": 1
+  }
+}
