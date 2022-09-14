@@ -162,21 +162,6 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 12,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 1.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "swem:leather_longsword"
-        },
-        {
-          "type": "minecraft:item",
           "weight": 10,
           "functions": [
             {
@@ -219,21 +204,6 @@
             }
           ],
           "name": "swem:diamond_longsword"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 12,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 1.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "swem:amethyst_shield_leather"
         },
         {
           "type": "minecraft:item",

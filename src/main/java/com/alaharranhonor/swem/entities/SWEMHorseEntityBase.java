@@ -23,10 +23,6 @@ import com.alaharranhonor.swem.entities.needs.HungerNeed;
 import com.alaharranhonor.swem.entities.needs.NeedManager;
 import com.alaharranhonor.swem.entities.needs.ThirstNeed;
 import com.alaharranhonor.swem.entities.progression.ProgressionManager;
-import com.alaharranhonor.swem.entities.progression.leveling.AffinityLeveling;
-import com.alaharranhonor.swem.entities.progression.leveling.HealthLeveling;
-import com.alaharranhonor.swem.entities.progression.leveling.JumpLeveling;
-import com.alaharranhonor.swem.entities.progression.leveling.SpeedLeveling;
 import com.alaharranhonor.swem.event.EventFactory;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.items.SweetFeed;
@@ -122,7 +118,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     public static final Ingredient FOOD_ITEMS = Ingredient.of(Items.APPLE, Items.CARROT, SWEMItems.OAT_BUSHEL.get(), SWEMItems.TIMOTHY_BUSHEL.get(), SWEMItems.ALFALFA_BUSHEL.get(), SWEMBlocks.QUALITY_BALE.get(), SWEMItems.SUGAR_CUBE.get());
     public static final Ingredient NEGATIVE_FOOD_ITEMS = Ingredient.of(Items.WHEAT, Items.HAY_BLOCK);
     public static final DataParameter<Boolean> JUMPING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
-    public static final DataParameter<Integer> SPEED_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+    public static final DataParameter<Integer> GAIT_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
     public static final DataParameter<String> PERMISSION_STRING = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.STRING);
     public static final DataParameter<Boolean> TRACKED = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
     public static final DataParameter<Boolean> RENDER_SADDLE = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.BOOLEAN);
@@ -149,9 +145,23 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     public static final DataParameter<Boolean> IS_MOVING_BACKWARDS = EntityDataManager.defineId((SWEMHorseEntityBase.class), DataSerializers.BOOLEAN);
     public static final DataParameter<Boolean> IS_MOVING_LEFT = EntityDataManager.defineId((SWEMHorseEntityBase.class), DataSerializers.BOOLEAN);
     public static final DataParameter<Boolean> IS_MOVING_RIGHT = EntityDataManager.defineId((SWEMHorseEntityBase.class), DataSerializers.BOOLEAN);
+
+    //Leveling
+    public static final DataParameter<Integer> SPEED_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+    public static final DataParameter<Float> SPEED_XP = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
+    public static final DataParameter<Integer> JUMP_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+    public static final DataParameter<Float> JUMP_XP = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
+    public static final DataParameter<Integer> HEALTH_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+    public static final DataParameter<Float> HEALTH_XP = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
+    public static final DataParameter<Integer> AFFINITY_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+    public static final DataParameter<Float> AFFINITY_XP = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.FLOAT);
+    public static final DataParameter<ItemStack> CURRENT_DESENSITIZING_ITEM = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.ITEM_STACK);
+
     // Statistics
     public final static DataParameter<Integer> BLOCKS_TRAVELLED_STAT = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
     public final static DataParameter<Integer> JUMP_STAT = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+
+
     private static final Random rand = new Random();
     public final ProgressionManager progressionManager;
     private final ArrayList<UUID> allowedList = new ArrayList<>();
@@ -637,26 +647,26 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         super.defineSynchedData();
         // this.entityData.register(HORSE_VARIANT, 0);
 
-        this.entityData.define(SpeedLeveling.LEVEL, 0);
-        this.entityData.define(SpeedLeveling.XP, 0.0f);
+        this.entityData.define(SPEED_LEVEL, 0);
+        this.entityData.define(SPEED_XP, 0.0f);
 
-        this.entityData.define(JumpLeveling.LEVEL, 0);
-        this.entityData.define(JumpLeveling.XP, 0.0f);
+        this.entityData.define(JUMP_LEVEL, 0);
+        this.entityData.define(JUMP_XP, 0.0f);
 
-        this.entityData.define(HealthLeveling.LEVEL, 0);
-        this.entityData.define(HealthLeveling.XP, 0.0f);
+        this.entityData.define(HEALTH_LEVEL, 0);
+        this.entityData.define(HEALTH_XP, 0.0f);
 
-        this.entityData.define(AffinityLeveling.LEVEL, 0);
-        this.entityData.define(AffinityLeveling.XP, 0.0f);
+        this.entityData.define(AFFINITY_LEVEL, 0);
+        this.entityData.define(AFFINITY_XP, 0.0f);
+        this.entityData.define(CURRENT_DESENSITIZING_ITEM, ItemStack.EMPTY);
 
 
         this.entityData.define(GALLOP_ON_COOLDOWN, false);
         this.entityData.define(GALLOP_COOLDOWN_TIMER, 0);
         this.entityData.define(GALLOP_TIMER, 0);
-        this.entityData.define(SPEED_LEVEL, 0);
+        this.entityData.define(GAIT_LEVEL, 0);
 
 
-        this.entityData.define(AffinityLeveling.CURRENT_DESENSITIZING_ITEM, ItemStack.EMPTY);
         this.entityData.define(HORSE_VARIANT, SWEMCoatColor.getRandomLapisObtainableCoat().getId());
         this.entityData.define(FLYING, false);
         this.entityData.define(JUMPING, false);
@@ -2604,7 +2614,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
             stack.shrink(1);
             this.setCoatColour(SWEMCoatColor.AGRO_SOC);
             return true;
-        } else if (stack.getItem() == Items.IRON_SWORD && stack.getStack().getHoverName().getString().equals("Sithus")) {
+        } else if (stack.getItem() == Items.IRON_SWORD && stack.getStack().getHoverName().getString().equals("Sithis")) {
             stack.shrink(1);
             this.setCoatColour(SWEMCoatColor.SHADOWMERE_OBLIVION);
             return true;
@@ -2612,7 +2622,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
             stack.shrink(1);
             this.setCoatColour(SWEMCoatColor.RAPIDASH_POKEMON);
             return true;
-        } else if (stack.getItem() == Items.DIAMOND && stack.getStack().getHoverName().getString().equals("Power of Grayskull")) {
+        } else if (stack.getItem() == Items.DIAMOND && stack.getStack().getHoverName().getString().equals("Honor of Grayskull")) {
             stack.shrink(1);
             this.setCoatColour(SWEMCoatColor.SWIFT_WIND_SHE_RA);
             return true;
@@ -2620,9 +2630,33 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
             stack.shrink(1);
             this.setCoatColour(SWEMCoatColor.BOB_FREE_REIN);
             return true;
-        } else if (stack.getItem() == Items.NETHER_STAR && stack.getHoverName().getString().equals("Lady In Memory")) {
+        } else if (stack.getItem() == Items.ORANGE_DYE && stack.getStack().getHoverName().getString().equals("Zebra")) {
             stack.shrink(1);
-            this.setCoatColour(SWEMCoatColor.LADY_JENNY);
+            this.setCoatColour(SWEMCoatColor.FARCAH_ZORSE_TAN_HAUKET);
+            return true;
+        } else if (stack.getItem() == Items.WHITE_DYE && stack.getStack().getHoverName().getString().equals("Zebra")) {
+            stack.shrink(1);
+            this.setCoatColour(SWEMCoatColor.SARINE_ZORSE_PAINT_HAUKET);
+            return true;
+        } else if (stack.getItem() == Items.BROWN_DYE && stack.getStack().getHoverName().getString().equals("Zebra")) {
+            stack.shrink(1);
+            this.setCoatColour(SWEMCoatColor.CALIHOPE_ZORSE_DARK_HAUKET);
+            return true;
+        } else if (stack.getItem() == Items.FEATHER && stack.getStack().getHoverName().getString().equals("Herald")) {
+            stack.shrink(1);
+            this.setCoatColour(SWEMCoatColor.COURIER_CALICO_HAUKET);
+            return true;
+        } else if (stack.getItem() == Items.SHIELD && stack.getStack().getHoverName().getString().equals("Duty")) {
+            stack.shrink(1);
+            this.setCoatColour(SWEMCoatColor.GUARDIAN_BAY_GRAY_HAUKET);
+            return true;
+        } else if (stack.getItem() == Items.GOLD_INGOT && stack.getStack().getHoverName().getString().equals("Reign")) {
+            stack.shrink(1);
+            this.setCoatColour(SWEMCoatColor.ROYAL_BRINDLE_HAUKET);
+            return true;
+        } else if (stack.getItem() == Items.PRISMARINE_SHARD && stack.getStack().getHoverName().getString().equals("13 Horses")) {
+            stack.shrink(1);
+            this.setCoatColour(SWEMCoatColor.RIPTIDE_PEACOCK_HAUKET);
             return true;
         }
 
@@ -2785,8 +2819,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         boolean flag = this.handleEatingBreedingFood(pPlayer, pStack);
         this.getNeeds().getHunger().addPoints(pStack);
         if (!pPlayer.abilities.instabuild) {
-            if (pStack.getItem() == SWEMItems.SWEET_FEED_OPENED.get())
-                pStack.setDamageValue(pStack.getDamageValue() + 1);
+            if (pStack.getItem() == SWEMItems.SWEET_FEED_OPENED.get()) pStack.setDamageValue(pStack.getDamageValue() + 1);
             else pStack.shrink(1);
         }
 
@@ -3264,7 +3297,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
             this.getAttribute(Attributes.MOVEMENT_SPEED).addTransientModifier(this.currentSpeed.getModifier());
         }
 
-        this.entityData.set(SPEED_LEVEL, this.currentSpeed.speedLevel);
+        this.entityData.set(GAIT_LEVEL, this.currentSpeed.speedLevel);
     }
 
     /**
@@ -3517,9 +3550,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         }
 
         if (source == DamageSource.MAGIC || source == DamageSource.WITHER) {
-            if (this.getSWEMArmor().getItem() instanceof SWEMHorseArmorItem
-                && ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() >= SWEMHorseArmorItem.HorseArmorTier.IRON.getId()
-            ) {
+            if (this.getSWEMArmor().getItem() instanceof SWEMHorseArmorItem && ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() >= SWEMHorseArmorItem.HorseArmorTier.IRON.getId()) {
                 amount /= 2;
             }
         }
@@ -3549,8 +3580,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
      */
     @Override
     public boolean displayFireAnimation() {
-        return this.getSWEMArmor().getItem() instanceof SWEMHorseArmorItem
-            ? ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() < SWEMHorseArmorItem.HorseArmorTier.DIAMOND.getId() && super.displayFireAnimation() : super.displayFireAnimation();
+        return this.getSWEMArmor().getItem() instanceof SWEMHorseArmorItem ? ((SWEMHorseArmorItem) this.getSWEMArmor().getItem()).tier.getId() < SWEMHorseArmorItem.HorseArmorTier.DIAMOND.getId() && super.displayFireAnimation() : super.displayFireAnimation();
     }
 
     @Override
@@ -3614,8 +3644,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
         if (this.level.isClientSide) {
             SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
-            if (this.entityData.get(SPEED_LEVEL) != 0)
-                SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, this.getId()));
+            if (this.entityData.get(GAIT_LEVEL) != 0) SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, this.getId()));
         } else {
             SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new CHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
         }
@@ -3734,11 +3763,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     }
 
     public enum HorseSpeed {
-        WALK(new AttributeModifier("HORSE_WALK", 0, AttributeModifier.Operation.ADDITION), 0, 0.05f, "Walk"),
-        TROT(new AttributeModifier("HORSE_TROT", 0, AttributeModifier.Operation.ADDITION), 1, 0.1f, "Trot"),
-        CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.ADDITION), 2, 0.5f, "Canter"),
-        CANTER_EXT(new AttributeModifier("HORSE_CANTER_EXT", 0, AttributeModifier.Operation.ADDITION), 3, 0.8f, "Extended Canter"),
-        GALLOP(new AttributeModifier("HORSE_GALLOP", 0.2d, AttributeModifier.Operation.MULTIPLY_TOTAL), 4, 1.0f, "Gallop");
+        WALK(new AttributeModifier("HORSE_WALK", 0, AttributeModifier.Operation.ADDITION), 0, 0.05f, "Walk"), TROT(new AttributeModifier("HORSE_TROT", 0, AttributeModifier.Operation.ADDITION), 1, 0.1f, "Trot"), CANTER(new AttributeModifier("HORSE_CANTER", 0, AttributeModifier.Operation.ADDITION), 2, 0.5f, "Canter"), CANTER_EXT(new AttributeModifier("HORSE_CANTER_EXT", 0, AttributeModifier.Operation.ADDITION), 3, 0.8f, "Extended Canter"), GALLOP(new AttributeModifier("HORSE_GALLOP", 0.2d, AttributeModifier.Operation.MULTIPLY_TOTAL), 4, 1.0f, "Gallop");
         private final AttributeModifier modifier;
         private final int speedLevel;
         private final float skillMultiplier;

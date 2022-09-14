@@ -24,21 +24,6 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:leather_chestplate"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:leather_boots"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:leather_helmet"
-        },
-        {
-          "type": "minecraft:item",
           "weight": 5,
           "functions": [
             {
@@ -51,11 +36,6 @@
             }
           ],
           "name": "minecraft:bread"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:leather_leggings"
         },
         {
           "type": "minecraft:item",
@@ -104,36 +84,6 @@
             }
           ],
           "name": "swem:glow_riding_boots"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 3.0,
-                "max": 7.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "swem:leather_plate"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 4.0,
-                "max": 8.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "swem:leather_rivet"
         }
       ]
     }

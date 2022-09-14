@@ -28,8 +28,8 @@ public class SWEMConfiguredStructures {
     /**
      * Static instance of our structure so we can reference it and add it to biomes easily.
      */
-    public static StructureFeature<?, ?> CONFIGURED_BARN =
-            SWEMStructure.BARN.get().configured(IFeatureConfig.NONE);
+    public static StructureFeature<?, ?> CONFIGURED_COTTAGE =
+            SWEMStructure.COTTAGE.get().configured(IFeatureConfig.NONE);
 
     /**
      * Registers the configured structure which is what gets added to the biomes. Noticed we are not
@@ -42,7 +42,7 @@ public class SWEMConfiguredStructures {
     public static void registerConfiguredStructures() {
         Registry<StructureFeature<?, ?>> registry = WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE;
         Registry.register(
-                registry, new ResourceLocation(SWEM.MOD_ID, "configured_barn"), CONFIGURED_BARN);
+                registry, new ResourceLocation(SWEM.MOD_ID, "configured_barn"), CONFIGURED_COTTAGE);
 
         /* Ok so, this part may be hard to grasp but basically, just add your structure to this to
          * prevent any sort of crash or issue with other mod's custom ChunkGenerators. If they use
@@ -59,6 +59,6 @@ public class SWEMConfiguredStructures {
          *
          * Requires AccessTransformer ( see resources/META-INF/accesstransformer.cfg )
          */
-        FlatGenerationSettings.STRUCTURE_FEATURES.put(SWEMStructure.BARN.get(), CONFIGURED_BARN);
+        FlatGenerationSettings.STRUCTURE_FEATURES.put(SWEMStructure.COTTAGE.get(), CONFIGURED_COTTAGE);
     }
 }
