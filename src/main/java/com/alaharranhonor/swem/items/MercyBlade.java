@@ -48,12 +48,7 @@ public class MercyBlade extends ItemBase {
   @Override
   public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
     Set e = ImmutableSet.of(
-            Enchantments.SHARPNESS,
-            Enchantments.SWEEPING_EDGE,
-            Enchantments.MOB_LOOTING,
-            Enchantments.FIRE_ASPECT,
-            Enchantments.UNBREAKING,
-            Enchantments.KNOCKBACK
+            Enchantments.MOB_LOOTING
     );
     return e.contains(enchantment);
   }

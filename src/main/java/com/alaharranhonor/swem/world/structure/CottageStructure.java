@@ -290,7 +290,7 @@ public class CottageStructure extends Structure<NoFeatureConfig> {
                                             // "data/<modid>/worldgen/template_pool/<the path to the pool here>"
                                             // because the game automatically will check in worldgen/template_pool for the
                                             // pools.
-                                            .get(new ResourceLocation(SWEM.MOD_ID, "barn/start_pool")),
+                                            .get(new ResourceLocation(SWEM.MOD_ID, "lonely_cottage_abandoned/start_pool")),
 
                             // How many pieces outward from center can a recursive jigsaw structure spawn.
                             // Our structure is only 1 piece outward and isn't recursive so any value of 1 or more

@@ -20,6 +20,7 @@ import com.alaharranhonor.swem.blocks.BlockItemBase;
 import com.alaharranhonor.swem.client.coats.SWEMCoatColor;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.potions.CantazaritePotionItem;
+import com.alaharranhonor.swem.items.potions.PotionItemBase;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.tools.*;
 import net.minecraft.client.Minecraft;
@@ -144,7 +145,7 @@ public class SWEMItems {
     // Rainbow Horse recipe items.
     public static final RegistryObject<Item> COOLER_EGG = ITEMS.register("cooler_egg", ItemBase::new);
     public static final RegistryObject<Item> RAINBOW_EGG = ITEMS.register("rainbow_egg", ItemBase::new);
-    public static final RegistryObject<Item> RAINBOW_CHIC = ITEMS.register("rainbow_chic", ItemBase::new);
+    public static final RegistryObject<PotionItem> RAINBOW_CHIC = ITEMS.register("rainbow_chic", PotionItemBase::new);
     public static final RegistryObject<Item> DEHYDRATED_RAINBOW = ITEMS.register("dehydrated_rainbow", ItemBase::new);
     public static final RegistryObject<Item> RAINBOW_SWEET_FEED = ITEMS.register("rainbow_sweet_feed", ItemBase::new);
     public static final RegistryObject<Item> RAINBOW_HEAVY_FEED = ITEMS.register("rainbow_heavy_feed", ItemBase::new);
