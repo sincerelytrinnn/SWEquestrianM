@@ -69,16 +69,16 @@ public class OneSaddleRackRender extends GeoBlockRenderer<OneSaddleRackTE> {
         Direction direction = tile.getBlockState().getValue(OneSaddleRack.FACING);
         switch (direction) {
             case WEST:
-                stack.translate(0.4375, 0.125, 0.5);
+                stack.translate(0.5902, 0.125, 0.5);
                 break;
             case EAST:
-                stack.translate(0.5625, 0.125, 0.5);
+                stack.translate(0.405, 0.125, 0.5);
                 break;
             case SOUTH:
-                stack.translate(0.5, 0.125, 0.5625);
+                stack.translate(0.5, 0.125, 0.405);
                 break;
             case NORTH:
-                stack.translate(0.5, 0.125, 0.4375);
+                stack.translate(0.5, 0.125, 0.5902);
                 break;
         }
 
