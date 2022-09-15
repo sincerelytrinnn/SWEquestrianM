@@ -214,7 +214,7 @@ public class SWEMBlocks {
     public static final RegistryObject<Block> WHITEWASH_TRAPDOOR = register("whitewash_trapdoor", () -> new TrapDoorBlock(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F).harvestTool(ToolType.AXE)));
     public static final RegistryObject<Block> SPIGOT = BLOCKS.register("spigot", () -> new SpigotBlock(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).strength(1.5f, 6.0f)));
     public static final RegistryObject<Item> SPIGOT_ITEM = SWEMItems.ITEMS.register("spigot", () -> new BlockItemBase(SPIGOT.get()));
-    public static final RegistryObject<Block> STAR_WORM_COBBLE = BLOCKS.register("star_worm_cobble", () -> new Block(Block.Properties.copy(Blocks.STONE).lightLevel((state) -> 7)));
+    public static final RegistryObject<OreBlock> STAR_WORM_COBBLE = BLOCKS.register("star_worm_cobble", () -> new OreBlock(AbstractBlock.Properties.of(Material.STONE).strength(1.5f, 6.0f).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).lightLevel((state) -> 7)));
     public static final RegistryObject<Item> STAR_WORM_COBBLE_ITEM = SWEMItems.ITEMS.register("star_worm_cobble", () -> new BlockItem(STAR_WORM_COBBLE.get(), new Item.Properties().tab(SWEM.TAB)));
     public static final RegistryObject<Block> LEAD_ANCHOR = BLOCKS.register("lead_anchor", () -> new LeadAnchorBlock(AbstractBlock.Properties.copy(Blocks.GRASS_BLOCK)));
     public static final RegistryObject<CareDoorBlock> WHITEWASH_STALL_CARE = register("whitewash_stall_care", () -> new CareDoorBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().strength(1.0f), DyeColor.BLACK));

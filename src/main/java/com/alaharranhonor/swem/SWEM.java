@@ -19,7 +19,7 @@ import com.alaharranhonor.swem.capability.CapabilityHandler;
 import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.integration.placeableitems.PlaceableItemsInit;
-import com.alaharranhonor.swem.items.potions.BrewingRecipes;
+import com.alaharranhonor.swem.items.potions.PotionItemBrewingRecipe;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.util.SWLRegistryHandler;
 import com.alaharranhonor.swem.util.data.HorseData;
@@ -36,6 +36,7 @@ import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.WoodType;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.*;
+import net.minecraft.potion.Potions;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
@@ -219,8 +220,10 @@ public class SWEM {
             PlaceableItemsInit.initMap();
         }
         event.enqueueWork(() -> {
-            BrewingRecipeRegistry.addRecipe(new BrewingRecipes.CantazariteBrewingRecipe());
-            BrewingRecipeRegistry.addRecipe(new BrewingRecipes.RainbowChicPotion());
+            BrewingRecipeRegistry.addRecipe(
+                    new PotionItemBrewingRecipe(Potions.WATER, SWEMItems.CANTAZARITE_DYE.get(), SWEMItems.CANTAZARITE_POTION.get()));
+            BrewingRecipeRegistry.addRecipe(
+                    new PotionItemBrewingRecipe(Potions.WATER, SWEMItems.RAINBOW_EGG.get(), SWEMItems.RAINBOW_CHIC.get()));
 
             ComposterBlock.COMPOSTABLES.put(SWEMItems.ALFALFA_SEEDS.get(), 0.3F);
             ComposterBlock.COMPOSTABLES.put(SWEMItems.ALFALFA_BUSHEL.get(), 0.65F);
