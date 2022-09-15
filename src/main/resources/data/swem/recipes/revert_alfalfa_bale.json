@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "x  "
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "swem:alfalfa_bale"
+    }
+  },
+  "result":
+  {
+    "item": "swem:alfalfa_bushel",
+    "count": 4
+  }
+}
