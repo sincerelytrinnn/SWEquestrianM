@@ -143,7 +143,7 @@ public class GeneralEventHandlers {
             }
 
             if (event.getCategory() == Biome.Category.PLAINS) {
-                event.getGeneration().getStructures().add(() -> SWEMConfiguredStructures.CONFIGURED_BARN);
+                event.getGeneration().getStructures().add(() -> SWEMConfiguredStructures.CONFIGURED_COTTAGE);
             }
         }
 
