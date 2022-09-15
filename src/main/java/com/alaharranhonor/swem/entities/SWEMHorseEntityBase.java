@@ -2033,6 +2033,9 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
      * Tick iron armor.
      */
     private void tickIronArmor() {
+        if (this.hasEffect(Effects.LEVITATION)) {
+            this.removeEffect(Effects.LEVITATION);
+        }
     }
 
     /**
