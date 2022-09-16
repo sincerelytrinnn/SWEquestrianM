@@ -15,7 +15,14 @@
 
 package com.alaharranhonor.swem.items.tack;
 
+import com.alaharranhonor.swem.entities.ISWEMEquipable;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
 
 public class PastureBlanketItem extends SWEMHorseArmorItem {
 
@@ -29,5 +36,21 @@ public class PastureBlanketItem extends SWEMHorseArmorItem {
      */
     public PastureBlanketItem(HorseArmorTier tier, int armorValue, String texture, Properties builder) {
         super(tier, armorValue, "pasture_blanket/" + texture, builder);
+    }
+
+    @Override
+    public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+        if (target instanceof ISWEMEquipable && target.isAlive()) {
+            ISWEMEquipable iequipable = (ISWEMEquipable) target;
+            if (iequipable.isSaddleable(playerIn) && iequipable.canEquipPastureBlanket()) {
+                if (!playerIn.level.isClientSide) {
+                    iequipable.equipSaddle(SoundCategory.NEUTRAL, stack, playerIn);
+                    if (!playerIn.abilities.instabuild) stack.shrink(1);
+                }
+
+                return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
+            }
+        }
+        return ActionResultType.PASS;
     }
 }

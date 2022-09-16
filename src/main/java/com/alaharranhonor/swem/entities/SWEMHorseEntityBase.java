@@ -1093,7 +1093,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     public void equipSaddle(@Nullable SoundCategory p_230266_1_, ItemStack stackIn, PlayerEntity player) {
         ItemStack stack = stackIn.copy();
         stack.setCount(1);
-        boolean flag = player.isSecondaryUseActive();
+        boolean flag = player.isShiftKeyDown();
         if (stack.getItem() instanceof HorseSaddleItem) {
             if (flag) {
                 player.addItem(this.inventory.getItem(2));
@@ -3454,6 +3454,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     @Override
     public boolean canEquipArmor() {
         return hasAdventureSaddle() && getHalter().getItem() instanceof AdventureBridleItem && getBreastCollar().getItem() instanceof AdventureBreastCollarItem && getGirthStrap().getItem() instanceof AdventureGirthStrapItem && getLegWraps().getItem() instanceof AdventureLegWraps && getBlanket().getItem() instanceof AdventureBlanketItem;
+    }
+
+    @Override
+    public boolean canEquipPastureBlanket() {
+        return getSWEMArmor().isEmpty() && hasSaddle().isEmpty() && !hasGirthStrap() && !hasBreastCollar() && !hasBlanket();
     }
 
     @Override
