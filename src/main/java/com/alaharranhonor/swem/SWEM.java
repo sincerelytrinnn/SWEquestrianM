@@ -35,10 +35,16 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.WoodType;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.potion.Potions;
+import net.minecraft.util.MinecraftVersion;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.text.*;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.FlatChunkGenerator;
@@ -50,6 +56,7 @@ import net.minecraft.world.storage.FolderName;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -338,6 +345,35 @@ public class SWEM {
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public class WelcomeMessage {
+        private boolean shownMessage = false;
+        @SubscribeEvent
+        public void playerWelcomeMessage(EntityJoinWorldEvent event) {
+            if (!shownMessage && event.getWorld().isClientSide) {
+                if (event.getEntity() instanceof PlayerEntity) {
+                    SWEM.LOGGER.debug("Greetings!");
+                    IFormattableTextComponent notice = new StringTextComponent("" + TextFormatting.BLUE + TextFormatting.BOLD + "[SWEM]:");
+                    IFormattableTextComponent wiki = new StringTextComponent
+                            ("Star Worm Equestrian Wiki").withStyle(Style.EMPTY.withColor(Color.fromRgb(new java.awt.Color(130, 67, 255)
+                            .getRGB())).withUnderlined(true).withHoverEvent
+                            (new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent("Official SWEM Wiki"))).withClickEvent
+                            (new ClickEvent(ClickEvent.Action.OPEN_URL, "https://wiki.swequestrian.com/")));
+                    ITextComponent version = new StringTextComponent(
+                            TextFormatting.BOLD + "" + TextFormatting.LIGHT_PURPLE + "[SWEM version:" + MinecraftVersion.BUILT_IN.getName() + "" + "Initial Release]");
+                    event.getEntity().sendMessage(notice.append(new StringTextComponent("\n" + TextFormatting.RESET + TextFormatting.GRAY + TextFormatting.ITALIC
+                                    + "Thank you for including").append(version).append
+                                    (new StringTextComponent("" + TextFormatting.RESET + TextFormatting.GRAY + TextFormatting.ITALIC + "in your modded Minecraft adventures!"
+                                            + "Due to 1.1.6.5 becoming outdated, we were unable to upgrade the feed system or implement flight."
+                                            + "Please look forward to the 1.18 release and enjoy what we’ve accomplished in the mean time!"
+                                            + "For tips, tricks, general info, or how to support us, please see our wiki at ").append(wiki).append
+                                            (new StringTextComponent("" + TextFormatting.RESET + TextFormatting.GRAY + TextFormatting.ITALIC + "<3")))),
+                            Util.NIL_UUID);
+                }
+            }
+            shownMessage = true;
         }
     }
 }

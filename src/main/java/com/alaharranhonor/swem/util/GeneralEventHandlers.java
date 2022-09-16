@@ -184,12 +184,12 @@ public class GeneralEventHandlers {
             if (event.getAction() == GLFW.GLFW_PRESS) {
                 if (event.getButton() == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
                     boolean canToggleBoots = Minecraft.getInstance().player != null
-                        && Minecraft.getInstance().player.getItemBySlot(EquipmentSlotType.FEET).getItem() instanceof GoldRidingBoots;
+                            && Minecraft.getInstance().player.getItemBySlot(EquipmentSlotType.FEET).getItem() instanceof GoldRidingBoots;
 
                     boolean canToggleHorse = Minecraft.getInstance().player != null
-                        && Minecraft.getInstance().player.getVehicle() instanceof SWEMHorseEntityBase
-                        && ((SWEMHorseEntityBase) Minecraft.getInstance().player.getVehicle()).getSWEMArmor().getItem() instanceof SWEMHorseArmorItem
-                        && ((SWEMHorseArmorItem) ((SWEMHorseEntityBase) Minecraft.getInstance().player.getVehicle()).getSWEMArmor().getItem()).tier.getId() >= SWEMHorseArmorItem.HorseArmorTier.GOLD.getId();
+                            && Minecraft.getInstance().player.getVehicle() instanceof SWEMHorseEntityBase
+                            && ((SWEMHorseEntityBase) Minecraft.getInstance().player.getVehicle()).getSWEMArmor().getItem() instanceof SWEMHorseArmorItem
+                            && ((SWEMHorseArmorItem) ((SWEMHorseEntityBase) Minecraft.getInstance().player.getVehicle()).getSWEMArmor().getItem()).tier.getId() >= SWEMHorseArmorItem.HorseArmorTier.GOLD.getId();
 
                     if (canToggleBoots || canToggleHorse) {
                         SWEMPacketHandler.INSTANCE.sendToServer(new IceTogglePacket());
@@ -274,14 +274,14 @@ public class GeneralEventHandlers {
 
                 if (keyBindings[3].consumeClick()) {
 
-                   // Entity entity = Minecraft.getInstance().player.getVehicle();
-                   // if (entity instanceof SWEMHorseEntityBase) {
+                    // Entity entity = Minecraft.getInstance().player.getVehicle();
+                    // if (entity instanceof SWEMHorseEntityBase) {
                     //    SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 
-                      //  if (!horse.isFlying() && horse.canFly()) {
-                      //      SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(10, horse.getId()));
-                     //   }
-                 //   }
+                    //  if (!horse.isFlying() && horse.canFly()) {
+                    //      SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(10, horse.getId()));
+                    //   }
+                    //   }
                 }
 
                 KEY_PRESS_COUNTER = 0;
@@ -581,23 +581,6 @@ public class GeneralEventHandlers {
                     event.getEntity().sendMessage(hi.append(content).append(fireworks), Util.NIL_UUID);
                 }
             }
-        }
-
-        /**
-         * World join message.
-         *
-         * @param event the event
-         */
-
-        private boolean shownMessage = false;
-        @SubscribeEvent
-        public void joinInfoMessage (EntityJoinWorldEvent event) {
-            if (!shownMessage && event.getWorld().isClientSide) {
-                if (event.getEntity() instanceof PlayerEntity && event.getEntity().level.isClientSide) {
-
-                }
-            }
-
         }
     }
 }
