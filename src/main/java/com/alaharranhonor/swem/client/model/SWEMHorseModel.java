@@ -422,7 +422,7 @@ public class SWEMHorseModel extends AnimatedGeoModel<SWEMHorseEntity> {
                                 new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/maple_arishant.png"));
                         iter.put(
                                 SWEMCoatColor.TYRA_CYTRIS,
-                                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/maple_arishant.png"));
+                                new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/tyra_cytris.png"));
                         iter.put(
                                 SWEMCoatColor.PARAMOUNT_CYTRIS,
                                 new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/coats/paramount_cytris.png"));
