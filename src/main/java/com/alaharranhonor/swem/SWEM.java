@@ -39,6 +39,9 @@ import net.minecraft.item.*;
 import net.minecraft.potion.Potions;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.FlatChunkGenerator;
@@ -102,6 +105,8 @@ public class SWEM {
     public static WoodType WHITEWASH_WT;
     private static Map<UUID, HorseData> horseDataMap = new HashMap<>();
     private static ServerWorld serverOverWorld;
+    private static final IFormattableTextComponent SWEM_TEXT_COMPONENT = new StringTextComponent("" + TextFormatting.BLUE + "[SWEM]: " + TextFormatting.RESET);
+
     /**
      * Will go into the world's chunkgenerator and manually add our structure spacing. If the spacing
      * is not added, the structure doesn't spawn.
@@ -175,6 +180,10 @@ public class SWEM {
         LOGGER.debug("Registered BlockItems!");
     }
 
+    public static IFormattableTextComponent getSwemTextComponent() {
+        return SWEM_TEXT_COMPONENT.copy();
+    }
+
     /**
      * Gets a horse position from the world if loaded and update the map, if not loaded, check the map
      * for an entry.
@@ -221,9 +230,9 @@ public class SWEM {
         }
         event.enqueueWork(() -> {
             BrewingRecipeRegistry.addRecipe(
-                    new PotionItemBrewingRecipe(Potions.WATER, SWEMItems.CANTAZARITE_DYE.get(), SWEMItems.CANTAZARITE_POTION.get()));
+                new PotionItemBrewingRecipe(Potions.WATER, SWEMItems.CANTAZARITE_DYE.get(), SWEMItems.CANTAZARITE_POTION.get()));
             BrewingRecipeRegistry.addRecipe(
-                    new PotionItemBrewingRecipe(Potions.WATER, SWEMItems.RAINBOW_EGG.get(), SWEMItems.RAINBOW_CHIC.get()));
+                new PotionItemBrewingRecipe(Potions.WATER, SWEMItems.RAINBOW_EGG.get(), SWEMItems.RAINBOW_CHIC.get()));
 
             ComposterBlock.COMPOSTABLES.put(SWEMItems.ALFALFA_SEEDS.get(), 0.3F);
             ComposterBlock.COMPOSTABLES.put(SWEMItems.ALFALFA_BUSHEL.get(), 0.65F);

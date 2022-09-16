@@ -145,6 +145,9 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     public static final DataParameter<Boolean> IS_MOVING_BACKWARDS = EntityDataManager.defineId((SWEMHorseEntityBase.class), DataSerializers.BOOLEAN);
     public static final DataParameter<Boolean> IS_MOVING_LEFT = EntityDataManager.defineId((SWEMHorseEntityBase.class), DataSerializers.BOOLEAN);
     public static final DataParameter<Boolean> IS_MOVING_RIGHT = EntityDataManager.defineId((SWEMHorseEntityBase.class), DataSerializers.BOOLEAN);
+    public static final DataParameter<Integer> BITE_TIMER = EntityDataManager.defineId((SWEMHorseEntityBase.class), DataSerializers.INT);
+    public static final DataParameter<Integer> KICK_TIMER = EntityDataManager.defineId((SWEMHorseEntityBase.class), DataSerializers.INT);
+    public static final DataParameter<Integer> STOMP_TIMER = EntityDataManager.defineId((SWEMHorseEntityBase.class), DataSerializers.INT);
 
     //Leveling
     public static final DataParameter<Integer> SPEED_LEVEL = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
@@ -372,6 +375,14 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
             checkForBestFoodSource();
         }*/
 
+        if (this.getEntityData().get(BITE_TIMER) == 17) {
+            this.bite();
+        } else if (this.getEntityData().get(KICK_TIMER) == 5) {
+            this.kick();
+        } else if (this.getEntityData().get(STOMP_TIMER) == 5) {
+            this.stomp();
+        }
+
 
         super.customServerAiStep();
     }
@@ -478,6 +489,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
             }
             // Tick entity data anim timers
             this.getEntityData().set(JUMP_ANIM_TIMER, Math.max(-1, this.getEntityData().get(JUMP_ANIM_TIMER) - 1));
+
+            this.getEntityData().set(BITE_TIMER, Math.max(-1, this.getEntityData().get(BITE_TIMER) - 1));
+            this.getEntityData().set(KICK_TIMER, Math.max(-1, this.getEntityData().get(KICK_TIMER) - 1));
+            this.getEntityData().set(STOMP_TIMER, Math.max(-1, this.getEntityData().get(STOMP_TIMER) - 1));
 
             if (this.isInWater()) {
                 if (this.currentSpeed != HorseSpeed.WALK) {
@@ -703,6 +718,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         this.entityData.define(IS_MOVING_BACKWARDS, false);
         this.entityData.define(IS_MOVING_LEFT, false);
         this.entityData.define(IS_MOVING_RIGHT, false);
+
+        this.getEntityData().define(BITE_TIMER, -1);
+        this.getEntityData().define(KICK_TIMER, -1);
+        this.getEntityData().define(STOMP_TIMER, -1);
 
         this.entityData.define(HUNGER_LEVEL, 4);
         this.entityData.define(ThirstNeed.ThirstState.ID, 4);
@@ -2131,13 +2150,18 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
   }
    */
 
+    protected boolean isBlockingMovement() {
+        return this.isStanding() || this.isBiting() || this.isKicking() || this.isStomping();
+    }
+
     @Override
     public void travel(Vector3d travelVector) {
 
         if (this.isFlying()) {
             return;
         } else {
-            if (this.isStanding()) {
+            if (this.isBlockingMovement()) {
+                this.playerJumpPendingScale = 0;
                 this.setDeltaMovement(0, 0, 0);
                 return;
             }
@@ -3443,6 +3467,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         return this.inventory.getItem(0).getItem() instanceof BridleItem;
     }
 
+    public ItemStack getBridle() {
+        return this.inventory.getItem(0);
+    }
+
     public boolean canEquipSaddle() {
         return this.hasBlanket() || !ConfigHolder.SERVER.blanketBeforeSaddle.get();
     }
@@ -3768,6 +3796,115 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
             });
         }
         this.isIceEffectActive = !this.isIceEffectActive;
+    }
+
+    public boolean canAttack() {
+        return this.hasSaddle().getItem() instanceof AdventureSaddleItem
+            && this.getGirthStrap().getItem() instanceof AdventureGirthStrapItem
+            && this.getBlanket().getItem() instanceof AdventureBlanketItem
+            && this.getBridle().getItem() instanceof AdventureBridleItem;
+    }
+
+    public boolean canBite() {
+        return this.getEntityData().get(BITE_TIMER) == -1 && this.currentSpeed == HorseSpeed.WALK && !this.isBlockingMovement() && canAttack();
+    }
+
+    public boolean isBiting() {
+        return this.getEntityData().get(BITE_TIMER) > -1;
+    }
+
+    public void startBite() {
+        if (canBite()) {
+            this.getEntityData().set(BITE_TIMER, 35);
+        } else {
+            HorseSpeed oldSpeed = this.currentSpeed;
+            this.currentSpeed = HorseSpeed.WALK;
+            this.updateSelectedSpeed(oldSpeed);
+        }
+    }
+
+    public void bite() {
+        Vector3d positionVec = new Vector3d(this.getX(), this.getY(), this.getZ());
+        AxisAlignedBB biteBox = new AxisAlignedBB(
+            positionVec,
+            positionVec
+        ).expandTowards(0, 2, 0).inflate(0.75, 0, 0.75).move(-this.getX(), -this.getY(), -this.getZ());
+        biteBox = biteBox.move(this.getBbWidth() * 1 * this.getLookAngle().normalize().x(), 0, this.getBbWidth() * 1 * this.getLookAngle().normalize().z());
+
+        List<LivingEntity> attackableEntities = this.level.getNearbyEntities(LivingEntity.class, EntityPredicate.DEFAULT, this, biteBox);
+        Collections.shuffle(attackableEntities);
+        if (attackableEntities.size() > 0) {
+            LivingEntity entityToAttack = attackableEntities.get(0);
+            entityToAttack.hurt(DamageSource.mobAttack(this), 4);
+        }
+    }
+
+    public boolean canKick() {
+        return this.getEntityData().get(KICK_TIMER) == -1 && this.currentSpeed == HorseSpeed.WALK && !this.isBlockingMovement() && canAttack();
+    }
+
+    public boolean isKicking() {
+        return this.getEntityData().get(KICK_TIMER) > -1;
+    }
+
+    public void startKick() {
+        if (canKick()) {
+            this.getEntityData().set(KICK_TIMER, 14);
+        } else {
+            HorseSpeed oldSpeed = this.currentSpeed;
+            this.currentSpeed = HorseSpeed.WALK;
+            this.updateSelectedSpeed(oldSpeed);
+        }
+    }
+
+    public void kick() {
+        Vector3d positionVec = new Vector3d(this.getX(), this.getY(), this.getZ());
+        AxisAlignedBB kickBox = new AxisAlignedBB(
+            positionVec,
+            positionVec
+        ).expandTowards(0, 2, 0).inflate(0.75, 0.01, 0.75);
+        kickBox = kickBox.move(this.getBbWidth() * 1 * this.getLookAngle().reverse().normalize().x(), 0, this.getBbWidth() * 1 * this.getLookAngle().reverse().normalize().z());
+
+        List<LivingEntity> attackableEntities = this.level.getNearbyEntities(LivingEntity.class, EntityPredicate.DEFAULT, this, kickBox);
+        Collections.shuffle(attackableEntities);
+        if (attackableEntities.size() > 0) {
+            LivingEntity entityToAttack = attackableEntities.get(0);
+            entityToAttack.hurt(DamageSource.mobAttack(this), 8);
+        }
+    }
+
+    public boolean canStomp() {
+        return this.getEntityData().get(STOMP_TIMER) == -1 && this.currentSpeed == HorseSpeed.WALK && !this.isBlockingMovement() && canAttack();
+    }
+
+    public boolean isStomping() {
+        return this.getEntityData().get(STOMP_TIMER) > -1;
+    }
+
+    public void startStomp() {
+        if (canStomp()) {
+            this.getEntityData().set(STOMP_TIMER, 25);
+        } else {
+            HorseSpeed oldSpeed = this.currentSpeed;
+            this.currentSpeed = HorseSpeed.WALK;
+            this.updateSelectedSpeed(oldSpeed);
+        }
+    }
+
+    public void stomp() {
+        AxisAlignedBB stompBox = this.getBoundingBox().inflate(2, 0, 2).expandTowards(0, -1, 0);
+        this.level.getNearbyEntities(LivingEntity.class, EntityPredicate.DEFAULT, this, stompBox).forEach((entityToKnockback) -> {
+            double d1 = this.getX() - entityToKnockback.getX();
+
+            double d0;
+            for (d0 = this.getZ() - entityToKnockback.getZ(); d1 * d1 + d0 * d0 < 1.0E-4D; d0 = (Math.random() - Math.random()) * 0.01D) {
+                d1 = (Math.random() - Math.random()) * 0.01D;
+            }
+
+            entityToKnockback.hurt(DamageSource.mobAttack(this), 2);
+            entityToKnockback.knockback(1F, d1, d0);
+        });
+
     }
 
     public enum HorseSpeed {

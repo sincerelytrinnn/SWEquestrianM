@@ -151,6 +151,28 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
             return PlayState.CONTINUE;
         }
 
+        if (horse.isBiting()) {
+            if (horse.getEntityData().get(BITE_TIMER) == 35) {
+                event.getController().markNeedsReload();
+            }
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("Bite", false).addAnimation("StandIdle", true));
+            return PlayState.CONTINUE;
+        }
+        if (horse.isKicking()) {
+            if (horse.getEntityData().get(KICK_TIMER) == 14) {
+                event.getController().markNeedsReload();
+            }
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("Kick", false).addAnimation("StandIdle", false));
+            return PlayState.CONTINUE;
+        }
+        if (horse.isStomping()) {
+            if (horse.getEntityData().get(STOMP_TIMER) == 25) {
+                event.getController().markNeedsReload();
+            }
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("Stomp", false).addAnimation("StandIdle", false));
+            return PlayState.CONTINUE;
+        }
+
         if (horse.kickAnimationTimer > 0) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("Kick", false).addAnimation("StandIdle", false));
             return PlayState.CONTINUE;
