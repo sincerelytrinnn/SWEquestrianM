@@ -24,12 +24,13 @@ import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.items.SWEMHorseArmorItem;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.util.GeneralEventHandlers;
-import com.alaharranhonor.swem.util.registry.SWEMItems;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
@@ -39,6 +40,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.AttachFace;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Matrix4f;
@@ -127,10 +129,41 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable> extends Exten
             stack.scale(scale, scale, scale);
         }
         super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
+
+        if (Boolean.parseBoolean(System.getProperty("swem.debug")) && Minecraft.getInstance().getEntityRenderDispatcher().shouldRenderHitBoxes())
+            enableDebugRendering(entity, stack);
+
         if (entity.isBaby()) {
             stack.popPose();
         }
         if (!entity.isBaby()) this.getGeoModelProvider().getModel(this.getGeoModelProvider().getModelLocation(entity)).getBone("main").ifPresent((bone) -> bone.setHidden(true));
+    }
+
+    /**
+     * Enables debug rendering mode for SWEM horses.
+     * When rendering an AABB, make sure to always add <code>.move(-entity.getX(), -entity.getY(), -entity.getZ())</code> to center it on the horse.
+     */
+    private void enableDebugRendering(SWEMHorseEntity entity, MatrixStack stack) {
+        IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+
+        AxisAlignedBB biteBox = new AxisAlignedBB(
+            new Vector3d(entity.getX(), entity.getY(), entity.getZ()),
+            new Vector3d(entity.getX(), entity.getY(), entity.getZ())
+        ).expandTowards(0, 2, 0).inflate(0.75, 0, 0.75).move(-entity.getX(), -entity.getY(), -entity.getZ());
+        biteBox = biteBox.move(entity.getBbWidth() * 1 * entity.getLookAngle().normalize().x(), 0, entity.getBbWidth() * 1 * entity.getLookAngle().normalize().z());
+
+        AxisAlignedBB kickBox = new AxisAlignedBB(
+            new Vector3d(entity.getX(), entity.getY(), entity.getZ()),
+            new Vector3d(entity.getX(), entity.getY(), entity.getZ())
+        ).expandTowards(0, 2, 0).inflate(0.75, 0, 0.75).move(-entity.getX(), -entity.getY(), -entity.getZ());
+        kickBox = kickBox.move(entity.getBbWidth() * 1 * entity.getLookAngle().reverse().normalize().x(), 0, entity.getBbWidth() * 1 * entity.getLookAngle().reverse().normalize().z());
+
+        AxisAlignedBB stompBox = entity.getBoundingBox().inflate(2, 0, 2).expandTowards(0, -1, 0).move(-entity.getX(), -entity.getY(), -entity.getZ());
+
+
+        WorldRenderer.renderLineBox(stack, buffer.getBuffer(RenderType.lines()), biteBox, 0.23F, 0.78F, 0.23F, 0.5F);
+        WorldRenderer.renderLineBox(stack, buffer.getBuffer(RenderType.lines()), kickBox, 0F, 1F, 1F, 0.5F);
+        WorldRenderer.renderLineBox(stack, buffer.getBuffer(RenderType.lines()), stompBox, 1F, 0F, 1F, 0.5F);
     }
 
     private void checkPastureBlanketForRendering(SWEMHorseEntity entity) {
@@ -324,7 +357,7 @@ public class SWEMHorseRender<T extends LivingEntity & IAnimatable> extends Exten
             if (!stack.isEmpty()) {
                 SWEMHorseArmorItem armorItem = (SWEMHorseArmorItem) stack.getItem();
                 if (armorItem.tier.equals(SWEMHorseArmorItem.HorseArmorTier.AMETHYST)) {
-                    return new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/wings/"+ armorItem.type + "_wings.png");
+                    return new ResourceLocation(SWEM.MOD_ID, "textures/entity/horse/wings/" + armorItem.type + "_wings.png");
                 }
             }
         } else if (boneName.contains("Armor")) {

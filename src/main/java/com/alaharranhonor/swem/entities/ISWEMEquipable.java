@@ -108,4 +108,6 @@ public interface ISWEMEquipable extends IEquipable {
      * @return the boolean
      */
     boolean canEquipArmor();
+
+    boolean canEquipPastureBlanket();
 }

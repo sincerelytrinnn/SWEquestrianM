@@ -73,6 +73,9 @@ minecraft {
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
+
+            property 'swem.debug', 'true'
+
             args "--username", "XDelphii", "--uuid", "982efc46-99ea-4be9-9f03-5520dc9a8217"
 
             jvmArgs "-Xms2G", "-Xmx8G"

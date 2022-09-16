@@ -153,7 +153,7 @@ public class SWEMCommand {
             .then(Commands.literal("setlevel")
                 .requires((player) -> player.hasPermission(2))
                 .then(Commands.argument("skill", EnumArgument.enumArgument(Skills.class))
-                    .then(Commands.argument("levelToSet", IntegerArgumentType.integer())
+                    .then(Commands.argument("levelToSet", IntegerArgumentType.integer(1, 12))
                         .executes((ctx) -> {
                             Entity vehicle = ctx.getSource().getPlayerOrException().getVehicle();
                             if (vehicle instanceof SWEMHorseEntityBase) {
