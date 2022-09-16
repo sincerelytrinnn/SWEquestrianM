@@ -353,7 +353,7 @@ public class SWEM {
         @SubscribeEvent
         public void playerWelcomeMessage(EntityJoinWorldEvent event) {
             if (event.getWorld().isClientSide && event.getEntity() instanceof PlayerEntity && event.getEntity().getUUID().equals(Minecraft.getInstance().player.getUUID()) {
-                if (event.getEntity() instanceof PlayerEntity) {
+                if (!event.getEntity().getPersistentData().contains("welcome_message_shown")) {
                     SWEM.LOGGER.debug("Greetings!");
                     IFormattableTextComponent notice = new StringTextComponent("" + TextFormatting.BLUE + TextFormatting.BOLD + "[SWEM]:");
                     IFormattableTextComponent wiki = new StringTextComponent
