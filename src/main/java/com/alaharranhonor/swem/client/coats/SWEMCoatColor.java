@@ -78,7 +78,7 @@ public enum SWEMCoatColor {
     MONTY_ARISHANT(56, true),
     HELIOS_ARISHANT(57, true),
     TYRA_CYTRIS(58, true),
-    //59(59, true),
+    PHAROAH_ARISHANT(59, true),
     POPPY_ARISHANT(60, true),
     PARAMOUNT_CYTRIS(61, true),
     //62(62, true),
