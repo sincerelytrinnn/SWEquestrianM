@@ -93,7 +93,6 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
     	}
     	return PlayState.CONTINUE;
     }*/
-
         Animation anim = event.getController().getCurrentAnimation();
         if (anim != null) {
             if (anim.animationName.startsWith("JumpLvl") && event.getController().getAnimationState() != AnimationState.Stopped) {
@@ -210,12 +209,12 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
                     event.getController().markNeedsReload();
                 } else if (chance > 0.9f && chance < 0.93f && idleAnimCooldown < 1) {
                     event.getController().setAnimation(new AnimationBuilder().addAnimation("Scratch", false).addAnimation("StandIdle", false));
-                    animTimer = 79 + 90;
+                    animTimer = 79 + 94;
                     idleAnimCooldown = animTimer + 100;
                     event.getController().markNeedsReload();
                 } else if (chance > 0.93f && chance < 0.96f && idleAnimCooldown < 1) {
                     event.getController().setAnimation(new AnimationBuilder().addAnimation("Shake", false).addAnimation("StandIdle", false));
-                    animTimer = 79 + 62;
+                    animTimer = 79 + 65;
                     idleAnimCooldown = animTimer + 100;
                     event.getController().markNeedsReload();
                 } else if (idleAnimCooldown < 1) {
