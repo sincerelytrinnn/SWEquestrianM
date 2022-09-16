@@ -37,21 +37,26 @@ import net.minecraft.client.renderer.tileentity.SignTileEntityRenderer;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.MinecraftVersion;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.Color;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.*;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.FoliageColors;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraft.world.biome.BiomeRegistry;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.RegistryObject;
@@ -64,6 +69,8 @@ import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientEventHandlers {
+
+
 
     public static KeyBinding[] keyBindings;
 
@@ -378,6 +385,34 @@ public class ClientEventHandlers {
 
             if (event.getPlayer().getItemBySlot(EquipmentSlotType.FEET).getItem() instanceof DiamondRidingBoots) {
                 event.getMatrixStack().translate(0, -0.25, 0);
+            }
+        }
+    }
+
+    public class WelcomeMessage {
+        @SubscribeEvent
+        public void playerWelcomeMessage(EntityJoinWorldEvent event) {
+            if (event.getWorld().isClientSide && event.getEntity() instanceof PlayerEntity && event.getEntity().getUUID().equals(Minecraft.getInstance().player.getUUID())) {
+                if (!event.getEntity().getPersistentData().contains("welcome_message_shown")) {
+                    SWEM.LOGGER.debug("Greetings!");
+                    IFormattableTextComponent notice = new StringTextComponent("" + TextFormatting.BLUE + TextFormatting.BOLD + "[SWEM]:");
+                    IFormattableTextComponent wiki = new StringTextComponent
+                            ("Star Worm Equestrian Wiki").withStyle(Style.EMPTY.withColor(Color.fromRgb(new java.awt.Color(130, 67, 255)
+                            .getRGB())).withUnderlined(true).withHoverEvent
+                            (new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent("Official SWEM Wiki"))).withClickEvent
+                            (new ClickEvent(ClickEvent.Action.OPEN_URL, "https://wiki.swequestrian.com/")));
+                    ITextComponent version = new StringTextComponent(
+                            TextFormatting.BOLD + "" + TextFormatting.BLUE + "[SWEM version:" + MinecraftVersion.BUILT_IN.getName() + "" + "Initial Release]");
+                    event.getEntity().sendMessage(notice.append(new StringTextComponent("\n" + TextFormatting.RESET + TextFormatting.GRAY + TextFormatting.ITALIC
+                                    + "Thank you for including").append(version).append
+                                    (new StringTextComponent("" + TextFormatting.RESET + TextFormatting.GRAY + TextFormatting.ITALIC + "in your modded Minecraft adventures!"
+                                            + "Due to 1.16.5 becoming outdated, we were unable to upgrade the feed system or implement flight."
+                                            + "Please look forward to the 1.18 release and enjoy what we’ve accomplished in the mean time!"
+                                            + "For tips, tricks, general info, or how to support us, please see our wiki at ").append(wiki).append
+                                            (new StringTextComponent("" + TextFormatting.RESET + TextFormatting.GRAY + TextFormatting.ITALIC + "<3")))),
+                            Util.NIL_UUID);
+                    event.getEntity().getPersistentData().putBoolean("welcome_message_shown", true);
+                }
             }
         }
     }

@@ -34,6 +34,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.WoodType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
@@ -345,36 +346,6 @@ public class SWEM {
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public class WelcomeMessage {
-        private boolean shownMessage = false;
-        @SubscribeEvent
-        public void playerWelcomeMessage(EntityJoinWorldEvent event) {
-            if (event.getWorld().isClientSide && event.getEntity() instanceof PlayerEntity && event.getEntity().getUUID().equals(Minecraft.getInstance().player.getUUID()) {
-                if (!event.getEntity().getPersistentData().contains("welcome_message_shown")) {
-                    SWEM.LOGGER.debug("Greetings!");
-                    IFormattableTextComponent notice = new StringTextComponent("" + TextFormatting.BLUE + TextFormatting.BOLD + "[SWEM]:");
-                    IFormattableTextComponent wiki = new StringTextComponent
-                            ("Star Worm Equestrian Wiki").withStyle(Style.EMPTY.withColor(Color.fromRgb(new java.awt.Color(130, 67, 255)
-                            .getRGB())).withUnderlined(true).withHoverEvent
-                            (new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent("Official SWEM Wiki"))).withClickEvent
-                            (new ClickEvent(ClickEvent.Action.OPEN_URL, "https://wiki.swequestrian.com/")));
-                    ITextComponent version = new StringTextComponent(
-                            TextFormatting.BOLD + "" + TextFormatting.BLUE + "[SWEM version:" + MinecraftVersion.BUILT_IN.getName() + "" + "Initial Release]");
-                    event.getEntity().sendMessage(notice.append(new StringTextComponent("\n" + TextFormatting.RESET + TextFormatting.GRAY + TextFormatting.ITALIC
-                                    + "Thank you for including").append(version).append
-                                    (new StringTextComponent("" + TextFormatting.RESET + TextFormatting.GRAY + TextFormatting.ITALIC + "in your modded Minecraft adventures!"
-                                            + "Due to 1.16.5 becoming outdated, we were unable to upgrade the feed system or implement flight."
-                                            + "Please look forward to the 1.18 release and enjoy what we’ve accomplished in the mean time!"
-                                            + "For tips, tricks, general info, or how to support us, please see our wiki at ").append(wiki).append
-                                            (new StringTextComponent("" + TextFormatting.RESET + TextFormatting.GRAY + TextFormatting.ITALIC + "<3")))),
-                            Util.NIL_UUID);
-         event.getEntity().getPersistentData().putBoolean("welcome_message_shown", true);
-                }
-            }
-            shownMessage = true;
         }
     }
 }
