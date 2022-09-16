@@ -362,7 +362,7 @@ public class SWEM {
                             (new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent("Official SWEM Wiki"))).withClickEvent
                             (new ClickEvent(ClickEvent.Action.OPEN_URL, "https://wiki.swequestrian.com/")));
                     ITextComponent version = new StringTextComponent(
-                            TextFormatting.BOLD + "" + TextFormatting.LIGHT_PURPLE + "[SWEM version:" + MinecraftVersion.BUILT_IN.getName() + "" + "Initial Release]");
+                            TextFormatting.BOLD + "" + TextFormatting.BLUE + "[SWEM version:" + MinecraftVersion.BUILT_IN.getName() + "" + "Initial Release]");
                     event.getEntity().sendMessage(notice.append(new StringTextComponent("\n" + TextFormatting.RESET + TextFormatting.GRAY + TextFormatting.ITALIC
                                     + "Thank you for including").append(version).append
                                     (new StringTextComponent("" + TextFormatting.RESET + TextFormatting.GRAY + TextFormatting.ITALIC + "in your modded Minecraft adventures!"
