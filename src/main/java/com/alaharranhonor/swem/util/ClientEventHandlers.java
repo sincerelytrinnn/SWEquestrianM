@@ -392,9 +392,8 @@ public class ClientEventHandlers {
         }
     }
 
-    public class WelcomeMessage {
         @SubscribeEvent
-        public void playerWelcomeMessage(EntityJoinWorldEvent event) {
+        public static void playerWelcomeMessage(EntityJoinWorldEvent event) {
             if (event.getWorld().isClientSide && event.getEntity() instanceof PlayerEntity && event.getEntity().getUUID().equals(Minecraft.getInstance().player.getUUID())) {
                 if (!event.getEntity().getPersistentData().contains("welcome_message_shown")) {
                     SWEM.LOGGER.debug("Greetings!");
@@ -419,4 +418,4 @@ public class ClientEventHandlers {
             }
         }
     }
-}
+
