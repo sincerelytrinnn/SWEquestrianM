@@ -371,6 +371,7 @@ public class SWEM {
                                             + "For tips, tricks, general info, or how to support us, please see our wiki at ").append(wiki).append
                                             (new StringTextComponent("" + TextFormatting.RESET + TextFormatting.GRAY + TextFormatting.ITALIC + "<3")))),
                             Util.NIL_UUID);
+         event.getEntity().getPersistentData().putBoolean("welcome_message_shown", true);
                 }
             }
             shownMessage = true;
