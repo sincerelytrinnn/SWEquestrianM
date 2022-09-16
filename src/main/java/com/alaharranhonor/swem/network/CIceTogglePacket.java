@@ -29,13 +29,13 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class IceTogglePacket {
+public class CIceTogglePacket {
     private boolean failed;
 
-    public IceTogglePacket() {
+    public CIceTogglePacket() {
     }
 
-    public IceTogglePacket(boolean failed) {
+    public CIceTogglePacket(boolean failed) {
         this.failed = failed;
     }
 
@@ -43,22 +43,22 @@ public class IceTogglePacket {
         return this.failed;
     }
 
-    public static IceTogglePacket decode(ByteBuf buf) {
+    public static CIceTogglePacket decode(ByteBuf buf) {
         try {
-            return new IceTogglePacket();
+            return new CIceTogglePacket();
         } catch (IndexOutOfBoundsException e) {
             SWEM.LOGGER.error(
                 "IceTogglePacket" + ": Unexpected end of packet.\nMessage: "
                     + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()),
                 e);
-            return new IceTogglePacket(true);
+            return new CIceTogglePacket(true);
         }
     }
 
-    public static void encode(IceTogglePacket msg, PacketBuffer buf) {
+    public static void encode(CIceTogglePacket msg, PacketBuffer buf) {
     }
 
-    public static void handle(IceTogglePacket msg, Supplier<NetworkEvent.Context> ctx) {
+    public static void handle(CIceTogglePacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get()
             .enqueueWork(
                 () -> {

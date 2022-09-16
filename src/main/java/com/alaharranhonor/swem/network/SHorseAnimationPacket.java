@@ -18,11 +18,11 @@ import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.util.function.Supplier;
 
@@ -33,7 +33,7 @@ public class SHorseAnimationPacket {
     private boolean failed;
 
     /**
-     * Instantiates a new S horse animation packet.
+     * Instantiates a new C horse animation packet.
      *
      * @param entityID the entity id
      * @param action   the action
@@ -45,7 +45,7 @@ public class SHorseAnimationPacket {
     }
 
     /**
-     * Instantiates a new S horse animation packet.
+     * Instantiates a new C horse animation packet.
      *
      * @param failed the failed
      */
@@ -54,10 +54,10 @@ public class SHorseAnimationPacket {
     }
 
     /**
-     * Decode s horse animation packet.
+     * Decode c horse animation packet.
      *
      * @param buf the buf
-     * @return the s horse animation packet
+     * @return the c horse animation packet
      */
     public static SHorseAnimationPacket decode(ByteBuf buf) {
         try {
@@ -66,7 +66,7 @@ public class SHorseAnimationPacket {
             return new SHorseAnimationPacket(entityID, action);
         } catch (IndexOutOfBoundsException e) {
             SWEM.LOGGER.error(
-                    "SHorseAnimationPacket: Unexpected end of packet.\nMessage: "
+                    "CHorseAnimationPacket: Unexpected end of packet.\nMessage: "
                             + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()),
                     e);
             return new SHorseAnimationPacket(true);
@@ -94,7 +94,7 @@ public class SHorseAnimationPacket {
         ctx.get()
                 .enqueueWork(
                         () -> {
-                            ServerPlayerEntity player = ctx.get().getSender();
+                            ClientPlayerEntity player = Minecraft.getInstance().player;
                             Entity entity = player.level.getEntity(msg.entityID);
                             if (!(entity instanceof SWEMHorseEntityBase)) {
                                 return;
@@ -112,16 +112,21 @@ public class SHorseAnimationPacket {
                                     horse.standAnimationTick = 42;
                                     break;
                                 }
-                                case 3: { // Backwards walking packet.
-                                    SWEMPacketHandler.INSTANCE.send(
-                                            PacketDistributor.TRACKING_ENTITY.with(() -> horse),
-                                            new CHorseAnimationPacket(horse.getId(), 3));
+                                case 3: {
+                                    horse.isWalkingBackwards = true;
                                     break;
                                 }
-                                case 4: { // Stop Backwards walking packet.
-                                    SWEMPacketHandler.INSTANCE.send(
-                                            PacketDistributor.TRACKING_ENTITY.with(() -> horse),
-                                            new CHorseAnimationPacket(horse.getId(), 4));
+                                case 4: {
+                                    horse.isWalkingBackwards = false;
+                                    break;
+                                }
+                                case 5: {
+                                    horse.kickAnimationTimer = 21;
+                                    break;
+                                }
+                                case 9: {
+                                    SWEMPacketHandler.INSTANCE.sendToServer(
+                                            new CHorseAnimationPacket(horse.getId(), 5));
                                     break;
                                 }
                             }

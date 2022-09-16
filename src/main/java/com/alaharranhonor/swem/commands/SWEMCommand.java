@@ -16,7 +16,7 @@ package com.alaharranhonor.swem.commands;
 
 import com.alaharranhonor.swem.SWEM;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.network.CHorseAnimationPacket;
+import com.alaharranhonor.swem.network.SHorseAnimationPacket;
 import com.alaharranhonor.swem.network.SHorseFriendPacket;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
@@ -369,7 +369,7 @@ public class SWEMCommand {
                             return 0;
                         }
                         SWEMHorseEntityBase horse = (SWEMHorseEntityBase) vehicle;
-                        SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new CHorseAnimationPacket(horse.getId(), 5));
+                        SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new SHorseAnimationPacket(horse.getId(), 5));
 
                         return 1;
                     }))
@@ -395,7 +395,7 @@ public class SWEMCommand {
                             return 0;
                         }
                         SWEMHorseEntityBase horse = (SWEMHorseEntityBase) vehicle;
-                        SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new CHorseAnimationPacket(horse.getId(), 1));
+                        SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> horse), new SHorseAnimationPacket(horse.getId(), 1));
 
                         return 1;
                     }))

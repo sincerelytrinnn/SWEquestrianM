@@ -2116,10 +2116,12 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
     }
 
     /**
-     * Tick amethyst armor.
+     * Tick amethyst armor effects.
+     * Gives slow fall to the horse.
+     * <a href="https://bugs.mojang.com/browse/MCPE-45823">MC-Bug Tracker issue</a>
      */
     private void tickAmethystArmor() {
-        this.addEffect(new EffectInstance(Effects.SLOW_FALLING, 1, 10, false, false, false));
+        this.addEffect(new EffectInstance(Effects.SLOW_FALLING, 2, 10, false, false, false));
     }
 
     @Override
@@ -2246,11 +2248,11 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
                         // regular walking.
 
                         if (!this.isWalkingBackwards) {
-                            SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(this.getId(), 3));
+                            SWEMPacketHandler.INSTANCE.sendToServer(new CHorseAnimationPacket(this.getId(), 3));
                         }
 
                     } else if (this.isWalkingBackwards) {
-                        SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(this.getId(), 4));
+                        SWEMPacketHandler.INSTANCE.sendToServer(new CHorseAnimationPacket(this.getId(), 4));
                     }
 
                     super.travel(new Vector3d(sidewaysMovement, travelVector.y, forwardMovement));
@@ -3679,10 +3681,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         this.standAnimationVariant = this.getRandom().nextDouble() > 0.5 ? 2 : 1;
 
         if (this.level.isClientSide) {
-            SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
+            SWEMPacketHandler.INSTANCE.sendToServer(new CHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
             if (this.entityData.get(GAIT_LEVEL) != 0) SWEMPacketHandler.INSTANCE.sendToServer(new SendHorseSpeedChange(2, this.getId()));
         } else {
-            SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new CHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
+            SWEMPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new SHorseAnimationPacket(this.getEntity().getId(), standAnimationVariant));
         }
         this.standingTimer = 142;
     }

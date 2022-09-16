@@ -191,7 +191,7 @@ public class GeneralEventHandlers {
                         && ((SWEMHorseArmorItem) ((SWEMHorseEntityBase) Minecraft.getInstance().player.getVehicle()).getSWEMArmor().getItem()).tier.getId() >= SWEMHorseArmorItem.HorseArmorTier.GOLD.getId();
 
                     if (canToggleBoots || canToggleHorse) {
-                        SWEMPacketHandler.INSTANCE.sendToServer(new IceTogglePacket());
+                        SWEMPacketHandler.INSTANCE.sendToServer(new CIceTogglePacket());
                     }
                 }
             }
@@ -344,7 +344,7 @@ public class GeneralEventHandlers {
                     horse.getEntityData().set(SWEMHorseEntityBase.IS_MOVING_LEFT, false);
                     horse.getEntityData().set(SWEMHorseEntityBase.IS_MOVING_RIGHT, false);
                 } else {
-                    SWEMPacketHandler.INSTANCE.sendToServer(new SHorseAnimationPacket(horse.getId(), 4));
+                    SWEMPacketHandler.INSTANCE.sendToServer(new CHorseAnimationPacket(horse.getId(), 4));
                 }
             }
         }
