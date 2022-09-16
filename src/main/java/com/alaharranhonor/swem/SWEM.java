@@ -366,7 +366,7 @@ public class SWEM {
                     event.getEntity().sendMessage(notice.append(new StringTextComponent("\n" + TextFormatting.RESET + TextFormatting.GRAY + TextFormatting.ITALIC
                                     + "Thank you for including").append(version).append
                                     (new StringTextComponent("" + TextFormatting.RESET + TextFormatting.GRAY + TextFormatting.ITALIC + "in your modded Minecraft adventures!"
-                                            + "Due to 1.1.6.5 becoming outdated, we were unable to upgrade the feed system or implement flight."
+                                            + "Due to 1.16.5 becoming outdated, we were unable to upgrade the feed system or implement flight."
                                             + "Please look forward to the 1.18 release and enjoy what we’ve accomplished in the mean time!"
                                             + "For tips, tricks, general info, or how to support us, please see our wiki at ").append(wiki).append
                                             (new StringTextComponent("" + TextFormatting.RESET + TextFormatting.GRAY + TextFormatting.ITALIC + "<3")))),
