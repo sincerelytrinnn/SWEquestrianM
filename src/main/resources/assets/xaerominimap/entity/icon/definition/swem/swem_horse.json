@@ -38,6 +38,13 @@
     "swem:textures/entity/horse/coats/rapidash_pokemon.png": "normal_sprite:35_rapidash_pokemon.png",
     "swem:textures/entity/horse/coats/swift_wind_she_ra.png": "normal_sprite:36_swift_wind_she_ra.png",
     "swem:textures/entity/horse/coats/bob_free_rein.png": "normal_sprite:37_bob_free_rein.png",
+    "swem:textures/entity/horse/coats/farcah_zorse_tan_hauket.png": "normal_sprite:38_farcah_zorse_tan_hauket.png",
+    "swem:textures/entity/horse/coats/sarine_zorse_paint_hauket.png": "normal_sprite:39_sarine_zorse_paint_hauket.png",
+    "swem:textures/entity/horse/coats/calihope_zorse_dark_hauket.png": "normal_sprite:40_calihope_zorse_dark_hauket.png",
+    "swem:textures/entity/horse/coats/courier_calico_hauket.png": "normal_sprite:41_courier_calico_hauket.png",
+    "swem:textures/entity/horse/coats/guardian_bay_gray_hauket.png": "normal_sprite:42_guardian_bay_gray_hauket.png",
+    "swem:textures/entity/horse/coats/royal_brindle_hauket.png": "normal_sprite:43_royal_brindle_hauket.png",
+    "swem:textures/entity/horse/coats/riptide_peacock_hauket.png": "normal_sprite:44_riptide_peacock_hauket.png",
     "swem:textures/entity/horse/coats/arials_malli.png": "normal_sprite:45_arials.png",
     "swem:textures/entity/horse/coats/el_cazador_malli.png": "normal_sprite:46_elcazador.png",
     "swem:textures/entity/horse/coats/polaris_malli.png": "normal_sprite:47_black_birdcatcher.png",
@@ -51,9 +58,10 @@
     "swem:textures/entity/horse/coats/ibis_arishant.png": "normal_sprite:55_ibis_arishant.png",
     "swem:textures/entity/horse/coats/monty_arishant.png": "normal_sprite:56_monty_arishant.png",
     "swem:textures/entity/horse/coats/helios_arishant.png": "normal_sprite:57_helios_arishant.png",
-
+    "swem:textures/entity/horse/coats/tyra_cytis.png": "normal_sprite:58_tyra_cytris.png",
+    "swem:textures/entity/horse/coats/pharoah_arishant.png": "normal_sprite:59_pharoah_arishant.png",
     "swem:textures/entity/horse/coats/poppy_arishant.png": "normal_sprite:60_poppy_arishant.png",
-
+    "swem:textures/entity/horse/coats/paramount_cytris.png": "normal_sprite:61_paramount_cytris.png",
     "swem:textures/entity/horse/coats/domino_arishant.png": "normal_sprite:64_domino_arishant.png",
     "swem:textures/entity/horse/coats/dahlia_arishant.png": "normal_sprite:65_dahlia_arishant.png",
     "swem:textures/entity/horse/coats/hibiscus_arishant.png": "normal_sprite:66_hibiscus_arishant.png",
@@ -86,12 +94,20 @@
     "swem:textures/entity/horse/coats/wren_arishant.png": "normal_sprite:93_wren_arishant.png",
     "swem:textures/entity/horse/coats/citrine_arishant.png": "normal_sprite:94_citrine_arishant.png",
     "swem:textures/entity/horse/coats/hurricane_arishant.png": "normal_sprite:95_hurricane_arishant.png",
+    "swem:textures/entity/horse/coats/phantom_arishant.png": "normal_sprite:96_phantom_arishant.png",
+    "swem:textures/entity/horse/coats/rumble_arishant.png": "normal_sprite:97_rumble_arishant.png",
+    "swem:textures/entity/horse/coats/maple_arishant.png": "normal_sprite:98_maple_arishant.png",
+    "swem:textures/entity/horse/coats/baldsabino_arishant.png": "normal_sprite:99_baldsabino_arishant.png",
 
     "swem:textures/entity/horse/coats/us_marshall.png": "normal_sprite:100_us_marshall.png",
     "swem:textures/entity/horse/coats/frank_stevecv.png": "normal_sprite:101_frank_stevecv.png",
     "swem:textures/entity/horse/coats/toothbrush_boaty.png": "normal_sprite:102_toothbrush_boaty.png",
     "swem:textures/entity/horse/coats/kodiak_delphi.png": "normal_sprite:103_kodiak_delphi.png",
     "swem:textures/entity/horse/coats/annie_lace.png": "normal_sprite:104_annie_lace.png",
+    "swem:textures/entity/horse/coats/ripple_brooke.png": "normal_sprite:106_ripple_brooke.png",
+    "swem:textures/entity/horse/coats/kharema_cytris.png": "normal_sprite:109_kharema_cytris.png",
+    "swem:textures/entity/horse/coats/angel_riley.png": "normal_sprite:110_angel_riley.png",
+
     "swem:textures/entity/horse/coats/lady_jenny.png": "normal_sprite:17351_lady_jenny.png",
     "swem:textures/entity/horse/coats/lucy_hannah.png": "normal_sprite:62118_lucy_hannah.png"
   }
