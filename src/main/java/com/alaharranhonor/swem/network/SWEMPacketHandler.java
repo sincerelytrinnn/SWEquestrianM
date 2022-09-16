@@ -25,7 +25,9 @@ public class SWEMPacketHandler {
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(new ResourceLocation(SWEM.MOD_ID, "main"), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
 
     /**
-     * Init.
+     * Init all network packets.
+     * If a packet is prefixed with "C" it comes from the client, and is handled on the server.
+     * If a packet is prefixed with "S" it comes from the server, and is handled on the client.
      */
     public static void init() {
         INSTANCE.registerMessage(0, AddJumpXPMessage.class, AddJumpXPMessage::encode, AddJumpXPMessage::decode, AddJumpXPMessage::handle);
@@ -54,5 +56,6 @@ public class SWEMPacketHandler {
         INSTANCE.registerMessage(28, SCameraLockPacket.class, SCameraLockPacket::encode, SCameraLockPacket::decode, SCameraLockPacket::handle);
         INSTANCE.registerMessage(29, CSyncMovementIdentifiersPacket.class, CSyncMovementIdentifiersPacket::encode, CSyncMovementIdentifiersPacket::decode, CSyncMovementIdentifiersPacket::handle);
         INSTANCE.registerMessage(30, IceTogglePacket.class, IceTogglePacket::encode, IceTogglePacket::decode, IceTogglePacket::handle);
+        INSTANCE.registerMessage(31, CHorseAttackPacket.class, CHorseAttackPacket::encode, CHorseAttackPacket::decode, CHorseAttackPacket::handle);
     }
 }

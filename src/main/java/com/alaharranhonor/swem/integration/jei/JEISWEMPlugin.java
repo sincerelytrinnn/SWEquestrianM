@@ -75,7 +75,7 @@ public class JEISWEMPlugin implements IModPlugin {
      */
     @Override
     public void registerVanillaCategoryExtensions(
-            IVanillaCategoryExtensionRegistration registration) {
+        IVanillaCategoryExtensionRegistration registration) {
         IModPlugin.super.registerVanillaCategoryExtensions(registration);
     }
 
@@ -142,81 +142,114 @@ public class JEISWEMPlugin implements IModPlugin {
         World world = Minecraft.getInstance().level;
         RecipeManager manager = world.getRecipeManager();
         jeiRuntime
-                .getRecipeManager()
-                .hideRecipe(
-                        manager.byKey(new ResourceLocation(SWEM.MOD_ID, "warmer_egg")).get(),
-                        VanillaRecipeCategoryUid.CRAFTING);
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "warmer_egg")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
         jeiRuntime
-                .getRecipeManager()
-                .hideRecipe(
-                        manager.byKey(new ResourceLocation(SWEM.MOD_ID, "cooler_egg")).get(),
-                        VanillaRecipeCategoryUid.CRAFTING);
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "cooler_egg")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
         jeiRuntime
-                .getRecipeManager()
-                .hideRecipe(
-                        manager.byKey(new ResourceLocation(SWEM.MOD_ID, "rainbow_egg")).get(),
-                        VanillaRecipeCategoryUid.CRAFTING);
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "rainbow_egg")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
         jeiRuntime
-                .getRecipeManager()
-                .hideRecipe(
-                        manager.byKey(new ResourceLocation(SWEM.MOD_ID, "dehydrated_rainbow")).get(),
-                        VanillaRecipeCategoryUid.FURNACE);
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "dehydrated_rainbow")).get(),
+                VanillaRecipeCategoryUid.FURNACE);
         jeiRuntime
-                .getRecipeManager()
-                .hideRecipe(
-                        manager.byKey(new ResourceLocation(SWEM.MOD_ID, "rainbow_sweet_feed")).get(),
-                        VanillaRecipeCategoryUid.CRAFTING);
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "rainbow_sweet_feed")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
         jeiRuntime
-                .getRecipeManager()
-                .hideRecipe(
-                        manager.byKey(new ResourceLocation(SWEM.MOD_ID, "rainbow_heavy_feed")).get(),
-                        VanillaRecipeCategoryUid.CRAFTING);
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "rainbow_heavy_feed")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
         jeiRuntime
-                .getRecipeManager()
-                .hideRecipe(
-                        manager.byKey(new ResourceLocation(SWEM.MOD_ID, "rainbow_dry_feed")).get(),
-                        VanillaRecipeCategoryUid.CRAFTING);
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "rainbow_dry_feed")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
 
         jeiRuntime
-                .getRecipeManager()
-                .hideRecipe(
-                        manager.byKey(new ResourceLocation(SWEM.MOD_ID, "life_offering")).get(),
-                        VanillaRecipeCategoryUid.CRAFTING);
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "life_offering")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
         jeiRuntime
-                .getRecipeManager()
-                .hideRecipe(
-                        manager.byKey(new ResourceLocation(SWEM.MOD_ID, "earth_offering")).get(),
-                        VanillaRecipeCategoryUid.CRAFTING);
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "earth_offering")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
         jeiRuntime
-                .getRecipeManager()
-                .hideRecipe(
-                        manager.byKey(new ResourceLocation(SWEM.MOD_ID, "vibrant_offering")).get(),
-                        VanillaRecipeCategoryUid.CRAFTING);
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "vibrant_offering")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
         jeiRuntime
-                .getRecipeManager()
-                .hideRecipe(
-                        manager.byKey(new ResourceLocation(SWEM.MOD_ID, "ocean_offering")).get(),
-                        VanillaRecipeCategoryUid.CRAFTING);
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "ocean_offering")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
         jeiRuntime
-                .getRecipeManager()
-                .hideRecipe(
-                        manager.byKey(new ResourceLocation(SWEM.MOD_ID, "nova_offering")).get(),
-                        VanillaRecipeCategoryUid.CRAFTING);
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "nova_offering")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
         jeiRuntime
-                .getRecipeManager()
-                .hideRecipe(
-                        manager.byKey(new ResourceLocation(SWEM.MOD_ID, "gallaxorium")).get(),
-                        VanillaRecipeCategoryUid.CRAFTING);
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "gallaxorium")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
         jeiRuntime
-                .getRecipeManager()
-                .hideRecipe(
-                        manager.byKey(new ResourceLocation(SWEM.MOD_ID, "amethyst_usa_horse_armor")).get(),
-                        VanillaRecipeCategoryUid.CRAFTING);
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "amethyst_usa_horse_armor")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
         jeiRuntime
-                .getRecipeManager()
-                .hideRecipe(
-                        manager.byKey(new ResourceLocation(SWEM.MOD_ID, "adventure_saddle_usa")).get(),
-                        VanillaRecipeCategoryUid.CRAFTING);
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "adventure_saddle_usa")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
+
+        jeiRuntime
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "amethyst_emerald_horse_armor")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
+        jeiRuntime
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "adventure_saddle_emerald")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
+
+        jeiRuntime
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "amethyst_copper_horse_armor")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
+        jeiRuntime
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "adventure_saddle_copper")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
+
+        jeiRuntime
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "amethyst_emerald_horse_armor")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
+        jeiRuntime
+            .getRecipeManager()
+            .hideRecipe(
+                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "adventure_saddle_emerald")).get(),
+                VanillaRecipeCategoryUid.CRAFTING);
 
         IModPlugin.super.onRuntimeAvailable(jeiRuntime);
     }

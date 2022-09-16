@@ -284,6 +284,30 @@ public class GeneralEventHandlers {
                     //   }
                 }
 
+                if (keyBindings[8].consumeClick()) {
+                    Entity entity = Minecraft.getInstance().player.getVehicle();
+                    if (entity instanceof SWEMHorseEntityBase) {
+                        SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+                        SWEMPacketHandler.INSTANCE.sendToServer(new CHorseAttackPacket(horse.getUUID(), 0));
+                    }
+                }
+
+                if (keyBindings[9].consumeClick()) {
+                    Entity entity = Minecraft.getInstance().player.getVehicle();
+                    if (entity instanceof SWEMHorseEntityBase) {
+                        SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+                        SWEMPacketHandler.INSTANCE.sendToServer(new CHorseAttackPacket(horse.getUUID(), 1));
+                    }
+                }
+
+                if (keyBindings[10].consumeClick()) {
+                    Entity entity = Minecraft.getInstance().player.getVehicle();
+                    if (entity instanceof SWEMHorseEntityBase) {
+                        SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+                        SWEMPacketHandler.INSTANCE.sendToServer(new CHorseAttackPacket(horse.getUUID(), 2));
+                    }
+                }
+
                 KEY_PRESS_COUNTER = 0;
             } else {
                 // TODO: FIGURE OUT WHY THIS EVENT IS BEING RUN TWICE, AND GET RID OF THIS UGLY STATIC

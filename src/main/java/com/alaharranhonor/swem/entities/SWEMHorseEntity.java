@@ -93,7 +93,6 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
     	}
     	return PlayState.CONTINUE;
     }*/
-
         Animation anim = event.getController().getCurrentAnimation();
         if (anim != null) {
             if (anim.animationName.startsWith("JumpLvl") && event.getController().getAnimationState() != AnimationState.Stopped) {
@@ -149,6 +148,28 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
         if (!isInWater && horse.jumpHeight != 0) {
             int jumpHeight = Math.min((int) horse.jumpHeight, 5);
             event.getController().setAnimation(new AnimationBuilder().addAnimation(String.format("JumpLvl%d", jumpHeight), false).addAnimation(anim.animationName, anim.loop));
+            return PlayState.CONTINUE;
+        }
+
+        if (horse.isBiting()) {
+            if (horse.getEntityData().get(BITE_TIMER) == 35) {
+                event.getController().markNeedsReload();
+            }
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("Bite", false).addAnimation("StandIdle", true));
+            return PlayState.CONTINUE;
+        }
+        if (horse.isKicking()) {
+            if (horse.getEntityData().get(KICK_TIMER) == 14) {
+                event.getController().markNeedsReload();
+            }
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("Kick", false).addAnimation("StandIdle", false));
+            return PlayState.CONTINUE;
+        }
+        if (horse.isStomping()) {
+            if (horse.getEntityData().get(STOMP_TIMER) == 25) {
+                event.getController().markNeedsReload();
+            }
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("Stomp", false).addAnimation("StandIdle", false));
             return PlayState.CONTINUE;
         }
 
@@ -210,12 +231,12 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
                     event.getController().markNeedsReload();
                 } else if (chance > 0.9f && chance < 0.93f && idleAnimCooldown < 1) {
                     event.getController().setAnimation(new AnimationBuilder().addAnimation("Scratch", false).addAnimation("StandIdle", false));
-                    animTimer = 79 + 90;
+                    animTimer = 79 + 94;
                     idleAnimCooldown = animTimer + 100;
                     event.getController().markNeedsReload();
                 } else if (chance > 0.93f && chance < 0.96f && idleAnimCooldown < 1) {
                     event.getController().setAnimation(new AnimationBuilder().addAnimation("Shake", false).addAnimation("StandIdle", false));
-                    animTimer = 79 + 62;
+                    animTimer = 79 + 65;
                     idleAnimCooldown = animTimer + 100;
                     event.getController().markNeedsReload();
                 } else if (idleAnimCooldown < 1) {
