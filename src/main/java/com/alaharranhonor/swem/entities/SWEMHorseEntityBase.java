@@ -688,15 +688,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
         this.entityData.define(OWNER_NAME, "");
 
         this.getEntityData().define(isLaunching, false);
-        this.getEntityData().define(isFloating, false);
-        this.getEntityData().define(isAccelerating, false);
-        this.getEntityData().define(isSlowingDown, false);
-        this.getEntityData().define(isStillSlowingDown, false);
-        this.getEntityData().define(isTurningLeft, false);
-        this.getEntityData().define(isTurning, false);
-        this.getEntityData().define(isStillTurning, false);
-        this.getEntityData().define(didFlap, false);
-        this.getEntityData().define(isDiving, false);
+
         this.entityData.define(PERMISSION_STRING, "ALL");
         this.entityData.define(TRACKED, false);
 
@@ -3907,6 +3899,10 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
             entityToKnockback.knockback(1F, d1, d0);
         });
 
+    }
+
+    public HorseFlightController getFlightController() {
+        return this.flightController;
     }
 
     public enum HorseSpeed {

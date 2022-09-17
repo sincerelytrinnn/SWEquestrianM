@@ -101,12 +101,12 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
         }
 
         if (horse.isFlying()) {
-
-            if (horse.getEntityData().get(HorseFlightController.isTurning)) {
+            HorseFlightController flightController = horse.getFlightController();
+            if (flightController.isTurning()) {
                 if (event.getController().getCurrentAnimation().animationName.equals("TurnCycle")) {
                     return PlayState.CONTINUE;
                 }
-                if (horse.getEntityData().get(HorseFlightController.isTurningLeft)) {
+                if (flightController.isTurningLeft()) {
                     if (!event.getController().getCurrentAnimation().animationName.equals("Turn")) {
                         event.getController().setAnimation(new AnimationBuilder().addAnimation("Turn", false).addAnimation("TurnCycle", true));
                         return PlayState.CONTINUE;
@@ -122,20 +122,20 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("Launch"));
                 return PlayState.CONTINUE;
             }
-            if (horse.getEntityData().get(HorseFlightController.isDiving)) {
+            if (flightController.isDiving()) {
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("Dive"));
                 return PlayState.CONTINUE;
             }
-            if (horse.getEntityData().get(HorseFlightController.didFlap)) {
+            if (flightController.isDidFlap()) {
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("GoingUp"));
                 return PlayState.CONTINUE;
-            } else if (horse.getEntityData().get(HorseFlightController.isSlowingDown)) {
+            } else if (flightController.isSlowingDown()) {
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("SlowDown"));
                 return PlayState.CONTINUE;
-            } else if (horse.getEntityData().get(HorseFlightController.isFloating)) {
+            } else if (flightController.isFloating()) {
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("FloatDown"));
                 return PlayState.CONTINUE;
-            } else if (horse.getEntityData().get(HorseFlightController.isAccelerating)) {
+            } else if (flightController.isAccelerating()) {
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("SpeedUp"));
                 return PlayState.CONTINUE;
             }
