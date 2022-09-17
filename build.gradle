@@ -164,8 +164,8 @@ configurations {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${mc_version}-36.2.26"
-    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${mc_version}:3.0.86")
+    minecraft "net.minecraftforge:forge:${mc_version}-36.2.34"
+    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${mc_version}:3.0.92")
     implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:0.3.5+1.16.5")
 
     // compile against the JEI API but do not include it at runtime
