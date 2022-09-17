@@ -21,7 +21,6 @@ import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.integration.placeableitems.PlaceableItemsInit;
 import com.alaharranhonor.swem.items.potions.PotionItemBrewingRecipe;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
-import com.alaharranhonor.swem.util.SWLRegistryHandler;
 import com.alaharranhonor.swem.util.data.HorseData;
 import com.alaharranhonor.swem.util.registry.*;
 import com.alaharranhonor.swem.world.structure.SWEMConfiguredStructures;
