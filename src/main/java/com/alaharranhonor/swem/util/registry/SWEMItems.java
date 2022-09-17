@@ -20,7 +20,6 @@ import com.alaharranhonor.swem.blocks.BlockItemBase;
 import com.alaharranhonor.swem.client.coats.SWEMCoatColor;
 import com.alaharranhonor.swem.items.*;
 import com.alaharranhonor.swem.items.potions.CantazaritePotionItem;
-import com.alaharranhonor.swem.items.potions.PotionItemBase;
 import com.alaharranhonor.swem.items.potions.RainbowChicPotionItem;
 import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.tools.*;
