@@ -1579,7 +1579,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
 
         this.updateContainerEquipment();
 
-        // this.setFlying(compound.getBoolean("flying"));
+        this.setFlying(compound.getBoolean("flying"));
         if (compound.contains("HorseVariant")) {
             this.setCoatColour(SWEMCoatColor.getById(compound.getInt("HorseVariant")));
         } else {

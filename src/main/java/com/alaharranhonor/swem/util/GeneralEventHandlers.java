@@ -67,6 +67,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -183,12 +184,12 @@ public class GeneralEventHandlers {
             if (event.getAction() == GLFW.GLFW_PRESS) {
                 if (event.getButton() == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
                     boolean canToggleBoots = Minecraft.getInstance().player != null
-                        && Minecraft.getInstance().player.getItemBySlot(EquipmentSlotType.FEET).getItem() instanceof GoldRidingBoots;
+                            && Minecraft.getInstance().player.getItemBySlot(EquipmentSlotType.FEET).getItem() instanceof GoldRidingBoots;
 
                     boolean canToggleHorse = Minecraft.getInstance().player != null
-                        && Minecraft.getInstance().player.getVehicle() instanceof SWEMHorseEntityBase
-                        && ((SWEMHorseEntityBase) Minecraft.getInstance().player.getVehicle()).getSWEMArmor().getItem() instanceof SWEMHorseArmorItem
-                        && ((SWEMHorseArmorItem) ((SWEMHorseEntityBase) Minecraft.getInstance().player.getVehicle()).getSWEMArmor().getItem()).tier.getId() >= SWEMHorseArmorItem.HorseArmorTier.GOLD.getId();
+                            && Minecraft.getInstance().player.getVehicle() instanceof SWEMHorseEntityBase
+                            && ((SWEMHorseEntityBase) Minecraft.getInstance().player.getVehicle()).getSWEMArmor().getItem() instanceof SWEMHorseArmorItem
+                            && ((SWEMHorseArmorItem) ((SWEMHorseEntityBase) Minecraft.getInstance().player.getVehicle()).getSWEMArmor().getItem()).tier.getId() >= SWEMHorseArmorItem.HorseArmorTier.GOLD.getId();
 
                     if (canToggleBoots || canToggleHorse) {
                         SWEMPacketHandler.INSTANCE.sendToServer(new CIceTogglePacket());
@@ -273,14 +274,14 @@ public class GeneralEventHandlers {
 
                 if (keyBindings[3].consumeClick()) {
 
-                    Entity entity = Minecraft.getInstance().player.getVehicle();
-                    if (entity instanceof SWEMHorseEntityBase) {
-                        SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+                    // Entity entity = Minecraft.getInstance().player.getVehicle();
+                    // if (entity instanceof SWEMHorseEntityBase) {
+                    //    SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
 
-                        if (!horse.isFlying() && horse.canFly()) {
-                            SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(10, horse.getId()));
-                        }
-                    }
+                    //  if (!horse.isFlying() && horse.canFly()) {
+                    //      SWEMPacketHandler.INSTANCE.sendToServer(new HorseStateChange(10, horse.getId()));
+                    //   }
+                    //   }
                 }
 
                 if (keyBindings[8].consumeClick()) {
@@ -480,26 +481,6 @@ public class GeneralEventHandlers {
         }
 
         /**
-         * New year message.
-         *
-         * @param event the event
-         */
-        @SubscribeEvent
-        public static void newYearMessage(EntityJoinWorldEvent event) {
-            if (event.getEntity() instanceof PlayerEntity && event.getEntity().level.isClientSide) {
-                LocalDateTime time = LocalDateTime.now();
-                if (time.getMonth() == Month.DECEMBER && time.getDayOfMonth() == 31) {
-
-                    IFormattableTextComponent hi = new StringTextComponent("[SWEM] Hi " + event.getEntity().getName().getString()).withStyle(TextFormatting.RED);
-                    IFormattableTextComponent content = new StringTextComponent("\n Us here at the SWEM team, hope you have a good new years! We hope you get a good start on 2022, and we thank you for helping out the project become a reality! Thank you for supporting us and happy new years! //legenden").setStyle(Style.EMPTY.withColor(Color.parseColor("#FF7F7F")));
-                    IFormattableTextComponent fireworks = new StringTextComponent("\n Now go out and set off some pretty fireworks!").setStyle(Style.EMPTY.withColor(Color.parseColor("#545454")));
-
-                    event.getEntity().sendMessage(hi.append(content).append(fireworks), Util.NIL_UUID);
-                }
-            }
-        }
-
-        /**
          * Hide lead knot entity.
          *
          * @param event the event
@@ -602,6 +583,26 @@ public class GeneralEventHandlers {
                     if (mapping.key.getPath().contains("timothy_grass")) {
                         mapping.remap(SWEMBlocks.TIMOTHY_PLANT.get());
                     }
+                }
+            }
+        }
+
+        /**
+         * New year message.
+         *
+         * @param event the event
+         */
+        @SubscribeEvent
+        public static void newYearMessage(EntityJoinWorldEvent event) {
+            if (event.getEntity() instanceof PlayerEntity && event.getEntity().level.isClientSide) {
+                LocalDateTime time = LocalDateTime.now();
+                if (time.getMonth() == Month.DECEMBER && time.getDayOfMonth() == 31) {
+
+                    IFormattableTextComponent hi = new StringTextComponent("[SWEM] Hi " + event.getEntity().getName().getString()).withStyle(TextFormatting.RED);
+                    IFormattableTextComponent content = new StringTextComponent("\n Us here at the SWEM team, hope you have a good new years! We hope you get a good start on 2022, and we thank you for helping out the project become a reality! Thank you for supporting us and happy new years! //legenden").setStyle(Style.EMPTY.withColor(Color.parseColor("#FF7F7F")));
+                    IFormattableTextComponent fireworks = new StringTextComponent("\n Now go out and set off some pretty fireworks!").setStyle(Style.EMPTY.withColor(Color.parseColor("#545454")));
+
+                    event.getEntity().sendMessage(hi.append(content).append(fireworks), Util.NIL_UUID);
                 }
             }
         }
