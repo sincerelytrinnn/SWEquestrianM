@@ -1,4 +1,4 @@
-package com.alaharranhonor.swem.items.potions;
+package com.alaharranhonor.swem.items;
 
 import com.alaharranhonor.swem.SWEM;
 import net.minecraft.item.Item;
