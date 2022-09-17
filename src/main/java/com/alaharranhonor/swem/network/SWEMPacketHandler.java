@@ -26,8 +26,8 @@ public class SWEMPacketHandler {
 
     /**
      * Init all network packets.
-     * If a packet is prefixed with "C" it comes from the client, and is handled on the server.
-     * If a packet is prefixed with "S" it comes from the server, and is handled on the client.
+     * <p>If a packet is prefixed with "C" it comes from the client, and is handled on the server.</p>
+     * <p>If a packet is prefixed with "S" it comes from the server, and is handled on the client.</p>
      */
     public static void init() {
         INSTANCE.registerMessage(0, AddJumpXPMessage.class, AddJumpXPMessage::encode, AddJumpXPMessage::decode, AddJumpXPMessage::handle);
@@ -37,7 +37,6 @@ public class SWEMPacketHandler {
         INSTANCE.registerMessage(6, HorseStateChange.class, HorseStateChange::encode, HorseStateChange::decode, HorseStateChange::handle);
         INSTANCE.registerMessage(7, HorseHungerChange.class, HorseHungerChange::encode, HorseHungerChange::decode, HorseHungerChange::handle);
         INSTANCE.registerMessage(8, RenameItemPacket.class, RenameItemPacket::encode, RenameItemPacket::decode, RenameItemPacket::handle);
-        INSTANCE.registerMessage(9, HorseFlightPacket.class, HorseFlightPacket::encode, HorseFlightPacket::decode, HorseFlightPacket::handle);
         INSTANCE.registerMessage(13, CAddLayerPacket.class, CAddLayerPacket::encode, CAddLayerPacket::decode, CAddLayerPacket::handle);
         INSTANCE.registerMessage(14, CChangeColorPacket.class, CChangeColorPacket::encode, CChangeColorPacket::decode, CChangeColorPacket::handle);
         INSTANCE.registerMessage(15, CChangeLayerPacket.class, CChangeLayerPacket::encode, CChangeLayerPacket::decode, CChangeLayerPacket::handle);
@@ -49,13 +48,13 @@ public class SWEMPacketHandler {
         INSTANCE.registerMessage(21, SHorseFriendPacket.class, SHorseFriendPacket::encode, SHorseFriendPacket::decode, SHorseFriendPacket::handle);
         INSTANCE.registerMessage(22, CHorseJumpPacket.class, CHorseJumpPacket::encode, CHorseJumpPacket::decode, CHorseJumpPacket::handle);
         INSTANCE.registerMessage(23, SHorseJumpPacket.class, SHorseJumpPacket::encode, SHorseJumpPacket::decode, SHorseJumpPacket::handle);
-        INSTANCE.registerMessage(24, SHorseAnimationPacket.class, SHorseAnimationPacket::encode, SHorseAnimationPacket::decode, SHorseAnimationPacket::handle);
+        INSTANCE.registerMessage(24, CHorseAnimationPacket.class, CHorseAnimationPacket::encode, CHorseAnimationPacket::decode, CHorseAnimationPacket::handle);
+        INSTANCE.registerMessage(26, SHorseAnimationPacket.class, SHorseAnimationPacket::encode, SHorseAnimationPacket::decode, SHorseAnimationPacket::handle);
         INSTANCE.registerMessage(25, SContainerPacket.class, SContainerPacket::encode, SContainerPacket::decode, SContainerPacket::handle);
-        INSTANCE.registerMessage(26, CHorseAnimationPacket.class, CHorseAnimationPacket::encode, CHorseAnimationPacket::decode, CHorseAnimationPacket::handle);
         INSTANCE.registerMessage(27, CCameraLockPacket.class, CCameraLockPacket::encode, CCameraLockPacket::decode, CCameraLockPacket::handle);
         INSTANCE.registerMessage(28, SCameraLockPacket.class, SCameraLockPacket::encode, SCameraLockPacket::decode, SCameraLockPacket::handle);
         INSTANCE.registerMessage(29, CSyncMovementIdentifiersPacket.class, CSyncMovementIdentifiersPacket::encode, CSyncMovementIdentifiersPacket::decode, CSyncMovementIdentifiersPacket::handle);
-        INSTANCE.registerMessage(30, IceTogglePacket.class, IceTogglePacket::encode, IceTogglePacket::decode, IceTogglePacket::handle);
+        INSTANCE.registerMessage(30, CIceTogglePacket.class, CIceTogglePacket::encode, CIceTogglePacket::decode, CIceTogglePacket::handle);
         INSTANCE.registerMessage(31, CHorseAttackPacket.class, CHorseAttackPacket::encode, CHorseAttackPacket::decode, CHorseAttackPacket::handle);
     }
 }

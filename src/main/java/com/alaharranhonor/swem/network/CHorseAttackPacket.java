@@ -146,5 +146,4 @@ public class CHorseAttackPacket {
         ctx.get().setPacketHandled(true);
     }
 
-
 }

@@ -20,6 +20,7 @@ import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 
@@ -58,9 +59,9 @@ public class CSyncMovementIdentifiersPacket {
             return new CSyncMovementIdentifiersPacket(packetData, entity);
         } catch (IndexOutOfBoundsException e) {
             SWEM.LOGGER.error(
-                    "CSyncMovementIdentifiersPacket: Unexpected end of packet.\nMessage: "
-                            + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()),
-                    e);
+                "CSyncMovementIdentifiersPacket: Unexpected end of packet.\nMessage: "
+                    + ByteBufUtil.hexDump(buf, 0, buf.writerIndex()),
+                e);
             return new CSyncMovementIdentifiersPacket(true);
         }
     }
@@ -88,17 +89,18 @@ public class CSyncMovementIdentifiersPacket {
      */
     public static void handle(CSyncMovementIdentifiersPacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get()
-                .enqueueWork(
-                        () -> {
-                            Entity entity = ctx.get().getSender().getLevel().getEntity(msg.getEntityUUID());
-                            if (entity instanceof SWEMHorseEntityBase && entity.hasPassenger(ctx.get().getSender())) {
-                                SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
-                                horse.getEntityData().set(SWEMHorseEntityBase.IS_MOVING_FORWARD, msg.getPacketData().isMovingForward());
-                                horse.getEntityData().set(SWEMHorseEntityBase.IS_MOVING_BACKWARDS, msg.getPacketData().isMovingBackwards());
-                                horse.getEntityData().set(SWEMHorseEntityBase.IS_MOVING_LEFT, msg.getPacketData().isMovingLeft());
-                                horse.getEntityData().set(SWEMHorseEntityBase.IS_MOVING_RIGHT, msg.getPacketData().isMovingRight());
-                            }
-                        });
+            .enqueueWork(
+                () -> {
+                    ServerPlayerEntity player = ctx.get().getSender();
+                    Entity entity = player.getLevel().getEntity(msg.getEntityUUID());
+                    if (entity instanceof SWEMHorseEntityBase && entity.hasPassenger(player)) {
+                        SWEMHorseEntityBase horse = (SWEMHorseEntityBase) entity;
+                        horse.getEntityData().set(SWEMHorseEntityBase.IS_MOVING_FORWARD, msg.getPacketData().isMovingForward());
+                        horse.getEntityData().set(SWEMHorseEntityBase.IS_MOVING_BACKWARDS, msg.getPacketData().isMovingBackwards());
+                        horse.getEntityData().set(SWEMHorseEntityBase.IS_MOVING_LEFT, msg.getPacketData().isMovingLeft());
+                        horse.getEntityData().set(SWEMHorseEntityBase.IS_MOVING_RIGHT, msg.getPacketData().isMovingRight());
+                    }
+                });
         ctx.get().setPacketHandled(true);
     }
 
