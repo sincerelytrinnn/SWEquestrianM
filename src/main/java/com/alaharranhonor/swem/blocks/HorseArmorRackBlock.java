@@ -67,7 +67,7 @@ public class HorseArmorRackBlock extends HorizontalBlock {
             PlayerEntity player,
             Hand handIn,
             BlockRayTraceResult hit) {
-        if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
+        if (handIn == Hand.MAIN_HAND) {
             BlockPos position = pos;
             if (state.getValue(SIDE) == SWEMBlockStateProperties.DoubleBlockSide.RIGHT)
                 position = pos.relative(state.getValue(FACING).getClockWise());
@@ -85,12 +85,14 @@ public class HorseArmorRackBlock extends HorizontalBlock {
                             armorCopy = armor.split(1);
                         }
 
-                        rack.itemHandler.setStackInSlot(0, armorCopy);
-                        worldIn.playSound(
-                                null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 0.5F, 1.0F);
-                        PacketDistributor.TRACKING_CHUNK
-                                .with(() -> rack.getLevel().getChunkAt(rack.getBlockPos()))
-                                .send(rack.getUpdatePacket());
+                        if (!worldIn.isClientSide()) {
+                            rack.itemHandler.setStackInSlot(0, armorCopy);
+                            worldIn.playSound(
+                                    null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 0.5F, 1.0F);
+                            PacketDistributor.TRACKING_CHUNK
+                                    .with(() -> rack.getLevel().getChunkAt(rack.getBlockPos()))
+                                    .send(rack.getUpdatePacket());
+                        }
                         return ActionResultType.sidedSuccess(worldIn.isClientSide);
                     }
                 } else if (player.getItemInHand(handIn).getItem() instanceof AdventureSaddleItem) {
@@ -103,12 +105,15 @@ public class HorseArmorRackBlock extends HorizontalBlock {
                             saddleCopy = saddle.split(1);
                         }
 
-                        rack.itemHandler.setStackInSlot(1, saddleCopy);
-                        worldIn.playSound(
+                        if (!worldIn.isClientSide()) {
+                            rack.itemHandler.setStackInSlot(1, saddleCopy);
+                            worldIn.playSound(
                                 null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 0.5F, 1.0F);
-                        PacketDistributor.TRACKING_CHUNK
+                            PacketDistributor.TRACKING_CHUNK
                                 .with(() -> rack.getLevel().getChunkAt(rack.getBlockPos()))
                                 .send(rack.getUpdatePacket());
+                        }
+
                         return ActionResultType.sidedSuccess(worldIn.isClientSide);
                     }
                 } else {
@@ -129,12 +134,14 @@ public class HorseArmorRackBlock extends HorizontalBlock {
                             worldIn.addFreshEntity(itementity);
                         }
 
-                        rack.itemHandler.setStackInSlot(1, ItemStack.EMPTY);
-                        worldIn.playSound(
+                        if (!worldIn.isClientSide()) {
+                            rack.itemHandler.setStackInSlot(1, ItemStack.EMPTY);
+                            worldIn.playSound(
                                 null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 0.5F, 1.0F);
-                        PacketDistributor.TRACKING_CHUNK
+                            PacketDistributor.TRACKING_CHUNK
                                 .with(() -> rack.getLevel().getChunkAt(rack.getBlockPos()))
                                 .send(rack.getUpdatePacket());
+                        }
                         return ActionResultType.sidedSuccess(worldIn.isClientSide);
 
                     } else if (rack.itemHandler.getStackInSlot(0) != ItemStack.EMPTY
@@ -155,12 +162,14 @@ public class HorseArmorRackBlock extends HorizontalBlock {
                             worldIn.addFreshEntity(itementity);
                         }
 
-                        rack.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
-                        worldIn.playSound(
+                        if (!worldIn.isClientSide()) {
+                            rack.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
+                            worldIn.playSound(
                                 null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 0.5F, 1.0F);
-                        PacketDistributor.TRACKING_CHUNK
+                            PacketDistributor.TRACKING_CHUNK
                                 .with(() -> rack.getLevel().getChunkAt(rack.getBlockPos()))
                                 .send(rack.getUpdatePacket());
+                        }
                         return ActionResultType.sidedSuccess(worldIn.isClientSide);
                     }
                 }
