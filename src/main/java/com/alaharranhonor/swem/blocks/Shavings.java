@@ -98,10 +98,6 @@ public class Shavings extends Block {
         return SHAPES[state.getValue(LAYERS) - 1];
     }
 
-    public boolean useShapeForLightOcclusion(BlockState state) {
-        return true;
-    }
-
     public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
         BlockState blockstate = worldIn.getBlockState(pos.below());
         Block block = blockstate.getBlock();
@@ -186,4 +182,6 @@ public class Shavings extends Block {
             worldIn.addFreshEntity(shavingEntity);
         }
     }
+
+
 }
