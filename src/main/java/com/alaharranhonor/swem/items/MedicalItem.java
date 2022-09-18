@@ -27,8 +27,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 public class MedicalItem extends Item {
-    private float heal;
-    private float xp;
+    private final float heal;
+    private final float xp;
 
     /**
      * Instantiates a new Medical item.
@@ -45,33 +45,31 @@ public class MedicalItem extends Item {
 
     @Override
     public ActionResultType interactLivingEntity(
-            ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-        if (!playerIn.level.isClientSide) {
-            if (target instanceof SWEMHorseEntityBase) {
-                SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
+        ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
 
-                if (horse.getHealth() == horse.getMaxHealth()) {
-                    return ActionResultType.FAIL;
-                }
+        if (target instanceof SWEMHorseEntityBase) {
+            SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
 
-                horse.heal(heal, xp);
-                stack.shrink(1);
-                return ActionResultType.CONSUME;
-            } else {
-                if (target.getType().getCategory() != EntityClassification.CREATURE
-                        && !(target instanceof PlayerEntity)) {
-                    return ActionResultType.FAIL;
-                }
-                if (target.getHealth() == target.getMaxHealth()) {
-                    return ActionResultType.FAIL;
-                }
-
-                target.heal(heal);
-                stack.shrink(1);
-                return ActionResultType.CONSUME;
+            if (horse.getHealth() == horse.getMaxHealth()) {
+                return ActionResultType.FAIL;
             }
+
+            horse.heal(heal, xp);
+            stack.shrink(1);
+            return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
+        } else {
+            if (target.getType().getCategory() != EntityClassification.CREATURE
+                    && !(target instanceof PlayerEntity)) {
+                return ActionResultType.FAIL;
+            }
+            if (target.getHealth() == target.getMaxHealth()) {
+                return ActionResultType.FAIL;
+            }
+
+            target.heal(heal);
+            stack.shrink(1);
+            return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
         }
-        return ActionResultType.PASS;
     }
 
     /**
