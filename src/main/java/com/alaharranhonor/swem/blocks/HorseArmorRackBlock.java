@@ -198,11 +198,19 @@ public class HorseArmorRackBlock extends HorizontalBlock {
     public void playerWillDestroy(
             World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
         if (state.getValue(SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
+            TileEntity te = worldIn.getBlockEntity(pos);
+            if (te instanceof HorseArmorRackTE && !player.abilities.instabuild) {
+                ((HorseArmorRackTE) te).dropItems();
+            }
             worldIn.setBlock(
                     pos.relative(state.getValue(FACING).getCounterClockWise()),
                     Blocks.AIR.defaultBlockState(),
                     3);
         } else {
+            TileEntity te = worldIn.getBlockEntity(pos.relative(state.getValue(FACING).getClockWise()));
+            if (te instanceof HorseArmorRackTE && !player.abilities.instabuild) {
+                ((HorseArmorRackTE) te).dropItems();
+            }
             worldIn.setBlock(
                     pos.relative(state.getValue(FACING).getClockWise()), Blocks.AIR.defaultBlockState(), 3);
         }
@@ -218,9 +226,7 @@ public class HorseArmorRackBlock extends HorizontalBlock {
             BlockState state,
             @Nullable TileEntity te,
             ItemStack stack) {
-        if (te instanceof HorseArmorRackTE && !player.abilities.instabuild) {
-            ((HorseArmorRackTE) te).dropItems();
-        }
+
         super.playerDestroy(worldIn, player, pos, state, te, stack);
     }
 
