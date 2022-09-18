@@ -22,7 +22,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
@@ -93,7 +92,7 @@ public class SpigotBlock extends HorizontalBlock {
 
                 return ActionResultType.sidedSuccess(pLevel.isClientSide());
             } else {
-                pPlayer.displayClientMessage(new StringTextComponent("text.swem.no_usable_water_nearby"), true);
+                pPlayer.displayClientMessage(new TranslationTextComponent("text.swem.no_usable_water_nearby"), true);
                 return ActionResultType.FAIL;
             }
         } else if (checkState.getBlock() instanceof WaterTroughBlock) {
@@ -110,7 +109,7 @@ public class SpigotBlock extends HorizontalBlock {
                 pLevel.playSound(null, pPos, SoundEvents.BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 return ActionResultType.sidedSuccess(pLevel.isClientSide());
             } else {
-                pPlayer.displayClientMessage(new StringTextComponent("text.swem.no_usable_water_nearby"), true);
+                pPlayer.displayClientMessage(new TranslationTextComponent("text.swem.no_usable_water_nearby"), true);
                 return ActionResultType.FAIL;
             }
         }
