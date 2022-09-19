@@ -1,6 +1,7 @@
 {
   "variantIdBuilderMethod": "xaero.common.minimap.render.radar.EntityIconDefinitions.buildVariantIdString",
   "variants": {
+    "swem:textures/entity/horse/coats/salamarty_arishant_cytris.png": "normal_sprite:0_salamarty_arishant_cytris.png",
     "swem:textures/entity/horse/coats/1_v_white.png": "normal_sprite:1_v_white.png",
     "swem:textures/entity/horse/coats/2_v_gray.png": "normal_sprite:2_v_gray.png",
     "swem:textures/entity/horse/coats/3_v_black.png": "normal_sprite:3_v_black.png",
@@ -99,7 +100,7 @@
     "swem:textures/entity/horse/coats/phantom_arishant.png": "normal_sprite:96_phantom_arishant.png",
     "swem:textures/entity/horse/coats/rumble_arishant.png": "normal_sprite:97_rumble_arishant.png",
     "swem:textures/entity/horse/coats/maple_arishant.png": "normal_sprite:98_maple_arishant.png",
-    "swem:textures/entity/horse/coats/baldsabino_arishant.png": "normal_sprite:99_baldsabino_arishant.png",
+    "swem:textures/entity/horse/coats/rivera_arishant.png": "normal_sprite:99_rivera_arishant.png",
     "swem:textures/entity/horse/coats/us_marshall.png": "normal_sprite:100_us_marshall.png",
     "swem:textures/entity/horse/coats/frank_stevecv.png": "normal_sprite:101_frank_stevecv.png",
     "swem:textures/entity/horse/coats/toothbrush_boaty.png": "normal_sprite:102_toothbrush_boaty.png",
@@ -107,6 +108,7 @@
     "swem:textures/entity/horse/coats/annie_lace.png": "normal_sprite:104_annie_lace.png",
     "swem:textures/entity/horse/coats/lady_guinevere_arishant.png": "normal_sprite:105_lady_guinevere_arishant.png",
     "swem:textures/entity/horse/coats/ripple_brooke.png": "normal_sprite:106_ripple_brooke.png",
+    "swem:textures/entity/horse/coats/mia_eric.png": "normal_sprite:107_mia_eric.png",
     "swem:textures/entity/horse/coats/kharema_cytris.png": "normal_sprite:109_kharema_cytris.png",
     "swem:textures/entity/horse/coats/angel_riley.png": "normal_sprite:110_angel_riley.png",
     "swem:textures/entity/horse/coats/lady_jenny.png": "normal_sprite:17351_lady_jenny.png",
