@@ -217,6 +217,13 @@ public class SWEMHorseEntity extends SWEMHorseEntityBase implements IAnimatable 
         }
 
 
+        if (!horse.isOnGround()) {
+            // Leading the horse in the air.
+            // We are not jumping nor flying.
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("StandIdle", true));
+            return PlayState.CONTINUE;
+        }
+
         if (!event.isMoving() && !horse.isBeingMovedByPlayer()) {
             if (animTimer < 2 || (anim != null && event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Walk") || (anim != null && event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Trot")) || (anim != null && event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Canter")) || (anim != null && event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Extended_anter")) || (anim != null && event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("Gallop")) || (anim != null && event.getController().getCurrentAnimation().animationName.equalsIgnoreCase("WalkingBackwards")))) {
 
