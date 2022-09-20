@@ -18,6 +18,7 @@ import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.math.MathHelper;
 
 import static com.alaharranhonor.swem.entities.SWEMHorseEntityBase.JUMP_LEVEL;
 import static com.alaharranhonor.swem.entities.SWEMHorseEntityBase.JUMP_XP;
@@ -80,7 +81,7 @@ public class JumpLeveling implements ILeveling {
      * @param level the level
      */
     public void setLevel(int level) {
-        this.dataManager.set(JUMP_LEVEL, level);
+        this.dataManager.set(JUMP_LEVEL, MathHelper.clamp(level, 0, this.getMaxLevel()));
     }
 
     @Override

@@ -1,3 +1,9 @@
+1.16.5-0.5.0.1:
+- Fix a bug where levels could become negative.
+
+1.16.5-0.5.0.0:
+- Soft release 1.16.5 version
+
 1.16.5-4.2.0-b:
 - Require Geckolib 3.0.86 or higher.
 - reposition rider to not sit in each other.
