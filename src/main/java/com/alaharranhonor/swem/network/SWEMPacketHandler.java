@@ -21,7 +21,7 @@ import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 public class SWEMPacketHandler {
-    private static final String PROTOCOL_VERSION = "4.5.0-b";
+    private static final String PROTOCOL_VERSION = "0.5.1.0";
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(new ResourceLocation(SWEM.MOD_ID, "main"), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
 
     /**
