@@ -6,6 +6,15 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "swem:horse_armor_rack",
+              "properties": {
+                "side": "right"
+              }
+            }
+          ],
           "name": "swem:horse_armor_rack"
         }
       ],
