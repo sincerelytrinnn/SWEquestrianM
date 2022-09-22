@@ -2,9 +2,9 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "swem:blocks/coop_middle",
-		"1": "swem:blocks/coop_middle",
-		"particle": "swem:blocks/coop_middle"
+		"0": "swem:blocks/coop_outer",
+		"1": "swem:blocks/coop_outer",
+		"particle": "swem:blocks/coop_outer"
 	},
 	"groups": [
 		{
@@ -22,9 +22,9 @@
 	"layers": {
 		"solid": {
 			"textures": {
-				"0": "swem:blocks/coop_middle",
-				"1": "swem:blocks/coop_middle",
-				"particle": "swem:blocks/coop_middle"
+				"0": "swem:blocks/coop_outer",
+				"1": "swem:blocks/coop_outer",
+				"particle": "swem:blocks/coop_outer"
 			},
 			"elements": [
 				{
@@ -161,9 +161,9 @@
 		},
 		"translucent": {
 			"textures": {
-				"0": "swem:blocks/coop_middle",
-				"1": "swem:blocks/coop_middle",
-				"particle": "swem:blocks/coop_middle"
+				"0": "swem:blocks/coop_outer",
+				"1": "swem:blocks/coop_outer",
+				"particle": "swem:blocks/coop_outer"
 			},
 			"elements": [
 				{

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "swem:items/pasture_blanket_brown_armored_icon"
+  }
+}

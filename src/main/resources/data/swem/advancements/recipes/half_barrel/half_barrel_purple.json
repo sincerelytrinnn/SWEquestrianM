@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:half_barrel/half_barrel_purple"
+    ]
+  },
+  "criteria": {
+    "has_half_barrels": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:dried_kelp"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:half_barrel/half_barrel_purple"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_half_barrels",
+      "has_the_recipe"
+    ]
+  ]
+}

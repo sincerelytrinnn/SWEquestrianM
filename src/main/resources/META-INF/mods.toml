@@ -1,48 +1,60 @@
-modLoader="javafml" 
+modLoader = "javafml"
 
-loaderVersion="[34,)"
+loaderVersion = "[34,)"
 
-license="LGPL License"
+license = "All Rights Reserved"
 
-issueTrackerURL="http://my.issue.tracker/" 
+issueTrackerURL = "https://github.com/AlaharranHonor/SWEquestrianM/issues"
 
-[[mods]] 
+[[mods]]
 
-modId="swem" 
+modId = "swem"
 
-version="${file.jarVersion}"
+version = "${file.jarVersion}"
 
-displayName="Star Worm Equestrian Mod" 
+displayName = "Star Worm Equestrian Mod"
 
-updateJSONURL="http://myurl.me/" 
+updateJSONURL = "http://myurl.me/"
 
-displayURL="https://alaharranhonor.github.io" 
+displayURL = "https://alaharranhonor.github.io"
 
-logoFile="icon.jpg" 
+logoFile = "icon.jpg"
 
-credits="legenden"
+credits = "legenden"
 
-authors="AlaharranHonor"
+authors = "AlaharranHonor"
 
-description='''
+description = '''
 Minecraft Java 1.16 (Forge) mod called Star Worm Equestrian Mod. The mod is bringing forward a whole new minecraft horse model, 18 horse coat textures, new animations, jumps, level progression, horse armor, tack, fencing, and stable decor ~ among other things.
 '''
 
 [[dependencies.swem]]
-    modId="geckolib3"
-    mandatory=true
-    versionRange="[3.0.35]"
-    ordering="AFTER"
-    side="BOTH"
-[[dependencies.swem]] 
-    modId="forge"
-    mandatory=true
-    versionRange="[36,)"
-    ordering="NONE"
-    side="BOTH"
+modId = "geckolib3"
+mandatory = true
+versionRange = "[3.0.92,)"
+ordering = "AFTER"
+side = "BOTH"
 [[dependencies.swem]]
-    modId="minecraft"
-    mandatory=true
-    versionRange="[1.16.5]"
-    ordering="NONE"
-    side="BOTH"
+modId = "forge"
+mandatory = true
+versionRange = "[36.2.34,)"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.swem]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.16.5]"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.swem]]
+modId = "placeableitems"
+mandatory = false
+versionRange = "[4,]"
+ordering = "AFTER"
+side = "BOTH"
+[[dependencies.swem]]
+modId = "playeranimator"
+mandatory = true
+versionRange = "[0.3.5+1.16.5,)"
+ordering = "NONE"
+side = "BOTH"

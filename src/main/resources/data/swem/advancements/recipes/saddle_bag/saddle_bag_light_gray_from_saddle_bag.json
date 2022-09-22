@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:saddle_bag/saddle_bag_light_gray_from_saddle_bag"
+    ]
+  },
+  "criteria": {
+    "has_saddle_bag": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:refined_leather"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:saddle_bag/saddle_bag_light_gray_from_saddle_bag"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_saddle_bag",
+      "has_the_recipe"
+    ]
+  ]
+}

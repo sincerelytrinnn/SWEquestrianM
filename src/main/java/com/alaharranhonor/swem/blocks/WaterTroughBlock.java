@@ -1,7 +1,20 @@
 package com.alaharranhonor.swem.blocks;
 
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
-import com.alaharranhonor.swem.SWEM;
+import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -22,8 +35,6 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-
-import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -33,327 +44,433 @@ import java.util.Arrays;
 import java.util.List;
 
 public class WaterTroughBlock extends NonParallelBlock {
-	public static final IntegerProperty LEVEL = SWEMBlockStateProperties.LEVEL_0_16;
-	public WaterTroughBlock(Properties properties, DyeColor colour) {
-		super(properties, colour);
-	}
+    public static final IntegerProperty LEVEL = SWEMBlockStateProperties.LEVEL_0_16;
 
-	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return VoxelShapes.box(0.01, 0.01, 0.01, 0.99, 0.99, 0.99);
-	}
+    /**
+     * Instantiates a new Water trough block.
+     *
+     * @param properties the properties
+     * @param colour     the colour
+     */
+    public WaterTroughBlock(Properties properties, DyeColor colour) {
+        super(properties, colour);
+    }
 
-	@Override
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
-	}
+    @Override
+    public VoxelShape getShape(
+            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return VoxelShapes.box(0.01, 0.01, 0.01, 0.99, 0.99, 0.99);
+    }
 
-	@Override
-	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_) {
-		ItemStack itemstack = player.getItemInHand(handIn);
-		if (itemstack.isEmpty()) {
-			return ActionResultType.PASS;
-		} else {
-			int i = state.getValue(LEVEL);
-			Item item = itemstack.getItem();
-			if (item == Items.WATER_BUCKET) {
-				if (i < 16 && !worldIn.isClientSide) {
-					if (!player.abilities.instabuild) {
-						player.setItemInHand(handIn, new ItemStack(Items.BUCKET));
-					}
+    @Override
+    public VoxelShape getCollisionShape(
+            BlockState pState, IBlockReader pLevel, BlockPos pPos, ISelectionContext pContext) {
+        return VoxelShapes.box(0.01, 0.01, 0.01, 0.99, 1.5, 0.99);
+    }
 
-					player.awardStat(Stats.FILL_CAULDRON);
-					this.setWaterLevel(worldIn, pos, state, false);
-					worldIn.playSound((PlayerEntity) null, pos, SoundEvents.BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
-				}
+    @Override
+    public ActionResultType use(
+            BlockState state,
+            World worldIn,
+            BlockPos pos,
+            PlayerEntity player,
+            Hand handIn,
+            BlockRayTraceResult p_225533_6_) {
+        ItemStack itemstack = player.getItemInHand(handIn);
+        if (itemstack.isEmpty()) {
+            return ActionResultType.PASS;
+        } else {
+            int i = state.getValue(LEVEL);
+            Item item = itemstack.getItem();
+            if (item == Items.WATER_BUCKET) {
+                if (i < 16 && !worldIn.isClientSide) {
+                    if (!player.abilities.instabuild) {
+                        player.setItemInHand(handIn, new ItemStack(Items.BUCKET));
+                    }
 
-				return ActionResultType.sidedSuccess(worldIn.isClientSide);
+                    player.awardStat(Stats.FILL_CAULDRON);
+                    this.setWaterLevel(worldIn, pos, state, false);
+                    worldIn.playSound(
+                            null, pos, SoundEvents.BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                }
 
-			} else if (item == Items.BUCKET) {
-				if (i >= 1 && !worldIn.isClientSide) {
-					if (!player.abilities.instabuild) {
-						itemstack.shrink(1);
-						if (itemstack.isEmpty()) {
-							player.setItemInHand(handIn, new ItemStack(Items.WATER_BUCKET));
-						} else if (!player.inventory.add(new ItemStack(Items.WATER_BUCKET))) {
-							player.drop(new ItemStack(Items.WATER_BUCKET), false);
-						}
-					}
+                return ActionResultType.sidedSuccess(worldIn.isClientSide);
 
-					player.awardStat(Stats.USE_CAULDRON);
-					this.setWaterLevel(worldIn, pos, state, true);
-					worldIn.playSound((PlayerEntity) null, pos, SoundEvents.BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-				}
+            } else if (item == Items.BUCKET) {
+                if (i >= 1 && !worldIn.isClientSide) {
+                    if (!player.abilities.instabuild) {
+                        itemstack.shrink(1);
+                        if (itemstack.isEmpty()) {
+                            player.setItemInHand(handIn, new ItemStack(Items.WATER_BUCKET));
+                        } else if (!player.inventory.add(new ItemStack(Items.WATER_BUCKET))) {
+                            player.drop(new ItemStack(Items.WATER_BUCKET), false);
+                        }
+                    }
 
-				return ActionResultType.sidedSuccess(worldIn.isClientSide);
+                    player.awardStat(Stats.USE_CAULDRON);
+                    this.setWaterLevel(worldIn, pos, state, true);
+                    worldIn.playSound(
+                            null, pos, SoundEvents.BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                }
 
-			} else {
-				return ActionResultType.PASS;
-			}
-		}
-	}
+                return ActionResultType.sidedSuccess(worldIn.isClientSide);
 
-	public void setWaterLevel(World worldIn, BlockPos pos, BlockState state, boolean removeWater) {
+            } else {
+                return ActionResultType.PASS;
+            }
+        }
+    }
 
-		ArrayList<BlockState> states = new ArrayList<>();
-		ArrayList<BlockPos> positions = new ArrayList<>();
-		if (state.getValue(PART) == SWEMBlockStateProperties.TwoWay.LEFT) {
-			states = fetchConnectionStates(state, worldIn, pos, true);
-			positions = fetchConnectionPos(state, worldIn, pos, true);
-		} else if (state.getValue(PART) == SWEMBlockStateProperties.TwoWay.RIGHT) {
-			states = fetchConnectionStates(state, worldIn, pos, false);
-			positions = fetchConnectionPos(state, worldIn, pos, false);
-		} else if (state.getValue(PART) == SWEMBlockStateProperties.TwoWay.MIDDLE) {
-			states = fetchConnectionStatesFromMiddle(state, worldIn, pos);
-			positions = fetchConnectionPosFromMiddle(state, worldIn, pos);
-		} else if (state.getValue(PART) == SWEMBlockStateProperties.TwoWay.SINGLE) {
-			states.add(state);
-			positions.add(pos);
-		}
+    /**
+     * Sets water level.
+     *
+     * @param worldIn     the world in
+     * @param pos         the pos
+     * @param state       the state
+     * @param removeWater the remove water
+     */
+    public void setWaterLevel(World worldIn, BlockPos pos, BlockState state, boolean removeWater) {
 
+        ArrayList<BlockState> states = new ArrayList<>();
+        ArrayList<BlockPos> positions = new ArrayList<>();
+        if (state.getValue(PART) == SWEMBlockStateProperties.TwoWay.LEFT) {
+            states = fetchConnectionStates(state, worldIn, pos, true);
+            positions = fetchConnectionPos(state, worldIn, pos, true);
+        } else if (state.getValue(PART) == SWEMBlockStateProperties.TwoWay.RIGHT) {
+            states = fetchConnectionStates(state, worldIn, pos, false);
+            positions = fetchConnectionPos(state, worldIn, pos, false);
+        } else if (state.getValue(PART) == SWEMBlockStateProperties.TwoWay.MIDDLE) {
+            states = fetchConnectionStatesFromMiddle(state, worldIn, pos);
+            positions = fetchConnectionPosFromMiddle(state, worldIn, pos);
+        } else if (state.getValue(PART) == SWEMBlockStateProperties.TwoWay.SINGLE) {
+            states.add(state);
+            positions.add(pos);
+        }
 
-		int levelToAdd = 16 / states.size() / 4;
-		int setLevel = state.getValue(LEVEL);
-		if (states.size() == 1 && (setLevel != 0 && setLevel != 4 && setLevel != 8 && setLevel != 12 && setLevel != 16)) {
-			setLevel = setLevel > 12 ? 12 : setLevel > 8 ? 8 : setLevel > 4 ? 4 : 0;
-		}
+        int levelToAdd = 16 / states.size() / 4;
+        int setLevel = state.getValue(LEVEL);
+        if (states.size() == 1
+                && (setLevel != 0 && setLevel != 4 && setLevel != 8 && setLevel != 12 && setLevel != 16)) {
+            setLevel = setLevel > 12 ? 12 : setLevel > 8 ? 8 : setLevel > 4 ? 4 : 0;
+        }
 
-		if (states.size() == 3) {
-			levelToAdd = worldIn.getRandom().nextInt(2) + 1;
-		}
+        if (states.size() == 3) {
+            levelToAdd = worldIn.getRandom().nextInt(2) + 1;
+        }
 
-		setLevel += removeWater ? -levelToAdd : levelToAdd;
+        setLevel += removeWater ? -levelToAdd : levelToAdd;
 
-		System.out.println("Added " + levelToAdd + " water.");
+        for (int i = 0; i < states.size(); i++) {
+            worldIn.setBlock(
+                    positions.get(i), states.get(i).setValue(LEVEL, MathHelper.clamp(setLevel, 0, 16)), 19);
+        }
+    }
 
-		for (int i = 0; i < states.size(); i++) {
-			worldIn.setBlock(positions.get(i), states.get(i).setValue(LEVEL, MathHelper.clamp(setLevel, 0, 16)), 3);
-		}
+    /**
+     * Split water.
+     *
+     * @param state   the state
+     * @param worldIn the world in
+     * @param pos     the pos
+     */
+    private void splitWater(BlockState state, World worldIn, BlockPos pos) {
+        // Count how many connections we have based on the blockstate
+        ArrayList<BlockState> states = new ArrayList<>();
+        ArrayList<BlockPos> positions = new ArrayList<>();
+        int waterLevelInCloseWT = 0;
+        if (state.getValue(PART) == SWEMBlockStateProperties.TwoWay.LEFT) {
+            states = fetchConnectionStates(state, worldIn, pos, true);
+            positions = fetchConnectionPos(state, worldIn, pos, true);
+            waterLevelInCloseWT = states.get(0).getValue(LEVEL);
+        } else if (state.getValue(PART) == SWEMBlockStateProperties.TwoWay.RIGHT) {
+            BlockPos offset = pos.relative(state.getValue(FACING).getCounterClockWise());
+            states = fetchConnectionStates(worldIn.getBlockState(offset), worldIn, offset, false);
+            positions = fetchConnectionPos(worldIn.getBlockState(offset), worldIn, offset, false);
+            waterLevelInCloseWT = states.get(0).getValue(LEVEL);
+        } else if (state.getValue(PART) == SWEMBlockStateProperties.TwoWay.MIDDLE) {
+            states = fetchConnectionStatesFromMiddle(state, worldIn, pos);
+            positions = fetchConnectionPosFromMiddle(state, worldIn, pos);
+            waterLevelInCloseWT = states.get(0).getValue(LEVEL);
+        }
+        // Find out how much water is in the on nearby.
 
+        // Use the same logic as for placing to determine how much water needs to be added and removed.
 
-	}
+        states.add(state);
+        positions.add(pos);
 
-	private void splitWater(BlockState state, World worldIn, BlockPos pos) {
-		// Count how many connections we have based on the blockstate
-		ArrayList<BlockState> states = new ArrayList<>();
-		ArrayList<BlockPos> positions = new ArrayList<>();
-		int waterLevelInCloseWT = 0;
-		if (state.getValue(PART) == SWEMBlockStateProperties.TwoWay.LEFT) {
-			states = fetchConnectionStates(state, worldIn, pos, true);
-			positions = fetchConnectionPos(state, worldIn, pos, true);
-			waterLevelInCloseWT = states.get(0).getValue(LEVEL);
-		} else if (state.getValue(PART) == SWEMBlockStateProperties.TwoWay.RIGHT) {
-			BlockPos offset = pos.relative(state.getValue(FACING).getCounterClockWise());
-			states = fetchConnectionStates(worldIn.getBlockState(offset), worldIn, offset, false);
-			positions = fetchConnectionPos(worldIn.getBlockState(offset), worldIn, offset, false);
-			waterLevelInCloseWT = states.get(0).getValue(LEVEL);
-		} else if (state.getValue(PART) == SWEMBlockStateProperties.TwoWay.MIDDLE) {
-			states = fetchConnectionStatesFromMiddle(state, worldIn, pos);
-			positions = fetchConnectionPosFromMiddle(state, worldIn, pos);
-			waterLevelInCloseWT = states.get(0).getValue(LEVEL);
-		}
-		// Find out how much water is in the on nearby.
+        int levelToAdd = 16 / states.size() / 4;
 
-		// Use the same logic as for placing to determine how much water needs to be added and removed.
+        int setLevel = states.get(0).getValue(LEVEL);
 
+        int average = 0;
+        int actualConnectionSize = (states.size() - 1);
+        if (actualConnectionSize > 1) {
+            average = setLevel / actualConnectionSize;
+        } else {
+            average = setLevel / 2;
+        }
 
-		states.add(state);
-		positions.add(pos);
+        // Loops over the states that are already in the world.
+        for (int i = 0; i < states.size(); i++) {
+            worldIn.setBlock(
+                    positions.get(i),
+                    states.get(i).setValue(LEVEL, MathHelper.clamp(setLevel - average, 0, 16)),
+                    3);
+        }
+    }
 
-		int levelToAdd = 16 / states.size() / 4;
+    /**
+     * Count connections from left int.
+     *
+     * @param state the state
+     * @param world the world
+     * @param pos   the pos
+     * @return the int
+     */
+    private int countConnectionsFromLeft(BlockState state, IWorldReader world, BlockPos pos) {
 
+        Direction dir = state.getValue(HorizontalBlock.FACING);
+        int connections = 0;
+        for (int i = 1; i < 5; i++) {
+            BlockState checkState = world.getBlockState(pos.relative(dir.getClockWise(), i));
+            if (checkState.getBlock() != SWEMBlocks.WATER_TROUGH.get()) {
+                break;
+            }
+            if (checkState.getValue(NonParallelBlock.PART) != SWEMBlockStateProperties.TwoWay.RIGHT) {
+                connections++;
+            } else if (checkState.getValue(NonParallelBlock.PART)
+                    == SWEMBlockStateProperties.TwoWay.RIGHT) {
+                connections++;
+                break;
+            } else {
+                break;
+            }
+        }
+        return connections;
+    }
 
-		int setLevel = states.get(0).getValue(LEVEL);
+    /**
+     * Fetch connection pos from middle array list.
+     *
+     * @param state the state
+     * @param world the world
+     * @param pos   the pos
+     * @return the array list
+     */
+    private ArrayList<BlockPos> fetchConnectionPosFromMiddle(
+            BlockState state, IWorldReader world, BlockPos pos) {
+        Direction dir = state.getValue(FACING);
+        BlockState checkState = world.getBlockState(pos.relative(dir.getCounterClockWise(), 1));
+        if ((checkState.getBlock() instanceof WaterTroughBlock)
+                && checkState.getValue(PART) == SWEMBlockStateProperties.TwoWay.LEFT) {
+            return fetchConnectionPos(
+                    checkState, world, pos.relative(dir.getCounterClockWise(), 1), true);
+        }
+        checkState = world.getBlockState(pos.relative(dir.getClockWise(), 1));
+        if ((checkState.getBlock() instanceof WaterTroughBlock)
+                && checkState.getValue(PART) == SWEMBlockStateProperties.TwoWay.RIGHT) {
+            return fetchConnectionPos(checkState, world, pos.relative(dir.getClockWise(), 1), false);
+        }
 
-		int average = 0;
-		int actualConnectionSize = (states.size() - 1);
-		if (actualConnectionSize > 1) {
-			average = setLevel / actualConnectionSize;
-		} else {
-			average = setLevel / 2;
-		}
+        return new ArrayList<>();
+    }
 
-		// Loops over the states that are already in the world.
-		for (int i = 0; i < states.size(); i++) {
-			worldIn.setBlock(positions.get(i), states.get(i).setValue(LEVEL, MathHelper.clamp(setLevel - average, 0, 16)), 3);
-		}
+    /**
+     * Fetch connection states from middle array list.
+     *
+     * @param state the state
+     * @param world the world
+     * @param pos   the pos
+     * @return the array list
+     */
+    private ArrayList<BlockState> fetchConnectionStatesFromMiddle(
+            BlockState state, IWorldReader world, BlockPos pos) {
+        Direction dir = state.getValue(FACING);
+        BlockState checkState = world.getBlockState(pos.relative(dir.getCounterClockWise(), 1));
+        if ((checkState.getBlock() instanceof WaterTroughBlock)
+                && checkState.getValue(PART) == SWEMBlockStateProperties.TwoWay.LEFT) {
+            return fetchConnectionStates(
+                    checkState, world, pos.relative(dir.getCounterClockWise(), 1), true);
+        }
+        checkState = world.getBlockState(pos.relative(dir.getClockWise(), 1));
+        if ((checkState.getBlock() instanceof WaterTroughBlock)
+                && checkState.getValue(PART) == SWEMBlockStateProperties.TwoWay.RIGHT) {
+            return fetchConnectionStates(checkState, world, pos.relative(dir.getClockWise(), 1), false);
+        }
 
-	}
+        return new ArrayList<>();
+    }
 
-	private int countConnectionsFromLeft(BlockState state, IWorldReader world, BlockPos pos) {
+    /**
+     * Fetch connection states array list.
+     *
+     * @param state    the state
+     * @param world    the world
+     * @param pos      the pos
+     * @param fromLeft the from left
+     * @return the array list
+     */
+    private ArrayList<BlockState> fetchConnectionStates(
+            BlockState state, IWorldReader world, BlockPos pos, boolean fromLeft) {
+        ArrayList<BlockState> states = new ArrayList<>();
+        Direction dir = state.getValue(HorizontalBlock.FACING);
+        for (int i = 0; i < 5; i++) {
+            BlockState checkState =
+                    world.getBlockState(
+                            pos.relative(fromLeft ? dir.getClockWise() : dir.getCounterClockWise(), i));
+            if (checkState.isAir()) {
+                break;
+            }
+            if (!(checkState.getBlock() instanceof WaterTroughBlock)) break;
+            if (checkState.getValue(FACING).getAxis() != state.getValue(FACING).getAxis()) break;
+            if (checkState.getValue(NonParallelBlock.PART)
+                    != (fromLeft
+                    ? SWEMBlockStateProperties.TwoWay.RIGHT
+                    : SWEMBlockStateProperties.TwoWay.LEFT)) {
+                states.add(checkState);
+            } else if (checkState.getValue(NonParallelBlock.PART)
+                    == (fromLeft
+                    ? SWEMBlockStateProperties.TwoWay.RIGHT
+                    : SWEMBlockStateProperties.TwoWay.LEFT)) {
+                states.add(checkState);
+                break;
+            } else {
+                break;
+            }
+        }
+        return states;
+    }
 
-		Direction dir = state.getValue(HorizontalBlock.FACING);
-		int connections = 0;
-		for (int i = 1; i < 5; i++) {
-			BlockState checkState = world.getBlockState(pos.relative(dir.getClockWise(), i));
-			if (checkState.isAir()) {
-				break;
-			}
-			if (checkState.getValue(NonParallelBlock.PART) != SWEMBlockStateProperties.TwoWay.RIGHT) {
-				connections++;
-			} else if (checkState.getValue(NonParallelBlock.PART) == SWEMBlockStateProperties.TwoWay.RIGHT){
-				connections++;
-				break;
-			} else {
-				break;
-			}
-		}
-		System.out.println(connections);
-		return connections;
+    /**
+     * Fetch connection pos array list.
+     *
+     * @param state    the state
+     * @param world    the world
+     * @param pos      the pos
+     * @param fromLeft the from left
+     * @return the array list
+     */
+    private ArrayList<BlockPos> fetchConnectionPos(
+            BlockState state, IWorldReader world, BlockPos pos, boolean fromLeft) {
 
-	}
+        ArrayList<BlockPos> positions = new ArrayList<>();
+        Direction dir = state.getValue(HorizontalBlock.FACING);
+        for (int i = 0; i < 5; i++) {
+            BlockPos checkPos =
+                    pos.relative(fromLeft ? dir.getClockWise() : dir.getCounterClockWise(), i);
+            BlockState checkState = world.getBlockState(checkPos);
+            if (checkState.isAir()) {
+                break;
+            }
+            if (!(checkState.getBlock() instanceof WaterTroughBlock)) break;
+            if (checkState.getValue(FACING).getAxis() != state.getValue(FACING).getAxis()) break;
+            if (checkState.getValue(NonParallelBlock.PART)
+                    != (fromLeft
+                    ? SWEMBlockStateProperties.TwoWay.RIGHT
+                    : SWEMBlockStateProperties.TwoWay.LEFT)) {
+                positions.add(checkPos);
+            } else if (checkState.getValue(NonParallelBlock.PART)
+                    == (fromLeft
+                    ? SWEMBlockStateProperties.TwoWay.RIGHT
+                    : SWEMBlockStateProperties.TwoWay.LEFT)) {
+                positions.add(checkPos);
+                break;
+            } else {
+                break;
+            }
+        }
+        return positions;
+    }
 
-	private ArrayList<BlockPos> fetchConnectionPosFromMiddle(BlockState state, IWorldReader world, BlockPos pos) {
-		Direction dir = state.getValue(FACING);
-		BlockState checkState = world.getBlockState(pos.relative(dir.getCounterClockWise(), 1));
-		if ((checkState.getBlock() instanceof WaterTroughBlock) && checkState.getValue(PART) == SWEMBlockStateProperties.TwoWay.LEFT) {
-			return fetchConnectionPos(checkState, world, pos.relative(dir.getCounterClockWise(), 1), true);
-		}
-		checkState = world.getBlockState(pos.relative(dir.getClockWise(), 1));
-		if ((checkState.getBlock() instanceof WaterTroughBlock) && checkState.getValue(PART) == SWEMBlockStateProperties.TwoWay.RIGHT) {
-			return fetchConnectionPos(checkState, world, pos.relative(dir.getClockWise(), 1), false);
-		}
+    /**
+     * Count connections from right int.
+     *
+     * @param state the state
+     * @param world the world
+     * @param pos   the pos
+     * @return the int
+     */
+    private int countConnectionsFromRight(BlockState state, IWorldReader world, BlockPos pos) {
+        Direction dir = state.getValue(HorizontalBlock.FACING);
+        int connections = 0;
+        for (int i = 1; i < 5; i++) {
+            BlockState checkState = world.getBlockState(pos.relative(dir.getCounterClockWise(), i));
+            if (checkState.getBlock() != SWEMBlocks.WATER_TROUGH.get()) {
+                break;
+            }
+            if (checkState.getValue(NonParallelBlock.PART) != SWEMBlockStateProperties.TwoWay.LEFT) {
+                connections++;
+            } else if (checkState.getValue(NonParallelBlock.PART)
+                    == SWEMBlockStateProperties.TwoWay.LEFT) {
+                connections++;
+                break;
+            } else {
+                break;
+            }
+        }
 
-		return new ArrayList<>();
-	}
+        return connections;
+    }
 
-	private ArrayList<BlockState> fetchConnectionStatesFromMiddle(BlockState state, IWorldReader world, BlockPos pos) {
-		Direction dir = state.getValue(FACING);
-		BlockState checkState = world.getBlockState(pos.relative(dir.getCounterClockWise(), 1));
-		if ((checkState.getBlock() instanceof WaterTroughBlock) && checkState.getValue(PART) == SWEMBlockStateProperties.TwoWay.LEFT) {
-			return fetchConnectionStates(checkState, world, pos.relative(dir.getCounterClockWise(), 1), true);
-		}
-		checkState = world.getBlockState(pos.relative(dir.getClockWise(), 1));
-		if ((checkState.getBlock() instanceof WaterTroughBlock) && checkState.getValue(PART) == SWEMBlockStateProperties.TwoWay.RIGHT) {
-			return fetchConnectionStates(checkState, world, pos.relative(dir.getClockWise(), 1), false);
-		}
+    @Override
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(FACING, PART, LEVEL);
+    }
 
-		return new ArrayList<>();
-	}
+    @Override
+    public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos) {
+        // Check the facing, then check counter clockwise and clockwise directiosn, and offset on the
+        // blockpos.
+        // IF we encounter a Left piece, we count connections going from the left (current method)
+        // If we encounter a Right piece, we count connections going from theright (seperate method).
+        // If the connections, are 4, return false, to deny placement.
 
-	private ArrayList<BlockState> fetchConnectionStates(BlockState state, IWorldReader world, BlockPos pos, boolean fromLeft) {
-		ArrayList<BlockState> states = new ArrayList<>();
-		Direction dir = state.getValue(HorizontalBlock.FACING);
-		for (int i = 0;i < 5; i++) {
-			BlockState checkState = world.getBlockState(pos.relative(fromLeft ? dir.getClockWise() : dir.getCounterClockWise(), i));
-			if (checkState.isAir()) {
-				break;
-			}
-			if (checkState.getValue(NonParallelBlock.PART) != (fromLeft ? SWEMBlockStateProperties.TwoWay.RIGHT : SWEMBlockStateProperties.TwoWay.LEFT)) {
-				states.add(checkState);
-			} else if (checkState.getValue(NonParallelBlock.PART) == (fromLeft ? SWEMBlockStateProperties.TwoWay.RIGHT : SWEMBlockStateProperties.TwoWay.LEFT)) {
-				states.add(checkState);
-				break;
-			} else {
-				break;
-			}
-		}
-		return states;
-	}
+        Direction facing = state.getValue(FACING);
+        BlockState checkLeft = world.getBlockState(pos.relative(facing.getClockWise()));
+        BlockState checkRight = world.getBlockState(pos.relative(facing.getCounterClockWise()));
+        BlockState checkStraight = world.getBlockState(pos.relative(facing));
+        BlockState checkBehind = world.getBlockState(pos.relative(facing.getOpposite()));
 
-	private ArrayList<BlockPos> fetchConnectionPos(BlockState state, IWorldReader world, BlockPos pos, boolean fromLeft) {
+        List<BlockState> states = Arrays.asList(checkLeft, checkRight, checkStraight, checkBehind);
 
-		ArrayList<BlockPos> positions = new ArrayList<>();
-		Direction dir = state.getValue(HorizontalBlock.FACING);
-		for (int i = 0;i < 5; i++) {
-			BlockPos checkPos = pos.relative(fromLeft ? dir.getClockWise() : dir.getCounterClockWise(), i);
-			BlockState checkState = world.getBlockState(checkPos);
-			if (checkState.isAir()) {
-				break;
-			}
-			if (checkState.getValue(NonParallelBlock.PART) != (fromLeft ? SWEMBlockStateProperties.TwoWay.RIGHT : SWEMBlockStateProperties.TwoWay.LEFT)) {
-				positions.add(checkPos);
-			} else if (checkState.getValue(NonParallelBlock.PART) == (fromLeft ? SWEMBlockStateProperties.TwoWay.RIGHT : SWEMBlockStateProperties.TwoWay.LEFT)){
-				positions.add(checkPos);
-				break;
-			} else {
-				break;
-			}
-		}
-		return positions;
-	}
+        for (BlockState checkState : states) {
+            if (!checkState.isAir() && checkState.getBlock() instanceof WaterTroughBlock) {
+                int connections = 0;
+                if (checkState.getValue(PART) == SWEMBlockStateProperties.TwoWay.LEFT) {
+                    connections += countConnectionsFromLeft(checkState, world, pos);
+                } else if (checkState.getValue(PART) == SWEMBlockStateProperties.TwoWay.RIGHT) {
+                    connections += countConnectionsFromRight(checkState, world, pos);
+                }
 
+                if (connections >= 4) {
+                    return false;
+                }
+            }
+        }
 
+        return (!(checkLeft.getBlock() instanceof WaterTroughBlock)
+                || !(checkRight.getBlock() instanceof WaterTroughBlock))
+                || ((checkLeft.getValue(PART) != SWEMBlockStateProperties.TwoWay.LEFT
+                || checkRight.getValue(PART) != SWEMBlockStateProperties.TwoWay.RIGHT)
+                && (checkLeft.getValue(PART) != SWEMBlockStateProperties.TwoWay.LEFT
+                || checkRight.getValue(PART) != SWEMBlockStateProperties.TwoWay.SINGLE)
+                && (checkLeft.getValue(PART) != SWEMBlockStateProperties.TwoWay.SINGLE
+                || checkRight.getValue(PART) != SWEMBlockStateProperties.TwoWay.RIGHT));
 
-	private int countConnectionsFromRight(BlockState state, IWorldReader world, BlockPos pos) {
-		Direction dir = state.getValue(HorizontalBlock.FACING);
-		int connections = 0;
-		for (int i = 1; i < 5; i++) {
-			BlockState checkState = world.getBlockState(pos.relative(dir.getCounterClockWise(), i));
-			if (checkState.isAir()) {
-				break;
-			}
-			if (checkState.getValue(NonParallelBlock.PART) != SWEMBlockStateProperties.TwoWay.LEFT) {
-				connections++;
-			} else if (checkState.getValue(NonParallelBlock.PART) == SWEMBlockStateProperties.TwoWay.LEFT){
-				connections++;
-				break;
-			} else {
-				break;
-			}
-		}
+        // It can be placed, so split the water out.
+    }
 
-		System.out.println(connections);
-		return connections;
-
-	}
-
-	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(FACING, PART, LEVEL);
-	}
-
-	@Override
-	public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos) {
-		// Check the facing, then check counter clockwise and clockwise directiosn, and offset on the blockpos.
-		// IF we encounter a Left piece, we count connections going from the left (current method)
-		// If we encounter a Right piece, we count connections going from theright (seperate method).
-		// If the connections, are 4, return false, to deny placement.
-
-		Direction facing = state.getValue(FACING);
-		BlockState checkLeft = world.getBlockState(pos.relative(facing.getClockWise()));
-		BlockState checkRight = world.getBlockState(pos.relative(facing.getCounterClockWise()));
-		BlockState checkStraight = world.getBlockState(pos.relative(facing));
-		BlockState checkBehind = world.getBlockState(pos.relative(facing.getOpposite()));
-
-		List<BlockState> states = Arrays.asList(checkLeft, checkRight, checkStraight, checkBehind);
-
-		for (BlockState checkState : states) {
-			if (!checkState.isAir() && checkState.getBlock() instanceof WaterTroughBlock) {
-				int connections = 0;
-				if (checkState.getValue(PART) == SWEMBlockStateProperties.TwoWay.LEFT) {
-					connections += countConnectionsFromLeft(checkState, world, pos);
-				} else if (checkState.getValue(PART) == SWEMBlockStateProperties.TwoWay.RIGHT) {
-					connections += countConnectionsFromRight(checkState, world, pos);
-				}
-
-
-
-				if (connections >= 4) {
-					return false;
-				}
-			}
-		}
-
-
-		if ((checkLeft.getBlock() instanceof WaterTroughBlock && checkRight.getBlock() instanceof WaterTroughBlock)
-			&& ((checkLeft.getValue(PART) == SWEMBlockStateProperties.TwoWay.LEFT && checkRight.getValue(PART) == SWEMBlockStateProperties.TwoWay.RIGHT)
-			|| (checkLeft.getValue(PART) == SWEMBlockStateProperties.TwoWay.LEFT && checkRight.getValue(PART) == SWEMBlockStateProperties.TwoWay.SINGLE)
-			|| (checkLeft.getValue(PART) == SWEMBlockStateProperties.TwoWay.SINGLE && checkRight.getValue(PART) == SWEMBlockStateProperties.TwoWay.RIGHT)
-		)) {
-			return false;
-		}
-
-
-		// It can be placed, so split the water out.
-
-		return true;
-	}
-
-	@Override
-	public void setPlacedBy(World pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
-		super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
-		this.splitWater(pState, pLevel, pPos);
-
-	}
+    @Override
+    public void setPlacedBy(
+            World pLevel,
+            BlockPos pPos,
+            BlockState pState,
+            @Nullable LivingEntity pPlacer,
+            ItemStack pStack) {
+        super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
+        if (pState.getValue(LEVEL) > 0) {
+            this.splitWater(pState, pLevel, pPos);
+        }
+    }
 }

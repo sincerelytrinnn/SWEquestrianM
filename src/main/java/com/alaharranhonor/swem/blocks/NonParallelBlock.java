@@ -1,7 +1,23 @@
 package com.alaharranhonor.swem.blocks;
 
-import com.alaharranhonor.swem.util.registry.SWEMBlocks;
-import net.minecraft.block.*;
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.material.PushReaction;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.DyeColor;
 import net.minecraft.state.EnumProperty;
@@ -16,165 +32,237 @@ import net.minecraft.world.IWorld;
 
 import javax.annotation.Nullable;
 
-
-import net.minecraft.block.AbstractBlock.Properties;
-
-
 // General class, for blocks connecting on all 4 sides and after placement, only on the same axis.
 public class NonParallelBlock extends HorizontalBlock {
 
-	public static final EnumProperty<SWEMBlockStateProperties.TwoWay> PART = SWEMBlockStateProperties.TWO_WAY;
+    public static final EnumProperty<SWEMBlockStateProperties.TwoWay> PART =
+            SWEMBlockStateProperties.TWO_WAY;
 
-	private DyeColor colour;
+    private final DyeColor colour;
 
-	public NonParallelBlock(Properties properties, DyeColor colour) {
-		super(properties);
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(PART, SWEMBlockStateProperties.TwoWay.SINGLE));
-		this.colour = colour;
-	}
+    /**
+     * Instantiates a new Non parallel block.
+     *
+     * @param properties the properties
+     * @param colour     the colour
+     */
+    public NonParallelBlock(Properties properties, DyeColor colour) {
+        super(properties);
+        this.registerDefaultState(
+                this.stateDefinition
+                        .any()
+                        .setValue(FACING, Direction.NORTH)
+                        .setValue(PART, SWEMBlockStateProperties.TwoWay.SINGLE));
+        this.colour = colour;
+    }
 
-	public DyeColor getColour() {
-		return this.colour;
-	}
+    /**
+     * Gets colour.
+     *
+     * @return the colour
+     */
+    public DyeColor getColour() {
+        return this.colour;
+    }
 
-	@Nullable
-	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context) {
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
 
-		// TODO: IF SINGLE CAN CONNECT ON ALL 4 SIDES
-		// TODO: IF NOT SINGLE; ONLY CONNECT TO THE SIDE IT'S ALREADY CONNECTED.
+        // TODO: IF SINGLE CAN CONNECT ON ALL 4 SIDES
+        // TODO: IF NOT SINGLE; ONLY CONNECT TO THE SIDE IT'S ALREADY CONNECTED.
 
-		IBlockReader iblockreader = context.getLevel();
-		BlockPos blockpos = context.getClickedPos();
-		BlockState blockstate = iblockreader.getBlockState(blockpos);
+        IBlockReader iblockreader = context.getLevel();
+        BlockPos blockpos = context.getClickedPos();
+        BlockState blockstate = iblockreader.getBlockState(blockpos);
 
-		BlockPos blockpos1 = context.getClickedPos().relative(context.getHorizontalDirection().getClockWise());
-		BlockPos blockpos2 = context.getClickedPos().relative(context.getHorizontalDirection().getCounterClockWise());
-		BlockPos blockpos3 = context.getClickedPos().relative(context.getHorizontalDirection());
-		BlockPos blockpos4 = context.getClickedPos().relative(context.getHorizontalDirection().getOpposite());
+        BlockPos blockpos1 =
+                context.getClickedPos().relative(context.getHorizontalDirection().getClockWise());
+        BlockPos blockpos2 =
+                context.getClickedPos().relative(context.getHorizontalDirection().getCounterClockWise());
+        BlockPos blockpos3 = context.getClickedPos().relative(context.getHorizontalDirection());
+        BlockPos blockpos4 =
+                context.getClickedPos().relative(context.getHorizontalDirection().getOpposite());
 
+        BlockState blockstate1 = iblockreader.getBlockState(blockpos1);
+        BlockState blockstate2 = iblockreader.getBlockState(blockpos2);
+        BlockState blockstate3 = iblockreader.getBlockState(blockpos3);
+        BlockState blockstate4 = iblockreader.getBlockState(blockpos4);
 
-		BlockState blockstate1 = iblockreader.getBlockState(blockpos1);
-		BlockState blockstate2 = iblockreader.getBlockState(blockpos2);
-		BlockState blockstate3 = iblockreader.getBlockState(blockpos3);
-		BlockState blockstate4 = iblockreader.getBlockState(blockpos4);
+        BlockState standard =
+                this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
 
-		BlockState standard = this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
+        // Check if water has been split
+    /*BlockState checkState = context.getLevel().getBlockState(context.getClickedPos());
+    if (checkState.getBlock() instanceof WaterTroughBlock) {
+    	standard.setValue(WaterTroughBlock.LEVEL, checkState.getValue(WaterTroughBlock.LEVEL));
+    }*/
 
-		// Check if water has been split
-		/*BlockState checkState = context.getLevel().getBlockState(context.getClickedPos());
-		if (checkState.getBlock() instanceof WaterTroughBlock) {
-			standard.setValue(WaterTroughBlock.LEVEL, checkState.getValue(WaterTroughBlock.LEVEL));
-		}*/
+        if (blockstate1.getBlock() == this && blockstate2.getBlock() == this) {
 
+            return blockstate1.getValue(FACING).getAxis() == context.getHorizontalDirection().getAxis()
+                    && blockstate2.getValue(FACING).getAxis()
+                    == context.getHorizontalDirection().getAxis()
+                    ? standard.setValue(PART, SWEMBlockStateProperties.TwoWay.MIDDLE)
+                    : standard;
+        } else if (blockstate1.getBlock() == this) {
+            return blockstate1.getValue(FACING).getAxis() == context.getHorizontalDirection().getAxis()
+                    ? standard.setValue(PART, SWEMBlockStateProperties.TwoWay.LEFT)
+                    : standard;
+        } else if (blockstate2.getBlock() == this) {
+            return blockstate2.getValue(FACING).getAxis() == context.getHorizontalDirection().getAxis()
+                    ? standard.setValue(PART, SWEMBlockStateProperties.TwoWay.RIGHT)
+                    : standard;
+        } else {
+            return standard;
+        }
+    }
 
-		if (blockstate1.getBlock() == this && blockstate2.getBlock() == this) {
+    @Override
+    public BlockState updateShape(
+            BlockState stateIn,
+            Direction facing,
+            BlockState facingState,
+            IWorld worldIn,
+            BlockPos currentPos,
+            BlockPos facingPos) {
 
-			return blockstate1.getValue(FACING).getAxis() == context.getHorizontalDirection().getAxis() && blockstate2.getValue(FACING).getAxis() == context.getHorizontalDirection().getAxis() ? standard.setValue(PART, SWEMBlockStateProperties.TwoWay.MIDDLE) : standard;
-		} else if (blockstate1.getBlock() == this) {
-			return blockstate1.getValue(FACING).getAxis() == context.getHorizontalDirection().getAxis() ? standard.setValue(PART, SWEMBlockStateProperties.TwoWay.LEFT) : standard;
-		} else if (blockstate2.getBlock() == this) {
-			return blockstate2.getValue(FACING).getAxis() == context.getHorizontalDirection().getAxis() ? standard.setValue(PART, SWEMBlockStateProperties.TwoWay.RIGHT) : standard;
-		} else {
-			return standard;
-		}
-	}
+        switch (stateIn.getValue(PART)) {
+            case RIGHT: {
+                if (facing == stateIn.getValue(FACING).getCounterClockWise()) {
+                    if (facingState.isAir()) {
+                        BlockState state = stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.SINGLE);
+                        if (state.getBlock() instanceof WaterTroughBlock) {
+                            state.setValue(
+                                    WaterTroughBlock.LEVEL,
+                                    state.getValue(WaterTroughBlock.LEVEL) > 12
+                                            ? 12
+                                            : state.getValue(WaterTroughBlock.LEVEL) > 8
+                                            ? 8
+                                            : state.getValue(WaterTroughBlock.LEVEL) > 4 ? 4 : 0);
+                        }
+                        return state;
+                    }
+                } else if (facing == stateIn.getValue(FACING).getClockWise()) {
+                    if (facingState.getBlock() == this
+                            && stateIn.getValue(FACING).getAxis() == facingState.getValue(FACING).getAxis()) {
+                        return stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.MIDDLE);
+                    }
+                }
+                break;
+            }
+            case LEFT: {
+                if (facing == stateIn.getValue(FACING).getClockWise()) {
+                    if (facingState.isAir()) {
+                        BlockState state = stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.SINGLE);
+                        if (state.getBlock() instanceof WaterTroughBlock) {
+                            state.setValue(
+                                    WaterTroughBlock.LEVEL,
+                                    state.getValue(WaterTroughBlock.LEVEL) > 12
+                                            ? 12
+                                            : state.getValue(WaterTroughBlock.LEVEL) > 8
+                                            ? 8
+                                            : state.getValue(WaterTroughBlock.LEVEL) > 4 ? 4 : 0);
+                        }
+                        return state;
+                    }
+                } else if (facing == stateIn.getValue(FACING).getCounterClockWise()) {
+                    if (facingState.getBlock() == this
+                            && stateIn.getValue(FACING).getAxis() == facingState.getValue(FACING).getAxis()) {
+                        return stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.MIDDLE);
+                    }
+                }
+                break;
+            }
+            case SINGLE: {
+                if (facing == stateIn.getValue(FACING)) {
+                    if (!(facingState.getBlock() instanceof NonParallelBlock)) {
+                        return stateIn;
+                    }
+                    if (worldIn
+                            .getBlockState(
+                                    currentPos.relative(facingState.getValue(FACING).getCounterClockWise()))
+                            .getBlock()
+                            instanceof NonParallelBlock) {
+                        return stateIn
+                                .setValue(FACING, facingState.getValue(FACING))
+                                .setValue(PART, SWEMBlockStateProperties.TwoWay.RIGHT);
+                    } else if (worldIn
+                            .getBlockState(currentPos.relative(facingState.getValue(FACING).getClockWise()))
+                            .getBlock()
+                            instanceof NonParallelBlock) {
+                        return stateIn
+                                .setValue(FACING, facingState.getValue(FACING))
+                                .setValue(PART, SWEMBlockStateProperties.TwoWay.LEFT);
+                    }
+                } else if (facing == stateIn.getValue(FACING).getOpposite()) {
+                    if (!(facingState.getBlock() instanceof NonParallelBlock)) {
+                        return stateIn;
+                    }
+                    if (worldIn
+                            .getBlockState(
+                                    currentPos.relative(facingState.getValue(FACING).getCounterClockWise()))
+                            .getBlock()
+                            instanceof NonParallelBlock) {
+                        return stateIn
+                                .setValue(FACING, facingState.getValue(FACING))
+                                .setValue(PART, SWEMBlockStateProperties.TwoWay.RIGHT);
+                    } else if (worldIn
+                            .getBlockState(currentPos.relative(facingState.getValue(FACING).getClockWise()))
+                            .getBlock()
+                            instanceof NonParallelBlock) {
+                        return stateIn
+                                .setValue(FACING, facingState.getValue(FACING))
+                                .setValue(PART, SWEMBlockStateProperties.TwoWay.LEFT);
+                    }
+                }
 
+                if (facing == stateIn.getValue(FACING).getClockWise()) {
+                    if (facingState.getBlock() == this
+                            && stateIn.getValue(FACING).getAxis() == facingState.getValue(FACING).getAxis()) {
+                        return stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.LEFT);
+                    }
+                } else if (facing == stateIn.getValue(FACING).getCounterClockWise()) {
+                    if (facingState.getBlock() == this
+                            && stateIn.getValue(FACING).getAxis() == facingState.getValue(FACING).getAxis()) {
+                        return stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.RIGHT);
+                    }
+                }
+                break;
+            }
+            case MIDDLE: {
+                if (facing == stateIn.getValue(FACING).getClockWise()) {
+                    if (facingState.isAir()) {
+                        return stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.RIGHT);
+                    }
+                } else if (facing == stateIn.getValue(FACING).getCounterClockWise()) {
+                    if (facingState.isAir()) {
+                        return stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.LEFT);
+                    }
+                }
+                break;
+            }
+        }
+        return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+    }
 
+    @Override
+    public PushReaction getPistonPushReaction(BlockState pState) {
+        return PushReaction.BLOCK;
+    }
 
-	@Override
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+    @Override
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(FACING, PART);
+    }
 
-		switch (stateIn.getValue(PART)) {
-			case RIGHT: {
-				if (facing == stateIn.getValue(FACING).getCounterClockWise()) {
-					if (facingState.isAir()) {
-						BlockState state = stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.SINGLE);
-						if (state.getBlock() instanceof WaterTroughBlock) {
-							state.setValue(WaterTroughBlock.LEVEL, state.getValue(WaterTroughBlock.LEVEL) > 12 ? 12 : state.getValue(WaterTroughBlock.LEVEL) > 8 ? 8 : state.getValue(WaterTroughBlock.LEVEL) > 4 ? 4 : 0);
-						}
-						return state;
-					}
-				} else if (facing == stateIn.getValue(FACING).getClockWise()) {
-					if (facingState.getBlock() == this && stateIn.getValue(FACING).getAxis() == facingState.getValue(FACING).getAxis()) {
-						return stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.MIDDLE);
-					}
-				}
-				break;
-			}
-			case LEFT: {
-				if (facing == stateIn.getValue(FACING).getClockWise()) {
-					if (facingState.isAir()) {
-						BlockState state = stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.SINGLE);
-						if (state.getBlock() instanceof WaterTroughBlock) {
-							state.setValue(WaterTroughBlock.LEVEL, state.getValue(WaterTroughBlock.LEVEL) > 12 ? 12 : state.getValue(WaterTroughBlock.LEVEL) > 8 ? 8 : state.getValue(WaterTroughBlock.LEVEL) > 4 ? 4 : 0);
-						}
-						return state;
-					}
-				} else if (facing == stateIn.getValue(FACING).getCounterClockWise()) {
-					if (facingState.getBlock() == this && stateIn.getValue(FACING).getAxis() == facingState.getValue(FACING).getAxis()) {
-						return stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.MIDDLE);
-					}
-				}
-				break;
-			}
-			case SINGLE: {
-				if (facing == stateIn.getValue(FACING)) {
-					if (worldIn.getBlockState(currentPos.relative(facingState.getValue(FACING).getCounterClockWise())).getBlock() instanceof NonParallelBlock) {
-						return stateIn.setValue(FACING, facingState.getValue(FACING)).setValue(PART, SWEMBlockStateProperties.TwoWay.RIGHT);
-					} else if (worldIn.getBlockState(currentPos.relative(facingState.getValue(FACING).getClockWise())).getBlock() instanceof NonParallelBlock) {
-						return stateIn.setValue(FACING, facingState.getValue(FACING)).setValue(PART, SWEMBlockStateProperties.TwoWay.LEFT);
-					}
-				} else if (facing == stateIn.getValue(FACING).getOpposite()) {
-					if (!(facingState.getBlock() instanceof NonParallelBlock)) {
-						return stateIn;
-					}
-					if (worldIn.getBlockState(currentPos.relative(facingState.getValue(FACING).getCounterClockWise())).getBlock() instanceof NonParallelBlock) {
-						return stateIn.setValue(FACING, facingState.getValue(FACING)).setValue(PART, SWEMBlockStateProperties.TwoWay.RIGHT);
-					} else if (worldIn.getBlockState(currentPos.relative(facingState.getValue(FACING).getClockWise())).getBlock() instanceof NonParallelBlock) {
-						return stateIn.setValue(FACING, facingState.getValue(FACING)).setValue(PART, SWEMBlockStateProperties.TwoWay.LEFT);
-					}
-				}
-
-				if (facing == stateIn.getValue(FACING).getClockWise()) {
-					if (facingState.getBlock() == this && stateIn.getValue(FACING).getAxis() == facingState.getValue(FACING).getAxis()) {
-						return stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.LEFT);
-					}
-				} else if (facing == stateIn.getValue(FACING).getCounterClockWise()) {
-					if (facingState.getBlock() == this && stateIn.getValue(FACING).getAxis() == facingState.getValue(FACING).getAxis()) {
-						return stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.RIGHT);
-					}
-				}
-				break;
-			}
-			case MIDDLE: {
-				if (facing == stateIn.getValue(FACING).getClockWise()) {
-					if (facingState.isAir()) {
-						return stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.RIGHT);
-					}
-				} else if (facing == stateIn.getValue(FACING).getCounterClockWise()) {
-					if (facingState.isAir()) {
-						return stateIn.setValue(PART, SWEMBlockStateProperties.TwoWay.LEFT);
-					}
-				}
-				break;
-			}
-		}
-		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
-
-	}
-
-	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(FACING, PART);
-	}
-
-	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		if (state.getValue(FACING).getAxis() == Direction.Axis.Z) {
-			return VoxelShapes.box(0.01d, 0.01d, 0.4375d, 0.99d, 0.99d, 0.5625d);
-		} else {
-			return VoxelShapes.box(0.4375d, 0.01d, 0.01d, 0.5625d, 0.99d, 0.99d);
-		}
-	}
+    @Override
+    public VoxelShape getShape(
+            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        if (state.getValue(FACING).getAxis() == Direction.Axis.Z) {
+            return VoxelShapes.box(0.01d, 0.01d, 0.4375d, 0.99d, 0.99d, 0.5625d);
+        } else {
+            return VoxelShapes.box(0.4375d, 0.01d, 0.01d, 0.5625d, 0.99d, 0.99d);
+        }
+    }
 }

@@ -3,9 +3,9 @@
   "group": "bow",
   "pattern":
   [
-    "xy ",
-	" z ",
-	"xy "
+    "xx ",
+	" y ",
+	"xx "
   ],
   "key":
   {
@@ -14,10 +14,6 @@
       "item": "swem:gold_rivet"
     },
 	"y":
-    {
-      "item": "swem:gold_plate"
-    },
-	"z":
     {
       "item": "swem:iron_bow"
     }

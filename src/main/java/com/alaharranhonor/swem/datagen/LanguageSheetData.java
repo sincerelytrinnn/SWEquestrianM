@@ -1,19 +1,48 @@
 package com.alaharranhonor.swem.datagen;
 
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 public class LanguageSheetData {
-	private String range;
-	private String majorDimension;
-	private String[][] values;
+    private String range;
+    private String majorDimension;
+    private String[][] values;
 
-	public String getRange() {
-		return range;
-	}
+    /**
+     * Gets range.
+     *
+     * @return the range
+     */
+    public String getRange() {
+        return range;
+    }
 
-	public String getMajorDimension() {
-		return majorDimension;
-	}
+    /**
+     * Gets major dimension.
+     *
+     * @return the major dimension
+     */
+    public String getMajorDimension() {
+        return majorDimension;
+    }
 
-	public String[][] getValues() {
-		return values;
-	}
+    /**
+     * Get values string [ ] [ ].
+     *
+     * @return the string [ ] [ ]
+     */
+    public String[][] getValues() {
+        return values;
+    }
 }

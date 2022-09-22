@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:diamond_bow"
+    ]
+  },
+  "criteria": {
+    "has_gold_bow": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:gold_bow"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:diamond_bow"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_gold_bow",
+      "has_the_recipe"
+    ]
+  ]
+}

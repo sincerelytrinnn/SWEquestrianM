@@ -1,6 +1,9 @@
 {
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "swem:items/pitchfork"
+  "loader": "forge:separate-perspective",
+  "gui_light": "front",
+  "base": {"parent":"swem:item/pitchfork_model"},
+  "perspectives": {
+    "gui": {"parent": "swem:item/pitchfork_inv"},
+    "fixed": {"parent": "swem:item/pitchfork_inv"}
   }
 }

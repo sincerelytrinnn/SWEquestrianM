@@ -1,0 +1,50 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "facing=north,type=single": {
+      "model": "swem:block/tack_box_single_orange"
+    },
+    "facing=south,type=single": {
+      "model": "swem:block/tack_box_single_orange",
+      "y": 180
+    },
+    "facing=west,type=single": {
+      "model": "swem:block/tack_box_single_orange",
+      "y": 270
+    },
+    "facing=east,type=single": {
+      "model": "swem:block/tack_box_single_orange",
+      "y": 90
+    },
+    "facing=north,type=left": {
+      "model": "swem:block/tack_box_left_orange"
+    },
+    "facing=south,type=left": {
+      "model": "swem:block/tack_box_left_orange",
+      "y": 180
+    },
+    "facing=west,type=left": {
+      "model": "swem:block/tack_box_left_orange",
+      "y": 270
+    },
+    "facing=east,type=left": {
+      "model": "swem:block/tack_box_left_orange",
+      "y": 90
+    },
+    "facing=north,type=right": {
+      "model": "swem:block/tack_box_right_orange"
+    },
+    "facing=south,type=right": {
+      "model": "swem:block/tack_box_right_orange",
+      "y": 180
+    },
+    "facing=west,type=right": {
+      "model": "swem:block/tack_box_right_orange",
+      "y": 270
+    },
+    "facing=east,type=right": {
+      "model": "swem:block/tack_box_right_orange",
+      "y": 90
+    }
+  }
+}

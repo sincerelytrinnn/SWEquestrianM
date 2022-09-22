@@ -1,30 +1,46 @@
 package com.alaharranhonor.swem;
 
-import com.alaharranhonor.swem.blocks.TimothyGrass;
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+import com.alaharranhonor.swem.blocks.TimothyPlant;
+import com.alaharranhonor.swem.capability.CapabilityHandler;
 import com.alaharranhonor.swem.config.ConfigHolder;
-import com.alaharranhonor.swem.entities.PoopEntity;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import com.alaharranhonor.swem.items.potions.BrewingRecipes;
+import com.alaharranhonor.swem.integration.placeableitems.PlaceableItemsInit;
+import com.alaharranhonor.swem.items.potions.PotionItemBrewingRecipe;
 import com.alaharranhonor.swem.network.SWEMPacketHandler;
-import com.alaharranhonor.swem.entities.WormieBoiEntity;
-import com.alaharranhonor.swem.util.RegistryHandler;
-import com.alaharranhonor.swem.util.SWLRegistryHandler;
-import com.alaharranhonor.swem.util.registry.SWEMBlocks;
-import com.alaharranhonor.swem.util.registry.SWEMEntities;
-import com.alaharranhonor.swem.util.registry.SWEMItems;
-import com.alaharranhonor.swem.util.registry.SWEMStructure;
+import com.alaharranhonor.swem.util.data.HorseData;
+import com.alaharranhonor.swem.util.registry.*;
 import com.alaharranhonor.swem.world.structure.SWEMConfiguredStructures;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import com.mojang.serialization.Codec;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.WoodType;
-import net.minecraft.client.renderer.Atlases;
-import net.minecraft.client.renderer.entity.VillagerRenderer;
-import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.*;
-import net.minecraft.network.play.ServerPlayNetHandler;
+import net.minecraft.potion.Potions;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.FlatChunkGenerator;
@@ -32,6 +48,7 @@ import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.settings.DimensionStructuresSettings;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.FolderName;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.event.RegistryEvent;
@@ -39,12 +56,15 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
+import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 import org.apache.logging.log4j.LogManager;
@@ -52,36 +72,82 @@ import org.apache.logging.log4j.Logger;
 import software.bernie.example.GeckoLibMod;
 import software.bernie.geckolib3.GeckoLib;
 
+import javax.annotation.Nullable;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Method;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Mod("swem")
-public class SWEM
-{
+public class SWEM {
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "swem";
+    public static final ItemGroup TAB = new ItemGroup("swemtab") {
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(SWEMItems.WESTERN_SADDLES.get(3).get());
+        }
+
+        @Override
+        public boolean hasSearchBar() {
+            return true;
+        }
+    }.setBackgroundImage(new ResourceLocation("minecraft", "textures/gui/container/creative_inventory/tab_item_search.png"));
     public static WoodType WHITEWASH_WT;
+    private static Map<UUID, HorseData> horseDataMap = new HashMap<>();
+    private static ServerWorld serverOverWorld;
+    private static final IFormattableTextComponent SWEM_TEXT_COMPONENT = new StringTextComponent("" + TextFormatting.BLUE + "[SWEM]: " + TextFormatting.RESET);
+
+    /**
+     * Will go into the world's chunkgenerator and manually add our structure spacing. If the spacing
+     * is not added, the structure doesn't spawn.
+     *
+     * <p>Use this for dimension blacklists for your structure. (Don't forget to attempt to remove
+     * your structure too from the map if you are blacklisting that dimension!) (It might have your
+     * structure in it already.)
+     *
+     * <p>Basically use this to make absolutely sure the chunkgenerator can or cannot spawn your
+     * structure.
+     */
+    private static Method GETCODEC_METHOD;
 
     static {
         GeckoLibMod.DISABLE_IN_DEV = true;
     }
 
+    /**
+     * Instantiates a new Swem.
+     */
     public SWEM() {
         // Register the setup method for modloading
         WHITEWASH_WT = WoodType.register(WoodType.create("swem:whitewash"));
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 
-        RegistryHandler.init(modEventBus);
-        SWLRegistryHandler.init();
+        SWEMItems.init(modEventBus);
+        SWEMBlocks.init(modEventBus);
+        SWEMEntities.init(modEventBus);
+        SWEMContainers.init(modEventBus);
+        SWEMParticles.init(modEventBus);
+        SWEMTileEntities.init(modEventBus);
+        SWEMPaintings.init(modEventBus);
+        SWEMStructure.init(modEventBus);
+        SWEMEnchantments.init(modEventBus);
+        SWEMLootModifiers.init(modEventBus);
+
         GeckoLib.initialize();
 
-
         IEventBus forgeBus = MinecraftForge.EVENT_BUS;
+        forgeBus.addListener(this::serverStart);
+        forgeBus.addListener(this::serverShutdown);
         forgeBus.addListener(EventPriority.NORMAL, this::addDimensionalSpacing);
 
         // Register ourselves for server and other game events we are interested in
@@ -93,30 +159,78 @@ public class SWEM
         modLoadingContext.registerConfig(ModConfig.Type.SERVER, ConfigHolder.SERVER_SPEC);
     }
 
+    /**
+     * On register items.
+     *
+     * @param event the event
+     */
     @SubscribeEvent
     public static void onRegisterItems(final RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
 
-        SWEMBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)
-                .filter(block -> !(block instanceof TimothyGrass))
-                .forEach(block -> {
-                    final Item.Properties properties = new Item.Properties().tab(TAB);
-                    final BlockItem blockItem = new BlockItem(block, properties);
-                    blockItem.setRegistryName(block.getRegistryName());
-                    registry.register(blockItem);
-                });
+        SWEMBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get).filter(block -> !(block instanceof TimothyPlant)).forEach(block -> {
+            final Item.Properties properties = new Item.Properties().tab(TAB);
+            final BlockItem blockItem = new BlockItem(block, properties);
+            blockItem.setRegistryName(block.getRegistryName());
+            registry.register(blockItem);
+        });
 
         LOGGER.debug("Registered BlockItems!");
-
     }
 
+    public static IFormattableTextComponent getSwemTextComponent() {
+        return SWEM_TEXT_COMPONENT.copy();
+    }
+
+    /**
+     * Gets a horse position from the world if loaded and update the map, if not loaded, check the map
+     * for an entry.
+     *
+     * @param horse
+     * @return
+     */
+    @Nullable
+    public static HorseData getHorseData(UUID horse) {
+        Entity entity = serverOverWorld.getEntity(horse);
+        if (entity != null) {
+            if (entity instanceof SWEMHorseEntityBase) {
+                updateSaveHorseData((SWEMHorseEntityBase) entity);
+                return horseDataMap.get(horse);
+            }
+        }
+        if (horseDataMap.containsKey(horse)) {
+            return horseDataMap.get(horse);
+        }
+        return null;
+    }
+
+    public static void updateSaveHorseData(SWEMHorseEntityBase horse) {
+        HorseData data = horseDataMap.get(horse.getUUID());
+        if (data == null) {
+            data = new HorseData(horse.getUUID(), horse.blockPosition(), horse.getDisplayName().getString());
+        } else {
+            data.setName(horse.getDisplayName().getString());
+            data.setPos(horse.blockPosition());
+        }
+        horseDataMap.put(horse.getUUID(), data);
+    }
+
+    /**
+     * Sets .
+     *
+     * @param event the event
+     */
     private void setup(final FMLCommonSetupEvent event) {
+        CapabilityHandler.register();
+
+        if (ModList.get().isLoaded("placeableitems")) {
+            PlaceableItemsInit.initMap();
+        }
         event.enqueueWork(() -> {
-            GlobalEntityTypeAttributes.put(SWEMEntities.SWEM_HORSE_ENTITY.get(), SWEMHorseEntityBase.setCustomAttributes().build());
-            GlobalEntityTypeAttributes.put(SWEMEntities.WORMIE_BOI_ENTITY.get(), WormieBoiEntity.setCustomAttributes().build());
-            GlobalEntityTypeAttributes.put(SWEMEntities.HORSE_POOP_ENTITY.get(), PoopEntity.createLivingAttributes().build());
-            BrewingRecipeRegistry.addRecipe(new BrewingRecipes.CantazariteBrewingRecipe());
-            BrewingRecipeRegistry.addRecipe(new BrewingRecipes.RainbowChicPotion());
+            BrewingRecipeRegistry.addRecipe(
+                new PotionItemBrewingRecipe(Potions.WATER, SWEMItems.CANTAZARITE_DYE.get(), SWEMItems.CANTAZARITE_POTION.get()));
+            BrewingRecipeRegistry.addRecipe(
+                new PotionItemBrewingRecipe(Potions.WATER, SWEMItems.RAINBOW_EGG.get(), SWEMItems.RAINBOW_CHIC.get()));
 
             ComposterBlock.COMPOSTABLES.put(SWEMItems.ALFALFA_SEEDS.get(), 0.3F);
             ComposterBlock.COMPOSTABLES.put(SWEMItems.ALFALFA_BUSHEL.get(), 0.65F);
@@ -124,39 +238,34 @@ public class SWEM
             ComposterBlock.COMPOSTABLES.put(SWEMItems.OAT_BUSHEL.get(), 0.65F);
             ComposterBlock.COMPOSTABLES.put(SWEMItems.TIMOTHY_SEEDS.get(), 0.3F);
             ComposterBlock.COMPOSTABLES.put(SWEMItems.TIMOTHY_BUSHEL.get(), 0.65F);
-            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.QUALITY_BALE_ITEM.get(), 0.85F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.QUALITY_BALE_SLAB.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.TIMOTHY_BALE_SLAB.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.OAT_BALE_SLAB.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.ALFALFA_BALE_SLAB.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.QUALITY_BALE.get().asItem(), 0.85F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.TIMOTHY_BALE.get().asItem(), 0.85F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.OAT_BALE.get().asItem(), 0.85F);
+            ComposterBlock.COMPOSTABLES.put(SWEMBlocks.ALFALFA_BALE.get().asItem(), 0.85F);
             ComposterBlock.COMPOSTABLES.put(SWEMBlocks.WET_COMPOST_ITEM.get(), 0.85F);
             ComposterBlock.COMPOSTABLES.put(SWEMBlocks.COMPOST_ITEM.get(), 0.85F);
 
+            ShovelItem.FLATTENABLES.put(Blocks.SANDSTONE, SWEMBlocks.METER_POINT.get().defaultBlockState());
+
             SWEMStructure.setupStructures();
             SWEMConfiguredStructures.registerConfiguredStructures();
-
         });
 
         SWEMPacketHandler.init();
-
-
     }
 
-
-
-
-
-
     /**
-     * Will go into the world's chunkgenerator and manually add our structure spacing.
-     * If the spacing is not added, the structure doesn't spawn.
+     * Add dimensional spacing.
      *
-     * Use this for dimension blacklists for your structure.
-     * (Don't forget to attempt to remove your structure too from the map if you are blacklisting that dimension!)
-     * (It might have your structure in it already.)
-     *
-     * Basically use this to make absolutely sure the chunkgenerator can or cannot spawn your structure.
+     * @param event the event
      */
-    private static Method GETCODEC_METHOD;
     public void addDimensionalSpacing(final WorldEvent.Load event) {
         if (event.getWorld() instanceof ServerWorld) {
-            ServerWorld serverWorld = (ServerWorld)event.getWorld();
+            ServerWorld serverWorld = (ServerWorld) event.getWorld();
 
             /*
              * Skip Terraforged's chunk generator as they are a special case of a mod locking down their chunkgenerator.
@@ -165,11 +274,11 @@ public class SWEM
              * If you are using mixins, you can call the codec method with an invoker mixin instead of using reflection.
              */
             try {
-                if(GETCODEC_METHOD == null) GETCODEC_METHOD = ObfuscationReflectionHelper.findMethod(ChunkGenerator.class, "func_230347_a_");
+                if (GETCODEC_METHOD == null)
+                    GETCODEC_METHOD = ObfuscationReflectionHelper.findMethod(ChunkGenerator.class, "func_230347_a_");
                 ResourceLocation cgRL = Registry.CHUNK_GENERATOR.getKey((Codec<? extends ChunkGenerator>) GETCODEC_METHOD.invoke(serverWorld.getChunkSource().generator));
-                if(cgRL != null && cgRL.getNamespace().equals("terraforged")) return;
-            }
-            catch(Exception e){
+                if (cgRL != null && cgRL.getNamespace().equals("terraforged")) return;
+            } catch (Exception e) {
                 SWEM.LOGGER.error("Was unable to check if " + serverWorld.dimension().location() + " is using Terraforged's ChunkGenerator.");
             }
 
@@ -178,8 +287,7 @@ public class SWEM
              * people seem to want their superflat worlds free of modded structures.
              * Also that vanilla superflat is really tricky and buggy to work with in my experience.
              */
-            if(serverWorld.getChunkSource().getGenerator() instanceof FlatChunkGenerator &&
-                    serverWorld.dimension().equals(World.OVERWORLD)){
+            if (serverWorld.getChunkSource().getGenerator() instanceof FlatChunkGenerator && serverWorld.dimension().equals(World.OVERWORLD)) {
                 return;
             }
 
@@ -192,23 +300,51 @@ public class SWEM
              * And if you want to do dimension blacklisting, you need to remove the spacing entry entirely from the map below to prevent generation safely.
              */
             Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld.getChunkSource().generator.getSettings().structureConfig());
-            tempMap.putIfAbsent(SWEMStructure.BARN.get(), DimensionStructuresSettings.DEFAULTS.get(SWEMStructure.BARN.get()));
+            tempMap.putIfAbsent(SWEMStructure.COTTAGE.get(), DimensionStructuresSettings.DEFAULTS.get(SWEMStructure.COTTAGE.get()));
             serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
         }
     }
 
+    private void serverStart(FMLServerStartedEvent event) {
+        Gson gson = new Gson();
 
-    public static final ItemGroup SWLMTAB = new ItemGroup("SWLMTab") {
-        @Override
-        public ItemStack makeIcon() {
-            return new ItemStack(SWLRegistryHandler.STAR_WORM.get());
+        Path dir = event.getServer().getWorldPath(new FolderName("serverconfig/swem"));
+        if (!Files.exists(dir)) {
+            try {
+                Files.createDirectories(dir);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-    };
 
-    public static final ItemGroup TAB = new ItemGroup("SWEMTab") {
-        @Override
-        public ItemStack makeIcon() {
-            return new ItemStack(SWEMItems.WESTERN_SADDLE_LIGHT_BLUE.get());
+        Path file = dir.resolve("horseData.json");
+        if (!Files.exists(file)) {
+            try {
+                Files.createFile(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-    };
+
+        try (JsonReader reader = gson.newJsonReader(new FileReader(new File(file.toUri())))) {
+            Type type = new TypeToken<Map<UUID, HorseData>>() {
+            }.getType();
+            Map<UUID, HorseData> horsePos = gson.fromJson(reader, type);
+            if (horsePos != null) horseDataMap = horsePos;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        serverOverWorld = event.getServer().overworld();
+    }
+
+    private void serverShutdown(FMLServerStoppingEvent event) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        try (JsonWriter writer = gson.newJsonWriter(new FileWriter(new File(event.getServer().getWorldPath(new FolderName("serverconfig/swem")).resolve("horseData.json").toUri())))) {
+            gson.toJson(gson.toJsonTree(horseDataMap), writer);
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

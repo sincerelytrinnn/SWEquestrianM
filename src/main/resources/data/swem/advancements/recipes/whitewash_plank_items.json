@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:pasture_fence_whitewash",
+      "swem:western_fence_whitewash",
+      "swem:whitewash_button_plank",
+      "swem:whitewash_door_plank",
+      "swem:whitewash_fence_gate_plank",
+      "swem:whitewash_fence_plank",
+      "swem:whitewash_slab_plank",
+      "swem:whitewash_stairs_plank",
+      "swem:whitewash_trapdoor_plank",
+      "swem:whitewash_stall_care",
+      "swem:whitewash_stall_horse"
+    ]
+  },
+  "criteria": {
+    "has_whitewash_plank": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:whitewash_plank"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:pasture_fence_whitewash"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_whitewash_plank",
+      "has_the_recipe"
+    ]
+  ]
+}

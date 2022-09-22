@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:lead_rope",
+      "swem:paint_filler",
+      "swem:whitewash_finish"
+    ]
+  },
+  "criteria": {
+    "has_star_worm_goop": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:star_worm_goop"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:lead_rope"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_star_worm_goop",
+      "has_the_recipe"
+    ]
+  ]
+}

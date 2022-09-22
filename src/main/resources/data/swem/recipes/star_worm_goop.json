@@ -1,14 +1,15 @@
 {
-	"type": "minecraft:crafting_shapeless",
-	"ingredients": [
-		{
-			"item": "swem:pestle_mortar"
-		},
-		{
-			"item": "swem:star_worm"
-		}
-	],
-	"result": {
-		"item": "swem:star_worm_goop"
-	}
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "swem:star_worm"
+    },
+    {
+      "tag": "swem:pestle_mortar"
+    }
+  ],
+  "result": {
+    "item": "swem:star_worm_goop",
+    "count": 1
+  }
 }

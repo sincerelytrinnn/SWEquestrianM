@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "swem:quality_bale"
+    }
+  ],
+  "result": {
+    "item": "swem:quality_bale_slab",
+    "count": 2
+  }
+}

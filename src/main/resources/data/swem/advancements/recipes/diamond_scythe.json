@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:diamond_scythe"
+    ]
+  },
+  "criteria": {
+    "has_gold_scythe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:gold_scythe"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:diamond_scythe"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_gold_scythe",
+      "has_the_recipe"
+    ]
+  ]
+}

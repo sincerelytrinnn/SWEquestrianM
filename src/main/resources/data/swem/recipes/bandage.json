@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "medical",
+  "ingredients": [
+    {
+      "item": "minecraft:white_carpet"
+    },
+    {
+      "item": "minecraft:white_carpet"
+    }
+  ],
+  "result": {
+    "item": "swem:bandage",
+    "count": 1
+  }
+}

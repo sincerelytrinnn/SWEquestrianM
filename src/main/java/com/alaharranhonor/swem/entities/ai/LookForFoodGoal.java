@@ -1,155 +1,331 @@
 package com.alaharranhonor.swem.entities.ai;
 
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 import com.alaharranhonor.swem.blocks.GrainFeederBlock;
+import com.alaharranhonor.swem.blocks.PaddockFeederBlock;
 import com.alaharranhonor.swem.blocks.SlowFeederBlock;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
+import com.alaharranhonor.swem.tileentity.SlowFeederTE;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.SlabBlock;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.ArrayList;
+import java.util.EnumSet;
 
 public class LookForFoodGoal extends Goal {
 
-	private SWEMHorseEntityBase horse;
+    private final SWEMHorseEntityBase horse;
 
-	private double speed;
+    private final double speed;
 
-	private BlockPos foundFood;
+    private BlockPos foundFood;
 
-	private int tickTimer;
+    private int movingTimer;
+    private BlockPos movingToPos;
 
-	private int timesSearched;
+    /**
+     * Instantiates a new Look for food goal.
+     *
+     * @param entityIn the entity in
+     * @param speed    the speed
+     */
+    public LookForFoodGoal(SWEMHorseEntityBase entityIn, double speed) {
+        this.horse = entityIn;
+        this.speed = speed;
+        this.setFlags(EnumSet.of(Flag.LOOK, Flag.MOVE));
+    }
 
-	private int blockFound;
+    /**
+     * Returns whether execution should begin. You can also read and cache any state necessary for
+     * execution in this method as well.
+     */
+    @Override
+    public boolean canUse() {
+        return !this.horse.isBaby()
+            && this.horse.getNeeds().getHunger().getState().getId() < 3
+            && this.horse.getPassengers().isEmpty()
+            && this.horse.getLeashHolder() == null;
+    }
 
-	public LookForFoodGoal(SWEMHorseEntityBase entityIn, double speed) {
-	 	this.horse = entityIn;
-	 	this.speed = speed;
-	 	this.blockFound = -1;
-	}
+    /**
+     * Execute a one shot task or start executing a continuous task
+     */
+    @Override
+    public void start() {
+        this.horse.getNavigation().stop();
+        SWEMHorseEntityBase.HorseSpeed oldSpeed = this.horse.currentSpeed;
+        this.horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
+        this.horse.updateSelectedSpeed(oldSpeed);
+    }
 
+    /**
+     * Reset the task's internal state. Called when this task is interrupted by another one
+     */
+    @Override
+    public void stop() {
+        this.foundFood = null;
+        this.movingTimer = 0;
+        this.movingToPos = null;
+    }
 
-	/**
-	 * Returns whether execution should begin. You can also read and cache any state necessary for execution in this
-	 * method as well.
-	 */
-	@Override
-	public boolean canUse() {
-		return this.horse.getNeeds().getHunger().getState().getId() < 3;
+    /**
+     * Returns whether an in-progress EntityAIBase should continue executing
+     */
+    @Override
+    public boolean canContinueToUse() {
+        return this.horse.getNeeds().getHunger().getState().getId() < 3
+            && this.horse.getPassengers().isEmpty()
+            && this.horse.getLeashHolder() == null;
+    }
 
-	}
+    /**
+     * Keep ticking a continuous task that has already been started
+     */
+    @Override
+    public void tick() {
+        if (foundFood == null) {
+            ArrayList<BlockPos> grassPos = new ArrayList<>();
+            ArrayList<BlockPos> qualityBalePos = new ArrayList<>();
+            ArrayList<BlockPos> slowFeederPos = new ArrayList<>();
+            ArrayList<BlockPos> paddockFeederPos = new ArrayList<>();
+            ArrayList<BlockPos> grainFeederPos = new ArrayList<>();
+            BlockPos entityPos = this.horse.blockPosition();
+            for (int i = -3; i < 4; i++) { // X Cord.
+                for (int j = -3; j < 4; j++) { // Z Cord
+                    for (int k = -1; k < 2; k++) { // Y Cord
+                        BlockPos checkPos = entityPos.offset(i, k, j);
+                        BlockState checkState = this.horse.level.getBlockState(checkPos);
+                        if (checkState == Blocks.GRASS_BLOCK.defaultBlockState()) {
+                            grassPos.add(checkPos);
+                        } else if (checkState == SWEMBlocks.QUALITY_BALE.get().defaultBlockState()
+                            || checkState == SWEMBlocks.QUALITY_BALE_SLAB.get().defaultBlockState()) {
+                            if (this.horse
+                                .getNeeds()
+                                .getHunger()
+                                .getTimesFed(
+                                    this.horse
+                                        .getNeeds()
+                                        .getHunger()
+                                        .getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem())))
+                                < this.horse
+                                .getNeeds()
+                                .getHunger()
+                                .getMaxTimesFed(
+                                    this.horse
+                                        .getNeeds()
+                                        .getHunger()
+                                        .getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem())))) {
+                                qualityBalePos.add(checkPos);
+                            }
+                        } else if (checkState.getBlock() instanceof SlowFeederBlock) {
+                            if (checkState.getValue(SlowFeederBlock.LEVEL) > 0) {
+                                if (this.horse
+                                    .getNeeds()
+                                    .getHunger()
+                                    .getTimesFed(
+                                        this.horse
+                                            .getNeeds()
+                                            .getHunger()
+                                            .getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem())))
+                                    < this.horse
+                                    .getNeeds()
+                                    .getHunger()
+                                    .getMaxTimesFed(
+                                        this.horse
+                                            .getNeeds()
+                                            .getHunger()
+                                            .getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem())))) {
+                                    slowFeederPos.add(checkPos);
+                                }
+                            }
+                        } else if (checkState.getBlock() instanceof PaddockFeederBlock) {
+                            if (this.horse.level.getBlockState(checkPos).getValue(PaddockFeederBlock.LEVEL) > 0) {
+                                if (this.horse
+                                    .getNeeds()
+                                    .getHunger()
+                                    .getTimesFed(
+                                        this.horse
+                                            .getNeeds()
+                                            .getHunger()
+                                            .getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem())))
+                                    < this.horse
+                                    .getNeeds()
+                                    .getHunger()
+                                    .getMaxTimesFed(
+                                        this.horse
+                                            .getNeeds()
+                                            .getHunger()
+                                            .getItemIndex(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem())))) {
+                                    paddockFeederPos.add(checkPos);
+                                }
+                            }
+                        } else if (checkState.getBlock() instanceof GrainFeederBlock) {
+                            if (checkState.getValue(GrainFeederBlock.OCCUPIED)) {
+                                if (this.horse
+                                    .getNeeds()
+                                    .getHunger()
+                                    .getTimesFed(
+                                        this.horse
+                                            .getNeeds()
+                                            .getHunger()
+                                            .getItemIndex(new ItemStack(SWEMItems.SWEET_FEED.get())))
+                                    < this.horse
+                                    .getNeeds()
+                                    .getHunger()
+                                    .getMaxTimesFed(
+                                        this.horse
+                                            .getNeeds()
+                                            .getHunger()
+                                            .getItemIndex(new ItemStack(SWEMItems.SWEET_FEED.get())))) {
+                                    grainFeederPos.add(checkPos);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
-	/**
-	 * Execute a one shot task or start executing a continuous task
-	 */
-	@Override
-	public void start() {
-		this.horse.getNavigation().stop();
-		this.tickTimer = 0;
-		SWEMHorseEntityBase.HorseSpeed oldSpeed = this.horse.currentSpeed;
-		this.horse.currentSpeed = SWEMHorseEntityBase.HorseSpeed.WALK;
-		this.horse.updateSelectedSpeed(oldSpeed);
-	}
+            this.foundFood =
+                !grainFeederPos.isEmpty()
+                    ? grainFeederPos.get(this.horse.getRandom().nextInt(grainFeederPos.size()))
+                    : !slowFeederPos.isEmpty()
+                    ? slowFeederPos.get(this.horse.getRandom().nextInt(slowFeederPos.size()))
+                    : !qualityBalePos.isEmpty()
+                    ? qualityBalePos.get(this.horse.getRandom().nextInt(qualityBalePos.size()))
+                    : !paddockFeederPos.isEmpty()
+                    ? paddockFeederPos.get(
+                    this.horse.getRandom().nextInt(paddockFeederPos.size()))
+                    : !grassPos.isEmpty()
+                    ? grassPos.get(this.horse.getRandom().nextInt(grassPos.size()))
+                    : null;
+            if (foundFood == null) {
+                this.movingTimer++;
+                if (this.movingToPos == null) {
+                    BlockPos goingToPos =
+                        new BlockPos(
+                            entityPos.getX() + this.horse.getRandom().nextInt(14) - 7,
+                            entityPos.getY(),
+                            entityPos.getZ() + this.horse.getRandom().nextInt(14) - 7);
+                    this.horse
+                        .getNavigation()
+                        .moveTo(goingToPos.getX(), goingToPos.getY(), goingToPos.getZ(), this.speed);
+                    this.movingToPos = goingToPos;
+                } else {
+                    if (this.horse.blockPosition().closerThan(this.movingToPos, 2)) {
+                        this.movingToPos = null;
+                    } else {
+                        if (this.movingTimer > 200) {
+                            this.movingTimer = 0;
+                            this.movingToPos = null;
+                        } else {
+                            this.horse
+                                .getNavigation()
+                                .moveTo(
+                                    this.movingToPos.getX(),
+                                    this.movingToPos.getY(),
+                                    this.movingToPos.getZ(),
+                                    this.speed);
+                        }
+                    }
+                }
+            }
+        } else {
+            this.movingTimer++;
+            if (this.horse.blockPosition().closerThan(this.foundFood, 2)) {
+                BlockState foundState = this.horse.level.getBlockState(this.foundFood);
+                if (foundState.getBlock() == Blocks.GRASS_BLOCK) {
+                    this.horse.getNeeds().getHunger().addPoints(new ItemStack(Items.GRASS_BLOCK));
+                    if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(
+                        this.horse.level, this.horse)) {
+                        this.horse.level.levelEvent(
+                            2001, foundFood, Block.getId(Blocks.GRASS_BLOCK.defaultBlockState()));
+                        this.horse.level.setBlock(foundFood, Blocks.DIRT.defaultBlockState(), 3);
+                    }
 
-	/**
-	 * Reset the task's internal state. Called when this task is interrupted by another one
-	 */
-	@Override
-	public void stop() {
-		this.foundFood = null;
-		this.tickTimer = 0;
-		this.blockFound = -1;
-	}
+                } else if (foundState.getBlock() == SWEMBlocks.QUALITY_BALE.get()) {
 
-	/**
-	 * Returns whether an in-progress EntityAIBase should continue executing
-	 */
-	@Override
-	public boolean canContinueToUse() {
-		return this.horse.getNeeds().getHunger().getState().getId() < 3;
-	}
+                    if (this.horse
+                        .getNeeds()
+                        .getHunger()
+                        .addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem()))) {
+                        this.horse.level.setBlock(
+                            foundFood, SWEMBlocks.QUALITY_BALE_SLAB.get().defaultBlockState(), 3);
+                    }
 
-	/**
-	 * Keep ticking a continuous task that has already been started
-	 */
-	@Override
-	public void tick() {
-		if (this.tickTimer % 3600 == 0) {
-			this.timesSearched = 0;
-		}
-		if ((this.tickTimer % 100 == 0 && this.timesSearched < 4) || foundFood != null) {
-			if (foundFood == null) {
-				BlockPos entityPos = this.horse.blockPosition();
-				for (int i = -3; i < 4; i++) { // X Cord.
-					for (int j = -3; j < 4; j++) { // Z Cord
-						for (int k = -1; k < 2; k++) { // k = y
-							BlockPos checkState = entityPos.offset(i, j, k);
-							if (this.horse.level.getBlockState(checkState) == Blocks.GRASS_BLOCK.defaultBlockState() && this.blockFound <= 0) {
-								this.foundFood = checkState;
-								this.blockFound = 0;
-							} else if (this.horse.level.getBlockState(checkState) == SWEMBlocks.QUALITY_BALE.get().defaultBlockState() && this.blockFound <= 1) {
-								this.foundFood = checkState;
-								this.blockFound = 1;
-							} else if ( SWEMBlocks.SLOW_FEEDERS.stream().anyMatch((sf) -> sf.get().defaultBlockState().setValue(SlowFeederBlock.LEVEL, 1) == this.horse.level.getBlockState(checkState)) || SWEMBlocks.SLOW_FEEDERS.stream().anyMatch((sf) -> sf.get().defaultBlockState().setValue(SlowFeederBlock.LEVEL, 2) == this.horse.level.getBlockState(checkState)) && this.blockFound <= 2) {
-								this.foundFood = checkState;
-								this.blockFound = 2;
-							} else if ( SWEMBlocks.GRAIN_FEEDERS.stream().anyMatch((sf) -> sf.get().defaultBlockState().setValue(GrainFeederBlock.OCCUPIED, true) == this.horse.level.getBlockState(checkState))
-									&& this.blockFound <= 2
-									&& this.horse.getNeeds().getHunger().getTimesFed(this.horse.getNeeds().getHunger().getItemIndex(new ItemStack(SWEMItems.SWEET_FEED.get()))) < this.horse.getNeeds().getHunger().getMaxTimesFed(this.horse.getNeeds().getHunger().getItemIndex(new ItemStack(SWEMItems.SWEET_FEED.get())))) {
-								this.foundFood = checkState;
-								this.blockFound = 3;
-							}
-						}
-					}
-				}
-				this.timesSearched++;
-				if (foundFood == null) {
-					this.horse.getNavigation().moveTo(entityPos.getX() + this.horse.getRandom().nextInt(14) - 7, entityPos.getY(), this.horse.getRandom().nextInt(14) - 7, this.speed);
-				}
-			} else {
-				if (this.horse.blockPosition().closerThan(this.foundFood, 2)) {
-					switch (this.blockFound) {
-						case 0: {
-							this.horse.getNeeds().getHunger().addPoints(new ItemStack(Items.GRASS_BLOCK));
-							if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.horse.level, this.horse)) {
-								this.horse.level.levelEvent(2001, foundFood, Block.getId(Blocks.GRASS_BLOCK.defaultBlockState()));
-								this.horse.level.setBlock(foundFood, Blocks.DIRT.defaultBlockState(), 3);
+                } else if (foundState.getBlock() == SWEMBlocks.QUALITY_BALE_SLAB.get()) {
+                    if (this.horse
+                        .getNeeds()
+                        .getHunger()
+                        .addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem()))) {
+                        if (foundState.getValue(SlabBlock.TYPE) != SlabType.DOUBLE) {
+                            this.horse.level.setBlock(foundFood, Blocks.AIR.defaultBlockState(), 3);
+                        } else {
+                            this.horse.level.setBlock(
+                                foundFood, foundState.setValue(SlabBlock.TYPE, SlabType.BOTTOM), 3);
+                        }
+                    }
+                } else if (foundState.getBlock() instanceof SlowFeederBlock) {
 
-							}
-							break;
-						}
-						case 1: {
-							this.horse.getNeeds().getHunger().addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get()));
-							this.horse.level.setBlock(foundFood, Blocks.AIR.defaultBlockState(), 3);
+                    if (this.horse
+                        .getNeeds()
+                        .getHunger()
+                        .addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem()))) {
+                        ((SlowFeederTE) this.horse.level.getBlockEntity(foundFood))
+                            .eat(0, this.horse);
+                    }
 
-							break;
-						}
-						case 2: {
-							this.horse.getNeeds().getHunger().addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE_ITEM.get()));
-							((SlowFeederBlock) this.horse.level.getBlockState(foundFood).getBlock()).eat(this.horse.level, foundFood, this.horse.level.getBlockState(foundFood));
-							break;
-						}
-						case 3: {
-							this.horse.getNeeds().getHunger().addPoints(new ItemStack(SWEMItems.SWEET_FEED.get()));
-							((GrainFeederBlock) this.horse.level.getBlockState(foundFood).getBlock()).eat(this.horse.level, foundFood, this.horse.level.getBlockState(foundFood));
-							break;
-						}
-					}
-					foundFood = null;
+                } else if (foundState.getBlock() instanceof GrainFeederBlock) {
 
-				} else {
-					this.horse.getNavigation().moveTo(foundFood.getX(), foundFood.getY(), foundFood.getZ(), this.speed);
-				}
+                    if (this.horse
+                        .getNeeds()
+                        .getHunger()
+                        .addPoints(new ItemStack(SWEMItems.SWEET_FEED.get()))) {
+                        ((GrainFeederBlock) this.horse.level.getBlockState(foundFood).getBlock())
+                            .eat(this.horse.level, foundFood, this.horse.level.getBlockState(foundFood));
+                    }
+                } else if (foundState.getBlock() instanceof PaddockFeederBlock) {
+                    if (this.horse
+                        .getNeeds()
+                        .getHunger()
+                        .addPoints(new ItemStack(SWEMBlocks.QUALITY_BALE.get().asItem()))) {
+                        ((PaddockFeederBlock) this.horse.level.getBlockState(foundFood).getBlock())
+                            .eat(this.horse.level, foundFood, this.horse.level.getBlockState(foundFood));
+                    }
+                }
 
-			}
-			this.tickTimer++;
-		} else {
-			this.tickTimer++;
-		}
+                this.stop();
 
-	}
+            } else {
+                if (this.movingTimer >= 200) {
+                    this.stop();
+                } else {
+                    this.horse
+                        .getNavigation()
+                        .moveTo(foundFood.getX(), foundFood.getY(), foundFood.getZ(), this.speed);
+                }
+            }
+        }
+    }
 }

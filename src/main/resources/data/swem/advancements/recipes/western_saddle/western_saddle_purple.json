@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:western_saddle/western_saddle_purple"
+    ]
+  },
+  "criteria": {
+    "has_western_saddle": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:refined_leather"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:western_saddle/western_saddle_purple"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_western_saddle",
+      "has_the_recipe"
+    ]
+  ]
+}

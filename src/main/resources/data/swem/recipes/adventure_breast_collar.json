@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "x x",
+    " y ",
+    " x "
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "swem:refined_leather"
+    },
+    "y":
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result":
+  {
+    "item": "swem:adventure_breast_collar",
+    "count": 1
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:bridle_rack",
+      "swem:saddle_rack",
+      "swem:wheelbarrow_black",
+      "swem:wheel_barrow_blue",
+      "swem:wheel_barrow_brown",
+      "swem:wheel_barrow_cyan",
+      "swem:wheel_barrow_gray",
+      "swem:wheel_barrow_green",
+      "swem:wheel_barrow_light_blue",
+      "swem:wheel_barrow_light_gray",
+      "swem:wheel_barrow_lime",
+      "swem:wheel_barrow_magenta",
+      "swem:wheel_barrow_orange",
+      "swem:wheel_barrow_pink",
+      "swem:wheel_barrow_purple",
+      "swem:wheel_barrow_red",
+      "swem:wheel_barrow_white",
+      "swem:wheel_barrow_yellow"
+    ]
+  },
+  "criteria": {
+    "has_stone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:stone"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:bridle_rack"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_stone",
+      "has_the_recipe"
+    ]
+  ]
+}

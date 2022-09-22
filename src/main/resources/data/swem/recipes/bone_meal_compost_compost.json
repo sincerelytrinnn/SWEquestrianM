@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "bone_meal_compost",
+  "ingredients": [
+    {
+      "item": "swem:compost"
+    }
+  ],
+  "result": {
+    "item": "swem:bone_meal_compost",
+    "count": 9
+  }
+}

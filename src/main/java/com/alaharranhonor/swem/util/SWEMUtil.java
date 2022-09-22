@@ -1,223 +1,133 @@
 package com.alaharranhonor.swem.util;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.Item;
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
-import java.util.HashMap;
-import java.util.Map;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BucketItem;
+import net.minecraft.item.DyeColor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
+import java.util.Arrays;
 
 public class SWEMUtil {
 
-	public static final Map<Item, Block> mappings = new HashMap<Item, Block>() {{
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_ACACIA_LOG_ITEM.get(), Blocks.ACACIA_LOG);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BIRCH_LOG_ITEM.get(), Blocks.BIRCH_LOG);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_DARK_OAK_LOG_ITEM.get(), Blocks.DARK_OAK_LOG);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_JUNGLE_LOG_ITEM.get(), Blocks.JUNGLE_LOG);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_OAK_LOG_ITEM.get(), Blocks.OAK_LOG);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_SPRUCE_LOG_ITEM.get(), Blocks.SPRUCE_LOG);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_ACACIA_STRIPPED_LOG_ITEM.get(), Blocks.STRIPPED_ACACIA_LOG);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BIRCH_STRIPPED_LOG_ITEM.get(), Blocks.STRIPPED_BIRCH_LOG);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_DARK_OAK_STRIPPED_LOG_ITEM.get(), Blocks.STRIPPED_DARK_OAK_LOG);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_JUNGLE_STRIPPED_LOG_ITEM.get(), Blocks.STRIPPED_JUNGLE_LOG);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_OAK_STRIPPED_LOG_ITEM.get(), Blocks.STRIPPED_OAK_LOG);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_SPRUCE_STRIPPED_LOG_ITEM.get(), Blocks.STRIPPED_SPRUCE_LOG);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_ACACIA_WOOD_ITEM.get(), Blocks.ACACIA_WOOD);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BIRCH_WOOD_ITEM.get(), Blocks.BIRCH_WOOD);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_DARK_OAK_WOOD_ITEM.get(), Blocks.DARK_OAK_WOOD);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_JUNGLE_WOOD_ITEM.get(), Blocks.JUNGLE_WOOD);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_OAK_WOOD_ITEM.get(), Blocks.OAK_WOOD);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_SPRUCE_WOOD_ITEM.get(), Blocks.SPRUCE_WOOD);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_ACACIA_STRIPPED_WOOD_ITEM.get(), Blocks.STRIPPED_ACACIA_WOOD);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BIRCH_STRIPPED_WOOD_ITEM.get(), Blocks.STRIPPED_BIRCH_WOOD);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_DARK_OAK_STRIPPED_WOOD_ITEM.get(), Blocks.STRIPPED_DARK_OAK_WOOD);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_JUNGLE_STRIPPED_WOOD_ITEM.get(), Blocks.STRIPPED_JUNGLE_WOOD);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_OAK_STRIPPED_WOOD_ITEM.get(), Blocks.STRIPPED_OAK_WOOD);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_SPRUCE_STRIPPED_WOOD_ITEM.get(), Blocks.STRIPPED_SPRUCE_WOOD);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_ACACIA_PLANKS_ITEM.get(), Blocks.ACACIA_PLANKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BIRCH_PLANKS_ITEM.get(), Blocks.BIRCH_PLANKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_DARK_OAK_PLANKS_ITEM.get(), Blocks.DARK_OAK_PLANKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_JUNGLE_PLANKS_ITEM.get(), Blocks.JUNGLE_PLANKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_OAK_PLANKS_ITEM.get(), Blocks.OAK_PLANKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_SPRUCE_PLANKS_ITEM.get(), Blocks.SPRUCE_PLANKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_STONE_ITEM.get(), Blocks.STONE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_SMOOTH_STONE_ITEM.get(), Blocks.SMOOTH_STONE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_COBBLESTONE_ITEM.get(), Blocks.COBBLESTONE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_MOSSY_COBBLESTONE_ITEM.get(), Blocks.MOSSY_COBBLESTONE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_ANDESITE_ITEM.get(), Blocks.ANDESITE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_POLISHED_ANDESITE_ITEM.get(), Blocks.POLISHED_ANDESITE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_DIORITE_ITEM.get(), Blocks.DIORITE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_POLISHED_DIORITE_ITEM.get(), Blocks.POLISHED_DIORITE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_GRANITE_ITEM.get(), Blocks.GRANITE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_POLISHED_GRANITE_ITEM.get(), Blocks.POLISHED_GRANITE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_STONE_BRICKS_ITEM.get(), Blocks.STONE_BRICKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CRACKED_STONE_BRICKS_ITEM.get(), Blocks.CRACKED_STONE_BRICKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_MOSSY_STONE_BRICKS_ITEM.get(), Blocks.MOSSY_STONE_BRICKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CHISELED_STONE_BRICKS_ITEM.get(), Blocks.CHISELED_STONE_BRICKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_COAL_ITEM.get(), Blocks.COAL_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_IRON_ITEM.get(), Blocks.IRON_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_GOLD_ITEM.get(), Blocks.GOLD_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_DIAMOND_ITEM.get(), Blocks.DIAMOND_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_EMERALD_ITEM.get(), Blocks.EMERALD_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_REDSTONE_ITEM.get(), Blocks.REDSTONE_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_LAPIS_ITEM.get(), Blocks.LAPIS_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_NETHERITE_ITEM.get(), Blocks.NETHERITE_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BONE_ITEM.get(), Blocks.BONE_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_GRAVEL_ITEM.get(), Blocks.GRAVEL);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CLAY_ITEM.get(), Blocks.CLAY);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BRICKS_ITEM.get(), Blocks.BRICKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_SAND_ITEM.get(), Blocks.SAND);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_SANDSTONE_ITEM.get(), Blocks.SANDSTONE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CUT_SANDSTONE_ITEM.get(), Blocks.CUT_SANDSTONE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_SMOOTH_SANDSTONE_ITEM.get(), Blocks.SMOOTH_SANDSTONE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CHISELED_SANDSTONE_ITEM.get(), Blocks.CHISELED_SANDSTONE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_RED_SAND_ITEM.get(), Blocks.RED_SAND);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_RED_SANDSTONE_ITEM.get(), Blocks.RED_SANDSTONE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CUT_RED_SANDSTONE_ITEM.get(), Blocks.CUT_RED_SANDSTONE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_SMOOTH_RED_SANDSTONE_ITEM.get(), Blocks.SMOOTH_RED_SANDSTONE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CHISELED_RED_SANDSTONE_ITEM.get(), Blocks.CHISELED_RED_SANDSTONE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_PRISMARINE_ITEM.get(), Blocks.PRISMARINE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_PRISMARINE_BRICKS_ITEM.get(), Blocks.PRISMARINE_BRICKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_DARK_PRISMARINE_ITEM.get(), Blocks.DARK_PRISMARINE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_DRIED_KELP_ITEM.get(), Blocks.DRIED_KELP_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_DEAD_BRAIN_CORAL_ITEM.get(), Blocks.DEAD_BRAIN_CORAL_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_DEAD_BUBBLE_CORAL_ITEM.get(), Blocks.DEAD_BUBBLE_CORAL_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_DEAD_FIRE_CORAL_ITEM.get(), Blocks.DEAD_FIRE_CORAL_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_DEAD_HORN_CORAL_ITEM.get(), Blocks.DEAD_HORN_CORAL_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_OBSIDIAN_ITEM.get(), Blocks.OBSIDIAN);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_NETHERRACK_ITEM.get(), Blocks.NETHERRACK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CHISELED_NETHER_BRICKS_ITEM.get(), Blocks.CHISELED_NETHER_BRICKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CRACKED_NETHER_BRICKS_ITEM.get(), Blocks.CRACKED_NETHER_BRICKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_NETHER_BRICKS_ITEM.get(), Blocks.NETHER_BRICKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_RED_NETHER_BRICKS_ITEM.get(), Blocks.RED_NETHER_BRICKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BLACKSTONE_ITEM.get(), Blocks.BLACKSTONE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_POLISHED_BLACKSTONE_ITEM.get(), Blocks.POLISHED_BLACKSTONE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CRACKED_POLISHED_BLACKSTONE_BRICKS_ITEM.get(), Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CHISELED_POLISHED_BLACKSTONE_ITEM.get(), Blocks.CHISELED_POLISHED_BLACKSTONE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_GILDED_BLACKSTONE_ITEM.get(), Blocks.GILDED_BLACKSTONE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_NETHER_WART_ITEM.get(), Blocks.NETHER_WART_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CRIMSON_STEM_ITEM.get(), Blocks.CRIMSON_STEM);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_STRIPPED_CRIMSON_STEM_ITEM.get(), Blocks.STRIPPED_CRIMSON_STEM);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CRIMSON_HYPHAE_ITEM.get(), Blocks.CRIMSON_HYPHAE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_STRIPPED_CRIMSON_HYPHAE_ITEM.get(), Blocks.STRIPPED_CRIMSON_HYPHAE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CRIMSON_PLANKS_ITEM.get(), Blocks.CRIMSON_PLANKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_WARPED_WART_ITEM.get(), Blocks.WARPED_WART_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_WARPED_STEM_ITEM.get(), Blocks.WARPED_STEM);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_STRIPPED_WARPED_STEM_ITEM.get(), Blocks.STRIPPED_WARPED_STEM);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_WARPED_HYPHAE_ITEM.get(), Blocks.WARPED_HYPHAE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_STRIPPED_WARPED_HYPHAE_ITEM.get(), Blocks.STRIPPED_WARPED_HYPHAE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_WARPED_PLANKS_ITEM.get(), Blocks.WARPED_PLANKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_SOUL_SAND_ITEM.get(), Blocks.SOUL_SAND);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_SOUL_SOIL_ITEM.get(), Blocks.SOUL_SOIL);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_QUARTZ_ITEM.get(), Blocks.QUARTZ_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_QUARTZ_PILLAR_ITEM.get(), Blocks.QUARTZ_PILLAR);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_QUARTZ_BRICKS_ITEM.get(), Blocks.QUARTZ_BRICKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CHISELED_QUARTZ_ITEM.get(), Blocks.CHISELED_QUARTZ_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_SMOOTH_QUARTZ_ITEM.get(), Blocks.SMOOTH_QUARTZ);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BASALT_ITEM.get(), Blocks.BASALT);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_POLISHED_BASALT_ITEM.get(), Blocks.POLISHED_BASALT);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_END_STONE_ITEM.get(), Blocks.END_STONE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_END_STONE_BRICKS_ITEM.get(), Blocks.END_STONE_BRICKS);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_PURPUR_ITEM.get(), Blocks.PURPUR_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_PURPUR_PILLAR_ITEM.get(), Blocks.PURPUR_PILLAR);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BROWN_MUSHROOM_ITEM.get(), Blocks.BROWN_MUSHROOM_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_RED_MUSHROOM_ITEM.get(), Blocks.RED_MUSHROOM_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_SNOW_ITEM.get(), Blocks.SNOW_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_ICE_ITEM.get(), Blocks.ICE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_PACKED_ICE_ITEM.get(), Blocks.PACKED_ICE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BLUE_ICE_ITEM.get(), Blocks.BLUE_ICE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_SLIME_ITEM.get(), Blocks.SLIME_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_HONEY_ITEM.get(), Blocks.HONEY_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_HONEYCOMB_ITEM.get(), Blocks.HONEYCOMB_BLOCK);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_TERRACOTTA_ITEM.get(), Blocks.TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BLACK_TERRACOTTA_ITEM.get(), Blocks.BLACK_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BLUE_TERRACOTTA_ITEM.get(), Blocks.BLUE_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BROWN_TERRACOTTA_ITEM.get(), Blocks.BROWN_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CYAN_TERRACOTTA_ITEM.get(), Blocks.CYAN_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_GRAY_TERRACOTTA_ITEM.get(), Blocks.GRAY_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_GREEN_TERRACOTTA_ITEM.get(), Blocks.GREEN_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_LIGHT_BLUE_TERRACOTTA_ITEM.get(), Blocks.LIGHT_BLUE_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_LIGHT_GRAY_TERRACOTTA_ITEM.get(), Blocks.LIGHT_GRAY_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_LIME_TERRACOTTA_ITEM.get(), Blocks.LIME_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_MAGENTA_TERRACOTTA_ITEM.get(), Blocks.MAGENTA_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_ORANGE_TERRACOTTA_ITEM.get(), Blocks.ORANGE_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_PINK_TERRACOTTA_ITEM.get(), Blocks.PINK_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_PURPLE_TERRACOTTA_ITEM.get(), Blocks.PURPLE_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_RED_TERRACOTTA_ITEM.get(), Blocks.RED_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_WHITE_TERRACOTTA_ITEM.get(), Blocks.WHITE_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_YELLOW_TERRACOTTA_ITEM.get(), Blocks.YELLOW_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BLACK_GLAZED_TERRACOTTA_ITEM.get(), Blocks.BLACK_GLAZED_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BLUE_GLAZED_TERRACOTTA_ITEM.get(), Blocks.BLUE_GLAZED_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BROWN_GLAZED_TERRACOTTA_ITEM.get(), Blocks.BROWN_GLAZED_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CYAN_GLAZED_TERRACOTTA_ITEM.get(), Blocks.CYAN_GLAZED_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_GRAY_GLAZED_TERRACOTTA_ITEM.get(), Blocks.GRAY_GLAZED_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_GREEN_GLAZED_TERRACOTTA_ITEM.get(), Blocks.GREEN_GLAZED_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_LIGHT_BLUE_GLAZED_TERRACOTTA_ITEM.get(), Blocks.LIGHT_BLUE_GLAZED_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_LIGHT_GRAY_GLAZED_TERRACOTTA_ITEM.get(), Blocks.LIGHT_GRAY_GLAZED_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_LIME_GLAZED_TERRACOTTA_ITEM.get(), Blocks.LIME_GLAZED_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_MAGENTA_GLAZED_TERRACOTTA_ITEM.get(), Blocks.MAGENTA_GLAZED_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_ORANGE_GLAZED_TERRACOTTA_ITEM.get(), Blocks.ORANGE_GLAZED_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_PINK_GLAZED_TERRACOTTA_ITEM.get(), Blocks.PINK_GLAZED_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_PURPLE_GLAZED_TERRACOTTA_ITEM.get(), Blocks.PURPLE_GLAZED_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_RED_GLAZED_TERRACOTTA_ITEM.get(), Blocks.RED_GLAZED_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_WHITE_GLAZED_TERRACOTTA_ITEM.get(), Blocks.WHITE_GLAZED_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_YELLOW_GLAZED_TERRACOTTA_ITEM.get(), Blocks.YELLOW_GLAZED_TERRACOTTA);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BLACK_CONCRETE_POWDER_ITEM.get(), Blocks.BLACK_CONCRETE_POWDER);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BLUE_CONCRETE_POWDER_ITEM.get(), Blocks.BLUE_CONCRETE_POWDER);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BROWN_CONCRETE_POWDER_ITEM.get(), Blocks.BROWN_CONCRETE_POWDER);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CYAN_CONCRETE_POWDER_ITEM.get(), Blocks.CYAN_CONCRETE_POWDER);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_GRAY_CONCRETE_POWDER_ITEM.get(), Blocks.GRAY_CONCRETE_POWDER);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_GREEN_CONCRETE_POWDER_ITEM.get(), Blocks.GREEN_CONCRETE_POWDER);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_LIGHT_BLUE_CONCRETE_POWDER_ITEM.get(), Blocks.LIGHT_BLUE_CONCRETE_POWDER);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_LIGHT_GRAY_CONCRETE_POWDER_ITEM.get(), Blocks.LIGHT_GRAY_CONCRETE_POWDER);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_LIME_CONCRETE_POWDER_ITEM.get(), Blocks.LIME_CONCRETE_POWDER);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_MAGENTA_CONCRETE_POWDER_ITEM.get(), Blocks.MAGENTA_CONCRETE_POWDER);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_ORANGE_CONCRETE_POWDER_ITEM.get(), Blocks.ORANGE_CONCRETE_POWDER);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_PINK_CONCRETE_POWDER_ITEM.get(), Blocks.PINK_CONCRETE_POWDER);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_PURPLE_CONCRETE_POWDER_ITEM.get(), Blocks.PURPLE_CONCRETE_POWDER);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_RED_CONCRETE_POWDER_ITEM.get(), Blocks.RED_CONCRETE_POWDER);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_WHITE_CONCRETE_POWDER_ITEM.get(), Blocks.WHITE_CONCRETE_POWDER);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_YELLOW_CONCRETE_POWDER_ITEM.get(), Blocks.YELLOW_CONCRETE_POWDER);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BLACK_CONCRETE_ITEM.get(), Blocks.BLACK_CONCRETE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BLUE_CONCRETE_ITEM.get(), Blocks.BLUE_CONCRETE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BROWN_CONCRETE_ITEM.get(), Blocks.BROWN_CONCRETE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CYAN_CONCRETE_ITEM.get(), Blocks.CYAN_CONCRETE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_GRAY_CONCRETE_ITEM.get(), Blocks.GRAY_CONCRETE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_GREEN_CONCRETE_ITEM.get(), Blocks.GREEN_CONCRETE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_LIGHT_BLUE_CONCRETE_ITEM.get(), Blocks.LIGHT_BLUE_CONCRETE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_LIGHT_GRAY_CONCRETE_ITEM.get(), Blocks.LIGHT_GRAY_CONCRETE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_LIME_CONCRETE_ITEM.get(), Blocks.LIME_CONCRETE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_MAGENTA_CONCRETE_ITEM.get(), Blocks.MAGENTA_CONCRETE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_ORANGE_CONCRETE_ITEM.get(), Blocks.ORANGE_CONCRETE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_PINK_CONCRETE_ITEM.get(), Blocks.PINK_CONCRETE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_PURPLE_CONCRETE_ITEM.get(), Blocks.PURPLE_CONCRETE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_RED_CONCRETE_ITEM.get(), Blocks.RED_CONCRETE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_WHITE_CONCRETE_ITEM.get(), Blocks.WHITE_CONCRETE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_YELLOW_CONCRETE_ITEM.get(), Blocks.YELLOW_CONCRETE);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BLACK_WOOL_ITEM.get(), Blocks.BLACK_WOOL);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BLUE_WOOL_ITEM.get(), Blocks.BLUE_WOOL);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_BROWN_WOOL_ITEM.get(), Blocks.BROWN_WOOL);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_CYAN_WOOL_ITEM.get(), Blocks.CYAN_WOOL);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_GRAY_WOOL_ITEM.get(), Blocks.GRAY_WOOL);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_GREEN_WOOL_ITEM.get(), Blocks.GREEN_WOOL);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_LIGHT_BLUE_WOOL_ITEM.get(), Blocks.LIGHT_BLUE_WOOL);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_LIGHT_GRAY_WOOL_ITEM.get(), Blocks.LIGHT_GRAY_WOOL);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_LIME_WOOL_ITEM.get(), Blocks.LIME_WOOL);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_MAGENTA_WOOL_ITEM.get(), Blocks.MAGENTA_WOOL);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_ORANGE_WOOL_ITEM.get(), Blocks.ORANGE_WOOL);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_PINK_WOOL_ITEM.get(), Blocks.PINK_WOOL);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_PURPLE_WOOL_ITEM.get(), Blocks.PURPLE_WOOL);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_RED_WOOL_ITEM.get(), Blocks.RED_WOOL);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_WHITE_WOOL_ITEM.get(), Blocks.WHITE_WOOL);
-		put(SWLRegistryHandler.STAR_WORM_BLOCK_YELLOW_WOOL_ITEM.get(), Blocks.YELLOW_WOOL);
-	}};
+    public static DyeColor[] COLOURS = {DyeColor.WHITE, DyeColor.LIGHT_BLUE, DyeColor.CYAN, DyeColor.BLUE, DyeColor.PINK, DyeColor.MAGENTA, DyeColor.PURPLE, DyeColor.YELLOW, DyeColor.ORANGE, DyeColor.RED, DyeColor.LIME, DyeColor.GREEN, DyeColor.LIGHT_GRAY, DyeColor.GRAY, DyeColor.BLACK, DyeColor.BROWN,};
+    private static final DyeColor[] BY_INDEX = Arrays.stream(COLOURS).toArray(DyeColor[]::new);
 
+    public static void damageOrShrink(ItemStack stack, PlayerEntity player) {
+        if (stack.getItem() instanceof BucketItem) {
+            player.setItemInHand(player.getUsedItemHand(), ((BucketItem) stack.getItem()).getEmptySuccessItem(stack, player));
+        }
+        if (stack.isDamageableItem()) {
+            stack.hurtAndBreak(1, player, (playerEntity) -> {
+                playerEntity.broadcastBreakEvent(playerEntity.getUsedItemHand());
+            });
+        } else {
+            if (!player.isCreative())
+                stack.shrink(1);
+            player.setItemInHand(player.getUsedItemHand(), stack);
+        }
+    }
 
-	public static String checkTextOverflow(String text, int maxLimit) {
-		if (text.length() > maxLimit - 2) {
-			return text.substring(0, maxLimit - 2) + "...";
-		} else {
-			return text;
-		}
-	}
+    public static boolean isInDistanceOfBlock(World level, BlockPos pos, int distance, Block blockToCheck) {
+        for (int x = -distance; x <= distance; x++) {
+            for (int z = -distance; z <= distance; z++) {
+                for (int y = -distance; y <= distance; y++) {
+                    if (level.getBlockState(pos.offset(x, y, z)).getBlock() == blockToCheck) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check text overflow string.
+     *
+     * @param text     the text
+     * @param maxLimit the max limit
+     * @return the string
+     */
+    public static String checkTextOverflow(String text, int maxLimit) {
+        if (text.length() > maxLimit - 2) {
+            return text.substring(0, maxLimit - 2) + "...";
+        } else {
+            return text;
+        }
+    }
+
+    /**
+     * Logical by id dye color.
+     *
+     * @param pColorId the p color id
+     * @return the dye color
+     */
+    public static DyeColor logicalByIndex(int pColorId) {
+        if (pColorId < 0 || pColorId >= BY_INDEX.length) {
+            pColorId = 0;
+        }
+
+        return BY_INDEX[pColorId];
+    }
+
+    /**
+     * Helper function for converting internal jump value to jump height in blocks.
+     *
+     * @param internal The internal jump value.
+     * @return The jump height in blocks.
+     * @see <a href="https://minecraft.fandom.com/wiki/Tutorials/Horses#Jump_Strength">Jump Strength Wiki</a>
+     */
+    public static double getJumpBlocksFromInternalJump(double internal) {
+        return Math.pow(internal, 1.7D) * 5.293D;
+    }
+
+    /**
+     * Helper function for converting Jump height in blocks to internal jump value.
+     *
+     * @param blocks The jump height in blocks.
+     * @return The internal jump value.
+     * @see <a href="https://minecraft.fandom.com/wiki/Tutorials/Horses#Jump_Strength">Jump Strength Wiki</a>
+     */
+    public static double getInternalJumpFromBlocks(double blocks) {
+        return Math.pow(blocks / 5.293D, 1 / 1.7D);
+    }
+
+    /**
+     * Helper function for converting internal speed value to blocks per second.
+     *
+     * @param internal The internals speed value.
+     * @return The blocks per second.
+     * @see <a href="https://minecraft.fandom.com/wiki/Tutorials/Horses#Speed">Horse Speed Wiki</a>
+     */
+    public static double getBlocksPerSecondFromInternalSpeed(double internal) {
+        return internal * 43.17;
+    }
+
+    /**
+     * Helper function for converting blocks per seconds to internal speed value.
+     *
+     * @param blocksPerSecond The blocks per seconds.
+     * @return The internal speed value.
+     * @see <a href="https://minecraft.fandom.com/wiki/Tutorials/Horses#Speed">Horse Speed Wiki</a>
+     */
+    public static double getInternalSpeedFromBlocksPerSecond(double blocksPerSecond) {
+        return blocksPerSecond / 43.17;
+    }
+
 }

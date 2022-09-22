@@ -3,8 +3,9 @@
   "group": "plate",
   "pattern":
   [
-    "xx ",
-    "xx "
+    " x ",
+    "x x",
+    " x "
   ],
   "key":
   {
@@ -16,6 +17,6 @@
   "result":
   {
     "item": "swem:diamond_plate",
-    "count": 2
+    "count": 4
   }
 }

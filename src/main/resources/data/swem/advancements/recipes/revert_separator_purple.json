@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:revert_separator_purple"
+    ]
+  },
+  "criteria": {
+    "has_separator_purple": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:separator_purple"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:revert_separator_purple"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_separator_purple",
+      "has_the_recipe"
+    ]
+  ]
+}

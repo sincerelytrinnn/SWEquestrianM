@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": ""
+        "model": "swem:block/one_saddle_rack"
       }
     }
   ]

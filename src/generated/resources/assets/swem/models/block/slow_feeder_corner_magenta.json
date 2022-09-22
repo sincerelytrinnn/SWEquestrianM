@@ -1,7 +1,0 @@
-{
-  "parent": "swem:block/slow_feeder_corner",
-  "textures": {
-    "0": "swem:blocks/slow_feeder_corner_magenta",
-    "particle": "swem:blocks/slow_feeder_corner_magenta"
-  }
-}

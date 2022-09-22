@@ -1,9 +1,0 @@
-{
-  "multipart": [
-    {
-      "apply": {
-        "model": "swem:block/tackbox"
-      }
-    }
-  ]
-}

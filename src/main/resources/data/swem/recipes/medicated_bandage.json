@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "medical",
+  "ingredients": [
+    {
+      "item": "swem:salve"
+    },
+    {
+      "item": "swem:bandage"
+    }
+  ],
+  "result": {
+    "item": "swem:medicated_bandage",
+    "count": 1
+  }
+}

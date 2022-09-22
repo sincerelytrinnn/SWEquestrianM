@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "xy ",
+    " x ",
+	" x "
+  ],
+  "key":
+  {
+	"x":
+    {
+      "item": "minecraft:iron_ingot"
+    },
+	"y":
+    {
+      "item": "swem:amethyst"
+    }
+  },
+  "result":
+  {
+    "item": "swem:measurement_tool",
+    "count": 1
+  }
+}

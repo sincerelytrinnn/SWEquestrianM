@@ -2,7 +2,7 @@ buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
         maven { url = 'https://maven.parchmentmc.org' }
-        maven { url='https://repo.spongepowered.org/repository/maven-public/' }
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         jcenter()
         mavenCentral()
     }
@@ -12,15 +12,33 @@ buildscript {
         classpath 'org.spongepowered:mixingradle:0.7.+'
     }
 }
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
 
-version = '1.16.5-0.1.0.0-b'
+version = "${mc_version}-${mod_version}"
 group = 'com.alaharranhonor.swem' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'swem'
 
@@ -34,7 +52,7 @@ minecraft {
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
     // 2020/05/14
-    mappings channel: 'parchment', version: '2021.10.03-1.16.5'
+    mappings channel: 'parchment', version: "${parchment_version}-${mc_version}"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -55,7 +73,10 @@ minecraft {
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
-            args "--username", "legendenv2", "--uuid", "0feef6f9-04c1-47e5-bd9a-a06cfb693da5"
+
+            property 'swem.debug', 'true'
+
+            args "--username", "XDelphii", "--uuid", "982efc46-99ea-4be9-9f03-5520dc9a8217"
 
             jvmArgs "-Xms2G", "-Xmx8G"
 
@@ -64,6 +85,13 @@ minecraft {
                     source sourceSets.main
                 }
             }
+        }
+
+        clientAlt {
+            parent minecraft.runs.client
+            workingDirectory project.file('runs/' + name)
+            taskName 'ClientAlt'
+            args '--username', 'Alt'
         }
 
         server {
@@ -106,28 +134,48 @@ minecraft {
 
 repositories {
     maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+    maven {
+        // location of the maven that hosts JEI files
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
+
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+
+    maven {
+        name = "KosmX's maven"
+        url = "https://maven.kosmx.dev/"
+    }
+}
+
+configurations {
+    shade
+    implementation.extendsFrom shade
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.1.0'
-    implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.35')
-    // You may put jars on which you depend on in ./libs or you may define them like so..
-    // compile "some.group:artifact:version:classifier"
-    // compile "some.group:artifact:version"
+    minecraft "net.minecraftforge:forge:${mc_version}-36.2.34"
+    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${mc_version}:3.0.92")
+    implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:0.3.5+1.16.5")
 
-    // Real examples
-    // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    // compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
+    // compile against the JEI API but do not include it at runtime
+    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
+    // at runtime, use the full JEI jar
+    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
 
-    // The 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
-    // provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+    compileOnly fg.deobf("curse.maven:placableitems-227951:3565979")
+    implementation fg.deobf("curse.maven:xaeros-minimap-263420:3967739")
 
-    // These dependencies get remapped to your current MCP mappings
-    // deobf 'com.mod-buildcraft:buildcraft:6.0.8:dev'
-
-    // For more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     compileOnly 'org.jetbrains:annotations:20.1.0'
 
@@ -145,17 +193,32 @@ mixin {
 jar {
     manifest {
         attributes([
-                "Specification-Title": "swem",
-                "Specification-Vendor": "swemalaharranhonor",
-                "Specification-Version": "1", // We are version 1 of ourselves
-                "Implementation-Title": project.name,
-                "Implementation-Version": "${version}",
-                "Implementation-Vendor" :"swemalaharranhonor",
+                "Specification-Title"     : "swem",
+                "Specification-Vendor"    : "swemalaharranhonor",
+                "Specification-Version"   : "1", // We are version 1 of ourselves
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : "${version}",
+                "Implementation-Vendor"   : "swemalaharranhonor",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "MixinConfigs": "swem.mixins.json"
+                "MixinConfigs"            : "swem.mixins.json"
         ])
     }
 }
+
+shadowJar {
+    archiveClassifier = ''
+    configurations = [project.configurations.shade]
+
+    finalizedBy 'reobfShadowJar'
+    //relocate 'com.tterrag.registrate', 'com.mymod.repack.registrate'
+}
+
+assemble.dependsOn shadowJar
+
+reobf {
+    shadowJar {}
+}
+
 
 // Example configuration to allow publishing using the maven-publish task
 // This is the preferred method to reobfuscate your jar file

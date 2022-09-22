@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "x  "
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "swem:timothy_bale"
+    }
+  },
+  "result":
+  {
+    "item": "swem:timothy_bushel",
+    "count": 4
+  }
+}

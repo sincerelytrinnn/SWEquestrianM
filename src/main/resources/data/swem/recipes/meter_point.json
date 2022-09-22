@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "meter_point",
+  "ingredients": [
+    {
+      "item": "minecraft:sandstone"
+    }
+  ],
+  "result": {
+    "item": "swem:meter_point",
+    "count": 1
+  }
+}

@@ -9,6 +9,21 @@
     "swem:western_hitching_post_mini",
     "swem:english_hitching_post_mini",
     "swem:pasture_hitching_post_mini",
-    "swem:whitewash_fence"
+    "swem:western_fence_acacia",
+    "swem:western_fence_birch",
+    "swem:western_fence_dark_oak",
+    "swem:western_fence_jungle",
+    "swem:western_fence_spruce",
+    "swem:western_fence_oak",
+    "swem:western_fence_whitewash",
+    "swem:pasture_fence_acacia",
+    "swem:pasture_fence_birch",
+    "swem:pasture_fence_dark_oak",
+    "swem:pasture_fence_jungle",
+    "swem:pasture_fence_spruce",
+    "swem:pasture_fence_oak",
+    "swem:pasture_fence_whitewash",
+    "swem:whitewash_fence",
+    "swem:lead_anchor"
   ]
 }

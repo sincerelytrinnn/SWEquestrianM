@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:uncraft_cantazarite_block"
+    ]
+  },
+  "criteria": {
+    "has_cantazarite_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:cantazarite_block"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:uncraft_cantazarite_block"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_cantazarite_block",
+      "has_the_recipe"
+    ]
+  ]
+}

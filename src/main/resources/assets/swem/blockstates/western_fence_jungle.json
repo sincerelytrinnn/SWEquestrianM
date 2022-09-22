@@ -11,6 +11,95 @@
         {
           "when": {
             "half_fence": false,
+            "north": true,
+            "east": true
+          },
+          "apply": {
+            "model": "swem:block/western_fence_corner_jungle"
+          }
+        },
+        {
+          "when": {
+            "half_fence": false,
+            "north": true,
+            "east": true
+          },
+          "apply": {
+            "model": "swem:block/western_fence_corner_jungle",
+            "y": 270
+          }
+        },
+
+        {
+          "when": {
+            "half_fence": false,
+            "south": true,
+            "east": true
+          },
+          "apply": {
+            "model": "swem:block/western_fence_corner_jungle"
+          }
+        },
+        {
+          "when": {
+            "half_fence": false,
+            "south": true,
+            "east": true
+          },
+          "apply": {
+            "model": "swem:block/western_fence_corner_jungle",
+            "y": 90
+          }
+        },
+
+        {
+          "when": {
+            "half_fence": false,
+            "north": true,
+            "west": true
+          },
+          "apply": {
+            "model": "swem:block/western_fence_corner_jungle",
+            "y": 180
+          }
+        },
+        {
+          "when": {
+            "half_fence": false,
+            "north": true,
+            "west": true
+          },
+          "apply": {
+            "model": "swem:block/western_fence_corner_jungle",
+            "y": 270
+          }
+        },
+
+        {
+          "when": {
+            "half_fence": false,
+            "south": true,
+            "west": true
+          },
+          "apply": {
+            "model": "swem:block/western_fence_corner_jungle",
+            "y": 180
+          }
+        },
+        {
+          "when": {
+            "half_fence": false,
+            "south": true,
+            "west": true
+          },
+          "apply": {
+            "model": "swem:block/western_fence_corner_jungle",
+            "y": 90
+          }
+        },
+        {
+          "when": {
+            "half_fence": false,
             "north": "true"
           },
           "apply": {

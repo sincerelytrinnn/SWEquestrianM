@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "stall_door_horse",
+  "pattern":
+  [
+    "xx ",
+    "yy ",
+    "yy "
+  ],
+  "key":
+  {
+    "x":
+    {
+      "tag": "swem:bars"
+    },
+    "y":
+    {
+      "item": "swem:whitewash_plank"
+    }
+  },
+  "result":
+  {
+    "item": "swem:whitewash_stall_horse",
+    "count": 2
+  }
+}

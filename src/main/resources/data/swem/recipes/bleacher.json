@@ -8,12 +8,12 @@
   "key":
   {
 	"x":
+      {
+        "tag": "swem:bars"
+      },
+    "y":
     {
       "item": "minecraft:heavy_weighted_pressure_plate"
-    },
-	"y":
-    {
-      "item": "minecraft:iron_bars"
     }
   },
   "result":

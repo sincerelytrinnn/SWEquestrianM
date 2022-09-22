@@ -3,9 +3,9 @@
   "group": "chestplate",
   "pattern":
   [
-    "y y",
-    "xzx",
-	"xyx"
+    "x x",
+    "xyx",
+	"xxx"
   ],
   "key":
   {
@@ -14,10 +14,6 @@
       "item": "swem:gold_rivet"
     },
 	"y":
-    {
-      "item": "swem:gold_plate"
-    },
-	"z":
     {
       "item": "swem:iron_chestplate"
     }

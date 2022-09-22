@@ -1,6 +1,20 @@
 package com.alaharranhonor.swem.entities.needs;
 
-import com.alaharranhonor.swem.SWEM;
+/*
+ * All Rights Reserved
+ *
+ * Copyright (c) 2021, AlaharranHonor, Legenden.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+import com.alaharranhonor.swem.config.ConfigHolder;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.util.registry.SWEMBlocks;
 import com.alaharranhonor.swem.util.registry.SWEMItems;
@@ -11,6 +25,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.SoundEvents;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,275 +34,380 @@ import java.util.stream.Stream;
 
 public class HungerNeed {
 
-	private HungerState state;
+    public static final DataParameter<Integer> TOTAL_TIMES_FED =
+        EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+    private final SWEMHorseEntityBase horse;
 
-	private SWEMHorseEntityBase horse;
+    private final ArrayList<Ingredient> FEEDS =
+        new ArrayList<>(
+            Stream.of(
+                    Ingredient.of(Items.CARROT),
+                    Ingredient.of(Items.APPLE),
+                    Ingredient.of(SWEMItems.OAT_BUSHEL.get()),
+                    Ingredient.of(SWEMItems.TIMOTHY_BUSHEL.get()),
+                    Ingredient.of(SWEMItems.ALFALFA_BUSHEL.get()),
+                    Ingredient.of(SWEMBlocks.QUALITY_BALE.get().asItem()),
+                    Ingredient.of(Items.GRASS_BLOCK),
+                    Ingredient.of(SWEMItems.SUGAR_CUBE.get()),
+                    Ingredient.of(SWEMItems.SWEET_FEED.get()))
+                .collect(Collectors.toList()));
 
-	private ArrayList<Ingredient> FEEDS = new ArrayList<Ingredient>(
-			Stream.of(
-					Ingredient.of(Items.CARROT),
-					Ingredient.of(Items.APPLE),
-					Ingredient.of(SWEMItems.OAT_BUSHEL.get()),
-					Ingredient.of(SWEMItems.TIMOTHY_BUSHEL.get()),
-					Ingredient.of(SWEMItems.ALFALFA_BUSHEL.get()),
-					Ingredient.of(SWEMBlocks.QUALITY_BALE_ITEM.get()),
-					Ingredient.of(Items.GRASS_BLOCK),
-					Ingredient.of(SWEMItems.SUGAR_CUBE.get()),
-					Ingredient.of(SWEMItems.SWEET_FEED.get())
-			).collect(Collectors.toList()));
+    private final int[] POINTS_GIVEN = {1, 1, 5, 5, 5, 15, 1, 1, 15};
+    private final int[] MAX_TIMES = {1, 1, 1, 4, 4, 1, -1, 1, 1};
+    private HungerState state;
+    private int[] TIMES_FED = new int[9];
+    private int tickCounter;
+    private int points;
 
-	private int[] POINTS_GIVEN = {1, 1, 5, 5, 5, 15, 1, 1, 15};
-	private int[] TIMES_FED = new int[9];
-	private int[] MAX_TIMES = {1, 1, 1, 4, 4, 1, -1, 1, 1};
+    /**
+     * Instantiates a new Hunger need.
+     *
+     * @param horse the horse
+     */
+    public HungerNeed(SWEMHorseEntityBase horse) {
+        this.horse = horse;
+        this.setState(HungerState.FULLY_FED);
+        this.tickCounter =
+            192_000 * (ConfigHolder.SERVER.multiplayerHungerThirst.get() ? 72 : 1); // 192_000;
+    }
 
-	public static final DataParameter<Integer> TOTAL_TIMES_FED = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+    /**
+     * Tick.
+     */
+    public void tick() {
+        if (this.tickCounter == 0) return;
+        this.tickCounter--;
+        if (this.tickCounter <= this.state.getTickAmountChange()
+            && this.state != HungerState.STARVING) {
+            this.setStateById(this.state.getId() - 1);
+        }
+    }
 
-	public HungerNeed(SWEMHorseEntityBase horse) {
-		this.horse = horse;
-		this.setState(HungerState.FULLY_FED);
-	}
+    /**
+     * Add points boolean.
+     *
+     * @param itemstack the itemstack
+     * @return the boolean
+     */
+    public boolean addPoints(ItemStack itemstack) {
+        if (this.getTotalTimesFed() == 7 && itemstack.getItem() != Items.GRASS_BLOCK) {
+            return false;
+        }
+        int itemIndex = this.getItemIndex(itemstack);
 
+        // Early break causes.
+        if (itemIndex == -1) return false; // Item was not a legal item.
+        if (this.getMaxTimesFed(itemIndex) == this.getTimesFed(itemIndex))
+            return false; // That type of item, has already been fed it's max times.
+        int points = this.getPointsFromItem(itemIndex);
 
-	public void tick() {
-		if (this.state.getCurrentTicks() == 0) return;
-		this.state.setCurrentTicks(this.state.getCurrentTicks() - 1);
+        if (itemstack.getItem() != Items.GRASS_BLOCK) {
+            this.setTotalTimesFed(1);
+        }
 
-		if (this.state.getCurrentTicks() <= this.state.getTickAmountChange() && this.state != HungerState.STARVING) {
-			this.setStateById(this.state.getId() - 1);
-		}
-	}
+        this.TIMES_FED[itemIndex]++; // Increment the times fed values.
 
-	public boolean addPoints(ItemStack itemstack) {
-		if (this.getTotalTimesFed() == 7 && itemstack.getItem() != Items.GRASS_BLOCK) {
-			return false;
-		}
-		int itemIndex = this.getItemIndex(itemstack);
+        // Set the points.
+        this.points += points;
 
-		// Early break causes.
-		if (itemIndex == -1) return false; // Item was not a legal item.
-		if (this.getMaxTimesFed(itemIndex) == this.getTimesFed(itemIndex)) return false; // That type of item, has already been fed it's max times.
-		int points = this.getPointsFromItem(itemIndex);
+        if (this.checkIncrement()) {
+            this.incrementState();
+        }
 
-		if (itemstack.getItem() != Items.GRASS_BLOCK) {
-			this.setTotalTimesFed(1);
-		}
+        horse.progressionManager.getHealthLeveling().addXP(points);
+        if (!horse.isSilent()) {
+            horse.playSound(
+                SoundEvents.HORSE_EAT,
+                1.0F,
+                1.0F + (horse.getRandom().nextFloat() - horse.getRandom().nextFloat()) * 0.2F);
+        }
+        return true;
+    }
 
-		this.TIMES_FED[itemIndex]++; // Increment the times fed values.
+    /**
+     * Check increment boolean.
+     *
+     * @return the boolean
+     */
+    public boolean checkIncrement() {
+        return this.points >= this.getNextState().getPointsRequired();
+    }
 
-		this.state.setCurrentPoints(this.state.getCurrentPoints() + points);
-		// Set the points.
+    /**
+     * Increment state.
+     */
+    public void incrementState() {
+        if (this.state != HungerState.FULLY_FED) {
+            this.points -= this.state.getPointsRequired();
+            if (this.points < 0) {
+                this.points = 0;
+            }
+            HungerState nextState = this.getNextState();
+            this.setStateById(nextState.ordinal());
+            if (nextState == HungerState.FULLY_FED) {
+                this.tickCounter = 192_000 * (ConfigHolder.SERVER.multiplayerHungerThirst.get() ? 72 : 1);
+            } else {
+                this.tickCounter = getNextState().getTickAmountChange();
+            }
+        }
+    }
 
-		if (this.checkIncrement()) {
-			this.incrementState();
-		}
+    /**
+     * Gets item index.
+     *
+     * @param itemstack the itemstack
+     * @return the item index
+     */
+    public int getItemIndex(ItemStack itemstack) {
+        int index = -1;
+        for (int i = 0; i < FEEDS.size(); i++) {
+            Ingredient ingredient = FEEDS.get(i);
+            if (ingredient.test(itemstack)) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
 
-		horse.progressionManager.getHealthLeveling().addXP(points);
-		return true;
-	}
+    /**
+     * Gets times fed.
+     *
+     * @param index the index
+     * @return the times fed
+     */
+    public int getTimesFed(int index) {
+        return this.TIMES_FED[index];
+    }
 
-	public boolean checkIncrement() {
-		return this.state.getCurrentPoints() >= this.state.getPointsRequired();
-	}
+    /**
+     * Gets max times fed.
+     *
+     * @param index the index
+     * @return the max times fed
+     */
+    public int getMaxTimesFed(int index) {
+        return this.MAX_TIMES[index];
+    }
 
-	public void incrementState() {
-		if (this.state != HungerState.FED) {
-			this.state.setCurrentPoints(state.getCurrentPoints() - this.state.getPointsRequired());
-			this.setStateById(this.state.getId() + 1);
-			if (this.state == HungerState.FED) {
-				this.state.setCurrentTicks(192000);
-			} else {
-				this.state.setCurrentTicks(this.getNextState().getTickAmountChange());
-			}
-		}
-	}
+    /**
+     * Gets points from item.
+     *
+     * @param index the index
+     * @return the points from item
+     */
+    private int getPointsFromItem(int index) {
+        return this.POINTS_GIVEN[index];
+    }
 
-	public int getItemIndex(ItemStack itemstack) {
-		int index = -1;
-		for (int i = 0; i < FEEDS.size(); i++) {
-			Ingredient ingredient = FEEDS.get(i);
-			if (ingredient.test(itemstack)) {
-				index = i;
-				break;
-			}
-		}
-		return index;
-	}
+    /**
+     * Gets total times fed.
+     *
+     * @return the total times fed
+     */
+    public int getTotalTimesFed() {
+        return this.horse.getEntityData().get(TOTAL_TIMES_FED);
+    }
 
-	public int getTimesFed(int index) {
-		return this.TIMES_FED[index];
-	}
+    /**
+     * Sets total times fed.
+     *
+     * @param amount the amount
+     */
+    private void setTotalTimesFed(int amount) {
+        this.horse.getEntityData().set(TOTAL_TIMES_FED, this.getTotalTimesFed() + amount);
+    }
 
-	public int getMaxTimesFed(int index) {
-		return this.MAX_TIMES[index];
-	}
+    /**
+     * Gets state.
+     *
+     * @return the state
+     */
+    public HungerState getState() {
+        return this.state;
+    }
 
-	private int getPointsFromItem(int index) {
-		return this.POINTS_GIVEN[index];
-	}
+    /**
+     * Sets state.
+     *
+     * @param state the state
+     */
+    public void setState(HungerState state) {
+        this.state = state;
+        this.state.setHorse(this.horse);
+    }
 
-	public int getTotalTimesFed() {
-		return this.horse.getEntityData().get(TOTAL_TIMES_FED);
-	}
+    /**
+     * Gets next state.
+     *
+     * @return the next state
+     */
+    public HungerState getNextState() {
+        int hungerId = this.state.getId() + 1;
+        if (hungerId > 4) {
+            hungerId = 4;
+        }
+        return HungerState.values()[hungerId];
+    }
 
-	private void setTotalTimesFed(int amount) {
-		this.horse.getEntityData().set(TOTAL_TIMES_FED, this.getTotalTimesFed() + amount);
-	}
+    /**
+     * Write compound nbt.
+     *
+     * @param nbt the nbt
+     * @return the compound nbt
+     */
+    public CompoundNBT write(CompoundNBT nbt) {
+        if (this.state != null) {
+            nbt.putInt("hungerStateID", this.state.getId());
+            nbt.putInt(
+                "hungerTick",
+                ConfigHolder.SERVER.multiplayerHungerThirst.get()
+                    ? this.tickCounter / 72
+                    : this.tickCounter);
+            nbt.putInt("hungerPoints", this.points);
+            nbt.putInt("hungerTotalTimesFed", this.getTotalTimesFed());
+            nbt.putIntArray("hungerTimesFed", this.TIMES_FED);
+        }
+        return nbt;
+    }
 
-	public HungerState getState() {
-		return this.state;
-	}
+    /**
+     * Read.
+     *
+     * @param nbt the nbt
+     */
+    public void read(CompoundNBT nbt) {
+        if (nbt.contains("hungerStateID")) {
+            int stateId = nbt.getInt("hungerStateID");
+            this.setStateById(stateId);
+        } else {
+            this.setStateById(4);
+        }
+        if (nbt.contains("hungerTick")) {
+            int ticks = nbt.getInt("hungerTick");
+            if (ticks == 0 && this.state != HungerState.STARVING) {
+                ticks = getNextState().getTickAmountChange();
+            }
+            this.tickCounter = ConfigHolder.SERVER.multiplayerHungerThirst.get() ? ticks * 72 : ticks;
+        }
+        if (nbt.contains("hungerPoints")) {
+            this.points = nbt.getInt("hungerPoints");
+        }
+        if (nbt.contains("hungerTotalTimesFed")) {
+            int totalTimesFed = nbt.getInt("hungerTotalTimesFed");
+            this.setTotalTimesFed(totalTimesFed);
+        }
+        if (nbt.contains("hungerTimesFed")) {
+            this.TIMES_FED = nbt.getIntArray("hungerTimesFed");
+        }
+        this.state.setHorse(this.horse);
+    }
 
-	public HungerState getNextState() {
-		int hungerId = this.state.getId() + 1;
-		if (hungerId > 4) {
-			hungerId = 4;
-		}
-		return HungerState.values()[hungerId];
-	}
+    /**
+     * Sets state by id.
+     *
+     * @param id the id
+     */
+    private void setStateById(int id) {
+        switch (id) {
+            case 0: {
+                this.setState(HungerState.STARVING);
+                this.horse.getEntityData().set(HungerState.ID, id);
+                break;
+            }
+            case 1: {
+                this.setState(HungerState.MALNOURISHED);
+                this.horse.getEntityData().set(HungerState.ID, id);
+                break;
+            }
+            case 2: {
+                this.setState(HungerState.HUNGRY);
+                this.horse.getEntityData().set(HungerState.ID, id);
+                break;
+            }
+            case 3: {
+                this.setState(HungerState.FED);
+                this.horse.getEntityData().set(HungerState.ID, id);
+                break;
+            }
+            case 4: {
+                this.setState(HungerState.FULLY_FED);
+                this.horse.getEntityData().set(HungerState.ID, id);
+                break;
+            }
+            default: {
+                this.setState(HungerState.FULLY_FED);
+                this.horse.getEntityData().set(HungerState.ID, 4);
+            }
+        }
+    }
 
-	public void setState(HungerState state) {
-		int ticks = 0;
-		if (this.state != null) {
-			ticks = this.state.getCurrentTicks();
-		}
-		this.state = state;
-		this.state.setCurrentTicks(ticks);
-		this.state.setHorse(this.horse);
-	}
+    /**
+     * Reset daily.
+     */
+    public void resetDaily() {
+        this.horse.getEntityData().set(TOTAL_TIMES_FED, 0);
+        Arrays.fill(this.TIMES_FED, 0);
+    }
 
-	public CompoundNBT write(CompoundNBT nbt) {
-		if (this.state != null) {
-			nbt.putInt("hungerStateID", this.state.getId());
-			nbt.putInt("hungerStateTick", this.state.getCurrentTicks());
-			nbt.putInt("hungerStatePoints", this.state.getCurrentPoints());
-			nbt.putInt("hungerTotalTimesFed", this.getTotalTimesFed());
-			nbt.putIntArray("hungerTimesFed", this.TIMES_FED);
+    public enum HungerState {
+        STARVING(-1, -1),
+        MALNOURISHED(72_000, 15),
+        HUNGRY(144_000, 40),
+        FED(168_000, 15),
+        FULLY_FED(180_000, -1);
 
-		}
-		return nbt;
-	}
+        public static final DataParameter<Integer> ID =
+            EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
+        private final int tickAmountChange;
+        private final int pointsRequired;
+        private SWEMHorseEntityBase horse;
 
-	public void read(CompoundNBT nbt) {
-		if (nbt.contains("hungerStateID")) {
-			int stateId = nbt.getInt("hungerStateID");
-			this.setStateById(stateId);
-		} else {
-			this.setStateById(4);
-		}
-		if (nbt.contains("hungerStateTick")) {
-			int ticks = nbt.getInt("hungerStateTick");
-			this.state.setCurrentTicks(ticks);
-		}
-		if (nbt.contains("hungerStatePoints")) {
-			int points = nbt.getInt("hungerStatePoints");
-			this.state.setCurrentPoints(points);
-		}
-		if (nbt.contains("hungerTotalTimesFed")) {
-			int totalTimesFed = nbt.getInt("hungerTotalTimesFed");
-			this.setTotalTimesFed(totalTimesFed);
-		}
-		if (nbt.contains("hungerTimesFed")) {
-			this.TIMES_FED = nbt.getIntArray("hungerTimesFed");
-		}
-		this.state.setHorse(this.horse);
-	}
+        /**
+         * Instantiates a new Hunger state.
+         *
+         * @param tickAmountChange the tick amount change
+         * @param pointsRequired   the points required
+         */
+        HungerState(int tickAmountChange, int pointsRequired) {
+            this.tickAmountChange = tickAmountChange;
+            this.pointsRequired = pointsRequired;
+        }
 
-	private void setStateById(int id) {
-		switch(id) {
-			case 0: {
-				this.setState(HungerState.STARVING);
-				this.horse.getEntityData().set(HungerState.ID, id);
-				break;
-			}
-			case 1: {
-				this.setState(HungerState.MALNOURISHED);
-				this.horse.getEntityData().set(HungerState.ID, id);
-				break;
-			}
-			case 2: {
-				this.setState(HungerState.HUNGRY);
-				this.horse.getEntityData().set(HungerState.ID, id);
-				break;
-			}
-			case 3: {
-				this.setState(HungerState.FED);
-				this.horse.getEntityData().set(HungerState.ID, id);
-				break;
-			}
-			case 4: {
-				this.setState(HungerState.FULLY_FED);
-				this.horse.getEntityData().set(HungerState.ID, id);
-				break;
-			}
-			default: {
-				this.setState(HungerState.FULLY_FED);
-				this.horse.getEntityData().set(HungerState.ID, 4);
-			}
-		}
-	}
+        /**
+         * Sets horse.
+         *
+         * @param horse the horse
+         */
+        public void setHorse(SWEMHorseEntityBase horse) {
+            this.horse = horse;
+        }
 
-	public void resetDaily() {
-		this.horse.getEntityData().set(TOTAL_TIMES_FED, 0);
-		this.state.resetCurrentPoints();
-		Arrays.fill(this.TIMES_FED, 0);
-	}
+        /**
+         * Gets id.
+         *
+         * @return the id
+         */
+        public int getId() {
+            return this.horse.getEntityData().get(ID);
+        }
 
-	public enum HungerState {
+        /**
+         * Gets tick amount change.
+         *
+         * @return the tick amount change
+         */
+        public int getTickAmountChange() {
+            return this.tickAmountChange * (ConfigHolder.SERVER.multiplayerHungerThirst.get() ? 72 : 1);
+        }
 
-		STARVING(-1, -1),
-		MALNOURISHED(72_000, 15),
-		HUNGRY(144_000, 40),
-		FED(168_000, 15),
-		FULLY_FED(180_000, -1);
-
-		public static final DataParameter<Integer> ID = EntityDataManager.defineId(SWEMHorseEntityBase.class, DataSerializers.INT);
-		private int tickAmountChange;
-		private int pointsRequired;
-		private int currentPoints;
-		private int currentTicks;
-		private SWEMHorseEntityBase horse;
-		HungerState(int tickAmountChange, int pointsRequired) {
-			this.tickAmountChange = tickAmountChange;
-			this.pointsRequired = pointsRequired;
-			this.currentPoints = 0;
-			this.currentTicks = 0;
-		}
-
-		public void setHorse(SWEMHorseEntityBase horse) {
-			this.horse = horse;
-		}
-
-		public int getId() {
-			return this.horse.getEntityData().get(ID);
-		}
-
-		public int getTickAmountChange() {
-			return this.tickAmountChange;
-		}
-
-		public int getCurrentTicks() {
-			return this.currentTicks;
-		}
-
-		public void setCurrentTicks(int currentTicks) {
-			this.currentTicks = currentTicks;
-		}
-
-		public int getPointsRequired() {
-			return this.pointsRequired;
-		}
-
-		public int getCurrentPoints() {
-			return this.currentPoints;
-		}
-
-		public void setCurrentPoints(int points) {
-			this.currentPoints = points;
-		}
-
-		public void resetCurrentPoints() {
-			this.currentPoints = 0;
-		}
-
-	}
+        /**
+         * Gets points required.
+         *
+         * @return the points required
+         */
+        public int getPointsRequired() {
+            return this.pointsRequired;
+        }
+    }
 }

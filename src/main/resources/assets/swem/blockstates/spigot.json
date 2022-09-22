@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,hanging=false": {
+      "model": "swem:block/spigot_ground",
+      "y": 180
+    },
+    "facing=south,hanging=false": {
+      "model": "swem:block/spigot_ground"
+    },
+    "facing=west,hanging=false": {
+      "model": "swem:block/spigot_ground",
+      "y": 90
+    },
+    "facing=east,hanging=false": {
+      "model": "swem:block/spigot_ground",
+      "y": 270
+    },
+    "facing=north,hanging=true": {
+      "model": "swem:block/spigot_wall",
+      "y": 180
+    },
+    "facing=south,hanging=true": {
+      "model": "swem:block/spigot_wall"
+    },
+    "facing=west,hanging=true": {
+      "model": "swem:block/spigot_wall",
+      "y": 90
+    },
+    "facing=east,hanging=true": {
+      "model": "swem:block/spigot_wall",
+      "y": 270
+    }
+  }
+}

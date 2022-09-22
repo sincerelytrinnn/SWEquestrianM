@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": ""
+        "model": "swem:block/bridle_rack"
       }
     }
   ]

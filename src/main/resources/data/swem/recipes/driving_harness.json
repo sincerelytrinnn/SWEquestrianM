@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " xn",
+    "nxx",
+    " nx"
+  ],
+  "key": {
+    "x": {
+      "item": "minecraft:black_carpet"
+    },
+    "n": {
+      "item": "minecraft:iron_nugget"
+    }
+  },
+  "result": {
+    "item": "swem:driving_harness"
+  }
+}

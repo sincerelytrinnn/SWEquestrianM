@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "yxy",
+    "yyy",
+    "yyy"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "swem:refined_leather"
+    },
+    "y":
+    {
+      "tag": "minecraft:carpets"
+    }
+  },
+  "result":
+  {
+    "item": "swem:adventure_blanket",
+    "count": 1
+  }
+}

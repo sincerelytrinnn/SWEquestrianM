@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:revert_separator_brown"
+    ]
+  },
+  "criteria": {
+    "has_separator_brown": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:separator_brown"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:revert_separator_brown"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_separator_brown",
+      "has_the_recipe"
+    ]
+  ]
+}

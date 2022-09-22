@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "yx ",
+    " x ",
+    " xy"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "swem:refined_leather"
+    },
+    "y":
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result":
+  {
+    "item": "swem:adventure_girth_strap",
+    "count": 1
+  }
+}

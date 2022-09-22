@@ -10,11 +10,11 @@
   {
 	"x":
     {
-      "item": "minecraft:flint"
+      "item": "minecraft:dirt"
     },
 	"y":
     {
-      "item": "minecraft:dirt"
+      "item": "minecraft:flint"
     }
   },
   "result":

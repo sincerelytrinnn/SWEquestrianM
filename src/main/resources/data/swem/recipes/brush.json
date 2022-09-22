@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "x",
+    "y"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "tag": "minecraft:planks"
+    },
+    "y":
+    {
+      "item": "minecraft:dried_kelp"
+    }
+  },
+  "result":
+  {
+    "item": "swem:brush",
+    "count": 1
+  }
+}

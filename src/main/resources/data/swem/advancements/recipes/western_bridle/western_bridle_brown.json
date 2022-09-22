@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:western_bridle/western_bridle_brown"
+    ]
+  },
+  "criteria": {
+    "has_western_bridle": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:refined_leather"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:western_bridle/western_bridle_brown"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_western_bridle",
+      "has_the_recipe"
+    ]
+  ]
+}

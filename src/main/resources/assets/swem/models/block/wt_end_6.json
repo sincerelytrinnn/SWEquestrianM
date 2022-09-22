@@ -159,8 +159,8 @@
           "faces": {
             "up": {
               "texture": "#water",
-              "tintindex": 0,
-              "cullface": "up"
+              "tintindex": 0
+
             }
           }
         },
@@ -188,8 +188,8 @@
           "faces": {
             "up": {
               "texture": "#water",
-              "tintindex": 0,
-              "cullface": "up"
+              "tintindex": 0
+
             }
           }
         },
@@ -217,8 +217,8 @@
           "faces": {
             "up": {
               "texture": "#water",
-              "tintindex": 0,
-              "cullface": "up"
+              "tintindex": 0
+
             }
           }
         },
@@ -246,8 +246,8 @@
           "faces": {
             "up": {
               "texture": "#water",
-              "tintindex": 0,
-              "cullface": "up"
+              "tintindex": 0
+
             }
           }
         },
@@ -275,8 +275,8 @@
           "faces": {
             "up": {
               "texture": "#water",
-              "tintindex": 0,
-              "cullface": "up"
+              "tintindex": 0
+
             }
           }
         }
@@ -311,8 +311,8 @@
           "faces": {
             "up": {
               "texture": "#water",
-              "tintindex": 0,
-              "cullface": "up"
+              "tintindex": 0
+
             }
           }
         },
@@ -340,8 +340,8 @@
           "faces": {
             "up": {
               "texture": "#water",
-              "tintindex": 0,
-              "cullface": "up"
+              "tintindex": 0
+
             }
           }
         },
@@ -369,8 +369,8 @@
           "faces": {
             "up": {
               "texture": "#water",
-              "tintindex": 0,
-              "cullface": "up"
+              "tintindex": 0
+
             }
           }
         },
@@ -398,8 +398,8 @@
           "faces": {
             "up": {
               "texture": "#water",
-              "tintindex": 0,
-              "cullface": "up"
+              "tintindex": 0
+
             }
           }
         },
@@ -427,8 +427,8 @@
           "faces": {
             "up": {
               "texture": "#water",
-              "tintindex": 0,
-              "cullface": "up"
+              "tintindex": 0
+
             }
           }
         }

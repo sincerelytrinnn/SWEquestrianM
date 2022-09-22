@@ -1,6 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "swem:items/jump_xp_bottle"
-  }
-}

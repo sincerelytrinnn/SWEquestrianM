@@ -2,14 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "pattern":
   [
-    "xxy",
-	"y  "
+    "xx ",
+	"yy "
   ],
   "key":
   {
-	"x":
+    "x":
     {
-      "item": "minecraft:iron_bars"
+      "tag": "swem:bars"
     },
 	"y":
     {

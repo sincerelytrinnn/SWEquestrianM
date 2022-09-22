@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:revert_iron_rivet"
+    ]
+  },
+  "criteria": {
+    "has_iron_rivet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "swem:iron_rivet"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:revert_iron_rivet"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_iron_rivet",
+      "has_the_recipe"
+    ]
+  ]
+}

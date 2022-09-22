@@ -4,8 +4,16 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "swem.refmap.json",
   "mixins": [
-    "CauldronBlockMixin",
-    "AbstractHorseEntityMixin"
+    "AbstractHorseEntityMixin",
+    "AbstractVillagerEntityMixin",
+    "HorseMovementCheck",
+    "LilyPadBlockMixin"
+  ],
+  "client": [
+    "client.AbstractClientPlayerEntityMixin",
+    "client.ClientPlayerEntityMixin",
+    "client.LeashKnotRendererMixin",
+    "client.LivingRendererMixin"
   ],
   "minVersion": "0.8"
 }

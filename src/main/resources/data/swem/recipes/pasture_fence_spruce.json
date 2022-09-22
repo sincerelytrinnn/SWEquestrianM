@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pasture_fence",
+  "pattern":
+  [
+    "xzx",
+    "xzx",
+    "x x"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "minecraft:spruce_planks"
+    },
+    "z":
+    {
+      "item": "minecraft:stick"
+    }
+  },
+  "result":
+  {
+    "item": "swem:pasture_fence_spruce",
+    "count": 8
+  }
+}

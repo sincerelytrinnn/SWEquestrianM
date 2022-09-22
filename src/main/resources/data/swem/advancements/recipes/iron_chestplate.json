@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "swem:iron_chestplate"
+    ]
+  },
+  "criteria": {
+    "has_leather_chestplate": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:leather_chestplate"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "swem:iron_chestplate"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_leather_chestplate",
+      "has_the_recipe"
+    ]
+  ]
+}

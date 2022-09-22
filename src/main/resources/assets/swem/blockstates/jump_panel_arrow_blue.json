@@ -36,7 +36,7 @@
       },
       "apply": {
         "model": "swem:block/panel_arrow_outer_blue_flipped",
-        "y": 0
+        "y": 90
       }
     },
 

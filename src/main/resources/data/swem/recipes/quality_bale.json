@@ -1,23 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern":
-  [
-    "xy ",
-    "yx "
+  "pattern": [
+    "xyx",
+    "yzy",
+    "xyx"
   ],
-  "key":
-  {
-	"x":
-    {
+  "key": {
+    "x": {
       "item": "swem:timothy_bushel"
     },
-	"y":
-    {
+    "y": {
       "item": "swem:alfalfa_bushel"
+    },
+    "z": {
+      "tag": "forge:string"
     }
   },
-  "result":
-  {
+  "result": {
     "item": "swem:quality_bale",
     "count": 1
   }

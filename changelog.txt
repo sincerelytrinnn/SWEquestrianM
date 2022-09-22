@@ -1,0 +1,106 @@
+1.16.5-0.5.0.1:
+- Fix a bug where levels could become negative.
+
+1.16.5-0.5.0.0:
+- Soft release 1.16.5 version
+
+1.16.5-4.2.0-b:
+- Require Geckolib 3.0.86 or higher.
+- reposition rider to not sit in each other.
+- Fix new bales top slab model.
+- Replace seagrass when frost walking.
+- Allow for spigot placement on fences.
+- Fill below and one over if ground spigot.
+- Spigot particles.
+- Fix Water Trough single not showing water if block above.
+- Hide halter/bridle face if render bridle is hidden.
+- Send status message when ice effect is toggled.
+- Fixed eat/sad/lay
+- Added getting up animation when exiting laying down.
+
+1.16.5-4.1.0-b:
+- Re-added Girth Straps - _Woops_
+- Fix block O water being able to be replaced by right clicking.
+- Updated translations.
+- Updated PB light blue inv icon.
+- Fix pasture blanket crash on HAR.
+- Make spigot/hose text translatable and more clear.
+- Add lead in lead/anchor slot.
+- Added helpful text when using the tack box item.
+- Updated BoW props.
+
+1.16.5-4.0.0-b:
+- Don't show reins when using bridle lead.
+- Many recipe changes.
+- Updated Xaero's compat icons
+- Mercy Blade is now enchantable.
+- Updated various inv. icons
+- Enable the remaining slots in saddlebag.
+- Required geckolib version is now 3.0.81 and above
+- Up the jump height for each level.
+- Added helpful tooltip for closed shavings bag.
+- Sync horse being moved against blocks for all players.
+- Replace waterlogged plants, when frost-walking.
+- Fix horse flashing red and bucking even if receiving 0 damage.
+- Iron HA halves damage taken from certain potions.
+- Don't show fire animation when Diamond HA is worn.
+- Fix water not showing in HB and WT if a block is placed above.
+- Added Spigot/Hose/Block'O'Water functionality.
+- Removed "Performance Gain" keybind.
+- Updated horse/player animations.
+- Repositioned player in saddle.
+- Added Pasture Blankets and Pasture Blankets Armored.
+- Negate fall damage if falling in one block deep water.
+- Updated Spigot model
+- Added Middle Mouse click for toggling ice effect on ground and on horse back.
+
+
+1.16.5-3.6.2-b:
+- Updated coats
+
+1.16.5-3.6.1-b:
+- Updated horse animations
+
+1.16.5-0.3.6.0-b:
+- Introduced a config option for affinity xp.
+
+1.16.5-0.3.5.2-b:
+- Fixed MC-100830 (rubberbanding)
+
+1.16.5-0.3.5.1-b:
+- Updated western pole hitbox.
+
+1.16.5-0.3.5.0-b:
+- Added more descriptive titles to lockers
+- Removed a row from each locker side.
+- Changed recipe to give 3 lockers instead of 4.
+
+1.16.5-0.3.4.0-b:
+- Refactored horse render system, and animation setup.
+
+1.16.5-0.3.3.0-b:
+- Updated/Added coats.
+
+1.16.5-0.3.2.7-b:
+- Updated Halters
+
+1.16.5-0.3.2.6-b:
+- Added decorative driving harness
+
+1.16.5-0.3.2.5-b:
+- Added the missing coats in coat-transformer from Vanilla.
+
+1.16.5-0.3.2.4-b:
+- Fixed client thinking they had slow fall, after a certain scenario and removing the Amethyst riding boots.
+
+1.16.5-0.3.2.3-b:
+- Added horse name to saved horse data.
+
+1.16.5-0.3.2.2-b:
+- Fixed a bug where you could set incorrect level values with the /swem setlevel command.
+
+1.16.5-0.3.2.1-b:
+- Fixed slowfall issue with Amethyst Horse Armor #208
+
+1.16.5-0.3.2.0-b:
+- Updated player renderer (Way more performant)

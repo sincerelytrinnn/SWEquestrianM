@@ -12,9 +12,9 @@
     {
       "item": "minecraft:redstone"
     },
-	"x":
+    "x":
     {
-      "item": "minecraft:iron_bars"
+      "tag": "swem:bars"
     },
 	"y":
     {

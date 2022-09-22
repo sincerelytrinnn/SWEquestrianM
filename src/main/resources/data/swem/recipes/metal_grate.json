@@ -8,13 +8,13 @@
   ],
   "key":
   {
-	"x":
+    "x":
+    {
+      "tag": "swem:bars"
+    },
+    "y":
     {
       "item": "minecraft:iron_ingot"
-    },
-	"y":
-    {
-      "item": "minecraft:iron_bars"
     }
   },
   "result":

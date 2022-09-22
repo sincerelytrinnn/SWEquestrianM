@@ -1,0 +1,59 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "face": "wall",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "swem:block/lead_anchor_wall"
+      }
+    },
+    {
+      "when": {
+        "face": "wall",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "swem:block/lead_anchor_wall",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "face": "wall",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "swem:block/lead_anchor_wall",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "face": "wall",
+        "facing": "west"
+      },
+      "apply": {
+        "model": "swem:block/lead_anchor_wall",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "face": "ceiling"
+      },
+      "apply": {
+        "model": "swem:block/lead_anchor_ceiling"
+      }
+    },
+    {
+      "when": {
+        "face": "floor"
+      },
+      "apply": {
+        "model": "swem:block/lead_anchor_floor"
+      }
+    }
+  ]
+}

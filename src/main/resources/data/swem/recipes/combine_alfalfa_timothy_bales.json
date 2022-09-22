@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "xy "
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "swem:alfalfa_bale"
+    },
+    "y":
+    {
+      "item": "swem:timothy_bale"
+    }
+  },
+  "result":
+  {
+    "item": "swem:quality_bale",
+    "count": 1
+  }
+}
