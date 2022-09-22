@@ -42,7 +42,6 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: "net.dumbcode.gradlehook"
 
 
-version = "${mc_version}-${mod_version}"
 group = 'com.alaharranhonor.swem' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'swem'
 
