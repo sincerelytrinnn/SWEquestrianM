@@ -1,4 +1,5 @@
-1.16.5-0.5.1.1:
+1.16.5-0.5.1.2:
+- Make Mia and Ripple lapis-obtainable.
 - Fix horse transform item being applicable on foals.
 
 1.16.5-0.5.1.0:
