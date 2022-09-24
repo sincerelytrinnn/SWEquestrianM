@@ -6,6 +6,15 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "swem:western_barrel",
+              "properties": {
+                "half": "lower"
+              }
+            }
+          ],
           "name": "swem:western_barrel"
         }
       ],
