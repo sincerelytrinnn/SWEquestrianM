@@ -1,4 +1,5 @@
-1.16.5-0.5.1.5:
+1.16.5-0.5.1.6:
+- Fix config option riderFallingOff not working. Fixes cavecomputing/SWEM-Beta#280
 - Fix bridle rack not dropping bridles if the block behind it is destroyed. Fixes cavecomputing/SWEM-Beta#312
 - Fix duplicate entry in JEI plugin.
 - Fix multi-blocks dropping more than 1 item when exploded. Fixes cavecomputing/SWEM-Beta#242
