@@ -1,5 +1,11 @@
-1.16.5-0.5.1.8:
+1.16.5-0.5.2.0:
+- Fix measurement tool producing jumps facing the wrong direction. Fixes cavecomputing/SWEM-Beta#23
 - Fix spawn egg's not working on servers. Fixes cavecomputing/SWEM-Beta#271
+- Fix missing entries in Xaero's minimap & Add all icons to journeymap. Fixes cavecomputing/SWEM-Beta#304
+- Fix config option riderFallingOff not working. Fixes cavecomputing/SWEM-Beta#280
+- Fix bridle rack not dropping bridles if the block behind it is destroyed. Fixes cavecomputing/SWEM-Beta#312
+- Fix duplicate entry in JEI plugin.
+- Fix multi-blocks dropping more than 1 item when exploded. Fixes cavecomputing/SWEM-Beta#242
 - Make Mia and Ripple lapis-obtainable.
 - Fix horse transform item being applicable on foals.
 
