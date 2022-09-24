@@ -125,10 +125,17 @@ public class MeasurementTool extends Item {
             }
             int direction = isValidPos(firstPos, pos, initialDirection);
             if (direction == -1) {
+                context.getPlayer().displayClientMessage(new StringTextComponent("The jump base is on the ground! Make sure you make your jump on the same Y level!"), true);
+            } else if (direction == -2) {
+                context.getPlayer().displayClientMessage(new StringTextComponent("The gap is too wide or too narrow! Must be block, 5 spaces, then another block."), true);
+            } else if (direction == -3) {
+                context.getPlayer().displayClientMessage(new StringTextComponent("The block gap must be left/right of the way you are facing, not forward/backward."), true);
+            }
+
+            if (direction <= 0) {
                 nbt.remove("pos1");
                 nbt.remove("direction");
                 stack.setTag(nbt);
-                context.getPlayer().displayClientMessage(new StringTextComponent("The block gap should be on the other axis as you are facing."), true);
                 return ActionResultType.CONSUME;
             }
 
@@ -221,11 +228,11 @@ public class MeasurementTool extends Item {
 
         if (initialDirection.getAxis() == Direction.Axis.Z) {
             if (first.getZ() != second.getZ()) {
-                return -1;
+                return -3;
             }
         } else {
             if (first.getX() != second.getX()) {
-                return -1;
+                return -3;
             }
         }
 
@@ -235,6 +242,7 @@ public class MeasurementTool extends Item {
             } else if (first.getZ() - second.getZ() == 6) {
                 return 2; // Positive Z
             }
+            return -2;
             // check < or > 5 on z
         } else if (initialDirection.getAxis() == Direction.Axis.Z) {
             if (first.getX() - second.getX() == -6) {
@@ -242,8 +250,9 @@ public class MeasurementTool extends Item {
             } else if (first.getX() - second.getX() == 6) {
                 return 4; // Positive X
             }
+            return -2;
         }
-        return -1;
+        return -3;
     }
 
     @Override
