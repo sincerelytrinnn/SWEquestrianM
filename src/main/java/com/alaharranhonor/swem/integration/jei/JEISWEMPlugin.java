@@ -240,17 +240,6 @@ public class JEISWEMPlugin implements IModPlugin {
                 manager.byKey(new ResourceLocation(SWEM.MOD_ID, "adventure_saddle_copper")).get(),
                 VanillaRecipeCategoryUid.CRAFTING);
 
-        jeiRuntime
-            .getRecipeManager()
-            .hideRecipe(
-                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "amethyst_emerald_horse_armor")).get(),
-                VanillaRecipeCategoryUid.CRAFTING);
-        jeiRuntime
-            .getRecipeManager()
-            .hideRecipe(
-                manager.byKey(new ResourceLocation(SWEM.MOD_ID, "adventure_saddle_emerald")).get(),
-                VanillaRecipeCategoryUid.CRAFTING);
-
         IModPlugin.super.onRuntimeAvailable(jeiRuntime);
     }
 }
