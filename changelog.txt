@@ -1,4 +1,5 @@
-1.16.5-0.5.1.2:
+1.16.5-0.5.2.0:
+- Fix measurement tool producing jumps facing the wrong direction. Fixes cavecomputing/SWEM-Beta#23
 - Make Mia and Ripple lapis-obtainable.
 - Fix horse transform item being applicable on foals.
 
