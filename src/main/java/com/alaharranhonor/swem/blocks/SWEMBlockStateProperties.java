@@ -20,8 +20,6 @@ import net.minecraft.state.IntegerProperty;
 import net.minecraft.util.IStringSerializable;
 
 public class SWEMBlockStateProperties {
-    public static final EnumProperty<HitchingPostBase.PostPart> POST_PART =
-            EnumProperty.create("post_part", HitchingPostBase.PostPart.class);
     public static final BooleanProperty HALF_FENCE = BooleanProperty.create("half_fence");
 
     public static final IntegerProperty LEVEL_0_2 = IntegerProperty.create("level", 0, 2);
