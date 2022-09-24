@@ -22,7 +22,6 @@ import com.alaharranhonor.swem.client.animation.AnimationRegistry;
 import com.alaharranhonor.swem.client.render.*;
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
 import com.alaharranhonor.swem.gui.*;
-import com.alaharranhonor.swem.items.SWEMSpawnEggItem;
 import com.alaharranhonor.swem.particle.*;
 import com.alaharranhonor.swem.util.registry.*;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -36,7 +35,6 @@ import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.tileentity.SignTileEntityRenderer;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.DyeColor;
@@ -55,7 +53,6 @@ import net.minecraft.world.biome.BiomeColors;
 import net.minecraft.world.biome.BiomeRegistry;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
@@ -288,27 +285,6 @@ public class ClientEventHandlers {
         /*event.getItemColors().register((p_210239_0_, p_210239_1_) -> {
             return p_210239_1_ > 0 ? -1 : ((IDyeableArmorItem) p_210239_0_.getItem()).getColor(p_210239_0_);
         }, SWEMItems.WESTERN_LEG_WRAPS.get(), SWEMItems.ENGLISH_LEG_WRAPS.get());*/
-    }
-
-    /**
-     * On register entities.
-     *
-     * @param event the event
-     */
-    @SubscribeEvent
-    public static void onRegisterEntities(RegistryEvent.Register<EntityType<?>> event) {
-        SWEMSpawnEggItem.initSpawnEggs();
-    }
-
-    /**
-     * On register items.
-     *
-     * @param event the event
-     */
-    @SubscribeEvent
-    public static void onRegisterItems(RegistryEvent.Register<Item> event) {
-        event.getRegistry().register(new SWEMSpawnEggItem(SWEMEntities.WORMIE_BOI_ENTITY, Color.parseColor("#bf7b05").getValue(), Color.parseColor("#663c02").getValue(), new Item.Properties().tab(SWEM.TAB)).setRegistryName("worm_spawn_egg"));
-        event.getRegistry().register(new SWEMSpawnEggItem(SWEMEntities.SWEM_HORSE_ENTITY, Color.parseColor("#bf7b05").getValue(), Color.parseColor("#663c02").getValue(), new Item.Properties().tab(SWEM.TAB)).setRegistryName("swem_horse_spawn_egg"));
     }
 
     @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = SWEM.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
