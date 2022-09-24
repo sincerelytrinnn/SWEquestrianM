@@ -6,6 +6,15 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "swem:english_hitching_post",
+              "properties": {
+                "post_part": "lower"
+              }
+            }
+          ],
           "name": "swem:english_hitching_post"
         }
       ],

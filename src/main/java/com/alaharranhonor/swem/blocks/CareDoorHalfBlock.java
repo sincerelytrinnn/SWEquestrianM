@@ -38,10 +38,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -283,6 +280,19 @@ public class CareDoorHalfBlock extends Block {
             }
             return null;
         }
+    }
+
+    /**
+     * Determines if this block should drop loot when exploded.
+     *
+     * @param state
+     * @param world
+     * @param pos
+     * @param explosion
+     */
+    @Override
+    public boolean canDropFromExplosion(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion) {
+        return state.getValue(SIDE) == SWEMBlockStateProperties.TripleBlockSide.LEFT;
     }
 
     @Override

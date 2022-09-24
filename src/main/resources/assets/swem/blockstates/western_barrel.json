@@ -2,7 +2,7 @@
   "multipart": [
     {
       "when": {
-        "post_part": "lower"
+        "half": "lower"
       },
       "apply": {
         "model": "swem:block/western_barrel_lower"
@@ -10,7 +10,7 @@
     },
     {
       "when": {
-        "post_part": "upper"
+        "half": "upper"
       },
       "apply": {
         "model": "swem:block/western_barrel_upper"
