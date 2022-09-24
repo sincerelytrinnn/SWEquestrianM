@@ -274,9 +274,11 @@ String getCurseforgeChangelogText() {
     return str
 }
 
-String getDiscordChangelog() {
+List<String> getDiscordChangelog() {
     def changelogFile = file('changelog.txt')
-    String str = ''
+    List<String> strings = new ArrayList<>();
+
+    String str = '';
     int lineCount = 0
     boolean done = false
     changelogFile.eachLine {
@@ -291,13 +293,19 @@ String getDiscordChangelog() {
                 temp = temp.replaceAll("#([0-9]+)\\b(?!])", "[\$0](https://github.com/$github_project/issues/\$1)");
             }
             str += "$temp\n"
+            if (str.length() > 900) {
+                strings.add(str)
+                str = ''
+            }
+            println str.length()
             lineCount++
             return
         } else {
             done = true
         }
     }
-    return str
+    strings.add(str)
+    return strings
 }
 
 import com.matthewprenger.cursegradle.CurseArtifact
@@ -328,7 +336,6 @@ curseforge {
     }
 }
 
-
 tasks.getByName("curseforge").doLast {
     if (project.hasProperty('swe_announcements_hook')) {
         println "Preparing webhook"
@@ -347,10 +354,13 @@ tasks.getByName("curseforge").doLast {
                 thumbnail { url = project.project_logo }
                 title = "$project.project_name $project.version Released"
                 url = release_url
-                field {
-                    name = "Changes:"
-                    value = discordChangelog
-                }
+                discordChangelog.forEach((log) -> {
+                    field {
+                        name = "Changes:"
+                        value = log
+                        inline = false
+                    }
+                })
                 field {
                     name = "Downloads:"
                     value = "[$curseforge_emote CurseForge]($curseforge_download)"
@@ -363,5 +373,6 @@ tasks.getByName("curseforge").doLast {
         }.send(project.property('swe_announcements_hook'))
 
         println "Discord Webhook Response: " + result.responseCode
+
     }
 }
