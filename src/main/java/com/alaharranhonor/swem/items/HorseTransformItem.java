@@ -42,10 +42,11 @@ public class HorseTransformItem extends Item {
         ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
         if (target instanceof SWEMHorseEntityBase) {
             SWEMHorseEntityBase horseEntity = (SWEMHorseEntityBase) target;
-
-            horseEntity.setCoatColour(this.coat);
-            stack.shrink(1);
-            return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
+            if (horseEntity.isTamed() && horseEntity.canAccessHorse(playerIn) && !horseEntity.isBaby()) {
+                horseEntity.setCoatColour(this.coat);
+                stack.shrink(1);
+                return ActionResultType.sidedSuccess(playerIn.level.isClientSide);
+            }
         }
         return ActionResultType.PASS;
     }
