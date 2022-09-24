@@ -25,6 +25,7 @@ import com.alaharranhonor.swem.items.tack.*;
 import com.alaharranhonor.swem.tools.*;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -46,6 +47,9 @@ public class SWEMItems {
     public static void init(IEventBus modBus) {
         ITEMS.register(modBus);
     }
+
+    public static final RegistryObject<ForgeSpawnEggItem> SWEM_HORSE_SPAWN_EGG = ITEMS.register("swem_horse_spawn_egg", () -> new ForgeSpawnEggItem(SWEMEntities.SWEM_HORSE_ENTITY, 12548869, 6700034, new Item.Properties().tab(SWEM.TAB)));
+    public static final RegistryObject<ForgeSpawnEggItem> WORM_SPAWN_EGG = ITEMS.register("worm_spawn_egg", () -> new ForgeSpawnEggItem(SWEMEntities.WORMIE_BOI_ENTITY, 12548869, 6700034, new Item.Properties().tab(SWEM.TAB)));
 
     public static final RegistryObject<Item> DIAMOND_PLATE = ITEMS.register("diamond_plate", ItemBase::new);
     public static final RegistryObject<Item> GOLD_PLATE = ITEMS.register("gold_plate", ItemBase::new);
