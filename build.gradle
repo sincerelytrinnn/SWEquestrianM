@@ -307,8 +307,6 @@ tasks.curseforge.enabled = project.hasProperty('curseforge_key')
 
 
 curseforge {
-    println getCurseforgeChangelogText()
-    println getDiscordChangelog()
     if (project.hasProperty('curseforge_key')) {
         apiKey = project.curseforge_key
     }
