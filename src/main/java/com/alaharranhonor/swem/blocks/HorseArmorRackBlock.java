@@ -162,20 +162,44 @@ public class HorseArmorRackBlock extends HorizontalBlock {
 
     @Override
     public void playerWillDestroy(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (!worldIn.isClientSide() && player.isCreative()) {
-            SWEMBlockStateProperties.DoubleBlockSide side = state.getValue(SIDE);
-            if (side == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
-                BlockPos blockpos = pos.relative(getNeighbourDirection(side, state.getValue(FACING)));
-                BlockState blockstate = worldIn.getBlockState(blockpos);
-                if (blockstate.getBlock() == this && blockstate.getValue(SIDE) == SWEMBlockStateProperties.DoubleBlockSide.RIGHT) {
-                    worldIn.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 35);
-                    worldIn.levelEvent(player, 2001, blockpos, Block.getId(blockstate));
-                }
+        if (!worldIn.isClientSide()) {
+            if (player.isCreative()) {
+                preventCreativeDropFromOtherHalf(worldIn, pos, state, player);
+            } else {
+                dropResources(state, worldIn, pos, (TileEntity) null, player, player.getItemInHand(player.getUsedItemHand()));
             }
         }
 
 
         super.playerWillDestroy(worldIn, pos, state, player);
+    }
+
+    /**
+     * Spawns the block's drops in the world. By the time this is called the Block has possibly been set to air via
+     * Block.removedByPlayer
+     *
+     * @param pLevel
+     * @param pPlayer
+     * @param pPos
+     * @param pState
+     * @param pTe
+     * @param pStack
+     */
+    @Override
+    public void playerDestroy(World pLevel, PlayerEntity pPlayer, BlockPos pPos, BlockState pState, @org.jetbrains.annotations.Nullable TileEntity pTe, ItemStack pStack) {
+        super.playerDestroy(pLevel, pPlayer, pPos, Blocks.AIR.defaultBlockState(), pTe, pStack);
+    }
+
+    protected void preventCreativeDropFromOtherHalf(World pLevel, BlockPos pPos, BlockState pState, PlayerEntity pPlayer) {
+        SWEMBlockStateProperties.DoubleBlockSide side = pState.getValue(SIDE);
+        if (side == SWEMBlockStateProperties.DoubleBlockSide.RIGHT) {
+            BlockPos blockpos = pPos.relative(getNeighbourDirection(side, pState.getValue(FACING).getCounterClockWise()));
+            BlockState blockstate = pLevel.getBlockState(blockpos);
+            if (blockstate.getBlock() == this && blockstate.getValue(SIDE) == SWEMBlockStateProperties.DoubleBlockSide.LEFT) {
+                pLevel.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 35);
+                pLevel.levelEvent(pPlayer, 2001, blockpos, Block.getId(blockstate));
+            }
+        }
     }
 
     @Override

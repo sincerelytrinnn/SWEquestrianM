@@ -11,7 +11,7 @@
               "condition": "minecraft:block_state_property",
               "block": "swem:horse_armor_rack",
               "properties": {
-                "side": "right"
+                "side": "left"
               }
             }
           ],
