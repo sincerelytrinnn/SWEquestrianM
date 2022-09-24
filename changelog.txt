@@ -1,5 +1,5 @@
 1.16.5-0.5.1.3:
-- Fix multi-blocks dropping more than 1 item when exploded.
+- Fix multi-blocks dropping more than 1 item when exploded. Fixes cavecomputing/SWEM-Beta#242
 - Make Mia and Ripple lapis-obtainable.
 - Fix horse transform item being applicable on foals.
 
