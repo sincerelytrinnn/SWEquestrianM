@@ -3,7 +3,7 @@
     {
       "when": {
         "facing": "north",
-        "post_part": "lower"
+        "half": "lower"
       },
       "apply": {
         "model": "swem:block/pasture_hitching_post_lower"
@@ -12,7 +12,7 @@
     {
       "when": {
         "facing": "north",
-        "post_part": "upper"
+        "half": "upper"
       },
       "apply": {
         "model": "swem:block/pasture_hitching_post_upper"
@@ -21,7 +21,7 @@
     {
       "when": {
         "facing": "east",
-        "post_part": "lower"
+        "half": "lower"
       },
       "apply": {
         "model": "swem:block/pasture_hitching_post_lower",
@@ -31,7 +31,7 @@
     {
       "when": {
         "facing": "east",
-        "post_part": "upper"
+        "half": "upper"
       },
       "apply": {
         "model": "swem:block/pasture_hitching_post_upper",
@@ -41,7 +41,7 @@
     {
       "when": {
         "facing": "south",
-        "post_part": "lower"
+        "half": "lower"
       },
       "apply": {
         "model": "swem:block/pasture_hitching_post_lower",
@@ -51,7 +51,7 @@
     {
       "when": {
         "facing": "south",
-        "post_part": "upper"
+        "half": "upper"
       },
       "apply": {
         "model": "swem:block/pasture_hitching_post_upper",
@@ -61,7 +61,7 @@
     {
       "when": {
         "facing": "west",
-        "post_part": "lower"
+        "half": "lower"
       },
       "apply": {
         "model": "swem:block/pasture_hitching_post_lower",
@@ -71,7 +71,7 @@
     {
       "when": {
         "facing": "west",
-        "post_part": "upper"
+        "half": "upper"
       },
       "apply": {
         "model": "swem:block/pasture_hitching_post_upper",
@@ -81,7 +81,7 @@
     {
       "when": {
         "enabled": true,
-        "post_part": "upper",
+        "half": "upper",
         "facing": "north"
       },
       "apply": {
@@ -91,7 +91,7 @@
     {
       "when": {
         "enabled": true,
-        "post_part": "upper",
+        "half": "upper",
         "facing": "east"
       },
       "apply": {
@@ -102,7 +102,7 @@
     {
       "when": {
         "enabled": true,
-        "post_part":  "upper",
+        "half":  "upper",
         "facing": "south"
       },
       "apply": {
@@ -113,7 +113,7 @@
     {
       "when": {
         "enabled": true,
-        "post_part":  "upper",
+        "half":  "upper",
         "facing": "west"
       },
       "apply": {
