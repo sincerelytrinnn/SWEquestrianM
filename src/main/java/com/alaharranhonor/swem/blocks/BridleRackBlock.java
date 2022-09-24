@@ -51,13 +51,7 @@ public class BridleRackBlock extends HorizontalBlock {
     }
 
     @Override
-    public ActionResultType use(
-            BlockState state,
-            World worldIn,
-            BlockPos pos,
-            PlayerEntity player,
-            Hand handIn,
-            BlockRayTraceResult hit) {
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
             TileEntity tile = worldIn.getBlockEntity(hit.getBlockPos());
             if (tile instanceof BridleRackTE) {
@@ -73,36 +67,21 @@ public class BridleRackBlock extends HorizontalBlock {
                         }
 
                         rack.itemHandler.setStackInSlot(0, saddleCopy);
-                        worldIn.playSound(
-                                null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 0.5F, 1.0F);
-                        PacketDistributor.TRACKING_CHUNK
-                                .with(() -> rack.getLevel().getChunkAt(rack.getBlockPos()))
-                                .send(rack.getUpdatePacket());
+                        worldIn.playSound(null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 0.5F, 1.0F);
+                        PacketDistributor.TRACKING_CHUNK.with(() -> rack.getLevel().getChunkAt(rack.getBlockPos())).send(rack.getUpdatePacket());
                         return ActionResultType.sidedSuccess(worldIn.isClientSide);
                     }
                 } else {
                     if (rack.itemHandler.getStackInSlot(0) != ItemStack.EMPTY) {
                         if (!player.abilities.instabuild) {
-                            ItemEntity itementity =
-                                    new ItemEntity(
-                                            worldIn,
-                                            rack.getBlockPos().getX(),
-                                            rack.getBlockPos().getY(),
-                                            rack.getBlockPos().getZ(),
-                                            rack.itemHandler.getStackInSlot(0));
-                            itementity.setDeltaMovement(
-                                    RANDOM.nextGaussian() * (double) 0.05F,
-                                    RANDOM.nextGaussian() * (double) 0.05F + (double) 0.2F,
-                                    RANDOM.nextGaussian() * (double) 0.05F);
+                            ItemEntity itementity = new ItemEntity(worldIn, rack.getBlockPos().getX(), rack.getBlockPos().getY(), rack.getBlockPos().getZ(), rack.itemHandler.getStackInSlot(0));
+                            itementity.setDeltaMovement(RANDOM.nextGaussian() * (double) 0.05F, RANDOM.nextGaussian() * (double) 0.05F + (double) 0.2F, RANDOM.nextGaussian() * (double) 0.05F);
                             worldIn.addFreshEntity(itementity);
                         }
 
                         rack.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
-                        worldIn.playSound(
-                                null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 0.5F, 1.0F);
-                        PacketDistributor.TRACKING_CHUNK
-                                .with(() -> rack.getLevel().getChunkAt(rack.getBlockPos()))
-                                .send(rack.getUpdatePacket());
+                        worldIn.playSound(null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 0.5F, 1.0F);
+                        PacketDistributor.TRACKING_CHUNK.with(() -> rack.getLevel().getChunkAt(rack.getBlockPos())).send(rack.getUpdatePacket());
                         return ActionResultType.sidedSuccess(worldIn.isClientSide);
                     }
                 }
@@ -112,28 +91,17 @@ public class BridleRackBlock extends HorizontalBlock {
     }
 
     @Override
-    public void playerDestroy(
-            World worldIn,
-            PlayerEntity player,
-            BlockPos pos,
-            BlockState state,
-            @Nullable TileEntity te,
-            ItemStack stack) {
-        if (te instanceof BridleRackTE && !player.abilities.instabuild) {
+    public void onRemove(BlockState pState, World pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
+        TileEntity te = pLevel.getBlockEntity(pPos);
+        if (te instanceof BridleRackTE) {
             ((BridleRackTE) te).dropItems();
         }
 
-        super.playerDestroy(worldIn, player, pos, state, te, stack);
+        super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
     }
 
     @Override
-    public BlockState updateShape(
-            BlockState stateIn,
-            Direction facing,
-            BlockState facingState,
-            IWorld worldIn,
-            BlockPos currentPos,
-            BlockPos facingPos) {
+    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
         if (facing == stateIn.getValue(FACING)) {
             if (!facingState.canOcclude()) {
                 return Blocks.AIR.defaultBlockState();
@@ -154,8 +122,7 @@ public class BridleRackBlock extends HorizontalBlock {
     }
 
     @Override
-    public VoxelShape getShape(
-            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         switch (state.getValue(FACING)) {
             case NORTH: {
                 return VoxelShapes.box(0.25d, 0, 0, 0.75d, 1d, 0.375d);
