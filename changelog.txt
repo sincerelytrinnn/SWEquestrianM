@@ -1,4 +1,5 @@
 1.16.5-0.5.2.0:
+- Fix crash when foal grows up, due to null animation name. Fixes cavecomputing/SWEM-Beta#319
 - Fix tackbox status message not being translated
 - Fix measurement tool producing jumps facing the wrong direction. Fixes cavecomputing/SWEM-Beta#23
 - Fix spawn egg's not working on servers. Fixes cavecomputing/SWEM-Beta#271
