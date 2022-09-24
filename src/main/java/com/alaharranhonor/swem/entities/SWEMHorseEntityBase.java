@@ -1973,7 +1973,7 @@ public class SWEMHorseEntityBase extends AbstractHorseEntity implements ISWEMEqu
                 }
 
                 // Kick off rider, if no girth strap is equipped.
-                if (this.isSWEMSaddled() && (!this.hasGirthStrap() || !ConfigHolder.SERVER.riderNeedsGirthStrap.get()) && this.isVehicle()) {
+                if (this.isSWEMSaddled() && (!this.hasGirthStrap() && ConfigHolder.SERVER.riderNeedsGirthStrap.get()) && this.isVehicle()) {
                     if (this.tickCount % 20 == 0) {
                         int rand = this.getRandom().nextInt(5);
                         if (rand == 0) {
