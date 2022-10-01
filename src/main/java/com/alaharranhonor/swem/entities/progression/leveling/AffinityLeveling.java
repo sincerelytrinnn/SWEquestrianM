@@ -210,51 +210,96 @@ public class AffinityLeveling implements ILeveling {
      */
     public void desensitize(ItemStack stack) {
         if ((this.getCurrentDesensitizingItem().getItem() != stack.getItem() && !this.getCurrentDesensitizingItem().isEmpty()) || this.currentSwipes >= 7) {
-            // TODO: SEND STATUS MESSAGE TO CLIENT.
+            horse.emitMehParticles((ServerWorld) horse.level, 4);
             return;
         }
         this.currentSwipes++;
         if (stack.getItem() == SWEMItems.BELLS.get() && this.daysSwiped[0] != -1) {
             this.setCurrentDesensitizingItem(stack);
+            horse.emitBadParticles((ServerWorld) horse.level, 3);
+            int randomNum = horse.getRandom().nextInt(10) + 1;
+            if (randomNum <= 9) {
+                horse.setStandingAnim();
+            } else {
+                horse.startKick();
+            }
             if (this.currentSwipes == 7) {
+                horse.emitEchParticles((ServerWorld) horse.level, 4);
                 this.daysSwiped[0]++;
                 if (this.daysSwiped[0] == 3) {
+                    horse.emitWootParticles((ServerWorld) horse.level, 4);
                     this.daysSwiped[0] = -1;
                     return;
                 }
             }
         } else if (stack.getItem() == SWEMItems.HOOLAHOOP.get() && this.daysSwiped[1] != -1) {
             this.setCurrentDesensitizingItem(stack);
+            horse.emitBadParticles((ServerWorld) horse.level, 3);
+            int randomNum = horse.getRandom().nextInt(10) + 1;
+            if (randomNum <= 9) {
+                horse.setStandingAnim();
+            } else {
+                horse.startKick();
+            }
             if (this.currentSwipes == 7) {
+                horse.emitEchParticles((ServerWorld) horse.level, 4);
                 this.daysSwiped[1]++;
                 if (this.daysSwiped[1] == 3) {
+                    horse.emitWootParticles((ServerWorld) horse.level, 4);
                     this.daysSwiped[1] = -1;
                     return;
                 }
             }
         } else if (stack.getItem() == SWEMItems.POMPOM.get() && this.daysSwiped[2] != -1) {
             this.setCurrentDesensitizingItem(stack);
+            horse.emitBadParticles((ServerWorld) horse.level, 3);
+            int randomNum = horse.getRandom().nextInt(10) + 1;
+            if (randomNum <= 9) {
+                horse.setStandingAnim();
+            } else {
+                horse.startKick();
+            }
             if (this.currentSwipes == 7) {
+                horse.emitEchParticles((ServerWorld) horse.level, 4);
                 this.daysSwiped[2]++;
                 if (this.daysSwiped[2] == 3) {
+                    horse.emitWootParticles((ServerWorld) horse.level, 4);
                     this.daysSwiped[2] = -1;
                     return;
                 }
             }
         } else if (stack.getItem() == SWEMItems.SHOPPING_BAG.get() && this.daysSwiped[3] != -1) {
             this.setCurrentDesensitizingItem(stack);
+            horse.emitBadParticles((ServerWorld) horse.level, 3);
+            int randomNum = horse.getRandom().nextInt(10) + 1;
+            if (randomNum <= 9) {
+                horse.setStandingAnim();
+            } else {
+                horse.startKick();
+            }
             if (this.currentSwipes == 7) {
+                horse.emitEchParticles((ServerWorld) horse.level, 4);
                 this.daysSwiped[3]++;
                 if (this.daysSwiped[3] == 3) {
+                    horse.emitWootParticles((ServerWorld) horse.level, 4);
                     this.daysSwiped[3] = -1;
                     return;
                 }
             }
         } else if (stack.getItem() == SWEMItems.TARP.get() && this.daysSwiped[4] != -1) {
             this.setCurrentDesensitizingItem(stack);
+            horse.emitBadParticles((ServerWorld) horse.level, 3);
+            int randomNum = horse.getRandom().nextInt(10) + 1;
+            if (randomNum <= 9) {
+                horse.setStandingAnim();
+            } else {
+                horse.startKick();
+            }
             if (this.currentSwipes == 7) {
+                horse.emitEchParticles((ServerWorld) horse.level, 4);
                 this.daysSwiped[4]++;
                 if (this.daysSwiped[4] == 3) {
+                    horse.emitWootParticles((ServerWorld) horse.level, 4);
                     this.daysSwiped[4] = -1;
                     return;
                 }
