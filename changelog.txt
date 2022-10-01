@@ -1,6 +1,7 @@
 1.16.5-0.5.2.2:
 - Make arm swing when using desensitizing item.
 - Add horse particle effect on desensitizing item use, and chance to rear/buck.
+- Emit Woot particles on horse XP Potion use, to make success more obvious.
 
 1.16.5-0.5.2.0:
 - Fix crash when foal grows up, due to null animation name. Fixes cavecomputing/SWEM-Beta#319

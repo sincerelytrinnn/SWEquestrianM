@@ -20,6 +20,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.world.server.ServerWorld;
 
 public class HorseXPPotion extends ItemBase {
 
@@ -35,29 +36,35 @@ public class HorseXPPotion extends ItemBase {
         this.leveler = leveler;
     }
 
+
     @Override
     public ActionResultType interactLivingEntity(
             ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-        if (target instanceof SWEMHorseEntityBase) {
+        if (target instanceof SWEMHorseEntityBase &&  (!target.level.isClientSide)) {
             SWEMHorseEntityBase horse = (SWEMHorseEntityBase) target;
             stack.shrink(1);
             if (this.leveler.equals("affinity")) {
                 horse.progressionManager.getAffinityLeveling().addXP(50);
+                horse.emitWootParticles((ServerWorld) horse.level, 3);
                 return ActionResultType.sidedSuccess(playerIn.getCommandSenderWorld().isClientSide);
             } else if (this.leveler.equals("speed")) {
                 horse.progressionManager.getSpeedLeveling().addXP(50);
+                horse.emitWootParticles((ServerWorld) horse.level, 3);
                 return ActionResultType.sidedSuccess(playerIn.getCommandSenderWorld().isClientSide);
             } else if (this.leveler.equals("jump")) {
                 horse.progressionManager.getJumpLeveling().addXP(50);
+                horse.emitWootParticles((ServerWorld) horse.level, 3);
                 return ActionResultType.sidedSuccess(playerIn.getCommandSenderWorld().isClientSide);
             } else if (this.leveler.equals("health")) {
                 horse.progressionManager.getHealthLeveling().addXP(50);
+                horse.emitWootParticles((ServerWorld) horse.level, 3);
                 return ActionResultType.sidedSuccess(playerIn.getCommandSenderWorld().isClientSide);
             } else {
                 horse.progressionManager.getAffinityLeveling().addXP(50);
                 horse.progressionManager.getJumpLeveling().addXP(50);
                 horse.progressionManager.getSpeedLeveling().addXP(50);
                 horse.progressionManager.getHealthLeveling().addXP(50);
+                horse.emitWootParticles((ServerWorld) horse.level, 4);
                 return ActionResultType.sidedSuccess(playerIn.getCommandSenderWorld().isClientSide);
             }
         }
