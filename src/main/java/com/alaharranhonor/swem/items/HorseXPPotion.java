@@ -15,7 +15,6 @@ package com.alaharranhonor.swem.items;
  */
 
 import com.alaharranhonor.swem.entities.SWEMHorseEntityBase;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
