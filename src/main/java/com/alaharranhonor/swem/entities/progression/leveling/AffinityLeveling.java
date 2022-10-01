@@ -23,13 +23,10 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.server.ServerWorld;
 
-import java.util.Random;
-
 import static com.alaharranhonor.swem.entities.SWEMHorseEntityBase.*;
 
 public class AffinityLeveling implements ILeveling {
 
-    private static final Random rand = new Random();
     public final float[] requiredXpArray;
     private final SWEMHorseEntityBase horse;
     private final EntityDataManager dataManager;
@@ -220,9 +217,12 @@ public class AffinityLeveling implements ILeveling {
         if (stack.getItem() == SWEMItems.BELLS.get() && this.daysSwiped[0] != -1) {
             this.setCurrentDesensitizingItem(stack);
             horse.emitBadParticles((ServerWorld) horse.level, 3);
-            int randomNum = rand.nextInt(10) + 1;
-                if (randomNum <= 9) horse.setStandingAnim();
-                else horse.startKick();
+            int randomNum = horse.getRandom().nextInt(10) + 1;
+            if (randomNum <= 9) {
+                horse.setStandingAnim();
+            } else {
+                horse.startKick();
+            }
             if (this.currentSwipes == 7) {
                 horse.emitEchParticles((ServerWorld) horse.level, 4);
                 this.daysSwiped[0]++;
@@ -234,10 +234,13 @@ public class AffinityLeveling implements ILeveling {
             }
         } else if (stack.getItem() == SWEMItems.HOOLAHOOP.get() && this.daysSwiped[1] != -1) {
             this.setCurrentDesensitizingItem(stack);
-                horse.emitBadParticles((ServerWorld) horse.level, 3);
-                int randomNum = rand.nextInt(10) + 1;
-                if (randomNum <= 9) horse.setStandingAnim();
-                else horse.startKick();
+            horse.emitBadParticles((ServerWorld) horse.level, 3);
+            int randomNum = horse.getRandom().nextInt(10) + 1;
+            if (randomNum <= 9) {
+                horse.setStandingAnim();
+            } else {
+                horse.startKick();
+            }
             if (this.currentSwipes == 7) {
                 horse.emitEchParticles((ServerWorld) horse.level, 4);
                 this.daysSwiped[1]++;
@@ -249,10 +252,13 @@ public class AffinityLeveling implements ILeveling {
             }
         } else if (stack.getItem() == SWEMItems.POMPOM.get() && this.daysSwiped[2] != -1) {
             this.setCurrentDesensitizingItem(stack);
-                horse.emitBadParticles((ServerWorld) horse.level, 3);
-                int randomNum = rand.nextInt(10) + 1;
-                if (randomNum <= 9) horse.setStandingAnim();
-                else horse.startKick();
+            horse.emitBadParticles((ServerWorld) horse.level, 3);
+            int randomNum = horse.getRandom().nextInt(10) + 1;
+            if (randomNum <= 9) {
+                horse.setStandingAnim();
+            } else {
+                horse.startKick();
+            }
             if (this.currentSwipes == 7) {
                 horse.emitEchParticles((ServerWorld) horse.level, 4);
                 this.daysSwiped[2]++;
@@ -264,10 +270,13 @@ public class AffinityLeveling implements ILeveling {
             }
         } else if (stack.getItem() == SWEMItems.SHOPPING_BAG.get() && this.daysSwiped[3] != -1) {
             this.setCurrentDesensitizingItem(stack);
-                horse.emitBadParticles((ServerWorld) horse.level, 3);
-                int randomNum = rand.nextInt(10) + 1;
-                if (randomNum <= 9) horse.setStandingAnim();
-                else horse.startKick();
+            horse.emitBadParticles((ServerWorld) horse.level, 3);
+            int randomNum = horse.getRandom().nextInt(10) + 1;
+            if (randomNum <= 9) {
+                horse.setStandingAnim();
+            } else {
+                horse.startKick();
+            }
             if (this.currentSwipes == 7) {
                 horse.emitEchParticles((ServerWorld) horse.level, 4);
                 this.daysSwiped[3]++;
@@ -279,10 +288,13 @@ public class AffinityLeveling implements ILeveling {
             }
         } else if (stack.getItem() == SWEMItems.TARP.get() && this.daysSwiped[4] != -1) {
             this.setCurrentDesensitizingItem(stack);
-                horse.emitBadParticles((ServerWorld) horse.level, 3);
-                int randomNum = rand.nextInt(10) + 1;
-                if (randomNum <= 9) horse.setStandingAnim();
-                else horse.startKick();
+            horse.emitBadParticles((ServerWorld) horse.level, 3);
+            int randomNum = horse.getRandom().nextInt(10) + 1;
+            if (randomNum <= 9) {
+                horse.setStandingAnim();
+            } else {
+                horse.startKick();
+            }
             if (this.currentSwipes == 7) {
                 horse.emitEchParticles((ServerWorld) horse.level, 4);
                 this.daysSwiped[4]++;
