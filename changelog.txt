@@ -1,5 +1,6 @@
 1.16.5-0.5.2.7:
 - Fix Hitching Post loot table.
+- Added update url, to indicate if version is outdated.
 - Added a tag for horse xp potions - swem#horse_xp_potions
 - Bump pack.mcmeta removing the red box and incompatible text when selecting data packs.
 - Make arm swing when using desensitizing item.
