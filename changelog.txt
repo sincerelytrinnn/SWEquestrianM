@@ -1,8 +1,10 @@
 1.16.5-0.5.2.5:
 - Added a tag for horse xp potions - swem#horse_xp_potions
+- Bump pack.mcmeta removing the red box and incompatible text when selecting data packs.
 - Make arm swing when using desensitizing item.
 - Add horse particle effect on desensitizing item use, and chance to rear/buck.
 - Emit Woot particles on horse XP Potion use, to make success more obvious.
+- Prevents crashing if the horseData is invalid JSON. Fixes #460
 
 1.16.5-0.5.2.0:
 - Fix crash when foal grows up, due to null animation name. Fixes cavecomputing/SWEM-Beta#319
