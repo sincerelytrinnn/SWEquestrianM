@@ -14,15 +14,15 @@ version = "${file.jarVersion}"
 
 displayName = "Star Worm Equestrian Mod"
 
-updateJSONURL = "http://myurl.me/"
+updateJSONURL = "https://github.com/alaharranhonor/SWEquestrianM/blob/master/update.json"
 
-displayURL = "https://alaharranhonor.github.io"
+displayURL = "https://swequestrian.com"
 
 logoFile = "icon.jpg"
 
-credits = "legenden"
+credits = "Mothfet, Silverwolf, Dronade"
 
-authors = "AlaharranHonor"
+authors = "AlaharranHonor, legenden"
 
 description = '''
 Minecraft Java 1.16 (Forge) mod called Star Worm Equestrian Mod. The mod is bringing forward a whole new minecraft horse model, 18 horse coat textures, new animations, jumps, level progression, horse armor, tack, fencing, and stable decor ~ among other things.
