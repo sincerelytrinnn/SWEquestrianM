@@ -11,7 +11,7 @@
               "condition": "minecraft:block_state_property",
               "block": "swem:pasture_hitching_post",
               "properties": {
-                "post_part": "lower"
+                "half": "lower"
               }
             }
           ],

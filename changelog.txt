@@ -1,4 +1,5 @@
-1.16.5-0.5.2.2:
+1.16.5-0.5.2.7:
+- Fix Hitching Post loot table.
 - Make arm swing when using desensitizing item.
 - Add horse particle effect on desensitizing item use, and chance to rear/buck.
 - Emit Woot particles on horse XP Potion use, to make success more obvious.
