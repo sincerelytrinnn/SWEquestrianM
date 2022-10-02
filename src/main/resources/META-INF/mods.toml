@@ -14,7 +14,7 @@ version = "${file.jarVersion}"
 
 displayName = "Star Worm Equestrian Mod"
 
-updateJSONURL = "https://github.com/alaharranhonor/SWEquestrianM/blob/master/update.json"
+updateJSONURL = "https://raw.githubusercontent.com/AlaharranHonor/SWEquestrianM/master/update.json"
 
 displayURL = "https://swequestrian.com"
 

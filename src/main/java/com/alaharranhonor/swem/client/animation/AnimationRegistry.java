@@ -20,22 +20,24 @@ import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
 import dev.kosmx.playerAnim.core.data.gson.AnimationSerializing;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.alaharranhonor.swem.SWEM.LOGGER;
 
 public class AnimationRegistry {
     public static Map<String, KeyframeAnimation> animations = new HashMap<>();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public static void load(IResourceManager resourceManager) {
         String dataFolder = "animations";
         for (ResourceLocation entry : resourceManager.listResources(dataFolder, fileName -> fileName.equals("player.animation.json"))) {
             String identifier = entry.getNamespace();
             String resource = entry.getPath();
-            System.out.println("Loading animation: " + identifier + ":" + resource);
+            LOGGER.info("Loading animation: " + identifier + ":" + resource);
             try {
                 List<KeyframeAnimation> readAnimations = AnimationSerializing.deserializeAnimation(SWEM.class.getResourceAsStream("../../../assets/" + identifier + "/" + resource));
                 for (KeyframeAnimation animation : readAnimations) {
