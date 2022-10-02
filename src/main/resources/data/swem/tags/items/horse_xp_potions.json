@@ -1,0 +1,9 @@
+{
+  "values": [
+    "swem:affinity_xp_potion",
+    "swem:health_xp_potion",
+    "swem:jump_xp_potion",
+    "swem:speed_xp_potion",
+    "swem:all_xp_potion"
+  ]
+}

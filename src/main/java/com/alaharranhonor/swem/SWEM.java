@@ -331,8 +331,10 @@ public class SWEM {
             }.getType();
             Map<UUID, HorseData> horsePos = gson.fromJson(reader, type);
             if (horsePos != null) horseDataMap = horsePos;
-        } catch (IOException e) {
+        } catch (IOException | IllegalStateException e) {
             e.printStackTrace();
+            SWEM.LOGGER.error("Failed to parse horse data file! Horse tracking may be broken!");
+            horseDataMap = new HashMap<>();
         }
         serverOverWorld = event.getServer().overworld();
     }
